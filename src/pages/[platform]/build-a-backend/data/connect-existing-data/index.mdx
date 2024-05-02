@@ -56,13 +56,13 @@ You must have these information handy for your database:
 Postgres
 
 ```bash title="Terminal"
-npx amplify generate api-for-postgres
+npx ampx generate api-for-postgres
 ```
 
 MySQL
 
 ```bash title="Terminal"
-npx amplify generate api-for-mysql
+npx ampx generate api-for-mysql
 ```
 
 You should see a read-only (TK) new schema.rds.tsx file in `amplify/data` now. This file contains a TypeScript representation of your relational database tables.
@@ -97,8 +97,8 @@ export const data = defineData({
 
 Once your cloud sandbox has updated, you should be able to call any CRUDL operations for your relational database.
 
-```bash
-npx amplify sandbox
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
 ```
 
 ### Apply authorization rules

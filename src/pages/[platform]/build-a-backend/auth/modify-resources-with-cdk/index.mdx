@@ -1,0 +1,90 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Modify Amplify-generated Cognito resources with CDK',
+  description: 'Learn how to modify Amplify-generated Cognito resources.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Auth provides sensible defaults for the underlying Amazon Cognito resource definitions. You can customize your authentication resource to enable it to behave exactly as needed for your use cases by modifying it directly using [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/)
+
+## Override Cognito UserPool password policies
+
+You can override the password policy by using the L1 `cfnUserPool` construct and adding a `addPropertyOverride`.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+
+const backend = defineBackend({
+  auth,
+});
+// extract L1 CfnUserPool resources
+const { cfnUserPool } = backend.auth.resources.cfnResources;
+// use CDK's `addPropertyOverride` to modify properties directly
+cfnUserPool.addPropertyOverride(
+  "Policies",
+  {
+    PasswordPolicy: {
+      MinimumLength: 10,
+      RequireLowercase: true,
+      RequireNumbers: true,
+      RequireSymbols: true,
+      RequireUppercase: true,
+      TemporaryPasswordValidityDays: 20,
+    },
+  }
+);
+```
+
+## Custom Attributes
+
+The following code will allow you to add custom attributes using the [Userpool schema](https://docs.aws.amazon.com/cdk/api/v1/docs/@aws-cdk_aws-cognito.CfnUserPool.html#schema) property with the L1 `cfnUserPool` construct.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+const backend = defineBackend({
+  auth,
+  data
+});
+
+// extract L1 CfnUserPool resources
+const { cfnUserPool } = backend.auth.resources.cfnResources;
+// use CDK's `addPropertyOverride` to modify properties directly
+cfnUserPool.addPropertyOverride("Schema", [
+  {
+    Name: "publicName",
+    AttributeDataType: "String",
+    Mutable: true,
+  },
+]);
+```
+
+{/* token validity */}
+{/* BYO custom idp construct */}
+{/* extend auth/unauth roles */}

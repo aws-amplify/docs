@@ -7,8 +7,8 @@ const routerMock = {
   useRouter: () => {
     return {
       query: { platform: 'react' },
-      asPath: '/react/build-a-backend/auth/manage-user-session',
-      pathname: '/[platform]/build-a-backend/auth/manage-user-session'
+      asPath: '/react/build-a-backend/data/data-modeling/identifiers',
+      pathname: '/[platform]/build-a-backend/data/data-modeling/identifiers'
     };
   }
 };
@@ -27,11 +27,11 @@ describe('NextPrevious', () => {
     const nextPrevNode: HTMLLinkElement[] = await screen.findAllByRole('link');
     expect(nextPrevNode[0].textContent).toContain('PREVIOUS');
     expect(nextPrevNode[0].href).toContain(
-      '/react/build-a-backend/auth/add-social-provider'
+      '/react/build-a-backend/data/data-modeling/relationships'
     );
     expect(nextPrevNode[1].textContent).toContain('NEXT');
     expect(nextPrevNode[1].href).toContain(
-      '/react/build-a-backend/auth/manage-user-profile'
+      '/react/build-a-backend/data/data-modeling/secondary-index'
     );
   });
 

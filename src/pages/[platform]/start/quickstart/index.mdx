@@ -85,7 +85,7 @@ Select **Start with an existing app** > **GitHub**. After you give Amplify acces
 
 <Accordion title='Learn about the project structure' headingLevel='4' eyebrow='While you are waiting for your app to deploy (~5 mins)'>
 
-Let's take a tour of the project structure in this starter repository by opening it on GitHub. The starter application has pre-written code for a to-do list app. It gives you a real-time database with a feed of all to-do list items and the ability to add new items. 
+Let's take a tour of the project structure in this starter repository by opening it on GitHub. The starter application has pre-written code for a to-do list app. It gives you a real-time database with a feed of all to-do list items and the ability to add new items.
 
 ```text
 ├── amplify/ # Folder containing your Amplify backend configuration
@@ -116,7 +116,7 @@ TK IMAGE
 
 ## Make frontend updates
 
-Let's learn how to enhance the app functionality by creating a delete flow for to-do list items. 
+Let's learn how to enhance the app functionality by creating a delete flow for to-do list items.
 
 ### 4. Set up local environment
 
@@ -126,7 +126,7 @@ Now let's set up our local development environment to add features to the fronte
   <source src="/images/gen2/getting-started/react/branch-details.mp4" />
 </video>
 
-At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download outputs file** button. 
+At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download outputs file** button.
 
 ![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
@@ -137,18 +137,18 @@ git clone https://github.com/<github-user>/amplify-vite-react-template.git
 cd amplify-vite-react-template && npm install
 ```
 
-Now move the `amplify-outputs.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library.
 </Accordion>
 
 
@@ -177,7 +177,7 @@ function App() {
           key={todo.id}>
           {todo.content}
         </li>)}
-      </ul> 
+      </ul>
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
@@ -257,7 +257,7 @@ Let's update our backend to implement per-user authorization rules, allowing eac
 
 ### 7. Set up local AWS credentials
 
-To make backend updates, we are going to require AWS credentials to deploy backend updates from our local machine. 
+To make backend updates, we are going to require AWS credentials to deploy backend updates from our local machine.
 
 **Skip ahead to step 8**, if you already have an AWS profile with credentials on your local machine, and your AWS profile has the `AmplifyBackendDeployFullAccess` permission policy.
 
@@ -271,20 +271,20 @@ To update your backend without affecting the production branch, use Amplify's cl
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
-The `npx amplify sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
+The `npx ampx sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
 
 </Callout>
 
 ### 9. Implement per-user authorization
 
-The to-do items in the starter are currently shared across all users, but, in most cases, you want data to be isolated on a per-user basis. 
+The to-do items in the starter are currently shared across all users, but, in most cases, you want data to be isolated on a per-user basis.
 
 To isolate the data on a per-user basis, you can use an "owner-based authorization rule". Let's apply the owner-based authorization rule to your to-do items:
 
@@ -295,7 +295,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -304,7 +304,7 @@ export const data = defineData({
   schema,
   authorizationModes: {
     // This tells the data client in your app (generateClient())
-    // to sign API requests with the user authentication token. 
+    // to sign API requests with the user authentication token.
     // highlight-next-line
     defaultAuthorizationMode: 'userPool',
   },
@@ -333,7 +333,7 @@ function App() {
 }
 ```
 
-Now, let's go back to your local application and test out the user isolation of the to-do items. 
+Now, let's go back to your local application and test out the user isolation of the to-do items.
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
@@ -360,7 +360,7 @@ Once your build completes in the Amplify Console, the `main` backend will update
 
 👋 Welcome to AWS Amplify! In this quickstart guide, you will:
 
-1. Deploy a Next.js app 
+1. Deploy a Next.js app
 2. Build and connect to a database with real-time data updates
 3. Configure authentication and authorization rules
 
@@ -421,7 +421,7 @@ Select **Start with an existing app** > **GitHub**. After you give Amplify acces
 
 <Accordion title='Learn about the project structure' headingLevel='4' eyebrow='While you are waiting for your app to deploy (~5 mins)'>
 
-Let's take a tour of the project structure in this starter repository by opening it on GitHub. The starter application has pre-written code for a to-do list app. It gives you a real-time database with a feed of all to-do list items and the ability to add new items. 
+Let's take a tour of the project structure in this starter repository by opening it on GitHub. The starter application has pre-written code for a to-do list app. It gives you a real-time database with a feed of all to-do list items and the ability to add new items.
 
 ```text
 ├── amplify/ # Folder containing your Amplify backend configuration
@@ -453,7 +453,7 @@ TK IMAGE
 
 ## Make frontend updates
 
-Let's learn how to enhance the app functionality by creating a delete flow for to-do list items. 
+Let's learn how to enhance the app functionality by creating a delete flow for to-do list items.
 
 ### 4. Set up local environment
 
@@ -463,7 +463,7 @@ Now let's set up our local development environment to add features to the fronte
   <source src="/images/gen2/getting-started/react/branch-details.mp4" />
 </video>
 
-At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download outputs file** button. 
+At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download outputs file** button.
 
 ![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
@@ -474,18 +474,18 @@ git clone https://github.com/<github-user>/amplify-vue-template.git
 cd amplify-vue-template && npm install
 ```
 
-Now move the `amplify-output.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library.
 </Accordion>
 
 
@@ -508,7 +508,7 @@ function App() {
     <h1>My todos</h1>
     <button @click="createTodo">+ new</button>
     <ul>
-      <li 
+      <li
         v-for="todo in todos"
         :key="todo.id"
         // highlight-start
@@ -548,10 +548,10 @@ This should start a local dev server at http://localhost:5173.
 
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. 
+The fastest way to get your login experience up and running is to use our Authenticator UI component.
 
 ```terminal showLineNumbers={false}
-npm install @aws-amplify/ui-vue
+npm add @aws-amplify/ui-vue
 ```
 In your **src/App.vue** file, import the Authenticator UI component and wrap your `<main>` template.
 
@@ -601,7 +601,7 @@ Let's update our backend to implement per-user authorization rules, allowing eac
 
 ### 7. Set up local AWS credentials
 
-To make backend updates, we are going to require AWS credentials to deploy backend updates from our local machine. 
+To make backend updates, we are going to require AWS credentials to deploy backend updates from our local machine.
 
 **Skip ahead to step 8**, if you already have an AWS profile with credentials on your local machine, and your AWS profile has the `AmplifyBackendDeployFullAccess` permission policy.
 
@@ -615,20 +615,20 @@ To update your backend without affecting the production branch, use Amplify's cl
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
-The `npx amplify sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
+The `npx ampx sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
 
 </Callout>
 
 ### 9. Implement per-user authorization
 
-The to-do items in the starter are currently shared across all users, but, in most cases, you want data to be isolated on a per-user basis. 
+The to-do items in the starter are currently shared across all users, but, in most cases, you want data to be isolated on a per-user basis.
 
 To isolate the data on a per-user basis, you can use an "owner-based authorization rule". Let's apply the owner-based authorization rule to your to-do items:
 
@@ -639,7 +639,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -648,7 +648,7 @@ export const data = defineData({
   schema,
   authorizationModes: {
     // This tells the data client in your app (generateClient())
-    // to sign API requests with the user authentication token. 
+    // to sign API requests with the user authentication token.
     // highlight-next-line
     defaultAuthorizationMode: 'userPool',
   },
@@ -681,7 +681,7 @@ import "@aws-amplify/ui-vue/styles.css";
 </template>
 ```
 
-Now, let's go back to your local application and test out the user isolation of the to-do items. 
+Now, let's go back to your local application and test out the user isolation of the to-do items.
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
@@ -755,7 +755,7 @@ Select **Start with an existing app** > **GitHub**. After you give Amplify acces
 
 <Accordion title='Learn about the project structure' headingLevel='4' eyebrow='While you are waiting for your app to deploy (~5 mins)'>
 
-Let's take a tour of the project structure in this starter repository by opening it on GitHub. The starter application has pre-written code for a to-do list app. It gives you a real-time database with a feed of all to-do list items and the ability to add new items. 
+Let's take a tour of the project structure in this starter repository by opening it on GitHub. The starter application has pre-written code for a to-do list app. It gives you a real-time database with a feed of all to-do list items and the ability to add new items.
 
 ```text
 ├── amplify/ # Folder containing your Amplify backend configuration
@@ -786,7 +786,7 @@ TK IMAGE
 
 ## Make frontend updates
 
-Let's learn how to enhance the app functionality by creating a delete flow for to-do list items. 
+Let's learn how to enhance the app functionality by creating a delete flow for to-do list items.
 
 ### 4. Set up local environment
 
@@ -796,7 +796,7 @@ Now let's set up our local development environment to add features to the fronte
   <source src="/images/gen2/getting-started/react/branch-details.mp4" />
 </video>
 
-At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download outputs file** button. 
+At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download outputs file** button.
 
 ![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
@@ -807,18 +807,18 @@ git clone https://github.com/<github-user>/amplify-vite-react-template.git
 cd amplify-vite-react-template && npm install
 ```
 
-Now move the `amplify-output.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library.
 </Accordion>
 
 
@@ -867,10 +867,10 @@ This should start a local dev server at http://localhost:5173.
 
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. 
+The fastest way to get your login experience up and running is to use our Authenticator UI component.
 
 ```terminal showLineNumbers={false}
-npm install @aws-amplify/ui-angular
+npm add @aws-amplify/ui-angular
 ```
 
 In your **src/app/app.component.ts** file, import the `AmplifyAuthenticatorModule`.
@@ -949,7 +949,7 @@ Let's update our backend to implement per-user authorization rules, allowing eac
 
 ### 7. Set up local AWS credentials
 
-To make backend updates, we are going to require AWS credentials to deploy backend updates from our local machine. 
+To make backend updates, we are going to require AWS credentials to deploy backend updates from our local machine.
 
 **Skip ahead to step 8**, if you already have an AWS profile with credentials on your local machine, and your AWS profile has the `AmplifyBackendDeployFullAccess` permission policy.
 
@@ -963,20 +963,20 @@ To update your backend without affecting the production branch, use Amplify's cl
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
-The `npx amplify sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
+The `npx ampx sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
 
 </Callout>
 
 ### 9. Implement per-user authorization
 
-The to-do items in the starter are currently shared across all users, but, in most cases, you want data to be isolated on a per-user basis. 
+The to-do items in the starter are currently shared across all users, but, in most cases, you want data to be isolated on a per-user basis.
 
 To isolate the data on a per-user basis, you can use an "owner-based authorization rule". Let's apply the owner-based authorization rule to your to-do items:
 
@@ -988,7 +988,7 @@ const schema = a.schema({
     content: a.string(),
   })
   // highlight-next-line
-  .authorization([a.allow.owner()]),
+  .authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -997,14 +997,14 @@ export const data = defineData({
   schema,
   authorizationModes: {
     // This tells the data client in your app (generateClient())
-    // to sign API requests with the user authentication token. 
+    // to sign API requests with the user authentication token.
     // highlight-next-line
     defaultAuthorizationMode: 'userPool',
   },
 });
 ```
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. 
+In the application client code, let's also render the username to distinguish different users once they're logged in.
 
 ```html title="src/app/app.component.html"
 <amplify-authenticator>
@@ -1020,7 +1020,7 @@ In the application client code, let's also render the username to distinguish di
 </amplify-authenticator>
 ```
 
-Now, let's go back to your local application and test out the user isolation of the to-do items. 
+Now, let's go back to your local application and test out the user isolation of the to-do items.
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
@@ -1058,14 +1058,14 @@ Before you get started, make sure you have the following installed:
 - Configure your AWS account to use with Amplify [instructions](/[platform]/start/account-setup/).
 - A Flutter version higher than 3.3.0
 
-  
+
 <Callout info>
 You can follow the [official documentation](https://flutter.dev/docs/get-started/install) to install Flutter on your machine and check the [editor documentation](https://docs.flutter.dev/get-started/editor) for setting up your editor.
 </Callout>
 
 Once you have installed Flutter, you can create a new Flutter project using the following command:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 flutter create my_amplify_app
 ```
 
@@ -1073,7 +1073,7 @@ flutter create my_amplify_app
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm create amplify@beta
 ? Where should we create your project? (.) # press enter
 ```
@@ -1098,15 +1098,15 @@ Running this command will scaffold Amplify backend files in your current project
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 
-```bash
-npx amplify sandbox --config-format dart --config-out-dir lib
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 ## Adding Authentication
 
 The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library. 
+The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library.
 
 To use the Authenticator, you need to add the following dependencies to your project:
 
@@ -1125,7 +1125,7 @@ You will add:
 
 After adding the dependencies, you need to run the following command to install the dependencies:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 flutter pub get
 ```
 
@@ -1197,7 +1197,7 @@ Run your application in your local environment again. You should be presented wi
 The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
 
 Let's modify this to add the following:
-- A boolean `isDone` field. 
+- A boolean `isDone` field.
 - An authorization rules specifying owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
 - Update the `defaultAuthorizationMode` to sign API requests with the user authentication token.
 
@@ -1210,7 +1210,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean(),
     })
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -1226,8 +1226,8 @@ Next, let's implement UI to create, list, and delete the to-do items.
 
 Amplify can automatically generate code for interacting with the backend API. Run the command in the terminal to generate dart model classes from the Data schema under `lib/models`:
 
-```bash
-npx amplify generate graphql-client-code --format modelgen --model-target dart --out lib/models
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate graphql-client-code --format modelgen --model-target dart --out lib/models
 ```
 
 
@@ -1493,7 +1493,7 @@ Now you should have your project created.
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 cd my-app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
@@ -1519,11 +1519,11 @@ Running this command will scaffold Amplify backend files in your current project
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 
-```bash
-npx amplify sandbox
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
 ```
 
-Once the sandbox environment is deployed, it will create an `amplify-outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+Once the sandbox environment is deployed, it will create an `amplify_outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
   <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
@@ -1533,7 +1533,7 @@ Once the sandbox environment is deployed, it will create an `amplify-outputs.jso
 
 The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library. 
+The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library.
 
 To use the Authenticator, open your project in Xcode and select **File > Add Packages...** and add the following dependencies:
 
@@ -1564,7 +1564,7 @@ struct MyApp: App {
     init() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            try Amplify.configure()
+            try Amplify.configure(with: .amplifyOutputs)
         } catch {
             print("Unable to configure Amplify \(error)")
         }
@@ -1596,6 +1596,12 @@ struct MyApp: App {
             }
         }
     }
+
+    func createTodo() async {
+    }
+
+    func listTodo() async {
+    }
 }
 ```
 
@@ -1613,7 +1619,7 @@ Run your application in your local environment again. You should be presented wi
 The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
 
 Let's modify this to add the following:
-- A boolean `isDone` field. 
+- A boolean `isDone` field.
 - An authorization rules specifying owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
 - Update the `defaultAuthorizationMode` to sign API requests with the user authentication token.
 
@@ -1626,7 +1632,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization((allow) => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -1642,8 +1648,8 @@ Next, let's implement UI to create, list, and delete the to-do items.
 
 Amplify can automatically generate code for interacting with the backend API. The command below generates model classes from the Data schema:
 
-```bash
-npx amplify generate graphql-client-code --format=modelgen
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate graphql-client-code --format modelgen --model-target swift
 ```
 
 Move the generated files to your project. You can do this by dragging and dropping the files to your project.
@@ -1661,14 +1667,14 @@ init() {
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
-        try Amplify.configure()
+        try Amplify.configure(with: .amplifyOutputs)
     } catch {
         print("Unable to configure Amplify \(error)")
     }
 }
 ```
 
-Create a `createTodo` function in the `MyAmplifyAppApp.swift` file with the following code:
+Update the `createTodo` function in the `MyAmplifyAppApp.swift` file with the following code:
 
 ```swift title="MyAmplifyAppApp.swift"
 func createTodo() async {
@@ -1697,7 +1703,7 @@ func createTodo() async {
 
 The code above will create a random todo with the current time.
 
-Next create a `listTodos` function in the `MyAmplifyAppApp.swift` for listing to-do items:
+Next, update the `listTodos` function in the `MyAmplifyAppApp.swift` for listing to-do items:
 
 ```swift title="MyAmplifyAppApp.swift"
 func listTodos() async {
@@ -1854,7 +1860,7 @@ For publishing the changes to cloud, you need to create a remote git repository.
 
 👋 Welcome to AWS Amplify! In this quickstart guide, you will:
 1. deploy an Amplify backend database and authentication
-2. connect to the backend from an Android app 
+2. connect to the backend from an Android app
 3. make backend updates
 
 ## Deploy Amplify backend to AWS
@@ -1866,7 +1872,7 @@ To get started faster, we've created a starter "To-do" Amplify backend. First, c
 Use our starter template to create a repository in your GitHub account. This template scaffolds an Amplify Backend with Auth and Data capabilities.
 <ExternalLinkButton
   size="medium"
-  href='https://github.com/new?template_name=amplify-vite-react-template&template_owner=aws-samples&name=amplify-vite-react-template&description=My%20Amplify%20Gen%202%20starter%20application'
+  href='https://github.com/new?template_name=amplify-backend-template&template_owner=aws-samples&name=amplify-backend-template&description=My%20Amplify%20Gen%202%20starter%20application'
 >
 <IconGithub />
 Create repository from template
@@ -1895,7 +1901,7 @@ Select **Start with an existing app** > **GitHub**, pick the starter repository,
 
 <Accordion title='Learn about the project structure' headingLevel='4' eyebrow='While you are waiting for your app to deploy (~5 mins)'>
 
-Let's take a tour of the project structure in this starter repository. The starter application already has pre-written code to give you a real-time database with a feed of all to-do items and the ability to add new items. 
+Let's take a tour of the project structure in this starter repository. The starter application already has pre-written code to give you a real-time database with a feed of all to-do items and the ability to add new items.
 
 ```text
 ├── amplify/ # Folder containing your Amplify backend configuration
@@ -1916,7 +1922,7 @@ Let's take a tour of the project structure in this starter repository. The start
 
 ## Make app updates
 
-Let's learn how to enhance the app functionality by creating a delete flow for to-do list items. 
+Let's learn how to enhance the app functionality by creating a delete flow for to-do list items.
 
 ### 4. Set up local environment
 
@@ -1939,31 +1945,30 @@ In **Select a Project Template**, select **Empty Activity** or **Empty Compose A
 
 </Accordion>
 
-On the **Deployed backend resources**, choose **Download outputs file** to download the `amplify-output.json` file that contains identifiers for all the deployed backend resources.
+On the **Deployed backend resources**, choose **Download outputs file** to download the `amplify_outputs.json` file that contains identifiers for all the deployed backend resources.
 
 ![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 
-Now move the `amplify-output.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
+Now move the `amplify_outputs.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.
 </Accordion>
 
 
 ### 5. Implement login UI
 
-The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
+The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. To use the Authenticator UI component, you need to add the following dependencies to your app/build.gradle file:
+The fastest way to get your login experience up and running is to use our Authenticator UI component. To use the Authenticator UI component, you need to add the following dependencies to your app/build.gradle.kts file:
 
 <Callout warning>Be sure to have compileSdk version as 34 or higher.</Callout>
 
-```kotlin title="app/build.gradle"
+```kotlin title="app/build.gradle.kts"
 dependencies {
-    implementation("androidx.compose.material3:material3:1.1.0")
-    implementation("com.amplifyframework.ui:authenticator:1.1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
@@ -1975,6 +1980,7 @@ import android.util.Log
 import com.amplifyframework.AmplifyException
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 
 class MyAmplifyApp: Application() {
     override fun onCreate() {
@@ -1982,7 +1988,7 @@ class MyAmplifyApp: Application() {
 
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -2013,34 +2019,34 @@ import com.amplifyframework.core.Amplify
 //highlight-end
 
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-        MyAmplifyAppTheme {
-            // A surface container using the 'background' color from the theme
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
-            ) 
-            //highlight-start
-            {
-              Authenticator { state ->
-                  Column {
-                      Text(
-                          text = "Hello ${state.user.username}!",
-                      )
-                      Button(onClick = {
-                          Amplify.Auth.signOut {  }
-                      }) {
-                          Text(text = "Sign Out")
-                      }
-                  }
-              }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAmplifyAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                )
+                //highlight-start
+                {
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
+                            )
+                            Button(onClick = {
+                                Amplify.Auth.signOut {  }
+                            }) {
+                                Text(text = "Sign Out")
+                            }
+                        }
+                    }
+                }
+                //highlight-end
             }
-            //highlight-end
         }
     }
-  }
 }
 ```
 
@@ -2065,7 +2071,7 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 
 ```bash title="Terminal" showLineNumbers={false}
 cd my-android-app
-npx @aws-amplify/backend-cli graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java --app-id APP-ID --branch-name main
+npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
 Once you are done, add the following dependencies to your project:
@@ -2074,8 +2080,7 @@ Once you are done, add the following dependencies to your project:
 dependencies {
     // Amplify API dependencies
     // highlight-start
-    implementation("com.amplifyframework:aws-api:2.14.11")
-    implementation("com.amplifyframework:core:2.14.11")
+    implementation("com.amplifyframework:aws-api:ANDROID_VERSION")
     // highlight-end
     // ... other dependencies
 }
@@ -2088,7 +2093,7 @@ After adding the dependencies, open the `MyAmplifyApp` class and add the followi
 // highlight-next-line
 import com.amplifyframework.api.aws.AWSApiPlugin
 
-.. 
+..
 // highlight-next-line
 Amplify.addPlugin(AWSApiPlugin())
 ```
@@ -2098,51 +2103,46 @@ Update the `MainActivity` class with the following code to create new to-do item
 ```kt title="MainActivity"
 
 class MainActivity : ComponentActivity() {
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      MyApplicationTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-          modifier = Modifier.fillMaxSize(),
-          color = MaterialTheme.colorScheme.background
-        ) {
-            Authenticator { _ ->
-              Column {
-                Text(
-                    text = "Hello ${state.user.username}!",
-                )
-            // highlight-start
-                Column {
-                        Button(onClick = {
-                            val todo = Todo.builder()
-                                .content("My first todo")
-                                .build()
-
-                            Amplify.API.mutate(ModelMutation.create(todo),
-                                { Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")},
-                                { Log.e("MyAmplifyApp", "Create failed", it)},
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAmplifyAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Authenticator { state ->
+                        Column {
+                            Text(
+                                text = "Hello ${state.user.username}!",
                             )
-                        }) {
-                            Text(text = "Create Todo")
+                            // highlight-start
+                            Button(onClick = {
+                                val todo = Todo.builder()
+                                    .content("My first todo")
+                                    .build()
+
+                                Amplify.API.mutate(
+                                    ModelMutation.create(todo),
+                                    { Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}")},
+                                    { Log.e("MyAmplifyApp", "Create failed", it)},
+                                )
+                            }) {
+                                Text(text = "Create Todo")
+                            }
+                            // highlight-end
+                            Button(onClick = {
+                                Amplify.Auth.signOut {  }
+                            }) {
+                                Text(text = "Sign Out")
+                            }
                         }
                     }
-              // highlight-end
-               {
-                  Column(modifier = Modifier.padding(it)) {
-                      Button(onClick = {
-                          Amplify.Auth.signOut {  }
-                      }) {
-                          Text(text = "Sign Out")
-                      }
-                  }
-              }
+                }
             }
         }
-      }
     }
-  }
 }
 ```
 
@@ -2155,18 +2155,17 @@ fun TodoList() {
 
     LaunchedEffect(Unit) {
         // API request to list all Todos
-        Amplify.API.query(ModelQuery.list(Todo::class.java),
-            {
-                todoList = it.data.items.toList()
-            },
-            { Log.e("MyAmplifyApp", "Failed to query.", it)})
+        Amplify.API.query(
+            ModelQuery.list(Todo::class.java),
+            { todoList = it.data.items.toList() },
+            { Log.e("MyAmplifyApp", "Failed to query.", it) }
+        )
     }
 
     LazyColumn {
         items(todoList) { todo ->
             Row {
                 // Render your activity item here
-                Checkbox(checked = todo.isDone, onCheckedChange = null)
                 Text(text = todo.content)
             }
         }
@@ -2177,16 +2176,18 @@ fun TodoList() {
 Now call `TodoList()` from the `onCreate()` function:
 
 ```kt title="MainActivity.kt"
- setContent {
-            MyApplicationTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background)
-                {
-                    Authenticator { state ->
-                        Column {
-                            Text(
-                                text = "Hello ${state.user.username}!",
-                            )
+setContent {
+    MyAmplifyAppTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier.fillMaxSize(), 
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Authenticator { state ->
+                Column {
+                    Text(
+                        text = "Hello ${state.user.username}!",
+                    )
                     ....
                     //highlight-next-line
                     TodoList()
@@ -2204,20 +2205,21 @@ fun TodoList() {
     var todoList by remember { mutableStateOf(emptyList<Todo>()) }
 
     LaunchedEffect(Unit) {
-        Amplify.API.query(ModelQuery.list(Todo::class.java),
-            {
-                todoList = it.data.items.toList()
-            },
-            { Log.e("MyAmplifyApp", "Failed to query.", it)})
+        Amplify.API.query(
+            ModelQuery.list(Todo::class.java),
+            { todoList = it.data.items.toList() },
+            { Log.e("MyAmplifyApp", "Failed to query.", it) }
+        )
         // highlight-start
-        Amplify.API.subscribe(ModelSubscription.onCreate(Todo::class.java),
+        Amplify.API.subscribe(
+            ModelSubscription.onCreate(Todo::class.java),
             { Log.i("ApiQuickStart", "Subscription established") },
-            { Log.i("ApiQuickStart", "Todo create subscription received: ${it.data}")
+            { 
+                Log.i("ApiQuickStart", "Todo create subscription received: ${it.data}")
                 todoList = todoList + it.data
             },
             { Log.e("ApiQuickStart", "Subscription failed", it) },
             { Log.i("ApiQuickStart", "Subscription completed") }
-
         )
         // highlight-end
     }
@@ -2226,7 +2228,6 @@ fun TodoList() {
         items(todoList) { todo ->
             Row {
                 // Render your activity item here
-                Checkbox(checked = todo.isDone, onCheckedChange = null)
                 Text(text = todo.content)
             }
         }
@@ -2243,10 +2244,12 @@ Let's update our backend to implement per-user authorization rules, allowing eac
 
 First, clone the deployed repository.
 
-```bash
-git clone git clone https://github.com/<github-user>/amplify-backend-template.git
+```bash title="Terminal" showLineNumbers={false}
+git clone https://github.com/<github-user>/amplify-backend-template.git
+cd amplify-backend-template
+npm install
 ```
-The backend to-do model is configured to share data across all users, but, in most cases, you want data to be isolated on a per-user basis. 
+The backend to-do model is configured to share data across all users, but, in most cases, you want data to be isolated on a per-user basis.
 
 To isolate the data on a per-user basis, you can use an "owner-based authorization rule". Let's apply the owner-based authorization rule to your to-do items:
 
@@ -2257,7 +2260,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -2266,7 +2269,7 @@ export const data = defineData({
   schema,
   authorizationModes: {
     // This tells the data client in your app (generateClient())
-    // to sign API requests with the user authentication token. 
+    // to sign API requests with the user authentication token.
     // highlight-next-line
     defaultAuthorizationMode: 'userPool',
   },
@@ -2281,7 +2284,7 @@ git push
 ```
 ### 8. Test in app
 
-Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify-outputs` and model files by re-running the following command in your Android Studio terminal.
+Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify_outputs.json` and model files by re-running the following command in your Android Studio terminal.
 
 <Accordion title='Looking for your App ID?' headingLevel='4' eyebrow='Find your App ID in the Amplify Console'>
 In the command below, replace the APP-ID with your Amplify app ID. Find this in the Amplify Console.
@@ -2290,13 +2293,13 @@ In the command below, replace the APP-ID with your Amplify app ID. Find this in 
 </Accordion>
 
 ```bash showLineNumbers={false}
-npx @aws-amplify/backend-cli generate outputs --format=modelgen --model-target=java --out=app/src/main/java --app-id APP-ID --branch-name main
+npx @aws-amplify/backend-cli generate graphql-client-code --format modelgen --model-target java --out app/src/main/java --app-id <your-amplify-app-id> --branch main
 ```
 
-Also update your `amplify-outputs` file with the latest outputs information.
+Also update your `amplify_outputs` file with the latest outputs information.
 
 ```bash showLineNumbers={false}
-npx @aws-amplify/backend-cli generate config --out-dir=app/src/main/res/raw --app-id APP-ID --branch main
+npx @aws-amplify/backend-cli generate outputs --out-dir app/src/main/res/raw --app-id <your-amplify-app-id> --branch main
 ```
 
 
@@ -2321,7 +2324,7 @@ Before you get started, make sure you have the following installed:
 - You will also need to [create an AWS Account](https://portal.aws.amazon.com/billing/signup). Note that AWS Amplify is part of the [AWS Free Tier](https://aws.amazon.com/amplify/pricing/).
 - Configure your AWS account to use with Amplify [instructions](/[platform]/start/account-setup/).
 
-  
+
 This Quickstart guide will walk you through how to build a Todo application using [Expo](https://expo.dev/)'s TypeScript template.
 
   <Callout>
@@ -2330,15 +2333,15 @@ Amplify now requires native modules not available through the Expo SDK. As a res
 
 </Callout>
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx create-expo-app my_amplify_app -t expo-template-blank-typescript
 cd my_amplify_app
 ```
 
 <Callout warning>
-For calling native libraries and platform dependencies, you need to have run the prebuild command for generating the folders for depending platforms. 
+For calling native libraries and platform dependencies, you need to have run the prebuild command for generating the folders for depending platforms.
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx expo prebuild
 ```
 </Callout>
@@ -2347,7 +2350,7 @@ npx expo prebuild
 
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 cd my-app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
@@ -2372,25 +2375,33 @@ Running this command will scaffold Amplify backend files in your current project
 
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
-```bash
-npx amplify sandbox
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
 ```
 
 ### Adding Authentication
 
 The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library. 
+The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library.
 
 To use the Authenticator, you need to add the following dependencies to your project:
 
-```sh
-npm install @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
+```bash title="Terminal" showLineNumbers={false}
+npm add \
+  @aws-amplify/ui-react-native \
+  @aws-amplify/react-native \
+  aws-amplify \
+  @react-native-community/netinfo \
+  @react-native-async-storage/async-storage \
+  react-native-safe-area-context \
+  react-native-get-random-values \
+  react-native-url-polyfill
 ```
 
 Then install the iOS cocoapods for targeting iOS by running:
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx pod-install
 ```
 
@@ -2452,7 +2463,7 @@ Run your application in your local environment again. You should be presented wi
 The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
 
 Let's modify this to add the following:
-- A boolean `isDone` field. 
+- A boolean `isDone` field.
 - An authorization rules specifying owners, authenticated via your Auth resource can "create", "read", "update", and "delete" their own records.
 - Update the `defaultAuthorizationMode` to sign API requests with the user authentication token.
 
@@ -2465,7 +2476,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.owner()])
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -2493,7 +2504,7 @@ const client = generateClient<Schema>();
 
 const TodoList = () => {
   const dateTimeNow = new Date();
-  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
+  const [todos, setTodos] = useState<Schema["Todo"]["type"][]>([]);
   const [errors, setErrors] = useState<GraphQLError>();
 
   useEffect(() => {
@@ -2524,7 +2535,7 @@ const TodoList = () => {
     return <Text>{errors.message}</Text>;
   }
 
-  const renderItem = ({ item }: { item: Schema["Todo"] }) => (
+  const renderItem = ({ item }: { item: Schema["Todo"]["type"] }) => (
     <TodoItem {...item} />
   );
   return (
@@ -2544,7 +2555,7 @@ const TodoList = () => {
   );
 };
 
-const TodoItem = (todo: Schema["Todo"]) => (
+const TodoItem = (todo: Schema["Todo"]["type"]) => (
   <View style={styles.todoItemContainer} key={todo.id}>
     <Text
       style={{
