@@ -1194,7 +1194,7 @@ Run your application in your local environment again. You should be presented wi
 
 ## Adding Data
 
-The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
+The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource.ts` file. The default example will create a Todo model with `content` field.
 
 Let's modify this to add the following:
 - A boolean `isDone` field.
@@ -1572,41 +1572,33 @@ struct MyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Authenticator { state in
-                VStack {
-                    Button("Sign out") {
-                        Task {
-                            await state.signOut()
-                        }
+            ContentView()
+        }
+    }
+}
+```
+
+Update `ContentView` with the following code:
+```swift
+import Amplify
+import Authenticator
+
+struct ContentView: View {
+    var body: some View {
+        Authenticator { state in
+            VStack {
+                Button("Sign out") {
+                    Task {
+                        await state.signOut()
                     }
-                    Spacer()
-                    Button(action: {
-                        Task {
-                            await createTodo()
-                            await listTodos()
-                        }
-                    }) {
-                        HStack {
-                            Text("Add a New Todo")
-                            Image(systemName: "plus")
-                        }
-                    }
-                    .accessibilityLabel("New Todo")
                 }
             }
         }
-    }
-
-    func createTodo() async {
-    }
-
-    func listTodo() async {
     }
 }
 ```
 
 The Authenticator component auto-detects your auth backend settings and renders the correct UI state based on the auth backend's authentication flow.
-
 
 Run your application in your local environment again. You should be presented with a login experience now.
 
@@ -1616,7 +1608,7 @@ Run your application in your local environment again. You should be presented wi
 
 ## Adding Data
 
-The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
+The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource.ts` file. The default example will create a Todo model with `content` field.
 
 Let's modify this to add the following:
 - A boolean `isDone` field.
@@ -1630,7 +1622,7 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
-      isDone: a.boolean()
+      isDone: a.boolean().required()
     })
     .authorization((allow) => [allow.owner()])
 });
@@ -1674,89 +1666,109 @@ init() {
 }
 ```
 
-Update the `createTodo` function in the `MyAmplifyAppApp.swift` file with the following code:
+Create a new file called `TodoViewModel.swift` and the `createTodo` function the following code:
 
-```swift title="MyAmplifyAppApp.swift"
-func createTodo() async {
-    let creationTime = Temporal.DateTime.now()
-    let todo = Todo(
-        content: "Random Todo \(creationTime)",
-        isDone: false,
-        createdAt: creationTime,
-        updatedAt: creationTime
-    )
-    do {
-        let result = try await Amplify.API.mutate(request: .create(todo))
-        switch result {
-        case .success(let todo):
-            print("Successfully created todo: \(todo)")
-        case .failure(let error):
-            print("Got failed result with \(error.errorDescription)")
+```swift title="TodoViewModel.swift"
+import Amplify
+
+@MainActor
+class TodoViewModel: ObservableObject {
+    func createTodo() {
+        let creationTime = Temporal.DateTime.now()
+        let todo = Todo(
+            content: "Random Todo \(creationTime)",
+            isDone: false,
+            createdAt: creationTime,
+            updatedAt: creationTime
+        )
+        Task {
+            do {
+                let result = try await Amplify.API.mutate(request: .create(todo))
+                switch result {
+                case .success(let todo):
+                    print("Successfully created todo: \(todo)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            } catch let error as APIError {
+                print("Failed to create todo: ", error)
+            } catch {
+                print("Unexpected error: \(error)")
+            }
         }
-    } catch let error as APIError {
-        print("Failed to create todo: ", error)
-    } catch {
-        print("Unexpected error: \(error)")
     }
 }
+
 ```
 
 The code above will create a random todo with the current time.
 
-Next, update the `listTodos` function in the `MyAmplifyAppApp.swift` for listing to-do items:
+Next, update the `listTodos` function in the `TodoViewModel.swift` for listing to-do items:
 
-```swift title="MyAmplifyAppApp.swift"
-func listTodos() async {
-    let request = GraphQLRequest<Todo>.list(Todo.self)
-    do {
-        let result = try await Amplify.API.query(request: request)
-        switch result {
-        case .success(let todos):
-            self.todos = todos.elements
-            print("Successfully retrieved list of todos: \(todos)")
-        case .failure(let error):
-            print("Got failed result with \(error.errorDescription)")
+```swift title="TodoViewModel.swift"
+@MainActor
+class TodoViewModel: ObservableObject {
+    @Published var todos: [Todo] = []
+
+    func createTodo() {
+        /// ...
+    }
+
+    func listTodos() {
+        let request = GraphQLRequest<Todo>.list(Todo.self)
+        Task {
+            do {
+                let result = try await Amplify.API.query(request: request)
+                switch result {
+                case .success(let todos):
+                    print("Successfully retrieved list of todos: \(todos)")
+                    self.todos = todos.elements
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            } catch let error as APIError {
+                print("Failed to query list of todos: ", error)
+            } catch {
+                print("Unexpected error: \(error)")
+            }
         }
-    } catch let error as APIError {
-        print("Failed to query list of todos: ", error)
-    } catch {
-        print("Unexpected error: \(error)")
     }
 }
+
+
 ```
 
-This will assign the value of the fetched todos into a State object. Be sure to create it before the `body` property:
+This will assign the value of the fetched todos into a Published object. 
 
-```swift
-@State var todos: [Todo] = []
-```
+Now let's update the UI code to observe the todos. Update the `VStack` in the `ContentView.swift` file with the following code:
 
-Now let's update the UI code to show the todos. Update the `VStack` in the `MyAmplifyAppApp.swift` file with the following code:
+```swift title="ContentView.swift"
+struct ContentView: View {
 
-```swift
-VStack {
-  Button("Sign out") {
-      Task {
-          await state.signOut()
-      }
-  }
-  List(todos, id: \.id) { todo in
-     Text(todo.content!)
-  }
-  Button(action: {
-      Task {
-          await createTodo()
-          await listTodos()
-      }
-  }) {
-      HStack {
-          Text("Add a New Todo")
-          Image(systemName: "plus")
-      }
-  }
-  .accessibilityLabel("New Todo")
-}.task {
-  await listTodos()
+    // Create an observable object instance.
+    @StateObject var vm = TodoViewModel()
+
+    var body: some View {
+        Authenticator { state in
+            VStack {
+                Button("Sign out") {
+                    Task {
+                        await state.signOut()
+                    }
+                }
+                Button(action: {
+                    vm.createTodo()
+                    vm.listTodos()
+                }) {
+                    HStack {
+                        Text("Add a New Todo")
+                        Image(systemName: "plus")
+                    }
+                }
+                .accessibilityLabel("New Todo")
+            }
+        }
+    }
 }
 ```
 
@@ -1767,79 +1779,113 @@ VStack {
   [documentation](https://developer.apple.com/documentation/swift/task).
 </Callout>
 
-The code above will fetch the todos once the VStack is shown. It will also create a todo and update the todo list each time a todo is created.
+The code will create a todo and update the todo list each time a todo is created.
 
-Next step is to update and delete the todos. For that, create `updateTodo` and `deleteTodo` functions in the `MyAmplifyAppApp.swift` file with the following code:
+Next step is to update and delete the todos. For that, create `updateTodo` and `deleteTodo` functions in the `TodoViewModel.swift` file with the following code:
 
-```swift
-func deleteTodo(todo: Todo) async {
-    do {
-        let result = try await Amplify.API.mutate(request: .delete(todo))
-        switch result {
-        case .success(let todo):
-            print("Successfully deleted todo: \(todo)")
-        case .failure(let error):
-            print("Got failed result with \(error.errorDescription)")
+```swift title="TodoViewModel.swift"
+@MainActor
+class TodoViewModel: ObservableObject {
+    @Published var todos: [Todo] = []
+
+    func createTodo() {
+        // ...
+    }
+
+    func listTodos() {
+        // ...
+    }
+
+    func deleteTodos(indexSet: IndexSet) {
+        for index in indexSet {
+            let todo = todos[index]
+            Task {
+                do {
+                    let result = try await Amplify.API.mutate(request: .delete(todo))
+                    switch result {
+                    case .success(let todo):
+                        print("Successfully deleted todo: \(todo)")
+                    case .failure(let error):
+                        print("Got failed result with \(error.errorDescription)")
+                    }
+                } catch let error as APIError {
+                    print("Failed to deleted todo: ", error)
+                } catch {
+                    print("Unexpected error: \(error)")
+                }
+            }
         }
-    } catch let error as APIError {
-        print("Failed to deleted todo: ", error)
-    } catch {
-        print("Unexpected error: \(error)")
+    }
+
+    func updateTodo(todo: Todo) {
+        Task {
+            do {
+                let result = try await Amplify.API.mutate(request: .update(todo))
+                switch result {
+                case .success(let todo):
+                    print("Successfully updated todo: \(todo)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            } catch let error as APIError {
+                print("Failed to updated todo: ", error)
+            } catch {
+                print("Unexpected error: \(error)")
+            }
+        }
     }
 }
 
-func updateTodo(todo: Todo) async {
-    do {
-        let result = try await Amplify.API.mutate(request: .update(todo))
-        switch result {
-        case .success(let todo):
-            print("Successfully updated todo: \(todo)")
-        case .failure(let error):
-            print("Got failed result with \(error.errorDescription)")
+```
+
+Update the `List` in the `ContentView.swift` file with the following code:
+
+```swift title="ContentView.swift"
+struct ContentView: View {
+    @StateObject var vm = TodoViewModel()
+
+    var body: some View {
+        Authenticator { state in
+            VStack {
+                // ... Sign out Button
+                List {
+                    ForEach($vm.todos, id: \.id) { todo in
+                        TodoRow(vm: vm, todo: todo)
+                    }.onDelete { indexSet in
+                        vm.deleteTodos(indexSet: indexSet)
+                        vm.listTodos()
+                    }
+                }
+                // ... Add new Todo button
+            }
         }
-    } catch let error as APIError {
-        print("Failed to updated todo: ", error)
-    } catch {
-        print("Unexpected error: \(error)")
     }
 }
 ```
 
-Lastly, update the `List` in the `MyAmplifyAppApp.swift` file with the following code:
+Lastly, create a new file called `TodoRow.swift` with the following code:
 
-```swift
-List(todos, id: \.id) { todo in
-    @State var isToggled = todo.isDone!
-    Toggle(isOn: $isToggled
-    ) {
-        Text(todo.content!)
-    }.onTapGesture {
-        var updatedTodo = todos.first {$0.id == todo.id}!
-        updatedTodo.isDone = !todo.isDone!
-        Task {
-            await updateTodo(todo: updatedTodo)
-            await listTodos()
+```swift title="TodoRow.swift"
+struct TodoRow: View {
+    @ObservedObject var vm: TodoViewModel
+    @Binding var todo: Todo
+
+    var body: some View {
+        Toggle(isOn: $todo.isDone) {
+            Text(todo.content ?? "")
         }
-    }
-    .onChange(of: isToggled) { oldValue, newValue in
-        var updatedTodo = todos.first {$0.id == todo.id}!
-        updatedTodo.isDone = newValue
-        Task {
-            await updateTodo(todo: updatedTodo)
-            await listTodos()
-        }
-    }
-    .toggleStyle(.switch)
-    .onLongPressGesture {
-        Task {
-            await deleteTodo(todo: todo)
-            await listTodos()
+        .toggleStyle(SwitchToggleStyle())
+        .onChange(of: todo.isDone) { _, newValue in
+            var updatedTodo = todo
+            updatedTodo.isDone = newValue
+            vm.updateTodo(todo: updatedTodo)
+            vm.listTodos()
         }
     }
 }
 ```
 
-This will update the UI to show a toggle to update the todo and a long press gesture to delete the todo. Now if you run the application you should see the following flow.
+This will update the UI to show a toggle to update the todo `isDone` and a swipe to delete the todo. Now if you run the application you should see the following flow.
 
 <video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
   <source src="/images/gen2/getting-started/ios/ios-getting-started-3.mp4" />
@@ -2058,7 +2104,7 @@ Now if you run the application on the Android emulator, you should see the authe
 
 ### 6. Read and write data
 
-The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
+The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource.ts` file. The default example will create a Todo model with `content` field.
 
 Amplify can automatically generate code for interacting with the backend API. The command below generates model classes from the Data schema:
 
@@ -2460,7 +2506,7 @@ Run your application in your local environment again. You should be presented wi
 
 ## Adding Data
 
-The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource`.ts file. The default example will create a Todo model with `content` field.
+The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource.ts` file. The default example will create a Todo model with `content` field.
 
 Let's modify this to add the following:
 - A boolean `isDone` field.

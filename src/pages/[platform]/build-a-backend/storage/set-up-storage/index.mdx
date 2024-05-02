@@ -284,6 +284,7 @@ Add the following code to your `onCreate()` method in your application class:
 import android.util.Log;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 ```
 
@@ -304,7 +305,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -321,6 +322,7 @@ public class MyAmplifyApp extends Application {
 import android.util.Log
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin
 ```
 
@@ -340,7 +342,7 @@ class MyAmplifyApp : Application() {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSS3StoragePlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
@@ -356,6 +358,7 @@ class MyAmplifyApp : Application() {
 ```java
 import android.util.Log;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 ```
@@ -377,7 +380,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.addPlugin(new AWSS3StoragePlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
