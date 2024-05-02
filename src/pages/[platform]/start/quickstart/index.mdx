@@ -1622,9 +1622,13 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
+// highlight-start
       isDone: a.boolean().required()
+// highlight-end
     })
+// highlight-start
     .authorization((allow) => [allow.owner()])
+// highlight-end
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -1632,7 +1636,9 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
+// highlight-start
     defaultAuthorizationMode: 'userPool'
+// highlight-end
   }
 });
 ```
@@ -1652,34 +1658,52 @@ Once you are done, add the API dependencies to your project. Select **File > Add
 
 ![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
 
-After adding the dependencies, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+After adding the dependencies, import the `AWSAPIPlugin` and update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
 
 ```swift title="MyAmplifyAppApp.swift"
-init() {
-    do {
-        try Amplify.add(plugin: AWSCognitoAuthPlugin())
-        try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
-        try Amplify.configure(with: .amplifyOutputs)
-    } catch {
-        print("Unable to configure Amplify \(error)")
+import Amplify
+import Authenticator
+import AWSCognitoAuthPlugin
+// highlight-start
+import AWSAPIPlugin
+// highlight-end
+import SwiftUI
+
+@main
+struct MyApp: App {
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+// highlight-start
+            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+// highlight-end
+            try Amplify.configure(with: .amplifyOutputs)
+        } catch {
+            print("Unable to configure Amplify \(error)")
+        }
     }
+
+    // ...
 }
 ```
 
 Create a new file called `TodoViewModel.swift` and the `createTodo` function the following code:
 
 ```swift title="TodoViewModel.swift"
+import Foundation
 import Amplify
 
 @MainActor
 class TodoViewModel: ObservableObject {
+    @Published var todos: [Todo] = []
+
     func createTodo() {
-        let creationTime = Temporal.DateTime.now()
+        let creationTime = Date.now
+            .formatted(date: .omitted, time: .standard)
+
         let todo = Todo(
-            content: "Random Todo \(creationTime)",
-            isDone: false,
-            createdAt: creationTime,
-            updatedAt: creationTime
+            content: "Random Todo - \(creationTime)",
+            isDone: false
         )
         Task {
             do {
@@ -1687,6 +1711,7 @@ class TodoViewModel: ObservableObject {
                 switch result {
                 case .success(let todo):
                     print("Successfully created todo: \(todo)")
+                    todos.append(todo)
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
                 }
@@ -1711,14 +1736,13 @@ class TodoViewModel: ObservableObject {
     @Published var todos: [Todo] = []
 
     func createTodo() {
-        /// ...
+        // ...
     }
-
+// highlight-start
     func listTodos() {
-        let request = GraphQLRequest<Todo>.list(Todo.self)
         Task {
             do {
-                let result = try await Amplify.API.query(request: request)
+                let result = try await Amplify.API.query(request: .list(Todo.self))
                 switch result {
                 case .success(let todos):
                     print("Successfully retrieved list of todos: \(todos)")
@@ -1733,20 +1757,21 @@ class TodoViewModel: ObservableObject {
             }
         }
     }
+// highlight-end
 }
 
 
 ```
 
-This will assign the value of the fetched todos into a Published object. 
+This will assign the value of the fetched todos into a Published object.
 
 Now let's update the UI code to observe the todos. Update the `VStack` in the `ContentView.swift` file with the following code:
 
 ```swift title="ContentView.swift"
 struct ContentView: View {
-
-    // Create an observable object instance.
+// highlight-start
     @StateObject var vm = TodoViewModel()
+// highlight-end
 
     var body: some View {
         Authenticator { state in
@@ -1756,17 +1781,17 @@ struct ContentView: View {
                         await state.signOut()
                     }
                 }
-                Button(action: {
-                    vm.createTodo()
-                    vm.listTodos()
-                }) {
+// highlight-start
+                Button(action: vm.createTodo) {
                     HStack {
-                        Text("Add a New Todo")
+                        Text("Add Todo")
                         Image(systemName: "plus")
                     }
                 }
-                .accessibilityLabel("New Todo")
+                .accessibilityLabel("Add Todo")
             }
+            .onAppear(perform: vm.listTodos)
+// highlight-end
         }
     }
 }
@@ -1796,6 +1821,7 @@ class TodoViewModel: ObservableObject {
         // ...
     }
 
+// highlight-start
     func deleteTodos(indexSet: IndexSet) {
         for index in indexSet {
             let todo = todos[index]
@@ -1805,6 +1831,7 @@ class TodoViewModel: ObservableObject {
                     switch result {
                     case .success(let todo):
                         print("Successfully deleted todo: \(todo)")
+                        todos.remove(at: index)
                     case .failure(let error):
                         print("Got failed result with \(error.errorDescription)")
                     }
@@ -1834,11 +1861,12 @@ class TodoViewModel: ObservableObject {
             }
         }
     }
+// highlight-end
 }
 
 ```
 
-Update the `List` in the `ContentView.swift` file with the following code:
+Add a `List` in the `ContentView.swift` file with the following code:
 
 ```swift title="ContentView.swift"
 struct ContentView: View {
@@ -1848,38 +1876,21 @@ struct ContentView: View {
         Authenticator { state in
             VStack {
                 // ... Sign out Button
+// highlight-start
                 List {
-                    ForEach($vm.todos, id: \.id) { todo in
-                        TodoRow(vm: vm, todo: todo)
-                    }.onDelete { indexSet in
-                        vm.deleteTodos(indexSet: indexSet)
-                        vm.listTodos()
+                    ForEach(vm.todos.indices, id: \.self) { index in
+                        Toggle(isOn: $vm.todos[index].isDone) {
+                            Text(vm.todos[index].content ?? "")
+                        }
+                        .onChange(of: vm.todos[index].isDone) { _, _ in
+                            vm.updateTodo(todo: vm.todos[index])
+                        }
                     }
+                    .onDelete(perform: vm.deleteTodos(indexSet:))
                 }
+// highlight-end
                 // ... Add new Todo button
             }
-        }
-    }
-}
-```
-
-Lastly, create a new file called `TodoRow.swift` with the following code:
-
-```swift title="TodoRow.swift"
-struct TodoRow: View {
-    @ObservedObject var vm: TodoViewModel
-    @Binding var todo: Todo
-
-    var body: some View {
-        Toggle(isOn: $todo.isDone) {
-            Text(todo.content ?? "")
-        }
-        .toggleStyle(SwitchToggleStyle())
-        .onChange(of: todo.isDone) { _, newValue in
-            var updatedTodo = todo
-            updatedTodo.isDone = newValue
-            vm.updateTodo(todo: updatedTodo)
-            vm.listTodos()
         }
     }
 }
@@ -2226,7 +2237,7 @@ setContent {
     MyAmplifyAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
-            modifier = Modifier.fillMaxSize(), 
+            modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
             Authenticator { state ->
@@ -2260,7 +2271,7 @@ fun TodoList() {
         Amplify.API.subscribe(
             ModelSubscription.onCreate(Todo::class.java),
             { Log.i("ApiQuickStart", "Subscription established") },
-            { 
+            {
                 Log.i("ApiQuickStart", "Todo create subscription received: ${it.data}")
                 todoList = todoList + it.data
             },
