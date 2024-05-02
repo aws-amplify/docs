@@ -29,13 +29,53 @@ export function getStaticProps() {
   };
 }
 
-The HTTP Datasource allows you to quickly configure HTTP resolvers within your GraphQL API. 
+The HTTP Datasource allows you to quickly configure HTTP resolvers within your Data API. 
 
 This guide will demonstrate how to establish a connection to an external REST API using an HTTP data source and use GraphQL mutations and queries to interact with the REST API.
 
-## Step 1 - Set up the project
+## Step 1 - Set up your custom type
 
-Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/).
+For the purpose of this guide we will define a `Post` type and use an existing external REST API that will store records for it. In Amplify Gen 2, `customType` adds a type to the schema that is not backed by an Amplify-generated DynamoDB table.
+
+With the `Post` type defined, it can then be referenced as the return type when defining your custom queries and mutations.
+
+First, add the `Post` custom type to your schema:
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+    })
+    .authorization(allow => [allow.publicApiKey()]),
+  // highlight-start
+  Post: a.customType({
+    id: a.id().required(),
+    author: a.string().required(),
+    title: a.string(),
+    content: a.string(),
+    url: a.string(),
+    ups: a.integer(),
+    downs: a.integer(),
+    version: a.integer(),
+  }),
+  // highlight-end
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+```
 
 ## Step 2 - Add your REST API as Datasource
 
@@ -54,47 +94,13 @@ const backend = defineBackend({
 
 const httpDataSource = backend.data.addHttpDataSource(
   "HttpDataSource",
-  "https://dummy.restapiexample.com/api/v1"
+  "https://www.example.com"
 );
 
 ```
-## Step 3 - Configure custom business logic handler
+## Step 3 - Define custom queries and mutations
 
-Next, create the following `listPosts.js` file in your `amplify/data` folder and use the code below to define custom resolvers.
-
-```ts title="amplify/data/listPosts.js"
-import { util } from "@aws-appsync/utils";
-
-export function request(ctx) {
-  return {
-    method: "GET",
-    resourcePath: "/posts",
-    params: {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  };
-}
-
-export function response(ctx) {
-  if (ctx.error) {
-    return util.error(ctx.error.message, ctx.error.type);
-  }
-  if (ctx.result.statusCode == 200) {
-    return JSON.parse(ctx.result.body).data;
-  } else {
-    return util.appendError(ctx.result.body, "ctx.result.statusCode");
-  }
-}
-
-```
-
-## Step 4 - Define the custom type and custom query
-
-Define custom queries and mutations
-
-Now that your REST API has been added as a HTTP Data source, you can reference it in custom queries and mutations using the `a.handler.custom()` modifier which accepts the name of the data source and an entry point for your resolvers.
+Now that your REST API has been added as a data source, you can reference it in custom queries and mutations using the `a.handler.custom()` modifier which accepts the name of the data source and an entry point for your resolvers.
 
 Use the following code examples to add `addPost`, `getPost`, `updatePost`, and `deletePost` as custom queries and mutations to your schema:
 
@@ -127,7 +133,7 @@ const schema = a.schema({
     .authorization(allow => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
-        dataSource: "ExternalPostTableDataSource",
+        dataSource: "HttpDataSource",
         entry: "./addPost.js",
       })
     ),
@@ -169,7 +175,7 @@ const schema = a.schema({
     .authorization(allow => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
-        dataSource: "ExternalPostTableDataSource",
+        dataSource: "HttpDataSource",
         entry: "./getPost.js",
       })
     ),
@@ -218,7 +224,7 @@ const schema = a.schema({
     .authorization(allow => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
-        dataSource: "ExternalPostTableDataSource",
+        dataSource: "HttpDataSource",
         entry: "./updatePost.js",
       })
     ),
@@ -260,7 +266,199 @@ const schema = a.schema({
     .authorization(allow => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
-        dataSource: "ExternalPostTableDataSource",
+        dataSource: "HttpDataSourcee",
+        entry: "./deletePost.js",
+      })
+    ),
+  // highlight-end
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+```
+</Block>
+</BlockSwitcher>
+
+## Step 4 - Define the custom type and custom query
+
+Define custom queries and mutations
+
+Now that your REST API has been added as a HTTP Data source, you can reference it in custom queries and mutations using the `a.handler.custom()` modifier which accepts the name of the data source and an entry point for your resolvers.
+
+Use the following code examples to add `addPost`, `getPost`, `updatePost`, and `deletePost` as custom queries and mutations to your schema:
+
+<BlockSwitcher>
+<Block name="addPost">
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Post: a.customType({
+    author: a.string().required(),
+    title: a.string(),
+    content: a.string(),
+    url: a.string(),
+    ups: a.integer(),
+    downs: a.integer(),
+    version: a.integer(),
+  }),
+  // highlight-start
+  addPost: a
+    .mutation()
+    .arguments({
+      id: a.id(),
+      author: a.string().required(),
+      title: a.string(),
+      content: a.string(),
+      url: a.string(),
+    })
+    .returns(a.ref("Post"))
+    .authorization(allow => [allow.publicApiKey()])
+    .handler(
+      a.handler.custom({
+        dataSource: "HttpDataSource",
+        entry: "./addPost.js",
+      })
+    ),
+  // highlight-end
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+```
+</Block>
+<Block name="getPost">
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Post: a.customType({
+    author: a.string().required(),
+    title: a.string(),
+    content: a.string(),
+    url: a.string(),
+    ups: a.integer(),
+    downs: a.integer(),
+    version: a.integer(),
+  }),
+  // highlight-start
+  getPost: a
+    .query()
+    .arguments({ id: a.id().required() })
+    .returns(a.ref("Post"))
+    .authorization(allow => [allow.publicApiKey()])
+    .handler(
+      a.handler.custom({
+        dataSource: "HttpDataSource",
+        entry: "./getPost.js",
+      })
+    ),
+  // highlight-end
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+```
+</Block>
+<Block name="updatePost">
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Post: a.customType({
+    author: a.string().required(),
+    title: a.string(),
+    content: a.string(),
+    url: a.string(),
+    ups: a.integer(),
+    downs: a.integer(),
+    version: a.integer(),
+  }),
+  // highlight-start
+  updatePost: a
+    .mutation()
+    .arguments({
+      id: a.id().required(),
+      author: a.string(),
+      title: a.string(),
+      content: a.string(),
+      url: a.string(),
+      expectedVersion: a.integer().required(),
+    })
+    .returns(a.ref("Post"))
+    .authorization(allow => [allow.publicApiKey()])
+    .handler(
+      a.handler.custom({
+        dataSource: "HttpDataSource",
+        entry: "./updatePost.js",
+      })
+    ),
+  // highlight-end
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+```
+</Block>
+<Block name="deletePost">
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Post: a.customType({
+    author: a.string().required(),
+    title: a.string(),
+    content: a.string(),
+    url: a.string(),
+    ups: a.integer(),
+    downs: a.integer(),
+    version: a.integer(),
+  }),
+  // highlight-start
+  deletePost: a
+    .mutation()
+    .arguments({ id: a.id().required(), expectedVersion: a.integer() })
+    .returns(a.ref("Post"))
+    .authorization(allow => [allow.publicApiKey()])
+    .handler(
+      a.handler.custom({
+        dataSource: "HttpDataSource",
         entry: "./deletePost.js",
       })
     ),
