@@ -77,6 +77,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/external-identity-providers/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/guest-access/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/tokens-and-credentials/index.mdx'
                     }
                   ]
@@ -125,6 +128,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/index.mdx',
                   children: [
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/email-customization/index.mdx'
                     },
                     {
@@ -139,16 +145,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/guest-access/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-mfa/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/delete-user-account/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-custom-flow/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
