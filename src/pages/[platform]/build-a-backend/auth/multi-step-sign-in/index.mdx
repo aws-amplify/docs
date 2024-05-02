@@ -21,7 +21,7 @@ export function getStaticProps(context) {
 }
 
 <InlineFilter filters={['flutter']}>
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page.
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) page.
 
 Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
@@ -301,7 +301,7 @@ If the next step is `resetPassword`, Amplify Auth requires that the user reset t
 Use the `resetPassword` API to guide the user through resetting their password, then call `Amplify.Auth.signIn`
 when that's complete to restart the sign-in flow.
 
-See the [reset password](/[platform]/build-a-backend/auth/manage-passwords/) docs for more information.
+See the [reset password](/[platform]/build-a-backend/auth/manage-users/manage-passwords/) docs for more information.
 
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
@@ -338,7 +338,7 @@ If the next step is `resetPassword`, Amplify Auth requires that the user confirm
 Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` 
 to complete the sign up.
 
-See the [confirm sign up](/[platform]/build-a-backend/auth/enable-sign-in/#register-a-user) docs for more information.
+See the [confirm sign up](/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/#confirm-sign-up) docs for more information.
 
 <Callout>
 
@@ -405,7 +405,7 @@ Future<void> _handleSignInResult(SignInResult result) async {
 </InlineFilter>
 
 <InlineFilter  filters={['android']}>
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page. 
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) page. 
 
 Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
@@ -1263,7 +1263,7 @@ Sign In flow is complete when you get `done`. This means the user is successfull
 
 <InlineFilter filters={['swift']}>
 
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page. 
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) page. 
 
 Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 

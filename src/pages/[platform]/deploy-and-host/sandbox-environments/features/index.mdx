@@ -118,7 +118,7 @@ export const auth = defineAuth({
 
 The `secret()` function does NOT retrieve the value of the secret. It places a reference to the secret value in the backend definition. The secret value is only resolved during deployment of your backend.
 
-The `secret()` function can only be used in specific places in your backend definition such as [configuring auth providers](/[platform]/build-a-backend/auth/add-social-provider/#configure-social-sign-in-backend) and [granting function secret access](/[platform]/build-a-backend/functions/#secret-access).
+The `secret()` function can only be used in specific places in your backend definition such as [configuring auth providers](/[platform]/build-a-backend/auth/concepts/external-identity-providers) and [function secrets](/[platform]/build-a-backend/functions/environment-variables-and-secrets/#accessing-environment-variables).
 
 <Callout info>
 
