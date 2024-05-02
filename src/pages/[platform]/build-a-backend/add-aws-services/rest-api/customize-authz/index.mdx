@@ -256,7 +256,7 @@ class MyOIDCAuthProvider : AmplifyOIDCAuthProvider {
 * Finally, register your instance of `APIAuthProviderFactory` prior to calling `Amplify.configure()`:
 ```swift
 try Amplify.add(plugin: AWSAPIPlugin(apiAuthProviderFactory: MyAPIAuthProviderFactory()))
-try Amplify.configure(with: .amplifyOutputs)
+try Amplify.configure()
 ```
 </InlineFilter>
 
