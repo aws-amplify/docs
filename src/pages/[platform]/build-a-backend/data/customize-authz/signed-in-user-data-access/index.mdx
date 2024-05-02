@@ -28,14 +28,14 @@ export function getStaticProps(context) {
   };
 }
 
-The `private` authorization strategy restricts record access to only signed-in users authenticated through IAM, Cognito, or OpenID Connect, applying the authorization rule to all users. It provides a simple way to make data private to all authenticated users.
+The `authenticated` authorization strategy restricts record access to only signed-in users authenticated through IAM, Cognito, or OpenID Connect, applying the authorization rule to all users. It provides a simple way to make data private to all authenticated users.
 
 ## Add signed-in user authorization rule
 
-You can use the `private` authorization strategy to restrict a record's access to every signed-in user.
+You can use the `authenticated` authorization strategy to restrict a record's access to every signed-in user.
 
 <Callout>
-**Note:** If you want to restrict a record's access to a specific user, see [Per-user/per-owner data access](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access/). The `private` authorization strategy detailed on this page applies the authorization rule for data access to **every** signed-in user.
+**Note:** If you want to restrict a record's access to a specific user, see [Per-user/per-owner data access](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access/). The `authenticated` authorization strategy detailed on this page applies the authorization rule for data access to **every** signed-in user.
 </Callout>
 
 In the example below, anyone with a valid JWT token from the Cognito user pool is allowed access to all Todos.
@@ -109,4 +109,4 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 );
 ```
 
-In addition, you can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](/[platform]/build-a-backend/data/customize-authz/using-oidc-authorization-provider/).
+In addition, you can also use OpenID Connect with `authenticated` authorization. See [OpenID Connect as an authorization provider](/[platform]/build-a-backend/data/customize-authz/using-oidc-authorization-provider/).
