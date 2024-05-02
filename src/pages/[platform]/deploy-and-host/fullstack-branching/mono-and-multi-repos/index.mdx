@@ -75,8 +75,7 @@ This will generate the `amplify_outputs.json` file that contains all the informa
 
 4. To validate that your frontend can connect to the backend, add the `Authenticator` login form to your app.
 
-```ts
-// pages/_app.tsx
+```ts title="pages/_app.tsx"
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
 import outputs from '@/amplify_outputs.json';
@@ -150,7 +149,7 @@ aws amplify create-webhook --app-id FRONTEND-APPID --branch-name main  --region 
 
 1. Now update the build settings for the `backend-app` to include the `curl` command to trigger a frontend build any time there are changes to the backend.
 
-``` yaml
+```yaml title="amplify.yml"
 version: 1
 backend:
   phases:
