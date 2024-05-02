@@ -101,12 +101,12 @@ backend.addOutput({
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 
 ## Configure your application
- 
+
 To display a map in your application, you can use the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) or the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) with `maplibre-gl-js-amplify` libraries are required.
 
 Install the necessary dependencies by running the following command:
 
-```bash title="Terminal" showLineNumbers={false} 
+```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify @aws-amplify/geo
 ```
 
@@ -164,7 +164,7 @@ For a full example, please follow the [project setup walkthrough](/[platform]/st
 
 <Callout>
 
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
 As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
 For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
@@ -331,7 +331,7 @@ func configureAmplify() {
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSLocationGeoPlugin())
-        try Amplify.configure()
+        try Amplify.configure(with: .amplifyOutputs)
         print("Initialized Amplify");
     } catch {
         print("Could not initialize Amplify: \(error)")
@@ -382,7 +382,7 @@ Initialized Amplify
 </InlineFilter>
 
 
-**Notes:** 
+**Notes:**
 - If you want to use existing Amazon Location Service resources [follow this guide](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) instead.
 - If you want to use Amazon Location Service APIs not directly supported by Geo, use the [escape hatch](/[platform]/build-a-backend/add-aws-services/geo/amazon-location-sdk/) to access the Amazon Location Service SDK.
 

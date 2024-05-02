@@ -122,7 +122,7 @@ do {
     let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "<log-group-name>", region: "<region>", flushIntervalInSeconds: 120)
     let loggingPlugin = AWSCloudWatchLoggingPlugin(loggingPluginConfiguration: loggingConfiguration)
     try Amplify.add(plugin: loggingPlugin)
-    try Amplify.configure()
+    try Amplify.configure(with: .amplifyOutputs)
 } catch {
     assert(false, "Error initializing Amplify: \(error)")
 }
@@ -145,7 +145,7 @@ You can choose at anytime to flush the log messages that are saved locally on th
 
 
 
-  
+
 
 <InlineFilter filters={['android']}>
 
@@ -227,7 +227,7 @@ import AWSCloudWatchLoggingPlugin
 Execute the flush log function from the plugin.
 
 ```swift
-let cloudWatchPlugin = try Amplify.Logging.getPlugin(for: "awsCloudWatchLoggingPlugin") as? AWSCloudWatchLoggingPlugin 
+let cloudWatchPlugin = try Amplify.Logging.getPlugin(for: "awsCloudWatchLoggingPlugin") as? AWSCloudWatchLoggingPlugin
 try await cloudWatchPlugin?.flushLogs()
 ```
 

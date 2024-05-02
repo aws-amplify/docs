@@ -251,7 +251,7 @@ struct MyAmplifyApp: App {
         let awsApiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
         do {
             try Amplify.add(plugin: awsApiPlugin)
-            try Amplify.configure()
+            try Amplify.configure(with: .amplifyOutputs)
             print("Initialized Amplify");
         } catch {
             // simplified error handling for the tutorial
