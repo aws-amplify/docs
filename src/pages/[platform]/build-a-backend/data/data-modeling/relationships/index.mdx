@@ -44,7 +44,7 @@ When modeling application data, you often need to establish relationships betwee
 Create a one-to-many relationship between two models using the `hasMany()` and `belongsTo()` method. In the example below, a Team has many Members and a Member belongs to exactly one Team.
 
 1. Create a **reference field** called `teamId` on the **Member** model. This reference field's type **MUST** match the type of **Team**'s identifier. In this case, it's an auto-generated `id: a.id().required()` field.
-2. Add a **relationship field** called `team` that references the `teamId` field. This allows you to query for the team information from the **Member** model. 
+2. Add a **relationship field** called `team` that references the `teamId` field. This allows you to query for the team information from the **Member** model.
 3. Add a **relationship field** called `members` that references the `teamId` field on the **Member** model.
 
 ```typescript
@@ -60,7 +60,7 @@ const schema = a.schema({
 
   Team: a.model({
     mantra: a.string().required(),
-    // 3. Create a hasMany relationship with the reference field 
+    // 3. Create a hasMany relationship with the reference field
     //    from the `Member`s model.
     members: a.hasMany('Member', 'teamId'),
   })
@@ -122,7 +122,7 @@ Task {
             print("API response: \(createTeamResult)")
             return
         }
-        
+
         let member = Member(name: "Tim", team: try createTeamResult.get()) // Directly pass in the post instance
         let createMemberResult = try await Amplify.API.mutate(request: .create(member))
         guard case .success = createMemberResult else {
@@ -161,8 +161,8 @@ const { data: newTeam } = await client.models.Team.create({
 });
 
 await client.models.Member.update({
-  id: member.id,
-  teamId: team.id,
+  id: "MY_MEMBER_ID",
+  teamId: newTeam.id,
 });
 ```
 
@@ -203,7 +203,7 @@ Task {
             print("API response: \(createNewTeamResult)")
             return
         }
-        
+
         let updatedMember = Member(id: existingMember.id, name: existingMember.name, team: try createNewTeamResult.get())
         let updateMemberResult = try await Amplify.API.mutate(request: .update(updatedMember))
         guard case .success = updateMemberResult else {
@@ -223,7 +223,7 @@ Task {
 ```dart
 final newTeam = Team(mantra: "Go Fullstack!");
 final newTeamRequest = ModelMutations.create(team);
-final newTeamResponse = await Amplify.API.mutate(request: teamRequest).response; 
+final newTeamResponse = await Amplify.API.mutate(request: teamRequest).response;
 
 final memberWithUpdatedTeam = existingMember.copyWith(team: newTeamResponse.data);
 final memberUpdateRequest = ModelMutations.update(memberWithUpdatedTeam);
@@ -234,13 +234,13 @@ final memberUpdateResponse = await Amplify.API.mutate(request: memberUpdateReque
 
 ### Delete a "Has Many" relationship between records
 
-If your reference field is not required, then you can "delete" a one-to-many relationship by setting the relationship value to `null`. 
+If your reference field is not required, then you can "delete" a one-to-many relationship by setting the relationship value to `null`.
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 await client.models.Member.update({
-  id: 'SOME_MEMBER_ID',
+  id: "MY_MEMBER_ID",
   teamId: null,
 });
 ```
@@ -386,7 +386,7 @@ Task {
             print("API response: \(queryTeamResult)")
             return
         }
-        
+
         try await members.fetch()
 
     } catch {
@@ -447,7 +447,7 @@ Task {
             print("API response: \(queryTeamResult)")
             return
         }
-        
+
         try await members.fetch()
 
     } catch {
@@ -462,10 +462,10 @@ Task {
 
 ## Model a "one-to-one" relationship
 
-Create a one-to-one relationship between two models using the `hasOne()` and `belongsTo()` methods. In the example below, a **Customer** has a **Cart** and a *Cart* belongs to a **Customer**. 
+Create a one-to-one relationship between two models using the `hasOne()` and `belongsTo()` methods. In the example below, a **Customer** has a **Cart** and a *Cart* belongs to a **Customer**.
 
 1. Create a **reference field** called `customerId` on the **Cart** model. This reference field's type **MUST** match the type of **Customer**'s identifier. In this case, it's an auto-generated `id: a.id().required()` field.
-2. Add a **relationship field** called `customer` that references the `customerId` field. This allows you to query for the customer information from the **Cart** model. 
+2. Add a **relationship field** called `customer` that references the `customerId` field. This allows you to query for the customer information from the **Cart** model.
 3. Add a **relationship field** called `activeCart` that references the `customerId` field on the **Cart** model.
 
 ```typescript
@@ -488,18 +488,19 @@ const schema = a.schema({
 
 ### Create a "Has One" relationship between records
 
-To create a "has one" relationship between records, first create the parent item and then create the child item and assign the parent. 
+To create a "has one" relationship between records, first create the parent item and then create the child item and assign the parent.
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
-const { data: customer } = await client.models.Customer.create({
-  name: 'Rene',
+const { data: customer, errors } = await client.models.Customer.create({
+  name: "Rene",
 });
 
+
 const { data: cart } = await client.models.Cart.create({
-  items: ['Tomato', 'Ice', 'Mint'],
-  customerId: customer.id,
+  items: ["Tomato", "Ice", "Mint"],
+  customerId: customer?.id,
 });
 ```
 
@@ -542,7 +543,7 @@ Task {
             print("API response: \(createCustomerResult)")
             return
         }
-        
+
         let cart = Cart(items: ["Tomato", "Ice", "Mint"], customer: try createCustomerResult.get())
         let createCartResult = try await Amplify.API.mutate(request: .create(cart))
         guard case .success = createCartResult else {
@@ -584,7 +585,7 @@ const { data: newCustomer } = await client.models.Customer.create({
 
 await client.models.Cart.update({
   id: cart.id,
-  customerId: newCustomer.id,
+  customerId: newCustomer?.id,
 });
 ```
 
@@ -625,7 +626,7 @@ Task {
             print("API response: \(createNewCustomerResult)")
             return
         }
-        
+
         let updatedCart = Cart(id: existingCart.id, items: existingCart.items, customer: try createNewCustomerResult.get())
         let updateCartResult = try await Amplify.API.mutate(request: .update(updatedCart))
         guard case .success = updateCartResult else {
@@ -645,7 +646,7 @@ Task {
 ```dart
 final newCustomer = Customer(name: "Ian");
 final newCustomerRequest = ModelMutations.create(newCustomer);
-final newCustomerResponse = await Amplify.API.mutate(request: newCustomerRequest).response; 
+final newCustomerResponse = await Amplify.API.mutate(request: newCustomerRequest).response;
 
 final cartWithUpdatedCustomer = existingCart.copyWith(customer: newCustomerResponse.data);
 final cartUpdateRequest = ModelMutations.update(cartWithUpdatedCustomer);
@@ -657,7 +658,7 @@ final cartUpdateResponse = await Amplify.API.mutate(request: cartUpdateRequest).
 
 ### Delete a "Has One" relationship between records
 
-You can the relationship field to `null` to delete a "Has One" relationship between records.
+You can set the relationship field to `null` to delete a "Has One" relationship between records.
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
@@ -832,12 +833,12 @@ val cart = Amplify.API.query(
 
 
 ## Model a "many-to-many" relationship
-Create a many-to-many relationship between two models, you have to create a model that serves as a "join table". This "join table" should contain two one-to-many relationships between the two related entity. For example, to model a **Post** has many **Tags** and a **Tag** has many **Posts**, you'll need to create a new **PostTag** model that represents the relationship between these two entities.
+In order to create a many-to-many relationship between two models, you have to create a model that serves as a "join table". This "join table" should contain two one-to-many relationships between the two related entities. For example, to model a **Post** that has many **Tags** and a **Tag** has many **Posts**, you'll need to create a new **PostTag** model that represents the relationship between these two entities.
 
 ```typescript
 const schema = a.schema({
   PostTag: a.model({
-    // 1. Create reference fields to both ends of 
+    // 1. Create reference fields to both ends of
     //    the many-to-many relationship
     // highlight-start
     postId: a.id().required(),
@@ -871,13 +872,13 @@ const schema = a.schema({
 
 ## Model multiple relationships between two models
 
-Relationships are defined uniquely by their reference fields. For example, a Post can have two relationships to a Person model for `author` and `editor`. 
+Relationships are defined uniquely by their reference fields. For example, a Post can have separate relationships with a Person model for `author` and `editor`.
 
 ```typescript
 const schema = a.schema({
   Post: a.model({
-    title: a.string().required(),  
-    content: a.string().required(),  
+    title: a.string().required(),
+    content: a.string().required(),
     // highlight-start
     authorId: a.id(),
     author: a.belongsTo('Person', 'authorId'),
@@ -902,23 +903,23 @@ On the client-side, you can fetch the related data with the following code:
 ```ts
 const client = generateClient<Schema>();
 
-const { data: post } = await client.models.Post.get({ id: 'SOME_POST_ID' });
+const { data: post } = await client.models.Post.get({ id: "SOME_POST_ID" });
 
-const { data: authors } = await post.authors();
-const { data: editors } = await post.editors();
+const { data: author } = await post?.author();
+const { data: editor } = await post?.editor();
 ```
 
 </InlineFilter>
 
 ## Model relationships for models with sort keys in their identifier
 
-In case your data model uses sort keys in the identifier, you need to also add in reference fields store the sort key fields in the related data model:
+In cases where your data model uses sort keys in the identifier, you need to also add reference fields and store the sort key fields in the related data model:
 
 ```ts
 const schema = a.schema({
   Post: a.model({
-    title: a.string().required(),  
-    content: a.string().required(),  
+    title: a.string().required(),
+    content: a.string().required(),
     // Reference fields must correspond to identifier fields.
     // highlight-start
     authorName: a.string(),
@@ -930,7 +931,7 @@ const schema = a.schema({
   Person: a.model({
     name: a.string().required(),
     dateOfBirth: a.date().required(),
-    // Must reference all reference fields corresponding to the 
+    // Must reference all reference fields corresponding to the
     // identifier of this model.
     authoredPosts: a.hasMany('Post', ['authorName', 'authorDoB']),
     // highlight-next-line
@@ -940,13 +941,13 @@ const schema = a.schema({
 
 ## Make relationships required or optional
 
-Amplify Data's relationship uses the reference fields to determine if a relationship is required or not. If you mark a reference field as required, then you can't "delete" a relationship between two models. You'd have to delete the related record as a whole.
+Amplify Data's relationships use reference fields to determine if a relationship is required or not. If you mark a reference field as required, then you can't "delete" a relationship between two models. You'd have to delete the related record as a whole.
 
 ```ts
 const schema = a.schema({
   Post: a.model({
-    title: a.string().required(),  
-    content: a.string().required(),  
+    title: a.string().required(),
+    content: a.string().required(),
     // You must supply an author when creating the post
     // Author can't be set to `null`.
     // highlight-next-line

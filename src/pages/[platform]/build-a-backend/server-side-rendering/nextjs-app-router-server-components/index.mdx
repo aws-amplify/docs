@@ -50,7 +50,7 @@ Let's add UI that connects to the backend data and auth resources.
 First, install the Amplify UI component library:
 
 ```bash showLineNumbers={false}
-npm install @aws-amplify/ui-react
+npm add @aws-amplify/ui-react
 ```
 
 Next, create a `components` folder in the root of your project and copy the contents below to a file called `ConfigureAmplify.tsx`.
@@ -109,7 +109,7 @@ export default function RootLayout({
 First, install the Amplify Next.js adapter:
 
 ```bash showLineNumbers={false}
-npm install @aws-amplify/adapter-nextjs
+npm add @aws-amplify/adapter-nextjs
 ```
 
 Next, create a `utils/amplify-utils.ts` file from the root of the project and paste the code below.  `runWithAmplifyServerContext`,  `cookiesClient`, and `AuthGetCurrentUserServer` are declared here and will be used to gain access to Amplify assets from the server.
