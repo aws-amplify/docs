@@ -188,7 +188,6 @@ let url = try await Amplify.Storage.getURL(
 Option | Type | Description |
 | -- | -- | ----------- |
 | expires | Integer | Number of seconds before the URL expires |
-| pluginOptions | - | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
 
 </InlineFilter>
 
@@ -366,16 +365,6 @@ let resultSink = downloadTask
 ```
 </Block>
 </BlockSwitcher>
-</InlineFilter>
-
-<InlineFilter filters={["swift"]}>
-
-### More download options
-
-Option | Description |
-| -- | ----------- |
-| pluginOptions | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
-
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
