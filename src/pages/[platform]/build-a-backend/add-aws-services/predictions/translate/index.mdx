@@ -4,21 +4,20 @@ export const meta = {
   title: 'Translate language',
   description: 'Learn more about how to integrate translation capabilities for your application using Amplify',
   platforms: [
-    'javascript',
     'angular',
+    'javascript',
     'nextjs',
     'react',
+    'react-native',
     'vue',
-    'swift',
-    'android',
   ]
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -37,196 +36,10 @@ export function getStaticProps(context) {
 
 Translate text from one source language to a destination language.
 
-<InlineFilter filters={['android']}>
-
-### Translate text as configured
-
-<BlockSwitcher>
-<Block name="Java">
-
-Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
-
-```java
-Amplify.Predictions.translateText("I like to eat spaghetti",
-  result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-  error -> Log.e("MyAmplifyApp", "Translation failed", error)
-);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
-
-```kotlin
-Amplify.Predictions.translateText("I like to eat spaghetti",
-  { Log.i("MyAmplifyApp", it.translatedText) },
-  { Log.e("MyAmplifyApp", "Translation failed", it) }
-)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
-
-```kotlin
-val text = "I like to eat spaghetti"
-try {
-  val result = Amplify.Predictions.translateText(text)
-  Log.i("MyAmplifyApp", result.translatedText)
-} catch (error: PredictionsException) {
-  Log.e("MyAmplifyApp", "Translation failed", error)
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
-
-```java
-RxAmplify.Predictions.translateText("I like to eat spaghetti")
-  .subscribe(
-    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-    error -> Log.e("MyAmplifyApp", "Translation failed", error)
-  );
-```
-
-</Block>
-</BlockSwitcher>
-
-As a result of running this code, you will see the translated text printed to the console.
-
-```console
-I/MyAmplifyApp: Mi piace mangiare gli spaghetti
-```
-
-### Override configured language
-
-In order to override any choices you made in regards to target or source languages while adding this resource to the Amplify backend, you can pass them in directly as parameters as shown below.
-
-Add the `LanguageType` options as below:
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-Amplify.Predictions.translateText(
-  "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
-  result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-  error -> Log.e("MyAmplifyApp", "Translation failed", error)
-);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-Amplify.Predictions.translateText(
-  "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
-  { Log.i("MyAmplifyApp", it.translatedText) },
-  { Log.e("MyAmplifyApp", "Translation failed", it) }
-)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
-
-```kotlin
-val text = "I like to eat spaghetti"
-try {
-  val result = Amplify.Predictions.translateText(text, ENGLISH, RUSSIAN)
-  Log.i("MyAmplifyApp", result.translatedText)
-} catch (error: PredictionsException) {
-  Log.e("MyAmplifyApp", "Translation failed", error)
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-RxAmplify.Predictions.translateText("I like to eat spaghetti",
-  LanguageType.ENGLISH,
-  LanguageType.RUSSIAN)
-  .subscribe(
-    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-    error -> Log.e("MyAmplifyApp", "Translation failed", error)
-  );
-```
-
-</Block>
-</BlockSwitcher>
-
-As a result of running this code, you will see the translated text printed to the console.
-
-```console
-I/MyAmplifyApp: Мне нравится есть спагетти
-```
-
-</InlineFilter>
-
-<InlineFilter filters={['swift']}>
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func translateText(text: String) async throws -> String {
-  do {
-    let result = try await Amplify.Predictions.convert(
-        .translateText(text, from: .english, to: .italian)
-    )
-    print("Translated text: \(result.text)")
-    return result.text
-  } catch let error as PredictionsError {
-      print("Error translating text: \(error)")
-      throw error
-  } catch {
-      print("Unexpected error: \(error)")
-      throw error
-  }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func translateText(text: String) -> AnyCancellable {
-    Amplify.Publisher.create {
-        try await Amplify.Predictions.convert(
-          .translateText(text, from: .english, to: .italian)
-        )
-    }
-    .sink(receiveCompletion: { completion in
-        if case let .failure(error) = completion {
-            print("Error translating text: \(error)")
-        }
-    }, receiveValue: { value in
-        print("Translated text: \(value.text)")
-    })
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-As a result of running this code, you will see the translated text printed to the console.
-
-</InlineFilter>
-<InlineFilter filters={['javascript','angular','nextjs','react','vue']}>
-
-```javascript
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
-Predictions.convert({
+const result = await Predictions.convert({
   translateText: {
     source: {
       text: textToTranslate,
@@ -235,11 +48,7 @@ Predictions.convert({
     targetLanguage: "en"
   }
 })
-.then(result => console.log({ result }))
-.catch(err => console.log({ err }));
 ```
-
-</InlineFilter>
 
 To view the complete list of supported languages refer to [Supported languages and language codes](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
 
