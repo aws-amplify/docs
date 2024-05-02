@@ -36,6 +36,19 @@ This library's Cognito plugin currently supports the [Authorization Code Grant](
 
 </Callout>
 
+In your `auth/resource.ts` file, update the 
+```ts
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      callbackUrls: ["myapp://callback/"],
+      logoutUrls: ["myapp://signout/"],
+    },
+  },
+});
+```
+
 ## Update AndroidManifest.xml
 
 Add the following activity and queries tag to your app's `AndroidManifest.xml` file, replacing `myapp` with
@@ -146,6 +159,19 @@ This library's Cognito plugin currently supports the [Authorization Code Grant](
 
 </Callout>
 
+Update the `auth/resource.ts` file like the following to enable the sign-in and sign-out capabilities with a web ui.
+
+```ts
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      callbackUrls: ["myapp://callback/"],
+      logoutUrls: ["myapp://signout/"],
+    },
+  },
+});
+```
 ## Update Info.plist
 
 Signin with web UI require the Amplify plugin to show up the signin UI inside a webview. After the signin process is complete it will redirect back to your app. 
@@ -255,6 +281,20 @@ try await Amplify.Auth.signInWithWebUI(
 This library's Cognito plugin currently supports the [Authorization Code Grant](https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html) OAuth Flow.
 
 </Callout>
+
+Update the `auth/resource.ts` file like the following to enable the sign-in and sign-out capabilities with a web ui.
+
+```ts
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      callbackUrls: ["myapp://callback/"],
+      logoutUrls: ["myapp://signout/"],
+    },
+  },
+});
+```
 
 ## How It Works
 
