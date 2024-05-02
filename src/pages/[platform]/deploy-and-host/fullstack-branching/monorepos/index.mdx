@@ -63,13 +63,13 @@ Monorepos require a slightly different setup. We are going to deploy 3 Amplify a
 
 The first app, `my-shared-backend`, will be the only app that updates changes to the backend. The other apps will only run frontend builds that point to the shared backend.
 
-1. To get started, deploy the shared backend Amplify app. With Gen 2, you can now setup backend-only CI/CD apps. Navigate to the console and select _New app > Build an app (Gen 2)_.
+1. To get started, deploy the shared backend Amplify app. With Gen 2, you can now setup backend-only CI/CD apps. Navigate to the Amplify console and select **Create new app**.
 
-1. Once you connect your repository, select your monorepo project. Check the box that says _My app is a monorepo_ and enter the path to your amplify backend.
+1. Once you connect your repository, select your monorepo project. Check the box that says **My app is a monorepo** and enter the path to your amplify backend.
 
 ![monorepo](/images/gen2/fullstack-branching/monorepo.png)
 
-1. Your build settings should be automatically detected. Save and deploy
+3. Your build settings should be automatically detected. Save and deploy.
 
 ## Deploy frontend apps
 
@@ -78,13 +78,13 @@ The first app, `my-shared-backend`, will be the only app that updates changes to
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --branch main --app-id BACKEND-APP
+npx ampx generate outputs --branch main --app-id BACKEND-APP-ID
 ```
 </InlineFilter>
 
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id BACKEND-APP --branch main --format dart --out-dir lib
+npx ampx generate outputs --app-id BACKEND-APP-ID --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
 
@@ -95,13 +95,13 @@ npx ampx generate outputs --app-id BACKEND-APP --branch main --format dart --out
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id BACKEND-APP --branch main --out-dir app/src/main/res/raw
+npx ampx generate outputs --app-id BACKEND-APP-ID --branch main --format json-mobile --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id BACKEND-APP
+npx ampx generate outputs --app-id BACKEND-APP-ID --format json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
@@ -112,4 +112,4 @@ Once the sandbox environment is running, you would also generate the configurati
 
 </InlineFilter>
 
-- `BACKEND-APP` is the `app-id` for your backend app. You can find this by going to the Amplify console and navigating to _backend-app > App settings > App ARN_ and copying the ID located at the end of the string `arn:aws:amplify:<region>:<account-id>:apps/app-id`.
+- To locate the `App ID` for your backend application, navigate to the Amplify console and select your **backend-app**. On the Overview page, the `App ID` is displayed under the project name.

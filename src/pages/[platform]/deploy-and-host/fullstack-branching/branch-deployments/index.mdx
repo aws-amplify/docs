@@ -37,14 +37,14 @@ After you've deployed your [first branch](/[platform]/start/quickstart/), you ca
 
 1. Log in to the [Amplify console](https://console.aws.amazon.com/amplify/home) and choose your app.
 
-2. Navigate to **App settings > Repository settings** and enable **Branch auto-detection** and **Branch auto-disconnection**. The following video uses the default settings, which will connect any branch in your repo automatically. Branch auto-disconnection will ensure that if you delete a branch from your repository, the branch will also be deleted.
+2. Navigate to **App settings > Branch settings**, select **Edit** and enable **Branch auto-detection** and **Branch auto-disconnection**. The following video uses the default settings, which will connect any branch in your repo automatically. Branch auto-disconnection will ensure that if you delete a branch from your repository, the branch will also be deleted.
 
 <Callout>
 You can also define a pattern to connect only certain branches. For example, setting `dev`, `staging`, and `feature/*` will automatically connect all three branch types. Your `dev` and `staging` branches, as well as any branch that begins with `feature/`, will be connected.
 </Callout>
 
 <video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/fullstack-branching/autobranch.mp4" />
+  <source src="/images/gen2/fullstack-branching/Enable-branch-autodetection.mp4" />
 </video>
 
 3. Push a commit to your `feature/A` and `staging` branches that match the pattern. You should start seeing deployments on the console page. You will now have three fullstack branches deployed.
@@ -80,7 +80,7 @@ You can generate the config for a branch environment by running:
 For Web and React Native, generating the config with the default format and output directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id <your-amplify-app-id> --branch main --out-dir path/to/config
+npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name> --out-dir <path/to/config>
 ```
 </InlineFilter>
 
@@ -91,17 +91,17 @@ npx ampx generate outputs --app-id <your-amplify-app-id> --branch main --out-dir
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id <your-amplify-app-id> --branch main --out-dir app/src/main/res/raw
+npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name> --format json-mobile --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id <your-amplify-app-id> --branch main --format dart --out-dir lib
+npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name> --format dart --out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id <your-amplify-app-id>
+npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name> --format=json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration file for your application. However, Xcode won't recognize the file by default. To recognize the files, you need to drag and drop the generated configuration file to your project.

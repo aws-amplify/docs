@@ -102,7 +102,7 @@ When deleting branch environments or sandbox environments, you need to manually 
 
 Secrets that are used in branch deployments can be managed directly in the Amplify console. You can remove them under **Secret management** by choosing **Remove**.
 
-![Removing application secrets in Secret management section of Amplify console.](/images/gen2/secrets-and-vars/secret-management.jpg)
+![Removing application secrets in Secret management section of Amplify console.](/images/gen2/secrets-and-vars/secret-management.png)
 
 ### Local environment
 
@@ -116,7 +116,9 @@ npx ampx sandbox secret remove foo
 
 Environment variables work like key-value pairs to help manage configurable settings across different deployment environments, including development, staging, and production. Unlike secrets, which store sensitive data, environment variables are typically nonconfidential and are used for controlling application behavior in different environments. Another key difference is that environment variables are stored and managed by the Amplify managed service. You can set environment variables in the Amplify console (view the [AWS Amplify Hosting User Guide](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#setting-env-vars) for detailed instructions).
 
-![Variable, value, and branch fields in the Environment Variables section of the Amplify console.](/images/gen2/secrets-and-vars/env-vars.png)
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/secrets-and-vars/env-vars.mp4" />
+</video>
 
 ## Access environment variables
 
