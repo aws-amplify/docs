@@ -459,9 +459,9 @@ Import and load the configuration file in your app. It's recommended you add the
 ```
 
 import { Predictions } from "aws-amplify/predictions";
-import config from "./amplifyconfiguration.json";
+import outputs from "./amplify_outputs.json";
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 Amplify.configure({
   ...Amplify.getConfig(),

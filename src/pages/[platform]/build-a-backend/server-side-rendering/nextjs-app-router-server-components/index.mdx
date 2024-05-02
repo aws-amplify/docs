@@ -61,7 +61,7 @@ Next, create a `components` folder in the root of your project and copy the cont
 
 import { Amplify } from "aws-amplify";
 
-import config from "@/amplifyconfiguration.json";
+import outputs from "@/amplify_outputs.json";
 
 Amplify.configure(config, { ssr: true });
 
@@ -123,7 +123,7 @@ import { generateServerClientUsingCookies } from "@aws-amplify/adapter-nextjs/ap
 import { getCurrentUser } from "aws-amplify/auth/server";
 
 import { type Schema } from "@/amplify/data/resource";
-import config from "@/amplifyconfiguration.json";
+import outputs from "@/amplify_outputs.json";
 
 export const { runWithAmplifyServerContext } = createServerRunner({
   config,

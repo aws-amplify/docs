@@ -46,7 +46,7 @@ A key difference to notice between using Amplify Geo and Google Maps is with Goo
 
 ### Authorization
 
-When using Google Maps Platform or other similar services like Mapbox you will first be prompted to go to the Google Cloud Console to set up APIs and create an API key where you will then use the API key when requesting the Google Maps JS API. With Amplify Geo you will instead setup Amplify Auth and the `MapView` component will read the auth configuration from the `amplifyconfiguration.json` file. Behind the scenes Amplify Auth uses Amazon Cognito to set up client credentials with access to Location Service and Geo will use those credentials when making any location related API calls. More information on setting Amplify Auth and Geo can be found below in the `Setting Up Amplify` section.
+When using Google Maps Platform or other similar services like Mapbox you will first be prompted to go to the Google Cloud Console to set up APIs and create an API key where you will then use the API key when requesting the Google Maps JS API. With Amplify Geo you will instead setup Amplify Auth and the `MapView` component will read the auth configuration from the `amplify_outputs.json` file. Behind the scenes Amplify Auth uses Amazon Cognito to set up client credentials with access to Location Service and Geo will use those credentials when making any location related API calls. More information on setting Amplify Auth and Geo can be found below in the `Setting Up Amplify` section.
 
 ## Create a webpage
 
@@ -102,10 +102,10 @@ When using Google Maps Platform or other similar services like Mapbox you will f
 <body>
     <div id="map"></div>
     <script type="module">
-        import amplifyconfig from "../amplifyconfiguration.json" assert { type: "json" };
+        import outputs from "../amplify_outputs.json" assert { type: "json" };
         const { Amplify } = aws_amplify_core;
         const { createMap } = AmplifyMapLibre;
-        Amplify.configure(amplifyconfig);
+        Amplify.configure(outputs);
 
         // Add code from below steps here
     </script>
@@ -119,7 +119,7 @@ This code imports the MapLibre GL JS library and CSS, one of the popular options
 ### Setting up Amplify
 
 1. You will need to setup a [Geo Map resources](/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/). Follow instructions for creating a map.
-1. Once the workflow has completed you should have an `amplifyconfiguration.json` file in the same directory as your `index.html` file.
+1. Once the workflow has completed you should have an `amplify_outputs.json` file in the same directory as your `index.html` file.
 1. Save your `index.html` file.
 
 ## Display a map

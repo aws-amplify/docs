@@ -63,8 +63,8 @@ import {
   LocationClient,
   AssociateTrackerConsumerCommand
 } from '@aws-sdk/client-location';
-import amplifyconfig from '../amplifyconfiguration.json';
-Amplify.configure(amplifyconfig);
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs);
 
 const createClient = async () => {
   const session = await fetchAuthSession();
