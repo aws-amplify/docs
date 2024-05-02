@@ -218,7 +218,7 @@ const Gen2Overview = () => {
               }}
             >
               Use TypeScript to define your data and let us handle the model and
-              configuration file generatins.
+              configuration file generations.
             </FeatureItem>
           ) : (
             <FeatureItem
