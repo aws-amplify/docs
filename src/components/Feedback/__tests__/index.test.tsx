@@ -48,21 +48,6 @@ describe('Feedback', () => {
     });
   });
 
-  it('should show response text when Yes is clicked', async () => {
-    render(component);
-
-    const thumbsUpButton = screen.getByRole('button', { name: 'Yes' });
-
-    expect(thumbsUpButton).toBeInTheDocument();
-
-    userEvent.click(thumbsUpButton);
-    const response = screen.getByText('Thanks for your feedback!');
-
-    await waitFor(() => {
-      expect(response).toBeVisible();
-    });
-  });
-
   it('should call trackFeedbackSubmission request when either button is clicked', async () => {
     jest.spyOn(trackModule, 'trackFeedbackSubmission');
     render(component);

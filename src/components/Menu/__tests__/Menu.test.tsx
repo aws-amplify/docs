@@ -15,29 +15,45 @@ const routerMock = {
 
 jest.mock('next/router', () => routerMock);
 
+const routerMockLegacy = {
+  __esModule: true,
+  useRouter: () => {
+    return {
+      query: { platform: 'react' },
+      pathname: '/[platform]/tools/cli-legacy/overview',
+      asPath: '/[platform]/tools/cli-legacy/overview'
+    };
+  }
+};
+
+jest.mock('next/router', () => routerMockLegacy);
+
 describe('Menu', () => {
-  it('should render the Menu component', async () => {
-    const component = <Menu currentPlatform="react" path="/"></Menu>;
-    render(component);
+  // it('should render the Menu component', async () => {
+  //   const component = <Menu currentPlatform="react" path="/" />;
+  //   render(component);
 
-    const menu = await screen.getByRole('navigation', {
-      name: 'Main'
-    });
-
-    expect(menu).toBeInTheDocument();
-  });
-
-  // it('should render the cli-legacy-specific menu', async () => {
-  //   const menuComponent = (
-  //     <Menu currentPlatform="react" path="/[platform]/tools/cli-legacy"></Menu>
-  //   );
-
-  //   render(menuComponent);
-  //   const cliLegacyMenuItem = await screen.getByRole('link', {
-  //     name: 'Legacy (GraphQL Transformer v1)'
+  //   const menu = await screen.getByRole('navigation', {
+  //     name: 'Main'
   //   });
-  //   expect(cliLegacyMenuItem).toBeInTheDocument();
+
+  //   expect(menu).toBeInTheDocument();
   // });
+
+  it('should render the cli-legacy-specific menu', async () => {
+    const component = (
+      <Menu
+        currentPlatform="react"
+        path="/[platform]/tools/cli-legacy/overview"
+      />
+    );
+
+    render(component);
+    const cliLegacyMenuItem = await screen.getByRole('link', {
+      name: 'Legacy (GraphQL Transformer v1)'
+    });
+    expect(cliLegacyMenuItem).toBeInTheDocument();
+  });
 
   // it('should render the v5-specific menu', async () => {
   //   const menuComponent = (

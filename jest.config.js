@@ -11,7 +11,7 @@ module.exports = {
     ]
   },
   testPathIgnorePatterns: ['capi', '.next', 'client'],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts', '<rootDir>/jest.mock.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '\\.(css|less|scss)$': '<rootDir>/src/__mocks__/styleMock.js',
     '@docsearch/css(.*)': '<rootDir>/src/__mocks__/styleMock.js',

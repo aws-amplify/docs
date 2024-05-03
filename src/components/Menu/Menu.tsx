@@ -55,6 +55,8 @@ export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
     });
   }
 
+  console.log(childrenNodes);
+
   return (
     <nav className="menu" aria-label="Main">
       <ul className="menu__list">
