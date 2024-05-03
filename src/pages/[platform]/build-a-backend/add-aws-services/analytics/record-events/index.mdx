@@ -92,26 +92,45 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 ## Flush events
 
-Events have a default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplify_outputs.json` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
+Events have a default configuration to flush out to the network every 30 seconds. You can change this value by passing the `autoFlushEventsInterval` option to the `AWSPinpointAnalyticsPlugin`. The option value is measured in milliseconds. 
 
-```json
-{
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "<your-app-id>",
-          "region": "<your-app-region>",
-          "autoFlushEventsInterval": 10000
-        },
-        "pinpointTargeting": {
-          "region": "<your-app-region>"
-        }
-      }
-    }
-  }
-}
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSPinpointAnalyticsPlugin.Options options = AWSPinpointAnalyticsPlugin.Options.builder()
+        .autoFlushEventsInterval(60_000)
+        .build();
+
+Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(options));
+Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), this);
 ```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val options = AWSPinpointAnalyticsPlugin.Options {
+    autoFlushEventsInterval = 60_000
+}
+Amplify.addPlugin(AWSPinpointAnalyticsPlugin(options))
+Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), this)
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSPinpointAnalyticsPlugin.Options options = AWSPinpointAnalyticsPlugin.Options.builder()
+        .autoFlushEventsInterval(60_000)
+        .build();
+
+Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(options));
+Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), this);
+```
+
+</Block>
+</BlockSwitcher>
 
 To manually flush events, call:
 
