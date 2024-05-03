@@ -50,7 +50,7 @@ Let's add UI that connects to the backend data and auth resources.
 First, install the Amplify UI component library:
 
 ```bash showLineNumbers={false}
-npm install @aws-amplify/ui-react
+npm add @aws-amplify/ui-react
 ```
 
 Next, create a `components` folder in the root of your project and copy the contents below to a file called `ConfigureAmplify.tsx`.
@@ -61,9 +61,9 @@ Next, create a `components` folder in the root of your project and copy the cont
 
 import { Amplify } from "aws-amplify";
 
-import config from "@/amplifyconfiguration.json";
+import outputs from "@/amplify_outputs.json";
 
-Amplify.configure(config, { ssr: true });
+Amplify.configure(outputs, { ssr: true });
 
 export default function ConfigureAmplifyClientSide() {
   return null;
@@ -109,7 +109,7 @@ export default function RootLayout({
 First, install the Amplify Next.js adapter:
 
 ```bash showLineNumbers={false}
-npm install @aws-amplify/adapter-nextjs
+npm add @aws-amplify/adapter-nextjs
 ```
 
 Next, create a `utils/amplify-utils.ts` file from the root of the project and paste the code below.  `runWithAmplifyServerContext`,  `cookiesClient`, and `AuthGetCurrentUserServer` are declared here and will be used to gain access to Amplify assets from the server.
@@ -123,10 +123,10 @@ import { generateServerClientUsingCookies } from "@aws-amplify/adapter-nextjs/ap
 import { getCurrentUser } from "aws-amplify/auth/server";
 
 import { type Schema } from "@/amplify/data/resource";
-import config from "@/amplifyconfiguration.json";
+import outputs from "@/amplify_outputs.json";
 
 export const { runWithAmplifyServerContext } = createServerRunner({
-  config,
+  outputs,
 });
 
 export const cookiesClient = generateServerClientUsingCookies<Schema>({

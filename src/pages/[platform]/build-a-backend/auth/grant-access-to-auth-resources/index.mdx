@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Grant access to auth resources',
-  description: 'Learn how to grant a resource access to auth resources',
+  description: 'Learn how to grant access to auth resources',
   platforms: [
     'android',
     'angular',
@@ -16,11 +16,11 @@ export const meta = {
   ]
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -28,55 +28,31 @@ export function getStaticProps(context) {
   };
 }
 
-<Callout warning>
-
-**Under active development:** The Authentication experience for Amplify Gen 2 is under active development. The experience may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
-
-</Callout>
-
-### Grant function access
-
-You can grant your backend function access to authentication resources, which will enable the function to perform administrative operations such as creating users, handling user password recovery, or adding users to groups.
-
-```ts title="amplify/function/my-demo-function/resource.ts"
-import { defineFunction } from '@aws-amplify/backend';
-
-export const demoFunction = defineFunction({});
-```
+Amplify Auth can be defined with an `access` property, which allows other resources to interact with auth by specifying actions.
 
 ```ts title="amplify/auth/resource.ts"
-import { defineAuth, defineFunction } from '@aws-amplify/backend';
-import { demoFunction } from '../function/my-demo-function/resource';
+import { defineAuth } from "@aws-amplify/backend"
+import { addUserToGroup } from "../functions/add-user-to-group/resource"
 
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
 export const auth = defineAuth({
-  name: 'myProjectFiles',
-  loginWith: { email: true },
-  access: (allow) => ([
-    allow.resource(demoFunction).to(['manageUsers']),
-  ])
-});
+  loginWith: {
+    email: true,
+  },
+  access: (allow) => [
+    allow.resource(addUserToGroup).to(["addUserToGroup"])
+  ],
+})
 ```
 
-This will grant `demoFunction` the ability to perform CRUD operations on users in the Cognito UserPool created as part of `defineAuth`. See below for the detailed list of permissions.
+<Callout>
 
-When a backend function is granted access to authentication resources, it also receives an environment variable that contains the UserPool ID. This environment variable can be used in the function to make SDK calls to the UserPool. The environment variable is named `amplifyAuth_USERPOOL_ID`
+When you grant a function access to another resource in your Amplify backend it will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
 
-```ts title="amplify/functions/my-demo-function/handler.ts"
-import { CognitoIdentityProviderClient, ListUsersCommand } from '@aws-sdk/client-cognito-identity-provider';
-import { env } from '@env/my-demo-function';
-
-const cognitoIdentityProviderClient = new CognitoIdentityProviderClient();
-
-export const handler = async(event) => {
-  await cognitoIdentityProviderClient.send(
-    new ListUsersCommand({
-      UserPoolId: env.amplifyAuth_USERPOOL_ID,
-      Limit: 100
-    })
-  )
-}
-```
-[Learn more about function resource access environment variables](/[platform]/build-a-backend/functions/#resource-access)
+</Callout>
 
 ### List of actions
 

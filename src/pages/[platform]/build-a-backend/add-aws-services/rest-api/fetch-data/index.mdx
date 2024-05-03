@@ -4,21 +4,18 @@ export const meta = {
   title: 'Fetch data',
   description: 'Using the GET API REST in Amplify',
   platforms: [
-    'javascript',
-    'react-native',
-    'flutter',
-    'swift',
-    'android',
     'angular',
+    'javascript',
     'nextjs',
     'react',
+    'react-native',
     'vue'
   ],
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -29,12 +26,11 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 To invoke an endpoint, you need to set input object with required `apiName` option and optional `headers`, `queryParams`, and `body` options. API status code response > 299 are thrown as an `ApiError` instance. The error instance provides `name` and `message` properties parsed from the response.
 
 ## GET requests
 
-```javascript
+```ts
 import { get } from 'aws-amplify/api';
 
 async function getItem() {
@@ -55,7 +51,7 @@ async function getItem() {
 
 You can consume the response payload by accessing the `body` property of the response object. Depending on the use case and the content type of the body, you can consume they payload in string, blob, or JSON.
 
-```javascript
+```ts
 // ...
 const { body } = await restOperation.response;
 // consume as a string:
@@ -82,7 +78,7 @@ properties:
 
 The following example shows how to access the HTTP response from an `ApiError` instance, so that you can handle the error response from your REST API endpoint:
 
-```javascript
+```ts
 import { ApiError, get } from 'aws-amplify/api';
 
 try {
@@ -106,168 +102,3 @@ try {
   // Handle other errors.
 }
 ```
-</InlineFilter>
-
-<InlineFilter filters={["swift"]}>
-## GET requests
-
-To make a GET request, first create a `RESTRequest` object and then use the `Amplify.API.get` API to issue the request:
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func getItem() async {
-    let request = RESTRequest(path: "items")
-    do {
-        let data = try await Amplify.API.get(request: request)
-        let str = String(decoding: data, as: UTF8.self)
-        print("Success: \(str)")
-    } catch let error as APIError {
-            print("Failed due to API error: ", error)
-    } catch {
-        print("Unexpected error: \(error)")
-    }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func getItem() -> AnyCancellable {
-    let request = RESTRequest(path: "items")
-    let sink = Amplify.Publisher.create {
-        try await Amplify.API.get(request: request)
-    }
-    .sink {
-        if case let .failure(apiError) = $0 {
-            print("Failed", apiError)
-        }
-    }
-    receiveValue: { data in
-        let str = String(decoding: data, as: UTF8.self)
-        print("Success \(str)")
-    }
-    return sink
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-## Handling non-2xx HTTP responses
-
-When your service returns a non-2xx HTTP status code in the response, the API call will result in a failure that you can handle in your app. The response body can be accessed from the `body: Data?` property. For example, when the `APIError` is an `.httpStatusError(StatusCode, HTTPURLResponse)`, then access the response body by type casting the response to an `AWSHTTPURLResponse` and retrieve the `body` field.
-
-```swift
-import AWSAPIPlugin
-```
-
-```swift
-if let error = error as? APIError,
-   case let .httpStatusError(statusCode, response) = error,
-   let awsResponse = response as? AWSHTTPURLResponse,
-   let responseBody = awsResponse.body {
-    print("Response contains a \(responseBody.count) byte long response body with status code: \(statusCode)")
-}
-```
-</InlineFilter>
-
-<InlineFilter filters={["android"]}>
-## GET requests
-
-To make a GET request, first build a RestOptions object and then use the Amplify.API.get api to issue the request:
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-void getItem() {
-    RestOptions options = RestOptions.builder()
-        .addPath("items")
-        .build();
-
-    Amplify.API.get(options,
-        restResponse -> Log.i("MyAmplifyApp", "GET succeeded: " + restResponse),
-        apiFailure -> Log.e("MyAmplifyApp", "GET failed.", apiFailure)
-    );
-}
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-private fun getItem() {
-    val request = RestOptions.builder()
-        .addPath("items")
-        .build()
-
-    Amplify.API.get(request,
-        { Log.i("MyAmplifyApp", "GET succeeded: $it") },
-        { Log.e("MyAmplifyApp", "GET failed.", it) }
-    )
-}
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-private suspend fun getItem() {
-    val request = RestOptions.builder()
-        .addPath("items")
-        .build()
-
-    try {
-        val response = Amplify.API.get(request)
-        Log.i("MyAmplifyApp", "GET succeeded: ${response.data}")
-    } catch (error: ApiException) {
-        Log.e("MyAmplifyApp", "GET failed", error)
-    }
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-void getItem() {
-    RestOptions options = RestOptions.builder()
-        .addPath("items")
-        .build();
-
-    RxAmplify.API.get(options)
-        .subscribe(
-            restResponse -> Log.i("MyAmplifyApp", "GET succeeded: " + restResponse),
-            apiFailure -> Log.e("MyAmplifyApp", "GET failed.", apiFailure)
-        );
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-</InlineFilter>
-
-<InlineFilter filters={["flutter"]}>
-## GET requests
-
-To make a GET request use `Amplify.API.get`:
-
-
-```dart
-Future<void> getItem() async {
-  try {
-    final restOperation = Amplify.API.get('items');
-    final response = await restOperation.response;
-    print('GET call succeeded: ${response.decodeBody()}');
-  } on ApiException catch (e) {
-    print('GET call failed: $e');
-  }
-}
-```
-</InlineFilter>

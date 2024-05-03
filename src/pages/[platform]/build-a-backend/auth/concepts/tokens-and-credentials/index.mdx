@@ -1,0 +1,263 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Tokens and credentials',
+  description: 'Learn about how tokens and credentials are used in Amplify applications',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Auth interacts with its underlying [Amazon Cognito user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) as an OpenID Connect (OIDC) provider. When users successfully authenticate you receive OIDC-compliant JSON web tokens (JWT). These tokens are used to _identity_ your user, and _access_ resources.
+
+[**Access tokens**](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-access-token.html) are used to verify the bearer of the token (i.e. the Cognito user) is authorized to perform an action against a resource. Below is an example payload of an access token vended by Cognito:
+
+```json
+{
+  "sub": "54288468-e051-706d-a73f-03892273d7e9",
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yoKn9s4Tq",
+  "client_id": "1sg675g08g6g0e9f64grv9n5sk",
+  "origin_jti": "0eadb994-a6e0-419e-b309-a7a0d522d72f",
+  "event_id": "b180897a-181c-4f73-94bb-a2946e8b4ef1",
+  "token_use": "access",
+  "scope": "aws.cognito.signin.user.admin",
+  "auth_time": 1714241873,
+  "exp": 1714245473,
+  "iat": 1714241873,
+  "jti": "57f10a4d-a1f2-453b-8672-d1cfa8187047",
+  "username": "54288468-e051-706d-a73f-03892273d7e9"
+}
+```
+
+[**ID tokens**](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-id-token.html) are intended to be used within your frontend application only. This token contains personally identifiable information (PII) and should not be used to authorize access against a resource. Below is an example of an ID token with the default Amplify Auth configuration of email and password auth.
+
+```json
+{
+  "sub": "54288468-e051-706d-a73f-03892273d7e9",
+  "email_verified": true,
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yoKn9s4Tq",
+  "cognito:username": "54288468-e051-706d-a73f-03892273d7e9",
+  "origin_jti": "0eadb994-a6e0-419e-b309-a7a0d522d72f",
+  "aud": "1sg675g08g6g0e9f64grv9n5sk",
+  "event_id": "b180897a-181c-4f73-94bb-a2946e8b4ef1",
+  "token_use": "id",
+  "auth_time": 1714241873,
+  "exp": 1714245473,
+  "iat": 1714241873,
+  "jti": "bb69af10-3ce0-47c2-8d8d-5bdc8630ab58",
+  "email": "hello@mycompany.com"
+}
+```
+
+When additional user attributes are specified for Amplify Auth, their values will be found in the ID token. For example, if a `nickname` attribute is requested it will be available on the ID token with the `nickname` claim:
+
+```diff
+{
+  "sub": "54288468-e051-706d-a73f-03892273d7e9",
+  "email_verified": true,
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yoKn9s4Tq",
+  "cognito:username": "54288468-e051-706d-a73f-03892273d7e9",
+  "origin_jti": "0eadb994-a6e0-419e-b309-a7a0d522d72f",
+  "aud": "1sg675g08g6g0e9f64grv9n5sk",
+  "event_id": "b180897a-181c-4f73-94bb-a2946e8b4ef1",
+  "token_use": "id",
+  "auth_time": 1714241873,
++ "nickname": "hello",
+  "exp": 1714245473,
+  "iat": 1714241873,
+  "jti": "bb69af10-3ce0-47c2-8d8d-5bdc8630ab58",
+  "email": "hello@mycompany.com"
+}
+```
+
+Conversely, user pool group claims are found in both the access token and ID token on the `cognito:groups` claim:
+
+```json
+{
+  "sub": "54288468-e051-706d-a73f-03892273d7e9",
+  "email_verified": true,
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yoKn9s4Tq",
+  "cognito:username": "54288468-e051-706d-a73f-03892273d7e9",
+  "cognito:groups": ["ADMINS"],
+  "origin_jti": "0eadb994-a6e0-419e-b309-a7a0d522d72f",
+  "aud": "1sg675g08g6g0e9f64grv9n5sk",
+  "event_id": "b180897a-181c-4f73-94bb-a2946e8b4ef1",
+  "token_use": "id",
+  "auth_time": 1714241873,
+  "nickname": "hello",
+  "exp": 1714245473,
+  "iat": 1714241873,
+  "jti": "bb69af10-3ce0-47c2-8d8d-5bdc8630ab58",
+  "email": "hello@mycompany.com"
+}
+```
+
+Visit the [AWS documentation for using tokens with Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html) to learn more about tokens, how they're used with Cognito, and their intended usage.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+## Understand token management options
+
+Token keys are automatically rotated for you for added security but you can update how they are stored, customize the refresh rate and expiration times, and revoke tokens on sign-out.
+
+### Update your token-saving mechanism
+
+You can update the storage mechanism to choose where and how tokens are persisted in your application. The default option is `localStorage`. Additionally, you can import the `sessionStorage`, `sharedInMemoryStorage` or `CookieStorage` options as well.
+
+If you want to customize your own mechanism, you can import the `KeyValueStorageInterface` interface and implement it in your own class.
+
+#### Browser Local Storage
+
+In Amplify the `localStorage` is the default storage mechanism. It saves the tokens in the browser's `localStorage`. This local storage will persist across browser sessions and tabs. You can explicitly set to this storage by calling:
+
+```ts
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { defaultStorage } from 'aws-amplify/utils';
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+```
+
+#### Cookie Storage
+
+`CookieStorage` saves the tokens in the browser's `Cookies`. The cookies will persist across browser sessions and tabs. You can explicitly set to this storage by calling:
+
+```ts
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { CookieStorage } from 'aws-amplify/utils';
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new CookieStorage());
+```
+
+#### Browser Session Storage
+
+`sessionStorage` saves the tokens in the browser's `sessionStorage` and these tokens will clear when a tab is closed. The benefit to this storage mechanism is that the session only lasts as long as the browser is open and you can sign out users when they close the tab. You can update to this storage by calling:
+
+```ts
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { sessionStorage } from 'aws-amplify/utils';
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+```
+
+#### Custom Storage
+
+You can implement your own custom storage mechanism by creating a class that implements the storage interface. Here is an example that uses memory storage:
+
+```ts
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { KeyValueStorageInterface } from 'aws-amplify/utils';
+
+class MyCustomStorage implements KeyValueStorageInterface {
+  storageObject: Record<string, string> = {};
+  async setItem(key: string, value: string): Promise<void> {
+    this.storageObject[key] = value;
+  }
+  async getItem(key: string): Promise<string | null> {
+    return this.storageObject[key];
+  }
+  async removeItem(key: string): Promise<void> {
+    delete this.storageObject[key];
+  }
+  async clear(): Promise<void> {
+    this.storageObject = {};
+  }
+}
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new MyCustomStorage());
+```
+
+When you get the current user session, the tokens will be saved in your custom location.
+
+</InlineFilter>
+<InlineFilter filters={['flutter']}>
+
+Amplify Auth persists authentication-related information to make it available to other Amplify categories and to your application.
+
+Amplify Flutter securely manages credentials and user identity information. You do not need to store, refresh, or delete credentials yourself. Amplify Flutter stores auth data on the device using platform capabilities such as [Keychain Services](https://developer.apple.com/documentation/security/keychain_services/) on iOS and macOS and [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) on Android.
+
+<Callout info>
+
+Amplify will refresh the [access token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-access-token.html) and [ID token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-id-token.html) as long as the [refresh token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html) is valid. Once the refresh token expires, the user will need to reauthenticate to obtain a new one.
+
+</Callout>
+
+Some platform specific option can be customized with the out of the box options. In the example below, credentials will be stored in-memory on Web instead of the default behavior of using browser storage.
+
+```dart
+await Amplify.addPlugin(
+  AmplifyAuthCognito(
+    secureStorageFactory: AmplifySecureStorage.factoryFrom(
+      webOptions: WebSecureStorageOptions(
+        persistenceOption: WebPersistenceOption.inMemory,
+      ),
+    ),
+  ),
+);
+```
+
+If you would like further customization, you can provide your own factory for creating `SecureStorageInterface` instances to `AmplifyAuthCognito`. The example below shows the use of a custom implementation that stores data in-memory on all platforms.
+
+```dart
+await Amplify.addPlugin(
+  AmplifyAuthCognito(secureStorageFactory: InMemoryStorage.new),
+);
+```
+
+```dart
+class InMemoryStorage implements SecureStorageInterface {
+  InMemoryStorage(this.scope);
+
+  /// The scope of the item being stored.
+  ///
+  /// This can be used as a namespace for stored items.
+  final AmplifySecureStorageScope scope;
+
+  static final Map<String, String> _data = {};
+
+  @override
+  void write({required String key, required String value}) {
+    _data['${scope.name}.$key'] = value;
+  }
+
+  @override
+  String? read({required String key}) {
+    return _data['${scope.name}.$key'];
+  }
+
+  @override
+  void delete({required String key}) {
+    _data.remove('${scope.name}.$key');
+  }
+}
+```
+</InlineFilter>
+
+## Token Revocation
+
+Token revocation is enabled automatically in Amplify Auth. To revoke tokens you can set up global sign-out with `signOut({ global: true })` to globally sign out your user from all of their devices.
+
+## Next steps
+
+- [Learn how to customize the ID token](/[platform]/build-a-backend/functions/examples/override-token/)
+- [Learn how to use cookie storage server-side](/[platform]/build-a-backend/server-side-rendering/#configure-amplify-library-for-client-side-usage)
+

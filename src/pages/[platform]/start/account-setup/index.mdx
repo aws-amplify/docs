@@ -290,12 +290,12 @@ Now you are ready to use this AWS profile with AWS Amplify. Open your Amplify pr
 
 ```bash title="Terminal" showLineNumbers={false}
 // highlight-next-line
-npx amplify sandbox
+npx ampx sandbox
 
 # OR 
 
 // highlight-next-line
-npx amplify sandbox --profile <profile-name>
+npx ampx sandbox --profile <profile-name>
 
 ```
 
@@ -307,9 +307,9 @@ Bootstrapping is the process of provisioning resources for the AWS CDK before yo
 
 </Accordion>
 
-![Bootstrap status message indicating that the given Region has not been bootstrapped and that the user needs to sign in to the console and re-run the npx amplify sandbox command to complete the bootstrap process.](/images/gen2/account-setup/profile4.png)
+![Bootstrap status message indicating that the given Region has not been bootstrapped and that the user needs to sign in to the console and re-run the npx ampx sandbox command to complete the bootstrap process.](/images/gen2/account-setup/profile4.png)
 
-During the first-time setup, `npx amplify sandbox` will ask you to sign in to the AWS Management Console. Once you're signed in, you will be redirected to the Amplify console. On the **Create new app** page, choose **Initialize setup now**. It may take a few minutes for the bootstrapping process to complete.
+During the first-time setup, `npx ampx sandbox` will ask you to sign in to the AWS Management Console. Once you're signed in, you will be redirected to the Amplify console. On the **Create new app** page, choose **Initialize setup now**. It may take a few minutes for the bootstrapping process to complete.
 
 
 ![Create new app page in Amplify console with the Initialize setup now button.](/images/gen2/account-setup/profile5.png)
@@ -319,5 +319,5 @@ During the first-time setup, `npx amplify sandbox` will ask you to sign in to th
 You have successfully completed the bootstrapping process and you can now return to the terminal to create a new Amplify sandbox environment:
 
 ```bash showLineNumbers={false}
-npx amplify sandbox --profile <value>
+npx ampx sandbox --profile <value>
 ```

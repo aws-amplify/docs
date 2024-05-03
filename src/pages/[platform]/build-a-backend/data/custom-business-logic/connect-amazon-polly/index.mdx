@@ -48,13 +48,13 @@ In this section, you'll learn how to integrate Amazon Polly into your applicatio
 
 ## Step 1 - Setup the project
 
-Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). 
+Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/).
 
 ## Step 2 - Install Polly Libraries
 We'll create a new API endpoint that'll use the the AWS SDK to call the Amazon Polly service. To install the Amazon Polly SDK, run the following command in your project's root folder:
 
-```bash
-npm install @aws-sdk/client-polly
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-sdk/client-polly
 ```
 
 ## Step 3 - Setup Storage
@@ -65,7 +65,7 @@ Create a file named `amplify/storage/resource.ts` and add the following content 
 ```ts title="amplify/storage/resource.ts"
 import { defineStorage } from '@aws-amplify/backend';
 
-export const storage = defineStorage(
+export const storage = defineStorage({
   name: 'predictions_gen2'
 });
 
@@ -73,59 +73,66 @@ export const storage = defineStorage(
 
 ## Step 4 - Configure IAM Roles
 
- To access Amazon Polly service, you need to configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file add Role policy shown below.
+ To access Amazon Polly service, you need to configure the proper IAM policy for Lambda to utilize the desired feature effectively. Update the `amplify/backend.ts` file with the following code to add the necessary permissions to a lambda's Role policy.
 
  ```ts title= "amplify/backend.ts"
-
-import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource';
-import { data, convertTextToSpeech } from './data/resource';
-import { Stack } from 'aws-cdk-lib';
-import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { storage } from './storage/resource';
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data, convertTextToSpeech } from "./data/resource";
+import { Stack } from "aws-cdk-lib";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { storage } from "./storage/resource";
 
 const backend = defineBackend({
   auth,
   data,
   storage,
-  convertTextToSpeech
+  convertTextToSpeech,
 });
 
-const dataStack = Stack.of(backend.data)
-
-backend.convertTextToSpeech.resources.lambda.addToRolePolicy(new PolicyStatement({
-  actions: ['polly:StartSpeechSynthesisTask'],
-  resources: ['*']
-}))
-
+backend.convertTextToSpeech.resources.lambda.addToRolePolicy(
+  new PolicyStatement({
+    actions: ["polly:StartSpeechSynthesisTask"],
+    resources: ["*"],
+  })
+);
 ```
-## Step 5 - Configure the function handler 
+## Step 5 - Configure the function handler
 
 Define the function handler by creating a new file, `amplify/data/convertTextToSpeech.ts`. This function converts text into speech using Amazon Polly and stores the synthesized speech as an MP3 file in an S3 bucket.
 
 ```ts title="amplify/data/convertTextToSpeech.ts"
-
 import { Schema } from "./resource";
-import { PollyClient, StartSpeechSynthesisTaskCommand } from '@aws-sdk/client-polly'
-import { env } from '$amplify/env/convertTextToSpeech'
+import {
+  PollyClient,
+  StartSpeechSynthesisTaskCommand,
+} from "@aws-sdk/client-polly";
+import { env } from "$amplify/env/convertTextToSpeech";
 
-export const handler: Schema["convertTextToSpeech"]["functionHandler"] = async (event) => {
-  const client = new PollyClient()
+export const handler: Schema["convertTextToSpeech"]["functionHandler"] = async (
+  event
+) => {
+  const client = new PollyClient();
   const task = new StartSpeechSynthesisTaskCommand({
-    OutputFormat: 'mp3',
-    SampleRate: '8000',
+    OutputFormat: "mp3",
+    SampleRate: "8000",
     Text: event.arguments.text,
-    TextType: 'text',
-    VoiceId: 'Amy',
-    OutputS3BucketName: env.predictions_gen2_BUCKET_NAME,
-    OutputS3KeyPrefix: 'public/'
-  })
-  const result = await client.send(task)
+    TextType: "text",
+    VoiceId: "Amy",
+    OutputS3BucketName: env.PREDICTIONS_GEN_2_BUCKET_NAME,
+    OutputS3KeyPrefix: "public/",
+  });
+  const result = await client.send(task);
 
-  return result.SynthesisTask?.OutputUri?.replace(
-    'https://s3.us-east-1.amazonaws.com/' + env.predictions_gen2_BUCKET_NAME + '/public/', "") ?? ""
-}
-
+  return (
+    result.SynthesisTask?.OutputUri?.replace(
+      "https://s3.us-east-1.amazonaws.com/" +
+        env.PREDICTIONS_GEN_2_BUCKET_NAME +
+        "/public/",
+      ""
+    ) ?? ""
+  );
+};
 ```
 
 ## Step 6 - Define the custom mutation and function
@@ -133,20 +140,31 @@ export const handler: Schema["convertTextToSpeech"]["functionHandler"] = async (
 In your `amplify/data/resource.ts` file, define the function using defineFunction and then reference the function with your mutation using a.handler.function() as a handler.
 
 ```ts title="amplify/data/resource.ts"
-import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
+import {
+  type ClientSchema,
+  a,
+  defineData,
+  defineFunction,
+} from "@aws-amplify/backend";
 
 export const convertTextToSpeech = defineFunction({
-  entry: './convertTextToSpeech.ts'
-})
+  entry: "./convertTextToSpeech.ts",
+});
 
 const schema = a.schema({
-  convertTextToSpeech: a.mutation()
+  Todo: a
+    .model({
+      content: a.string(),
+    })
+    .authorization([a.allow.public()]),
+  convertTextToSpeech: a
+    .mutation()
     .arguments({
-      text: a.string().required()
+      text: a.string().required(),
     })
     .returns(a.string().required())
-    .authorization(allow => [allow.publicApiKey()])
-    .handler(a.handler.function(convertTextToSpeech))
+    .authorization((allow) => [allow.publicApiKey()])
+    .handler(a.handler.function(convertTextToSpeech)),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -154,88 +172,99 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'apiKey',
+    defaultAuthorizationMode: "apiKey",
     // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },
   },
 });
-
-
 ```
+
+<Callout info>
+**NOTE:** At least one query is required for a schema to be valid. Otherwise, deployments will fail a schema error. The Amplify Data schema is auto-generated with a `Todo` model and corresponding queries under the hood. You can leave the `Todo` model in the schema until you add the first custom query to the schema in the next steps.
+</Callout>
+
+
 ## Step 7 - Update Storage permissions
 
 Customize your storage settings to manage access to various paths within your storage bucket. It's necessary to update the Storage resource to provide access to the `convertTextToSpeech` resource. Modify the file `amplify/storage/resource.ts` as shown below.
 
 ```ts title="amplify/storage/resource.ts"
-import { defineStorage } from "@aws-amplify/backend"
-import { convertTextToSpeech } from "../data/resource"
+import { defineStorage } from "@aws-amplify/backend";
+import { convertTextToSpeech } from "../data/resource";
 
 export const storage = defineStorage({
   name: "predictions_gen2",
-  access: allow => ({
-    '/public/*': [
-      allow.resource(convertTextToSpeech).to(['write']),
-      allow.guest.to(['read', 'write', 'get'])
-    ]
-  })
-})
+  access: (allow) => ({
+    "public/*": [
+      allow.resource(convertTextToSpeech).to(["write"]),
+      allow.guest.to(["read", "write"]),
+    ],
+  }),
+});
 ```
 
 ## Step 8 - Configure the frontend
 
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. 
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point.
 ``` ts title="main.tsx"
-import { Amplify } from 'aws-amplify'
-import amplifyconfig from '../amplifyconfiguration.json'
+import { Amplify } from "aws-amplify";
+import outputs from "../amplify_outputs.json";
 
-Amplify.configure(amplifyconfig)
-
+Amplify.configure(outputs);
 ```
 ### Invoke the API
 
 Example frontend code to create an audio buffer for playback using a text input.
 
 ```ts title="App.tsx"
-import './App.css'
-import { generateClient } from 'aws-amplify/api'
-import type { Schema } from '../amplify/data/resource'
-import { getUrl } from 'aws-amplify/storage'
-import { useState } from 'react'
+import "./App.css";
+import { generateClient } from "aws-amplify/api";
+import type { Schema } from "../amplify/data/resource";
+import { getUrl } from "aws-amplify/storage";
+import { useState } from "react";
 
-const client = generateClient<Schema>()
+const client = generateClient<Schema>();
+
+type PollyReturnType = Schema["convertTextToSpeech"]["returnType"];
 
 function App() {
-  const [src, setSrc] = useState("")
-  const [file, setFile] = useState("")
+  const [src, setSrc] = useState("");
+  const [file, setFile] = useState<PollyReturnType>("");
   return (
-    <>
-      <button onClick={async () => {
-        const { data } = await client.mutations.convertTextToSpeech({
-          text: "Hello"
-        })
+    <div className="flex flex-col">
+      <button
+        onClick={async () => {
+          const { data, errors } = await client.mutations.convertTextToSpeech({
+            text: "Hello World!",
+          });
 
-        setFile(data)
-      }}>Synth</button>
-      <button onClick={async () => {
-
-        const res = await getUrl({
-          key: file,
-          options: {
-            accessLevel: 'guest',
-            expiresIn: 60 * 60 * 24
+          if (!errors && data) {
+            setFile(data);
+          } else {
+            console.log(errors);
           }
-        })
+        }}
+      >
+        Synth
+      </button>
+      <button
+        onClick={async () => {
+          const res = await getUrl({
+            path: "public/" + file,
+          });
 
-        setSrc(res.url.toString())
-      }}>Fetch audio</button>
+          setSrc(res.url.toString());
+        }}
+      >
+        Fetch audio
+      </button>
       <a href={src}>Get audio file</a>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
-
+export default App;
 ```
 

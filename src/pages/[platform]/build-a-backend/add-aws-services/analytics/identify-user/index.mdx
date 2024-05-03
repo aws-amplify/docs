@@ -164,7 +164,7 @@ This call sends information about the current user (which could be unauthenticat
 
 You can provide `name`, `email` and `plan`, as well as location information with `AnalyticsUserProfile.Location`. You can also send additional custom attributes using `AnalyticsProperties`.
 
-If the user is signed in through [Amplify.Auth.signIn](/[platform]/build-a-backend/auth/enable-sign-up/#sign-in), then you can retrieve the current user's ID as shown below:
+If the user is signed in through [Amplify.Auth.signIn](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/), then you can retrieve the current user's ID as shown below:
 
 ```swift
 
@@ -253,7 +253,7 @@ This API sends information about the current user to Amazon Pinpoint.
 
 Additional information such as the user's name, email, location, and device can be included by specifying the `UserProfile`. Custom attributes can also be included by setting `UserProfile.customProperties`.
 
-If the user was signed in through [signIn](/[platform]/prev/build-a-backend/auth/enable-sign-up/) you can retrieve the current user's ID as shown below:
+If the user was signed in through [signIn](/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/) you can retrieve the current user's ID as shown below:
 
 ```js title="src/index.js"
 import { identifyUser } from 'aws-amplify/analytics';

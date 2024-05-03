@@ -4,6 +4,51 @@ There are three ways of getting data that was previously uploaded:
 
 You can download to in-memory buffer [Data](https://developer.apple.com/documentation/foundation/data) object with `Amplify.Storage.downloadData`:
 
+#### With StoragePath
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(path: .fromString("public/example/path"))
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+let data = try await downloadTask.value
+print("Completed: \(data)")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(path: .fromString("public/example/path"))
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
+```
+
+</Block>
+
+</BlockSwitcher>
+
+#### With Key (Deprecated)
 <BlockSwitcher>
 
 <Block name="Async/Await">
@@ -51,6 +96,69 @@ let resultSink = downloadTask
 
 You can download to a file [URL](https://developer.apple.com/documentation/foundation/url) with `Amplify.Storage.downloadFile`:
 
+#### With StoragePath
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let downloadToFileName = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
+
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileName,
+    options: nil
+)
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+try await downloadTask.value
+print("Completed")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let downloadToFileName = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
+
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileName,
+    options: nil
+)
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: {
+        print("Completed")
+    }
+```
+
+</Block>
+
+</BlockSwitcher>
+
+#### With Key (Deprecated)
 <BlockSwitcher>
 
 <Block name="Async/Await">
@@ -115,17 +223,42 @@ let resultSink = downloadTask
 ## Generate a download URL
 
 You can also retrieve a URL for the object in storage:
+<BlockSwitcher>
+<Block name="With StoragePath">
+```swift
+let url = try await Amplify.Storage.getURL(path: .fromString("public/example/path"))
+print("Completed: \(url)")
+```
+</Block>
 
+<Block name="With Key (Deprecated)">
 ```swift
 let url = try await Amplify.Storage.getURL(key: "ExampleKey")
 print("Completed: \(url)")
 ```
+</Block>
+</BlockSwitcher>
 
 When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
 `true` in `AWSStorageGetURLOptions`. If the file is inaccessible or does not exist, a `StorageError` is thrown.
 This allows you to check if an object exists during generating the presigned URL, which you can then use to download
 that object.
 
+<BlockSwitcher>
+<Block name="With StoragePath">
+```swift
+let url = try await Amplify.Storage.getURL(
+    path: .fromString("public/example/path"),
+    options: .init(
+        pluginOptions: AWSStorageGetURLOptions(
+            validateObjectExistence: true
+        )
+    )
+)
+```
+</Block>
+
+<Block name="With Key (Deprecated)">
 ```swift
 let url = try await Amplify.Storage.getURL(
     key: "ExampleKey",
@@ -136,7 +269,9 @@ let url = try await Amplify.Storage.getURL(
     )
 )
 ```
+</Block>
 
+</BlockSwitcher>
 ## Cancel, Pause, Resume
 
 Calls to `downloadData` or `downloadFile` return a reference to the task that is actually performing the download.

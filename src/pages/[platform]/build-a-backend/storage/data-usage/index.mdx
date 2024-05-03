@@ -3,7 +3,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Data usage policy',
   description: "Review the data types gathered by the Amplify library that Apple requires you to disclose in your app's data usage policy when submitting the app to the App Store.",
-  platforms: ['swift']
+  platforms: ['swift',
+              'flutter']
 };
 
 export const getStaticPaths = async () => {
@@ -18,6 +19,13 @@ export function getStaticProps(context) {
     }
   };
 }
+
+<InlineFilter filters={['flutter']}>
+<Callout warning>
+
+Storage for Gen 2 is not yet available for Flutter
+</Callout>
+</InlineFilter>
 
 
 Apple requires app developers to provide the data usage policy of the app when they submit their app to the App Store. See Apple's [User privacy and data use](https://developer.apple.com/app-store/user-privacy-and-data-use/) for more details. Amplify Library is used to interact with AWS resources under the developer’s ownership and management. The library cannot predict the usage of its APIs and it is up to the developer to provide the privacy manifest that accurately reflects the data collected by the app. Below are the different categories identified by Apple and the corresponding data type used by the Amplify Library.
@@ -124,4 +132,4 @@ Some Amplify categories such as Analytics, Auth, and DataStore persist data to t
 
 Amplify stores Auth information in the local [system keychain](https://developer.apple.com/documentation/security/keychain_services), which does not guarantee any particular behavior around whether data is removed when an app is uninstalled.
 
-Deciding on when to clear this auth information is not something that the SDK can do in a generic way, so App developers should decide when to clear the data by signing out. One strategy for accomplishing this would be to use [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) to detect whether or not the app is launching for the first time, and invoking [`Auth.signOut()`](/[platform]/build-a-backend/auth/sign-out/) if the app has not been launched before.
+Deciding on when to clear this auth information is not something that the SDK can do in a generic way, so App developers should decide when to clear the data by signing out. One strategy for accomplishing this would be to use [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) to detect whether or not the app is launching for the first time, and invoking [`Auth.signOut()`](/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/) if the app has not been launched before.

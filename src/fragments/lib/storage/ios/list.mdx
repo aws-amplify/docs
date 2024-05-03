@@ -1,7 +1,50 @@
 You can list all of the objects uploaded under a given prefix by setting the `pageSize`. If the `pageSize` is set lower than the total file size available, A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the `nextToken` from the previous call response.
 
-This will list all public files:
+#### With StoragePath
+<BlockSwitcher>
 
+<Block name="Async/Await">
+
+```swift
+let options = StorageListRequest.Options(pageSize: 1000)
+let listResult = try await Amplify.Storage.list(
+    path: .fromString("public/example/path"), 
+    options: options
+)
+listResult.items.forEach { item in
+    print("Path: \(item.path)")
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    let options = StorageListRequest.Options(pageSize: 1000)
+    try await Amplify.Storage.list(
+        path: .fromString("public/example/path"), 
+        options: options
+    )
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { listResult in
+    print("Completed")
+    listResult.items.forEach { item in
+        print("Path: \(item.path)")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+#### With Key (Deprecated)
 <BlockSwitcher>
 
 <Block name="Async/Await">
@@ -39,7 +82,7 @@ receiveValue: { listResult in
 
 </BlockSwitcher>
 
-You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID`:
+You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID` (This behavior is deprecated):
 
 <BlockSwitcher>
 
@@ -49,7 +92,7 @@ You can also list private or protected files by passing options. For example, to
 let options = StorageListRequest.Options(accessLevel: .protected, targetIdentityId: "otherUserID", pageSize: 1000)
 let listResult = try await Amplify.Storage.list(options: options)
 listResult.items.forEach { item in
-    print("Key: \(item.key)")
+    print("Path: \(item.path)")
 }
 ```
 
@@ -69,7 +112,7 @@ let sink = Amplify.Publisher.create {
 receiveValue: { listResult in
     print("Completed")
     listResult.items.forEach { item in
-        print("Key: \(item.key)")
+        print("Path: \(item.path)")
     }
 }
 ```
@@ -78,7 +121,7 @@ receiveValue: { listResult in
 
 </BlockSwitcher>
 
-If you like limit the response to keys that begin with the specified path provide the path options:
+If you like limit the response to keys that begin with the specified path provide the path options (This behavior is deprecated):
 
 <BlockSwitcher>
 

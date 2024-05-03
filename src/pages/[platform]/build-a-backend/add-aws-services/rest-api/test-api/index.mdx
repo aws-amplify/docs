@@ -4,21 +4,18 @@ export const meta = {
   title: 'Test the REST API',
   description: 'Learn how you can test the REST API from the terminal, with Amplify Mock, or with the API Gateway console.',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'swift',
     'vue'
   ],
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -42,13 +39,13 @@ If unauthenticated guest users have access to your REST API you can test it from
 ### GET method example
 
 ```bash title="Terminal" showLineNumbers={false} 
-curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
+curl <your-api-endpoint>/<your-api-stage>/items
 ```
 
 ### POST method example
 
 ```bash title="Terminal" showLineNumbers={false} 
-curl -H "Content-Type: application/json" -d '{"name":"item-1"}' https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
+curl -H "Content-Type: application/json" -d '{"name":"item-1"}' <your-api-endpoint>/<your-api-stage>/items
 ```
 
 </Block>
@@ -57,13 +54,13 @@ curl -H "Content-Type: application/json" -d '{"name":"item-1"}' https://a5b4c3d2
 ### GET method example
 
 ```bash title="Terminal" showLineNumbers={false} 
-curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
+curl <your-api-endpoint>/<your-api-stage>/items
 ```
 
 ### POST method example
 
 ```bash title="Terminal" showLineNumbers={false} 
-curl -H "Content-Type: application/json" -d {\"name\":\"item-1\"} https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
+curl -H "Content-Type: application/json" -d {\"name\":\"item-1\"} <your-api-endpoint>/<your-api-stage>/items
 ```
 
 </Block>
@@ -73,7 +70,7 @@ curl -H "Content-Type: application/json" -d {\"name\":\"item-1\"} https://a5b4c3
 
 Let's test your new REST API using the route below with HTTP Method `GET` and path `/items?limit=10` which includes a `limit` query string parameter.
 
-```console
+```console title="Terminal" showLineNumbers={false}
 GET /items?limit=10
 ```
 
@@ -81,7 +78,7 @@ GET /items?limit=10
 2. Choose the `myRestApi` REST API  
 3. In the Resources pane, choose the method you want to test. Select `GET` right under `/items`.  
 
-  ```console  
+  ```console title="Terminal" showLineNumbers={false}
   /                        
   |_ /items               Main resource. Eg: /items  
     GET                   Methods  
@@ -92,14 +89,12 @@ GET /items?limit=10
       |_ /{proxy+}         Proxy resource. Eg: /items/, /items/id, items/object/{id}  
       ANY                  Includes methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT  
       OPTIONS              Allow pre-flight requests in CORS by browser  
-In the Method Execution pane, select TEST. Choose the GET method and add limit=10 to the query string {items} field.
-Choose Test to run the test for GET /items?limit=10. The following information will be displayed: request, status, latency, response body, response headers and logs.
-```
+  ```
 4. In the Method Execution pane, select **TEST**. Choose the `GET` method and add `limit=10` to the query string `{items}` field.
 5. Choose **Test** to run the test for `GET /items?limit=10`. The following information will be displayed: request, status, latency, response body, response headers and logs.
 
 
-```bash /* cSpell:disable */
+```console title="Terminal" showLineNumbers={false} /* cSpell:disable */
 Request
 /items
 Latency

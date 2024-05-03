@@ -28,27 +28,33 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+<InlineFilter filters={['flutter']}>
+<Callout warning>
 
-## Storage Image UI Component
+Storage for Gen 2 is not yet available for Flutter
+</Callout>
+</InlineFilter>
 
-You can easily display images on your app by using the cloud-connected Storage Image UI component. This component fetches images securely from your storage resource and displays it on the web page.
+<InlineFilter filters={["react", "javascript", "nextjs"]}>
 
-```bash
-npm install @aws-amplify/ui-react-storage aws-amplify
+## Storage Image React UI Component
+
+You can easily display images in your app by using the cloud-connected Storage Image React UI component. This component fetches images securely from your storage resource and displays it on the web page.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/ui-react-storage aws-amplify
 ```
 ```tsx
 import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 export const DefaultStorageImageExample = () => {
-  return <StorageImage alt="cat" path="guest/cat.jpg" />;
-// or <StorageImage alt="cat" path={() => "guest/cat.jpg"} />
+  return <StorageImage alt="cat" path="your-path/cat.jpg" />;
 };
 ```
 
-</InlineFilter>
-
 Learn more about how you can further customize the UI component by referring to the [Storage Image documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storageimage).
+
+</InlineFilter>
 
 To further customize your in-app experience, you can use the `getUrl` or `downloadData` API from the Amplify Library for Storage.
 
@@ -58,16 +64,16 @@ To further customize your in-app experience, you can use the `getUrl` or `downlo
 
 </Callout>
 
-## API to get or download file from URL
+## Get or download file from a URL
 
-Get a presigned URL of a stored file and expiration of URL
+With the `getUrl` API, you can get a presigned URL which is valid for 900 seconds or 15 minutes by default. You can use this URL to create a download link for users to click on. The `expiresAt` property is a `Date` object that represents the time at which the URL will expire.
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ```typescript
 import { getUrl } from 'aws-amplify/storage';
 
-const getUrlResult = await getUrl({
+const linkToStorageFile = await getUrl({
   path: "album/2024/1.jpg",
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
   options: {
@@ -76,23 +82,21 @@ const getUrlResult = await getUrl({
     useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
   },
 });
-console.log('signed URL: ', getUrlResult.url);
-console.log('URL expires at: ', getUrlResult.expiresAt);
+console.log('signed URL: ', linkToStorageFile.url);
+console.log('URL expires at: ', linkToStorageFile.expiresAt);
 ```
-
-`getUrl` returns a signed URL in the `url` property of the result. You can use this to create a download link for users to click on. The `expiresAt` property is a `Date` object that represents the time at which the URL will expire.
 
 Inside your template or JSX code, you can use the `url` property to create a link to the file:
 
 ```tsx
-<a href={signedURL.url.toString()} target="_blank" rel="noreferrer">
+<a href={linkToStorageFile.url.toString()} target="_blank" rel="noreferrer">
   {fileName} 
 </a>
 ```
 
 <Callout>
 
-This function does not check if the file exists by default. As result, the signed URL may fail if the file to be download does not exist.
+This function does not check if the file exists by default. As result, the signed URL may fail if the file to be downloaded does not exist.
   
 </Callout>
 
@@ -161,7 +165,7 @@ let url = try await Amplify.Storage.getURL(path: .fromString("public/example/pat
 print("Completed: \(url)")
 ```
 
-### Check existence of a file
+### Check the existence of a file
 
 When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
 `true` in `AWSStorageGetURLOptions`. If the file is inaccessible or does not exist, a `StorageError` is thrown.
@@ -184,7 +188,6 @@ let url = try await Amplify.Storage.getURL(
 Option | Type | Description |
 | -- | -- | ----------- |
 | expires | Integer | Number of seconds before the URL expires |
-| pluginOptions | - | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
 
 </InlineFilter>
 
@@ -210,11 +213,11 @@ Future<void> getDownloadUrl() async {
 
 </InlineFilter>
 
-## API to download to file
+## Download to a file
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
-Use the `downloadData` API to download the file locally on the client.
+Use the `downloadData` API to download the file locally.
 
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
@@ -311,7 +314,6 @@ You can download to a file [URL](https://developer.apple.com/documentation/found
 <BlockSwitcher>
 
 <Block name="Async/Await">
-
 ```swift
 let downloadToFileName = FileManager.default.urls(
     for: .documentDirectory,
@@ -331,11 +333,8 @@ Task {
 try await downloadTask.value
 print("Completed")
 ```
-
 </Block>
-
 <Block name="Combine">
-
 ```swift
 let downloadToFileName = FileManager.default.urls(
     for: .documentDirectory,
@@ -364,21 +363,8 @@ let resultSink = downloadTask
         print("Completed")
     }
 ```
-
 </Block>
-
 </BlockSwitcher>
-
-</InlineFilter>
-
-<InlineFilter filters={["swift"]}>
-
-### More download options
-
-Option | Description |
-| -- | ----------- |
-| pluginOptions | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
-
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -388,8 +374,7 @@ You can download a file to a local directory using `Amplify.Storage.downloadFile
 You can use the [path_provider](https://pub.dev/packages/path_provider) package to create a local file in the user's documents directory where you can store the downloaded data.
 
 <BlockSwitcher>
-
-<Block name = "Mobile & Desktop">
+<Block name="Mobile & Desktop">
 
 ```dart
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -412,7 +397,7 @@ Future<void> downloadFile() async {
 
 </Block>
 
-<Block name = "Web">
+<Block name="Web">
 
 On Web, the download process will be handled by the browser. You can provide the downloaded file name by specifying the `path` parameter of `AWSFile.fromPath`. E.g. this instructs the browser to download the file `download.txt`.
 
@@ -447,8 +432,8 @@ You can get the value of file in any of the three formats: `blob`, `json`, or `t
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult = await downloadData({ 
-    path: "/album/2024/1.jpg" 
+  const downloadResult = await downloadData({
+    path: "/album/2024/1.jpg"
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
@@ -517,7 +502,7 @@ let resultSink = downloadTask
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
-// Download a file from s3 bucket
+// Download a file from S3 bucket
 const { body, eTag } = await downloadData(
   {
     path: "/album/2024/1.jpg",
@@ -855,13 +840,7 @@ Option | Type | Description | Reference Links |
 | bytesRange |  \{ start: number; end:number; \} | bytes range parameter to download a part of the file. |  |
 | onProgress | callback | Callback function tracking the upload/download progress. |  |
 
-</InlineFilter>
-
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
-
 ## Frequently Asked Questions
-
-Users can run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please vote for what you need, to help the team prioritize.
 
 - `downloadData` is cached; if you have recently modified a file you may not get the latest version right away. You can pass in `cacheControl: 'no-cache'` to get the latest version.
 - `downloadData` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).

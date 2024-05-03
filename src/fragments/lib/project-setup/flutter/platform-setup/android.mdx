@@ -1,19 +1,27 @@
-Amplify requires a minimum of API level 24 (Android 7.0), Gradle 7 and Kotlin > 1.7 when targeting Android.
+Amplify requires a minimum of API level 24 (Android 7.0), Gradle 7 and Kotlin > 1.9 when targeting Android.
 
-From your project root, navigate to the `android/` directory and open `build.gradle` in the text editor of your choice. Update the Gradle plugin version to 7.4.2 or higher:
+_If your Flutter app was generated with Flutter 3.16 or lower, please follow the migration guide [here](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply)._
+
+From your project root, navigate to the `android/` directory and open `settings.gradle` in the text editor of your choice. Update the Gradle plugin version to 7.4.2 or higher:
 
 ```diff
-    dependencies {
--       classpath 'com.android.tools.build:gradle:7.2.0'
-+       classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    plugins {
+        id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+-       id "com.android.application" version "7.3.0" apply false
++       id "com.android.application" version "7.4.2" apply false
+        id "org.jetbrains.kotlin.android" version "1.9.10" apply false
     }
 ```
 
-If your Kotlin Gradle plugin version is below 1.7, update `android/build.gradle`:
+Go to the `android/` directory and open `settings.gradle`. Update the Kotlin plugin version to 1.9.10 or higher:
 
-```
-ext.kotlin_version = '1.7.10'
+```diff
+    plugins {
+        id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+        id "com.android.application" version "7.3.0" apply false
+-       id "org.jetbrains.kotlin.android" version "1.7.10" apply false
++       id "org.jetbrains.kotlin.android" version "1.9.10" apply false
+    }
 ```
 
 Then, open `android/gradle/wrapper/gradle-wrapper.properties`. Update the Gradle `distributionUrl` to a version between 7.3 and 7.6.1 (see the [Flutter docs](https://docs.flutter.dev/release/breaking-changes/android-java-gradle-migration-guide) for more info).
