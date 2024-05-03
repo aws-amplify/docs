@@ -53,7 +53,7 @@ For a full example, please follow the [mobile support walkthrough](/swift/start/
 
 <Callout>
 
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
 As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
 For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
@@ -134,7 +134,7 @@ In this section, we will initialize and setup the Amplify library. The Logger ca
 
 <BlockSwitcher>
   <Block name="With Configuration File">
-    In your mobile app, create and add a `amplifyconfiguration_logging.json` to the same location as the `amplifyconfiguration.json` file.
+    In your mobile app, create and add a `amplifyconfiguration_logging.json` to the same location as the `amplify_outputs.json` file.
 
 The `<log-group-name>` and `<region>` is the value you specified in the CDK construct as part of provisioning your backend resources.  These values can also be found at the end of the output logs when deploying the sample CDK construct.  The configuration file is the data source for the logging plugin to know where, when and what logs to sends.  The example below configures the logging plugin to automatically send all logs at log level `ERROR` at 60 seconds interval and store logs locally up to 1MB.
 
@@ -156,12 +156,24 @@ The `<log-group-name>` and `<region>` is the value you specified in the CDK cons
 To use the Amplify Logger and Amplify Auth categories in your app, you need to create and configure their corresponding plugins by calling the `Amplify.addPlugin()` and `Amplify.configure()` methods.
 
 Add the following imports to the top of your main `Application` file:
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
 ```java
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin;
 ```
 
@@ -182,7 +194,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSCloudWatchLoggingPlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSCloudWatchLoggingPlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -196,8 +208,9 @@ public class MyAmplifyApp extends Application {
 <Block name="Kotlin">
 
 ```kotlin
-import com.amplifyframework.core.Amplify
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin
 ```
 
@@ -219,7 +232,7 @@ class MyAmplifyApp : Application() {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSCloudWatchLoggingPlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSCloudWatchLoggingPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
@@ -234,6 +247,7 @@ class MyAmplifyApp : Application() {
 
 ```java
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin;
 ```
@@ -255,7 +269,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSCloudWatchLoggingPlugin plugins
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.addPlugin(new AWSCloudWatchLoggingPlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -271,7 +285,7 @@ public class MyAmplifyApp extends Application {
 
 {' '}
 <Block name="With Code">
- 
+
 To use the Amplify Logger and Amplify Auth categories in your app, you need to create and configure their corresponding plugins by calling the `Amplify.addPlugin()` and `Amplify.configure()` methods.
 
 Add the following imports to the top of your main `Application` file:
@@ -281,6 +295,7 @@ Add the following imports to the top of your main `Application` file:
 ```java
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin;
 ```
 Add the following code to its initializer. If there is none, you can create a default.  The `<log-group-name>` and `<region>` are values you specified in the CDK construct as part of provisioning your backend resources.  These values can also be found at the end of the output logs when deploying the sample CDK construct.
@@ -304,7 +319,7 @@ public class MyAmplifyApp extends Application {
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>,<region>,1,60);
             Amplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -319,6 +334,7 @@ public class MyAmplifyApp extends Application {
 
 ```kotlin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin
 ```
@@ -343,7 +359,7 @@ class MyAmplifyApp : Application() {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             val config = AWSCloudWatchLoggingPluginConfiguration(logGroupName = <log-group-name>, region = <region>, localStoreMaxSizeInMB = 1, flushIntervalInSeconds = 60)
             Amplify.addPlugin(AWSCloudWatchLoggingPlugin(config))
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
@@ -358,6 +374,7 @@ class MyAmplifyApp : Application() {
 
 ```java
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin;
 ```
@@ -381,7 +398,7 @@ public class MyAmplifyApp extends Application {
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>,<region>,1,60);
             RxAmplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -404,7 +421,7 @@ public class MyAmplifyApp extends Application {
 
 <BlockSwitcher>
   <Block name="With Configuration File">
-In your mobile app, create and add a `amplifyconfiguration_logging.json` to the same location as the `amplifyconfiguration.json` file.  Ensure that the file is included in the `Copy Bundle Resources` build phase.
+In your mobile app, create and add a `amplifyconfiguration_logging.json` to the same location as the `amplify_outputs.json` file.  Ensure that the file is included in the `Copy Bundle Resources` build phase.
 
 The `<log-group-name>` and `<region>` is the value you specified in the CDK construct as part of provisioning your backend resources.  These values can also be found at the end of the output logs when deploying the sample CDK construct.  The configuration file is the data source for the logging plugin to know where, when and what logs to sends.  The example below configures the logging plugin to automatically send all logs at log level `ERROR` at 60 seconds interval and store logs locally up to 1MB.
 
@@ -440,7 +457,7 @@ init() {
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSCloudWatchLoggingPlugin())
-        try Amplify.configure()
+        try Amplify.configure(with: .amplifyOutputs)
     } catch {
         assert(false, "Error initializing Amplify: \(error)")
     }
@@ -462,7 +479,7 @@ import AWSCognitoAuthPlugin
 import AWSCloudWatchLoggingPlugin
 ```
 
-Add the following code to its initializer. If there is none, you can create a default `init`.  The `<log-group-name>` and `<region>` are values you specified in the CDK construct as part of provisioning your backend resources.  These values can also be found at the end of the output logs when deploying the sample CDK construct. 
+Add the following code to its initializer. If there is none, you can create a default `init`.  The `<log-group-name>` and `<region>` are values you specified in the CDK construct as part of provisioning your backend resources.  These values can also be found at the end of the output logs when deploying the sample CDK construct.
 The example below configures the logging plugin to automatically send all logs at log level `ERROR` at 60 seconds interval and store logs locally up to 1MB.
 
 ```swift
@@ -471,7 +488,7 @@ init() {
         let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "<log-group-name>", region: "<region>", localStoreMaxSizeInMB: 1, flushIntervalInSeconds: 60)
         let loggingPlugin = AWSCloudWatchLoggingPlugin(loggingPluginConfiguration: loggingConfiguration)
         try Amplify.add(plugin: loggingPlugin)
-        try Amplify.configure()
+        try Amplify.configure(with: .amplifyOutputs)
     } catch {
         assert(false, "Error initializing Amplify: \(error)")
     }

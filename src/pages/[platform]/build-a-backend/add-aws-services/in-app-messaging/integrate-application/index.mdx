@@ -122,9 +122,9 @@ import {
 } from 'aws-amplify/in-app-messaging';
 import { withInAppMessaging } from '@aws-amplify/ui-react-native';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 initializeInAppMessaging();
 
 // To display your in-app message, make sure this event name matches one you created
@@ -179,9 +179,9 @@ import { Button, View } from '@aws-amplify/ui-react';
 import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
 import { record } from 'aws-amplify/analytics';
 import '@aws-amplify/ui-react/styles.css';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 initializeInAppMessaging();
 
 // To display your in-app message, make sure this event name matches one you created

@@ -53,6 +53,10 @@ export function getStaticProps() {
 
 const Gen2Overview = () => {
   const currentPlatform = useCurrentPlatform();
+  const isMobilePlatform = ['swift', 'android', 'flutter'].includes(
+    currentPlatform
+  );
+  const isFlutter = currentPlatform == 'flutter';
 
   return (
     <Flex className="home-content">
@@ -60,12 +64,29 @@ const Gen2Overview = () => {
         <Heading level={1} className="home-intro__heading">
           Amplify Documentation for {PLATFORM_DISPLAY_NAMES[currentPlatform]}
         </Heading>
-        <Text className="home-intro__text">
-          AWS Amplify is everything frontend developers need to develop and
-          deploy cloud-powered fullstack applications without hassle. Easily
-          connect your frontend to the cloud for data modeling, authentication,
-          storage, serverless functions, SSR app deployment, and more.
-        </Text>
+        {isFlutter ? (
+          <Text className="home-intro__text">
+            AWS Amplify is everything Flutter developers need to develop
+            cloud-powered fullstack applications without hassle. Easily connect
+            your Flutter applications to the cloud for data modeling,
+            authentication, storage, serverless functions, and more.
+          </Text>
+        ) : isMobilePlatform ? (
+          <Text className="home-intro__text">
+            AWS Amplify is everything mobile developers need to develop
+            cloud-powered fullstack applications without hassle. Easily connect
+            your cross-platform applications to the cloud for data modeling,
+            authentication, storage, serverless functions, and more.
+          </Text>
+        ) : (
+          <Text className="home-intro__text">
+            AWS Amplify is everything frontend developers need to develop and
+            deploy cloud-powered fullstack applications without hassle. Easily
+            connect your frontend to the cloud for data modeling,
+            authentication, storage, serverless functions, SSR app deployment,
+            and more.
+          </Text>
+        )}
         <Flex className="home-cta">
           <GetStartedPopover
             platform={currentPlatform}
@@ -102,17 +123,31 @@ const Gen2Overview = () => {
       <Flex className="home-section">
         <Heading level={2}>Features</Heading>
         <Columns columns={3}>
-          <Card variation="outlined">
-            <Flex direction="column">
-              <Heading level={3} fontSize="medium">
-                Code-first DX
-              </Heading>
-              <Text>
-                The fullstack TypeScript developer experience lets you focus on
-                your app code instead of infrastructure.
-              </Text>
-            </Flex>
-          </Card>
+          {isMobilePlatform ? (
+            <Card variation="outlined">
+              <Flex direction="column">
+                <Heading level={3} fontSize="medium">
+                  Code-first DX
+                </Heading>
+                <Text>
+                  The new code-first developer experience lets you define your
+                  infrastructure with TypeScript.
+                </Text>
+              </Flex>
+            </Card>
+          ) : (
+            <Card variation="outlined">
+              <Flex direction="column">
+                <Heading level={3} fontSize="medium">
+                  Code-first DX
+                </Heading>
+                <Text>
+                  The fullstack TypeScript developer experience lets you focus
+                  on your app code instead of infrastructure.
+                </Text>
+              </Flex>
+            </Card>
+          )}
           <Card variation="outlined">
             <Flex direction="column">
               <Heading level={3} fontSize="medium">
@@ -139,47 +174,66 @@ const Gen2Overview = () => {
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Develop</Heading>
-        <video
-          src="/videos/typed-api.mp4"
-          style={{
-            width: '100%',
-            borderRadius: 'var(--amplify-radii-large)',
-            marginBottom: 'var(--amplify-space-small)',
-            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
-          }}
-          autoPlay
-          muted
-          loop
-          playsInline={true}
-        />
+        {!isMobilePlatform && (
+          <video
+            src="/videos/typed-api.mp4"
+            style={{
+              width: '100%',
+              borderRadius: 'var(--amplify-radii-large)',
+              marginBottom: 'var(--amplify-space-small)',
+              boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+            }}
+            autoPlay
+            muted
+            loop
+            playsInline={true}
+          />
+        )}
 
         <Columns columns={2} as="ul">
-          <FeatureItem
-            linkText="TypeScript-first fullstack experience"
-            href={{
-              pathname: '/[platform]/how-amplify-works/concepts',
-              hash: 'build-fullstack-apps-with-typescript',
-              query: {
-                platform: currentPlatform
-              }
-            }}
-          >
-            Write TypeScript across your app&pos;s frontend and backend. Get
-            schema validation, dot completion, and end-to-end types while you
-            code.
-          </FeatureItem>
-          <FeatureItem
-            linkText="Real-time data for modern apps"
-            href={{
-              pathname: '/[platform]/build-a-backend/data/set-up-data/',
-              query: {
-                platform: currentPlatform
-              }
-            }}
-          >
-            Sync frontend state to real-time backend updates. Just write
-            TypeScript without thinking about WebSockets.
-          </FeatureItem>
+          {!isMobilePlatform && (
+            <FeatureItem
+              linkText="TypeScript-first fullstack experience"
+              href={{
+                pathname: '/[platform]/how-amplify-works/concepts',
+                hash: 'build-fullstack-apps-with-typescript',
+                query: {
+                  platform: currentPlatform
+                }
+              }}
+            >
+              Write TypeScript across your app&apos;s frontend and backend. Get
+              schema validation, dot completion, and end-to-end types while you
+              code.
+            </FeatureItem>
+          )}
+          {isMobilePlatform ? (
+            <FeatureItem
+              linkText="Generate and use your data without hassle"
+              href={{
+                pathname: '/[platform]/build-a-backend/data/set-up-data/',
+                query: {
+                  platform: currentPlatform
+                }
+              }}
+            >
+              Use TypeScript to define your data and let us handle the model and
+              configuration file generations.
+            </FeatureItem>
+          ) : (
+            <FeatureItem
+              linkText="Real-time data for modern apps"
+              href={{
+                pathname: '/[platform]/build-a-backend/data/set-up-data/',
+                query: {
+                  platform: currentPlatform
+                }
+              }}
+            >
+              Sync frontend state to real-time backend updates. Just write
+              TypeScript without thinking about WebSockets.
+            </FeatureItem>
+          )}
           <FeatureItem
             linkText="Authn and authz for secure apps"
             href={{
@@ -192,18 +246,20 @@ const Gen2Overview = () => {
             Choose the auth strategy (such as passwords, social, email links)
             and control data access based on users and groups.
           </FeatureItem>
-          <FeatureItem
-            linkText="Auto-generate CRUD forms wired to data"
-            href={{
-              pathname: '/[platform]/build-ui/',
-              query: {
-                platform: currentPlatform
-              }
-            }}
-          >
-            Map CRUD forms to your data model with form-level validations and
-            error states built in.
-          </FeatureItem>
+          {!isMobilePlatform && (
+            <FeatureItem
+              linkText="Auto-generate CRUD forms wired to data"
+              href={{
+                pathname: '/[platform]/build-ui/',
+                query: {
+                  platform: currentPlatform
+                }
+              }}
+            >
+              Map CRUD forms to your data model with form-level validations and
+              error states built in.
+            </FeatureItem>
+          )}
         </Columns>
       </Flex>
 
@@ -222,18 +278,20 @@ const Gen2Overview = () => {
         />
 
         <FeatureList heading="Deploy" level={2}>
-          <FeatureItem
-            linkText="SSR/SSG/ISR hosting support"
-            href={{
-              pathname: '/[platform]/deploy-and-host/hosting/',
-              query: {
-                platform: currentPlatform
-              }
-            }}
-          >
-            Deploy Next.js, Nuxt, React, Vue.js, Angular (and more) apps by
-            simply connecting your Git repository.
-          </FeatureItem>
+          {!isMobilePlatform && (
+            <FeatureItem
+              linkText="SSR/SSG/ISR hosting support"
+              href={{
+                pathname: '/[platform]/deploy-and-host/hosting/',
+                query: {
+                  platform: currentPlatform
+                }
+              }}
+            >
+              Deploy Next.js, Nuxt, React, Vue.js, Angular (and more) apps by
+              simply connecting your Git repository.
+            </FeatureItem>
+          )}
           <FeatureItem
             linkText="Faster iterations with per-developer sandboxes"
             href={{

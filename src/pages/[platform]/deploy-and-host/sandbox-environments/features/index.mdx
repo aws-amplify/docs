@@ -118,7 +118,7 @@ export const auth = defineAuth({
 
 The `secret()` function does NOT retrieve the value of the secret. It places a reference to the secret value in the backend definition. The secret value is only resolved during deployment of your backend.
 
-The `secret()` function can only be used in specific places in your backend definition such as [configuring auth providers](/[platform]/build-a-backend/auth/add-social-provider/#configure-social-sign-in-backend) and [granting function secret access](/[platform]/build-a-backend/functions/#secret-access).
+The `secret()` function can only be used in specific places in your backend definition such as [configuring auth providers](/[platform]/build-a-backend/auth/concepts/external-identity-providers) and [function secrets](/[platform]/build-a-backend/functions/environment-variables-and-secrets/#accessing-environment-variables).
 
 <Callout info>
 
@@ -219,12 +219,12 @@ Alternatively, if you want to generate the config for a branch environment to te
 For Web and React Native, generating the config with the default format and output directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate config --app-id <app-id> --branch main
+npx ampx generate outputs --app-id <app-id> --branch main
 ```
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate config --app-id <app-id> --branch main --format dart --out-dir lib
+npx ampx generate outputs --app-id <app-id> --branch main --format dart --out-dir lib
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -234,13 +234,13 @@ npx ampx generate config --app-id <app-id> --branch main --format dart --out-dir
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate config --app-id <app-id> --branch main --format json-mobile --out-dir app/src/main/res/raw
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
 ```
 </InlineFilter>
 <InlineFilter filters={['swift']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate config --app-id <app-id> --format json-mobile
+npx ampx generate outputs --app-id <app-id> --format json-mobile
 ```
 
 Once the sandbox environment is running, it will generate the backend outputs file for your frontend application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.

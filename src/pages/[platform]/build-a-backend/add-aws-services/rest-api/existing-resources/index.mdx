@@ -30,8 +30,8 @@ Existing Amazon API Gateway resources can be used with the Amplify Libraries by 
 
 ```ts
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
-Amplify.configure(amplifyconfig):
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs):
 
 const existingConfig = Amplify.getConfig();
 

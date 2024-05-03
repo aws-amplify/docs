@@ -31,7 +31,7 @@ To setup and configure your application with REST API or HTTP API to make reques
 ## Set up REST API with Lambda Function
 
 Create a new directory and a resource file, `amplify/functions/api-function/resource.ts`. Then, define the function with `defineFunction`:
-  
+
 ```ts title="amplify/functions/api-function/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
 
@@ -170,7 +170,7 @@ backend.addOutput({
 ## Set up HTTP API with Lambda Function
 
 Create a new directory and a resource file, `amplify/functions/api-function/resource.ts`. Then, define the function with `defineFunction`:
-  
+
 ```ts title="amplify/functions/api-function/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
 
@@ -324,7 +324,7 @@ backend.addOutput({
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
 
-```bash title="Terminal" showLineNumbers={false} 
+```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify
 ```
 </InlineFilter>
@@ -343,7 +343,7 @@ Use the package manager of your choice to install the amplify JS library. For ex
 
 </Accordion>
 
-```bash title="Terminal" showLineNumbers={false} 
+```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify @aws-amplify/react-native
 ```
 
@@ -359,9 +359,9 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
@@ -375,9 +375,9 @@ Amplify.configure({
 <InlineFilter filters={["nextjs"]}>
 ```tsx title="pages/index.tsx"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
