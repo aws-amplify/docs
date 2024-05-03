@@ -4,21 +4,18 @@ export const meta = {
   title: 'Update data',
   description: 'Using Post, Put, etc. in Amplify',
   platforms: [
-    'javascript',
-    'react-native',
-    'flutter',
-    'swift',
-    'android',
     'angular',
+    'javascript',
     'nextjs',
     'react',
+    'react-native',
     'vue'
   ],
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -33,9 +30,7 @@ export function getStaticProps(context) {
 
 To create or update a item via the API endpoint:
 
-<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
-
-```javascript
+```ts
 import { put } from 'aws-amplify/api';
 
 async function updateItems() {
@@ -55,145 +50,3 @@ async function updateItems() {
   }
 }
 ```
-</InlineFilter>
-
-<InlineFilter filters={['swift']}>
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func putItem() async {
-    let updatedMessage = #"{"message": "my updated Item"}"#
-    let request = RESTRequest(path: "items", body: updatedMessage.data(using: .utf8))
-    do {
-        let data = try await Amplify.API.put(request: request)
-        let str = String(decoding: data, as: UTF8.self)
-        print("Success: \(str)")
-    } catch let error as APIError {
-        print("Failed due to API error: ", error)
-    } catch {
-        print("Unexpected error: \(error)")
-    }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func putItem() -> AnyCancellable {
-    let updatedMessage = #"{"message": "my updated Item"}"#
-    let request = RESTRequest(path: "items", body: updatedMessage.data(using: .utf8))
-    let sink = Amplify.Publisher.create {
-        try await Amplify.API.put(request: request)
-    }
-    .sink {
-        if case let .failure(apiError) = $0 {
-            print("Failed", apiError)
-        }
-    }
-    receiveValue: { data in
-        let str = String(decoding: data, as: UTF8.self)
-        print("Success \(str)")
-    }
-    return sink
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-</InlineFilter>
-
-<InlineFilter filters={['android']}>
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-RestOptions options = RestOptions.builder()
-    .addPath("items/1")
-    .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
-    .build();
-
-Amplify.API.put(options,
-    response -> Log.i("MyAmplifyApp", "PUT succeeded: " + response),
-    error -> Log.e("MyAmplifyApp", "PUT failed.", error)
-);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-val request = RestOptions.builder()
-    .addPath("items/1")
-    .addBody("{\"name\":\"Mow the lawn\"}".toByteArray())
-    .build()
-
-Amplify.API.put(request,
-    { Log.i("MyAmplifyApp", "PUT succeeded: $it") },
-    { Log.e("MyAmplifyApp", "PUT failed", it) }
-)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-val request = RestOptions.builder()
-    .addPath("items/1")
-    .addBody(JSONObject()
-        .put("name", "Mow the lawn")
-        .toString()
-        .toByteArray())
-    .build()
-try {
-    val response = Amplify.API.put(request)
-    Log.i("MyAmplifyApp", "PUT succeeded: $response")
-} catch (error: ApiException) {
-    Log.e("MyAmplifyApp", "PUT failed", it)
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-RestOptions options = RestOptions.builder()
-    .addPath("items/1")
-    .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
-    .build();
-
-RxAmplify.API.put(options)
-    .subscribe(
-          response -> Log.i("MyAmplifyApp", "PUT succeeded: " + response),
-          error -> Log.e("MyAmplifyApp", "PUT failed.", error)
-    );
-```
-
-</Block>
-</BlockSwitcher>
-</InlineFilter>
-
-<InlineFilter filters={['flutter']}>
-
-```dart
-Future<void> updateItem() async {
-  try {
-    final restOperation = Amplify.API.put(
-      'items/1',
-      body: HttpPayload.json({'name': 'Mow the lawn'}),
-    );
-    final response = await restOperation.response;
-    print('PUT call succeeded');
-    print(response.decodeBody());
-  } on ApiException catch (e) {
-    print('PUT call failed: $e');
-  }
-}
-```
-</InlineFilter>
