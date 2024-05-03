@@ -26,10 +26,10 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify allows interacting with In-App Messaging APIs, which enables you to send messages to your app users. In-App Messaging is a powerful tool to engage with your users and provide them with relevant information. 
+Amplify allows interacting with In-App Messaging APIs, enabling you to send messages to your app users. In-App Messaging is a powerful tool to engage with your users and provide them with relevant information. 
 A campaign is a messaging initiative that engages a specific audience segment. A campaign sends tailored messages according to a schedule that you define. You can use the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create a campaign that sends messages through any single channel that is supported by Amazon Pinpoint: Mobile Push, In-App, Email, SMS or Custom channels.
 
-The following is an example utilizing the AWS CDK to create the In-App Messaging resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/). But do note there are no official hand-written (L2) constructs for this service yet.
+The following is an example utilizing the AWS CDK to create the In-App Messaging resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/). Note: there are no official hand-written (L2) constructs for this service yet.
 
 <Callout informational>
 
@@ -148,7 +148,7 @@ backend.addOutput({
 First, install the `aws-amplify` library:
 
 ```sh title="Terminal" showLineNumbers={false}
-npm install aws-amplify
+npm add aws-amplify
 ```
 
 ### Initialize In-App Messaging
@@ -159,9 +159,9 @@ To finish setting up your application with Amplify, you need to configure it usi
 ```js title="src/index.js"
 import { Amplify } from 'aws-amplify';
 import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 initializeInAppMessaging();
 ```
 </InlineFilter>
@@ -170,9 +170,9 @@ initializeInAppMessaging();
 ```js title="index.tsx"
 import { Amplify } from 'aws-amplify';
 import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 initializeInAppMessaging();
 ```
 </InlineFilter>

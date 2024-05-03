@@ -13,19 +13,6 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'react',
-        'angular',
-        'vue',
-        'react-native',
-        'javascript',
-        'nextjs'
-      ],
-      canonicalPath: '/gen1/javascript/build-a-backend/storage/remove/'
-    }
   ]
 };
 
@@ -42,6 +29,17 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={["android", "swift"]}>
+
+<Callout info>
+The latest version of Amplify Storage supports specifying S3 objects as a paths.  
+We recommend using `path` instead of `key` to specify S3 objects.
+
+Note: `key` parameter is deprecated and may be removed in next major version.
+</Callout>
+
+</InlineFilter>
+
 import android_remove from '/src/fragments/lib/storage/android/remove.mdx';
 import flutter_remove from '/src/fragments/lib/storage/flutter/remove.mdx';
 import ios_remove from '/src/fragments/lib/storage/ios/remove.mdx';
@@ -56,42 +54,41 @@ import ios_remove from '/src/fragments/lib/storage/ios/remove.mdx';
 
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
-Delete stored data from the storage bucket. To remove a file, you need to provide the key. `accessLevel` can be 'guest', 'private', or 'protected', defaulting to 'guest'. Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
+Delete stored data from the storage bucket. To remove a file, you need to provide the fully specified `path`.
 
-## Guest level remove
+Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
 
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { remove } from 'aws-amplify/storage';
 
 try {
-  await remove({ key: filename });
+  await remove({ 
+    path: 'public/album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+  });
 } catch (error) {
   console.log('Error ', error);
 }
 ```
-
-## Protected level remove
-
+</Block>
+<Block name="With Key (Deprecated)">
 ```javascript
 import { remove } from 'aws-amplify/storage';
 
 try {
-  await remove({ key: filename, options: { accessLevel: 'protected' } });
+  await remove({ 
+    key: 'album/2024/1.jpg', 
+    options: { 
+      accessLevel: 'guest' // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+    } 
+  });
 } catch (error) {
   console.log('Error ', error);
 }
 ```
-
-## Private level remove
-
-```javascript
-import { remove } from 'aws-amplify/storage';
-
-try {
-  await remove({ key: filename, options: { accessLevel: 'private' } });
-} catch (error) {
-  console.log('Error ', error);
-}
-```
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>

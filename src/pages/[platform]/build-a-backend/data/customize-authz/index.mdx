@@ -39,12 +39,12 @@ Use the `.authorization()` modifier to configure authorization rules for public,
 const schema = a.schema({
   Post: a.model({
     content: a.string()
-  }).authorization([
+  }).authorization(allow => [
     // Allow anyone auth'd with an API key to read everyone's posts.
-    a.allow.public().to(['read']),
+    allow.publicApiKey().to(['read']),
     // Allow signed-in user to create, read, update,
     // and delete their __OWN__ posts.
-    a.allow.owner(),
+    allow.owner(),
   ])
 })
 ```
@@ -54,14 +54,14 @@ In the example above, everyone (`public`) can read every Post but authenticated 
 
 Use the guide below to select the correct authorization strategy for your use case:
 
-| **Recommended use case** | **Strategy** | **Provider** |
+| **Recommended use case** | **Strategy** | **`authMode`** |
 |---|---|---|
-| [Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access.](/[platform]/build-a-backend/data/customize-authz/public-data-access) | `public` | `apiKey` |
-| [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using Amazon Cognito identity pool's role for unauthenticated identities.]( /[platform]/build-a-backend/data/customize-authz/public-data-access/#add-public-authorization-rule-using-iam-authentication) | `public` | `identityPool` |
-| [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner` | `userPools` / `oidc` |
-| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/[platform]/build-a-backend/data/customize-authz/signed-in-user-data-access) | `private` | `userPools` / `oidc` / `identityPool` |
-| [Per user group data access. A specific or dynamically configured group of users has access.](/[platform]/build-a-backend/data/customize-authz/user-group-based-data-access) | `group` | `userPools` / `oidc` |
-| [Define your own custom authorization rule within a serverless function.](/[platform]/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `function` |
+| [Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access.](/[platform]/build-a-backend/data/customize-authz/public-data-access) | `publicApiKey` | `apiKey` |
+| [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using Amazon Cognito identity pool's role for unauthenticated identities.]( /[platform]/build-a-backend/data/customize-authz/public-data-access/#add-public-authorization-rule-using-iam-authentication) | `guest` | `identityPool` |
+| [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner`/`ownerDefinedIn`/`ownersDefinedIn` | `userPools` / `oidc` |
+| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/[platform]/build-a-backend/data/customize-authz/signed-in-user-data-access) | `authenticated` | `userPools` / `oidc` / `identityPool` |
+| [Per user group data access. A specific or dynamically configured group of users has access.](/[platform]/build-a-backend/data/customize-authz/user-group-based-data-access) | `group`/`groupDefinedIn`/`groups`/`groupsDefinedIn` | `userPools` / `oidc` |
+| [Define your own custom authorization rule within a serverless function.](/[platform]/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `lambda` |
 
 ## Understand how authorization rules are applied
 
@@ -75,7 +75,7 @@ If there are multiple authorization rules present, they will be logically OR'ed.
 
 To help you get started, you can define an authorization rule on the data schema that will be applied to all data models that **do not** have a model-level authorization rule. Instead of having a global authorization rule for all production environments, we recommend creating specific authorization rules for each model or field.
 
-The global authorization rule below uses `a.allow.public()`. This example allows anyone to create, read, update, and delete and is applied to every data model.
+The global authorization rule below uses `allow.publicApiKey()`. This example allows anyone to create, read, update, and delete and is applied to every data model.
 
 ```ts
 const schema = a.schema({
@@ -89,11 +89,11 @@ const schema = a.schema({
   Notes: a.model({
     content: a.string()
     // [Model-level authorization rule]
-  }).authorization([a.allow.public().to(['read'])])
+  }).authorization(allow => [allow.publicApiKey().to(['read'])])
 
 // [Global authorization rule]
-}).authorization([
-  a.allow.public()
+}).authorization(allow => [
+  allow.publicApiKey()
 ])
 ```
 
@@ -109,9 +109,9 @@ const schema = a.schema({
     // [Model-level authorization rule]
     // All fields (content, createdBy) will be protected by
     // this authorization rule
-  }).authorization([
-    a.allow.public().to(['read']),
-    a.allow.owner(),
+  }).authorization(allow => [
+    allow.publicApiKey().to(['read']),
+    allow.owner(),
   ])
 })
 ```
@@ -133,13 +133,13 @@ const schema = a.schema({
     // [Field-level authorization rule]
     // This auth rule will be used for the "ssn" field
     // All other fields will use the model-level auth rule
-    ssn: a.string().authorization([a.allow.owner()]),
+    ssn: a.string().authorization(allow => [allow.owner()]),
   })
 
   // [Model-level authorization rule]
-  .authorization([
-    a.allow.private().to(["read"]),
-    a.allow.owner()
+  .authorization(allow => [
+    allow.authenticated().to(["read"]),
+    allow.owner()
   ]),
 });
 ```
@@ -155,9 +155,9 @@ const schema = a.schema({
   Post: a.model({
     title: a.string(),
     content: a.string()
-  }).authorization([
-    a.allow.public("identityPool").to(["read"]),
-    a.allow.owner()
+  }).authorization(allow => [
+    allow.guest().to(["read"]),
+    allow.owner()
   ])
 })
 ```
@@ -180,7 +180,7 @@ const { data: newPostResult , errors } = await client.models.Post.create({
 // Listing posts is available to unauthenticated users (verified by Amazon Cognito identity pool's unauthenticated role)
 const { data: listPostsResult , errors } = await client.models.Post.list({
 	query: queries.listPosts,
-	authMode: 'iam',
+	authMode: 'identityPool',
 });
 ```
 

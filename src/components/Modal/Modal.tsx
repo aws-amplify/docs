@@ -1,5 +1,12 @@
-import { Button, Flex, ViewProps, VisuallyHidden } from '@aws-amplify/ui-react';
-import { IconStar, IconX } from '@/components/Icons';
+import {
+  Button,
+  Flex,
+  ViewProps,
+  VisuallyHidden,
+  Text,
+  View
+} from '@aws-amplify/ui-react';
+import { IconChevron, IconStar, IconX, IconTSBoxed } from '@/components/Icons';
 import { useEffect, useId, useState } from 'react';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
@@ -47,11 +54,42 @@ export const Modal = ({ isGen1 }: ModalProps) => {
           <IconX />
         </Button>
       </Flex>
-      Amplify has reimagined the way frontend developers build fullstack
-      applications on AWS. With this next generation of Amplify&apos;s
-      backend-building experience, you can author your frontend and backend
-      definition completely with Typescript a file convention, and Git
-      branch-based environments.
+      Amplify has re-imagined the way frontend developers build fullstack
+      applications. Develop and deploy without the hassle.
+      <Flex className="modal-key-points">
+        <Flex className="modal-key-point">
+          <View className="modal-key-point-left" aria-hidden="true">
+            <IconTSBoxed />
+          </View>
+          <Flex className="modal-key-point-right">
+            <Text as="h3" className="modal-key-point-heading">
+              Fullstack TypeScript
+            </Text>
+            <Text className="modal-key-point-text">
+              Write your app&apos;s data model, auth, storage, and functions in
+              TypeScript; Amplify will do the rest.
+            </Text>
+          </Flex>
+        </Flex>
+        <Flex className="modal-key-point">
+          <View
+            aria-hidden="true"
+            className="modal-key-point-left"
+            textAlign="center"
+            fontSize="xxxl"
+          >
+            🚀
+          </View>
+          <Flex className="modal-key-point-right">
+            <Text as="h3" className="modal-key-point-heading">
+              Built with the AWS CDK
+            </Text>
+            <Text className="modal-key-point-text">
+              Use any cloud resource your app needs. Never worry about scale.
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
       <Flex className="modal-actions">
         {isGen1 ? null : (
           <InternalLinkButton
@@ -61,7 +99,7 @@ export const Modal = ({ isGen1 }: ModalProps) => {
             onClick={() => handleDialogAction()}
             className="modal-action modal-action--secondary"
           >
-            Go to Gen 1 docs
+            Back to Gen 1 Docs
           </InternalLinkButton>
         )}
         <InternalLinkButton
@@ -75,7 +113,7 @@ export const Modal = ({ isGen1 }: ModalProps) => {
           variation="primary"
           className="modal-action modal-action--primary"
         >
-          How Amplify Gen 2 works
+          Learn more <IconChevron className="icon-rotate-270" />
         </InternalLinkButton>
       </Flex>
     </Flex>

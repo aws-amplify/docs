@@ -10,19 +10,6 @@ export const meta = {
     'react',
     'react-native',
     'vue'
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'angular',
-        'react',
-        'react-native',
-        'vue',
-        'nextjs',
-        'javascript'
-      ],
-      canonicalPath: '/javascript/build-a-backend/troubleshooting/library-not-configured/'
-    }
   ]
 };
 
@@ -53,7 +40,7 @@ Make sure you are calling `Amplify.configure` in the root file of your project. 
 
 <Callout>
 
-If you are using the Next.js App Router, you can follow the suggestions in our [Next.js documentation](/[platform]/build-a-backend/server-side-rendering/nextjs/#configure-amplify-library-for-client-side-usage) for root-level configuration. Keep in mind that if you are calling any APIs at the module-level (i.e. at the top of your file) in any of the Child components, you may still run into this issue. Continue on the [Check 2](/[platform]/build-a-backend/troubleshooting/library-not-configured/#check-2-move-module-level-amplify-api-invocations) if this is the case.
+If you are using the Next.js App Router, you can follow the suggestions in our [Next.js documentation](/[platform]/build-a-backend/server-side-rendering/#configure-amplify-apis-for-server-side-usage) for root-level configuration. Keep in mind that if you are calling any APIs at the module-level (i.e. at the top of your file) in any of the Child components, you may still run into this issue. Continue on the [Check 2](/[platform]/build-a-backend/troubleshooting/library-not-configured/#check-2-move-module-level-amplify-api-invocations) if this is the case.
 
 </Callout>
 

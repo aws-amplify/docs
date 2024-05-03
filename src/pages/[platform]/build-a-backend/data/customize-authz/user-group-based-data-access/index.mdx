@@ -42,7 +42,7 @@ const schema = a.schema({
       wage: a.float(),
       currency: a.string(),
     })
-    .authorization([a.allow.specificGroup('Admin')]),
+    .authorization(allow => [allow.group('Admin')]),
 });
 ```
 
@@ -78,7 +78,7 @@ const schema = a.schema({
       wage: a.float(),
       currency: a.string(),
     })
-    .authorization([a.allow.specificGroups(['Admin', 'Leadership'])]),
+    .authorization(allow => [allow.groups(['Admin', 'Leadership'])]),
 });
 ```
 
@@ -94,7 +94,7 @@ const schema = a.schema({
       title: a.string(),
       groups: a.string().array(),
     })
-    .authorization([a.allow.groupsDefinedIn('groups')]),
+    .authorization(allow => [allow.groupsDefinedIn('groups')]),
 });
 ```
 
@@ -104,9 +104,9 @@ const schema = a.schema({
   Post: a
     .model({
       title: a.string(),
-      groups: a.string(),
+      group: a.string(),
     })
-    .authorization([a.allow.groupDefinedIn('groups')]),
+    .authorization(allow => [allow.groupDefinedIn('group')]),
 });
 ```
 

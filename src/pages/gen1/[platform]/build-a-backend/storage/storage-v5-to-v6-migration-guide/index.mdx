@@ -21,9 +21,9 @@ export function getStaticProps(context) {
 
 This guide will help you migrate Amplify JavaScript v5's Storage APIs to the new v6's Storage APIs.
 
-## Deprecated Options
+## Removed Options
 
-<Callout>Many input and output properties have been deprecated in favor of alternatives with a better developer experience. If you have identified a use case that you feel isn't covered in this migration guide, please open a [GitHub issue](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml).</Callout>
+<Callout>Many input and output properties have been removed in favor of alternatives with a better developer experience. If you have identified a use case that you feel isn't covered in this migration guide, please open a [GitHub issue](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=pending-triage&projects=&template=2.feature_request.yaml).</Callout>
 
 The input options below have been removed in v6 from Storage APIs:
 
@@ -36,6 +36,14 @@ The input options below have been removed in v6 from Storage APIs:
 - `bucket`: _The `bucket` is required for `Storage` configuration object as part of `Amplify.configure()` and has therefore been removed from input options._
 
 >Note: We have remapped all capitalized input and output keys to "camelCase" in v6.
+
+## Deprecated Options
+
+Starting with version 6.2.0, the following API parameters and output options have been marked as deprecated and may be removed in a future version.
+
+- `key`: _A new `path` parameter has been introduced and will be used instead of the `key` parameter in input and output options. The `path` parameter allows for flexible path construction based on user's identity id._
+
+- `accessLevel`: _File `accessLevel` with scoped `public`, `protected`, and `private` permissions is now deprecated. Instead, [Amplify (Gen2)](/[platform]/build-a-backend/storage/) introduces a more refined access control mechanism. To offer similar flexibility to clients, we will utilize the `path` parameter for input options._
 
 ## Storage.put
 
@@ -119,10 +127,9 @@ The `Storage.put` API has been renamed to `uploadData` in v6. There are a few ch
 
       ```
       input: {
-        key: string;
+        path: string | ({identityId}: {identityId: string}) => string;
         data: string | Blob | ArrayBufferView | ArrayBuffer;
         options?: {
-          accessLevel?: any;
           useAccelerateEndpoint?: boolean;
           onProgress?: (event: {
             transferredBytes: number;
@@ -178,7 +185,7 @@ The `Storage.put` API has been renamed to `uploadData` in v6. There are a few ch
       }
 
       Item {
-        key: string;
+        path: string;
         lastModified?: Date;
         size?: number;
         eTag?: string;
@@ -197,14 +204,10 @@ The `Storage.put` API has been renamed to `uploadData` in v6. There are a few ch
     ```
     import { uploadData } from 'aws-amplify/storage';
 
-    const handleUpload = async (key: string, data: string | Blob) => {
-      // Upload a file with access level `guest` as  the equivalent of `public` in v5
+    const handleUpload = async (path: string, data: string | Blob) => {
       const operation = uploadData({
-        key,
-        data,
-        options: {
-          accessLevel: 'guest'
-        }
+        path,
+        data
       });
 
       const result = await operation.result;
@@ -236,13 +239,11 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
     ```
     import { uploadData } from 'aws-amplify/storage';
 
-    const handleUpload = async (key: string, data: string | Blob) => {
-      // Upload a file with access level `guest` as  the equivalent of `public` in v5
+    const handleUpload = async (path: string, data: string | Blob) => {
       const operation = uploadData({
-        key,
+        path,
         data,
         options: {
-          accessLevel: 'guest',
           onProgress: ({ transferredBytes, totalBytes }) => {
             // Progress implementation
           }
@@ -339,20 +340,19 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
       ```
       // getUrl
       {
-        key: string;
+        path: string | ({identityId}: {identityId: string}) => string;
         options?: {
-          accessLevel?: 'guest' | 'protected' | 'private';
-          // targetIdentityId?: string; // included if accessLevel is 'protected'
           useAccelerateEndpoint?: boolean;
         };
       }
+      ```
+      <br/>
+      ```
 
       // downloadData
       input: {
-        key: string;
+        path: string | ({identityId}: {identityId: string}) => string;
         options?: {
-          accessLevel?: 'guest' | 'protected' | 'private';
-          // targetIdentityId?: string; // included if accessLevel is 'protected'
           useAccelerateEndpoint?: boolean;
           onProgress?: (event: {
             transferredBytes: number;
@@ -434,7 +434,9 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
         url: URL;
         expiresAt: Date;
       }
-
+      ```
+      <br/>
+      ```
       // downloadData
       DownloadDataOutput {
         cancel: (message?: string) => void;
@@ -443,7 +445,7 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
       }
 
       StorageDownloadDataOutput<Item> {
-        key: string;
+        path: string;
         lastModified?: Date;
         size?: number;
         eTag?: string;
@@ -469,9 +471,9 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
     ```ts
     import { getUrl } from 'aws-amplify/storage';
 
-    const handleGetUrl = async (key: string) => {
+    const handleGetUrl = async (path: string) => {
       const url = await getUrl({
-        key,
+        path,
         options: {
           validateObjectExistence: true
         },
@@ -501,8 +503,8 @@ The `Storage.get` API has been separated into two APIs in v6, `getURL` and `down
     ```ts
     import { downloadData } from 'aws-amplify/storage';
 
-    const handleDownload = async (key: string) => {
-      const { body, eTag } = await downloadData({ key }).result;
+    const handleDownload = async (path: string) => {
+      const { body, eTag } = await downloadData({ path }).result;
     }
     ```
 
@@ -530,9 +532,9 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
   ```ts
   import { downloadData } from 'aws-amplify/storage';
 
-  const handleDownload = async (key: string) => {
+  const handleDownload = async (path: string) => {
     const { body, eTag } = await downloadData({
-      key,
+      path,
       options: {
         onProgress: ({ transferredBytes, totalBytes }) => {
           // Progress implementation
@@ -562,7 +564,7 @@ The `progressCallback` option has been replaced by `onProgress` in v6. The funct
 
 ## Storage.copy
 
-In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as these values are already provided by the existing file.
+In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#removed-options), the `copy` API in v6 no longer supports content options (`contentDisposition`, `contentLanguage`, and `contentType`) as these values are already provided by the existing file.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -620,14 +622,10 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
       ```
       input: {
         source: {
-          key: string;
-          accessLevel?: 'guest' | 'protected' | 'private';
-          // Included when accessLevel 'protected'
-          targetIdentityId?: string;
+          path: string | ({identityId}: {identityId: string}) => string;
         };
         destination: {
-          key: string;
-          accessLevel?: any;
+          path: string | ({identityId}: {identityId: string}) => string;
         };
       }
       ```
@@ -653,7 +651,7 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
 
       ```
       CopyOutput {
-        key: string;
+        path: string;
       }
       ```
 
@@ -666,13 +664,13 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
     ```ts
     import { copy } from 'aws-amplify/storage';
 
-    const handleCopy = async (sourceKey: string, destinationKey: string) => {
-      const { key } = await copy({
+    const handleCopy = async (sourcePath: string, destinationPath: string) => {
+      const { path } = await copy({
         source: {
-          key: sourceKey
+          path: sourcePath
         },
         destination: {
-          key: destinationKey
+          path: destinationPath
         },
       });
     };
@@ -700,7 +698,7 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
 
 ## Storage.remove
 
-In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `key` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
+In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the output of the `remove` API in v6 now only returns the `path` of the removed file. `DeleteMarker`, `VersionId`, `RequestCharged`, and `$metadata` have been removed from the output.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -729,9 +727,8 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
 
       ```
       input: {
-        key: string;
+        path: string | ({identityId}: {identityId: string}) => string;
         options?: {
-          accessLevel?: any;
           useAccelerateEndpoint?: boolean;
         };
       }
@@ -766,7 +763,7 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
 
       ```
       RemoveOutput {
-        key: string;
+        path: string;
       }
       ```
 
@@ -779,13 +776,9 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
     ```ts
     import { remove } from 'aws-amplify/storage';
 
-    const handleRemove = async (key: string, accessLevel: string) => {
+    const handleRemove = async (path: string) => {
       await remove({ 
-        key,
-        options: {
-          // accessLevel is required if other than 'guest'
-          accessLevel
-        }
+        path,
       });
     }
     ```
@@ -810,7 +803,6 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
 
 There are a few changes in the `list` API from v5 to v6 in addition to [those mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options):
 
-- The `path` parameter is now the optional `prefix` parameter. If you want to list all files in the public folder, you do not need to provide an empty string as the `prefix`.
 - The `hasNextToken` output property has been removed. You can check that `nextToken` is defined to check if there are more items to retrieve.
 
 <Accordion title='Input' headingLevel='3'>
@@ -844,27 +836,21 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
       ```
       // Paginated List
       input {
-        prefix?: string;
+        path: string | ({identityId}: {identityId: string}) => string;
         options?: {
           listAll?: false;
-          accessLevel?: 'guest' | 'protected' | 'private';
           pageSize?: number;
           nextToken?: string;
           useAccelerateEndpoint?: boolean;
-          // Included if accessLevel is 'protected'
-          targetIdentityId?: string';
         };
       }
 
       // List All
       input {
-        prefix?: string;
+        path: string | ({identityId}: {identityId: string}) => string;
         options?: {
           listAll: true;
-          accessLevel?: 'guest' | 'protected' | 'private';
           useAccelerateEndpoint?: boolean;
-          // Included if accessLevel is 'protected'
-          targetIdentityId?: string';
         };
       }
       ```
@@ -910,7 +896,7 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
       }
 
       ListOutputItem {
-        key: string;
+        path: string;
         lastModified?: Date;
         size?: number;
         eTag?: string;
@@ -932,9 +918,10 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
     let nextToken = undefined;
     let hasNextPage = true;
     
-    const loadNextPage = async () => {
+    const loadNextPage = async (path: string) => {
       if (hasNextPage) {
         let response = await list({
+          path,
           options: {
             pageSize: PAGE_SIZE,
             nextToken: nextToken
@@ -988,17 +975,12 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
     import { list } from 'aws-amplify/storage';
 
     const handleListAll = async (
-      prefix: string, 
-      accessLevel: string,
-      id: string
+      path: string
     ) => {
       const { items } = list({
-        prefix,
+        path,
         options: {
           listAll: true,
-          // accessLevel and targetIdentityId not required if accessLevel is 'guest'
-          accessLevel,
-          targetIdentityId: id,
         }
       });
     }
@@ -1028,7 +1010,7 @@ There are a few changes in the `list` API from v5 to v6 in addition to [those me
 
 ## Storage.getProperties
 
-In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `getProperties` API in v6 also adds `key` to the result.
+In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/#deprecated-options), the `getProperties` API in v6 also adds `path` to the result.
 
 <Accordion title='Input' headingLevel='3'>
   <Columns columns={2}>
@@ -1058,12 +1040,9 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
 
       ```
       input: {
-        key: string;
+        path: string | ({identityId}: {identityId: string}) => string;
         options?: {
-          accessLevel?: 'guest' | 'protected' | 'private';
           useAccelerateEndpoint?: boolean;
-          // Included if accessLevel is 'protected'
-          targetIdentityId?: string;
         };
       }
       ```
@@ -1093,7 +1072,7 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
 
       ```
       GetPropertiesOutput {
-        key: string;
+        path: string;
         lastModified?: Date;
         size?: number';
         eTag?: string';
@@ -1113,15 +1092,10 @@ In addition to [the changes mentioned above](/gen1/[platform]/build-a-backend/st
     import { getProperties } from 'aws-amplify/storage';
 
     const handleGetProperties = async (
-      key: string,
-      accessLevel: string
+      path: string,
     ) => {
       const result = await getProperties({
-        key: 'key',
-        options: {
-          // accessLevel not required if accessLevel is 'guest'
-          accessLevel,
-        }
+        path
       });
     }
     ```
@@ -1155,9 +1129,7 @@ The process for cancelling a request has changed in v6. In v5, you have to maint
     import { downloadData } from 'aws-amplify/storage';
 
     const operation = downloadData({
-      apiName,
-      path,
-      options
+      path: "photos/1.jpg"
     });
 
     operation.response.then(result => {
@@ -1198,7 +1170,7 @@ The process for cancelling a request has changed in v6. In v5, you have to maint
   </Block>
 </BlockSwitcher>
 
-## Using a Custom Prefix
+## Using a Custom Prefix (Deprecated)
 
 If you would like to upload or download items with a `customPrefix`, you can configure a prefix resolver in the second parameter of `Amplify.configure`, `libraryOptions`. Keep in mind that you will need to resolve each `accessLevel` in the custom `prefixResolver`. The example below shows the default for `protected` and `private` access levels and a customPrefix for `guest`. 
 
@@ -1281,7 +1253,7 @@ The table below lists the analytics events previously associated to v5 APIs and 
   
     <Callout info>
 
-      The example below records an analytics event similar to what you would have seen in v5, but does not prescribe a format or content that needs to be followed. Instead, it is fully configurable and should be structured to best suit your analytics needs. Learn more about [using the Analytics category](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/).
+    The example below records an analytics event similar to what you would have seen in v5, but does not prescribe a format or content that needs to be followed. Instead, it is fully configurable and should be structured to best suit your analytics needs. Learn more about [using the Analytics category](/gen1/[platform]/build-a-backend/more-features/analytics/record-events/).
 
     </Callout>
 
@@ -1289,10 +1261,10 @@ The table below lists the analytics events previously associated to v5 APIs and 
     import { list } from 'aws-amplify/storage';
     import { record } from 'aws-amplify/analytics';
 
-    const prefix = 'photos/';
+    const path = 'public/photos/';
 
     try {
-      const result = await list({ prefix });
+      const result = await list({ path });
       record({
         name: 'list',
         attributes: { result: 'success' },

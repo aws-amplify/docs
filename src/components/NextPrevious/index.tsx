@@ -119,5 +119,13 @@ export const NEXT_PREVIOUS_SECTIONS = [
   '/gen1/[platform]/tools/console/auth/',
   '/gen1/[platform]/tools/console/data/',
   '/gen1/[platform]/tools/console/storage/',
-  '/gen1/[platform]/tools/console/tutorial/'
+  '/gen1/[platform]/tools/console/tutorial/',
+  '/[platform]/build-a-backend/auth/',
+  '/[platform]/build-a-backend/data/',
+  '/[platform]/build-a-backend/storage/',
+  '/[platform]/build-a-backend/functions/',
+  '/[platform]/build-a-backend/add-aws-services/',
+  '/[platform]/build-ui/formbuilder/',
+  '/[platform]/deploy-and-host/sandbox-environments/',
+  '/[platform]/deploy-and-host/fullstack-branching/'
 ];

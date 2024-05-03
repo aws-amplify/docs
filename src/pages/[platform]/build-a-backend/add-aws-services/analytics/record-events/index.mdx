@@ -92,7 +92,7 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 ## Flush events
 
-Events have a default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
+Events have a default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplify_outputs.json` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
 
 ```json
 {
@@ -139,7 +139,7 @@ RxAmplify.Analytics.flushEvents();
 </Block>
 </BlockSwitcher>
 
-When flushing events, a [Hub event](/[platform]/build-a-backend/utilities/hub/) is sent containing the events which were successfully sent to the Pinpoint service.  To receive a list of these events, subscribe to the `HubChannel.ANALYTICS` channel and handle an event of the type `AnalyticsChannelEventName.FLUSH_EVENTS`.
+When flushing events, a [Hub event](/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/) is sent containing the events which were successfully sent to the Pinpoint service.  To receive a list of these events, subscribe to the `HubChannel.ANALYTICS` channel and handle an event of the type `AnalyticsChannelEventName.FLUSH_EVENTS`.
 
 ## Authentication events
 
@@ -157,7 +157,7 @@ You can report authentication events by doing either of the following:
 
  - Managing user sign-up and sign-in with Amazon Cognito user pools.
 
-  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplifyconfiguration.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
+  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplify_outputs.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
 
   ```json
   "CognitoUserPool": {
@@ -416,7 +416,7 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 By default, events are automatically flushed out to the network every 60 seconds.
 
-If you would like to change this, update `amplifyconfiguration.json` and set the value you would prefer under `autoFlushEventsInterval`, expressed in seconds:
+If you would like to change this, update `amplify_outputs.json` and set the value you would prefer under `autoFlushEventsInterval`, expressed in seconds:
 
 ```json
 {
@@ -463,7 +463,7 @@ You can report authentication events by doing either of the following:
 
  - Managing user sign-up and sign-in with Amazon Cognito user pools.
 
-  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplifyconfiguration.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
+  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplify_outputs.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
 
   ```json
   "CognitoUserPool": {

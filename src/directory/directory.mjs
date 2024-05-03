@@ -25,19 +25,10 @@ export const directory = {
               path: 'src/pages/[platform]/start/quickstart/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/quickstart/vite-react-app-option-2/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-pages-router/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-client-components/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/quickstart/nextjs-app-router-server-components/index.mdx'
                 }
               ]
             },
@@ -48,7 +39,7 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/start/mobile-support/index.mdx'
+              path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
             }
           ]
         },
@@ -62,37 +53,117 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/enable-sign-up/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/concepts/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/usernames/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/email/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/phone/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/user-attributes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/user-groups/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/external-identity-providers/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/guest-access/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/tokens-and-credentials/index.mdx'
+                    }
+                  ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/add-social-provider/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/using-the-authenticator/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-sessions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-attributes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/delete-user-account/index.mdx'
+                    }
+                  ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-user-session/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-admin-actions/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-passwords/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
+                    }
+                  ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-user-profile/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/email-customization/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/triggers/index.mdx'
+                    }
+                  ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/password-management/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/manage-mfa/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/delete-user-account/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/auth-events/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/admin-actions/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/override-cognito/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
                 }
               ]
             },
@@ -164,7 +235,37 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx',
+
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/search-and-aggregate-queries/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-eventbridge-datasource/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-polly/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-bedrock/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-rekognition/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-translate/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/working-with-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx'
@@ -181,6 +282,9 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/data/optimistic-ui/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
                 }
               ]
@@ -189,7 +293,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/define-storage/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
@@ -198,18 +302,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/upload-files/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/get-url/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/storage/download-files/download-data/index.mdx'
-                    }
-                  ]
+                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/get-files/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/list-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/remove-files/index.mdx'
@@ -222,6 +318,12 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/extend-s3-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/use-aws-sdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
                 }
               ]
             },
@@ -229,7 +331,7 @@ export const directory = {
               path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/functions/define-function/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/functions/set-up-function/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/environment-variables-and-secrets/index.mdx'
@@ -250,7 +352,16 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/add-user-to-group/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/create-user-profile-record/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/override-token/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/custom-message/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx'
@@ -262,7 +373,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/dynamo-db-stream/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/functions/examples/bedrock-response/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/s3-upload-confirmation/index.mdx'
                     }
                   ]
                 },
@@ -272,7 +383,12 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx'
+              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-app-router-server-components/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/index.mdx',
@@ -319,7 +435,36 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/maps/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/location-search/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-geofencing/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/geofences/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/google-migration/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/amazon-location-sdk/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx',
@@ -412,6 +557,44 @@ export const directory = {
                   ]
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/set-up-logging/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/send-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/change-log-levels/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/flush-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/enable-disable/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/configure-user/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/view-logs/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/remote-configuration/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/change-local-storage/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/hub-events/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/sdk/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/index.mdx',
                   children: [
                     {
@@ -419,6 +602,20 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/chatbot/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/publish/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/set-up-pubsub/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/subscribe/index.mdx'
                     }
                   ]
                 },
@@ -432,6 +629,17 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
                 }
               ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/q-developer/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/troubleshooting/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
+                }
+              ]
             }
           ]
         },
@@ -439,7 +647,21 @@ export const directory = {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
             {
-              path: 'src/pages/[platform]/build-ui/forms/index.mdx'
+              path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/customize/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/special-inputs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/validations/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/build-ui/figma-to-code/index.mdx'
@@ -447,44 +669,88 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/authenticator',
               title: 'Authenticator',
               description:
                 'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
-              platforms: [
-                'android',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'angular',
-                'flutter',
-                'swift',
-                'vue'
-              ]
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/angular/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['angular']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/swift/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['swift']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/android/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['android']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/flutter/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['flutter']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/react-native/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['react-native']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/vue/connected-components/authenticator',
+              title: 'Authenticator',
+              description:
+                'The Authenticator is a connected component that adds complete authentication flows to your application with minimal boilerplate.',
+              platforms: ['vue']
             },
             {
               isExternal: true,
               route:
                 'https://ui.docs.amplify.aws/react/connected-components/storage/storageimage',
-              title: 'StorageImage',
+              title: 'Storage Image',
               description:
-                'StorageImage is a connected component that simplifies the process of displaying images stored in an Amazon S3 bucket.',
+                'Storage Image is a connected component that simplifies the process of displaying images stored in an Amazon S3 bucket.',
               platforms: ['javascript', 'nextjs', 'react']
             },
             {
               isExternal: true,
               route:
                 'https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager',
-              title: 'StorageManager',
+              title: 'Storage Manager',
               description:
-                'StorageManager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
+                'Storage Manager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
               platforms: ['javascript', 'nextjs', 'react']
             },
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/account-settings',
               title: 'Account Settings',
               description:
                 'Account Settings components are a set of standalone components that add user management flows to your application with minimal boilerplate.                .                .',
@@ -493,11 +759,29 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/[platform]/connected-components/authenticator',
+                'https://ui.docs.amplify.aws/react/connected-components/liveness',
               title: 'Face Liveness',
               description:
                 'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
-              platforms: ['android', 'javascript', 'nextjs', 'react', 'swift']
+              platforms: ['javascript', 'nextjs', 'react']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/android/connected-components/liveness',
+              title: 'Face Liveness',
+              description:
+                'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
+              platforms: ['android']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://ui.docs.amplify.aws/swift/connected-components/liveness',
+              title: 'Face Liveness',
+              description:
+                'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
+              platforms: ['swift']
             }
           ]
         },
@@ -556,7 +840,7 @@ export const directory = {
               path: 'src/pages/[platform]/reference/project-structure/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/reference/amplifyconfiguration/index.mdx'
+              path: 'src/pages/[platform]/reference/amplify_outputs/index.mdx'
             },
             {
               path: 'src/pages/[platform]/reference/cdk-constructs/index.mdx'
@@ -568,7 +852,45 @@ export const directory = {
               path: 'src/pages/[platform]/reference/iam-policy/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/reference/permissions-boundary/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/reference/telemetry/index.mdx'
+            },
+            {
+              isExternal: true,
+              route: 'https://aws-amplify.github.io/amplify-js/api/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: [
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'vue'
+              ]
+            },
+            {
+              isExternal: true,
+              route: 'https://aws-amplify.github.io/amplify-swift/docs/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['swift']
+            },
+            {
+              isExternal: true,
+              route:
+                'https://aws-amplify.github.io/aws-sdk-android/docs/reference/',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['android']
+            },
+            {
+              path: 'src/pages/[platform]/reference/flutter-api/index.mdx',
+              title: 'API Documentation',
+              description: 'API references and type definitions.',
+              platforms: ['flutter']
             }
           ]
         }
@@ -909,6 +1231,12 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/storage/path/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/storage/storagepath/index.mdx'
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/storage/upload/index.mdx'

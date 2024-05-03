@@ -41,11 +41,11 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([
-      a.allow.owner('oidc').identityClaim('user_id'),
-      a.allow.private('oidc'),
-      a.allow
-        .specificGroups(['testGroupName'], 'oidc')
+    .authorization(allow => [
+      allow.owner('oidc').identityClaim('user_id'),
+      allow.authenticated('oidc'),
+      allow
+        .groups(['testGroupName'], 'oidc')
         .withClaimIn('user_groups'),
     ]),
 });

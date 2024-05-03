@@ -43,7 +43,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 ```
 
@@ -55,7 +55,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.owner().to(['create', 'read', 'update'])]),
+    .authorization(allow => [allow.owner().to(['create', 'read', 'update'])]),
 });
 ```
 
@@ -94,9 +94,9 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
-      owner: a.string().authorization([a.allow.owner().to(['read', 'delete'])]),
+      owner: a.string().authorization(allow => [allow.owner().to(['read', 'delete'])]),
     })
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 ```
 
@@ -113,6 +113,6 @@ const schema = a.schema({
       content: a.string(),
       author: a.string(), // record owner information now stored in "author" field
     })
-    .authorization([a.allow.owner().inField('author')]),
+    .authorization(allow => [allow.ownerDefinedIn('author')]),
 });
 ```

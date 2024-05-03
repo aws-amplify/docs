@@ -1,0 +1,789 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Advanced workflows',
+  description: 'Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers and working with AWS service objects.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={['flutter']}>
+## Identity Pool Federation
+
+With identity federation, you don't need to create custom sign-in code or manage your own user identities. Instead, users of your app can sign in using a well-known external identity 
+provider (IdP), such as Login with Amazon, Facebook, Google, or any other OpenID Connect (OIDC)-compatible IdP. They can receive an authentication token, and then exchange that token for 
+temporary security credentials in AWS that map to an IAM role with permissions to use the resources in your AWS account. Using an IdP helps you keep your AWS account secure because you 
+don't have to embed and distribute long-term security credentials with your application.
+
+Imagine that you are creating a mobile app that accesses AWS resources, such as a game that runs on a mobile device and stores player and score information using Amazon S3 and DynamoDB.
+
+When you write such an app, you make requests to AWS services that must be signed with an AWS access key. However, we strongly recommend that you do not embed or distribute long-term 
+AWS credentials with apps that a user downloads to a device, even in an encrypted store. Instead, build your app so that it requests temporary AWS security credentials dynamically when 
+needed using identity federation. The supplied temporary credentials map to an AWS role that has only the permissions needed to perform the tasks required by the mobile app.
+
+You can use `federateToIdentityPool` to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. If you logged in with `Auth.signIn` you **cannot** 
+call `federateToIdentityPool` as Amplify will perform this federation automatically for you in the background. In general, you should only call `Auth.federatedSignIn()` when using OAuth flows.
+
+You can use the escape hatch API `federateToIdentityPool` with a valid token from other social providers.
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+const googleIdToken = 'idToken';
+final session = await cognitoPlugin.federateToIdentityPool(
+  token: googleIdToken,
+  provider: AuthProvider.google,
+);
+```
+
+<Callout>
+
+Note that when federated, APIs such as `Auth.getCurrentUser` will throw an error as the user is not authenticated with User Pools.
+
+</Callout>
+
+### Retrieve Session
+
+After federated login, you can retrieve the session using the `Auth.fetchAuthSession` API.
+
+### Token Refresh
+
+<Callout>
+
+Automatic authentication token refresh is NOT supported when federated.
+
+</Callout>
+
+By default, Amplify will **NOT** automatically refresh the tokens from the federated providers. You will need to handle the token refresh logic and provide the new token to the `federateToIdentityPool` API.
+
+### Clear Session
+
+You can clear the federated session using the `clearFederationToIdentityPool` API.
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+await cognitoPlugin.clearFederationToIdentityPool();
+```
+
+<Callout>
+
+`clearFederationToIdentityPool` will only clear the session from the local cache; the developer needs to handle signing out from the federated identity provider.
+
+</Callout>
+
+### Provide Custom Identity ID
+
+You can provide a custom identity ID to the `federateToIdentityPool` API. This is useful when you want to use the same identity ID across multiple sessions.
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+const googleIdToken = 'idToken';
+const identityId = 'us-west-2:b4cd4809-7ab1-42e1-b044-07dab9eaa768';
+final session = await cognitoPlugin.federateToIdentityPool(
+  token: googleIdToken,
+  provider: AuthProvider.google,
+  options: FederateToIdentityPoolOptions(
+    developerProvidedIdentityId: identityId,
+  ),
+);
+```
+</InlineFilter>
+<InlineFilter filters={['android']}>
+## Subscribing Events
+
+You can take specific actions when users sign-in or sign-out by subscribing to authentication events in your app. Please see our [Hub Module Developer Guide](/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/) for more information.
+
+## Identity Pool Federation
+
+Imagine that you are creating a mobile app that accesses AWS resources, such as a game that runs on a mobile device and stores player and score information using Amazon S3 and DynamoDB.
+
+When you write such an app, you make requests to AWS services that must be signed with an AWS access key. However, we strongly recommend that you do not embed or distribute long-term AWS credentials with apps that a user downloads to a device, even in an encrypted store. Instead, build your app so that it requests temporary AWS security credentials dynamically when needed using web identity federation. The supplied temporary credentials map to an AWS role that has only the permissions needed to perform the tasks required by the mobile app.
+
+With web identity federation, you don't need to create custom sign-in code or manage your own user identities. Instead, users of your app can sign in using a well-known external identity provider (IdP), such as Login with Amazon, Facebook, Google, or any other OpenID Connect (OIDC)-compatible IdP. They can receive an authentication token, and then exchange that token for temporary security credentials in AWS that map to an IAM role with permissions to use the resources in your AWS account. Using an IdP helps you keep your AWS account secure because you don't have to embed and distribute long-term security credentials with your application.
+
+You can use `federateToIdentityPool` to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. If you logged in with `Auth.signIn` you **cannot** call `federateToIdentityPool` as Amplify will perform this federation automatically for you in the background. In general, you should only call `Auth.federatedSignIn()` when using OAuth flows.
+
+You can use the escape hatch API `federateToIdentityPool` with a valid token from other social providers.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.federateToIdentityPool(
+        "YOUR_TOKEN",
+        AuthProvider.facebook(),
+        result -> {
+            Log.i("AuthQuickstart", "Successful federation to Identity Pool.");
+            // use result.getCredentials()
+        },
+        e -> {
+            Log.e("AuthQuickstart", "Failed to federate to Identity Pool.", e)
+        }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+(Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin)?.let { plugin ->
+    plugin.federateToIdentityPool(
+        "YOUR_TOKEN",
+        AuthProvider.facebook(),
+        {
+            Log.i("AuthQuickstart", "Successful federation to Identity Pool.")
+            // use "it.credentials"
+        },
+        {
+            Log.e("AuthQuickstart", "Failed to federate to Identity Pool.", it)
+        }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+<Callout>
+Note that when federated, APIs such as Auth.getCurrentUser will throw an error as the user is not authenticated with User Pools.
+</Callout>
+
+### Retrieve Session
+
+After federated login, you can retrieve the session using the `Auth.fetchAuthSession` API.
+
+### Token Refresh
+
+<Callout>
+Automatic authentication token refresh is NOT supported when federated.
+</Callout>
+
+By default, Amplify will **NOT** automatically refresh the tokens from the federated providers. You will need to handle the token refresh logic and provide the new token to the `federateToIdentityPool` API.
+
+### Clear Session
+
+You can clear the federated session using the `clearFederationToIdentityPool` API.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.clearFederationToIdentityPool(
+        () -> Log.i("AuthQuickstart", "Federation cleared successfully."),
+        e -> Log.e("AuthQuickstart", "Failed to clear federation.", e)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+(Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin)?.let { plugin ->
+    plugin.clearFederationToIdentityPool(
+        { Log.i("AuthQuickstart", "Federation cleared successfully.") },
+        { Log.e("AuthQuickstart", "Failed to clear federation.", it) }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+<Callout>
+`clearFederationToIdentityPool` will only clear the session from the local cache, the developer needs to handle signing out from the federated provider.
+</Callout>
+
+### Provide Custom Identity Id
+
+You can provide a custom identity id to the `federateToIdentityPool` API. This is useful when you want to use the same identity id across multiple devices.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+FederateToIdentityPoolOptions options = FederateToIdentityPoolOptions.builder()
+    .developerProvidedIdentityId("YOUR_CUSTOM_IDENTITY_ID")
+    .build();
+
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.federateToIdentityPool(
+        "YOUR_TOKEN",
+        AuthProvider.facebook(),
+        options,
+        result -> {
+            Log.i("AuthQuickstart", "Successful federation to Identity Pool.");
+            // use result.getCredentials()
+        },
+        e -> {
+            Log.e("AuthQuickstart", "Failed to federate to Identity Pool.", e)
+        }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = FederateToIdentityPoolOptions.builder()
+    .developerProvidedIdentityId("YOUR_CUSTOM_IDENTITY_ID")
+    .build()
+
+(Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin)?.let { plugin ->
+    plugin.federateToIdentityPool(
+        "YOUR_TOKEN",
+        AuthProvider.facebook(),
+        options,
+        {
+            Log.i("AuthQuickstart", "Successful federation to Identity Pool.")
+            // use "it.credentials"
+        },
+        {
+            Log.e("AuthQuickstart", "Failed to federate to Identity Pool.", it)
+        }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+## Subscribing Events
+
+You can take specific actions when users sign-in or sign-out by subscribing authentication events in your app. Please see our [Hub Module Developer Guide](/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/) for more information.
+
+## Identity Pool Federation
+
+Imagine that you are creating a mobile app that accesses AWS resources, such as a game that runs on a mobile device and stores player and score information using Amazon S3 and DynamoDB.
+
+When you write such an app, you make requests to AWS services that must be signed with an AWS access key. However, we strongly recommend that you do not embed or distribute long-term AWS credentials with apps that a user downloads to a device, even in an encrypted store. Instead, build your app so that it requests temporary AWS security credentials dynamically when needed using web identity federation. The supplied temporary credentials map to an AWS role that has only the permissions needed to perform the tasks required by the mobile app.
+
+With web identity federation, you don't need to create custom sign-in code or manage your own user identities. Instead, users of your app can sign in using a well-known external identity provider (IdP), such as Login with Amazon, Facebook, Google, or any other OpenID Connect (OIDC)-compatible IdP. They can receive an authentication token, and then exchange that token for temporary security credentials in AWS that map to an IAM role with permissions to use the resources in your AWS account. Using an IdP helps you keep your AWS account secure, because you don't have to embed and distribute long-term security credentials with your application.
+
+You can use `federateToIdentityPool` to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. If you have logged in with `Auth.signIn` you **can not** call `federateToIdentityPool` as Amplify will perform this federation automatically for you in the background. In general, you should only call `Auth.federateToIdentityPool` when using OAuth flows. 
+
+You can use the escape hatch API `federateToIdentityPool` with a valid token from other social providers.
+
+```swift
+func federateToIdentityPools() async throws {
+    guard let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin else {
+        fatalError("Unable to get the Auth plugin")
+    }
+    do {
+        let result = try await authCognitoPlugin.federateToIdentityPool(
+            withProviderToken: "YOUR_TOKEN", for: .facebook)
+        print("Federation successful with result: \(result)")
+    } catch {
+        print("Failed to federate to identity pools with error: \(error)")
+    }
+}
+```
+
+<Callout>
+Note that when federated, API's such as Auth.getCurrentUser() will throw an error as the user is not authenticated with User Pools.
+</Callout>
+
+### Retrieve Session
+
+After federated login, you can retrieve session using the `Auth.fetchAuthSession` API.
+
+### Token Refresh
+
+<Callout>
+NOTE: Automatic authentication token refresh is NOT supported when federated.
+</Callout>
+
+By default, Amplify will **NOT** automatically refresh the tokens from the federated providers. You will need to handle the token refresh logic and provide the new token to the `federateToIdentityPool` API.
+
+### Clear Session
+
+You can clear the federated session using the `clearFederationToIdentityPool` API.
+
+```swift
+func clearFederationToIdentityPools() async throws {
+    guard let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin else {
+        fatalError("Unable to get the Auth plugin")
+    }
+    do {
+        try await authCognitoPlugin.clearFederationToIdentityPool()
+        print("Federation cleared successfully")
+    } catch {
+        print("Clear federation failed with error: \(error)")
+    }
+}
+```
+
+<Callout>
+clearFederationToIdentityPool will only clear the session from local cache, developer need to handle signing out from the federated provider.
+</Callout>
+
+### Provide Custom Identity Id
+
+You can provide a custom identity id to the `federateToIdentityPool` API. This is useful when you want to use the same identity id across multiple devices.
+
+```swift
+func federateToIdentityPoolsUsingCustomIdentityId() async throws {
+    guard let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin else {
+        fatalError("Unable to get the Auth plugin")
+    }
+    do {
+        let identityId = "YOUR_CUSTOM_IDENTITY_ID"
+        let result = try await authCognitoPlugin.federateToIdentityPool(
+            withProviderToken: "YOUR_TOKEN",
+            for: .facebook,
+            options: .init(developerProvidedIdentityID: identityId))
+        print("Federation successful with result: \(result)")
+    } catch {
+        print("Failed to federate to identity pools with error: \(error)")
+    }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={['javascript','react-native','angular','nextjs','react','vue']}>
+## Subscribing to Events
+
+You can take specific actions when users sign-in or sign-out by subscribing to authentication events in your app. Please see our [Hub Module Developer Guide](/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/) for more information.
+
+## Identity Pool Federation
+
+You can alternatively create your own custom credentials provider to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. You must supply the custom credentials provider to Amplify via the `Amplify.configure` method call. Below, you can see sample code of how such a custom provider can be built to achieve the use case.
+
+```js
+import { Amplify } from 'aws-amplify';
+import {
+  fetchAuthSession,
+  CredentialsAndIdentityIdProvider,
+  CredentialsAndIdentityId,
+  GetCredentialsOptions,
+  AuthTokens,
+} from 'aws-amplify/auth';
+
+// Note: This example requires installing `@aws-sdk/client-cognito-identity` to obtain Cognito credentials
+// npm i @aws-sdk/client-cognito-identity
+import { CognitoIdentity } from '@aws-sdk/client-cognito-identity';
+
+// You can make use of the sdk to get identityId and credentials
+const cognitoidentity = new CognitoIdentity({
+  region: '<region-from-config>',
+});
+
+// Note: The custom provider class must implement CredentialsAndIdentityIdProvider
+class CustomCredentialsProvider implements CredentialsAndIdentityIdProvider {
+
+  // Example class member that holds the login information
+  federatedLogin?: {
+    domain: string,
+    token: string
+  };
+
+  // Custom method to load the federated login information
+  loadFederatedLogin(login?: typeof this.federatedLogin) {
+    // You may also persist this by caching if needed
+    this.federatedLogin = login;
+  }
+
+  async getCredentialsAndIdentityId(
+    getCredentialsOptions: GetCredentialsOptions
+  ): Promise<CredentialsAndIdentityId | undefined> {
+    try {
+
+      // You can add in some validation to check if the token is available before proceeding
+      // You can also refresh the token if it's expired before proceeding
+
+      const getIdResult = await cognitoidentity.getId({
+        // Get the identityPoolId from config
+        IdentityPoolId: '<identity-pool-id-from-config>',
+        Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
+      });
+
+      const cognitoCredentialsResult = await cognitoidentity.getCredentialsForIdentity({
+        IdentityId: getIdResult.IdentityId,
+        Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
+      });
+
+      const credentials: CredentialsAndIdentityId = {
+        credentials: {
+          accessKeyId: cognitoCredentialsResult.Credentials?.AccessKeyId,
+          secretAccessKey: cognitoCredentialsResult.Credentials?.SecretKey,
+          sessionToken: cognitoCredentialsResult.Credentials?.SessionToken,
+          expiration: cognitoCredentialsResult.Credentials?.Expiration,
+        },
+        identityId: getIdResult.IdentityId,
+      };
+      return credentials;
+    } catch (e) {
+      console.log('Error getting credentials: ', e);
+    }
+  }
+  // Implement this to clear any cached credentials and identityId. This can be called when signing out of the federation service.
+  clearCredentialsAndIdentityId(): void {}
+}
+
+// Create an instance of your custom provider
+const customCredentialsProvider = new CustomCredentialsProvider();
+Amplify.configure(awsconfig, {
+  Auth: {
+    // Supply the custom credentials provider to Amplify
+    credentialsProvider: customCredentialsProvider
+  },
+});
+
+```
+
+Now that the custom credentials provider is built and supplied to `Amplify.configure`, let's look at how you can use the custom credentials provider to finish federation into Cognito identity pool.
+
+<InlineFilter filters={['react-native']}>
+
+### Facebook Sign-in (React Native - Expo)
+
+```javascript
+import Expo from 'expo';
+import React from 'react';
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+const App = () => {
+  const signIn = async () => {
+    const { type, token, expires } =
+      await Expo.Facebook.logInWithReadPermissionsAsync(
+        'YOUR_FACEBOOK_APP_ID',
+        {
+          permissions: ['public_profile']
+        }
+      );
+    if (type === 'success') {
+      // sign in with federated identity
+      try {
+        customCredentialsProvider.loadFederatedLogin({
+          domain: 'graph.facebook.com',
+          token: token
+        });
+        const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+        console.log('fetchSessionResult: ', fetchSessionResult);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  // ...
+
+  return (
+    <View style={styles.container}>
+      <Button title="FBSignIn" onPress={signIn} />
+    </View>
+  );
+};
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+
+### Facebook sign-in (React)
+
+```js
+import React, { useEffect } from 'react';
+import {
+  fetchAuthSession,
+} from 'aws-amplify/auth';
+
+// To federated sign in from Facebook
+const SignInWithFacebook = () => {
+
+  useEffect(() => {
+    if (!window.FB) createScript();
+  }, [])
+
+  const signIn = () => {
+    const fb = window.FB;
+    fb.getLoginStatus(response => {
+      if (response.status === 'connected') {
+        getAWSCredentials(response.authResponse);
+      } else {
+        fb.login(
+          response => {
+            if (!response || !response.authResponse) {
+              return;
+            }
+            customCredentialsProvider.loadFederatedLogin({
+              domain: 'graph.facebook.com',
+              token: response.authResponse.accessToken,
+            });
+            const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+            console.log('fetchSessionResult: ', fetchSessionResult);
+          },
+          {
+            // the authorized scopes
+            scope: 'public_profile,email'
+          }
+        );
+      }
+    });
+  }
+
+  const createScript = () => {
+    // load the sdk
+    window.fbAsyncInit = fbAsyncInit;
+    const script = document.createElement('script');
+    script.src = 'https://connect.facebook.net/en_US/sdk.js';
+    script.async = true;
+    script.onload = initFB;
+    document.body.appendChild(script);
+  }
+
+  const initFB = () => {
+    const fb = window.FB;
+    console.log('FB SDK initialized');
+  }
+
+  const fbAsyncInit = () => {
+    // init the fb sdk client
+    const fb = window.FB;
+    fb.init({
+      appId   : 'your_facebook_app_id',
+      cookie  : true,
+      xfbml   : true,
+      version : 'v2.11'
+    });
+  }
+
+  return (
+    <div>
+      <button onClick={signIn}>Sign in with Facebook</button>
+    </div>
+  );
+}
+```
+
+### Google sign-in (React)
+
+```jsx
+import React, { useEffect } from 'react';
+import jwt from 'jwt-decode';
+import {
+  fetchAuthSession,
+} from 'aws-amplify/auth';
+
+const SignInWithGoogle = () => {
+  useEffect(() => {
+  // Check for an existing Google client initialization
+    if (!window.google?.accounts) createScript();
+  }, []);
+
+  // Load the Google client
+  const createScript = () => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = initGsi;
+    document.body.appendChild(script);
+  }
+
+  // Initialize Google client and render Google button
+  const initGsi = () => {
+    if (window.google?.accounts) {
+      window.google.accounts.id.initialize({
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        callback: (response: any) => {
+          customCredentialsProvider.loadFederatedLogin({
+            domain: 'accounts.google.com',
+            token: response.credential,
+          });
+          const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+          console.log('fetchSessionResult: ', fetchSessionResult);
+        },
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById('googleSignInButton'),
+        { theme: 'outline', size: 'large' }
+      );
+    }
+  }
+
+  return (
+    <div>
+      <button id='googleSignInButton'/>
+    </div>
+  );
+}
+```
+
+### Federate with Auth0
+
+You can use `Auth0` as one of the providers of your Cognito Identity Pool. This will allow users authenticated via Auth0 have access to your AWS resources.
+
+Step 1. [Follow Auth0 integration instructions for Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+
+Step 2. Login with `Auth0`, then use the id token returned to get AWS credentials from `Cognito Federated Identity Pools` using custom credentials provider you created at the start:
+
+```js
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
+
+async function getCognitoCredentials() {
+  try {
+    customCredentialsProvider.loadFederatedLogin({
+      domain,
+      token: idToken
+    });
+    const fetchSessionResult = await fetchAuthSession(); // will return the credentials
+    console.log('fetchSessionResult: ', fetchSessionResult);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</InlineFilter>
+
+## Lambda Triggers
+
+With the triggers property of defineAuth and defineFunction from the new Functions implementation, you can define [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Cognito User Pool. These enable you to add custom functionality to your registration and authentication flows. [Check out a preSignUp hook example here.](/[platform]/build-a-backend/functions/examples/email-domain-filtering/)
+
+### Pre Authentication and Pre Sign-up Lambda triggers
+
+If you have a Pre Authentication Lambda trigger enabled, you can pass `clientMetadata` as an option for `signIn`. This metadata can be used to implement additional validations around authentication.
+
+```ts
+import { signIn } from 'aws-amplify/auth';
+
+async function handleSignIn(username: string, password: string) {
+  try {
+    await signIn({
+      username,
+      password,
+      options: {
+        clientMetadata: {} // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+### Passing metadata to other Lambda triggers
+
+Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute. This attribute can be specified for various Auth APIs which result in Cognito Lambda Trigger execution.
+
+These APIs include:
+
+- `signIn`
+- `signUp`
+- `confirmSignIn`
+- `confirmSignUp`
+- `resetPassword`
+- `confirmResetPassword`
+- `resendSignUpCode`
+- `updateUserAttributes`
+
+Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`. Exercise caution with using `clientMetadata` when you are relying on `validationData`.
+
+## Working with AWS service objects
+
+You can use AWS _Service Interface Objects_ to work with AWS Services in authenticated State. You can call methods on any AWS Service interface object by passing your credentials from Amplify `fetchAuthSession` to the service call constructor:
+
+```javascript
+import { fetchAuthSession } from 'aws-amplify/auth';
+import Route53 from 'aws-sdk/clients/route53';
+
+async function changeResourceRecordSets() {
+  try {
+    const { credentials } = await fetchAuthSession();
+
+    const route53 = new Route53({
+      apiVersion: '2013-04-01',
+      credentials
+    });
+
+    // more code working with route53 object
+    //route53.changeResourceRecordSets();
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+<Callout warning>
+
+Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
+
+</Callout>
+
+## Custom Token providers
+
+Create a custom Auth token provider for situations where you would like provide your own tokens for a service. For example, using OIDC Auth with AppSync.  You must supply the token provider to Amplify via the `Amplify.configure` method call. Below, you can see sample code of how such a custom provider can be built to achieve the use case.
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import { TokenProvider, decodeJWT } from 'aws-amplify/auth';
+
+// ...
+
+const myTokenProvider: TokenProvider = {
+  async getTokens({ forceRefresh } = {}) {
+    if (forceRefresh) {
+      // try to obtain new tokens if possible
+    }
+
+    const accessTokenString = '<insert JWT from provider>';
+    const idTokenString = '<insert JWT from provider>';
+    
+    return {
+      accessToken: decodeJWT(accessTokenString),
+      idToken: decodeJWT(idTokenString),
+    };
+  },
+};
+
+Amplify.configure(awsconfig, {
+  Auth: {
+    tokenProvider: myTokenProvider
+  }
+});
+
+```
+## API reference
+
+For the complete API documentation for Authentication module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/modules/aws_amplify.auth.html)
+
+</InlineFilter>

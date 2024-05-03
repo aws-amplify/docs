@@ -43,7 +43,7 @@ export const schema = a.schema({
     })
       // highlight-next-line
     .secondaryIndexes((index) => [index("accountRepresentativeId")])
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
 });
 ```
 
@@ -57,10 +57,10 @@ const client = generateClient<Schema>();
 
 const { data, errors } =
   // highlight-start
-  await client.models.Customer.listByAccountRepresentativeId({
+  await client.models.Customer.listCustomerByAccountRepresentativeId({
     accountRepresentativeId: "YOUR_REP_ID",
   });
-// highlight-end
+  // highlight-end
 ```
 
 <Accordion title="Review how this works under the hood with Amazon DynamoDB">
@@ -88,22 +88,19 @@ export const schema = a.schema({
       // highlight-next-line
         .sortKeys(["name"]),
     ])
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 ```
 
 On the client side, you should find a new `listBy...` query that's named after hash key and sort keys. For example, in this case: `listByAccountRepresentativeIdAndName`. You can supply the filter as part of this new list query:
 
 ```ts title="src/App.tsx"
-const {
-  data,
-  errors
-} =
-// highlight-next-line
-  await client.models.Customer.listByAccountRepresentativeIdAndName({
-    accountRepresentativeId: 'YOUR_REP_ID',
+const { data, errors } =
+  // highlight-next-line
+  await client.models.Customer.listCustomerByAccountRepresentativeIdAndName({
+    accountRepresentativeId: "YOUR_REP_ID",
     name: {
-      beginsWith: 'Rene',
+      beginsWith: "Rene",
     },
   });
 ```
@@ -125,7 +122,7 @@ const schema = a.schema({
         // highlight-next-line
         .queryField("listByRep"),
     ])
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 ```
 
@@ -158,6 +155,6 @@ const schema = a.schema({
         // highlight-next-line
         .name("MyCustomIndexName"),
     ])
-    .authorization([a.allow.owner()]),
+    .authorization(allow => [allow.owner()]),
 });
 ```

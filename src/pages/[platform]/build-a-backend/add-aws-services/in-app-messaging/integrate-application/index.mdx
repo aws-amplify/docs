@@ -28,7 +28,7 @@ export function getStaticProps(context) {
 
 <InlineFilter filters={['react-native']}>
 ### Install the Amplify React Native Package and other dependencies
-Installing the `@aws-amplify/react-native` will bring in the necessary polyfills. 
+Installing the `@aws-amplify/react-native` will bring in the necessary polyfills for React Native. 
 
 <Accordion title="Instructions for React Native version 0.72 and below">
 
@@ -42,12 +42,12 @@ Installing the `@aws-amplify/react-native` will bring in the necessary polyfills
 </Accordion>
 
 ```bash title="Terminal" showLineNumbers={false}
-npm install @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage
+npm add @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage
 ```
 
 ### Install Amplify UI for React Native and its dependencies
 
-Although Amplify In-App Messaging can be used as a standalone JavaScript library, this guide will show you how to use it together with Amplify UI which currently supports integration with React and React Native to get started quickly.
+Although Amplify In-App Messaging can be used as a standalone JavaScript library, this guide will show you how to use it together with Amplify UI, which currently supports integration with React and React Native, to get started quickly.
 
 <Callout>
 
@@ -56,7 +56,7 @@ Learn more about Amplify In-App Messaging UI and how to fully unlock its capabil
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npm install @aws-amplify/ui-react-native react-native-safe-area-context
+npm add @aws-amplify/ui-react-native react-native-safe-area-context
 ```
 </InlineFilter>
 
@@ -65,7 +65,7 @@ npm install @aws-amplify/ui-react-native react-native-safe-area-context
 
 ### Install Amplify UI for React
 
-Although Amplify In-App Messaging can be used as a standalone JavaScript library, this guide will show you how to use it together with Amplify UI which currently supports integration with React and React Native to get started quickly.
+Although Amplify In-App Messaging can be used as a standalone JavaScript library, this guide will show you how to use it together with Amplify UI, which currently supports integration with React and React Native, to get started quickly.
 
 <Callout>
 
@@ -74,7 +74,7 @@ Learn more about Amplify In-App Messaging UI and how to fully unlock its capabil
 </Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
-npm install @aws-amplify/ui-react @aws-amplify/ui-react-notifications
+npm add @aws-amplify/ui-react @aws-amplify/ui-react-notifications
 ```
 </InlineFilter>
 
@@ -122,9 +122,9 @@ import {
 } from 'aws-amplify/in-app-messaging';
 import { withInAppMessaging } from '@aws-amplify/ui-react-native';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 initializeInAppMessaging();
 
 // To display your in-app message, make sure this event name matches one you created
@@ -179,9 +179,9 @@ import { Button, View } from '@aws-amplify/ui-react';
 import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
 import { record } from 'aws-amplify/analytics';
 import '@aws-amplify/ui-react/styles.css';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 initializeInAppMessaging();
 
 // To display your in-app message, make sure this event name matches one you created

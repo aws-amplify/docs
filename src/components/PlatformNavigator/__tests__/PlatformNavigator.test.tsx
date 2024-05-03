@@ -7,16 +7,27 @@ const routerMock = {
   __esModule: true,
   useRouter: () => {
     return {
-      pathname: ''
+      pathname: '/[platform]/build-ui/figma-to-code',
+      query: {
+        platform: 'react'
+      }
     };
   }
 };
 
 jest.mock('next/router', () => routerMock);
 
+const flatDirectoryMock = {
+  '/[platform]/build-ui/figma-to-code': {
+    platforms: ['javascript', 'nextjs', 'react']
+  }
+};
+
+jest.mock('@/directory/flatDirectory.json', () => flatDirectoryMock);
+
 describe('PlatformNavigator', () => {
   const component = (
-    <PlatformNavigator currentPlatform={'react'} isPrev={true} />
+    <PlatformNavigator currentPlatform={'react'} isGen1={false} />
   );
 
   it('should render the PlatformNavigator component', async () => {
@@ -26,12 +37,24 @@ describe('PlatformNavigator', () => {
     expect(navigator).toBeInTheDocument();
   });
 
-  it('should show the default platform as React', async () => {
+  it('should show the current platform as React if passed as param', async () => {
     render(component);
 
     const platform = await screen.findByRole('button');
 
     expect(platform.textContent).toBe('React');
+  });
+
+  it('should show the current platform as Nextjs if passed as param', async () => {
+    const component = (
+      <PlatformNavigator currentPlatform={'nextjs'} isGen1={false} />
+    );
+
+    render(component);
+
+    const platform = await screen.findByRole('button');
+
+    expect(platform.textContent).toBe('Next.js');
   });
 
   it('should open dropdown on click', async () => {
@@ -54,9 +77,29 @@ describe('PlatformNavigator', () => {
     userEvent.tab();
     userEvent.tab();
     expect(popoverFirstItem.children[0]).toHaveFocus();
-    expect(popoverFirstItem.textContent).toBe('JavaScript');
+    expect(popoverFirstItem.textContent).toBe('Next.js');
     expect(popoverFirstItem.children[0].getAttribute('href')).toBe(
-      '/javascript'
+      '/nextjs/build-ui/figma-to-code'
     );
+  });
+
+  it('should use current pathname when platform exists for that path', async () => {
+    render(<PlatformNavigator currentPlatform={'react'} isGen1={false} />);
+
+    const popover = await screen.getByRole('navigation');
+    const popoverFirstItem = popover.children[0].children[0];
+    expect(popoverFirstItem.children[0].getAttribute('href')).toBe(
+      '/react/build-ui/figma-to-code'
+    );
+  });
+
+  it('should use platform root url when platform does not exist for current pathname', async () => {
+    render(<PlatformNavigator currentPlatform={'react'} isGen1={false} />);
+
+    const popover = await screen.getByRole('navigation');
+
+    // Flutter
+    const popoverFirstItem = popover.children[0].children[6];
+    expect(popoverFirstItem.children[0].getAttribute('href')).toBe('/flutter');
   });
 });

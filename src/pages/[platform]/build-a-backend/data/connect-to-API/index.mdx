@@ -29,33 +29,23 @@ export function getStaticProps(context) {
 
 }
 
-In this guide, you will connect your application code to the backend API using the Amplify Libraries. We will review how to install and configure Amplify Libraries.
+In this guide, you will connect your application code to the backend API using the Amplify Libraries. Before you begin, you will need:
 
-Before you begin, you will need:
-
-- your cloud sandbox with an Amplify Data resource up and running (`npx amplify sandbox`)
-- A frontend application set up. For instructions on setting up an app, see the [quickstart](/[platform]/start/quickstart) for Amplify Gen 2
+- Your cloud sandbox with an Amplify Data resource up and running (`npx ampx sandbox`)
+- A frontend application set up with the Amplify library installed
 - [npm installed](https://docs.npmjs.com/getting-started)
-
-## Install the Amplify Library
-
-You need the Amplify Library to connect to your Data backend. To install the the Amplify client library, navigate to your frontend's root folder and run the following command in your Terminal:
-
-```bash
-npm add aws-amplify
-```
 
 ## Configure the Amplify Library
 
-You will then configure the library to connect with your Amplify Data's backend API:
+When you deploy you're iterating on your backend (`npx ampx sandbox`), an **amplify_outputs.json** file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
 
-When you deploy you're iterating on your backend (`npx amplify sandbox`), an `amplifyconfiguration.json` file is generated for you. This file contains your API's endpoint information and auth configurations. Add the following code to your app's entrypoint to initialize and configure the Amplify client library:
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 import { Amplify } from 'aws-amplify';
-import config from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 ```
 
 ## Generate the Amplify Data client
@@ -75,19 +65,26 @@ const fetchTodos = async () => {
 };
 ```
 
+</InlineFilter>
+
 ## Configure authorization mode
 
-The **Authorization Mode** is determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use public authorization rules for you data models, you need to use "apiKey" an an authorization mode. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplifyconfiguration.json** that is generated upon a successful deployment.
+The **Authorization Mode** determines how a request should be authorized with the backend. By default, Amplify Data uses the "userPool" authorization which uses the signed-in user credentials to sign an API request. If you use a `allow.publicApiKey()` authorization rules for your data models, you need to use "apiKey" as an authorization mode. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about which authorization modes to choose for which type of request. A **Default Authorization Mode** is provided as part of the **amplify_outputs.json** that is generated upon a successful deployment.
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 You can generate different Data clients with different authorization modes or pass in the authorization mode at the request time.
 
-### Set authorization mode on a Data client
+### Set authorization mode on a per-client basis
 
 To apply the same authorization mode on all requests from a Data client, specify the `authMode` parameter on the `generateClient` function.
+
 
 <BlockSwitcher>
 
 <Block name="API Key">
+
+Use "API Key" as your authorization mode when if defined the `allow.publicApiKey()` authorization rule.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -101,6 +98,8 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="Amazon Cognito user pool">
 
+Use "userPool" as your authorization mode when using Amazon Cognito user pool-based authorization rules, such as `allow.authenticated()`, `allow.owner()`, `allow.ownerDefinedIn()`, `allow.groupsDefinedIn()`, or `allow.groups()`.
+
 ```ts
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
@@ -113,17 +112,20 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="AWS IAM (including Amazon Cognito identity pool roles)">
 
+Use "identityPool" as your authorization mode when using Amazon Cognito identity pool-based authorization rules, such as `allow.guest()` or `allow.authenticated('identityPool')`.
+
 ```ts
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
 
 const client = generateClient<Schema>({
-  authMode: 'iam',
+  authMode: 'identityPool',
 });
 ```
 
 </Block>
 <Block name="OpenID Connect (OIDC)">
+Use "oidc" as your authorization mode when connecting applications to a trusted identity provider. Private, owner, and group authorization can be configured with an OIDC authorization mode. Review the [OIDC authorization docs](/[platform]/build-a-backend/data/customize-authz/using-oidc-authorization-provider) to learn more.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -137,7 +139,7 @@ const client = generateClient<Schema>({
 </Block>
 <Block name="Lambda Authorizer">
 
-You can implement your own custom API authorization logic using a AWS Lambda function. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol with AWS Lambda.
+Use "Lambda Authorizer" when using your own custom authorization logic via `allow.custom()`. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol.
 
 ```ts
 import { generateClient } from 'aws-amplify/data';
@@ -154,6 +156,9 @@ const client = generateClient<Schema>({
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
+
 
 ### Set authorization mode on the request-level
 
@@ -163,14 +168,55 @@ You can also specify the authorization mode on each individual API request. This
 
 <Block name="API Key">
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
   authMode: 'apiKey',
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val query = ModelQuery.list(Todo::class.java) as AppSyncGraphQLRequest<PaginatedResult<Todo>>
+val apiKeyQuery = query
+    .newBuilder()
+    .authorizationType(AuthorizationType.API_KEY)
+    .build<PaginatedResult<Todo>>()
+Amplify.API.query(apiKeyQuery,
+    { Log.i("MyAmplifyApp", "Queried with API key ${it.data}")},
+    { Log.e("MyAmplifyApp", "Error querying with API Key")})
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .apiKey))
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final apiKeyRequest = ModelQueries.list(Todo.classType, authorizationMode: APIAuthorizationType.apiKey);
+final apiKeyResponse = await Amplify.API.query(request: apiKeyRequest).response;
+```
+
+</InlineFilter>
+
 </Block>
 <Block name="Amazon Cognito user pool">
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
@@ -178,17 +224,96 @@ const { data: todos, errors } = await client.models.Todo.list({
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val query = ModelQuery.list(Todo::class.java) as AppSyncGraphQLRequest<PaginatedResult<Todo>>
+val userPoolQuery = query
+  .newBuilder()
+  .authorizationType(AuthorizationType.AMAZON_COGNITO_USER_POOLS)
+  .build<PaginatedResult<Todo>>()
+Amplify.API.query(userPoolQuery,
+  { Log.i("MyAmplifyApp", "Queried with Cognito user pool ${it.data}")},
+  { Log.e("MyAmplifyApp", "Error querying with Cognito user pool")})
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .amazonCognitoUserPools))
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final userPoolRequest = ModelQueries.list(Todo.classType, authorizationMode: APIAuthorizationType.userPools);
+final userPoolResponse = await Amplify.API.query(request: userPoolRequest).response;
+```
+
+</InlineFilter>
+
 </Block>
 <Block name="AWS IAM (including Amazon Cognito identity pool roles)">
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
-  authMode: 'iam',
+  authMode: 'identityPool',
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val query = ModelQuery.list(Todo::class.java) as AppSyncGraphQLRequest<PaginatedResult<Todo>>
+val iamQuery = query
+    .newBuilder()
+    .authorizationType(AuthorizationType.AWS_IAM)
+    .build<PaginatedResult<Todo>>()
+Amplify.API.query(iamQuery,
+    { Log.i("MyAmplifyApp", "Queried with AWS IAM ${it.data}")},
+    { Log.e("MyAmplifyApp", "Error querying with AWS IAM")})
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .awsIAM))
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final iamRequest = ModelQueries.list(Todo.classType, authorizationMode: APIAuthorizationType.iam);
+final iamResponse = await Amplify.API.query(request: iamRequest).response;
+```
+
+</InlineFilter>
+
 </Block>
 <Block name="OpenID Connect (OIDC)">
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 const { data: todos, errors } = await client.models.Todo.list({
@@ -196,10 +321,49 @@ const { data: todos, errors } = await client.models.Todo.list({
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val query = ModelQuery.list(Todo::class.java) as AppSyncGraphQLRequest<PaginatedResult<Todo>>
+val oidcQuery = query
+    .newBuilder()
+    .authorizationType(AuthorizationType.OPENID_CONNECT)
+    .build<PaginatedResult<Todo>>()
+Amplify.API.query(oidcQuery,
+    { Log.i("MyAmplifyApp", "Queried with OIDC authorization mode ${it.data}")},
+    { Log.e("MyAmplifyApp", "Error querying with OIDC authorization mode")})
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .openIDConnect))
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final oidcRequest = ModelQueries.list(Todo.classType, authorizationMode: APIAuthorizationType.oidc);
+final oidcResponse = await Amplify.API.query(request: oidcRequest).response;
+```
+
+</InlineFilter>
+
 </Block>
 <Block name="Lambda Authorizer">
 
 You can implement your own custom API authorization logic using a AWS Lambda function. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) to learn more about how to implement your authorization protocol with AWS Lambda.
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 const getAuthToken = () => 'myAuthToken';
@@ -211,12 +375,53 @@ const { data: todos, errors } = await client.models.Todo.list({
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val query = ModelQuery.list(Todo::class.java) as AppSyncGraphQLRequest<PaginatedResult<Todo>>
+val lambdaQuery = query
+    .newBuilder()
+    .authorizationType(AuthorizationType.AWS_LAMBDA)
+    .build<PaginatedResult<Todo>>()
+Amplify.API.query(lambdaQuery,
+    { Log.i("MyAmplifyApp", "Queried with AWS Lambda authorizer ${it.data}")},
+    { Log.e("MyAmplifyApp", "Error querying with AWS Lambda authorizer")})
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+let result = try await Amplify.API.query(
+    request: .list(
+        Todo.self,
+        authMode: .function))
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final lambdaRequest = ModelQueries.list(Todo.classType, authorizationMode: APIAuthorizationType.function);
+final lambdaResponse = await Amplify.API.query(request: lambdaRequest).response;
+```
+
+</InlineFilter>
+
 </Block>
 </BlockSwitcher>
 
 ## Set custom request headers
 
-When working with the Amplify Data endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API. This is done by specifying a `headers` parameter into the configuration. You can define headers either on a per Data client-level or on a per-request level:
+When working with the Amplify Data endpoint, you may need to set request headers for authorization purposes or to pass additional metadata from your frontend to the backend API.
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+This is done by specifying a `headers` parameter into the configuration. You can define headers either on a per Data client-level or on a per-request level:
 
 <BlockSwitcher>
 
@@ -316,14 +521,145 @@ const res = await client.models.Blog.get(
 
 </BlockSwitcher>
 
-## Conclusion
+</InlineFilter>
 
-Congratulations! You have finished the **Connect your app code to the API** guide. In this guide, you reviewed the required configuration and installed and configured Amplify Libraries. You also reviewed some quick ways to customize the data client with different authorization modes and custom headers.
+<InlineFilter filters={["android"]}>
 
-### Next steps
+To specify your own headers, use the `configureClient()` configuration option on the `AWSApiPlugin`'s builder. Specify the name of one of the configured APIs in your **amplify_outputs.json**. Apply customizations to the underlying OkHttp instance by providing a lambda expression as below.
 
-Our recommended next steps include using the API to mutate and query data. You can also review how to subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
+<BlockSwitcher>
+<Block name="Java">
 
-- [Create, update, and delete application data](/[platform]/build-a-backend/data/mutate-data/)
-- [Read application data](/[platform]/build-a-backend/data/query-data/)
-- [Subscribe to real-time events](/[platform]/build-a-backend/data/subscribe-data/)
+```java
+AWSApiPlugin plugin = AWSApiPlugin.builder()
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API, okHttpBuilder -> {
+        okHttpBuilder.addInterceptor(chain -> {
+            Request originalRequest = chain.request();
+            Request updatedRequest = originalRequest.newBuilder()
+                .addHeader("customHeader", "someValue")
+                .build();
+            return chain.proceed(updatedRequest);
+        });
+    })
+    .build();
+Amplify.addPlugin(plugin);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val plugin = AWSApiPlugin.builder()
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API) { okHttpBuilder ->
+        okHttpBuilder.addInterceptor { chain ->
+            val originalRequest = chain.request()
+            val updatedRequest = originalRequest.newBuilder()
+                .addHeader("customHeader", "someValue")
+                .build()
+            chain.proceed(updatedRequest)
+        }
+    }
+    .build()
+Amplify.addPlugin(plugin)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val plugin = AWSApiPlugin.builder()
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API) { okHttpBuilder ->
+        okHttpBuilder.addInterceptor { chain ->
+            val originalRequest = chain.request()
+            val updatedRequest = originalRequest.newBuilder()
+                .addHeader("customHeader", "someValue")
+                .build()
+            chain.proceed(updatedRequest)
+        }
+    }
+    .build()
+Amplify.addPlugin(plugin)
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSApiPlugin plugin = AWSApiPlugin.builder()
+    .configureClient(AWSApiPlugin.DEFAULT_GRAPHQL_API, okHttpBuilder -> {
+        okHttpBuilder.addInterceptor(chain -> {
+            Request originalRequest = chain.request();
+            Request updatedRequest = originalRequest.newBuilder()
+                .addHeader("customHeader", "someValue")
+                .build();
+            return chain.proceed(updatedRequest);
+        });
+    })
+    .build();
+RxAmplify.addPlugin(plugin);
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+To include custom headers in your outgoing requests, add an `URLRequestInterceptor` to the `AWSAPIPlugin`. Also specify the name of one of the APIs configured in your **amplify_outputs.json** file.
+
+```swift
+struct CustomInterceptor: URLRequestInterceptor {
+    func intercept(_ request: URLRequest) throws -> URLRequest {
+        var request = request
+        request.setValue("headerValue", forHTTPHeaderField: "headerKey")
+        return request
+    }
+}
+let apiPlugin = try AWSAPIPlugin()
+try Amplify.addPlugin(apiPlugin)
+try Amplify.configure(with: .amplifyOutputs)
+try apiPlugin.add(interceptor: CustomInterceptor(), for: AWSAPIPlugin.defaultGraphQLAPI)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+The simplest option for GraphQL requests is to use the `headers` property of a `GraphQLRequest`.
+
+```dart
+Future<void> queryWithCustomHeaders() async {
+  final operation = Amplify.API.query<String>(
+    request: GraphQLRequest(
+      document: graphQLDocumentString,
+      headers: {'customHeader': 'someValue'},
+    ),
+  );
+  final response = await operation.response;
+  final data = response.data;
+  safePrint('data: $data');
+}
+```
+
+Another option is to use the `baseHttpClient` property of the API plugin which can customize headers or otherwise alter HTTP functionality for all HTTP calls.
+
+```dart
+// First create a custom HTTP client implementation to extend HTTP functionality.
+class MyHttpRequestInterceptor extends AWSBaseHttpClient {
+  @override
+  Future<AWSBaseHttpRequest> transformRequest(
+    AWSBaseHttpRequest request,
+  ) async {
+    request.headers.putIfAbsent('customHeader', () => 'someValue');
+    return request;
+  }
+}
+
+// Then you can pass an instance of this client to `baseHttpClient` when you configure Amplify.
+await Amplify.addPlugins([
+  AmplifyAPI(baseHttpClient: MyHttpRequestInterceptor()),
+]);
+```
+
+</InlineFilter>

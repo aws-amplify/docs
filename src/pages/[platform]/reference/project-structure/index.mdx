@@ -28,9 +28,9 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify Gen 2 backends are defined using TypeScript, and enable you to collocate resources depending on their function. For example, you can author a [post confirmation trigger for Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-post-confirmation.html) right next to your auth's resource file.
+Amplify Gen 2 backends are defined using TypeScript, and enable you to collocate resources depending on their function. For example, you can author a [post confirmation trigger for Amazon Cognito that creates a UserProfile model](/[platform]/build-a-backend/functions/examples/create-user-profile-record/) right next to your auth's resource file.
 
-When you create your first Amplify project using `npm create amplify@beta`, it will automatically set up the scaffolding for Data and Authentication resources:
+When you create your first Amplify project using `npm create amplify@latest`, it will automatically set up the scaffolding for Data and Authentication resources:
 
 ```text
 ├── amplify/

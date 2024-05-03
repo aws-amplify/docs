@@ -27,7 +27,7 @@ const schema = a.schema({
     .model({
       content: a.string()
     })
-    .authorization([a.allow.owner(), a.allow.public().to(['read'])])
+    .authorization(allow => [allow.owner(), allow.publicApiKey().to(['read'])])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -36,7 +36,7 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'apiKey',
-    // API Key is used for a.allow.public() rules
+    // API Key is used for allow.publicApiKey() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30
     }
@@ -99,7 +99,7 @@ const schema = a.schema({
       priority: a.enum(['low', 'medium', 'high'])
 // highlight-end
     })
-    .authorization([a.allow.owner(), a.allow.public().to(['read'])]),
+    .authorization(allow => [allow.owner(), allow.publicApiKey().to(['read'])]),
 });
 
 // ...
@@ -114,12 +114,12 @@ The `Todo` data model is defined with authorization rules to allow the person wh
 **Note:** These authorization rules can be modified using a chain of methods as defined by default. For example, we could remove the `.to(['read'])` and allow all visitors to perform all actions on data or add permissions for signed-in users or users who belong to user groups such as `Admin`. You can learn more about all options for authorization in the [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz/) section of the docs.
 </Callout>
 
-<b>Step 2:</b> Remove public access by deleting the `a.allow.public().to(['read'])` authorization rule. Your authorization rule will look like the code below:
+<b>Step 2:</b> Remove public access by deleting the `allow.publicApiKey().to(['read'])` authorization rule. Your authorization rule will look like the code below:
 
 ```js title="amplify/data/resource.ts"
 // ...
 
-.authorization([a.allow.owner()]),
+.authorization(allow => [allow.owner()]),
 
 // ...
 ```

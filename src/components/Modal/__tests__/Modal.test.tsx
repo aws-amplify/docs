@@ -82,7 +82,7 @@ describe('Modal', () => {
     render(<Modal />);
 
     const gen1Link = screen.getByRole('link', {
-      name: 'Go to Gen 1 docs'
+      name: 'Back to Gen 1 Docs'
     });
 
     expect(gen1Link).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe('Modal', () => {
     render(<Modal isGen1={true} />);
 
     const gen1Link = screen.queryByRole('link', {
-      name: 'Go to Gen 1 docs'
+      name: 'Back to Gen 1 Docs'
     });
 
     expect(gen1Link).toBeNull();

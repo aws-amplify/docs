@@ -33,10 +33,10 @@ With AWS Lambda, you can seamlessly integrate various event sources, such as Ama
 
 In this guide, let us configure a Lambda function with a Kinesis data stream as an event source. The Lambda function is automatically triggered whenever new data is published to the stream - whether you're processing streaming data, reacting to application events, or automating workflows.
 
-To get started, install the AWS Lambda Powertools Logger package, which provides structured logging capabilities for your Lambda function.
+To get started, install the AWS Lambda Powertools Logger, which provides structured logging capabilities for your Lambda function, and the `aws-lambda` package, which is used to define the handler type.
 
 ```bash title="Terminal" showLineNumbers={false}
-npm add @aws-lambda-powertools/logger
+npm add @aws-lambda-powertools/logger @types/aws-lambda
 ```
 
 Second, create a new directory and a resource file, `amplify/functions/kinesis-function/resource.ts`. Then, define the function with `defineFunction`:
@@ -102,8 +102,9 @@ Lastly, create the Kinesis stream and add it as a event source in the `amplify/b
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
-import { KinesisEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
+import { Stream } from "aws-cdk-lib/aws-kinesis";
 import { StartingPosition } from "aws-cdk-lib/aws-lambda";
+import { KinesisEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { myKinesisFunction } from "./functions/kinesis-function/resource";
@@ -128,5 +129,6 @@ const eventSource = new KinesisEventSource(kinesisStream, {
 
 backend.myKinesisFunction.resources.lambda.addEventSource(eventSource);
 ```
-
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue"]}>
 For examples on streaming analytics data to the Kinesis stream from your frontend, see the [Streaming analytics data](/[platform]/build-a-backend/add-aws-services/analytics/streaming-data/) documentation.
+</InlineFilter>

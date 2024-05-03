@@ -62,8 +62,11 @@ const PlatformOverview = ({ platform }) => {
           the cloud for authentication, storage, APIs, and more.
         </Text>
         <Flex className="home-cta">
+          <GetStartedPopover
+            platform={platform}
+            getStartedLinks={generateGetStartedLinks(gen1GetStartedHref)}
+          />
           <InternalLinkButton
-            variation="primary"
             size="large"
             href={{
               pathname: gen1HowAmplifyWorksPathname,
@@ -73,11 +76,6 @@ const PlatformOverview = ({ platform }) => {
             How Amplify Works
             <IconChevron className="icon-rotate-270" fontSize=".875em" />
           </InternalLinkButton>
-
-          <GetStartedPopover
-            platform={platform}
-            getStartedLinks={generateGetStartedLinks(gen1GetStartedHref)}
-          />
         </Flex>
       </Flex>
       <Flex direction="column">

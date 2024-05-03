@@ -2,19 +2,10 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Use AWS SDK',
-  description: 'For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the AWSPinpoint instance.',
+  description: 'For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the AWSRekognition instance.',
   platforms: [
     'swift',
     'android'
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'swift',
-        'swift'
-      ],
-      canonicalPath: '/gen1/swift/build-a-backend/more-features/predictions/sdk/'
-    }
   ]
 };
 
@@ -31,10 +22,10 @@ export function getStaticProps(context) {
   };
 }
 
-import ios0 from '/src/fragments/lib/analytics/ios/escapehatch.mdx';
+import ios0 from '/src/fragments/lib/predictions/ios/escapehatch.mdx';
 
 <Fragments fragments={{ swift: ios0 }} />
 
-import android1 from '/src/fragments/lib/analytics/android/escapehatch.mdx';
+import android1 from '/src/fragments/lib/predictions/android/escapehatch.mdx';
 
 <Fragments fragments={{ android: android1 }} />

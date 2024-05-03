@@ -40,7 +40,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
 });
 ```
 
@@ -74,23 +74,23 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public('identityPool')]),
+    .authorization(allow => [allow.guest()]),
 });
 ```
 
-In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `iam` auth mode.
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `identityPool` auth mode.
 
 <Callout info>
-If you're not using the auto-generated **amplifyconfiguration.json** file, then you must set the Amplify Library resource configuration's `allowGuestAccess` flag to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in.
+If you're not using the auto-generated **amplify_outputs.json** file, then you must set the Amplify Library resource configuration's `allowGuestAccess` flag to `true`. This lets the Amplify Library use the unauthenticated role from your Cognito identity pool when your user isn't logged in.
 
 <Accordion title="Amplify configuration">
 ```ts title="src/App.tsx"
 import { Amplify } from "aws-amplify";
-import config from "../amplifyconfiguration.json";
+import outputs from "../amplify_outputs.json";
 
 Amplify.configure(
   {
-    ...config,
+    ...outputs,
     Auth: {
       Cognito: {
         identityPoolId: config.aws_cognito_identity_pool_id,
@@ -117,7 +117,7 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   },
   // highlight-start
   {
-    authMode: 'iam',
+    authMode: 'identityPool',
   }
   // highlight-end
 );

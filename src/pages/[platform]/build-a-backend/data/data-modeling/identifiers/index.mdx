@@ -36,7 +36,8 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     completed: a.boolean(),
-  }),
+  })
+  .authorization(allow => [allow.publicApiKey()]),
 });
 ```
 
@@ -59,15 +60,16 @@ If the default `id` identifier field needs to be customized, you can do so by pa
 const schema = a.schema({
   Todo: a.model({
     todoId: a.id().required(),
-    title: a.string(),
+    content: a.string(),
     completed: a.boolean(),
-  }).identifier(['todoId'])
-  .authorization([a.allow.public()]),
+  })
+  .identifier(['todoId'])
+  .authorization(allow => [allow.publicApiKey()]),
 });
 
 const client = generateClient<Schema>();
 
- const { data: todo, errors } = await client.models.Todo.create({ todoId: 'MyUniqueTodoId', title: 'Buy Milk', completed: false });
+ const { data: todo, errors } = await client.models.Todo.create({ todoId: 'MyUniqueTodoId', content: 'Buy Milk', completed: false });
 console.log(`New Todo created: ${todo.todoId}`); // New Todo created: MyUniqueTodoId
 ```
 
@@ -86,7 +88,7 @@ const schema = a.schema({
     zipCode: a.string(),
     streetAddress: a.string(),
   }).identifier(['tenantId', 'name'])
-  .authorization([a.allow.public()]),
+  .authorization(allow => [allow.publicApiKey()]),
 });
 
 const client = generateClient<Schema>();

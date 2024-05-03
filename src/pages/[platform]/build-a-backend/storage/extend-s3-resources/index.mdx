@@ -8,7 +8,11 @@ export const meta = {
     'javascript',
     'nextjs',
     'react',
-    'vue'
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
   ]
 };
 
@@ -24,9 +28,16 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={['flutter']}>
+<Callout warning>
+
+Storage for Gen 2 is not yet available for Flutter
+</Callout>
+</InlineFilter>
+
 ## For Amplify-generated S3 resources
 
-Amplify Storage generates Amazon S3 resources to offer storage features. You can access the underlying Amazon S3 resources to further customize your backend configuration by using the AWS Cloud Developer Kit (CDK).
+Amplify Storage generates Amazon S3 resources to offer storage features. You can access the underlying Amazon S3 resources to further customize your backend configuration by using the AWS Cloud Developer Kit (AWS CDK).
 
 ### Example - Enable Transfer Acceleration
 
@@ -52,11 +63,157 @@ cfnBucket.accelerateConfiguration = {
 }
 // highlight-end
 ```
-Read more about [escape hatches in CDK](https://docs.aws.amazon.com/cdk/v2/guide/cfn_layer.html#develop-customize-escape).
+<InlineFilter filters={['android']}>
 
-### For Manually configured S3 resources
+### Upload files using the accelerated S3 endpoint
 
-{/* TODO Rewrite is this needed only for JS? or is it needed for Flutter Web for example as well? */}
+We switch to the accelerated S3 endpoint by using the `useAccelerateEndpoint` parameter set to `true` in the `AWSS3StorageUploadFileOptions`.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSS3StorageUploadFileOptions awsS3StorageUploadFileOptions =
+              AWSS3StorageUploadFileOptions.builder().setUseAccelerateEndpoint(true).build();
+ Amplify.Storage.uploadFile(
+   StoragePath.fromString("public/example"),
+   file
+   awsS3StorageUploadFileOptions,
+   result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+   storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+);
+```
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
+                                                  setUseAccelerateEndpoint(true).
+                                                  build()
+ Amplify.Storage.uploadFile(
+   StoragePath.fromString("public/example"),
+   file
+   awsS3StorageUploadFileOptions,
+   { Log.i("MyAmplifyApp", "Successfully uploaded: " + it.getPath()) },
+   { Log.e("MyAmplifyApp", "Upload failed", it) }
+)
+```
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
+                                                    setUseAccelerateEndpoint(true).
+                                                    build()
+val upload = Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), file, awsS3StorageUploadFileOptions)
+try {
+    val result = upload.result()
+    Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Upload failed", error)
+}
+
+```
+</Block>
+<Block name="RxJava">
+
+```java
+AWSS3StorageUploadFileOptions awsS3StorageUploadFileOptions =
+            AWSS3StorageUploadFileOptions.builder().setUseAccelerateEndpoint(true).build();
+RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+            RxAmplify.Storage.uploadFile(StoragePath.fromString("public/example"), file, awsS3StorageUploadFileOptions);
+rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+
+```
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+### Upload files using the accelerated S3 endpoint
+
+You can use transfer acceleration by setting `"useAccelerateEndpoint"` to `true` in the corresponding `pluginOptions` for any of the following Storage APIs:
+- `getUrl(key:options:)`
+- `downloadData(key:options:)`
+- `downloadFile(key:local:options:)`
+- `uploadData(key:data:options:)`
+- `uploadFile(key:local:options:)`
+
+For example, to upload a file using transfer acceleration:
+
+```swift
+let uploadTask = Amplify.Storage.uploadFile(
+    key: aKey,
+    local: aLocalFile,
+    options: .init(
+        pluginOptions: [
+            "useAccelerateEndpoint": true
+        ]
+    )
+)
+
+let data = try await uploadTask.value
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+### Upload files using the accelerated S3 endpoint
+
+You can use transfer acceleration when calling the following APIs:
+
+* `getUrl`
+* `downloadData`
+* `downloadFile`
+* `uploadData`
+* `uploadFile`
+
+Set `useAccelerateEndpoint` to `true` in the corresponding Storage S3 plugin options to apply an accelerated S3 endpoint to the operation. For example, upload a file using transfer acceleration:
+
+```dart
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
+Future<void> uploadFileUsingAcceleration(String filePath, String key) async {
+  final localFile = AWSFile.fromPath(filePath);
+  try {
+    final uploadFileOperation = Amplify.Storage.uploadFile(
+      localFile: localFile,
+      key: key,
+      options: const StorageUploadFileOptions(
+        pluginOptions: S3UploadFilePluginOptions(
+          useAccelerateEndpoint: true,
+        ),
+      ),
+    );
+
+    final result = await uploadFileOperation.result;
+    safePrint('Uploaded file: ${result.uploadedItem.key}');
+  } on StorageException catch (error) {
+    safePrint('Something went wrong uploading file: ${error.message}');
+  }
+}
+```
+
+</InlineFilter>
+
+Read more about [escape hatches in the CDK](https://docs.aws.amazon.com/cdk/v2/guide/cfn_layer.html#develop-customize-escape).
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native", "flutter"]}>
+
+## For Manually configured S3 resources
+
+<InlineFilter filters={["flutter"]}>
+
+Follow this guide if you are building against a web target.
+
+</InlineFilter>
 
 <Callout warning>
 
@@ -66,7 +223,7 @@ To make calls to your S3 bucket from your App, you need to set up a CORS Policy 
 
 The following steps will set up your CORS Policy:
 
-1. Go to [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) and click on your project's `userfiles` bucket, which is normally named as [Bucket Name][Id]-dev. ![Go to [Amazon S3 Console]](/images/storage/CORS1.png)
+1. Go to [Amazon S3 console](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) and click on your project's `userfiles` bucket, which is normally named as [Bucket Name][Id]-dev. ![Go to [Amazon S3 Console]](/images/storage/CORS1.png)
 2. Click on the **Permissions** tab for your bucket. ![Click on the **Permissions** tab for your bucket](/images/storage/CORS2.png)
 3. Click the edit button in the **Cross-origin resource sharing (CORS)** section. ![Click the edit button in the **Cross-origin resource sharing (CORS)** section](/images/storage/CORS3.png)
 4. Make the Changes and click on Save Changes. You can add required metadata to be exposed in `ExposeHeaders` with `x-amz-meta-XXXX` format. ![Click on Save Changes:](/images/storage/CORS4.png)
@@ -94,3 +251,5 @@ The following steps will set up your CORS Policy:
 **Note:** You can restrict the access to your bucket by updating AllowedOrigin to include individual domains.
 
 </Callout>
+
+</InlineFilter>

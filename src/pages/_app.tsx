@@ -6,8 +6,6 @@ import { Layout } from '@/components/Layout';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
-import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
-import { useCanonicalUrl } from '@/utils/useCanonicalUrl';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -53,11 +51,6 @@ function MyApp({ Component, pageProps }) {
       </Layout>
     ));
 
-  let canonicalUrl = 'https://docs.amplify.aws';
-
-  const canonicalUrlPath = useCanonicalUrl(meta, useCurrentPlatform());
-
-  canonicalUrl += canonicalUrlPath;
   const favIconColor = router.route.startsWith('/gen1') ? 'teal' : 'purple';
   return (
     <>
@@ -144,7 +137,6 @@ function MyApp({ Component, pageProps }) {
         />
 
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
-        <link rel="canonical" href={canonicalUrl} />
 
         {process.env.BUILD_ENV !== 'production' ? (
           <>

@@ -45,7 +45,7 @@ const schema = a.schema({
     })
     // STEP 1
     // Indicate which models / fields should use a custom authorization rule
-    .authorization([a.allow.custom()]),
+    .authorization(allow => [allow.custom()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

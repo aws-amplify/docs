@@ -34,7 +34,7 @@ In this guide, you will learn how to set up Amplify Data. This includes building
 
 Before you begin, you will need:
 
-- [Node.js](https://nodejs.org/) v14.x or later
+- [Node.js](https://nodejs.org/) v18.16.0 or later
 - [npm](https://www.npmjs.com/) v6.14.4 or later
 - [git](https://git-scm.com/) v2.14.1 or later
 
@@ -42,7 +42,7 @@ With Amplify Data, you can build a secure, real-time API backed by a database in
 
 ## Building your data backend
 
-If you've run `npm create amplify@beta` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
+If you've run `npm create amplify@latest` already, you should see an `amplify/data/resource.ts` file, which is the central location to configure your data backend. The most important element is the `schema` object, which defines your backend data models (`a.model()`) and custom queries (`a.query()`), mutations (`a.mutation()`), and subscriptions (`a.subscription()`).
 
 ```ts title="amplify/data/resource.ts"
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
@@ -52,7 +52,7 @@ const schema = a.schema({
       content: a.string(),
       isDone: a.boolean()
     })
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
 });
 
 // Used for code completion / highlighting when making requests from frontend
@@ -74,14 +74,14 @@ Every `a.model()` automatically creates the following resources in the cloud:
 - query and mutation APIs to create, read (list/get), update, and delete records
 - real-time APIs to subscribe for create, update, and delete events of records
 
-The `a.allow.public()` rule designates that anyone authenticated using an API key can create, read, update, and delete todos.
+The `allow.publicApiKey()` rule designates that anyone authenticated using an API key can create, read, update, and delete todos.
 
 To deploy these resources to your cloud sandbox, run the following CLI command in your terminal:
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
 </InlineFilter>
@@ -89,7 +89,7 @@ npx amplify sandbox
 <InlineFilter filters={["android"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/res/raw/
+npx ampx sandbox --outputs-out-dir <path_to_app/src/main/res/raw/>
 ```
 
 </InlineFilter>
@@ -97,27 +97,27 @@ npx amplify sandbox --config-format json-mobile --config-out-dir app/src/main/re
 <InlineFilter filters={["swift"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format json-mobile --config-out-dir <path_to_swift_project>
+npx ampx sandbox --outputs-out-dir <path_to_swift_project>
 ```
 
-Drag and drop the **amplifyconfiguration.json** file into your Xcode project to add the generate file.
+Drag and drop the **amplify_outputs.json** file into your Xcode project to add the generate file.
 
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox --config-format dart --config-out-dir lib
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 </InlineFilter>
 
 ## Connect your application code to the data backend
 
-Once the cloud sandbox is up and running, it will also create an `amplifyconfiguration.json` file, which includes the relevant connection information to your data backend, like your API endpoint URL and API key.
+Once the cloud sandbox is up and running, it will also create an `amplify_outputs.json` file, which includes the relevant connection information to your data backend, like your API endpoint URL and API key.
 
 To connect your frontend code to your backend, you need to:
 
-1. configure the Amplify library with the Amplify client configuration file
+1. configure the Amplify library with the Amplify client configuration file (`amplify_outputs.json`)
 2. generate a new API client from the Amplify library
 3. make an API request with end-to-end type-safety
 
@@ -125,17 +125,17 @@ First, install the Amplify client library to your project:
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
-```bash
-npm install aws-amplify
+```bash title="Terminal" showLineNumbers={false}
+npm add aws-amplify
 ```
 
 In your app's entry point, typically **main.tsx** for React apps created using Vite, make the following edits:
 
 ```tsx title="src/main.tsx"
 import { Amplify } from 'aws-amplify';
-import config from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 ```
 
 </InlineFilter>
@@ -148,8 +148,7 @@ Under Gradle Scripts, open build.gradle (Module :app), add the following lines:
 dependencies {
     // Amplify API dependencies
     // highlight-start
-    implementation("com.amplifyframework:aws-api:2.14.11")
-    implementation("com.amplifyframework:core:2.14.11")
+    implementation("com.amplifyframework:aws-api:ANDROID_VERSION")
     // highlight-end
     // ... other dependencies
 }
@@ -157,9 +156,19 @@ dependencies {
 
 Click **Sync Now** in the notification bar above the file editor to sync these dependencies.
 
-Next, configure the Amplify client library with the generated `amplifyconfiguration.json` file to make it aware of the backend API endpoint. *Note: verify that the **amplifyconfiguration.json** file is present in your **res/raw/** folder.
+Next, configure the Amplify client library with the generated `amplify_outputs.json` file to make it aware of the backend API endpoint. *Note: verify that the **amplify_outputs.json** file is present in your **res/raw/** folder.
 
 Create a new `MyAmplifyApp` class that inherits from `Application` with the following code:
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
 
 ```kt
 package com.example.myapplication
@@ -169,6 +178,7 @@ import android.util.Log
 import com.amplifyframework.AmplifyException
 import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 
 class MyAmplifyApp : Application() {
     override fun onCreate() {
@@ -180,8 +190,7 @@ class MyAmplifyApp : Application() {
             Amplify.addPlugin(AWSApiPlugin())
             // Configures the client library to be aware of your backend API
             // endpoint and authorization modes.
-            Amplify.configure(applicationContext)
-
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("Tutorial", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("Tutorial", "Could not initialize Amplify", error)
@@ -217,14 +226,14 @@ com.example.MyAmplifyApp I/MyAmplifyApp: Initialized Amplify
 Finally, let's generate the GraphQL client code for your Android application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Kotlin or Java code.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --format modelgen --model-target java --out <path_to_app/src/main/java/>
+npx ampx generate graphql-client-code --format modelgen --model-target java --out <path_to_app/src/main/java/>
 ```
 
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
 
-Drag and drop the **amplifyconfiguration.json** file from the Finder into Xcode.
+Drag and drop the **amplify_outputs.json** file from the Finder into Xcode.
 
 Next, add Amplify Library for Swift through the Swift Package Manager.  In Xcode, select **File** > **Add Packages...**.
 
@@ -251,7 +260,7 @@ struct MyAmplifyApp: App {
         let awsApiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
         do {
             try Amplify.add(plugin: awsApiPlugin)
-            try Amplify.configure()
+            try Amplify.configure(with: .amplifyOutputs)
             print("Initialized Amplify");
         } catch {
             // simplified error handling for the tutorial
@@ -259,7 +268,7 @@ struct MyAmplifyApp: App {
         }
     }
     // highlight-end
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -271,7 +280,7 @@ struct MyAmplifyApp: App {
 Finally, let's generate the GraphQL client code for your Swift application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Swift code.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels
+npx ampx generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels
 ```
 
 Drag and drop the **AmplifyModels** folder into your Xcode project to add the generated files.
@@ -304,7 +313,7 @@ flutter pub get
 Now, let's generate the GraphQL client code for your Flutter application. Amplify Data uses GraphQL under the hood to make query, mutation, and subscription requests. The generated GraphQL client code helps you to author fully-typed API requests without needing to hand-author GraphQL requests and manually map them to Dart code.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/lib/models
+npx ampx generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/lib/models
 ```
 
 Finally, let's add the necessary plugins into the Flutter application by customizing the `main()` function of the **lib/main.dart** file:
@@ -326,7 +335,7 @@ Future<void> main() async {
   try {
     final api = AmplifyAPI(modelProvider: ModelProvider.instance);
     await Amplify.addPlugins([api]);
-    await Amplify.configure(amplifyConfig);
+    await Amplify.configure(outputs);
 
     safePrint('Successfully configured Amplify');
   } on Exception catch (e) {
@@ -376,7 +385,7 @@ Try playing around with the code completion of `.update(...)` and `.delete(...)`
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-In your MainActivity, add a button to create a new todo. 
+In your MainActivity, add a button to create a new todo.
 
 ```kt title="MainActivity.kt"
 // imports
@@ -433,7 +442,7 @@ import SwiftUI
 import Amplify
 
 struct ContentView: View {
-    
+
     var body: some View {
         // highlight-start
         VStack {
@@ -449,7 +458,7 @@ struct ContentView: View {
         }
         // highlight-end
     }
-    
+
     // highlight-start
     private func addNewTodo() {
         Task {
@@ -481,10 +490,10 @@ Successfully created todo: Todo(id: XYZ ...)
 
 <InlineFilter filters={['flutter']}>
 
-In your page, let's add a floating action button that creates a new todo. 
+In your page, let's add a floating action button that creates a new todo.
 
 ```dart title="lib/main.dart"
-// ... main() 
+// ... main()
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -560,7 +569,7 @@ import { generateClient } from "aws-amplify/data";
 const client = generateClient<Schema>();
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
+  const [todos, setTodos] = useState<Schema["Todo"]["type"][]>([]);
 
   const fetchTodos = async () => {
     const { data: items, errors } = await client.models.Todo.list();
@@ -638,7 +647,7 @@ import Amplify
 struct ContentView: View {
     // highlight-next-line
     @State private var todos: [Todo] = []
-    
+
     var body: some View {
         VStack {
             // highlight-start
@@ -662,7 +671,7 @@ struct ContentView: View {
         }
         // highlight-end
     }
-    
+
     // highlight-start
     private func fetchTodos() async {
         do {
@@ -807,7 +816,7 @@ import { generateClient } from "aws-amplify/data";
 const client = generateClient<Schema>();
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
+  const [todos, setTodos] = useState<Schema["Todo"]["type"][]>([]);
 
   useEffect(() => {
     const sub = client.models.Todo.observeQuery().subscribe({
@@ -906,7 +915,7 @@ struct ContentView: View {
     @State private var todos: [Todo] = []
     // highlight-next-line
     private var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
-    
+
     var body: some View {
         VStack {
             // ...
@@ -920,13 +929,13 @@ struct ContentView: View {
             // ...
         }
     }
-    
+
     // highlight-start
     init() {
         self.subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
     }
     // highlight-end
-    
+
     // ... fetchTodos() and addNewTodo()
 }
 ```
@@ -938,7 +947,7 @@ Next, add a handler as new todo creation events are received:
 
 struct ContentView: View {
     // ... state & subscription vars
-    
+
     var body: some View {
         VStack {
             // ...
@@ -956,7 +965,7 @@ struct ContentView: View {
             // highlight-end
         }
     }
-    
+
     // highlight-start
     private func handleSubscriptionEvent(_ subscriptionEvent: GraphQLSubscriptionEvent<Todo>) {
         switch subscriptionEvent {
@@ -971,7 +980,7 @@ struct ContentView: View {
                 print("Got failed result with \(error.errorDescription)")
             }
         }
-    } 
+    }
     // highlight-end
     // ... init(), fetchTodos(), and addNewTodo()
 }

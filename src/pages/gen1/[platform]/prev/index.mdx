@@ -5,27 +5,17 @@ export const meta = {
   title: 'Prev',
   description: 'Prev',
   platforms: [
+    'android',
+    'angular',
+    'flutter',
     'javascript',
     'nextjs',
-    'react'
+    'react',
+    'react-native',
+    'swift',
+    'vue'
   ],
-  route: '/gen1/[platform]/prev',
-  canonicalObjects: [
-    {
-      platforms: [
-        'react-native',
-        'android',
-        'vue',
-        'angular',
-        'react',
-        'swift',
-        'nextjs',
-        'javascript',
-        'flutter'
-      ],
-      canonicalPath: '/gen1/javascript/prev/'
-    }
-  ]
+  route: '/gen1/[platform]/prev'
 };
 
 export const getStaticPaths = async () => {

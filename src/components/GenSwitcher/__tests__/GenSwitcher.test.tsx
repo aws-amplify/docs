@@ -2,6 +2,17 @@ import * as React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import { GenSwitcher } from '../GenSwitcher';
 
+const routerMock = {
+  __esModule: true,
+  useRouter: () => {
+    return {
+      query: {}
+    };
+  }
+};
+
+jest.mock('next/router', () => routerMock);
+
 describe('GenSwitcher', () => {
   it('should render GenSwitcher component', async () => {
     const testId = 'testGenSwitcher';
@@ -44,5 +55,39 @@ describe('GenSwitcher', () => {
     const gen1Link = screen.getByRole('link', { name: 'Gen 2' });
 
     expect(gen1Link.classList).toContain('popover-list__link--current');
+  });
+
+  it('should not have specific platform links if on home page', () => {
+    render(<GenSwitcher />);
+
+    const gen1Link: HTMLLinkElement = screen.getByRole('link', {
+      name: 'Gen 1'
+    });
+    const gen2Link: HTMLLinkElement = screen.getByRole('link', {
+      name: 'Gen 2'
+    });
+
+    expect(gen1Link.href).toBe('http://localhost/gen1');
+    expect(gen2Link.href).toBe('http://localhost/');
+  });
+
+  it('should have current platform in the urls if we are on a specific platform url', async () => {
+    routerMock.useRouter = () => {
+      return {
+        query: { platform: 'swift' }
+      };
+    };
+
+    render(<GenSwitcher />);
+
+    const gen1Link: HTMLLinkElement = screen.getByRole('link', {
+      name: 'Gen 1'
+    });
+    const gen2Link: HTMLLinkElement = screen.getByRole('link', {
+      name: 'Gen 2'
+    });
+
+    expect(gen1Link.href).toContain('/gen1/swift');
+    expect(gen2Link.href).toContain('/swift');
   });
 });

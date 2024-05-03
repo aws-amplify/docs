@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Multi-user data access',
-  description: "The `multipleOwners` rule grants a set of users access to a record by automatically creating an `owners` field to store the allowed record owners. You can override the default owners field name by specifying `inField` with the desired field name to store the owner information. You can dynamically manage which users can access a record by updating the owner field.",
+  description: "The `ownersDefinedIn` rule grants a set of users access to a record by automatically creating an `owners` field to store the allowed record owners. You can override the default owners field name by specifying `inField` with the desired field name to store the owner information. You can dynamically manage which users can access a record by updating the owner field.",
   platforms: [
     'android',
     'angular',
@@ -29,11 +29,11 @@ export function getStaticProps(context) {
   };
 }
 
-The `multipleOwners` rule grants a set of users access to a record by automatically creating an `owners` field to store the allowed record owners. You can override the default owners field name by specifying `inField` with the desired field name to store the owner information. You can dynamically manage which users can access a record by updating the owner field.
+The `ownersDefinedIn` rule grants a set of users access to a record by automatically creating an `owners` field to store the allowed record owners. You can override the default owners field name by specifying `inField` with the desired field name to store the owner information. You can dynamically manage which users can access a record by updating the owner field.
 
 ## Add multi-user authorization rule
 
-If you want to grant a set of users access to a record, you use the `multipleOwners` rule. This automatically creates a `owner: a.string().array()` field to store the allowed owners.
+If you want to grant a set of users access to a record, you use the `ownersDefinedIn` rule. This automatically creates a `owners: a.string().array()` field to store the allowed owners.
 
 ```ts title="amplify/data/resource.ts"
 const schema = a.schema({
@@ -41,7 +41,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.multipleOwners()]),
+    .authorization(allow => [allow.ownersDefinedIn('owners')]),
 });
 ```
 
@@ -70,7 +70,7 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 await client.models.Todo.update(
   {
     id: newTodo.id,
-    owner: [...(newTodo.owner as string[]), otherUserId],
+    owners: [...(newTodo.owners as string[]), otherUserId],
   },
   // highlight-start
   {
@@ -91,6 +91,6 @@ const schema = a.schema({
       content: a.string(),
       authors: a.string().array(), // record owner information now stored in "authors" field
     })
-    .authorization([a.allow.multipleOwners().inField('authors')]),
+    .authorization(allow => [allow.ownersDefinedIn('authors')]),
 });
 ```

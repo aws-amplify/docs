@@ -1,0 +1,207 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use existing Amazon Location resources',
+  description: 'Configure Amplify Geo to use existing Amazon Location Service resources by referencing them in your configuration.',
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+You can also use Amplify Geo with your existing Amazon Location Service resources if you'd like, there are some manual setup that you need to do.
+
+## Authorization permissions
+
+To use your existing Amazon Location Service resources, i.e. maps and place indices, with Amplify Geo, you need to ensure your role has the right authorization permissions through Cognito.
+
+**Note:** Here is a guide on [Creating an Amazon Cognito identity pool for use with Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/authenticating-using-cognito.html)
+
+There are two roles created by Cognito: an `Auth_Role` that grants signed-in-user-level access and an `Unauth_Role` that allows unauthenticated access to resources. Attach the following policies for the appropriate resources and roles (Auth and/or Unauth). Replace `{region}`, `{account-id}`, and `{enter Map/PlaceIndex name}` with the correct items. Note that certain actions cannot be performed with unauthenticated access. The list of actions allowed for the Unauth role is in the [Granting access to Amazon Location Service guide](https://docs.aws.amazon.com/location/latest/developerguide/how-to-access.html).
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "GetTiles",
+      "Effect": "Allow",
+      "Action": [
+        "geo:GetMapTile",
+        "geo:GetMapSprites",
+        "geo:GetMapGlyphs",
+        "geo:GetMapStyleDescriptor"
+      ],
+      "Resource": "arn:aws:geo:<your-geo-region>:<your-account-id>:map/<your-map-name>"
+    },
+    {
+      "Sid": "Search",
+      "Effect": "Allow",
+      "Action": [
+        "geo:SearchPlaceIndexForPosition",
+        "geo:SearchPlaceIndexForText"
+      ],
+      "Resource": "arn:aws:geo:<your-geo-region>:<your-account-id>:place-index/<your-index-name>"
+    },
+    {
+      "Sid": "Geofence",
+      "Effect": "Allow",
+      "Action": [
+        "geo:GetGeofence",
+        "geo:PutGeofence",
+        "geo:BatchPutGeofence",
+        "geo:BatchDeleteGeofence",
+        "geo:ListGeofences",
+      ],
+      "Resource": "arn:aws:geo:<your-geo-region>:<your-account-id>:geofence-collection/<your-collection-name>"
+    }
+  ]
+}
+```
+
+<InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
+## In your application
+
+You can first import and configure the generated `amplify_outputs.json`. You can then manually configure Amplify Geo like this:
+
+```js
+import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+
+Amplify.configure(outputs);
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Geo: {
+    LocationService: {
+      maps: {
+        items: {
+          <your-map-name>: {
+            // REQUIRED - Amazon Location Service Map resource name
+            style: 'VectorEsriStreets' // REQUIRED - String representing the style of map resource
+          }
+        },
+        default: '<your-preferred-default-map>' // REQUIRED - Amazon Location Service Map resource name to set as default
+      },
+      search_indices: {
+        items: ['<your-geo-index>'], // REQUIRED - Amazon Location Service Place Index name
+        default: '<your-default-index>' // REQUIRED - Amazon Location Service Place Index name to set as default
+      },
+      geofenceCollections: {
+        items: ['<your-geo-collection>'], // REQUIRED - Amazon Location Service Geofence Collection name
+        default: '<your-default-collection>' // REQUIRED - Amazon Location Service Geofence Collection name to set as default
+      },
+      region: '<your-geo-region>' // REQUIRED - Amazon Location Service Region
+    }
+  }
+});
+```
+
+Now you can proceed to [displaying a map](/[platform]/build-a-backend/add-aws-services/geo/maps/) or [adding location search](/[platform]/build-a-backend/add-aws-services/geo/location-search/) to your app.
+</InlineFilter>
+
+
+<InlineFilter filters={['android']}>
+## In your app configuration
+
+Amplify Geo is dependent on your Amplify Auth category. If it is not already configured, then you will have to manually configure it as well. In order to manually configure Amplify Geo category, you must edit `amplify_outputs.json` in your project's `src/main/res/raw` directory with your information from existing Amazon Cognito and Amazon Location Service resources.
+
+```json
+{
+    "Version": "1.0",
+    "geo": {
+        "plugins": {
+            "awsLocationGeoPlugin": {
+                "region": <your-geo-region>,
+                "maps": {
+                    "items": {
+                        <your-map-name>: {
+                            "style": <your-map-style>
+                        }
+                    },
+                    "default":<your-preferred-default-map>
+                },
+                "searchIndices": {
+                    "items": [
+                        <your-geo-index>
+                    ],
+                    "default": <your-default-index>
+                }
+            }
+        }
+    },
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                "Version": "0.1.0",
+                "IdentityManager": {
+                    "Default": {}
+                },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": <your-identity-pool-id>,
+                            "Region": <your-identity-pool-region>
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Now you can proceed to [displaying a map](/[platform]/build-a-backend/add-aws-services/geo/maps/) or [adding location search](/[platform]/build-a-backend/add-aws-services/geo/location-search/) to your app.
+</InlineFilter>
+
+
+<InlineFilter filters={['swift']}>
+## In your app configuration
+
+Amplify Geo is dependent on your Amplify Auth category. If it is not already configured, then you will need to [configure it](/[platform]/build-a-backend/auth/set-up-auth/) as well.
+
+Existing Amazon Location Service resources can be used with the Amplify Libraries by adding information about the resources to your `amplify_outputs.json` file.
+
+```json
+{
+    "geo": {
+        "plugins": {
+            "awsLocationGeoPlugin": {
+                "region": <your-geo-region>,
+                "maps": {
+                    "items": {
+                        <your-map-name>: {
+                            "style": <your-map-style>
+                        }
+                    },
+                    "default": <your-default-style>
+                },
+                "searchIndices": {
+                    "items": [
+                        <your-geo-index>
+                    ],
+                    "default": <your-default-index>
+                }
+            }
+        }
+    }
+}
+```
+</InlineFilter>

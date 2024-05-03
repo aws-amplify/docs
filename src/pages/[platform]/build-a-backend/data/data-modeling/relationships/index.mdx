@@ -29,69 +29,299 @@ export function getStaticProps(context) {
   };
 }
 
-Applications that work with data need well-defined entities to represent that data. Typically, entities are stored across different tables in a database, and items in a given table need to be **uniquely identified**. This is achieved by defining a field (or a combination of fields) that will hold a value (or values) to unambiguously refer to the item. When modeling applications, you often need to **establish relationships** between entities. This is done by adding a field that holds the value of the unique identifier of the related entity.
-
-Retrieving an entity's related data can be expensive, so Amplify Data offers a way to specify lazy or eager loading of relationships. This is done through "custom selection sets." With eager loading, related data is retrieved immediately when the entity is loaded. With lazy loading, related data is only retrieved when explicitly requested. Custom selection sets give you control over when and how an entity's relationships are populated.
+When modeling application data, you often need to establish relationships between different data models. In Amplify Data, you can create one-to-many, one-to-one, and many-to-many relationships in your Data schema. On the client-side, Amplify Data allows you to lazy or eager load of related data.
 
  ## Types of relationships
 
-|Relationship|Description|
-|------------|--------|
-|`a.hasMany()`|Creates a one-directional, one-to-many relationship between two models. For example, a **Post** has many **Comments**. This allows you to query all the comments from the post record.|
-|`a.manyToMany()`| Creates a bidirectional relationship. Must be defined on both related models. For example, a **Blog** has many **Tags** and a **Tag** has many **Blogs**.|
-|`a.hasOne()`|Creates a one-directional, one-to-one relationship between two models. For example, a **Project** has one **Team**. This allows you to query the team from the project record.|
-|`a.belongsTo()`|Makes a "has one" or "has many" relationship bidirectional so you can read from both sides of the relationship. For example, a **Project** has one **Team** and a Team belongs to a Project. This allows you to reference the team from the project record and the other way around.|
+|Relationship|Code|Description|Example|
+|-|-|-|-|
+|one to many|`a.hasMany(...)` & `a.belongsTo(...)`|Creates a one-to-many relationship between two models.|A **Team** has many **Members**. A **Member** belongs to a **Team**.|
+|one to one|`a.hasOne(...)` & `a.belongsTo(...)`|Creates a one-to-one relationship between two models.|A **Customer** has one **Cart**. A **Cart** belongs to one **Customer**.|
+|many to many| Two `a.hasMany(...)` & `a.belongsTo(...)` on join tables|Create two one-to-many relationships between the related models in a join table.|A **Post** has many **Tags**. A **Tag** has many **Posts**.|
 
-## Model a "Has Many" relationship
+## Model one-to-many relationships
 
-Create a bidirectional, one-to-many relationship between two models using the `hasMany()` method. In the example below, a Team has many Members and the parent Team may be looked up from a given member.
+Create a one-to-many relationship between two models using the `hasMany()` and `belongsTo()` method. In the example below, a Team has many Members and a Member belongs to exactly one Team.
+
+1. Create a **reference field** called `teamId` on the **Member** model. This reference field's type **MUST** match the type of **Team**'s identifier. In this case, it's an auto-generated `id: a.id().required()` field.
+2. Add a **relationship field** called `team` that references the `teamId` field. This allows you to query for the team information from the **Member** model.
+3. Add a **relationship field** called `members` that references the `teamId` field on the **Member** model.
 
 ```typescript
 const schema = a.schema({
+  Member: a.model({
+    name: a.string().required(),
+    // 1. Create a reference field
+    teamId: a.id(),
+    // 2. Create a belongsTo relationship with the reference field
+    team: a.belongsTo('Team', 'teamId'),
+  })
+  .authorization(allow => [allow.publicApiKey()]),
+
   Team: a.model({
     mantra: a.string().required(),
-    members: a.hasMany('Member'),
+    // 3. Create a hasMany relationship with the reference field
+    //    from the `Member`s model.
+    members: a.hasMany('Member', 'teamId'),
   })
-  .authorization([a.allow.public()]),
-  Member: a.model({
-    team: a.belongsTo('Team'),
-  })
-  .authorization([a.allow.public()]),
+  .authorization(allow => [allow.publicApiKey()]),
 });
 ```
 
 ### Create a "Has Many" relationship between records
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ```ts
 const { data: team } = await client.models.Team.create({
-  mantra: 'Hello',
+  mantra: 'Go Frontend!',
 });
 
-await client.models.Member.update({
-  id: 'SOME_MEMBER_ID',
-  team,
+const { data: member } = await client.models.Member.create({
+  name: "Tim",
+  teamId: team.id,
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val team = Team.builder()
+    .mantra("Go Frontend!")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(team),
+    {
+        Log.i("MyAmplifyApp", "Added team with id: ${it.data.id}")
+        val member = Member.builder()
+            .name("Tim")
+            .team(it.data)
+            .build()
+
+        Amplify.API.mutate(ModelMutation.create(member),
+            { Log.i("MyAmplifyApp", "Added Member with id: ${it.data.id}")},
+            { Log.e("MyAmplifyApp", "Create failed", it)},
+        )
+    }, {
+        Log.e("MyAmplifyApp", "Create failed", it)
+    })
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+Task {
+    do {
+        let team = Team(mantra: "Go Frontend!")
+        let createTeamResult = try await Amplify.API.mutate(request: .create(team))
+        guard case .success = createTeamResult else {
+            print("API response: \(createTeamResult)")
+            return
+        }
+
+        let member = Member(name: "Tim", team: try createTeamResult.get()) // Directly pass in the post instance
+        let createMemberResult = try await Amplify.API.mutate(request: .create(member))
+        guard case .success = createMemberResult else {
+            print("API response: \(createMemberResult)")
+            return
+        }
+    } catch {
+        print("Create team or member failed", error)
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final team = Team(mantra: "Go Frontend!");
+final teamRequest = ModelMutations.create(team);
+final teamResponse = await Amplify.API.mutate(request: teamRequest).response;
+
+final member = Member(name: "Tim", team: teamResponse.data);
+final memberRequest = ModelMutations.create(member);
+final memberResponse = await Amplify.API.mutate(request: memberRequest).response;
+```
+
+</InlineFilter>
 
 ### Update a "Has Many" relationship between records
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ```ts
+const { data: newTeam } = await client.models.Team.create({
+  mantra: 'Go Fullstack',
+});
+
 await client.models.Member.update({
-  id: 'SOME_MEMBER_ID',
-  team,
+  id: "MY_MEMBER_ID",
+  teamId: newTeam.id,
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val newTeam = Team.builder()
+    .mantra("Go Fullstack!")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(newTeam),
+    {
+        Log.i("MyAmplifyApp", "Added team with id: ${it.data.id}")
+
+        val updatingMember = existingMember.copyOfBuilder().team(it.data).build()
+
+        Amplify.API.mutate(ModelMutation.update(updatingMember),
+            { Log.i("MyAmplifyApp", "Updated Member with id: ${it.data.id}")},
+            { Log.e("MyAmplifyApp", "Create failed", it)},
+        )
+    }, {
+        Log.e("MyAmplifyApp", "Create failed", it)
+    })
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+Task {
+    do {
+        let newTeam = Team(mantra: "Go Fullstack!")
+        let createNewTeamResult = try await Amplify.API.mutate(request: .create(newTeam))
+        guard case .success = createNewTeamResult else {
+            print("API response: \(createNewTeamResult)")
+            return
+        }
+
+        let updatedMember = Member(id: existingMember.id, name: existingMember.name, team: try createNewTeamResult.get())
+        let updateMemberResult = try await Amplify.API.mutate(request: .update(updatedMember))
+        guard case .success = updateMemberResult else {
+            print("API response: \(updateMemberResult)")
+            return
+        }
+    } catch {
+        print("Create team or member failed", error)
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final newTeam = Team(mantra: "Go Fullstack!");
+final newTeamRequest = ModelMutations.create(team);
+final newTeamResponse = await Amplify.API.mutate(request: teamRequest).response;
+
+final memberWithUpdatedTeam = existingMember.copyWith(team: newTeamResponse.data);
+final memberUpdateRequest = ModelMutations.update(memberWithUpdatedTeam);
+final memberUpdateResponse = await Amplify.API.mutate(request: memberUpdateRequest).response;
+```
+
+</InlineFilter>
 
 ### Delete a "Has Many" relationship between records
 
+If your reference field is not required, then you can "delete" a one-to-many relationship by setting the relationship value to `null`.
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ```ts
 await client.models.Member.update({
-  id: 'SOME_MEMBER_ID',
-  team: undefined,
+  id: "MY_MEMBER_ID",
+  teamId: null,
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val memberWithRemovedTeam = existingMember.copyOfBuilder().team(null).build()
+
+Amplify.API.mutate(ModelMutation.update(memberWithRemovedTeam),
+    { Log.i("MyAmplifyApp", "Updated Member with id: ${it.data.id}")},
+    { Log.e("MyAmplifyApp", "Create failed", it)},
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+let memberWithRemovedTeam = Member(id: existingMember.id, name: existingMember.name, team: nil)
+let memberRemoveResult = try await Amplify.API.mutate(request: .update(memberWithRemovedTeam))
+guard case .success = memberRemoveResult else {
+    print("API response: \(memberRemoveResult)")
+    return
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final memberWithRemovedTeam = existingMember.copyWith(team: null);
+final memberRemoveRequest = ModelMutations.update(memberWithRemovedTeam);
+final memberRemoveResponse = await Amplify.API.mutate(request: memberRemoveRequest).response;
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+### Load related data in a "Has Many" relationship
+
+```dart
+// Fetch the team with the team id.
+final teamRequest = ModelQueries.get<Team>(
+    Team.classType, TeamModelIdentifier(id: "YOUR_TEAM_ID"));
+final teamResult = await Amplify.API.query(request: teamRequest).response;
+final team = teamResult.data!;
+
+// Define a limit for your pagination
+const limit = 100;
+
+// Do the initial call to get the initial items
+final firstRequest = ModelQueries.list<Member>(Member.classType,
+    limit: limit, where: Member.TEAMID.eq(team.id));
+final firstResult = await Amplify.API.query(request: firstRequest).response;
+final firstPageData = firstResult.data;
+
+// If there are more than 100 items you can reiterate the following code to get next pages.
+if (firstPageData?.hasNextResult ?? false) {
+  final secondRequest = firstPageData!.requestForNextResult;
+  final secondResult =
+      await Amplify.API.query(request: secondRequest!).response;
+  return secondResult.data?.items ?? <Member?>[];
+} else {
+  // You can return the page data by calling items property.
+  return firstPageData?.items ?? <Member?>[];
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "swift", "android"]}>
+
 ### Lazy load a "Has Many" relationship
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 const { data: team } = await client.models.Team.get({ id: "MY_TEAM_ID"});
@@ -101,7 +331,75 @@ const { data: members } = await team.members();
 members.forEach(member => console.log(member.id));
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+Amplify.API.query(
+    ModelQuery.get(Team::class.java, Team.TeamIdentifier("YOUR_TEAM_ID")),
+    {
+        suspend {
+            try {
+                val members =
+                    when (val membersModelList = it.data.members) {
+                        is LoadedModelList -> {
+                            // Eager loading loads the 1st page only.
+                            membersModelList.items
+                        }
+
+                        is LazyModelList -> {
+                            var page = membersModelList.fetchPage()
+                            var loadedMembers =
+                                mutableListOf(page.items) // initial page of members
+                            // loop through all pages to fetch the full list of members
+                            while (page.hasNextPage) {
+                                val nextToken = page.nextToken
+                                page =
+                                    membersModelList.fetchPage(nextToken)
+                                // add the page of members to the members variable
+                                loadedMembers += page.items
+                            }
+                            loadedMembers
+                        }
+                    }
+                Log.i("MyAmplifyApp", "members: $members")
+            } catch (error: ApiException) {
+                Log.e("MyAmplifyApp", "Failed to fetch members", error)
+            }
+        }
+    },
+    { Log.e("MyAmplifyApp", "Failed to fetch team")})
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+Task {
+    do {
+        let queryTeamResult = try await Amplify.API.query(request: .get(Team.self, byIdentifier: "MY_TEAM_ID"))
+        guard case .success(let queryTeamOptional) = queryTeamResult,
+              let queriedTeam = queryTeamOptional,
+              let members = queriedTeam.members else {
+            print("API response: \(queryTeamResult)")
+            return
+        }
+
+        try await members.fetch()
+
+    } catch {
+        print("Failed to fetch cart or customer", error)
+    }
+}
+```
+
+</InlineFilter>
+
 ### Eagerly load a "Has Many" relationship
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 const { data: teamWithMembers } = await client.models.Team.get(
@@ -112,205 +410,561 @@ const { data: teamWithMembers } = await client.models.Team.get(
 teamWithMembers.members.forEach(member => console.log(member.id));
 ```
 
-## Model a "many-to-many" relationship
-Create a many-to-many relationship between two models with the `manyToMany()` method. Provide a common `relationName` on both models to join them in a many-to-many relationship. 
+</InlineFilter>
 
-```typescript
-const schema = a.schema({
-  Post: a.model({
-    title: a.string(),
-    content: a.string(),
-    tags: a.manyToMany('Tag', { relationName: 'PostTags'}),
-  }),
-  Tag: a.model({
-    name: a.string(),
-    posts: a.manyToMany('Post', { relationName: 'PostTags'}),
-  }),
-});
+<InlineFilter filters={["android"]}>
+
+```kt
+Amplify.API.query(
+    ModelQuery.get<Team, TeamPath>(
+        Team::class.java,
+        Team.TeamIdentifier("YOUR_TEAM_ID")
+    ) { teamPath -> includes(teamPath.members) },
+    {
+        val members = (it.data.members as? LoadedModelList<Member>)?.items
+    },
+    { Log.e("MyAmplifyApp", "Failed to fetch team")}
+)
 ```
 
-## Model a "Has One" relationship
+</InlineFilter>
 
-Create a one-directional, one-to-one relationship between two models using the `hasOne()` method. In the example below, a Project has a Team. By using `hasOne` this way, it will automatically generate a field to hold the identifier of the related model.
+<InlineFilter filters={["swift"]}>
+
+```swift
+Task {
+    do {
+        let queryTeamResult = try await Amplify.API.query(request:
+                .get(
+                    Team.self,
+                    byIdentifier: "MY_TEAM_ID",
+                    includes: { team in
+                        [team.members]
+        }))
+        guard case .success(let queryTeamOptional) = queryTeamResult,
+              let queriedTeam = queryTeamOptional,
+              let members = queriedTeam.members else {
+            print("API response: \(queryTeamResult)")
+            return
+        }
+
+        try await members.fetch()
+
+    } catch {
+        print("Failed to fetch cart or customer", error)
+    }
+}
+```
+
+</InlineFilter>
+
+</InlineFilter>
+
+## Model a "one-to-one" relationship
+
+Create a one-to-one relationship between two models using the `hasOne()` and `belongsTo()` methods. In the example below, a **Customer** has a **Cart** and a *Cart* belongs to a **Customer**.
+
+1. Create a **reference field** called `customerId` on the **Cart** model. This reference field's type **MUST** match the type of **Customer**'s identifier. In this case, it's an auto-generated `id: a.id().required()` field.
+2. Add a **relationship field** called `customer` that references the `customerId` field. This allows you to query for the customer information from the **Cart** model.
+3. Add a **relationship field** called `activeCart` that references the `customerId` field on the **Cart** model.
 
 ```typescript
 const schema = a.schema({
-  Project: a.model({
-    name: a.string(),
-    team: a.hasOne('Team'),
+  Cart: a.model({
+    items: a.string().required().array(),
+    // 1. Create reference field
+    customerId: a.id(),
+    // 2. Create relationship field with the reference field
+    customer: a.belongsTo('Customer', 'customerId'),
   }),
-  Team: a.model({
+  Customer: a.model({
     name: a.string(),
+    // 3. Create relationship field with the reference field
+    //    from the Cart model
+    activeCart: a.hasOne('Cart', 'customerId')
   }),
 });
 ```
 
 ### Create a "Has One" relationship between records
 
-To create a "has one" relationship between records, first create the parent item and then create the child item and assign the parent. 
+To create a "has one" relationship between records, first create the parent item and then create the child item and assign the parent.
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
-const { data: team } = await client.models.Team.create({
-  name: 'My Team',
+const { data: customer, errors } = await client.models.Customer.create({
+  name: "Rene",
 });
 
-const { data: project } = await client.models.Project.create({
-  name: 'My Project',
-  team,
+
+const { data: cart } = await client.models.Cart.create({
+  items: ["Tomato", "Ice", "Mint"],
+  customerId: customer?.id,
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val customer = Customer.builder()
+    .name("Rene")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(customer),
+    {
+        Log.i("MyAmplifyApp", "Added customer with id: ${it.data.id}")
+        val cart = Cart.builder()
+            .items(listOf("Tomato", "Ice", "Mint"))
+            .customer(customer)
+            .build()
+
+        Amplify.API.mutate(ModelMutation.create(cart),
+            { Log.i("MyAmplifyApp", "Added Cart with id: ${it.data.id}")},
+            { Log.e("MyAmplifyApp", "Create failed", it)},
+        )
+    }, {
+        Log.e("MyAmplifyApp", "Create failed", it)
+    })
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+Task {
+    do {
+        let customer = Customer(name: "Rene")
+        let createCustomerResult = try await Amplify.API.mutate(request: .create(customer))
+        guard case .success = createCustomerResult else {
+            print("API response: \(createCustomerResult)")
+            return
+        }
+
+        let cart = Cart(items: ["Tomato", "Ice", "Mint"], customer: try createCustomerResult.get())
+        let createCartResult = try await Amplify.API.mutate(request: .create(cart))
+        guard case .success = createCartResult else {
+            print("API response: \(createCartResult)")
+            return
+        }
+    } catch {
+        print("Create customer or cart failed", error)
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final customer = Customer(name: "Rene");
+final customerRequest = ModelMutations.create(customer);
+final customerResponse = await Amplify.API.mutate(request: customerRequest).response;
+
+final cart = Cart(items: ["Tomato", "Ice", "Mint"], customer: teamResponse.customer);
+final cartRequest = ModelMutations.create(cart);
+final cartResponse = await Amplify.API.mutate(request: cartRequest).response;
+```
+
+</InlineFilter>
 
 ### Update a "Has One" relationship between records
 
-To update a "Has One" relationship between records, you first retrieve the child item and then update the reference to the parent to another parent. For example, to move a Project to a new Team:
+To update a "Has One" relationship between records, you first retrieve the child item and then update the reference to the parent to another parent. For example, to reassign a Cart to another Customer:
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
-const { data: newTeam } = await client.models.Team.create({
-  name: 'New Team',
+const { data: newCustomer } = await client.models.Customer.create({
+  name: 'Ian',
 });
 
-await client.models.Project.update({
-  id: project.id,
-  team: newTeam,
+await client.models.Cart.update({
+  id: cart.id,
+  customerId: newCustomer?.id,
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val newCustomer = Customer.builder()
+    .mantra("Ian")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(newCustomer),
+    {
+        Log.i("MyAmplifyApp", "Added customer with id: ${it.data.id}")
+
+        val updatingCart = existingCart.copyOfBuilder().customer(it.data).build()
+
+        Amplify.API.mutate(ModelMutation.update(updatingCart),
+            { Log.i("MyAmplifyApp", "Updated cart with id: ${it.data.id}")},
+            { Log.e("MyAmplifyApp", "Create failed", it)},
+        )
+    }, {
+        Log.e("MyAmplifyApp", "Create failed", it)
+    })
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+Task {
+    do {
+        let newCustomer = Customer(name: "Ian")
+        let createNewCustomerResult = try await Amplify.API.mutate(request: .create(newCustomer))
+        guard case .success = createNewCustomerResult else {
+            print("API response: \(createNewCustomerResult)")
+            return
+        }
+
+        let updatedCart = Cart(id: existingCart.id, items: existingCart.items, customer: try createNewCustomerResult.get())
+        let updateCartResult = try await Amplify.API.mutate(request: .update(updatedCart))
+        guard case .success = updateCartResult else {
+            print("API response: \(updateCartResult)")
+            return
+        }
+    } catch {
+        print("Create customer or cart failed", error)
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final newCustomer = Customer(name: "Ian");
+final newCustomerRequest = ModelMutations.create(newCustomer);
+final newCustomerResponse = await Amplify.API.mutate(request: newCustomerRequest).response;
+
+final cartWithUpdatedCustomer = existingCart.copyWith(customer: newCustomerResponse.data);
+final cartUpdateRequest = ModelMutations.update(cartWithUpdatedCustomer);
+final cartUpdateResponse = await Amplify.API.mutate(request: cartUpdateRequest).response;
+```
+
+</InlineFilter>
+
 
 ### Delete a "Has One" relationship between records
 
-You can update the relationship field to delete a "Has One" relationship between records.
+You can set the relationship field to `null` to delete a "Has One" relationship between records.
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
-await client.models.Project.update({
+await client.models.Cart.update({
   id: project.id,
-  team: undefined,
+  customerId: null,
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val cartWithRemovedCustomer = existingCart.copyOfBuilder().customer(null).build()
+
+Amplify.API.mutate(ModelMutation.update(cartWithRemovedCustomer),
+    { Log.i("MyAmplifyApp", "Updated cart with id: ${it.data.id}")},
+    { Log.e("MyAmplifyApp", "Create failed", it)},
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+let cartWithRemovedCustomer = Cart(id: existingCart.id, items: existingCart.items, customer: nil)
+let cartRemoveRequest = try await Amplify.API.mutate(request: .update(cartWithRemovedCustomer))
+guard case .success = cartRemoveRequest else {
+    print("API response: \(cartRemoveRequest)")
+    return
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final cartWithRemovedCustomer = existingCart.copyWith(customer: null);
+final cartRemoveRequest = ModelMutations.update(cartWithRemovedCustomer);
+final cartRemoveResponse = await Amplify.API.mutate(request: cartRemoveRequest).response;
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["swift", "flutter"]}>
+
+### Load related data in "Has One" relationships
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+Task {
+    do {
+        let queryCartResult = try await Amplify.API.query(request: .get(Cart.self, byIdentifier: "MY_CART_ID"))
+        guard case .success(let queryCartOptional) = queryCartResult,
+              let queriedCart = queryCartOptional,
+              let customer = try await queriedCart.customer else {
+            print("API response: \(queryCartResult)")
+            return
+        }
+
+    } catch {
+        print("Failed to fetch cart or customer", error)
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+// Fetch the cart with the cart id.
+final cartRequest = ModelQueries.get<Cart>(
+    Cart.classType, CartModelIdentifier(id: "MY_CART_ID"));
+final cartResult = await Amplify.API.query(request: cartRequest).response;
+final cart = cartResult.data!;
+
+// Do the customer call to with the id from cart
+if (cart.customerId != null) {
+  final customerRequest = ModelQueries.get<Customer>(
+      Customer.classType, CustomerModelIdentifier(id: cart.customerId!));
+  final customerResult =
+      await Amplify.API.query(request: customerRequest).response;
+  final customer = customerResult.data!;
+}
+```
+
+</InlineFilter>
+
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
 
 ### Lazy load a "Has One" relationship
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ```ts
-const { data: project } = await client.models.Project.get({ id: "MY_PROJECT_ID"});
-const { data: team } = await project.team();
+const { data: cart } = await client.models.Cart.get({ id: "MY_CART_ID"});
+const { data: customer } = await cart.customer();
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+Amplify.API.query(
+  ModelQuery.get(Team::class.java, Team.TeamIdentifier("YOUR_TEAM_ID")),
+      {
+          suspend {
+              try {
+                  val customer = when (val customerReference = cart.customer) {
+                      is LoadedModelReference -> {
+                          customerReference.value
+                      }
+
+                      is LazyModelReference -> {
+                          customerReference.fetchModel()
+                      }
+                  }
+                  Log.i("MyAmplifyApp", "customer: $customer")
+              } catch (error: ApiException) {
+                  Log.e("MyAmplifyApp", "Failed to fetch customer", error)
+              }
+          }
+      },
+      { Log.e("MyAmplifyApp", "Failed to get team")}
+)
+```
+
+</InlineFilter>
 
 ### Eagerly load a "Has One" relationship
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ```ts
-const { data: project } = await client.models.Project.get(
-  { id: "MY_PROJECT_ID" },
-  { selectionSet: ['id', 'team.*'] },
+const { data: cart } = await client.models.Cart.get(
+  { id: "MY_CART_ID" },
+  { selectionSet: ['id', 'customer.*'] },
 );
+
+console.log(cart.customer.id)
 ```
 
-### Model multiple relationships between two models
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+val cart = Amplify.API.query(
+    ModelQuery.get<Cart, CartPath>(
+        Cart::class.java,
+        Cart.CartIdentifier("YOUR_CART_ID")
+    ) { cartPath ->
+        includes(cartPath.customer)
+    },
+{ val customer = (cart.customer as? LoadedModelReference)?.value },
+{ Log.e("MyAmplifyApp", "Failed to fetch cart", it) })
+```
+
+</InlineFilter>
+
+</InlineFilter>
+
+
+## Model a "many-to-many" relationship
+In order to create a many-to-many relationship between two models, you have to create a model that serves as a "join table". This "join table" should contain two one-to-many relationships between the two related entities. For example, to model a **Post** that has many **Tags** and a **Tag** has many **Posts**, you'll need to create a new **PostTag** model that represents the relationship between these two entities.
 
 ```typescript
 const schema = a.schema({
-  Employee: a.model({
-    firstName: a.string(),
-    lastName: a.string(),
+  PostTag: a.model({
+    // 1. Create reference fields to both ends of
+    //    the many-to-many relationship
+    // highlight-start
+    postId: a.id().required(),
+    tagId: a.id().required(),
+    // highlight-end
+    // 2. Create relationship fields to both ends of
+    //    the many-to-many relationship using their
+    //    respective reference fields
+    // highlight-start
+    post: a.belongsTo('Post', 'postId'),
+    tag: a.belongsTo('Tag', 'tagId'),
+    // highlight-end
   }),
-  Organization: a.model({
+  Post: a.model({
+    title: a.string(),
+    content: a.string(),
+    // 3. Add relationship field to the join model
+    //    with the reference of `postId`
+    // highlight-next-line
+    tags: a.hasMany('PostTag', 'postId'),
+  }),
+  Tag: a.model({
     name: a.string(),
-    individualContributors: a.hasMany('Employee'),
-    managers: a.hasMany('Employee'),
+    // 4. Add relationship field to the join model
+    //    with the reference of `tagId`
+    // highlight-next-line
+    posts: a.hasMany('PostTag', 'tagId'),
   }),
-});
+}).authorization(allow => [allow.publicApiKey()]);
 ```
 
-```ts
-const client = generateClient<Schema>();
+## Model multiple relationships between two models
 
-const { data: org } = await client.models.Organization.get({ id: 'AE6191BF-FEB4-4D8B-867D-898A7DA33101' });
-
-const { data: ics } = await org.individualContributors();
-const { data: managers } = await org.managers();
-```
-
-## Model a bidirectional relationship
-
-You can make a "has one" or "has many" relationship bidirectional with the `belongsTo()` method. Using the bidirectionality of `belongsTo()`, you can query the related item from both sides of the relationship. 
-
-<Callout>
-**Note:** The `belongsTo()` method requires that a `hasOne()` or `hasMany()` relationship already exists from parent to the related model.
-</Callout>
-
-### Create a bidirectional "Has One" relationship
-
-```typescript
-const schema = a.schema({
-  Project: a.model({
-    name: a.string(),
-    team: a.hasOne('Team'),
-  }),
-  Team: a.model({
-    name: a.string(),
-    project: a.belongsTo('Project'),
-  }),
-});
-```
-
-```ts
-const client = generateClient<Schema>();
-
-const { data: team } = await client.models.Team.get({ id: 'FABF27EE-25D2-4851-AE1C-09BCA1604C77' });
-
-console.log((await team.project()).data?.name); // There is a 'project' field in the team
-
-const { data: teamProject } = await team.project();
-const { data: teamProjectRelatedTeam } = await teamProject.team();
-// teamProjectRelatedTeam is equivalent to original team
-```
-
-<Callout warning>
-"Belongs to" relationships **do not** allow you to update both sides of a "has one" and "belongs to" relationship in a transactional manner.
-</Callout>
-
-### Create a bidirectional "Has Many" relationship
+Relationships are defined uniquely by their reference fields. For example, a Post can have separate relationships with a Person model for `author` and `editor`.
 
 ```typescript
 const schema = a.schema({
   Post: a.model({
-    title: a.string(),
-    comments: a.hasMany('Comment'),
+    title: a.string().required(),
+    content: a.string().required(),
+    // highlight-start
+    authorId: a.id(),
+    author: a.belongsTo('Person', 'authorId'),
+    editorId: a.id(),
+    editor: a.belongsTo('Person', 'editorId'),
+    // highlight-end
   }),
-  Comment: a.model({
-    content: a.string(),
-    post: a.belongsTo('Post'),
+  Person: a.model({
+    name: a.string(),
+    // highlight-start
+    editedPosts: a.hasMany('Post', 'editorId'),
+    authoredPosts: a.hasMany('Post', 'authorId'),
+    // highlight-end
   }),
-});
+}).authorization(allow => [allow.publicApiKey()]);
 ```
+
+On the client-side, you can fetch the related data with the following code:
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 ```ts
 const client = generateClient<Schema>();
 
-const { data: post } = await client.models.Post.get({ id: 'FABF27EE-25D2-4851-AE1C-09BCA1604C77' });
+const { data: post } = await client.models.Post.get({ id: "SOME_POST_ID" });
 
-const { data: postComments } = await post.comments();
-const firstComment = postComments[0];
-const { data: firstCommentRelatedPost } = await firstComment.post();
-// firstCommentRelatedPost should be equivalent to post
+const { data: author } = await post?.author();
+const { data: editor } = await post?.editor();
 ```
 
-## Retrieve related models
+</InlineFilter>
 
-```typescript
+## Model relationships for models with sort keys in their identifier
+
+In cases where your data model uses sort keys in the identifier, you need to also add reference fields and store the sort key fields in the related data model:
+
+```ts
 const schema = a.schema({
-  Project: a.model({
-    name: a.string(),
-    team: a.hasOne('Team'),
+  Post: a.model({
+    title: a.string().required(),
+    content: a.string().required(),
+    // Reference fields must correspond to identifier fields.
+    // highlight-start
+    authorName: a.string(),
+    authorDoB: a.date(),
+    // Must pass references in the same order as identifiers.
+    author: a.belongsTo('Person', ['authorName', 'authorDoB']),
+    // highlight-end
   }),
-  Team: a.model({
-    name: a.string(),
+  Person: a.model({
+    name: a.string().required(),
+    dateOfBirth: a.date().required(),
+    // Must reference all reference fields corresponding to the
+    // identifier of this model.
+    authoredPosts: a.hasMany('Post', ['authorName', 'authorDoB']),
+    // highlight-next-line
+  }).identifier(['name', 'dateOfBirth']),
+}).authorization(allow => [allow.publicApiKey()]);
+```
+
+## Make relationships required or optional
+
+Amplify Data's relationships use reference fields to determine if a relationship is required or not. If you mark a reference field as required, then you can't "delete" a relationship between two models. You'd have to delete the related record as a whole.
+
+```ts
+const schema = a.schema({
+  Post: a.model({
+    title: a.string().required(),
+    content: a.string().required(),
+    // You must supply an author when creating the post
+    // Author can't be set to `null`.
+    // highlight-next-line
+    authorId: a.id().required(),
+    author: a.belongsTo('Person', 'authorId'),
+    // You can optionally supply an editor when creating the post.
+    // Editor can also be set to `null`.
+    // highlight-next-line
+    editorId: a.id(),
+    editor: a.belongsTo('Person', 'editorId'),
   }),
-});
-
-const client = generateClient<Schema>();
-
-const { data: project } = await client.models.Project.get({ id: '1234' });
-const projectName = project.name;
-const lazyTeamName = (await project.team()).data?.name; // project.team is typed as `Lazy<Team>` and can be awaited
-
-const projectWithTeam = await client.models.Project.get({ id: '1234' }, { selectionSet: ['team.*'] });
-const eagerTeamName = project.team.name // All team attributes were requested, so no need to await, it was eagerly loaded
+  Person: a.model({
+    name: a.string(),
+    // highlight-start
+    editedPosts: a.hasMany('Post', 'editorId'),
+    authoredPosts: a.hasMany('Post', 'authorId'),
+    // highlight-end
+  }),
+})
 ```

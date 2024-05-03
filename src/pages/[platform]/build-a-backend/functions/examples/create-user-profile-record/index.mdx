@@ -1,0 +1,176 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Create a user profile record',
+  description:
+    'Use an Auth Post Authentication trigger to automatically a user profile record',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+
+You can use `defineAuth` and `defineFunction` to create a [Cognito post confirmation Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-post-confirmation.html) to create a profile record when a user is confirmed.
+
+<Callout info>
+
+A user is "confirmed" when they verify their account. Typically this happens when the user confirms their email via the verification email. The post confirmation handler will _not_ be triggered for federated sign-ins (i.e. social sign-in).
+
+</Callout>
+To get started, install the `aws-lambda` package, which is used to define the handler type.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add --save-dev @types/aws-lambda
+```
+
+Update the `amplify/data/resource.ts` file to define a data model for the user's profile:
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { postConfirmation } from "../auth/post-confirmation/resource";
+
+const schema = a
+  .schema({
+    UserProfile: a
+      .model({
+        email: a.string(),
+        profileOwner: a.string(),
+      })
+      .authorization((allow) => [
+        allow.ownerDefinedIn("profileOwner"),
+      ]),
+  })
+  .authorization((allow) => [allow.resource(postConfirmation)]);
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "apiKey",
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+
+```
+
+
+Create a new directory and a resource file, `amplify/auth/post-confirmation/resource.ts`. Then, define the Function with `defineFunction`:
+
+```ts title="amplify/auth/post-confirmation/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+
+export const postConfirmation = defineFunction({
+  name: 'post-confirmation',
+});
+```
+
+Run the command `npx ampx sandbox` to create the backend, then use the command below to generate GraphQL client code to call your data backend.
+<Callout info>
+
+**Note**: We are working on bringing the end-to-end typed experience to connect to your data from within function resources without needing this step. If you'd like to provide feedback on the experience or want to have early access, join our [Discord community](https://discord.gg/amplify).
+
+</Callout>
+
+```sh title="Terminal" showLineNumbers={false}
+npx ampx generate graphql-client-code --out <path-to-post-confirmation-handler-dir>/graphql
+```
+
+Then, create the corresponding handler file, `amplify/auth/post-confirmation/handler.ts`, file with the following contents:
+
+```ts title="amplify/auth/post-confirmation/handler.ts"
+import type { PostConfirmationTriggerHandler } from "aws-lambda";
+import { type Schema } from "../../data/resource";
+import { Amplify } from "aws-amplify";
+import { generateClient } from "aws-amplify/data";
+import { env } from "$amplify/env/post-confirmation";
+import { createUserProfile } from "./graphql/mutations";
+
+Amplify.configure(
+  {
+    API: {
+      GraphQL: {
+        endpoint: env.AMPLIFY_DATA_GRAPHQL_ENDPOINT,
+        region: env.AWS_REGION,
+        defaultAuthMode: "iam",
+      },
+    },
+  },
+  {
+    Auth: {
+      credentialsProvider: {
+        getCredentialsAndIdentityId: async () => ({
+          credentials: {
+            accessKeyId: env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+            sessionToken: env.AWS_SESSION_TOKEN,
+          },
+        }),
+        clearCredentialsAndIdentityId: () => {
+          /* noop */
+        },
+      },
+    },
+  }
+);
+
+const client = generateClient<Schema>({
+  authMode: "iam",
+});
+
+export const handler: PostConfirmationTriggerHandler = async (event) => {
+  await client.graphql({
+    query: createUserProfile,
+    variables: {
+      input: {
+        email: event.request.userAttributes.email,
+        profileOwner: `${event.request.userAttributes.sub}::${event.userName}`,
+      },
+    },
+  });
+
+  return event;
+};
+
+```
+
+
+
+Lastly, set the newly created Function resource on your auth resource:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+import { postConfirmation } from './post-confirmation/resource';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  triggers: {
+    postConfirmation
+  }
+});
+```
+
+After deploying the changes, whenever a user signs up and verifies their account a profile record is automatically created.

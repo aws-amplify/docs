@@ -7,7 +7,12 @@ import { Accordion } from './src/components/Accordion';
 import { Block, BlockSwitcher } from './src/components/BlockSwitcher';
 import { Callout } from './src/components/Callout';
 import Fragments from './src/components/Fragments';
-import { MDXCode, MDXHeading, MDXLink } from './src/components/MDXComponents';
+import {
+  MDXCode,
+  MDXHeading,
+  MDXLink,
+  MDXTable
+} from './src/components/MDXComponents';
 import { MigrationAlert } from './src/components/MigrationAlert';
 import preToCodeBlock from './src/utils/pre-to-code-block';
 import { Overview } from './src/components/Overview';
@@ -47,6 +52,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return <pre {...preProps} />;
     },
     img: ResponsiveImage,
+    table: MDXTable,
 
     // Make common custom components available to content authors
     Accordion,

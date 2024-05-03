@@ -56,13 +56,13 @@ You must have these information handy for your database:
 Postgres
 
 ```bash title="Terminal"
-npx amplify generate api-for-postgres
+npx ampx generate api-for-postgres
 ```
 
 MySQL
 
 ```bash title="Terminal"
-npx amplify generate api-for-mysql
+npx ampx generate api-for-mysql
 ```
 
 You should see a read-only (TK) new schema.rds.tsx file in `amplify/data` now. This file contains a TypeScript representation of your relational database tables.
@@ -97,8 +97,8 @@ export const data = defineData({
 
 Once your cloud sandbox has updated, you should be able to call any CRUDL operations for your relational database.
 
-```bash
-npx amplify sandbox
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
 ```
 
 ### Apply authorization rules
@@ -109,7 +109,7 @@ import { schema as rdsSchema } from './schema.rds.ts'
 
 // Add an authorization rule to the schema
 // highlight-next-line
-rdsSchema.models.Todo.authorization([a.allow.public()])
+rdsSchema.models.Todo.authorization(allow => [allow.publicApiKey()])
 
 const schema = a.schema({
   Todo: a.model({
@@ -146,7 +146,7 @@ const schema = a.schema({
     content: a.string()
     isDone: a.boolean()
   })
-}).authorization([a.allow.public()])
+}).authorization(allow => [allow.publicApiKey()])
 
 const combinedSchema = a.schema.combine([
   schema,
@@ -183,7 +183,7 @@ rdsSchema.addQueries({
         ST_MakePoint(:lat, :long)
       ) <= :radiusInMeters
     `)
-    .authorization([a.allow.public()])
+    .authorization(allow => [allow.publicApiKey()])
 })
 // highlight-end
 

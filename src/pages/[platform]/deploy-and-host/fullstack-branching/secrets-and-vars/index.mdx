@@ -62,12 +62,12 @@ Secrets are stored in AWS Systems Manager Parameter Store under the following na
 
 When testing features locally, you might want to test with real secrets. You can add secrets while running the cloud sandbox with the following command:
 
-```bash
-npx amplify sandbox secret set foo
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret set foo
 ? Enter secret value: ###
 Done!
 
-> npx amplify sandbox secret set bar
+> npx ampx sandbox secret set bar
 ? Enter secret value: ###
 Done!
 ```
@@ -102,21 +102,23 @@ When deleting branch environments or sandbox environments, you need to manually 
 
 Secrets that are used in branch deployments can be managed directly in the Amplify console. You can remove them under **Secret management** by choosing **Remove**.
 
-![Removing application secrets in Secret management section of Amplify console.](/images/gen2/secrets-and-vars/secret-management.jpg)
+![Removing application secrets in Secret management section of Amplify console.](/images/gen2/secrets-and-vars/secret-management.png)
 
 ### Local environment
 
 To remove a secret in your local environment, run the following command in your terminal:
 
-```bash
-npx amplify sandbox secret remove foo
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret remove foo
 ```
 
 ## Set environment variables
 
 Environment variables work like key-value pairs to help manage configurable settings across different deployment environments, including development, staging, and production. Unlike secrets, which store sensitive data, environment variables are typically nonconfidential and are used for controlling application behavior in different environments. Another key difference is that environment variables are stored and managed by the Amplify managed service. You can set environment variables in the Amplify console (view the [AWS Amplify Hosting User Guide](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#setting-env-vars) for detailed instructions).
 
-![Variable, value, and branch fields in the Environment Variables section of the Amplify console.](/images/gen2/secrets-and-vars/env-vars.png)
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/secrets-and-vars/env-vars.mp4" />
+</video>
 
 ## Access environment variables
 
@@ -126,9 +128,9 @@ You can enable access to environment variables for your fullstack branch deploym
 
 You can manage your branch environment access through the Amplify console.
 
-1. First, create an environment variable in the Amplify console and name it REACT_APP_TEST_VARIABLE.
+1. First, create an environment variable in the Amplify console (in this example, you will name it `REACT_APP_TEST_VARIABLE`)
 
-1. Next, navigate to the build settings (`amplify.yml`) and update the build settings to pipe the environment variable into an `.env` file. For example:
+1. Next, navigate to the Build Settings in console (or to the `amplify.yml` file) and update the build settings to pipe the environment variable into a file. Here is an example of writing it into an `.env` file:
 
 ```yml title="amplify.yml"
 build:
@@ -138,9 +140,17 @@ build:
     - npm run build
 ```
 
+<Callout info>
+With the implementation above, the environment variable is written in a `.env` file. However, you can write it to any file depending on your platform.
+
+- For Flutter, you can still use `.env` with an external package or generate your configuration file in Dart or JSON format.
+- For Android, you can use Build Configurations or Gradle variables.
+- For iOS, you can update your plist file with the necessary code or create a configuration file in JSON format.
+</Callout>
+
 Now the `.env` can access the environment variable through `process.env` in your client code:
 
-```ts
+```typescript
 console.log('REACT_APP_TEST_VARIABLE', process.env.REACT_APP_TEST_VARIABLE);
 ```
 

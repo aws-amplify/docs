@@ -13,19 +13,6 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'javascript',
-        'nextjs',
-        'react-native',
-        'angular',
-        'vue',
-        'react'
-      ],
-      canonicalPath: '/gen1/javascript/build-a-backend/storage/list/'
-    }
   ]
 };
 
@@ -42,6 +29,17 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={["android", "swift"]}>
+
+<Callout info>
+The latest version of Amplify Storage supports specifying S3 objects as a paths.  
+We recommend using `path` instead of `key` to specify S3 objects.
+
+Note: `key` parameter is deprecated and may be removed in next major version.
+</Callout>
+
+</InlineFilter>
+
 import android_list from '/src/fragments/lib/storage/android/list.mdx';
 import flutter_list from '/src/fragments/lib/storage/flutter/list.mdx';
 import ios_list from '/src/fragments/lib/storage/ios/list.mdx';
@@ -52,21 +50,45 @@ import ios_list from '/src/fragments/lib/storage/ios/list.mdx';
 
 <InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
-## Guest level list
+You can either list all objects uploaded under a given path or opt to receive a paginated list of objects.
 
+## list
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { list } from 'aws-amplify/storage';
 
 try {
   const result = await list({
-    prefix: 'photos/'
+    path: 'public/photos/',
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/photos/`
   });
 } catch (error) {
   console.log(error);
 }
 ```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { list } from 'aws-amplify/storage';
 
-Note the trailing slash `/` - if you had requested `list({ prefix :  'photos' })` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
+try {
+  const result = await list({
+    prefix: 'photos/',
+    options:  {
+      accessLevel: 'protected', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+      targetIdentityId: 'xxxxxxx' // the identityId of that user
+      // targetIdentityId is needed only it accessLevel is protected
+    }
+  });
+} catch (error) {
+  console.log(error);
+}
+```
+</Block>
+</BlockSwitcher>
+
+Note the trailing slash `/` - if you had requested `list({ path :  'public/photos' })` it would also match against files like `public/photos123.jpg` alongside `public/photos/123.jpg`.
 
 The format of the response will look similar to the below example
 
@@ -74,9 +96,9 @@ The format of the response will look similar to the below example
 {
   items: [
     {
-      key: "filename",
-      eTag: "30074401292215403a42b0739f3b5262",
-      lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
+      path: 'public/photos/123.jpg',
+      eTag: '30074401292215403a42b0739f3b5262',
+      lastModified: 'Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)',
       size: 138256
     },
     // ...
@@ -94,10 +116,10 @@ function processStorageList(response) {
     if (res.size) {
       files.push(res);
       // sometimes files declare a folder with a / within then
-      let possibleFolder = res.key.split('/').slice(0, -1).join('/');
+      let possibleFolder = res.path.split('/').slice(0, -1).join('/');
       if (possibleFolder) folders.add(possibleFolder);
     } else {
-      folders.add(res.key);
+      folders.add(res.path);
     }
   });
   return { files, folders };
@@ -121,74 +143,37 @@ function processStorageList(response) {
       add(elements.join('/'), target[element], item);
     }
   };
-  response.items.forEach((item) => add(item.key, filesystem, item));
+  response.items.forEach((item) => add(item.path, filesystem, item));
   return filesystem;
 }
 ```
 
 This places each item's data inside a special `__data` key.
 
-## Protected level list
-
-To list current user's objects:
-
-```javascript
-import { list } from 'aws-amplify/storage';
-
-try {
-  const response = await list({ 
-    prefix: 'photos/', 
-    options:  {
-      accessLevel: 'protected',
-    }
-  });
-  console.log('Listed Items:', response.items);
-} catch(error) {
-  console.log('Error ': error);
-}
-```
-
-To list other user's objects:
-
-```javascript
-import { list } from 'aws-amplify/storage';
-
-try {
-  const response = await list({ 
-    prefix: 'photos/', 
-    options:  {
-      accessLevel: 'protected',
-      targetIdentityId: 'xxxxxxx' // the identityId of that user
-    }
-  });
-  console.log('Listed Items:', response.items);
-} catch(error) {
-  console.log('Error ': error);
-}
-```
-
-## Private level list
-
-```javascript
-import { list } from 'aws-amplify/storage';
-
-try {
-  const response = await list({ 
-    prefix: 'photos/', 
-    options:  {
-      accessLevel: 'private',
-    }
-  });
-  console.log('Listed Items:', response.items);
-} catch(error) {
-  console.log('Error ': error);
-}
-```
-
 ## Access all files
 
 To get a list of all files in your S3 bucket under a specific prefix, you can set `listAll` to `true`.
 
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { list } from 'aws-amplify/storage';
+
+try {
+  const response = await list({
+    path: 'public/photos/',
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/photos/`
+    options: {
+      listAll: true
+    }
+  });
+  // render list items from response.items
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+</Block>
+<Block name="With Key (Deprecated)">
 ```javascript
 import { list } from 'aws-amplify/storage';
 
@@ -204,11 +189,15 @@ try {
   console.log('Error ', error);
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ## Paginated file access
 
 If the pageSize is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
 
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
 ```javascript
 import { list } from 'aws-amplify/storage';
 
@@ -217,6 +206,31 @@ let nextToken = undefined;
 //...
 const loadNextPage = async () => {
   let response = await list({
+    path: 'public/photos/',
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/photos/`
+    pageSize: PAGE_SIZE,
+    nextToken: nextToken
+    }
+  });
+  if (response.nextToken) {
+    nextToken = response.nextToken;
+  } else {
+    nextToken = undefined;
+  }
+  // render list items from response.items
+};
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { list } from 'aws-amplify/storage';
+
+const PAGE_SIZE = 20;
+let nextToken = undefined;
+//...
+const loadNextPage = async () => {
+  let response = await list({
+    key: 'photos/'
     options: {
       pageSize: PAGE_SIZE,
       nextToken: nextToken
@@ -230,7 +244,14 @@ const loadNextPage = async () => {
   // render list items from response.items
 };
 ```
+</Block>
+</BlockSwitcher>
+
 
 <Callout>Note: The range of pageSize can be from 0 - 1000.</Callout>
+
+## List with no prefix (Deprecated)
+
+The usage of the `list` API without a specified prefix `await list()` or with an empty string as the prefix `await list({ prefix: "" })` is now deprecated and may be removed in the next major version.
 
 </InlineFilter>

@@ -31,13 +31,19 @@ export function getStaticProps() {
 
 You can use `defineAuth` and `defineFunction` to create a [Cognito pre sign-up Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) that performs filtering based on the user's email address. This can allow or deny user signups based on their email address.
 
-To get started, create a new directory and a resource file, `amplify/functions/pre-sign-up/resource.ts`. Then, define the Function with `defineFunction`:
+To get started, install the `aws-lambda` package, which is used to define the handler type.
 
-```ts title="amplify/functions/pre-sign-up/resource.ts"
+```bash title="Terminal" showLineNumbers={false}
+npm add --save-dev @types/aws-lambda
+```
+
+Next, create a new directory and a resource file, `amplify/auth/pre-sign-up/resource.ts`. Then, define the Function with `defineFunction`:
+
+```ts title="amplify/auth/pre-sign-up/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
 
 export const preSignUp = defineFunction({
-  entry: './pre-sign-up.ts',
+  name: 'pre-sign-up',
   // optionally define an environment variable for your filter
   environment: {
     ALLOW_DOMAIN: 'amazon.com'
@@ -45,9 +51,9 @@ export const preSignUp = defineFunction({
 });
 ```
 
-Next, create the corresponding handler file, `amplify/functions/pre-sign-up/handler.ts`, file with the following contents:
+Next, create the corresponding handler file, `amplify/auth/pre-sign-up/handler.ts`, file with the following contents:
 
-```ts title="amplify/functions/pre-sign-up/handler.ts"
+```ts title="amplify/auth/pre-sign-up/handler.ts"
 import type { PreSignUpTriggerHandler } from 'aws-lambda';
 import { env } from '$amplify/env/pre-sign-up';
 
@@ -66,7 +72,7 @@ Lastly, set the newly created Function resource on your auth resource:
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
-import { preSignUp } from '../functions/pre-sign-up/resource';
+import { preSignUp } from './pre-sign-up/resource';
 
 export const auth = defineAuth({
   // ...

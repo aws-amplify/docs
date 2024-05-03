@@ -1,5 +1,37 @@
-Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify the key:
+Delete an object uploaded to S3 by using `Amplify.Storage.remove`:
 
+#### With StoragePath
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let removedObject = try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+print("Deleted \(removedObject)")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { removedObject in
+    print("Deleted \(removedObject)")
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+#### With Key (Deprecated)
 <BlockSwitcher>
 
 <Block name="Async/Await">
