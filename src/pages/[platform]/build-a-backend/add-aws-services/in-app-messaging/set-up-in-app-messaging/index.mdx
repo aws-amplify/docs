@@ -159,9 +159,9 @@ To finish setting up your application with Amplify, you need to configure it usi
 ```js title="src/index.js"
 import { Amplify } from 'aws-amplify';
 import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 initializeInAppMessaging();
 ```
 </InlineFilter>
@@ -170,9 +170,9 @@ initializeInAppMessaging();
 ```js title="index.tsx"
 import { Amplify } from 'aws-amplify';
 import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 initializeInAppMessaging();
 ```
 </InlineFilter>

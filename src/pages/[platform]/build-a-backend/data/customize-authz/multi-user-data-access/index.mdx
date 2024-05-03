@@ -33,7 +33,7 @@ The `ownersDefinedIn` rule grants a set of users access to a record by automatic
 
 ## Add multi-user authorization rule
 
-If you want to grant a set of users access to a record, you use the `ownersDefinedIn` rule. This automatically creates a `owner: a.string().array()` field to store the allowed owners.
+If you want to grant a set of users access to a record, you use the `ownersDefinedIn` rule. This automatically creates a `owners: a.string().array()` field to store the allowed owners.
 
 ```ts title="amplify/data/resource.ts"
 const schema = a.schema({
@@ -70,7 +70,7 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 await client.models.Todo.update(
   {
     id: newTodo.id,
-    owner: [...(newTodo.owner as string[]), otherUserId],
+    owners: [...(newTodo.owners as string[]), otherUserId],
   },
   // highlight-start
   {

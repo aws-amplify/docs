@@ -71,9 +71,9 @@ import { ThemeProvider } from '@aws-amplify/ui-react';
 // highlight-end
 import { Amplify } from 'aws-amplify';
 
-import amplifyconfig from './amplifyconfiguration.json';
+import outputs from './amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 ```
 
 2. In your application's entrypoint file (e.g. `src/main.jsx` for Vite), wrap the `<App />` component with the following:

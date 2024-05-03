@@ -485,6 +485,7 @@
     "customizable",
     "customtabs",
     "customui",
+    "conver",
     "dabit",
     "dataaccess",
     "dataacess",
@@ -916,6 +917,7 @@
     "Neue",
     "NEW_PASSWORD_REQUIRED",
     "newHire",
+    "newimage",
     "NextActivity.class",
     "NextActivity",
     "nextActivityClass",
@@ -1343,6 +1345,7 @@
     "Untag",
     "updateapi",
     "updateauth",
+    "updatedimage",
     "UpdateTable",
     "updateTodo",
     "uploadData",
@@ -1517,7 +1520,7 @@
     "privatesaccess",
     "menudetaileditors",
     "editorgroupaccess",
-    "publicauthreadonly",
+    "authreadonly",
     "envs",
     "Onetoone",
     "onetomany",
@@ -1594,7 +1597,9 @@
     "awscliv",
     "identitystore",
     "esac",
-    "voteField"
+    "voteField",
+    "ampx",
+    "autodetection"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

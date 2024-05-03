@@ -39,7 +39,7 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/start/gen1-gen2/index.mdx'
+              path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
             }
           ]
         },
@@ -145,6 +145,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
                 },
                 {
@@ -158,6 +161,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
                 }
               ]
             },
@@ -257,6 +263,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-translate/index.mdx'
                     }
                   ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/working-with-files/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx'
