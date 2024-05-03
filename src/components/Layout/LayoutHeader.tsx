@@ -3,17 +3,17 @@ import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { Platform } from '@/data/platforms';
-import {
-  ALGOLIA_API_KEY,
-  ALGOLIA_INDEX_NAME,
-  ALGOLIA_APP_ID
-} from '../../constants/algolia';
+// import {
+//   ALGOLIA_API_KEY,
+//   ALGOLIA_INDEX_NAME,
+//   ALGOLIA_APP_ID
+// } from '../../constants/algolia';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
 import flatDirectory from 'src/directory/flatDirectory.json';
-import { DocSearch } from '@docsearch/react';
+// import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
@@ -72,7 +72,7 @@ export const LayoutHeader = ({
           )}
         >
           <View className="layout-search__search__container">
-            <DocSearch
+            {/* <DocSearch
               appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
               indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
               apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
@@ -82,7 +82,7 @@ export const LayoutHeader = ({
                   `gen:${isGen1 ? 'gen1' : 'gen2'}`
                 ]
               }}
-            />
+            /> */}
           </View>
         </View>
       </Flex>
