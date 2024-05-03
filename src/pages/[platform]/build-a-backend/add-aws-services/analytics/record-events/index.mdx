@@ -93,6 +93,7 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 ## Flush events
 
 Events have a default configuration to flush out to the network every 30 seconds. You can change this value by passing the `autoFlushEventsInterval` option to the `AWSPinpointAnalyticsPlugin`. The option value is measured in milliseconds.
+
 ```kotlin
 val options = AWSPinpointAnalyticsPlugin.Options {
     autoFlushEventsInterval = 60_000
