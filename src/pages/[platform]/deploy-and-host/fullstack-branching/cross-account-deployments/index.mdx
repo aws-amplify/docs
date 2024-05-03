@@ -43,12 +43,27 @@ Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/cod
 
 ### Step 2: Deploy a fullstack Amplify Gen 2 app
 
-- Use our [**Next.js starter template**](/[platform]/start/quickstart/nextjs-pages-router/#1-create-the-repository) to create a repository in your GitHub account.
+<InlineFilter filters={["flutter", "nextjs"]}>
+
+ - Use our [**Next.js starter template**](/[platform]/start/quickstart/nextjs-pages-router/#1-create-the-repository) to create a repository in your GitHub account.
 - Sign in to the [AWS Management Console](https://console.aws.amazon.com/).
 - Navigate to the Amplify console and select [**Create new app**](https://us-west-2.console.aws.amazon.com/amplify/create).
 - Select the **next-pages-template** repository, then select **Next**.
 - Review the details on the **Create Git Repository** page, then select **Save and deploy**.
 - Done! You have successfully deployed a fullstack Gen 2 app. You can review the status of the app deployment in the Amplify console.
+
+ </InlineFilter>
+
+<InlineFilter filters={["angular", "android", "javascript", "react", "react-native", "swift", "vue"]}>
+
+- Sign in to the [AWS Management Console](https://console.aws.amazon.com/).
+- Navigate to the Amplify console and select [**Create new app**](https://us-west-2.console.aws.amazon.com/amplify/create).
+- Select the **next-pages-template** repository, then select **Next**.
+- Review the details on the **Create Git Repository** page, then select **Save and deploy**.
+- Done! You have successfully deployed a fullstack Gen 2 app. You can review the status of the app deployment in the Amplify console.
+
+ </InlineFilter>
+
 
 ![Screenshot of completed deployment in AWS Amplify Gen 2 console](images/gen2/cross-account-deployments/pipeline1.png)
 
