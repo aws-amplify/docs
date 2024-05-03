@@ -144,7 +144,7 @@ An application with Amplify libraries integrated and a minimum target of any of 
 - **watchOS 9.0**, using **Xcode 14.3** or later.
 - **visionOS 1.0**, using **Xcode 15 beta 2** or later. (Preview support - see below for more details.)
 
-For a full example, please follow the [project setup walkthrough](/[platform]/start/project-setup/prerequisites/).
+For a full example, please follow the [project setup walkthrough](/[platform]/start/quickstart/).
 
 <Callout>
 {/* is the visionOS support callout relevant here? */}
@@ -253,11 +253,11 @@ Amplify configured with Auth and Storage plugins
 ### Prerequisites
 
 * An Android application targeting Android API level 24 (Android 7.0) or above
-    * For a full example of creating Android project, please follow the [project setup walkthrough](/[platform]/start/project-setup/create-application/)
+    * For a full example of creating Android project, please follow the [project setup walkthrough](/[platform]/start/quickstart/)
 
 ### Install the Amplify library
 
-Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already have configured Amplify by following the steps in the [Project Setup walkthrough](/[platform]/start/project-setup/create-application/).
+Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already have configured Amplify by following the steps in the [Project Setup walkthrough](/[platform]/start/quickstart/).
 
 Add these libraries into the `dependencies` block:
 ```groovy
@@ -276,6 +276,16 @@ Click **Sync Now**.
 Initialize Amplify Storage by calling `Amplify.addPlugin()`. To complete initialization, call `Amplify.configure()`.
 
 Add the following code to your `onCreate()` method in your application class:
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
 
 <BlockSwitcher>
 <Block name="Java">
@@ -342,8 +352,7 @@ class MyAmplifyApp : Application() {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSS3StoragePlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSS3StoragePlugin())
-            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
-
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -393,7 +402,7 @@ public class MyAmplifyApp extends Application {
 </Block>
 </BlockSwitcher>
 
-Note that because the storage category requires auth, you will need to either configure [guest access](/[platform]/build-a-backend/auth/enable-guest-access/) or [sign in a user](/[platform]/build-a-backend/auth/enable-sign-in/) before using features in the storage category.
+Note that because the storage category requires auth, you will need to either configure [guest access](/[platform]/build-a-backend/auth/concepts/guest-access/) or [sign in a user](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in) before using features in the storage category.
 
 </InlineFilter>
 
@@ -411,7 +420,7 @@ Note that because the storage category requires auth, you will need to either co
   * Any Windows OS meeting Flutter minimums
   * macOS version 10.15 or higher
   * Any Ubuntu Linux distribution meeting Flutter minimums
-  * For a full example please follow the [project setup walkthrough](/[platform]/start/project-setup/create-application/)
+  * For a full example please follow the [project setup walkthrough](/[platform]/start/quickstart/)
 
 ### Install Amplify library
 
@@ -452,7 +461,7 @@ Future<void> _configureAmplify() async {
     await Amplify.addPlugins([auth, storage]);
 
     // call Amplify.configure to use the initialized categories in your app
-    await Amplify.configure(amplifyconfig);
+    await Amplify.configure(outputs);
   } on Exception catch (e) {
     safePrint('An error occurred configuring Amplify: $e');
   }

@@ -28,7 +28,7 @@ export function getStaticProps() {
   };
 }
 
-Amplify Auth's behavior can be customized through the use of triggers. A trigger is defined as a Function, and is a mechanism to slot some logic to execute during the authentication flow. For example, you can use triggers to [validate whether emails include an allowlisted domain](/[platform]/build-a-backend/functions/examples/email-domain-filtering), [add a user to a group upon confirmation](/[platform]/build-a-backend/functions/examples/add-user-to-group), or [create a "UserProfile" model upon account confirmation](/[platform]/build-a-backend/functions/examples/create-user-profile-model).
+Amplify Auth's behavior can be customized through the use of triggers. A trigger is defined as a Function, and is a mechanism to slot some logic to execute during the authentication flow. For example, you can use triggers to [validate whether emails include an allowlisted domain](/[platform]/build-a-backend/functions/examples/email-domain-filtering), [add a user to a group upon confirmation](/[platform]/build-a-backend/functions/examples/add-user-to-group), or [create a "UserProfile" model upon account confirmation](/[platform]/build-a-backend/functions/examples/create-user-profile-record).
 
 Triggers translate to [Cognito user pool Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html).
 

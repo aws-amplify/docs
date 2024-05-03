@@ -41,56 +41,57 @@ This guide walks you through how to create a trunk-based, multi-region deploymen
 
 Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/codecatalyst/latest/userguide/setting-up-topnode.html) for a detailed step-by-step walkthrough to set up your [space](https://docs.aws.amazon.com/codecatalyst/latest/userguide/spaces.html).
 
-### Step 2: Deploy an app using Amplify Gen 2
+### Step 2: Deploy a fullstack Amplify Gen 2 app
+
+<InlineFilter filters={["nextjs"]}>
+
+ - Use our [**Next.js starter template**](/[platform]/start/quickstart/nextjs-pages-router/#1-create-the-repository) to create a repository in your GitHub account.
+- Sign in to the [AWS Management Console](https://console.aws.amazon.com/).
+- Navigate to the Amplify console and select [**Create new app**](https://us-west-2.console.aws.amazon.com/amplify/create).
+- Select the **next-pages-template** repository, then select **Next**.
+- Review the details on the **Create Git Repository** page, then select **Save and deploy**.
+- Done! You have successfully deployed a fullstack Gen 2 app. You can review the status of the app deployment in the Amplify console.
+
+ </InlineFilter>
+
+<InlineFilter filters={["angular", "android", "javascript", "react", "react-native", "swift", "vue", "flutter"]}>
 
 - Sign in to the [AWS Management Console](https://console.aws.amazon.com/).
-- Navigate to the [app creation page](https://us-west-2.console.aws.amazon.com/amplify/create) for Amplify Gen 2.
-- Select the **Next.js-Amplify starter** app, then select **Next**.
+- Navigate to the Amplify console and select [**Create new app**](https://us-west-2.console.aws.amazon.com/amplify/create).
+- Select the **next-pages-template** repository, then select **Next**.
 - Review the details on the **Create Git Repository** page, then select **Save and deploy**.
-- Done! You have successfully deployed a Gen 2 app. You can review the status of the app deployment in the Amplify Gen 2 console.
+- Done! You have successfully deployed a fullstack Gen 2 app. You can review the status of the app deployment in the Amplify console.
+
+ </InlineFilter>
+
 
 ![Screenshot of completed deployment in AWS Amplify Gen 2 console](images/gen2/cross-account-deployments/pipeline1.png)
 
 ### Step 3: Update build specification
 
-Add the `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` command to the build spec and comment out the `npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID` command. `ampx pipeline-deploy` runs a script to deploy backend updates, while `amplify generate config` fetches the latest `amplifyconfiguration.json` for the specified environment.
+Add the `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` command to the build spec and comment out the `npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID` command. `ampx pipeline-deploy` runs a script to deploy backend updates, while `ampx generate outputs` fetches the latest `amplify_outputs.json` for the specified environment.
 
 ![Screenshot of Build image settings section in AWS Amplify Gen 2 console, with details about the app build specification](images/gen2/cross-account-deployments/pipeline10.png)
 
 ### Step 4: Disable automatic builds on the branch
 
-You can configure Amplify to disable automatic builds on every code commit. Navigate to the app in the Amplify Gen 2 console. Under **App settings**, select **Repository settings**. From the **Branches** section, select the branch and then choose **Disable auto build** from the **Actions** dropdown menu.
+You can configure Amplify to disable automatic builds on every code commit. Navigate to the app in the Amplify console. Under **App settings**, select **Branch settings**. From the **Branches** section, select the branch and then choose **Disable auto build** from the **Actions** dropdown menu.
 
-![Screenshot of the Repository settings section in the Amplify Gen 2 console, highlighting the selection of Disable auto build in the Actions dropdown menu](images/gen2/cross-account-deployments/pipeline9.png)
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/fullstack-branching/auto-build.mp4" />
+</video>
 
 ### Step 5: Create an incoming webhook
 
-You can set up an incoming webhook to trigger a build without committing code to your Git repository. Currently, the Amplify Gen 2 console does not support creation of incoming webhooks. However, you can create a webhook for a Gen 2 app using the AWS CLI by running the [`create-webhook`](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/amplify/create-webhook.html) command:
+You can set up an incoming webhook to trigger a build without committing code to your Git repository. Use the Amplify Console to create an [incoming webhook](https://docs.aws.amazon.com/amplify/latest/userguide/webhooks.html).
 
-```bash title="Terminal" showLineNumbers={false}
-aws amplify create-webhook --app-id <value> --branch-name <value> --region <value>
-```
+Navigate to the app, under **Hosting > Build settings** select **Create webhook**. Provide a **name** for the webhook and select the **target branch** to build on incoming webhook requests.
 
-After running this command successfully, you should see a response similar to the following:
+![Screenshot of the Build settings page in the Amplify console showing the incoming webhooks feature](/images/gen2/fullstack-branching/multirepo5.png)
 
-```
-{
-    "webhook": {
-        "webhookArn": "arn:aws:amplify:REGION:ACCOUNT:apps/APP-ID/webhooks/webhookId",
-        "webhookId": "value",
-        "webhookUrl": "https://webhooks.amplify.us-west-2.amazonaws.com/prod/webhooks?id=webhookId&token=value",
-        "branchName": "main",
-        "createTime": "2023-11-18T10:16:18.880000-08:00",
-        "updateTime": "2023-11-18T10:16:18.880000-08:00"
-    }
-}
-```
+Next, select the webhook and copy the `curl` command which will be used to trigger a build for the app.
 
-Next, you will need to construct a `curl` command that uses the `webhookId` to trigger a build:
-
-```
-curl -X POST -d {} "`webhookUrl`&operation=startbuild" -H "Content-Type:application/json"
-```
+![Screenshot of the Incoming webhooks page in the Amplify console displaying the newly created webhook](/images/gen2/fullstack-branching/multirepo6.png)
 
 ### Step 6: Create a new Amazon CodeCatalyst project
 
@@ -98,7 +99,7 @@ Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/cod
 
 <Callout info>
 
-**Note**: When creating your project, select the **amplify-nextjs-starter-app** GitHub repository, which we used to deploy the Gen 2 app in Step 2.
+**Note**: When creating your project, select the **next-pages-template** GitHub repository, which we used to deploy the app in Step 2.
 
 </Callout>
 
@@ -122,7 +123,7 @@ A workflow is an automated procedure that describes how to build, test, and depl
 
 - Within the CodeCatalyst project, navigate to the **CI/CD** feature and select **Workflows**.
 - Select **Create workflow**.
-- Choose the **amplify-nextjs-starter-app** GitHub repository and the branch **main** from the dropdown menu.
+- Choose the **next-pages-template** GitHub repository and the branch **main** from the dropdown menu.
 - Next, select **Create**.
 
 ![Screenshot of the CodeCatalyst console showing details of the Create workflow dialog box](images/gen2/cross-account-deployments/pipeline3.png)
@@ -183,4 +184,4 @@ Next, you can review the result of the workflow run from the **Runs** tab:
 
 ![Screenshot of CodeCatalyst console showing the Workflows section, focusing on the Runs tab](images/gen2/cross-account-deployments/pipeline11.png)
 
-Done! You have successfully set up a custom cross-account pipeline to deploy your frontend and backend for apps built using Amplify Gen 2. To summarize, this custom pipeline will enable you to deploy your backend initially with your `staging` environment using `ampx pipeline-deploy` in the CodeCatalyst workflow and `amplify generate config` will generate the `amplifyconfiguration.json` file for the `main` branch. Amplify Hosting will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `main` branch. Once the staging environment deploys successfully, a similar process will be followed to deploy your `production` environment in a different AWS account.
+Done! You have successfully set up a custom cross-account pipeline to deploy your frontend and backend for apps built using Amplify Gen 2. To summarize, this custom pipeline will enable you to deploy your backend initially with your `staging` environment using `ampx pipeline-deploy` in the CodeCatalyst workflow and `ampx generate outputs` will generate the `amplify_outputs.json` file for the `main` branch. Amplify Hosting will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `main` branch. Once the staging environment deploys successfully, a similar process will be followed to deploy your `production` environment in a different AWS account.

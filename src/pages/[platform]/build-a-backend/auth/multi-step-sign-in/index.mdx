@@ -21,7 +21,7 @@ export function getStaticProps(context) {
 }
 
 <InlineFilter filters={['flutter']}>
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page.
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) page.
 
 Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
@@ -227,7 +227,7 @@ Future<void> confirmTotpUser(String totpCode) async {
 ```
 ### Confirm signin with custom challenge
 
-If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/).
+If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user).
 
 For example, your custom challenge Lambda may pass a prompt to the frontend which requires the user to enter a secret code.
 
@@ -301,7 +301,7 @@ If the next step is `resetPassword`, Amplify Auth requires that the user reset t
 Use the `resetPassword` API to guide the user through resetting their password, then call `Amplify.Auth.signIn`
 when that's complete to restart the sign-in flow.
 
-See the [reset password](/[platform]/build-a-backend/auth/manage-passwords/) docs for more information.
+See the [reset password](/[platform]/build-a-backend/auth/manage-users/manage-passwords/) docs for more information.
 
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
@@ -338,7 +338,7 @@ If the next step is `resetPassword`, Amplify Auth requires that the user confirm
 Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` 
 to complete the sign up.
 
-See the [confirm sign up](/[platform]/build-a-backend/auth/enable-sign-in/#register-a-user) docs for more information.
+See the [confirm sign up](/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/#confirm-sign-up) docs for more information.
 
 <Callout>
 
@@ -405,7 +405,7 @@ Future<void> _handleSignInResult(SignInResult result) async {
 </InlineFilter>
 
 <InlineFilter  filters={['android']}>
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page. 
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) page. 
 
 Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
@@ -864,7 +864,7 @@ Once the authenticator app is set up, the user can generate a TOTP code and prov
 
 ### Confirm signin with custom challenge
 
-If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
 <BlockSwitcher>
 
@@ -1263,7 +1263,7 @@ Sign In flow is complete when you get `done`. This means the user is successfull
 
 <InlineFilter filters={['swift']}>
 
-After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/manage-mfa/) page. 
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) page. 
 
 Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
@@ -1598,7 +1598,7 @@ func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) -> AnyCanc
 
 ### Confirm signin with custom challenge
 
-If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
 <BlockSwitcher>
 

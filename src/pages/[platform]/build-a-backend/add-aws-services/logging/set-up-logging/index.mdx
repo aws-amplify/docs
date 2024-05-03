@@ -134,7 +134,7 @@ In this section, we will initialize and setup the Amplify library. The Logger ca
 
 <BlockSwitcher>
   <Block name="With Configuration File">
-    In your mobile app, create and add a `amplifyconfiguration_logging.json` to the same location as the `amplifyconfiguration.json` file.
+    In your mobile app, create and add a `amplifyconfiguration_logging.json` to the same location as the `amplify_outputs.json` file.
 
 The `<log-group-name>` and `<region>` is the value you specified in the CDK construct as part of provisioning your backend resources.  These values can also be found at the end of the output logs when deploying the sample CDK construct.  The configuration file is the data source for the logging plugin to know where, when and what logs to sends.  The example below configures the logging plugin to automatically send all logs at log level `ERROR` at 60 seconds interval and store logs locally up to 1MB.
 
@@ -156,6 +156,17 @@ The `<log-group-name>` and `<region>` is the value you specified in the CDK cons
 To use the Amplify Logger and Amplify Auth categories in your app, you need to create and configure their corresponding plugins by calling the `Amplify.addPlugin()` and `Amplify.configure()` methods.
 
 Add the following imports to the top of your main `Application` file:
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -410,7 +421,7 @@ public class MyAmplifyApp extends Application {
 
 <BlockSwitcher>
   <Block name="With Configuration File">
-In your mobile app, create and add a `amplifyconfiguration_logging.json` to the same location as the `amplifyconfiguration.json` file.  Ensure that the file is included in the `Copy Bundle Resources` build phase.
+In your mobile app, create and add a `amplifyconfiguration_logging.json` to the same location as the `amplify_outputs.json` file.  Ensure that the file is included in the `Copy Bundle Resources` build phase.
 
 The `<log-group-name>` and `<region>` is the value you specified in the CDK construct as part of provisioning your backend resources.  These values can also be found at the end of the output logs when deploying the sample CDK construct.  The configuration file is the data source for the logging plugin to know where, when and what logs to sends.  The example below configures the logging plugin to automatically send all logs at log level `ERROR` at 60 seconds interval and store logs locally up to 1MB.
 

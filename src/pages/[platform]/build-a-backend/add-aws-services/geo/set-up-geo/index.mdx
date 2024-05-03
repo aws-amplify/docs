@@ -117,8 +117,8 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
-Amplify.configure(amplifyconfig);
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs);
 ```
 </InlineFilter>
 
@@ -126,8 +126,8 @@ Amplify.configure(amplifyconfig);
 
 ```javascript title="pages/_app.js"
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '@/amplifyconfiguration.json';
-Amplify.configure(amplifyconfig);
+import outputs from '@/amplify_outputs.json';
+Amplify.configure(outputs);
 ```
 
 </InlineFilter>
@@ -160,7 +160,7 @@ An application with Amplify libraries integrated and a minimum target of any of 
 - **watchOS 9.0**, using **Xcode 14.3** or later.
 - **visionOS 1.0**, using **Xcode 15 beta 2** or later. (Preview support - see below for more details.)
 
-For a full example, please follow the [project setup walkthrough](/[platform]/start/project-setup/prerequisites/).
+For a full example, please follow the [project setup walkthrough](/[platform]/start/quickstart/).
 
 <Callout>
 
@@ -218,6 +218,16 @@ The Geo plugin is dependent on Cognito Auth.
 To initialize Amplify Geo, use the `Amplify.addPlugin()` method to add the AWS Location Geo plugin. Next, finish configuring Amplify by calling `Amplify.configure()`.
 
 Add the following code to your `onCreate()` method in your application class:
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
 
 <BlockSwitcher>
 <Block name="Java">

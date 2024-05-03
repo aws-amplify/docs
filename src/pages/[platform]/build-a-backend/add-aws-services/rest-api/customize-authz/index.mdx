@@ -4,21 +4,18 @@ export const meta = {
   title: 'Define authorization rules',
   description: "Learn more about how to define authorization rules for Amplify's REST API capabilities",
   platforms: [
-    'javascript',
-    'react-native',
-    'flutter',
-    'swift',
-    'android',
     'angular',
+    'javascript',
     'nextjs',
     'react',
+    'react-native',
     'vue'
   ],
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
 export function getStaticProps(context) {
   return {
@@ -29,7 +26,6 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={['javascript', "angular", "react", "vue", "nextjs"]}>
 When determining the authorization mode for your REST endpoint, there are a few customizations you can do.
 
 ## IAM Authorization
@@ -40,8 +36,8 @@ By default, the API will be using IAM authorization and the requests will be sig
 
 If you want to configure a public REST API, you can set an API key in Amazon API Gateway or create one using the [CDK construct](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_apigateway.ApiKey.html). Then, you can set the API key header in the API configuration which will be applied to all requests.
 
-```javascript
-Amplify.configure(awsconfig, {
+```ts
+Amplify.configure(outputs, {
   API: {
     REST: {
       headers: async () => {
@@ -56,16 +52,17 @@ Amplify.configure(awsconfig, {
 
 You can use the access token from configured Cognito User Pool to authenticate against REST endpoint. The JWT token can be retrieved from the `Auth` category.
 
-```javascript
+```ts
 import { fetchAuthSession } from 'aws-amplify/auth'
-...
-const authToken = (await fetchAuthSession()).tokens?.idToken;
+
+const session = await fetchAuthSession();
+const token = session.tokens?.idToken
 ```
 
 Then you need to set the Authorization header in the API category configuration. The following example shows how to set the Authorization header for all requests.
 
-```javascript
-Amplify.configure(awsconfig, {
+```ts
+Amplify.configure(outputs, {
   API: {
     REST: {
       headers: async () => {
@@ -82,22 +79,24 @@ For more details on how to configure the API Gateway with the custom authorizati
 
 The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. On the Amplify Authentication category you can retrieve the Id Token using:
 
-```javascript
-const idToken = (await fetchAuthSession()).tokens?.idToken;
+```ts
+const session = await fetchAuthSession();
+const token = session.tokens?.idToken
 ```
 
 The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/). You can retrieve the Access Token using
 
-```javascript
-const accessToken = (await fetchAuthSession()).tokens?.accessToken;
+```textSpanIntersectsWith
+const session = await fetchAuthSession();
+const token = session.tokens?.accessToken
 ```
 
 ## Custom Authorization Token
 
 If you want to use a custom authorization token, you can set the token in the API category configuration. The custom authorization token will be applied to all requests.
 
-```javascript
-Amplify.configure(awsconfig, {
+```ts
+Amplify.configure(outputs, {
   API: {
     REST: {
       headers: async () => {
@@ -112,7 +111,7 @@ Amplify.configure(awsconfig, {
 
 Alternatively, you can set the authorization headers per request. For example, if you want to use a custom header named `Authorization` for a specific REST request, you can set the following configuration:
 
-```javascript
+```ts
 async function updateItem() {
   await del({
     apiName: 'myRestApi',
@@ -125,632 +124,3 @@ async function updateItem() {
   }).response;
 }
 ```
-</InlineFilter>
-
-<InlineFilter filters={['swift', 'android', 'react-native']}>
-When determining the authorization mode for your REST endpoint, there are a few built in options and customizations you can do.
-
-## IAM Authorization
-
-By default, the API will be using IAM authorization and the requests will be signed for you automatically. IAM authorization has two modes: one using an **unauthenticated** role, and one using an **authenticated** role. When the user has not signed in through `Amplify.Auth.signIn`, the unauthenticated role is used by default. Once the user has signed in, the authenticate role is used, instead.
-
-### Unauthenticated Requests
-
-You can use the API category to access API Gateway endpoints that don't require authentication. In this case, you need to allow unauthenticated identities in your Amazon Cognito Identity Pool settings. For more information, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html#enable-or-disable-unauthenticated-identities).
-
-When your API is configured to use IAM as the authorization type, your requests will automatically have IAM credentials added to the headers of outgoing requests. You can verify that IAM is being used as the authorization type by inspecting the `authorizationType` associated with your API in `amplifyconfiguration.json`:
-
-```json
-{
-  "awsAPIPlugin": {
-    "<your-api-name>": {
-      "endpointType": "REST",
-      "endpoint": "<your-api-endpoint>",
-      "region": "us-west-2",
-      "authorizationType": "AWS_IAM"
-    }
-  }
-}
-```
-
-## API Key
-
-If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.json` to reference it. The value associated to the `"authorizationType"` key should be `"API_KEY"`. Also include a `"apiKey"` as a key, and set its value to whatever you configured in API Gateway.
-
-```json
-{
-  "awsAPIPlugin": {
-    "<your-api-name>": {
-      "endpointType": "REST",
-      "endpoint": "<your-api-endpoint>",
-      "region": "us-west-2",
-      "authorizationType": "API_KEY",
-      "apiKey": "YOUR_API_KEY"
-    }
-  }
-}
-```
-
-## Cognito User pool authorization
-
-If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.json` to use `AMAZON_COGNITO_USER_POOLS `.
-
-```json
-{
-  "awsAPIPlugin": {
-    "<your-api-name>": {
-      "endpointType": "REST",
-      "endpoint": "<your-api-endpoint>",
-      "region": "us-west-2",
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS"
-    }
-  }
-}
-```
-
-Your `amplifyconfiguration.json` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
-
-```json
-{
-  "CognitoUserPool": {
-    "Default": {
-      "PoolId": "<your-user-pool-id>",
-      "AppClientId": "<your-app-client-id>",
-      "AppClientSecret": "<your-app-client-secret>",
-      "Region": "us-east-1"
-    }
-  },
-  "CredentialsProvider": {
-    "CognitoIdentity": {
-      "Default": {
-        "PoolId": "<your-cognito-identity-poolid>",
-        "Region": "us-east-1"
-      }
-    }
-  }
-}
-```
-
-With this configuration, your access token will automatically be included in outbound requests to your API, as an `Authorization` header. For more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
-
-## OIDC
-
-If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `amplifyconfiguration.json` file and code snippet as follows:
-
-```json
-{
-  "awsAPIPlugin": {
-    "<your-api-name>": {
-      "endpointType": "REST",
-      "endpoint": "<your-api-endpoint>",
-      "region": "<your-api-region>",
-      "authorizationType": "OPENID_CONNECT"
-    }
-  }
-}
-```
-
-<InlineFilter filters={['swift']}>
-
-Add the following code to your app:
-
-* Create a subclass of `APIAuthProviderFactory`
-```swift
-class MyAPIAuthProviderFactory: APIAuthProviderFactory {
-    let myAuthProvider = MyOIDCAuthProvider()
-
-    override func oidcAuthProvider() -> AmplifyOIDCAuthProvider? {
-        return myAuthProvider
-    }
-}
-```
-
-* Implement your class which conforms to `AmplifyOIDCAuthProvider`:
-```swift
-class MyOIDCAuthProvider : AmplifyOIDCAuthProvider {
-    func getLatestAuthToken() async throws -> String {
-       ....
-    }
-}
-```
-* Finally, register your instance of `APIAuthProviderFactory` prior to calling `Amplify.configure()`:
-```swift
-try Amplify.add(plugin: AWSAPIPlugin(apiAuthProviderFactory: MyAPIAuthProviderFactory()))
-try Amplify.configure()
-```
-</InlineFilter>
-
-<InlineFilter filters={['android']}>
-Add the following code to your app:
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-ApiAuthProviders authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider(() -> "<your-openID-connect-token>")
-    .build();
-AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .apiAuthProviders(authProviders)
-    .build();
-Amplify.addPlugin(plugin);
-```
-
-</Block>
-<Block name="Kotlin">
-
-```kotlin
-val authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider { "[OPEN-ID-CONNECT-TOKEN]" }
-    .build()
-val plugin = AWSApiPlugin.builder()
-    .apiAuthProviders(authProviders)
-    .build()
-Amplify.addPlugin(plugin)
-```
-
-</Block>
-</BlockSwitcher>
-</InlineFilter>
-
-### Note related to use Access Token or ID Token
-
-The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes.](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/).
-
-The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number.
-
-If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider, set the authorization type to `OPENID_CONNECT` and use `Amplify.Auth` to retrieve the ID Token for your requests.
-
-<InlineFilter filters={['swift']}>
-```swift
-
-import AWSPluginsCore
-
-class MyOIDCAuthProvider : AmplifyOIDCAuthProvider {
-    func getLatestAuthToken() async throws -> String {
-        let session = try await Amplify.Auth.fetchAuthSession()
-        if let cognitoTokenResult = (session as? AuthCognitoTokensProvider)?.getCognitoTokens() {
-            switch cognitoTokenResult {
-            case .success(let tokens):
-                return tokens.idToken
-            case .failure(let error):
-                throw error
-            }
-        }
-
-        throw AuthError.unknown("Could not retrieve Cognito token")
-    }
-}
-```
-</InlineFilter>
-
-<InlineFilter filters={['android']}>
-Add the following code to your app to initialize API plugin with OIDC auth provider:
-
-<BlockSwitcher>
-<Block name="Java">
-
-This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
-
-```java
-ApiAuthProviders authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider(() -> {
-        CompletableFuture<String> future = new CompletableFuture<>();
-        Amplify.Auth.fetchAuthSession(
-            session -> future.complete(((AWSCognitoAuthSession) session)
-                .getUserPoolTokens()
-                .getValue()
-                .getIdToken()),
-            future::completeExceptionally
-        );
-        try {
-            return future.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    })
-    .build();
-AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .apiAuthProviders(authProviders)
-    .build();
-Amplify.addPlugin(plugin);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
-
-```kotlin
-val authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider {
-        val future = CompletableFuture<String>()
-        Amplify.Auth.fetchAuthSession(
-            { future.complete((it as AWSCognitoAuthSession).userPoolTokens.value?.idToken) },
-            { future.completeExceptionally(it) }
-        )
-        future.get()
-    }
-    .build()
-val plugin = AWSApiPlugin.builder()
-    .apiAuthProviders(authProviders)
-    .build()
-Amplify.addPlugin(plugin)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
-
-```kotlin
-val authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider {
-        val session = runBlocking { Amplify.Auth.fetchAuthSession() }
-        return (session as AWSCognitoAuthSession).userPoolTokens.value?.idToken
-    }
-    .build()
-val plugin = AWSApiPlugin.builder()
-    .apiAuthProviders(authProviders)
-    .build()
-Amplify.addPlugin(plugin)
-```
-
-</Block>
-<Block name="RxJava">
-
-Using the `rxbindings` module can simplify this further.
-
-```groovy
-dependencies {
-    // other dependencies...
-    implementation 'com.amplifyframework:rxbindings:ANDROID_VERSION'
-}
-```
-
-```java
-ApiAuthProviders authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider(() -> RxAmplify.Auth.fetchAuthSession()
-        .map(session -> ((AWSCognitoAuthSession) session)
-            .getUserPoolTokens()
-            .getValue()
-            .getIdToken())
-        .blockingGet())
-    .build();
-AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .apiAuthProviders(authProviders)
-    .build();
-Amplify.addPlugin(plugin);
-```
-
-</Block>
-<Block name="Kotlin (with RxJava)">
-
-Using the `rxbindings` module can simplify this further.
-
-```groovy
-dependencies {
-    // other dependencies...
-    implementation 'com.amplifyframework:rxbindings:ANDROID_VERSION'
-}
-```
-
-```kotlin
-val authProviders = ApiAuthProviders.builder()
-    .oidcAuthProvider { RxAmplify.Auth.fetchAuthSession()
-        .map { (it as AWSCognitoAuthSession)
-            .userPoolTokens
-            .value
-            ?.idToken }
-        .blockingGet() }
-    .build()
-val plugin = AWSApiPlugin.builder()
-    .apiAuthProviders(authProviders)
-    .build()
-Amplify.addPlugin(plugin)
-```
-
-</Block>
-</BlockSwitcher>
-</InlineFilter>
-
-## NONE
-
-You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
-
-```json
-{
-  "awsAPIPlugin": {
-    "[yourApiName]": {
-      "endpointType": "REST",
-      "endpoint": "<your-api-endpoint>",
-      "region": "<your-api-region>",
-      "authorizationType": "NONE"
-    }
-  }
-}
-```
-
-
-<InlineFilter filters={['swift']}>
-If you would like to add request headers, you can add it directly to the request
-```swift
-let headers = ["headerField": "headerValue"]
-let request = RESTRequest(headers: headers)
-```
-</InlineFilter>
-
-<InlineFilter filters={['android']}>
-If you would like to add request headers, you can add it directly to the request
-
-<BlockSwitcher>
-<Block name="Java">
-
-This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
-
-```java
-RestOptions options = RestOptions.builder()
-    .addHeaders(Collections.singletonMap("key", "value"))
-    .build();
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
-
-```kotlin
-val options = RestOptions.builder()
-    .addHeaders(mapOf("key" to "value"))
-    .build()
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
-
-```kotlin
-val request = RestOptions.builder()
-    .addHeaders(mapOf("key" to "value"))
-    .build()
-```
-
-</Block>
-<Block name="RxJava">
-
-```
-RestOptions options = RestOptions.builder()
-    .addHeaders(Collections.singletonMap("key", "value"))
-    .build();
-```
-</Block>
-</BlockSwitcher>
-</InlineFilter>
-
-You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it is performed.
-
-<InlineFilter filters={['swift']}>
-To include custom headers in your outgoing requests, add an `URLRequestInterceptor` to the `AWSAPIPlugin`. Also specify the name of one of the APIs configured in your **amplifyconfiguration.json** file.
-
-```swift
-struct CustomInterceptor: URLRequestInterceptor {
-    func intercept(_ request: URLRequest) throws -> URLRequest {
-        var request = request
-        request.setValue("headerValue", forHTTPHeaderField: "headerKey")
-        return request
-    }
-}
-let apiPlugin = try AWSAPIPlugin()
-try Amplify.addPlugin(apiPlugin)
-try Amplify.configure()
-try apiPlugin.add(interceptor: CustomInterceptor(), for: "yourApiName")
-```
-</InlineFilter>
-
-<InlineFilter filters={['android']}>
-To specify your own headers, use the `configureClient()` configuration option on the `AWSApiPlugin`'s builder. Specify the name of one of the configured APIs in your **amplifyconfiguration.json**. Apply customizations to the underlying OkHttp instance by providing a lambda expression as below.
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName", okHttpBuilder -> {
-        okHttpBuilder.addInterceptor(chain -> {
-            Request originalRequest = chain.request();
-            Request updatedRequest = originalRequest.newBuilder()
-                .addHeader("customHeader", "someValue")
-                .build();
-            return chain.proceed(updatedRequest);
-        });
-    })
-    .build();
-Amplify.addPlugin(plugin);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-val plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName") { okHttpBuilder ->
-        okHttpBuilder.addInterceptor { chain ->
-            val originalRequest = chain.request()
-            val updatedRequest = originalRequest.newBuilder()
-                .addHeader("customHeader", "someValue")
-                .build()
-            chain.proceed(updatedRequest)
-        }
-    }
-    .build()
-Amplify.addPlugin(plugin)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-val plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName") { okHttpBuilder ->
-        okHttpBuilder.addInterceptor { chain ->
-            val originalRequest = chain.request()
-            val updatedRequest = originalRequest.newBuilder()
-                .addHeader("customHeader", "someValue")
-                .build()
-            chain.proceed(updatedRequest)
-        }
-    }
-    .build()
-Amplify.addPlugin(plugin)
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-AWSApiPlugin plugin = AWSApiPlugin.builder()
-    .configureClient("yourApiName", okHttpBuilder -> {
-        okHttpBuilder.addInterceptor(chain -> {
-            Request originalRequest = chain.request();
-            Request updatedRequest = originalRequest.newBuilder()
-                .addHeader("customHeader", "someValue")
-                .build();
-            return chain.proceed(updatedRequest);
-        });
-    })
-    .build();
-RxAmplify.addPlugin(plugin);
-```
-
-</Block>
-</BlockSwitcher>
-</InlineFilter>
-
-</InlineFilter>
-
-<InlineFilter filters={['flutter']}>
-When determining the authorization mode for your REST endpoint, there are a few built in options and customizations you can use.
-
-## IAM Authorization
-
-By default, the API will be using IAM authorization and the requests will be signed for you automatically. IAM authorization has two modes: one using an **unauthenticated** role, and one using an **authenticated** role. When the user has not signed in through `Amplify.Auth.signIn`, the unauthenticated role is used by default. Once the user has signed in, the authenticate role is used, instead.
-
-### Unauthenticated Requests
-
-You can use the API category to access API Gateway endpoints that don't require authentication. In this case, you need to allow unauthenticated identities in your Amazon Cognito Identity Pool settings. For more information, please see the [Amazon Cognito developer documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html#enable-or-disable-unauthenticated-identities).
-
-When your API is configured to use IAM as the authorization type, your requests will automatically have IAM credentials added to the headers of outgoing requests. You can verify that IAM is being used as the authorization type by inspecting the `authorizationType` associated with your API in `amplifyconfiguration.dart`:
-
-```json
-{
-  "awsAPIPlugin": {
-    "<your-api-name>": {
-      "endpointType": "REST",
-      "endpoint": "<your-api-endpoint>",
-      "region": "us-west-2",
-      "authorizationType": "AWS_IAM"
-    }
-  }
-}
-```
-
-## API Key
-
-If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.dart` to reference it. The value associated to the `"authorizationType"` key should be `"API_KEY"`. Also include an `"API_KEY"` as a key, and set its value to whatever your configured in API Gateway.
-
-```json
-{
-  "awsAPIPlugin": {
-    "<YOUR-RESTENDPOINT-NAME>": {
-      "endpointType": "REST",
-      "endpoint": "<your-api-endpoint>",
-      "region": "us-west-2",
-      "authorizationType": "API_KEY",
-      "apiKey": "<your-api-key>"
-    }
-  }
-}
-```
-
-## Cognito User pool authorization
-
-If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.dart` to use `AMAZON_COGNITO_USER_POOLS `.
-
-```json
-{
-  "awsAPIPlugin": {
-    "<YOUR-RESTENDPOINT-NAME>": {
-      "endpointType": "REST",
-      "endpoint": "<your-api-endpoint>",
-      "region": "us-west-2",
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS"
-    }
-  }
-}
-```
-
-Your `amplifyconfiguration.dart` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
-
-```json
-{
-  "CognitoUserPool": {
-    "Default": {
-      "PoolId": "<your-user-pool-id>",
-      "AppClientId": "<your-app-client-id>",
-      "AppClientSecret": "<your-app-client-secret>",
-      "Region": "us-east-1"
-    }
-  },
-  "CredentialsProvider": {
-    "CognitoIdentity": {
-      "Default": {
-        "PoolId": "<your-cognito-identity-poolid>",
-        "Region": "us-east-1"
-      }
-    }
-  }
-}
-```
-
-With this configuration, your access token will automatically be included in outbound requests to your API, as an `Authorization` header. For more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
-
-## OIDC
-
-<InlineFilter filters={['flutter']}>
-To start, create a provider class inheriting from `OIDCAuthProvider`.
-
-```dart
-import 'package:amplify_api/amplify_api.dart';
-
-class CustomOIDCProvider extends OIDCAuthProvider {
-  const CustomOIDCProvider();
-
-  @override
-  Future<String?> getLatestAuthToken() async => '[OPEN-ID-CONNECT-TOKEN]';
-}
-```
-
-Then, include it, along with any other auth providers, in the call to `addPlugin`.
-
-```dart
-await Amplify.addPlugin(
-  AmplifyAPI(
-    authProviders: const [
-      CustomOIDCProvider(),
-      CustomFunctionProvider(),
-    ],
-  ),
-);
-```
-
-<Callout warning>
-
-**Note**: When using custom auth providers, `getLatestAuthToken` must be called before every API call, so it's important to minimize the amount of work this method performs. Consider caching your token in-memory so that it's available synchronously to the plugin, and only refresh it when necessary.
-
-</Callout>
-</InlineFilter>
-
-</InlineFilter>
-
