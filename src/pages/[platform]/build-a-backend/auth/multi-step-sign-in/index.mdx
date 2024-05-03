@@ -227,7 +227,7 @@ Future<void> confirmTotpUser(String totpCode) async {
 ```
 ### Confirm signin with custom challenge
 
-If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/).
+If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user).
 
 For example, your custom challenge Lambda may pass a prompt to the frontend which requires the user to enter a secret code.
 
@@ -864,7 +864,7 @@ Once the authenticator app is set up, the user can generate a TOTP code and prov
 
 ### Confirm signin with custom challenge
 
-If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
 <BlockSwitcher>
 
@@ -1598,7 +1598,7 @@ func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) -> AnyCanc
 
 ### Confirm signin with custom challenge
 
-If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/sign-in-custom-flow/). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
 <BlockSwitcher>
 
