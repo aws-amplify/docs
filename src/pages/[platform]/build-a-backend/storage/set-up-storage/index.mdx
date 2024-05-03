@@ -253,17 +253,31 @@ Amplify configured with Auth and Storage plugins
 ### Prerequisites
 
 * An Android application targeting Android API level 24 (Android 7.0) or above
-    * For a full example of creating Android project, please follow the [project setup walkthrough](/[platform]/start/project-setup/create-application/)
+    * For a full example of creating Android project, please follow the [quickstart guide](/[platform]/start/quickstart/)
 
 ### Install the Amplify library
 
-Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already have configured Amplify by following the steps in the [Project Setup walkthrough](/[platform]/start/project-setup/create-application/).
+Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already have configured Amplify by following the steps in the [quickstart guide](/[platform]/start/quickstart/).
 
 Add these libraries into the `dependencies` block:
-```groovy
+```kotlin title="app/build.gradle.kts"
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
 dependencies {
-    implementation 'com.amplifyframework:aws-storage-s3:ANDROID_VERSION'
-    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+    // Amplify API dependencies
+    // highlight-start
+    implementation ("com.amplifyframework:aws-storage-s3:ANDROID_VERSION")
+    implementation ("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")    
+    // highlight-end
+    // ... other dependencies
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
