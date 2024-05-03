@@ -125,46 +125,28 @@ Amplify Geo is dependent on your Amplify Auth category. If it is not already con
 
 ```json
 {
-    "Version": "1.0",
-    "geo": {
-        "plugins": {
-            "awsLocationGeoPlugin": {
-                "region": <your-geo-region>,
-                "maps": {
-                    "items": {
-                        <your-map-name>: {
-                            "style": <your-map-style>
-                        }
-                    },
-                    "default":<your-preferred-default-map>
-                },
-                "searchIndices": {
-                    "items": [
-                        <your-geo-index>
-                    ],
-                    "default": <your-default-index>
-                }
-            }
+  "version": "1",
+  "auth": {
+    "aws_region": "<your-aws-region>",
+    "user_pool_id": "<your-user-pool-id>",
+    "user_pool_client_id": "<your-user-pool-client-id>",
+    "identity_pool_id": "<your-identity-pool-id>"
+  },
+  "geo": {
+    "aws_region": "<your-aws-region>",
+    "maps": {
+      "items": {
+        <your-map-name>: {
+          "style": "<your-map-style>",
         }
+      },
+      "default": "<your-map-name>",
     },
-    "auth": {
-        "plugins": {
-            "awsCognitoAuthPlugin": {
-                "Version": "0.1.0",
-                "IdentityManager": {
-                    "Default": {}
-                },
-                "CredentialsProvider": {
-                    "CognitoIdentity": {
-                        "Default": {
-                            "PoolId": <your-identity-pool-id>,
-                            "Region": <your-identity-pool-region>
-                        }
-                    }
-                }
-            }
-        }
+    "search_indices": {
+      "items": ["<your-geo-index>"],
+      "default": "<your-geo-index>"
     }
+  }
 }
 ```
 
@@ -181,27 +163,22 @@ Existing Amazon Location Service resources can be used with the Amplify Librarie
 
 ```json
 {
-    "geo": {
-        "plugins": {
-            "awsLocationGeoPlugin": {
-                "region": <your-geo-region>,
-                "maps": {
-                    "items": {
-                        <your-map-name>: {
-                            "style": <your-map-style>
-                        }
-                    },
-                    "default": <your-default-style>
-                },
-                "searchIndices": {
-                    "items": [
-                        <your-geo-index>
-                    ],
-                    "default": <your-default-index>
-                }
-            }
+  "version": "1",
+  "geo": {
+    "aws_region": "<your-aws-region>",
+    "maps": {
+      "items": {
+        <your-map-name>: {
+          "style": "<your-map-style>",
         }
+      },
+      "default": "<your-map-name>",
+    },
+    "search_indices": {
+      "items": ["<your-geo-index>"],
+      "default": "<your-geo-index>"
     }
+  }
 }
 ```
 </InlineFilter>
