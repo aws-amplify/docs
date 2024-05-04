@@ -14,7 +14,7 @@ const SITEMAP_DOMAIN = process.env.SITEMAP_DOMAIN
 // Path of the Next.js static HTML build output
 const ROOT_PATH = './client/www/next-build';
 
-const formatDate = (date) => `${date.toISOString().split('.')[0]}+0:00`;
+const formatDate = (date) => `${date.toISOString()}`;
 const getPriority = () => 0.5;
 
 const PLATFORMS = [
