@@ -67,8 +67,6 @@ const schema = a.schema({
   receive: a.subscription()
     // subscribes to the 'publish' mutation
     .for(a.ref('publish')) 
-    // return value matches the `publish` mutation's return value
-    .returns(a.ref('Message')) 
     // subscription handler to set custom filters
     .handler(a.handler.custom({entry: './receive.js'})) 
     // authorization rules as to who can subscribe to the data
@@ -185,7 +183,6 @@ const schema = a.schema({
   receive: a.subscription(['publish'])
     // highlight-next-line
     .arguments({ name: a.string() })
-    .returns(a.ref('Channel'))
     .authorization(allow => [allow.publicApiKey()])
 });
 export type Schema = ClientSchema<typeof schema>;
@@ -223,7 +220,6 @@ const schema = a.schema({
     .for(a.ref('publish'))
     // highlight-next-line
     .arguments({ namePrefix: a.string() })
-    .returns(a.ref('Message'))
     .handler(a.handler.custom({entry: './receive.js'}))
     .authorization(allow => [allow.publicApiKey()])
 });
