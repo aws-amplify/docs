@@ -86,7 +86,7 @@ export const postConfirmation = defineFunction({
 });
 ```
 
-Run the command `npx amplify sandbox` to create the backend, then use the command below to generate GraphQL client code to call your data backend.
+Run the command `npx ampx sandbox` to create the backend, then use the command below to generate GraphQL client code to call your data backend.
 <Callout info>
 
 **Note**: We are working on bringing the end-to-end typed experience to connect to your data from within function resources without needing this step. If you'd like to provide feedback on the experience or want to have early access, join our [Discord community](https://discord.gg/amplify).
@@ -94,7 +94,7 @@ Run the command `npx amplify sandbox` to create the backend, then use the comman
 </Callout>
 
 ```sh title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --out <path-to-post-confirmation-handler-dir>/graphql
+npx ampx generate graphql-client-code --out <path-to-post-confirmation-handler-dir>/graphql
 ```
 
 Then, create the corresponding handler file, `amplify/auth/post-confirmation/handler.ts`, file with the following contents:

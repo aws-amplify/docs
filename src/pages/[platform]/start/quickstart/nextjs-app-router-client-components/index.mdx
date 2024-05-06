@@ -99,7 +99,7 @@ Let's take a tour of the project structure in this starter repository by opening
 
 In the Amplify Console, navigate to the Data manager to see the data entered in your database.
 
-TK IMAGE
+![Amplify data manager user interface showing the ToDo model with two to do instances](/images/gen2/getting-started/data-manager.png)
 
 
 ## Make frontend updates
@@ -114,7 +114,7 @@ Now let's set up our local development environment to add features to the fronte
   <source src="/images/gen2/getting-started/react/branch-details.mp4" />
 </video>
 
-At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download outputs file** button. 
+At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
 
 ![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
@@ -125,18 +125,18 @@ git clone https://github.com/<github-user>/amplify-next-template.git
 cd amplify-next-template && npm install
 ```
 
-Now move the `amplifyconfiguration.json` file you downloaded above to the root of your project.
+Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
 
 ```text
 ├── amplify
 ├── src
-├── amplify-outputs.json <== backend outputs file
+├── amplify_outputs.json <== backend outputs file
 ├── package.json
 └── tsconfig.json
 ```
 
-<Accordion title='amplify-outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify-outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
+<Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library. 
 </Accordion>
 
 ### 5. Implement delete functionality
@@ -230,7 +230,7 @@ The starter application already has a pre-configured auth backend defined in the
 The fastest way to get your login experience up and running is to use our Authenticator UI component. First, install the Amplify UI component library:
 
 ```bash showLineNumbers={false}
-npm install @aws-amplify/ui-react
+npm add @aws-amplify/ui-react
 ```
 
 Next, import the Authenticator UI component and wrap your `<main>` element.
@@ -299,14 +299,14 @@ To update your backend without affecting the production branch, use Amplify's cl
 To start your cloud sandbox, run the following command in a **new Terminal window**:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx amplify sandbox
+npx ampx sandbox
 ```
 
-Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify-outputs.json` file updated with connection information to a new isolated authentication and data backend.
+Once the cloud sandbox has been fully deployed (~5 min), you'll see the `amplify_outputs.json` file updated with connection information to a new isolated authentication and data backend.
 
 <Callout info>
 
-The `npx amplify sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
+The `npx ampx sandbox` command should run concurrently to your `npm run dev`. You can think of the cloud sandbox as the "localhost-equivalent for your app backend".
 
 </Callout>
 

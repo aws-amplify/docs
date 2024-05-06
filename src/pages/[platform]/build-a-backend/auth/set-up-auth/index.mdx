@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Set up Amplify Auth',
   description:
-    'Learn how to set up and connect your backend resources for authentication in Amplify Gen 2.',
+    'Learn how to set up and connect your backend resources for authentication in Amplify.',
   platforms: [
     'android',
     'angular',
@@ -17,11 +17,11 @@ export const meta = {
   ]
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -29,220 +29,119 @@ export function getStaticProps(context) {
   };
 }
 
-In this guide, you will learn how to set up authentication in your Amplify Gen 2 app. This includes setting up and connecting your backend resources and enabling sign-up, sign-in, and sign-out with the Authenticator UI component. We will also provide more context on how resources are managed and created with Amplify to help you make decisions and understand any long-term impact of those decisions.
+Amplify Auth is powered by [Amazon Cognito](https://aws.amazon.com/cognito/). Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. [Review the concepts to learn more](/[platform]/build-a-backend/auth/concepts/).
 
-If you have not yet created an Amplify Gen 2 app, visit the [quickstart](/[platform]/start/quickstart).
-
-## Building your auth backend
-
-### Configure auth resource
-
-To configure your auth backend, edit the `amplify/auth/resource.ts` file. You can set up sign-in mechanisms that work with either an email/phone and password combination, or through integration with social provider sign-in options.
-
-<Accordion title='Understanding Auth high-level concepts' headingLevel='4' eyebrow='Learn more'>
-
-Amplify helps you secure your application while providing an easy sign-in experience for your users. This experience is influenced by your security strategy. This security strategy includes the authentication method, security credentials, and enabling additional verification when needed.
-
-- _Authentication_ is a process to validate **who you are** (abbreviated as _AuthN_). The system that does this validation is referred to as an Identity Provider or IdP. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
-- _Authorization_ is the process of validating **what you can access** (abbreviated as _AuthZ_). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
-
-Common authentication methods and associated risks include:
-
-- Social provider federation which enables easier access for your users but shares data with third parties.
-
-You can improve security credentials and verification for these authentication methods by:
-
-- Modifying the default password policy to ensure your users create stronger passwords.
-- Requiring additional contact information from users before they can reset passwords.
-- Enabling multi-factor authentication (MFA) which adds a layer of security at sign-in but may also add friction for your users.
-
-</Accordion>
-
-<Callout>
-
-At a minimum, you will need to pass a `loginWith` value to set up how your users sign in to your app. Signing in with email and password is configured by default if you do not provide any value.
-
-</Callout>
+To get started with defining your authentication resource, open or create the auth resource file:
 
 ```ts title="amplify/auth/resource.ts"
-// amplify/auth/resource.ts
-import { defineAuth } from '@aws-amplify/backend';
+import { defineAuth } from "@aws-amplify/backend"
 
 /**
  * Define and configure your auth resource
- * When used alongside data, it is automatically configured as an auth provider for data
  * @see https://docs.amplify.aws/gen2/build-a-backend/auth
  */
 export const auth = defineAuth({
   loginWith: {
     email: true,
-    // add social providers
-    externalProviders: {
-      /**
-       * First, create your secrets using `amplify sandbox secret`
-       * Then, import `secret` from `@aws-amplify/backend`
-       * @see https://docs.amplify.aws/gen2/deploy-and-host/sandbox-environments/features/#setting-secrets
-       */
-      // loginWithAmazon: {
-      //   clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
-      //   clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
-      // }
-      // callbackUrls: ['http://localhost:3000'],
-      // logoutUrls: ['http://localhost:3000'],
-    }
   },
-  /**
-   * Enable multifactor authentication
-   * @see https://docs.amplify.aws/gen2/build-a-backend/auth/manage-mfa
-   */
-  // multifactor: {
-  //   mode: 'OPTIONAL',
-  //   sms: {
-  //     smsMessage: (code) => `Your verification code is ${code}`,
-  //   },
-  // },
-  userAttributes: {
-    /** Request additional attributes for your app's users */
-    // profilePicture: {
-    //   mutable: true,
-    //   required: false,
-    // },
-  }
-});
+})
 ```
 
-Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. If you have not worked with Amazon Cognito before, we recommend taking a closer look at Amazon Cognito configuration options before you continue, since some of them are irreversible after your resources are created.
+By default, your auth resource is scaffolded using `email` as the default login mechanism. You can also configure your auth resource to allow signing in with phone numbers or an external provider such as Google, Facebook, Amazon, or Sign in with Apple.
 
-<Accordion title='Review Amazon Cognito configuration options' headingLevel='4' eyebrow='Learn more'>
+<Callout info>
 
-Amazon Cognito can be customized based on your security strategy for authentication. However, some initial configuration options cannot be changed after the backend resources are configured:
+**Note:** At a minimum you will need to pass a `loginWith` value to set up how your users sign in to your app. Signing in with email and password is configured by default if you do not provide any value.
 
-- User attributes that are used to identify your individual users (such as username and email) cannot be renamed or deleted.
-- Sign-in methods (including username, email, and phone) cannot be added or changed after the initial configuration. This includes both defining which attributes are used to sign in and which attributes are required. Required attributes must have a value for all users once set.
-- Verification methods (including username and email) are the same as required attributes and cannot be removed once configured.
-- The `sub` attribute is a unique identifier within each user pool that cannot be modified and can be used to index and search users.
-- If MFA is set to **required** for all users, you will need to include MFA setup when users sign up.
-
-See the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html) for more details on these settings, including [User pool attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html) and [Adding MFA to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html).
-
-</Accordion>
+</Callout>
 
 ### Deploy auth resource
 
-After you have chosen and set up your authentication resource, run the following command to create your first authentication resource in your personal cloud sandbox.
+After you have chosen and defined your authentication resource, run the following command to create your resource in your personal cloud sandbox.
 
-<InlineFilter filters={['flutter']}>
-```bash title="Terminal"
-npx amplify sandbox --config-format dart --config-out-dir lib
+<InlineFilter filters={['angular', 'javascript', 'nextjs', 'react', 'react-native', 'vue']}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
 ```
+
 </InlineFilter>
-<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
-```bash title="Terminal"
-npx amplify sandbox
+<InlineFilter filters={['flutter']}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox --config-format dart --config-out-dir lib
 ```
+
 </InlineFilter>
 <InlineFilter filters={['android']}>
+
 <Callout warning>
-Be sure to add a "raw" folder under app/src/main/res directory if it doesn't exist.
+Be sure to add a "raw" folder under `app/src/main/res` directory if it does not exist.
 </Callout>
 
-```bash title="Terminal"
-npx amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox --outputs-out-dir <path_to_app/src/main/res/raw>
 ```
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['swift']}>
-```bash title="Terminal"
-npx amplify sandbox --config-format=json-mobile
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
 ```
+
 </InlineFilter>
 
-After a successful deployment, this command also generates a configuration file (`amplifyconfiguration.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated configuration file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
+After a successful deployment, this command also generates an outputs file (`amplify_outputs.json`) to enable your frontend app to connect to your backend resources. The values you configure in your backend authentication resource are set in the generated outputs file to automatically configure the frontend [`Authenticator connected component`](https://ui.docs.amplify.aws/react/connected-components/authenticator).
 
-## Connect your application code to the auth backend
+## Connect your application code to your auth resource
 
 Creating and correctly implementing the sign-in flow can be challenging and time-consuming. Amplify's Authenticator UI component streamlines this by enabling you to rapidly build the entire authentication flow for your app. The component works seamlessly with configuration in `amplify/auth/resource.ts` to automatically connect with your backend resources.
 
-Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter.
+Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide, we are focusing on those for web applications.
 
-<InlineFilter filters={['angular','javascript','nextjs','react','vue']}>
-<BlockSwitcher>
-<Block name="React">
+<InlineFilter filters={["javascript", "react"]}>
 
 First, install the `@aws-amplify/ui-react` library:
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-react
 ```
 
-Next, open **pages/\_app.ts** and add the `withAuthenticator` component.
-
-**withAuthenticator**
-
-A higher-order component (HOC) is a function that takes a component and returns an enhanced component. The `withAuthenticator` HOC is an example of this pattern. It wraps the `Authenticator` component and enhances it by passing along additional authentication-related data like `user` info and the `signOut` function.
-
-**Usage**
-
-<BlockSwitcher>
-<Block name="TypeScript">
+Next, open **pages/\_app.tsx** and add the `Authenticator` component.
 
 ```ts title="pages/_app.tsx"
-// pages/_app.tsx
-import type { AppProps } from "next/app";
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import type { AppProps } from 'next/app';
+import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
-import config from '@/amplifyconfiguration.json';
-import '@aws-amplify/ui-react/styles.css';
-import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
-
-Amplify.configure(config);
-
-function App({ signOut, user, Component, pageProps }: WithAuthenticatorProps & AppProps) {
-    return (
-    <>
-      <h1>Hello {user?.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-      <Component {...pageProps} />
-    </>
-  );
-}
-
-export default withAuthenticator(App);
-```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-// pages/_app.js
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import { Amplify } from 'aws-amplify';
-import config from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
-function App({ signOut, user }) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-    </>
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <h1>Hello {user?.username}</h1>
+          <button onClick={signOut}>Sign out</button>
+          <Component {...pageProps} />
+        </main>
+      )}
+    </Authenticator>
   );
-}
-
-export default withAuthenticator(App);
+};
 ```
 
-</Block>
-</BlockSwitcher>
-</Block>
-
+</InlineFilter>
+<InlineFilter filters={["vue"]}>
+<BlockSwitcher>
 <Block name="Vue 3">
 
 First, install the `@aws-amplify/ui-vue` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-vue
 ```
 
@@ -258,9 +157,9 @@ The `Authenticator` component offers a simple way to add authentication flows in
   import "@aws-amplify/ui-vue/styles.css";
 
   import { Amplify } from 'aws-amplify';
-  import config from '../amplifyconfiguration.json';
+  import outputs from '../amplify_outputs.json';
 
-  Amplify.configure(config);
+  Amplify.configure(outputs);
 </script>
 
 <template>
@@ -278,13 +177,13 @@ The `Authenticator` component offers a simple way to add authentication flows in
 
 First, install the `@aws-amplify/ui-components` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-components
 ```
 
-Now open **src/main.js** and add the following below your last import:
+Now open **src/main.ts** and add the following below your last import:
 
-```js
+```js title="src/main.ts"
 import '@aws-amplify/ui-components';
 import {
   applyPolyfills,
@@ -299,13 +198,13 @@ applyPolyfills().then(() => {
 });
 ```
 
-Next, open **src/App.js** and add the `amplify-authenticator` component.
+Next, open **src/App.ts** and add the `amplify-authenticator` component.
 
 **amplify-authenticator**
 
 The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by your backend Auth resources. The optional `amplify-sign-out` component is available if you would like to render a sign-out button.
 
-```html
+```html title="src/App.ts"
 <template>
   <amplify-authenticator>
     <div>
@@ -317,25 +216,28 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </Block>
-<Block name="Angular">
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["angular"]}>
 
 First, install the `@aws-amplify/ui-angular` library:
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-angular
 ```
 
 Now open **app.module.ts** and add the Amplify imports and configuration:
 
-```js
+```js title="app.module.ts"
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppComponent } from './app.component';
-import config from './amplifyconfiguration.json';
+import outputs from './amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 @NgModule({
   declarations: [AppComponent],
@@ -348,7 +250,7 @@ export class AppModule {}
 
 Next, import the default theme inside **styles.css**:
 
-```css
+```css title="styles.css"
 @import '~@aws-amplify/ui-angular/theme.css';
 ```
 
@@ -360,7 +262,7 @@ The `Authenticator` component offers a simple way to add authentication flows in
 
 The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by your backend Auth resources. `amplify-authenticator` passes the `user` info and `signOut` function to the inner template.
 
-```html
+```html title="app.component.html"
 <amplify-authenticator>
   <ng-template
     amplifySlot="authenticated"
@@ -373,37 +275,40 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </amplify-authenticator>
 ```
 
-</Block>
-</BlockSwitcher>
 </InlineFilter>
-
-
 <InlineFilter filters={['react-native']}>
 
 First, install the `@aws-amplify/ui-react-native` library:
 
-```sh showLineNumbers={false}
-npm install @aws-amplify/ui-react-native aws-amplify @aws-amplify/react-native react-native-safe-area-context @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+```bash title="Terminal" showLineNumbers={false}
+npm add \
+  @aws-amplify/react-native \
+  @aws-amplify/ui-react-native \
+  aws-amplify \
+  @react-native-community/netinfo \
+  @react-native-async-storage/async-storage \
+  react-native-safe-area-context \
+  react-native-get-random-values
 ```
 
 <Callout info>
 If your project will support Federated Sign In using the `React Native Authenticator` the `@aws-amplify/rtn-web-browser` package is also required:
 
-```sh showLineNumbers={false}
-npm install @aws-amplify/rtn-web-browser
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/rtn-web-browser
 ```
 </Callout>
 
 Then install the iOS cocoapods by running:
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 npx pod-install
 ```
 
 <Callout warning>
-For calling native libraries and platform dependencies from Expo, you need to run the prebuild command for generating the folders for related platforms. 
+For calling native libraries and platform dependencies from Expo, you need to run the prebuild command for generating the folders for related platforms.
 
-```sh
+```bash title="Terminal" showLineNumbers={false}
 npx expo prebuild
 ```
 </Callout>
@@ -412,13 +317,11 @@ Next, update the `App.tsx` file with the following to set up the authentication 
 ```typescript
 import React from "react";
 import { Button, View, StyleSheet, SafeAreaView } from "react-native";
-
 import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
+import outputs from "./amplify_outputs.json";
 
-import amplifyconfig from "./amplifyconfiguration.json";
-
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 
 const SignOutButton = () => {
   const { signOut } = useAuthenticator();
@@ -450,19 +353,19 @@ const styles = StyleSheet.create({
 
 export default App;
 ```
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['flutter']}>
 
 First, install the `amplify_authenticator` library:
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 flutter pub add amplify_flutter
 flutter pub add amplify_auth_cognito
 flutter pub add amplify_authenticator
 ```
 
-or you can update your `pubspec.yaml` file with the following 
+or you can update your `pubspec.yaml` file with the following
 
 ```yaml
 environment:
@@ -477,11 +380,17 @@ dependencies:
 
 and run the following command to download the libraries.
 
-```sh showLineNumbers={false}
+```bash title="Terminal" showLineNumbers={false}
 flutter pub get
 ```
 
 Next, update your `main.dart` file with the following:
+
+<Callout info>
+
+**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
+
+</Callout>
 
 ```dart
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
@@ -505,7 +414,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(amplifyConfig);
+    await Amplify.configure(outputs);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -538,76 +447,17 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
 </InlineFilter>
-
-<InlineFilter filters={['swift']}>
-
-Move the generated files to your project. You can do this by dragging and dropping the files to your project.
-
-![Dialog appears when users drag and drop the generated files into Xcode. It displays targets, added folders, and destination options. The default settings should be sufficient for drag and drop.](/images/lib/getting-started/ios/set-up-swift-8.png)
-
-Open your project in Xcode and select File > Add Packages... and add the following dependencies:
-
-- Amplify Library for Swift: Enter its (GitHub URL)[https://github.com/aws-amplify/amplify-swift], *select Up to Next Major Version* and click *Add Package*
-
-  - Select the following libraries:
-    - Amplify
-    - AWSCognitoAuthPlugin
-
-- Amplify UI Swift - Authenticator: Enter its (GitHub URL)[https://github.com/aws-amplify/amplify-ui-swift-authenticator], *select Up to Next Major Version* and click *Add Package*
-
-  - Select the following library:
-    - Authenticator
-
-Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
-
-![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
-
-
-Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
-
-```swift title="MyAmplifyApp.swift"
-import Amplify
-import Authenticator
-import AWSCognitoAuthPlugin
-import SwiftUI
-
-@main
-struct MyApp: App {
-    init() {
-        do {
-            try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            try Amplify.configure()
-        } catch {
-            print("Unable to configure Amplify \(error)")
-        }
-    }
-
-    var body: some Scene {
-        WindowGroup {
-            Authenticator { state in
-                VStack {
-                    Text("Hello, \(state.user.username)")
-                    Button("Sign out") {
-                        Task {
-                            await state.signOut()
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-```
-</InlineFilter>
-
 <InlineFilter filters={['android']}>
 
 <Callout warning>
+
 Be sure to have compileSdk version as 34 or higher.
+
 </Callout>
 
-The Authenticator component is built using (Jetpack Compose)[https://developer.android.com/jetpack/compose]. Enable Jetpack Compose by adding the following to the android section of your app's build.gradle file:
+The Authenticator component is built using [Jetpack Compose](https://developer.android.com/jetpack/compose). Enable Jetpack Compose by adding the following to the android section of your app's `build.gradle` file:
 
 ```groovy showLineNumbers={false}
 compileOptions {
@@ -629,30 +479,41 @@ Add the following dependencies to your *app*'s `build.gradle` file and click "Sy
 
 <BlockSwitcher>
 <Block name="Kotlin DSL">
+
 ```kotlin
 dependencies {
-    implementation("androidx.compose.material3:material3:1.1.0")
-    implementation("com.amplifyframework.ui:authenticator:1.1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
-</Block>
 
+</Block>
 <Block name="Groovy">
+
 ```groovy
 dependencies {
-  dependencies {    
+  dependencies {
     // Authenticator dependency
-    implementation 'com.amplifyframework.ui:authenticator:1.1.0'
-    implementation 'androidx.compose.material3:material3:1.1.0'
-    
+    implementation 'com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION'
+
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
   }
 }
 ```
+
 </Block>
 </BlockSwitcher>
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
 
 ```kotlin title="MyAmplifyApp.kt"
 import android.app.Application
@@ -660,6 +521,7 @@ import android.util.Log
 import com.amplifyframework.AmplifyException
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
 
 class MyAmplifyApp: Application() {
     override fun onCreate() {
@@ -668,7 +530,7 @@ class MyAmplifyApp: Application() {
         try {
             // highlight-next-line
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -677,7 +539,7 @@ class MyAmplifyApp: Application() {
 }
 ```
 
-Lastly update your MainActivity.kt file to use the Amplify UI components:
+Lastly, update your MainActivity.kt file to use the Amplify UI components:
 
 ```kotlin
 import android.os.Bundle
@@ -727,24 +589,106 @@ class MainActivity : ComponentActivity() {
     }
 }
 ```
+
 </InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+### Prerequisites
+
+An application with Amplify libraries integrated and a minimum target of any of the following:
+
+- **iOS 13.0**, using **Xcode 14.1** or later.
+- **macOS 10.15**, using **Xcode 14.1** or later.
+- **tvOS 13.0**, using **Xcode 14.3** or later.
+- **watchOS 9.0**, using **Xcode 14.3** or later.
+- **visionOS 1.0**, using **Xcode 15 beta 2** or later. (Preview support - see below for more details.)
+
+<Callout info>
+
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
+As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
+
+For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
+
+</Callout>
+<Callout>
+
+**Note:** To use Amplify Auth in a macOS project, you'll need to enable the Keychain Sharing capability. In Xcode, navigate to **your application target** > **Signing & Capabilities** > **+ Capability**, then select **Keychain Sharing.**
+
+This capability is required because Auth uses the Data Protection Keychain on macOS as a platform best practice. See [TN3137: macOS keychain APIs and implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains) for more information on how Keychain works on macOS and the Keychain Sharing entitlement.
+
+For more information on adding capabilities to your application, see [Xcode Capabilities](https://developer.apple.com/documentation/xcode/capabilities).
+
+</Callout>
+
+{/* @TODO bare-bones example */}
+Move the generated files to your project. You can do this by dragging and dropping the files to your project.
+
+![Dialog appears when users drag and drop the generated files into Xcode. It displays targets, added folders, and destination options. The default settings should be sufficient for drag and drop.](/images/lib/getting-started/ios/set-up-swift-8.png)
+
+Open your project in Xcode and select File > Add Packages... and add the following dependencies:
+
+- Amplify Library for Swift: Enter its [GitHub URL](https://github.com/aws-amplify/amplify-swift), *select Up to Next Major Version* and click *Add Package*
+
+  - Select the following libraries:
+    - Amplify
+    - AWSCognitoAuthPlugin
+
+- Amplify UI Swift - Authenticator: Enter its [GitHub URL](https://github.com/aws-amplify/amplify-ui-swift-authenticator), *select Up to Next Major Version* and click *Add Package*
+
+  - Select the following library:
+    - Authenticator
+
+Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
+
+![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
+
+
+Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+
+```swift title="MyAmplifyApp.swift"
+import Amplify
+import Authenticator
+import AWSCognitoAuthPlugin
+import SwiftUI
+
+@main
+struct MyApp: App {
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.configure(with: .amplifyOutputs)
+        } catch {
+            print("Unable to configure Amplify \(error)")
+        }
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            Authenticator { state in
+                VStack {
+                    Text("Hello, \(state.user.username)")
+                    Button("Sign out") {
+                        Task {
+                            await state.signOut()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+</InlineFilter>
+
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator connected component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
-## Manage users in the Amplify console
+{/* ## Manage users in the Amplify console */}
 
-Once you deploy your code to Git, you can manage users and groups for the branch environment in the Amplify console.
-
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/authentication/user-manage.mp4" />
-</video>
-
-## Conclusion
-
-Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, you set up and connected to backend resources, compared and determined your Auth integration path, and enabled sign-up, sign-in, and sign-out.
-
-### Next steps
+## Next steps
 
 Now that you have completed setting up authentication in your Amplify app with email and password, you may also want to add some additional features. We recommend you learn more about:
 
-- [Adding social provider sign-in](/[platform]/build-a-backend/auth/add-social-provider/)
-- [Managing MFA settings](/[platform]/build-a-backend/auth/manage-mfa/)
+- [Learn more about authentication concepts](/[platform]/build-a-backend/auth/concepts/)
+- [Moving to production](/[platform]/build-a-backend/auth/moving-to-production/)

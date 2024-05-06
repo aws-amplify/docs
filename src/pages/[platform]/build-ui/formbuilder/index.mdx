@@ -29,21 +29,20 @@ Connected Forms are bound to a model in your app's data schema. Whenever a conne
 ## Generate forms
 First, install the Amplify UI library.
 
-```bash
-npm install @aws-amplify/ui-react
-
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/ui-react
 ```
 
 To use connected forms, you first need to deploy a data model from your sandbox environment. We will use the same example as in the getting started [tutorial](/[platform]/start/quickstart).
 To get started run the following command from your project root:
 
-```bash
-npx amplify generate forms
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate forms
 ```
 
 This will generate create and update forms for each model defined in your schema in a folder called `ui-components`.
 
-```bash
+```bash title="Terminal" showLineNumbers={false}
 File written: ui-components/graphql/subscriptions.ts
 File written: ui-components/graphql/mutations.ts
 File written: ui-components/graphql/queries.ts
@@ -58,7 +57,7 @@ File written: ui-components/index.js
 
 ### Re-generating forms
 
-In Gen 2, we automatically generate the form UI for you, which you can then customize and manage. If you decide to update your data model and need to regenerate the forms, please ensure you back up the original `ui-components` folder before executing the `npx amplify generate forms` command again.
+In Gen 2, we automatically generate the form UI for you, which you can then customize and manage. If you decide to update your data model and need to regenerate the forms, please ensure you back up the original `ui-components` folder before executing the `npx ampx generate forms` command again.
 
 
 ## Render React form in your app
@@ -72,9 +71,9 @@ import { ThemeProvider } from '@aws-amplify/ui-react';
 // highlight-end
 import { Amplify } from 'aws-amplify';
 
-import amplifyconfig from './amplifyconfiguration.json';
+import outputs from './amplify_outputs.json';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(outputs);
 ```
 
 2. In your application's entrypoint file (e.g. `src/main.jsx` for Vite), wrap the `<App />` component with the following:

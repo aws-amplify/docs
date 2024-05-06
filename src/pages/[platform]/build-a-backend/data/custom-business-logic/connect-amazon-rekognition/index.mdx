@@ -52,8 +52,8 @@ Set up your project by following the instructions in the [Quickstart guide](/[pl
 ## Step 2 - Install Rekognition Libraries
 Create a new API endpoint that'll use the the AWS SDK to call the Amazon Rekognition service. To install the Amazon Rekognition SDK, run the following command in your project's root folder:
 
-```bash
-npm install @aws-sdk/client-rekognition
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-sdk/client-rekognition
 ```
 
 ## Step 3 - Setup Storage
@@ -214,9 +214,9 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ``` ts title="main.tsx"
 import { Amplify } from "aws-amplify";
-import config from "../amplify_outputs.json";
+import outputs from "../amplify_outputs.json";
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 ```
 ### Invoke the Text Recognition API

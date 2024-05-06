@@ -5,14 +5,11 @@ export const meta = {
   description:
     'Connect to Amplify Data from Nuxt.js Server-side Runtime (SSR).',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'swift',
     'vue'
   ]
 };
@@ -42,7 +39,7 @@ Connecting to Amplify Data will include setting up the AmplifyAPIs Plugin with t
 
 ### Step 1 - Set up the AmplifyAPIs Plugin
 
-Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed on both the client and server sides. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs of Amplify are slightly different. You can set up an AmplifyAPIs plugin to make your data fetching logic run smoothly across the client and server. To learn more about how to use Amplify categories APIs in server side rendering, refer to this [documentation](https://docs.amplify.aws/react/build-a-backend/server-side-rendering/).
+Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed on both the client and server sides. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs of Amplify are slightly different. You can set up an AmplifyAPIs plugin to make your data fetching logic run smoothly across the client and server. To learn more about how to use Amplify categories APIs in server side rendering, refer to this [documentation](/[platform]/build-a-backend/server-side-rendering/).
 
 1. Create a `plugins` directory under the root of your Nuxt project. 
 2. Create two files `01.amplify-apis.client.ts` and `01.amplify-apis.server.ts` under the `plugins` directory.
@@ -67,7 +64,7 @@ import {
   signOut,
 } from "aws-amplify/auth";
 import { generateClient } from "aws-amplify/data";
-import config from "../amplifyconfiguration.json";
+import outputs from "../amplify_outputs.json";
 import type { Schema } from "@/amplify/data/resource";
 import { Amplify } from "aws-amplify";
 
@@ -105,7 +102,7 @@ export default defineNuxtPlugin({
 ```
 <Callout warning="true">
 
-Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
 
 </Callout>
 
@@ -139,10 +136,10 @@ import type {
   GraphQLResponseV6,
 } from "@aws-amplify/api-graphql";
 
-import config from "../amplifyconfiguration.json";
+import outputs from "../amplify_outputs.json";
 
-// parse the content of `amplifyconfiguration.json` into the shape of ResourceConfig
-const amplifyConfig = parseAmplifyConfig(config);
+// parse the content of `amplify_outputs.json` into the shape of ResourceConfig
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 // create the Amplify used token cookies names array
 const userPoolClientId = amplifyConfig.Auth!.Cognito.userPoolClientId;
@@ -415,9 +412,9 @@ import {
 import { parseAmplifyConfig } from "aws-amplify/utils";
 
 import type { LibraryOptions } from "@aws-amplify/core";
-import config from "~/amplifyconfiguration.json";
+import outputs from "~/amplify_outputs.json";
 
-const amplifyConfig = parseAmplifyConfig(config);
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 const createCookieStorageAdapter = (
   event: H3Event<EventHandlerRequest>

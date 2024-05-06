@@ -26,6 +26,13 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={['flutter']}>
+<Callout warning>
+
+Storage for Gen 2 is not yet available for Flutter
+</Callout>
+</InlineFilter>
+
 <Callout>
 
 **Note:** You can only copy files up to 5GB in a single operation
@@ -61,7 +68,7 @@ const copyFile = async () => {
 
 <Callout>
 
-Cross identity ID copying is only allowed if the source object's access level is set to 'protected'.
+Cross identity ID copying is only allowed if the destination path has the the right access rules to allow other authenticated users writing to it.
 
 </Callout>
 

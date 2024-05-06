@@ -62,7 +62,7 @@ describe('generate-sitemap', () => {
         `
 <url>
   <loc>https://docs.amplify.aws/react/build-a-backend/</loc>
-  <lastmod>2022-05-12T16:00:00+0:00</lastmod>
+  <lastmod>2022-05-12T16:00:00.000Z</lastmod>
   <changefreq>hourly</changefreq>
   <priority>0.5</priority>
 </url>`

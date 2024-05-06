@@ -28,31 +28,41 @@ export function getStaticProps(context) {
   };
 }
 
-There are multiple ways you can implement upload functionality for your app and upload files to your storage bucket.
+<InlineFilter filters={['flutter']}>
+<Callout warning>
 
-<InlineFilter filters={["angular","javascript","nextjs","react","vue","react-native"]}>
+Storage for Gen 2 is not yet available for Flutter
+</Callout>
+</InlineFilter>
 
-## Storage Manager UI Component
+<InlineFilter filters={["javascript","nextjs","react"]}>
 
-Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component. 
+You can implement upload functionality in your app by either using the Storage Manager UI component or further customizing the upload experience using the upload API.
 
-```bash
-npm install @aws-amplify/ui-react-storage aws-amplify
+## Storage Manager React UI Component
+
+Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/ui-react-storage aws-amplify
 ```
+Then, use the component in your app. 
+{/* Let's add explanations for the props - which are mandatory now? I know before it was maxFileCount and accessLevel */}
 
 ```tsx
 import { StorageManager } from '@aws-amplify/ui-react-storage';
+import '@aws-amplify/ui-react/styles.css';
 
 export const DefaultStorageManagerExample = () => {
   return (
     <StorageManager
       acceptedFileTypes={['image/*']}
-      prefix="public/"
+      path="public/"
       maxFileCount={1}
       isResumable
     />
   );
-};  
+};
 ```
 
 ![Showing Storage Manager UI component](/images/gen2/storage/upload-ui-component.png)
@@ -61,9 +71,7 @@ Learn more about how you can further customize the UI component by referring to 
 
 </InlineFilter>
 
-## API Usage
-
-To further customize the upload experience from your app, refer to the API usage for uploading files using the Amplify Library for Storage.
+## Implement upload functionality
 
 <Callout>
 
@@ -73,8 +81,13 @@ To further customize the upload experience from your app, refer to the API usage
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
+{/* why would we choose file vs. data? I feel like what's changed is that one code snippet is React, one vanilla JS and then the onProgress callback? Can we add more framing here? */}
+
 ### Upload from file
 
+The following is an example of how you would upload a file from a file object, this could be retrieved from the local machine or a different source.
+
+<InlineFilter filters={["react", "react-native"]}>
 ```javascript
 import React from 'react';
 import { uploadData } from 'aws-amplify/storage';
@@ -103,15 +116,44 @@ function App() {
     );
 }
 ```
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "vue", "nextjs"]}>
+```javascript
+import { uploadData } from "aws-amplify/storage";
+
+const file = document.getElementById("file");
+const upload = document.getElementById("upload");
+
+upload.addEventListener("click", () => {
+  const fileReader = new FileReader();
+  fileReader.readAsArrayBuffer(file.files[0]);
+
+  fileReader.onload = async (event) => {
+    console.log("Complete File read successfully!", event.target.result);
+    try {
+      await uploadData({
+                data: event.target.result, 
+                path: file.files[0].name 
+            });
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+});
+```
+</InlineFilter>
 
 ### Upload from data
+
+You can following this example if you have data saved in memory and would like to upload this data to the cloud.
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = await uploadData({
-    path: "album/2024/1.jpg", 
+    path: "album/2024/1.jpg",
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     data: file,
     options: {
@@ -329,10 +371,6 @@ let uploadTask = Amplify.Storage.uploadFile(
 
 ```
 
-</InlineFilter>
-
-<InlineFilter filters={["swift"]}>
-
 ### Upload from data
 
 To upload a file from a data object, specify the `path` and the `data` object to be uploaded.
@@ -381,7 +419,7 @@ Future<void> uploadFile() async {
 
 </Block>
 
-<Block name = "Mobile & Desktop">
+<Block name= "Mobile & Desktop">
 
 ```dart
 import 'dart:io' show File;
@@ -404,7 +442,7 @@ Future<void> uploadFile(File file) async {
 
 </Block>
 
-<Block name = "Web">
+<Block name="Web">
 
 ```dart
 import 'dart:html' show File;
@@ -670,7 +708,7 @@ import { uploadData } from 'aws-amplify/storage';
 
 try {
   const result = uploadData({
-    path: "album/2024/1.jpg", 
+    path: "album/2024/1.jpg",
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
     data: file,
     options: {
@@ -1068,7 +1106,7 @@ private void uploadFile() {
 We have callback functions that support resuming, pausing, and cancelling `uploadData` requests.
 
 ```javascript
-import { uploadData } from 'aws-amplify/storage';
+import { uploadData, isCancelError } from 'aws-amplify/storage';
 
 // Pause, resume, and cancel a task
 const uploadTask = uploadData({ path, data: file });
@@ -1118,7 +1156,6 @@ Option | Type | Description |
 | -- | -- | ----------- |
 | metadata | Dictionary | Metadata for the object to store. |
 | contentType | String | The standard MIME type describing the format of the object to store. |
-| pluginOptions | - | Extra plugin specific options, only used in special circumstances when the existing options do not provide a way to utilize the underlying storage system's functionality. |
 
 </InlineFilter>
 
@@ -1129,7 +1166,7 @@ Security scoped resources refer to files that are retrieved from iCloud  or othe
 
 To upload security scoped resources, you'll need to:
 1. use [startAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1779698-startaccessingsecurityscopedreso) and [stopAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1780153-stopaccessingsecurityscopedresou) to access the data within security scoped files
-2. temporarily persist the data from the security scoped files in your app's sandbox 
+2. temporarily persist the data from the security scoped files in your app's sandbox
 3. upload files using the temporary URLs
 4. delete temporarily persisted files (optional)
 ```swift
@@ -1156,7 +1193,7 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
             return nil
         }
     }
-    
+
     // 2. write the file contents to temporary files and return the URLs of the temp files
     let localFileURLs = persistTemporaryFiles(fileContents)
 
@@ -1181,7 +1218,7 @@ Option | Type | Description |
 
 <Callout>
 
-Uploads that were initiated over one hour ago will be cancelled automatically. There are instances (e.g. device went offline, user logs out) where the incomplete file remains in your S3 account. It is recommended to [setup a s3 lifecycle rule](https://aws.amazon.com/blogs/aws-cloud-financial-management/discovering-and-deleting-incomplete-multipart-uploads-to-lower-amazon-s3-costs/) to automatically cleanup incomplete upload requests.
+Uploads that were initiated over one hour ago will be cancelled automatically. There are instances (e.g. device went offline, user logs out) where the incomplete file remains in your Amazon S3 account. It is recommended to [setup a S3 lifecycle rule](https://aws.amazon.com/blogs/aws-cloud-financial-management/discovering-and-deleting-incomplete-multipart-uploads-to-lower-amazon-s3-costs/) to automatically cleanup incomplete upload requests.
 
 </Callout>
 
@@ -1189,4 +1226,4 @@ Uploads that were initiated over one hour ago will be cancelled automatically. T
 
 ## MultiPart upload
 
-Amplify will automatically perform a S3 multipart upload for objects that are larger than 5MB. For more information about S3's multipart upload, see [Uploading and copying objects using multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html)
+Amplify will automatically perform an Amazon S3 multipart upload for objects that are larger than 5MB. For more information about S3's multipart upload, see [Uploading and copying objects using multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html)
