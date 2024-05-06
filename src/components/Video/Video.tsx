@@ -38,9 +38,7 @@ export const Video = ({
   useEffect(() => {
     const mediaQueryList = window.matchMedia(reducedMotionMediaQuery);
 
-    setPrefersReducedMotion(
-      !window.matchMedia(reducedMotionMediaQuery).matches
-    );
+    setPrefersReducedMotion(!mediaQueryList.matches);
 
     const mediaQueryListener = (event: MediaQueryListEvent) => {
       setPrefersReducedMotion(!event.matches);

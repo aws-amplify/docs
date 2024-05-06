@@ -2186,8 +2186,24 @@ Now move the `amplify_outputs.json` file you downloaded above to `app/src/main/r
 The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.
 </Accordion>
 
+### 5. App Prerequisites
+Amplify uses some modern Java APIs that require desugaring to be added for earlier versions of Android. In your app/build.gradle.kts add the following lines:
+```kotlin title="app/build.gradle.kts"
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
 
-### 5. Implement login UI
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+}
+```
+
+### 6. Implement login UI
 
 The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file.
 
@@ -2294,7 +2310,7 @@ Now if you run the application on the Android emulator, you should see the authe
 
 <Video width="40%" src="/images/gen2/getting-started/android/android-getting-started-1.mp4" />
 
-### 6. Read and write data
+### 7. Read and write data
 
 The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource.ts` file. The default example will create a Todo model with `content` field.
 
@@ -2431,7 +2447,7 @@ setContent {
                     TodoList()
 ```
 
-### 7. Enable real-time data
+### 8. Enable real-time data
 
 If you build and rerun the application, you should see the todo that was created in the previous build. But notice how when you click on the "create Todo" button, it doesn't add any new todos to the list below until the next time your app relaunches. To solve this, let's add real-time updates to the todo list.
 
@@ -2478,7 +2494,7 @@ fun TodoList() {
 
 Let's update our backend to implement per-user authorization rules, allowing each user to only access their own to-dos.
 
-### 7. Implement per-user authorization
+### 9. Implement per-user authorization
 
 First, clone the deployed repository.
 
@@ -2520,7 +2536,7 @@ Commit this change to your git repository. Amplify's CI/CD system will automatic
 git commit -am "added per-user data isolation"
 git push
 ```
-### 8. Test in app
+### 10. Test in app
 
 Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify_outputs.json` and model files by re-running the following command in your Android Studio terminal.
 

@@ -33,28 +33,32 @@ describe('Video', () => {
   const component = <Video src="test-video.mp4" testId={testId}></Video>;
 
   beforeEach(() => {
-    mockMatchMedia(reducedMotionMediaQuery, false);
+    mockMatchMedia('');
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render video component', async () => {
     render(component);
     const video = screen.getByTestId(testId);
     expect(video).toBeInTheDocument();
-    expect(playSpy).toHaveBeenCalledTimes(0);
   });
 
-  it('should not auto play video by default', async () => {
-    render(component);
-    const video = screen.getByTestId(testId);
-    expect(video).toBeInTheDocument();
-    expect(playSpy).toHaveBeenCalledTimes(0);
-  });
-
-  it('should auto play video when does not prefer reduced motion', async () => {
+  it('should auto play video when prefers reduced motion (no preference) is true', async () => {
     mockMatchMedia(reducedMotionMediaQuery, true);
     render(component);
     const video = screen.getByTestId(testId);
     expect(video).toBeInTheDocument();
     expect(playSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not auto play video when prefers reduced motion (no preference) is false', async () => {
+    mockMatchMedia(reducedMotionMediaQuery, false);
+    render(component);
+    const video = screen.getByTestId(testId);
+    expect(video).toBeInTheDocument();
+    expect(playSpy).toHaveBeenCalledTimes(0);
   });
 });
