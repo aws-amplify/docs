@@ -71,6 +71,7 @@
     "AmazonPersonalizeProvider",
     "AmazonS3Client",
     "Amplif",
+    "ampx",
     "amplifiedtodo",
     "AMPLIFYCLI",
     "amplify-CLI",

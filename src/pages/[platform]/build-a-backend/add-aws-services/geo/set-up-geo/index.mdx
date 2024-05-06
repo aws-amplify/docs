@@ -176,12 +176,26 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 ## Install Amplify Libraries
 
 <InlineFilter filters={['android']}>
-Add the following dependencies to your **build.gradle (Module :app)** file and click "Sync Now" when prompted:
+Add the following dependencies to your **build.gradle.kts (Module :app)** file and click "Sync Now" when prompted:
 
-```groovy
+```kotlin title="app/build.gradle.kts"
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
 dependencies {
-    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
-    implementation 'com.amplifyframework:aws-geo-location:ANDROID_VERSION'
+    // Amplify API dependencies
+    // highlight-start
+    implementation("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")
+    implementation("com.amplifyframework:aws-geo-location:ANDROID_VERSION")
+    // highlight-end
+    // ... other dependencies
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
