@@ -236,16 +236,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx',
-
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/search-and-aggregate-queries/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-eventbridge-datasource/index.mdx'
@@ -269,6 +262,17 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-postgres-mysql-database/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/connect-from-server-runtime/index.mdx',
