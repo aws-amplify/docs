@@ -1,0 +1,53 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Configure authorization modes',
+  description:
+    "Learn more about how to configure authorization modes in Amplify's API category",
+  platforms: ['flutter']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import ios0 from '/src/fragments/lib/graphqlapi/native_common/authz/common.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/lib/graphqlapi/native_common/authz/common.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import js2 from '/src/fragments/lib/graphqlapi/js/authz.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js2,
+    angular: js2,
+    nextjs: js2,
+    react: js2,
+    vue: js2
+  }}
+/>
+
+import reactnative0 from '/src/fragments/lib/graphqlapi/js/authz.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import flutter3 from '/src/fragments/lib/graphqlapi/native_common/authz/common.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />

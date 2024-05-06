@@ -1,10 +1,22 @@
-## Run a mutation
+In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' GraphQL client.
 
-Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.mutate` to create, update, and delete your data.
+Before you begin, you will need:
+
+- An [application connected to the API](/gen1/[platform]/prev/build-a-backend/graphqlapi/connect-to-api/)
+
+## Run mutations to create, update, and delete application data
+
+In GraphQL, mutations are APIs that are used to create, update, or delete data. This is different than queries, which are used to read the data but not change it. The following examples demonstrate how you can create, update, and delete items using the Amplify GraphQL client.
+
+### Create an item
+
+You can run a GraphQL mutation with `Amplify.API.mutate` to create an item.
 
 import createTodo from "/src/fragments/lib/graphqlapi/flutter/getting-started/50_createtodo.mdx";
 
 <Fragments fragments={{flutter: createTodo}} />
+
+### Update an item
 
 To update the `Todo` with a new name:
 
@@ -18,6 +30,8 @@ Future<void> updateTodo(Todo originalTodo) async {
 }
 ```
 
+### Delete an item
+
 To delete the `Todo`:
 
 ```dart
@@ -28,6 +42,7 @@ Future<void> deleteTodo(Todo todoToDelete) async {
 }
 ```
 
+Or you can delete by ID, which is ideal if you do not have the instance in memory yet:
 
 ```dart
 // or delete by ID, ideal if you do not have the instance in memory, yet
@@ -41,3 +56,13 @@ Future<void> deleteTodoById(Todo todoToDelete) async {
 }
 ```
 
+## Conclusion
+
+Congratulations! You have finished the **Create, update, and delete application data** guide. In this guide, you created, updated, and deleted your app data through the GraphQL API.
+
+## Next steps
+
+Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
+
+- [Read application data](/gen1/[platform]/build-a-backend/graphqlapi/query-data/)
+- [Subscribe to real-time events](/gen1/[platform]/build-a-backend/graphqlapi/subscribe-data/)

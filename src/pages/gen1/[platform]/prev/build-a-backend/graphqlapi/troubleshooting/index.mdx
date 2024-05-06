@@ -1,0 +1,96 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Troubleshooting',
+  description: 'Add authorization rules to your GraphQL schema to control access to your data.',
+  platforms: [
+    'flutter',
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/troubleshooting/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+## Deploying multiple index changes at once
+
+You can make `@index` updates on one "amplify push". Under the hood, Amplify CLI needs to locally sequence multiple individual deployments to your DynamoDB table because each Global Secondary Index (GSI), managed by `@index`, change requires time to create the new index.
+
+If your deployment fails locally when updating multiple GSIs, you'll have the ability to run:
+
+- `amplify push --iterative-rollback` to rollback the last-known-good state
+- `amplify push --force` to rollback the last-known-good state and try redeploying your changes again using.
+
+```console
+Attempting to mutate more than 1 global secondary index at the same time.
+```
+
+If you're running into the error above during `amplify push`, it is likely that you don't have this feature enabled. To enable multiple GSI updates, set the "enableIterativeGsiUpdates" feature flag to true in your `amplify/cli.json` file.
+
+## Backfill OpenSearch index from DynamoDB table
+
+When you add `@searchable` to a `@model` type with existing data, then you need to backfill the OpenSearch index. Download the following Python script to help you backfill your OpenSearch index:
+
+[DynamoDB to OpenSearch backfill script](https://raw.githubusercontent.com/aws-amplify/amplify-category-api/main/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py)
+
+The script creates an event stream of your DynamoDB records and sends them to your OpenSearch Index. Execute the script with the following parameters to initiate the backfill:
+
+| Parameter | Description | Required |
+| --- | --- | --- |
+| `--rn` | DynamoDB table region. See [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) for available options | Yes |
+| `--tn` | DynamoDB table name. Format: `{@model type name}-{AppSync API ID}-{Amplify environment}` | Yes |
+| `--lf` | ARN of the "DynamoDB to OpenSearch streaming" Lambda function. Format: `arn:aws:lambda:{region}:{AWS Account ID}:function:amplify-{Amplify project name}-{Amplify environment}-{Random string}-OpenSearchStreamingLambd-{Random string}` | Yes |
+| `--esarn` | ARN of the DynamoDB table stream. Format: `arn:aws:dynamodb:{region}:{AWS Account ID}:table/{@model type name}-{AppSync API ID}-{Amplify environment}/stream/{Table creation date}` | Yes |
+| `--ak` | AWS Access Key ID. This is used to authenticate with your AWS account in case no local AWS profile is set up. | No |
+| `--sk` | AWS Secret Access Key. This is used to authenticate with your AWS account in case no local AWS profile is set up. | No |
+| `--st` | AWS Session Token. This is used to authenticate with your AWS account in case no local AWS profile is set up. | No |
+
+In the example below, the `Post` table data in `us-west-2` gets backfilled in the OpenSearch index.
+
+```bash
+python3 ddb_to_es.py \
+  --rn 'us-west-2' \ # Use the region in which your table and OpenSearch domain reside
+  --tn 'Post-XXXX-dev' \ # Table name
+  --lf 'arn:aws:lambda:us-west-2:<...>:function:amplify-<...>-OpenSearchStreamingLambd-<...>' \ # Lambda function ARN, find the DynamoDB to OpenSearch streaming functions, copy entire ARN
+  --esarn 'arn:aws:dynamodb:us-west-2:<...>:table/Post-<...>/stream/2019-20-03T00:00:00.350' # Event source ARN, copy the full DynamoDB table ARN
+```
+
+## Index with multiple sort key fields
+
+When you add an `@index` directive with 2 or more sort key fields, you will need to backfill the new composite sort key for existing data. With `@index(sortKeyFields: ["status", "date"])`, you will need to backfill the `status#date` field with composite key values made up of each object's `status` and `date` fields joined by a `#`. You do not need to backfill data for `@index` directives with zero to one sort key field(s).
+
+## Maximum Global Secondary Index limit for DynamoDB table exceeded
+
+If you have increased the [soft limit of GSI per table](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html) in DynamoDB beyond 20, then iterative deployments will fail with the following warning.
+
+```console
+DynamoDB <Table Name> can have max of 20 GSIs.
+To disable this check, use the --disable-gsi-limit-check option.
+```
+
+In order to disable this behavior, update your deploy scripts or ci commands to include the `--disable-gsi-limit-check` option to circumvent this validation during pushes.
+
+```bash
+amplify push --disable-gsi-limit-check
+```
