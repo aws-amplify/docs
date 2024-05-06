@@ -26,7 +26,7 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: ANALYZE=true yarn next-build
       - name: Check base bundle size of select pages
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         id: base-bundle-sizes
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +50,7 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: ANALYZE=true yarn next-build
       - name: Check head bundle size of select pages
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         id: head-bundle-sizes
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +58,7 @@ jobs:
             const { checkBundleSize } = require('./.github/workflows/scripts/check_bundle_size.js');
             return checkBundleSize();
       - name: Compare bundle page bundle sizes
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         id: compare-bundles
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
