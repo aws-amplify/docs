@@ -87,7 +87,14 @@ npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_ST
 
 <Accordion eyebrow="Info" title="Connecting to a database behind the VPC">
 
-If your database is behind a VPC, we'll autodetect the VPC configuration based on your connection string. This happens via a hostname lookup within your account. Make sure that your VPC is configured correctly to allow for 
+When you specify connection information, we'll compare the hostname you supply against a list of RDS instances, clusters, and proxies in your account in the same region as your project. If we find a match, we'll automatically detect the VPC configuration for your database and provision a SQL Lambda function to connect to the database and retrieve the schema.
+
+The VPC security group in which your database instance, cluster, or proxy is installed must have **Inbound rules** that allow traffic from the following TCP ports:
+
+1. The specified database port (e.g., 3306 for MySQL databases or 5432 for Postgres databases).
+2. Port 443 (HTTPS) to allow the Lambda function to connect to AWS Systems Manager to retrieve configuration parameters.
+
+Finally, the security group must have **Outbound rules** that allow traffic on those same ports from the security group itself.
 
 </Accordion>
 
