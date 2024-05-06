@@ -236,11 +236,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/index.mdx',
-
                   children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
-                    },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/search-and-aggregate-queries/index.mdx'
                     },
