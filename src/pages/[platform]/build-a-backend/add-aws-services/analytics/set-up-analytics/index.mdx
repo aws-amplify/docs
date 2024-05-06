@@ -54,7 +54,7 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 <InlineFilter filters={["android"]}>
 ## Prerequisites
 
-* An Android application targeting Android API level 16 (Android 4.1) or above
+* An Android application targeting Android API level 24 (Android 7.0) or above
 
 </InlineFilter>
 
@@ -78,6 +78,7 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 Use the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/).
 
 ```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend"
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
@@ -148,15 +149,27 @@ npm add aws-amplify
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
-Expand **Gradle Scripts**, open **build.gradle (Module :app)**. You will already have configured Amplify by following the steps in the Project Setup walkthrough.
+Expand **Gradle Scripts**, open **build.gradle.kts (Module :app)**. You will already have configured Amplify by following the steps in the quickstart guide.
 
 Add Analytics by adding these libraries into the dependencies block:
+```kotlin title="app/build.gradle.kts"
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
 
-```groovy
 dependencies {
-    // Add these lines in `dependencies`
-    implementation 'com.amplifyframework:aws-analytics-pinpoint:ANDROID_VERSION'
-    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+    // Amplify API dependencies
+    // highlight-start
+    implementation("com.amplifyframework:aws-analytics-pinpoint:ANDROID_VERSION")
+    implementation("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")    
+    // highlight-end
+    // ... other dependencies
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
