@@ -97,8 +97,10 @@ import flutter11 from '/src/fragments/lib-v1/auth/flutter/device_features/30_fet
 
 import flutter13 from '/src/fragments/lib-v1/auth/flutter/device_features/40_trackDevice.mdx';
 
+<InlineFilter filters={["ios", "android"]}>
 ## Known Limitations
 
 When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library.
 
 <Fragments fragments={{ flutter: flutter13 }} />
+</InlineFilter>

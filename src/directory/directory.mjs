@@ -2175,10 +2175,10 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/enable-guest-access/index.mdx'
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/multi-step-sign-in/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/multi-step-sign-in/index.mdx'
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/enable-guest-access/index.mdx'
                         },
                         {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/add-social-provider/index.mdx'
@@ -2211,7 +2211,22 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/delete-user-account/index.mdx'
                         },
                         {
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/admin-actions/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/user-group-management/index.mdx'
+                        },
+                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/existing-resources/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/import-existing-resources/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/existing-resources-no-cli/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/override-cognito/index.mdx'
                         },
                         {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/auth-events/index.mdx'
