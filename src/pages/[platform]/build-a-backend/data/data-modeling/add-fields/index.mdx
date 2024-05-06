@@ -39,9 +39,9 @@ Amplify Data supports all AWS AppSync scalar types as field types. The following
 |`a.integer()`|An integer value between -(2^31) and 2^31-1.|`number` but rounded to closest integer value upon query/mutation|Int|
 |`a.float()`|An IEEE 754 floating point value.|`number`|Float|
 |`a.boolean()`|A Boolean value, either true or false.|`boolean`|Boolean|
-|`a.date()`|An extended ISO 8601 date string in the format YYYY-MM-DD.|`Date` but time information is cleared upon query/mutation|AWSDate|
-|`a.time()`|An extended ISO 8601 time string in the format hh:mm:ss.sss.|`Date` but date information is removed upon query/mutation|AWSTime|
-|`a.datetime()`|An extended ISO 8601 date and time string in the format YYYY-MM-DDThh:mm:ss.sssZ.|`Date`|AWSDateTime|
+|`a.date()`|An extended ISO 8601 date string in the format `YYYY-MM-DD`.|`string`|AWSDate|
+|`a.time()`|An extended ISO 8601 time string in the format `hh:mm:ss.sss`.|`string`|AWSTime|
+|`a.datetime()`|An extended ISO 8601 date and time string in the format `YYYY-MM-DDThh:mm:ss.sssZ`.|`string`|AWSDateTime|
 |`a.timestamp()`|An integer value representing the number of seconds before or after 1970-01-01-T00:00Z.|`number`|AWSTimestamp|
 |`a.email()`|An email address in the format local-part@domain-part as defined by RFC 822.|`string` with local-part and domain-part type enforcement|AWSEmail|
 |`a.json()`|A JSON string. Any valid JSON construct is automatically parsed and loaded in the resolver code as maps, lists, or scalar values, rather than as the literal input strings. Unquoted strings or otherwise invalid JSON result in a validation error.|`any`|AWSJSON|

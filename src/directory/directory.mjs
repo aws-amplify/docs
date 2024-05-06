@@ -203,9 +203,6 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-amazon-polly/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-external-ddb-table/index.mdx'
-                    },
-                    {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-bedrock/index.mdx'
                     },
                     {
@@ -218,6 +215,17 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-postgres-mysql-database/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/connect-from-server-runtime/index.mdx',
