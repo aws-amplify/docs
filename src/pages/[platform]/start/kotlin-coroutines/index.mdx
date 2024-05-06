@@ -114,7 +114,7 @@ The Storage category's `downloadFile()` and `uploadFile()` functions are bit mor
 
 ```kotlin
 // Download
-val download = Amplify.Storage.downloadFile(remoteKey, localFile)
+val download = Amplify.Storage.downloadFile(StoragePath.fromString("public/example.txt"), localFile)
 
 lifecycleScope.async {
     download
@@ -132,7 +132,7 @@ lifecycleScope.async {
 }
 
 // Upload
-val upload = Amplify.Storage.uploadFile(remoteKey, localFile)
+val upload = Amplify.Storage.uploadFile(StoragePath.fromString("public/example.txt"), localFile)
 
 lifecycleScope.async {
     upload
@@ -142,7 +142,7 @@ lifecycleScope.async {
 lifecycleScope.async {
     try {
         val result = upload.result()
-        Log.i("AmplifyKotlinDemo", "Upload finished! ${result.key}")
+        Log.i("AmplifyKotlinDemo", "Upload finished! ${result.path}")
     } catch (failure: StorageException) {
         Log.e("AmplifyKotlinDemo", "Upload failed", failure)
     }
