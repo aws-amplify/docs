@@ -2,6 +2,7 @@ module.exports = {
   preset: './preset.js',
   rootDir: './',
   roots: ['<rootDir>/src', '<rootDir>/tasks'],
+  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(ts|tsx|js|mjs)$': [
       'babel-jest',
@@ -20,5 +21,5 @@ module.exports = {
     '@/data/(.*)': '<rootDir>/src/data/$1',
     '@/directory/(.*)': '<rootDir>/src/directory/$1'
   },
-  transformIgnorePatterns: []
+  transformIgnorePatterns: ['node_modules/(?!variables/.*)']
 };
