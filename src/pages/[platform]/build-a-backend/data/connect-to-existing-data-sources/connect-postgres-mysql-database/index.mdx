@@ -87,6 +87,13 @@ npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_ST
 
 <Accordion eyebrow="Info" title="Connecting to a database behind the VPC">
 
+**To generate the TypeScript representation of your database schema:**
+
+If your database is protected by a VPC, you will need to add an **Inbound Rule** for the database port from your local IP address. The `npx ampx generate schema-from-database` command connects to your database from your local workstation to read schema information. 
+
+If you are connecting to an RDS Proxy, the machine you run the `generate schema-from-database` command must be in the same VPC as the proxy itself, or you must connect to it via VPN. Simply opening an **Inbound Rule** for the database port is not sufficient.
+
+**To connect to your database during runtime:**
 When you specify connection information, we'll compare the hostname you supply against a list of RDS instances, clusters, and proxies in your account in the same region as your project. If we find a match, we'll automatically detect the VPC configuration for your database and provision a SQL Lambda function to connect to the database and retrieve the schema.
 
 The VPC security group in which your database instance, cluster, or proxy is installed must have **Inbound rules** that allow traffic from the following TCP ports:
