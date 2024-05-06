@@ -39,9 +39,7 @@ You can set up your backend deployments using the following steps:
 
 2.  Disable Auto-build for your branch. This will ensure code commits to your branch will not trigger a build.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/fullstack-branching/auto-build.mp4" />
-</video>
+<Video src="/images/gen2/fullstack-branching/auto-build.mp4" />
 
 3. Update the Amplify build specification file to add `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` and comment out the `pipeline-deploy` script. `ampx pipeline-deploy` runs a script to deploy backend updates, while `ampx generate outputs` fetches the latest `amplify_outputs.json` for the specified environment.
 
