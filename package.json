@@ -9,7 +9,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "@aws-amplify/amplify-cli-core": "^4.2.10",
+    "@aws-amplify/amplify-cli-core": "^4.3.4",
     "@aws-amplify/ui-react": "^6.0.7",
     "@docsearch/react": "3",
     "aws-amplify": "^6.0.9",
