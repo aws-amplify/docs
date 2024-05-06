@@ -1,0 +1,28 @@
+## Install Amplify Libraries
+
+Add the following dependencies to your `build.gradle (Module :app)` file and click "Sync Now" when prompted:
+
+```
+android {
+    compileOptions {
+        // Support for Java 8 features
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // Amplify API dependencies
+    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+    implementation 'com.amplifyframework:aws-logging-cloudwatch:ANDROID_VERSION'
+    // ... other dependencies
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+}
+```
+
+<Callout>
+
+**Note:** The CloudWatch plugin has a dependency on Cognito Auth.
+
+</Callout>

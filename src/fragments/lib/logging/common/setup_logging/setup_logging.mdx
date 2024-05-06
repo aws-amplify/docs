@@ -73,6 +73,14 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
 
 The `<log-group-name>` and `<region>` will be printed out in the in the terminal. You can use this information to setup the Amplify library in the next section.
 
+import androidInstallLibraries from '/src/fragments/lib/logging/android/install_libraries/install_libs.mdx';
+
+<Fragments
+  fragments={{
+    android: androidInstallLibraries
+  }}
+/>
+
 ## Initialize Amplify Logging
 
 In this section, we will initialize and setup the Amplify library. The Logger can be configured via a configuration file or in code when your app is initializing.
