@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Connect to Amazon Bedrock as a data source',
+  title: 'Connect to Amazon Bedrock for generative AI use cases',
   description:
     'Connect to Amazon Bedrock to build generative AI applications with AWS Amplify.',
   platforms: [
@@ -350,9 +350,9 @@ import { generateClient } from "aws-amplify/api";
 import { Schema } from "@/amplify/data/resource";
 
 import { Amplify } from "aws-amplify";
-import config from "@/amplifyconfiguration.json";
+import outputs from "@/amplify_outputs.json";
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
 

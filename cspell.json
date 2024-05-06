@@ -71,6 +71,7 @@
     "AmazonPersonalizeProvider",
     "AmazonS3Client",
     "Amplif",
+    "ampx",
     "amplifiedtodo",
     "AMPLIFYCLI",
     "amplify-CLI",
@@ -1597,7 +1598,9 @@
     "awscliv",
     "identitystore",
     "esac",
-    "voteField"
+    "voteField",
+    "ampx",
+    "autodetection"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

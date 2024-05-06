@@ -54,7 +54,7 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 <InlineFilter filters={["android"]}>
 ## Prerequisites
 
-* An Android application targeting Android API level 16 (Android 4.1) or above
+* An Android application targeting Android API level 24 (Android 7.0) or above
 
 </InlineFilter>
 
@@ -78,6 +78,7 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 Use the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/).
 
 ```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend"
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
@@ -148,15 +149,27 @@ npm add aws-amplify
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
-Expand **Gradle Scripts**, open **build.gradle (Module :app)**. You will already have configured Amplify by following the steps in the Project Setup walkthrough.
+Expand **Gradle Scripts**, open **build.gradle.kts (Module :app)**. You will already have configured Amplify by following the steps in the quickstart guide.
 
 Add Analytics by adding these libraries into the dependencies block:
+```kotlin title="app/build.gradle.kts"
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
 
-```groovy
 dependencies {
-    // Add these lines in `dependencies`
-    implementation 'com.amplifyframework:aws-analytics-pinpoint:ANDROID_VERSION'
-    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+    // Amplify API dependencies
+    // highlight-start
+    implementation("com.amplifyframework:aws-analytics-pinpoint:ANDROID_VERSION")
+    implementation("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")    
+    // highlight-end
+    // ... other dependencies
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
@@ -186,7 +199,7 @@ Import and load the configuration file in your app. It's recommended you add the
 ```js title="src/index.js"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
 Amplify.configure({
   ...Amplify.getConfig(),
@@ -199,7 +212,7 @@ Amplify.configure({
 ```js title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
 Amplify.configure({
   ...Amplify.getConfig(),
@@ -323,7 +336,7 @@ Future<void> _configureAmplify() async {
   // Once Plugins are added, configure Amplify
   // Note: Amplify can only be configured once.
   try {
-    await Amplify.configure(amplifyconfig);
+    await Amplify.configure(outputs);
   } on AmplifyAlreadyConfiguredException {
     safePrint(
       'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',
@@ -351,7 +364,7 @@ Future<void> _configureAmplify() async {
   // Once Plugins are added, configure Amplify
   // Note: Amplify can only be configured once.
   try {
-    await Amplify.configure(amplifyconfig);
+    await Amplify.configure(outputs);
   } on AmplifyAlreadyConfiguredException {
     safePrint(
       'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',
@@ -377,6 +390,16 @@ class MyApp extends StatefulWidget {
 To initialize the Amplify Auth and Analytics categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
 
 Add the following code to your `onCreate()` method in your application class:
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
 
 <BlockSwitcher>
 <Block name="Java">

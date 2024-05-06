@@ -414,7 +414,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(amplifyconfig);
+    await Amplify.configure(outputs);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -459,51 +459,41 @@ Be sure to have compileSdk version as 34 or higher.
 
 The Authenticator component is built using [Jetpack Compose](https://developer.android.com/jetpack/compose). Enable Jetpack Compose by adding the following to the android section of your app's `build.gradle` file:
 
-```groovy showLineNumbers={false}
+```kotlin title="app/build.gradle.kts" showLineNumbers={false}
 compileOptions {
     // Support for Java 8 features
-    coreLibraryDesugaringEnabled true
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    isCoreLibraryDesugaringEnabled = true
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 buildFeatures {
-    compose true
+    compose = true
 }
 composeOptions {
-  kotlinCompilerExtensionVersion '1.2.0'
+  kotlinCompilerExtensionVersion = "1.2.0"
 }
-```
-
-Add the following dependencies to your *app*'s `build.gradle` file and click "Sync Now" when prompted:
-
-
-<BlockSwitcher>
-<Block name="Kotlin DSL">
-
-```kotlin
 dependencies {
-    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
-</Block>
-<Block name="Groovy">
+Add the following dependencies to your *app*'s `build.gradle.kts` file and click "Sync Now" when prompted:
 
-```groovy
+```kotlin title="app/build.gradle.kts" 
 dependencies {
-  dependencies {
-    // Authenticator dependency
-    implementation 'com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION'
-
-    // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
-  }
+    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
 }
 ```
 
-</Block>
-</BlockSwitcher>
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
 
 ```kotlin title="MyAmplifyApp.kt"
 import android.app.Application
@@ -520,7 +510,7 @@ class MyAmplifyApp: Application() {
         try {
             // highlight-next-line
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
+            Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)

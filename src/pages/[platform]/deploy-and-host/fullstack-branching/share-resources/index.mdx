@@ -37,37 +37,48 @@ You can update your app build settings to share resources across branches. From 
 
 ![The build specification YAML file on the Build settings page in Amplify console.](/images/gen2/fullstack-branching/build-settings.png)
 
-Update the build settings for the `backend` phase to run `npx amplify generate config --branch dev app-id $AWS_APP_ID` to generate the `amplify_outputs.json` file for all branches other than `main` or `dev`. After this update, any new deployed branches will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `dev` branch.
+Update the build settings for the `backend` phase to run `npx ampx generate outputs --branch dev app-id $AWS_APP_ID` to generate the `amplify_outputs.json` file for all branches other than `main` or `dev`. After this update, any new deployed branches will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `dev` branch.
+Update the build settings for the `backend` phase to run `npx ampx generate outputs --branch dev app-id $AWS_APP_ID` to generate the `amplify_outputs.json` file for all branches other than `main` or `dev`. After this update, any new deployed branches will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `dev` branch.
 
 ```yaml title="amplify.yml"
 version: 1
 backend:
-  phases:
-    build:
-      commands:
-        - nvm use 18
-        - npm ci
-        - |
-          // highlight-start
-          if [ "${AWS_BRANCH}" = "main" ] || [ "${AWS_BRANCH}" = "dev" ]; then 
-            npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID 
-          else
-            npx ampx generate outputs  --branch dev --app-id $AWS_APP_ID 
-          fi
-          // highlight-end
+    phases:
+        build:
+            commands:
+                - 'npm ci --cache .npm --prefer-offline'
+                - 'echo $AWS_BRANCH'
+                - |
+                  case "${AWS_BRANCH}" in
+                      main)
+                          echo "Deploying main branch..."
+                          npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+                          ;;
+                      dev)
+                          echo "Deploying dev branch..."
+                          npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+                          ;;
+                      pr-*)
+                          echo "Deploying pull request branch..."
+                          npx ampx generate outputs --branch previews --app-id $AWS_APP_ID 
+                          ;;
+                      *)
+                          echo "Deploying to staging branch..."
+                          npx ampx generate outputs --branch dev --app-id $AWS_APP_ID 
+                          ;;
+                  esac
 frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm ci
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: .next
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
+    phases:
+        build:
+            commands:
+                - 'npm run build'
+    artifacts:
+        baseDirectory: .next
+        files:
+            - '**/*'
+    cache:
+        paths:
+            - .next/cache/**/*
+            - .npm/**/*
+            - node_modules/**/*
 ```
