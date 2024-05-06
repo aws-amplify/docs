@@ -14,7 +14,7 @@ jobs:
         with:
           ref: main
       - name: Setup Node.js 20
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1 https://github.com/actions/setup-node/commit/5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 20.x
       - name: Install dependencies
@@ -38,7 +38,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Setup Node.js 20
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v.3.8.1 https://github.com/actions/setup-node/commit/5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 20.x
       - name: Install dependencies
