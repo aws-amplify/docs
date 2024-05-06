@@ -446,7 +446,7 @@ Project information
 | App type: javascript
 | Javascript framework: angular
 | Source Directory Path: src
-| Distribution Directory Path: dist
+| Distribution Directory Path: dist/amplify-app/browser
 | Build Command: npm run-script build
 | Start Command: ng serve
 
@@ -665,7 +665,17 @@ Next, configure the Amplify libraries client-side so it can interact with backen
         Open **src/main.js** and add the following code below the last import:
     </InlineFilter>
 
-    <InlineFilter filters={["angular", "react", "vue"]}>
+    <InlineFilter filters={["angular"]}>
+
+    ```javascript title="src/main.ts"
+    import { Amplify } from 'aws-amplify';
+    import amplifyconfig from './amplifyconfiguration.json';
+    Amplify.configure(amplifyconfig);
+    ```
+
+    </InlineFilter>
+
+    <InlineFilter filters={["react", "vue"]}>
 
     ```javascript title="src/main.jsx"
     import { Amplify } from 'aws-amplify';

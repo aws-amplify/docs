@@ -29,13 +29,29 @@ export function getStaticProps(context) {
   };
 }
 
+To use existing Amazon Pinpoint resources with your Amplify backend or frontend application, use the `addOutput` method to surface backend resource outputs to the `amplify_outputs.json` file:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend"
+
+const backend = defineBackend({})
+
+backend.addOutput({
+  analytics: {
+    amazon_pinpoint: {
+      aws_region: "<your-aws-region>",
+      app_id: "<your-pinpoint-app-id>",
+    },
+  },
+})
+```
 
 <InlineFilter filters={['javascript', 'react-native', "angular", "nextjs", "react", "vue"]}>
-## Set up existing analytics backend
+## Configuring client library directly
 
-This manual setup enables you to use your existing Amazon Pinpoint resource in your app.
+Alternatively, you can configure the client library directly using `Amplify.configure()`. This manual setup enables you to use your existing Amazon Pinpoint resource in your app.
 
-```javascript title="src/index.js"
+```ts title="src/main.ts"
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
@@ -81,89 +97,4 @@ Amazon Pinpoint requires an AWS Identity and Access Management (IAM) policy in o
 }
 ```
 
-</InlineFilter>
-
-<InlineFilter filters={['flutter']}>
-Existing Amazon Pinpoint resources can be used with the Amplify Libraries by referencing your **Application ID** and **Region** in your `amplifyconfiguration.dart` file.
-
-```dart
-{
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "<your-pinpoint-app-id>",
-          "region": "<your-aws-region>"
-        },
-        "pinpointTargeting": {
-          "region": "<your-aws-region>"
-        }
-      }
-    }
-  }
-}
-```
-
-- **pinpointAnalytics**
-  - **appId**: Amazon Pinpoint application ID
-  - **region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
-- **pinpointTargeting**
-  - **region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
-
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/#install-amplify-libraries).
-</InlineFilter>
-
-<InlineFilter filters={['swift']}>
-Existing Amazon Pinpoint resources can be used with the Amplify Libraries by referencing your **Application ID** and **Region** in your `amplifyconfiguration.json` file.
-
-```json
-{
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "<your-pinpoint-app-id>",
-          "region": "<your-aws-region>"
-        }
-      }
-    }
-  }
-}
-```
-
-- **pinpointAnalytics**
-  - **appId**: Amazon Pinpoint application ID
-  - **region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
-
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/#install-amplify-libraries). 
-</InlineFilter>
-
-<InlineFilter filters={['android']}>
-Existing Amazon Pinpoint resources can be used with the Amplify Libraries by referencing your **Application ID** and **Region** in your `amplifyconfiguration.json` file.
-
-```json
-{
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "<your-pinpoint-app-id>",
-          "region": "<your-aws-region>"
-        },
-        "pinpointTargeting": {
-          "region": "<your-aws-region>"
-        }
-      }
-    }
-  }
-}
-```
-
-- **pinpointAnalytics**
-  - **appId**: Amazon Pinpoint application ID
-  - **region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
-- **pinpointTargeting**
-  - **region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
-
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/#install-amplify-libraries).
 </InlineFilter>

@@ -28,9 +28,16 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={['flutter']}>
+<Callout warning>
+
+Storage for Gen 2 is not yet available for Flutter
+</Callout>
+</InlineFilter>
+
 ## For Amplify-generated S3 resources
 
-Amplify Storage generates Amazon S3 resources to offer storage features. You can access the underlying Amazon S3 resources to further customize your backend configuration by using the AWS Cloud Developer Kit (CDK).
+Amplify Storage generates Amazon S3 resources to offer storage features. You can access the underlying Amazon S3 resources to further customize your backend configuration by using the AWS Cloud Developer Kit (AWS CDK).
 
 ### Example - Enable Transfer Acceleration
 
@@ -196,7 +203,7 @@ Future<void> uploadFileUsingAcceleration(String filePath, String key) async {
 
 </InlineFilter>
 
-Read more about [escape hatches in CDK](https://docs.aws.amazon.com/cdk/v2/guide/cfn_layer.html#develop-customize-escape).
+Read more about [escape hatches in the CDK](https://docs.aws.amazon.com/cdk/v2/guide/cfn_layer.html#develop-customize-escape).
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native", "flutter"]}>
 

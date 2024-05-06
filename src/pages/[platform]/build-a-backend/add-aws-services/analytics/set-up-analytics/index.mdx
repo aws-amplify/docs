@@ -43,7 +43,7 @@ An application with Amplify libraries integrated and a minimum target of any of 
 
 <Callout>
 
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch. 
+visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
 As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
 For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
@@ -75,7 +75,7 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 </InlineFilter>
 ## Set up Analytics backend
 
-Use the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/). 
+Use the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/).
 
 ```ts title="amplify/backend.ts"
 import { auth } from "./auth/resource";
@@ -85,9 +85,9 @@ import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
 import { Stack } from "aws-cdk-lib/core";
 
 const backend = defineBackend({
-  auth, 
+  auth,
   data,
-  // additional resources 
+  // additional resources
 });
 
 const analyticsStack = backend.createStack("analytics-stack");
@@ -129,7 +129,7 @@ backend.addOutput({
 First, install the `aws-amplify` library:
 
 ```sh title="Terminal" showLineNumbers={false}
-npm install aws-amplify
+npm add aws-amplify
 ```
 </InlineFilter>
 
@@ -186,7 +186,7 @@ Import and load the configuration file in your app. It's recommended you add the
 ```js title="src/index.js"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
 Amplify.configure({
   ...Amplify.getConfig(),
@@ -195,11 +195,11 @@ Amplify.configure({
 ```
 </InlineFilter>
 
-<InlineFilter filters={['nextjs']}> 
+<InlineFilter filters={['nextjs']}>
 ```js title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
 import { record } from 'aws-amplify/analytics';
-import amplifyconfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
 Amplify.configure({
   ...Amplify.getConfig(),
@@ -230,7 +230,7 @@ init() {
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSPinpointAnalyticsPlugin())
-        try Amplify.configure()
+        try Amplify.configure(with: .amplifyOutputs)
         print("Amplify configured with Auth and Analytics plugins")
     } catch {
         print("Failed to initialize Amplify with \(error)")
@@ -260,7 +260,7 @@ func application(
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSPinpointAnalyticsPlugin())
-        try Amplify.configure()
+        try Amplify.configure(with: .amplifyOutputs)
         print("Amplify configured with Auth and Analytics plugins")
     } catch {
         print("Failed to initialize Amplify with \(error)")
@@ -323,7 +323,7 @@ Future<void> _configureAmplify() async {
   // Once Plugins are added, configure Amplify
   // Note: Amplify can only be configured once.
   try {
-    await Amplify.configure(amplifyconfig);
+    await Amplify.configure(outputs);
   } on AmplifyAlreadyConfiguredException {
     safePrint(
       'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',
@@ -351,7 +351,7 @@ Future<void> _configureAmplify() async {
   // Once Plugins are added, configure Amplify
   // Note: Amplify can only be configured once.
   try {
-    await Amplify.configure(amplifyconfig);
+    await Amplify.configure(outputs);
   } on AmplifyAlreadyConfiguredException {
     safePrint(
       'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',
@@ -367,7 +367,7 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}): super(key: key);
-  
+
   // ...
 }
 ```
@@ -378,6 +378,16 @@ To initialize the Amplify Auth and Analytics categories you call `Amplify.addPlu
 
 Add the following code to your `onCreate()` method in your application class:
 
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -387,6 +397,8 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
+
 ```
 
 ```java
@@ -406,7 +418,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
-            Amplify.configure(getApplicationContext());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -425,7 +437,8 @@ import com.amplifyframework.AmplifyException
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
-```    
+import com.amplifyframework.core.configuration.AmplifyOutputs
+```
 
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
@@ -443,7 +456,7 @@ class MyAmplifyApp : Application() {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
-            Amplify.configure(applicationContext)
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
@@ -461,6 +474,7 @@ import android.util.Log;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
 import com.amplifyframework.rx.RxAmplify;
 ```
 
@@ -481,7 +495,7 @@ public class MyAmplifyApp extends Application {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin());
-            RxAmplify.configure(getApplicationContext());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {

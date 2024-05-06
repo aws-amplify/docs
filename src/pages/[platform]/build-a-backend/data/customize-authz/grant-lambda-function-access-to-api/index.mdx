@@ -86,12 +86,6 @@ Function access can only be configured on the schema object. It cannot be config
 
 ## Access the API using `aws-amplify`
 
-<Callout warning>
-
-**Under active development:** Configuring the `aws-amplify` data client is under active development. The current experience has rough edges and may change between versions of `@aws-amplify/backend`. Try it out and provide feedback at https://github.com/aws-amplify/amplify-backend/issues/new/choose
-
-</Callout>
-
 In the handler file for your function, configure the Amplify data client
 
 ```ts title="amplify/functions/data-access.ts"
@@ -107,7 +101,7 @@ Amplify.configure(
       GraphQL: {
         endpoint: env.<amplifyData>_GRAPHQL_ENDPOINT, // replace with your defineData name
         region: env.AWS_REGION,
-        defaultAuthMode: 'iam',
+        defaultAuthMode: 'identityPool'
       }
     }
   },
@@ -144,7 +138,7 @@ Use the command below to generate GraphQL client code to call your data backend.
 </Callout>
 
 ```sh title="Terminal" showLineNumbers={false}
-npx amplify generate graphql-client-code --out <path-function-handler-dir>/graphql
+npx ampx generate graphql-client-code --out <path-function-handler-dir>/graphql
 ```
 
 

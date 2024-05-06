@@ -45,24 +45,23 @@ In this section, you will learn how to integrate Amazon Translate into your appl
 
 ## Step 1 - Set up the project
 
-Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). 
+Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/).
 
 ## Step 2 - Install Amazon Translate libraries
-We'll create a new API endpoint that'll use the the AWS SDK to call the Amazon Translate service. To install the Amazon Translate SDK, run the following command in your project's root folder:
+To install the Amazon Translate SDK, run the following command in your project's root folder:
 
-```bash
-npm install @aws-sdk/client-translate
-
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-sdk/client-translate
 ```
 
 ## Step 3 - Add your Amazon Translate as Datasource
 
- To access Amazon Translate service, you need to add Amazon Translate as Http Data Source and configure the proper IAM policy for AWS Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file as shown below.
+ To access Amazon Translate service, you need to add Amazon Translate as an HTTP Data Source and configure the proper IAM policy for AWS Lambda to utilize the desired feature effectively. Update `amplify/backend.ts` file as shown below.
 
  ```ts title="amplify/backend.ts"
-
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
+import { data } from "./data/resource";
 import { Stack } from 'aws-cdk-lib';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
@@ -93,9 +92,9 @@ translateDataSource.grantPrincipal.addToPrincipalPolicy(
 ```
 ## Step 4 - Configure custom business logic handler
 
-Next, create the following `translate.ts` file in your `amplify/data` folder and use the code below to define custom resolvers. 
+Next, create the following `translate.js` file in your `amplify/data` folder and use the code below to define custom resolvers.
 
-```ts title="amplify/data/translate.ts"
+```ts title="amplify/data/translate.js"
 
 export function request(ctx) {
   return {
@@ -160,14 +159,13 @@ export const data = defineData({
 
 ## Step 6 - Configure the frontend
 
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. 
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point.
 
 ``` ts title="main.tsx"
-import { Amplify } from 'aws-amplify'
-import amplifyconfig from '../amplifyconfiguration.json'
+import { Amplify } from "aws-amplify";
+import outputs from "../amplify_outputs.json";
 
-Amplify.configure(amplifyconfig)
-
+Amplify.configure(outputs);
 ```
 ### Invoke the API
 

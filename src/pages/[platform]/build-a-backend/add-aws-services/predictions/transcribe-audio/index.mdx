@@ -4,20 +4,20 @@ export const meta = {
   title: 'Transcribe audio to text',
   description: 'Learn more about how to transcribe audio to text (also known as speech-to-text) for your application using Amplify',
   platforms: [
-    'swift',
-    'javascript',
     'angular',
+    'javascript',
     'nextjs',
     'react',
-    'vue'
+    'react-native',
+    'vue',
   ]
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   return {
     props: {
       meta
@@ -34,42 +34,17 @@ export function getStaticProps(context) {
 ## Working with the API
 
 You can transcribe a PCM Audio byte buffer to Text, such as a recording from microphone.
-<InlineFilter filters={['swift']}>
 
-```swift
-func speechToText(url: URL) async throws {
-    let options = Predictions.Convert.SpeechToText.Options(
-        defaultNetworkPolicy: .auto,
-        language: .usEnglish
-    )
-
-    let result = try await Amplify.Predictions.convert(
-        .speechToText(url: url), options: options
-    )
-
-    let transcription = result.map(\.transcription)
-
-    for try await transcriptionPart in transcription {
-        print("transcription part: \(transcriptionPart)")
-    }
-}
-```
-
-</InlineFilter>
-<InlineFilter filters={['javascript','angular','nextjs','react','vue']}>
-
-```javascript
+```ts
 import { Predictions } from '@aws-amplify/predictions';
 
-Predictions.convert({
+const { transcription } = await Predictions.convert({
   transcription: {
     source: {
       bytes
     }
   }
 })
-.then(({ transcription: { fullText } }) => console.log({ fullText }))
-.catch((err) => console.log({ err }));
 ```
-</InlineFilter>
+
 To view the complete list of all the supported languages and language specific features refer to [the supported languages list](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html). The language data input type has to support streaming for it to work with Amplify Predictions.

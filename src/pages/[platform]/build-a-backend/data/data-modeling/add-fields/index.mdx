@@ -90,14 +90,14 @@ a.schema({
 To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
 
 ```ts
-const newPost = await client.models.Post.create({
+const { data: newPost, errors } = await client.models.Post.create({
   location: {
     lat: 48.837006,
-    long: 8.282450,
-  }
+    long: 8.28245,
+  },
 });
 
-console.log(newPost.location.lat, newPost.location.long)
+console.log(newPost?.location?.lat, newPost?.location?.long);
 ```
 
 ## Specify an enum field type
@@ -107,7 +107,7 @@ Enum has a similar developer experience as custom types: short-hand and long-for
 a.schema({
   Post: a.model({
     privacySetting: a.enum(['PRIVATE', 'FRIENDS_ONLY', 'PUBLIC']),
-    content: string(),
+    content: a.string(),
   }),
 });
 ```
@@ -121,7 +121,7 @@ a.schema({
   ]),
 
   Post: a.model({
-    content: string(),
+    content: a.string(),
     privacySetting: a.ref('PrivacySetting'),
   }),
 

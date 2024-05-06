@@ -41,6 +41,12 @@ import common_configureaccess from '/src/fragments/lib/storage/native_common/con
 
 <InlineFilter filters={['javascript',  'react-native', 'angular', 'nextjs', 'react', 'vue']}>
 
+<Callout warning>
+We recommend using the new [Amplify Gen2](https://docs.amplify.aws/gen2/build-a-backend/storage/) experience when defining file access permissions as it offers a more flexible approach to customize access to files.
+
+Note: `accessLevel` parameter is deprecated and may be removed in the next major version.
+</Callout>
+
 Storage module can manage files with three different access levels; `guest`, `protected` and `private`. The Amplify CLI configures three different access levels on the storage bucket: guest, protected and private. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito identity pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
 
 If you had previously enabled user sign-in by running `amplify add auth` in your project, the policies will be connected to an `Authenticated Role` of the identity pool which has scoped permission to the objects in the bucket for each user identity. If you haven't configured user sign-in, then an `Unauthenticated Role` will be assigned for each unique user/device combination, which still has scoped permissions to just their objects.
@@ -71,9 +77,9 @@ import { getUrl } from 'aws-amplify/storage';
 await getUrl({ key: 'welcome.png' }); // Get welcome.png in public space
 ```
 
-## Customization
+## Customization (Deprecated)
 
-### Customize Object Key Path
+### Customize Object Key Path (Deprecated)
 
 You can customize your key path by defining a prefix resolver:
 

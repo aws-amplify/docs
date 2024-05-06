@@ -55,6 +55,7 @@
     "addingfunction",
     "adhere",
     "albumVisit",
+    "ampx",
     "Alexa",
     "Algolia",
     "AllowedOrigin",
@@ -93,6 +94,7 @@
     "amplifyjsapp",
     "amplifyMeta.json",
     "AmplifyModules",
+    "amplifyoutputs",
     "AmplifyPlugin",
     "amplifyPush",
     "amplifyrc",
@@ -484,6 +486,7 @@
     "customizable",
     "customtabs",
     "customui",
+    "conver",
     "dabit",
     "dataaccess",
     "dataacess",
@@ -870,6 +873,7 @@
     "Multifactor",
     "multipart",
     "multiPartConcurrencyLimit",
+    "multishells",
     "Mutation.createTodo",
     "mutationName",
     "MY_BUCKET",
@@ -914,6 +918,7 @@
     "Neue",
     "NEW_PASSWORD_REQUIRED",
     "newHire",
+    "newimage",
     "NextActivity.class",
     "NextActivity",
     "nextActivityClass",
@@ -973,8 +978,10 @@
     "openid",
     "OpenID",
     "OpenSearch",
+    "opensearchservice",
     "openssl",
     "orderId",
+    "osis",
     "otpauth",
     "Outputs.RootURL.Value",
     "ownerField",
@@ -1002,6 +1009,7 @@
     "PinpointTargeting",
     "pipenv",
     "pipenv's",
+    "PITR",
     "pkey",
     "placeindex",
     "pluggable",
@@ -1032,6 +1040,7 @@
     "Pre",
     "prepend",
     "prepended",
+    "prepper",
     "prereq",
     "presigned",
     "Presigning",
@@ -1229,6 +1238,8 @@
     "storagedemo",
     "storagemanager",
     "storageOptions",
+    "storagepath",
+    "StoragePath",
     "StorageType",
     "streamName",
     "struct",
@@ -1335,6 +1346,7 @@
     "Untag",
     "updateapi",
     "updateauth",
+    "updatedimage",
     "UpdateTable",
     "updateTodo",
     "uploadData",
@@ -1509,7 +1521,7 @@
     "privatesaccess",
     "menudetaileditors",
     "editorgroupaccess",
-    "publicauthreadonly",
+    "authreadonly",
     "envs",
     "Onetoone",
     "onetomany",
@@ -1586,22 +1598,16 @@
     "awscliv",
     "identitystore",
     "esac",
-    "voteField"
+    "voteField",
+    "ampx",
+    "autodetection"
   ],
-  "flagWords": [
-    "hte",
-    "full-stack",
-    "Full-stack",
-    "Full-Stack",
-    "sudo"
-  ],
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": [
-    "youtube-embed-ids"
-  ]
+  "ignoreRegExpList": ["youtube-embed-ids"]
 }

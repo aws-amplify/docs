@@ -1,0 +1,60 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Guest access',
+  description: 'Access services without needing to sign in.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={['flutter','swift','android']}>
+The Auth Plugin can be configured to automatically obtain guest credentials once the device is online so that you are able to use other categories "anonymously" without the need to sign in. You will not be able to perform user specific methods while in this state such as updating attributes, changing your password, or getting the current user. However, you can obtain the unique Identity ID which is assigned to the device through the `fetchAuthSession` method [described here](/[platform]/build-a-backend/auth/concepts/tokens-and-credentials/).
+
+
+</InlineFilter>
+<InlineFilter filters={['javascript','react-native','angular','nextjs','react','vue']}>
+Amplify Auth can be configured to automatically obtain guest credentials once the device is online so that you are able to use other categories "anonymously" without the need to sign in. You will not be able to perform user specific methods while in this state such as updating attributes, changing your password, or getting the current user. However, you can obtain the unique Identity ID which is assigned to the device through the `fetchAuthSession` method [described here](/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-sessions/).
+
+</InlineFilter>
+
+Amplify Gen 2 enables guest access by default. To disable it, you can update the `backend.ts` file with the following changes:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend'
+import { auth } from './auth/resource'
+import { data } from './data/resource'
+
+const backend = defineBackend({
+  auth,
+  data,
+});
+
+// highlight-start
+const { cfnIdentityPool } = backend.auth.resources.cfnResources;
+cfnIdentityPool.allowUnauthenticatedIdentities = false;
+// highlight-end
+```
+
+
