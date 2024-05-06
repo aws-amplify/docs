@@ -6,9 +6,11 @@ interface VideoProps {
   muted?: boolean;
   loop?: true;
   src: string;
+  testId?: string;
 }
 
-const reducedMotionMediaQuery = '(prefers-reduced-motion: no-preference)';
+export const reducedMotionMediaQuery =
+  '(prefers-reduced-motion: no-preference)';
 
 /**
  * @description The Video component defaults to a muted, auto play video.
@@ -20,6 +22,7 @@ export const Video = ({
   muted = true,
   loop = true,
   src,
+  testId,
   ...rest
 }: VideoProps) => {
   /**
@@ -70,6 +73,7 @@ export const Video = ({
       playsInline={true}
       controls={true}
       aria-hidden="true"
+      testId={testId}
       {...rest}
     >
       <source src={src} />
