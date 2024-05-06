@@ -183,7 +183,7 @@ backend.addOutput({
 ## Install Amplify Libraries
 
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
-Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
+Use the package manager of your choice to install the Amplify JavaScript library. For example, with `npm`:
 
 ```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify
@@ -191,7 +191,7 @@ npm add aws-amplify
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
-Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
+Use the package manager of your choice to install the Amplify JavaScript library. For example, with `npm`:
 
 <Accordion title="Instructions for React Native version 0.72 and below">
 
@@ -218,7 +218,7 @@ To initialize the Amplify API category you need to configure Amplify with `Ampli
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `src/main.ts`:
 
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
-```javascript title="src/index.js"
+```ts title="src/main.ts"
 import { Amplify } from 'aws-amplify';
 import outputs from '../amplify_outputs.json';
 
@@ -234,7 +234,7 @@ Amplify.configure({
 </InlineFilter>
 
 <InlineFilter filters={["nextjs"]}>
-```tsx title="pages/index.tsx"
+```tsx title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
 import outputs from '@/amplify_outputs.json';
 
