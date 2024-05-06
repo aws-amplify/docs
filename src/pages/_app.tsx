@@ -1,6 +1,7 @@
 import '@aws-amplify/ui-react/styles.css';
 import '../styles/styles.scss';
 import Head from 'next/head';
+import { useReportWebVitals } from 'next/web-vitals';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 import { useRouter } from 'next/router';
@@ -20,6 +21,10 @@ function MyApp({ Component, pageProps }) {
   } = pageProps;
 
   const router = useRouter();
+
+  useReportWebVitals((metric) => {
+    console.log('web vitals', metric);
+  });
 
   useEffect(() => {
     const handleRouteChange = () => {
