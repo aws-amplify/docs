@@ -492,27 +492,27 @@ import React from 'react';
 import { uploadData } from 'aws-amplify/storage';
 
 function App() {
-    const [file, setFile] = React.useState();
+  const [file, setFile] = React.useState();
 
-    const handleChange = (event: any) => {
-        setFile(event.target.files[0]);
-    };
+  const handleChange = (event: any) => {
+    setFile(event.target.files[0]);
+  };
 
-    return (
-        <div>
-            <input type="file" onChange={handleChange} />
-            <button
-                onClick={() =>
-                    uploadData({
-                        path: `picture-submissions/${file.name}`,
-                        data: file,
-                    })
-                }
-            >
-                Upload
-            </button>
-        </div>
-    );
+  return (
+    <div>
+      <input type="file" onChange={handleChange} />
+        <button
+          onClick={() =>
+            uploadData({
+              path: `picture-submissions/${file.name}`,
+              data: file,
+          })
+        }
+      >
+        Upload
+      </button>
+    </div>
+  );
 }
 ```
 </InlineFilter>
@@ -532,9 +532,9 @@ upload.addEventListener("click", () => {
     console.log("Complete File read successfully!", event.target.result);
     try {
       await uploadData({
-                data: event.target.result,
-                path: `picture-submissions/${file.files[0].name}`
-            });
+        data: event.target.result,
+        path: `picture-submissions/${file.files[0].name}`
+      });
     } catch (e) {
       console.log("error", e);
     }
