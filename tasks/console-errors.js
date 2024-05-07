@@ -74,7 +74,9 @@ const checkPage = async (url) => {
       } else interceptedRequest.continue();
     });
 
-  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  // The waitUntil option tells puppeteer when the page is fully loaded and defined here https://pptr.dev/api/puppeteer.puppeteerlifecycleevent
+  // networkidle0 Waits till there are no more than 0 network connections for at least `500` ms.
+  await page.goto(url, { waitUntil: 'networkidle0' });
 
   await browser.close();
 
