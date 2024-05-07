@@ -6,6 +6,7 @@ import { Layout } from '@/components/Layout';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
+import { AwsRum, AwsRumConfig } from 'aws-rum-web';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -20,6 +21,37 @@ function MyApp({ Component, pageProps }) {
   } = pageProps;
 
   const router = useRouter();
+
+  try {
+    if (
+      process.env.RUM_IDENTITY_POOL_ID &&
+      process.env.RUM_ENDPOINT &&
+      process.env.RUM_APP_ID &&
+      process.env.RUM_APP_REGION
+    ) {
+      const config: AwsRumConfig = {
+        sessionSampleRate: 1,
+        identityPoolId: process.env.RUM_IDENTITY_POOL_ID,
+        endpoint: process.env.RUM_ENDPOINT,
+        telemetries: ['performance'],
+        allowCookies: false,
+        enableXRay: false
+      };
+
+      const APPLICATION_ID: string = process.env.RUM_APP_ID;
+      const APPLICATION_VERSION: string = '1.0.0';
+      const APPLICATION_REGION: string = process.env.RUM_APP_REGION;
+
+      new AwsRum(
+        APPLICATION_ID,
+        APPLICATION_VERSION,
+        APPLICATION_REGION,
+        config
+      );
+    }
+  } catch (error) {
+    // Ignore errors thrown during CloudWatch RUM web client initialization
+  }
 
   useEffect(() => {
     const handleRouteChange = () => {

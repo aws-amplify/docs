@@ -13,6 +13,7 @@
     "@aws-amplify/ui-react": "^6.0.7",
     "@docsearch/react": "3",
     "aws-amplify": "^6.0.9",
+    "aws-rum-web": "^1.17.2",
     "next": "^13.5.6",
     "next-image-export-optimizer": "^1.8.3",
     "next-transpile-modules": "^9.0.0",
