@@ -30,12 +30,25 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 Events have default configuration to flush out to the network every 30 seconds. To modify the default value, assign the `autoFlushEventsInterval` property to your desired duration. The example below configures the plugin to flush events every 10 seconds.
 
-```dart
-final plugin = AmplifyAnalyticsPinpoint(
-  options: const AnalyticsPinpointPluginOptions(
-    autoFlushEventsInterval: Duration(seconds: 10),
-  ),
-);
+```json
+{
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "AppID",
+          "region": "Region"
+        },
+        "pinpointTargeting": {
+          "region": "Region"
+        },
+        "autoFlushEventsInterval": 10
+      }
+    }
+  }
+}
 ```
 
 > **Note**
