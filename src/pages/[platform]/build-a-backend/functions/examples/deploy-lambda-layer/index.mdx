@@ -1,0 +1,85 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Deploy a function with a Lambda Layer',
+  description:
+    'How to create a custom function resource that makes use of the Sharp library',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify Functions are powered by [AWS Lambda](https://aws.amazon.com/lambda/), and allow you to perform a wide variety of customization through self-contained _functions_. Functions can respond to events from other resources, execute some logic in-between events like an authentication flow, or act as standalone jobs. They are used in a variety of settings and use cases:
+
+- Authentication flow customizations (e.g. attribute validations, allowlisting email domains)
+- Resolvers for GraphQL APIs
+- Handlers for individual REST API routes, or to host an entire API
+- Scheduled jobs
+
+To get started, create a new directory and a resource file, `amplify/functions/say-hello/resource.ts`. Then, define the Function with `defineFunction`:
+
+```ts title="amplify/functions/say-hello/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+
+export const sayHello = defineFunction({
+  // optionally specify a name for the Function (defaults to directory name)
+  name: 'say-hello',
+  // optionally specify a path to your handler (defaults to "./handler.ts")
+  entry: './handler.ts'
+});
+```
+
+Next, create the corresponding handler file at `amplify/functions/say-hello/handler.ts`. This is where your function code will go.
+
+```ts title="amplify/functions/say-hello/handler.ts"
+export const handler = async (event) => {
+  // your function code goes here
+  return 'Hello, World!';
+};
+```
+
+The handler file _must_ export a function named "handler". This is the entry point to your function. For more information on writing functions, refer to the [AWS documentation for Lambda function handlers using Node.js](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html).
+
+Lastly, this function needs to be added to your backend.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+// highlight-next-line
+import { sayHello } from './functions/say-hello/resource';
+
+defineBackend({
+  // highlight-next-line
+  sayHello
+});
+```
+
+Now when you run `npx ampx sandbox` or deploy your app on Amplify, it will include your backend function. See the [examples](../examples/) below for connecting your functions to event sources.
+
+## Next steps
+
+Now that you have completed setting up your first Function, you may also want to add some additional features or modify a few settings. We recommend you learn more about:
+
+- [Environment variables and secrets](/[platform]/build-a-backend/functions/environment-variables-and-secrets/)
+- [Grant access to other resources](/[platform]/build-a-backend/functions/grant-access-to-other-resources/)
+- [Explore example use cases](/[platform]/build-a-backend/functions/examples/)
+- [Modifying underlying resources with CDK](/[platform]/build-a-backend/functions/modify-resources-with-cdk/)
