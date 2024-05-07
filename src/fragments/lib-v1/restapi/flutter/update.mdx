@@ -5,14 +5,13 @@ To update an item via the API endpoint:
 ```dart
 Future<void> updateTodo() async {
   try {
-    final options = RestOptions(
-      path: '/todo/1',
-      body: Uint8List.fromList('{\'name\':\'Mow the lawn\'}'.codeUnits),
+    final restOperation = Amplify.API.put(
+      'todo/1',
+      body: HttpPayload.json({'name': 'Mow the lawn'}),
     );
-    final restOperation = Amplify.API.put(restOptions: options);
     final response = await restOperation.response;
     print('PUT call succeeded');
-    print(response.body);
+    print(response.decodeBody());
   } on ApiException catch (e) {
     print('PUT call failed: $e');
   }
