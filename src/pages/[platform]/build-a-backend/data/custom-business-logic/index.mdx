@@ -331,12 +331,6 @@ export const data = defineData({
 
 <Callout warning>
 
-The `.handler()` accepts an array of handlers that will run in a pipeline. For now, in the developer preview, you can only use `a.handler.custom()` and `a.handler.function()`. All other handlers, such as `a.handler.inlineSql()` are under active development.
-
-</Callout>
-
-<Callout warning>
-
 All handlers must be of the same type. For example, you can't mix and match `a.handler.function` with `a.handler.custom` within a single `.handler()` modifier.
 
 </Callout>
