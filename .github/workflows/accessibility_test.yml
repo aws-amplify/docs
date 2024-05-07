@@ -29,7 +29,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { getChangedPages } = require('./.github/workflows/scripts/check_for_changed_pages.js');
-            return getChangedPages({github, context});
+            return getChangedPages({github, context}, ${{ env.BUILD_DIR }});
       - name: Run site
         run: | 
           python -m http.server 3000 -d ${{ env.BUILD_DIR }} &
