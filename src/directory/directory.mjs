@@ -2452,13 +2452,13 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/functions/secrets/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/build-a-backend/functions/build-options/index.mdx'
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/functions/build-options/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/build-a-backend/functions/configure-options/index.mdx'
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/functions/configure-options/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/build-a-backend/functions/graphql-from-lambda/index.mdx'
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/functions/graphql-from-lambda/index.mdx'
                         }
                       ]
                     },
