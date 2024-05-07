@@ -4,6 +4,8 @@ module.exports = {
     const cheerio = require('cheerio');
     
     const urlList = [];
+
+    console.log('buildDir: ', buildDir);
     
     const {
       issue: { number: issue_number },
