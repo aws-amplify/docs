@@ -30,9 +30,9 @@ import flutter2 from '/src/fragments/lib-v1/storage/flutter/configureaccess/10_p
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-This will upload with the prefix `/protected/[IDENTITY_ID]/` followed by the key.
+This will upload with the prefix `/protected/[IDENTITY_ID]/` followed by the `key`.
 
-For other users to read the file, you must specify the user ID of the creating user in the passed options.
+For other users to read the file, you must specify the access level as `protected` and the identity ID of the user who uploaded it in the options.
 
 import ios3 from '/src/fragments/lib-v1/storage/ios/configureaccess/20_protected_download.mdx';
 
@@ -62,7 +62,7 @@ import flutter8 from '/src/fragments/lib-v1/storage/flutter/configureaccess/30_p
 
 <Fragments fragments={{ flutter: flutter8 }} />
 
-This will upload with the prefix `/private/[IDENTITY_ID]/`, followed by the key.
+This will upload with the prefix `/private/[IDENTITY_ID]/`, followed by the `key`.
 
 For the user to read the file, specify the same access level (`private`) and key you used to upload:
 
