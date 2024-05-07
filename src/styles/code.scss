@@ -136,6 +136,19 @@ code:not([class]) {
   width: 100%;
   cursor: pointer;
   position: relative;
+  box-sizing: border-box;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.highlight-copy-block:focus {
+  border-top: 2px solid var(--amplify-colors-neutral-10);
+  border-bottom: 2px solid var(--amplify-colors-neutral-10);
+
+  @include darkMode {
+    border-top: 2px solid var(--amplify-colors-neutral-90);
+    border-bottom: 2px solid var(--amplify-colors-neutral-90);
+  }
 }
 
 .highlight-copy-block-hint {
@@ -143,6 +156,7 @@ code:not([class]) {
   top: 0;
   right: 1.8rem;
   color: white;
+  user-select: none;
 }
 
 .highlight-copy-block .highlight-c4py-block-hint {
@@ -155,14 +169,6 @@ code:not([class]) {
 
 .highlight-copy-block:hover .highlight-copy-block-hint {
   display: block;
-}
-
-.highlight-copy-block:focus .line-highlight::before {
-  background-color: var(--amplify-colors-primary-80);
-
-  @include darkMode {
-    background-color: var(--amplify-colors-neutral-40);
-  }
 }
 
 .highlight-copy-block:hover .line-highlight::before {
