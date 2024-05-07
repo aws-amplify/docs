@@ -12,6 +12,10 @@ export const meta = {
   route: '/gen1/[platform]/prev/build-a-backend/push-notifications'
 };
 
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
 export const getStaticPaths = async () => {
   return getCustomStaticPath(meta.platforms);
 };

@@ -23,6 +23,10 @@ export function getStaticProps(context) {
   };
 }
 
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
 import crossPlatformSetupService from '/src/fragments/lib/push-notifications/common/setup_push_service/cross-platform-setup.mdx';
 
 <Fragments fragments={{ 'react-native': crossPlatformSetupService }} />
