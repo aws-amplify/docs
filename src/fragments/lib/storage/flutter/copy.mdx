@@ -1,15 +1,28 @@
 You can copy an existing file to a different location in your S3 bucket. User who initiates a copy operation should have read permission on the copy source file.
 
 ```dart
-Future<void> copy() async {
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> copyGuestFileToPrivate({
+  required String sourceKey,
+  required String destinationKey,
+}) async {
   try {
     final result = await Amplify.Storage.copy(
-      source: const StoragePath.fromString('public/file-1.txt'),
-      destination: const StoragePath.fromString('public/file-2.txt'),
+      source: StorageItemWithAccessLevel(
+        storageItem: StorageItem(key: sourceKey),
+        accessLevel: StorageAccessLevel.guest,
+      ),
+      destination: StorageItemWithAccessLevel(
+        storageItem: StorageItem(key: destinationKey),
+        accessLevel: StorageAccessLevel.private,
+      ),
     ).result;
-    safePrint('Copied file: ${result.copiedItem.path}');
+
+    safePrint('Copied file: ${result.copiedItem.key}');
   } on StorageException catch (e) {
-    safePrint(e.message);
+    safePrint('Error copying file: ${e.message}');
+    rethrow;
   }
 }
 ```
