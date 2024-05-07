@@ -1,13 +1,21 @@
+<InlineFilter filters={["flutter"]}>
+<Callout>
+The [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library when using the federated OAuth flow with Cognito User Pools or Hosted UI.
+</Callout>
+</InlineFilter>
+
 Remembering a device is useful in conjunction with Multi-Factor Authentication (MFA). If MFA is enabled for an Amazon Cognito user pool, end users have to type in a security code received via e-mail or SMS each time they want to sign in. This increases security but comes at the expense of the user's experience.
 
 Remembering a device allows the second factor requirement to be automatically met when the user signs in on that device, thereby reducing friction in the user experience.
 
 ## Configure Auth Category
 
+<InlineFilter filters={["ios", "android"]}>
 <Callout>
   Device remembering functionality does not work if you use one of the web UI
   sign in methods.
 </Callout>
+</InlineFilter>
 
 To enable remembered device functionality, open the Cognito User Pool console. To do this, **go to your project directory** and **issue the command**:
 
