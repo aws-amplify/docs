@@ -35,7 +35,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 <Callout warning>
 
-The following content requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+The following content requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/gen1/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api).
 
 </Callout>
 
@@ -123,7 +123,7 @@ You can use the `:variable` notation to reference input variables from the query
 <Accordion title="Authorization rules" headingLevel="3" eyebrow="Learn more" >
 Amplify’s GraphQL API operates on a deny-by-default basis. The `{ allow: public }` auth rule in the example schema above designates that anyone using an API Key is authorized to execute the query.
 
-Review [Authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) to limit access to these queries and mutations based on API Key, Amazon Cognito User Pool, OpenID Connect, AWS Identity and Access Management (IAM), or a custom Lambda function.
+Review [Authorization rules](/gen1/[platform]/prev/build-a-backend/graphqlapi/customize-authorization-rules/) to limit access to these queries and mutations based on API Key, Amazon Cognito User Pool, OpenID Connect, AWS Identity and Access Management (IAM), or a custom Lambda function.
 
 </Accordion>
 
@@ -260,7 +260,7 @@ In addition, the target security group(s) must have two outbound rules set up:
 
 <Callout warning>
 
-This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/gen1/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api).
 
 </Callout>
 
@@ -397,7 +397,7 @@ The SQL statements defined in the `.sql` files will be executed as if they were 
 
 <Callout warning>
 
-This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/gen1/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api).
 
 </Callout>
 
@@ -553,7 +553,7 @@ type Post
 }
 ```
 
-For more information on field-level auth rules please refer to our documentation on [Field-level authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#field-level-authorization-rules).
+For more information on field-level auth rules please refer to our documentation on [Field-level authorization rules](/gen1/[platform]/prev/build-a-backend/graphqlapi/customize-authorization-rules/#field-level-authorization-rules).
 
 ## Deploy your API
 
@@ -570,7 +570,7 @@ cdk deploy
 
 <Callout warning>
 
-This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/gen1/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api).
 
 </Callout>
 
@@ -728,7 +728,7 @@ type Ingredient @refersTo(name: "Ingredients") @model {
 }
 ```
 
-In our example, we'll add a public authorization rule, meaning anyone with an API key can create, read, update, and delete records from the database. Review [Customize authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) to see the full scope of model-level authorization capabilities.
+In our example, we'll add a public authorization rule, meaning anyone with an API key can create, read, update, and delete records from the database. Review [Customize authorization rules](/gen1/[platform]/prev/build-a-backend/graphqlapi/customize-authorization-rules/) to see the full scope of model-level authorization capabilities.
 
 ```diff
 input AMPLIFY {
@@ -764,7 +764,7 @@ cdk deploy
 
 <Callout warning>
 
-This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/gen1/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api).
 
 </Callout>
 
@@ -893,7 +893,7 @@ cdk deploy
 
 <Callout warning>
 
-This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/gen1/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api).
 
 </Callout>
 
@@ -1013,6 +1013,6 @@ To return the actual SQL error instead of a generic error from GraphQL responses
 
 Our recommended next steps include using the GraphQL API to mutate and query data on app clients or how to customize the authorization rules for your custom queries and mutations. Some resources that will help with this work include:
 
-- [Create, update, and delete application data](/[platform]/build-a-backend/graphqlapi/mutate-data/)
-- [Read application data](/[platform]/build-a-backend/graphqlapi/query-data/)
-- [Customize Authorization Rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/)
+- [Create, update, and delete application data](/gen1/[platform]/prev/build-a-backend/graphqlapi/mutate-data/)
+- [Read application data](/gen1/[platform]/prev/build-a-backend/graphqlapi/query-data/)
+- [Customize Authorization Rules](/gen1/[platform]/prev/build-a-backend/graphqlapi/customize-authorization-rules/)
