@@ -384,9 +384,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/s3-upload-confirmation/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/functions/examples/deploy-lambda-layer/index.mdx'
                     }
                   ]
                 },
@@ -508,6 +505,14 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/create-campaign/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/lambda/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/lambda/deploy-lambda-layer/index.mdx'
                     }
                   ]
                 },
