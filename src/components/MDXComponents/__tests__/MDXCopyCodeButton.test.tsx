@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { MDXCopyCodeButton } from '../MDXCopyCodeButton';
+import { MDXCopyCodeButton, prepareCopyText } from '../MDXCopyCodeButton';
 import userEvent from '@testing-library/user-event';
 import * as trackModule from '../../../utils/track';
-import { prepareCopyText } from '../utils/copy-code';
 
 const codeString = `
 import * as sns from 'aws-cdk-lib/aws-sns';

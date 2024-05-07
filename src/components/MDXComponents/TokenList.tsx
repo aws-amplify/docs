@@ -1,21 +1,5 @@
 import type { Token } from 'prism-react-renderer';
 import type { TokenListProps } from './types';
-import { MDXHighlightedCopyCodeButton } from './MDXHighlightedCopyCodeButton';
-
-type ProcessedToken = {
-  line: Token[];
-  showLine: boolean;
-  lineNumber: number;
-};
-
-type TokenGroup =
-  | (ProcessedToken & {
-      type: 'regular';
-    })
-  | {
-      tokens: ProcessedToken[];
-      type: 'highlighted';
-    };
 
 export const TokenList = ({
   tokens,
@@ -27,9 +11,7 @@ export const TokenList = ({
   let shouldHighlight = false;
   let highlightNextIndex: number | undefined;
 
-  const tokenGroups: TokenGroup[] = [];
-
-  tokens.forEach((line: Token[], i: number) => {
+  return tokens.map((line: Token[], i: number) => {
     let showLine = true;
     lineNumber++;
 
@@ -50,7 +32,7 @@ export const TokenList = ({
     // Test if the line contains code comment for highlight-next-line
     const isHighlightNext = textLine === '//highlight-next-line';
 
-    // If highlightNextIndex was set previously in the loop,
+    // If hilightNextIndex was set previously in the loop,
     // then turn on highlight for this line
     if (highlightNextIndex && i === highlightNextIndex) {
       shouldHighlight = true;
@@ -71,11 +53,6 @@ export const TokenList = ({
       showLine = false;
       shouldHighlight = true;
       lineNumber--;
-
-      tokenGroups.push({
-        tokens: [],
-        type: 'highlighted'
-      });
     }
 
     // If this line is highlight-end, don't show this line,
@@ -96,84 +73,17 @@ export const TokenList = ({
       lineNumber--;
     }
 
-    if (!shouldHighlight) {
-      tokenGroups.push({
-        type: 'regular',
-        line,
-        showLine,
-        lineNumber
-      });
-    } else {
-      const lastGroup = tokenGroups[tokenGroups.length - 1];
-      let existingTokens: ProcessedToken[] = [];
-      if (lastGroup?.type === 'highlighted') {
-        existingTokens = lastGroup.tokens;
-      }
-      tokenGroups[tokenGroups.length - 1] = {
-        tokens: [
-          ...existingTokens,
-          {
-            lineNumber,
-            line,
-            showLine
-          }
-        ],
-        type: 'highlighted'
-      };
-    }
-  });
-
-  function renderProcessedToken(
-    token: ProcessedToken,
-    key: string,
-    shouldHighlight: boolean,
-    showLineNumbers: boolean = true
-  ) {
-    return token.showLine ? (
+    return showLine ? (
       <div
-        key={key}
-        {...getLineProps({ line: token.line })}
+        key={i}
+        {...getLineProps({ line })}
         className={`token-line${shouldHighlight ? ' line-highlight' : ''}`}
       >
-        {showLineNumbers && (
-          <span className="line-number">{token.lineNumber}</span>
-        )}
-        {token.line.map((token, key) => (
+        {showLineNumbers && <span className="line-number">{lineNumber}</span>}
+        {line.map((token, key) => (
           <span key={key} {...getTokenProps({ token })} />
         ))}
       </div>
     ) : null;
-  }
-
-  return tokenGroups.map((processedToken, i) => {
-    if (processedToken.type === 'regular') {
-      return renderProcessedToken(
-        processedToken,
-        `regular:${i}`,
-        false,
-        showLineNumbers
-      );
-    } else {
-      const highlightedCodeString = processedToken.tokens
-        .map((token) => token.line.map((line) => line.content).join(''))
-        .join('\n');
-
-      return (
-        <MDXHighlightedCopyCodeButton
-          codeId={`highlighted:${i}`}
-          key={`highlighted:${i}`}
-          codeString={highlightedCodeString}
-        >
-          {processedToken.tokens.map((token, j) => {
-            return renderProcessedToken(
-              token,
-              `highlighted:${i}:${j}`,
-              true,
-              showLineNumbers
-            );
-          })}
-        </MDXHighlightedCopyCodeButton>
-      );
-    }
   });
 };
