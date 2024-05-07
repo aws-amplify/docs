@@ -131,48 +131,6 @@ code:not([class]) {
   width: 1.8rem;
 }
 
-.highlight-copy-block {
-  all: unset;
-  width: 100%;
-  cursor: pointer;
-  position: relative;
-}
-
-.highlight-copy-block-hint {
-  position: absolute;
-  top: 0;
-  right: 1.8rem;
-  color: white;
-}
-
-.highlight-copy-block .highlight-c4py-block-hint {
-  display: none;
-}
-
-.highlight-copy-block:focus .highlight-copy-block-hint {
-  display: block;
-}
-
-.highlight-copy-block:hover .highlight-copy-block-hint {
-  display: block;
-}
-
-.highlight-copy-block:focus .line-highlight::before {
-  background-color: var(--amplify-colors-primary-80);
-
-  @include darkMode {
-    background-color: var(--amplify-colors-neutral-40);
-  }
-}
-
-.highlight-copy-block:hover .line-highlight::before {
-  background-color: var(--amplify-colors-primary-90);
-
-  @include darkMode {
-    background-color: var(--amplify-colors-primary-10);
-  }
-}
-
 .code-copy {
   --code-copy-hover-background-color: var(--amplify-colors-neutral-90);
   --code-copy-focus-background-color: var(--amplify-colors-neutral-90);
