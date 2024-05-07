@@ -29,13 +29,13 @@ export function getStaticProps(context) {
   };
 }
 
+
+
+## Step 1 - Deploy your Lambda layer
+
 Amplify Functions are powered by [AWS Lambda](https://aws.amazon.com/lambda/), and allow you to perform a wide variety of customization through self-contained _functions_. However, there are times when a feature may not be directly supported through what Amplify exposes. Fortunately, AWS Amplify allows the use of [custom resources](https://docs.amplify.aws/react/build-a-backend/add-aws-services/custom-resources/) to be created. This enables the full flexibility of the [AWS CDK](https://docs.aws.amazon.com/cdk/api/v2/), while still providing a type-safe environment.
 
 In this section, we'll explore this feature by creating a custom Lambda function that bundles the [Sharp nodejs package](https://www.npmjs.com/package/sharp).
-
-To get started, ensure you have a Sharp layer deployed to your AWS account.
-
-## Sharp Layer Deployment
 
 If you do not have a Sharp layer deployed in your AWS account, you can deploy it using the following steps:
 
@@ -45,7 +45,7 @@ If you do not have a Sharp layer deployed in your AWS account, you can deploy it
 
 > Feel free to adjust the location of the `zip-file` as needed. Also, if using the `AmplifySet` role, you may need to adjust your permissions.
 
-```sh title="In your terminal"
+```bash title="Terminal"
 aws lambda publish-layer-version \
     --layer-name sharp \
     --description "Sharp layer" \
@@ -57,17 +57,17 @@ aws lambda publish-layer-version \
 
 Once deployed, you'll see the ARN of your Lambda layer similar to below:
 
-```sh title="example lambda layer arn"
-arn:aws:lambda:us-east-1:211125654548:layer:sharp
+```console title="Terminal"
+arn:aws:lambda:REGION:1234567890:layer:sharp
 ```
 
-It's *very* important to note that we'll needs to specify the version in addition to this ARN. In this example, we'll be adding this layer to a `.env.local` file with the version appended as shown:
+It's **very** important to specify the version in addition to this ARN. In this example, we'll be adding this layer to a `.env.local` file with the version appended as shown:
 
 ```sh title=".env.local"
-SHARP_LAYER_ARN=arn:aws:lambda:us-east-1:211125654548:layer:sharp:1
+SHARP_LAYER_ARN=arn:aws:lambda:REGION:1234567890:layer:sharp:1
 ```
 
-## Creating a custom Lambda Function with a Lambda Layer
+## Step 2 - Create a custom Lambda function with a Lambda layer
 
 With the Lambda layer deployed in our account and its ARN available locally, we can create the custom Lambda function and provide it our layer.
 
@@ -118,11 +118,11 @@ const myCustomNodeJSFunctionWithLayer = new NodejsFunction(
 )
 ```
 
-Above you can see that we are giving our function a name, where it's handler function is located, the runtime, and that our sharp layer is to be used and considered as externally brought in as a dependency.
+Above you can see that we are giving our function a name – where its handler function is located – the runtime, and that our sharp layer is to be used and considered as externally brought in as a dependency.
 
 Locally, you will likely want to test out the Sharp library. This can be done by simply installing it as a dev dependency:
 
-```sh title="installing sharp"
+```sh title="Terminal"
 npm i -D sharp
 ```
 
