@@ -74,7 +74,7 @@ const checkPage = async (url) => {
       } else interceptedRequest.continue();
     });
 
-  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  await page.goto(url, { waitUntil: 'networkidle0' });
 
   await browser.close();
 
