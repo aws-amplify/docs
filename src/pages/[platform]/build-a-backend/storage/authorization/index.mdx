@@ -88,6 +88,12 @@ export const storage = defineStorage({
 </Block>
 <Block name="User Groups">
 
+<Callout>
+
+**Note:** When a user is part of a group that has access rules defined in the `amplify/storage/resource.ts` file, those group-specific access rules will take priority over any general access rules set for authenticated users.
+
+</Callout>
+
 If you have configured user groups when setting up auth in your `defineAuth` object, you can scope storage access to specific groups. In this example, assume you have a `defineAuth` config with `admin` and `auditor` groups.
 
 ```ts title="amplify/auth/resource.ts"
