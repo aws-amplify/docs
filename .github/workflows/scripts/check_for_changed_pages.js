@@ -1,11 +1,9 @@
 module.exports = {
-  getChangedPages: ({ github, context }, buildDir) => {
+  getChangedPages: ({ github, context }) => {
     const fs = require('fs');
     const cheerio = require('cheerio');
     
     const urlList = [];
-
-    console.log('buildDir: ', buildDir);
     
     const {
       issue: { number: issue_number },
@@ -47,7 +45,7 @@ module.exports = {
           }
         });
 
-        const siteMap = fs.readFileSync(`${buildDir}/sitemap.xml`);
+        const siteMap = fs.readFileSync('client/www/next-build/sitemap.xml');
     
         const siteMapParse = cheerio.load(siteMap, {
           xml: true
