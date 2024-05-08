@@ -47,7 +47,7 @@ import { useState, useEffect } from 'react';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource';
 
-type Todo = Schema['Todo'];
+type Todo = Schema['Todo']['type'];
 
 const client = generateClient<Schema>();
 
