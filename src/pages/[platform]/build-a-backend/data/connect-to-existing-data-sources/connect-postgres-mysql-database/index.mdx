@@ -95,7 +95,7 @@ npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_ST
 
 <Accordion eyebrow="Info" title="Connecting to a database behind the VPC">
 
-If your database exists within a VPC, the RDS instance must be configured to be `Publicly accessible`. This does not mean the instance needs to accessible from the Internet.
+If your RDS database exists within a VPC, it must be configured to be `Publicly accessible`. This does not mean the instance needs to be accessible from all IP addresses on the Internet, but this flag is required to allow your local machine to connect via an **Inbound Rule** rather than being inside your VPC or connected to the VPC via VPN.
 
 **To generate the TypeScript representation of your database schema:**
 
