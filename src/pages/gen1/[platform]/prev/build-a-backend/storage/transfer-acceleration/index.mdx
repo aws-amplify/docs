@@ -113,12 +113,12 @@ Set `useAccelerateEndpoint` to `true` in the corresponding Storage S3 plugin opt
 ```dart
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 
-Future<void> uploadFileUsingAcceleration(String filePath, String key) async {
+Future<void> uploadFileUsingAcceleration(String filePath, String path) async {
   final localFile = AWSFile.fromPath(filePath);
   try {
     final uploadFileOperation = Amplify.Storage.uploadFile(
       localFile: localFile,
-      key: key,
+      path: const StoragePath.fromString(path),
       options: const StorageUploadFileOptions(
         pluginOptions: S3UploadFilePluginOptions(
           useAccelerateEndpoint: true,
@@ -127,7 +127,7 @@ Future<void> uploadFileUsingAcceleration(String filePath, String key) async {
     );
 
     final result = await uploadFileOperation.result;
-    safePrint('Uploaded file: ${result.uploadedItem.key}');
+    safePrint('Uploaded file: ${result.uploadedItem.path}');
   } on StorageException catch (error) {
     safePrint('Something went wrong uploading file: ${error.message}');
   }
