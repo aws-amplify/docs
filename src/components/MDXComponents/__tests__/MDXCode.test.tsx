@@ -44,6 +44,15 @@ describe('MDXCode', () => {
     expect(titleElement.className).toContain('pre-title');
   });
 
+  it('should reset the code-block css counter', async () => {
+    // line numbers have been moved to css, so here we are looking for the class that has "counter-reset: code-block;"
+    // line number css can be found in `/src/styles/code.scss`
+    const { container } = render(
+      <MDXCode testId={testId} codeString={codeString}></MDXCode>
+    );
+    expect(container.querySelector('.code-block')).toBeInTheDocument();
+  });
+
   it('should show a copy button for supported languages', async () => {
     render(<MDXCode codeString={codeString}></MDXCode>);
     const copyButton = await screen.findByRole('button', { name: /Copy/i });
@@ -70,17 +79,20 @@ describe('MDXCode', () => {
   });
 
   it('should show line numbers by default', async () => {
+    // Line numbers have been moved to css so we are just looking for the needed class name
     const codeString = 'test code';
-    render(<MDXCode codeString={codeString}></MDXCode>);
-    const number = screen.queryByText('1');
-    expect(number).toBeInTheDocument();
+    const { container } = render(<MDXCode codeString={codeString}></MDXCode>);
+    expect(container.querySelector('.show-line-numbers')).toBeInTheDocument();
   });
 
   it('should not have line numbers if showLineNumbers is false', async () => {
     const codeString = 'test code';
-    render(<MDXCode showLineNumbers={false} codeString={codeString}></MDXCode>);
-    const number = screen.queryByText('1');
-    expect(number).not.toBeInTheDocument();
+    const { container } = render(
+      <MDXCode showLineNumbers={false} codeString={codeString}></MDXCode>
+    );
+    expect(
+      container.querySelector('.show-line-numbers')
+    ).not.toBeInTheDocument();
   });
 
   it('should have highlighted line when //highlight-next-line is used', async () => {
