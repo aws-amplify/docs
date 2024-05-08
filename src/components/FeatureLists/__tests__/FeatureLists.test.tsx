@@ -7,7 +7,7 @@ describe('FeatureLists', () => {
     <FeatureList heading="Deploy" level={2}>
       <FeatureItem
         linkText="SSR/SSG/ISR hosting support"
-        href="/gen2/deploy-and-host/hosting/"
+        href="/react/deploy-and-host/hosting/"
       >
         Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and more)
         by simply connecting your Git repository.
@@ -35,7 +35,7 @@ describe('FeatureLists', () => {
   });
 
   it('should render the PlatformFeatureList component', async () => {
-    render(<PlatformFeatureList platform={'react'} />);
+    render(<PlatformFeatureList platform="react" />);
 
     const link = await screen.findByRole('link', {
       name: 'Simple configuration'

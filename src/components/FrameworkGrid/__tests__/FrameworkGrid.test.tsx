@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { FrameworkGrid } from '../index';
 
 describe('FrameworkGrid', () => {
-  const component = <FrameworkGrid currentKey={'react'}></FrameworkGrid>;
+  const component = <FrameworkGrid currentKey="react" />;
 
   it('should render the FrameworkGrid component', async () => {
     render(component);
