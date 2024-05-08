@@ -42,7 +42,7 @@ You can mitigate by manually updating your `CDKToolkit` stack using the browser-
 cdk bootstrap aws://$(aws sts get-caller-identity --query Account --output text)/$AWS_REGION
 ```
 
-Or by executing the AWS CDK CLI from your terminal:
+Or by running `bootstrap` using the AWS CDK CLI from your terminal:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx aws-cdk@latest bootstrap aws://<your-aws-account-id>/<your-aws-region>
