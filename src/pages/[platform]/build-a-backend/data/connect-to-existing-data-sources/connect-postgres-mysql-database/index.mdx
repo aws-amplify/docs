@@ -56,7 +56,7 @@ You must create a connection string using the following database information to 
 
 **Only databases with certificates from well-known certificate providers are supported.** Support for databases using custom or self-signed SSL certificates is under active development.
 
-Amplify's MySQL and PostgreSQL feature builds on top of [AWS Lambda](https://aws.amazon.com/lambda) with a Node.js runtime. By default, Node.js includes root certificate authority (CA) certificates from [well-known certificate providers](https://github.com/nodejs/node/issues/4175). Lambda Node.js runtimes up to Node.js 18 augments these certificates with Amazon-specific CA certificates, making it easier to create functions accessing other AWS services. [For example, it includes the Amazon RDS certificates necessary for validating the server identity certificate installed on your Amazon RDS database](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html).
+Amplify's MySQL and PostgreSQL feature builds on top of [AWS Lambda](https://aws.amazon.com/lambda) with a Node.js runtime. By default, Node.js includes root certificate authority (CA) certificates from [well-known certificate providers](https://github.com/nodejs/node/issues/4175). Lambda Node.js runtimes up to Node.js 18 augments these certificates with Amazon-specific CA certificates, making it easier to create functions accessing other AWS services.
 
 </Callout>
 
