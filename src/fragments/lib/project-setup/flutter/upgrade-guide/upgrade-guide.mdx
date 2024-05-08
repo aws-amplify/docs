@@ -1,8 +1,8 @@
-Amplify Flutter v2 has several changes that may require migration when upgrading from v1.
+Amplify Flutter v2 has changes in Auth, Analytics, Storage, GraphQL API & DataStore that may require migration when upgrading from v1.
 
 ## Auth
 
-#### Time based OTP Exception Handling
+#### Time Based One Time Password (TOTP) Exception Handling
 
 In Amplify Flutter v1, `Amplify.Auth.verifyTotpSetup()` throws an `EnableSoftwareTokenMfaException` if the provided code was incorrect. In Amplify Flutter v2 a `CodeMismatchException` is thrown.
 
@@ -37,7 +37,7 @@ In Amplify Flutter v1, the `autoFlushEventsInterval` value was configured manual
 
 In Amplify Flutter v1, files operations were performed based on a `key` and an `AccessLevel`. Amplify translated these values to a full file path. The `AccessLevel` (guest, protected, or private) determined what prefix to use (`“public/”`, `“protected/<user_identity_id>/”`, or `“private/<user_identity_id>/”`). Amplify Flutter v1 forms the full path using the prefix and the provided key.
 
-Amplify Flutter v2 allows for full control of the path of the storage object. Storage paths can be constructed either from a static string or from the current users identity id using the StoragePath class.
+Amplify Flutter v2 allows for full control of the path of the storage object. Storage paths can be constructed either from a static string or from the current users identity id using the `StoragePath` class.
 
 To migrate from v1 to v2, replace all uses of `key` with `path` and remove uses of `StorageAccessLevel`. The path should include the prefix that was previously added by Amplify automatically.
 
@@ -110,7 +110,7 @@ Amplify.Storage.uploadFile(
 
 #### Prefix Resolver has been removed
 
-With the introduction of StoragePath, there is no need to override the libraries behavior for the prefix. 
+With the introduction of `StoragePath`, there is no need for a prefix resolver. Simply specify the full path when constructing the `StoragePath`. 
 
 #### Delimiter has been moved to the List API Options
 
