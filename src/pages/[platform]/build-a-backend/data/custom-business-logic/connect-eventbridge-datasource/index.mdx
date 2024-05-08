@@ -65,7 +65,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
   // highlight-start
   OrderStatus: a.enum(["OrderPending", "OrderShipped", "OrderDelivered"]),
   OrderStatusChange: a.customType({

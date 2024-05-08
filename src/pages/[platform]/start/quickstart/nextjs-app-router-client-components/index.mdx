@@ -313,7 +313,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

@@ -156,14 +156,14 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
   convertTextToSpeech: a
     .mutation()
     .arguments({
       text: a.string().required(),
     })
     .returns(a.string().required())
-    .authorization((allow) => [allow.publicApiKey()])
+    .authorization(allow => [allow.publicApiKey()])
     .handler(a.handler.function(convertTextToSpeech)),
 });
 
@@ -173,7 +173,7 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
+    // API Key is used for allow.publicApiKey() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },

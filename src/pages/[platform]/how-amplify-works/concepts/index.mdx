@@ -78,11 +78,13 @@ A data model for a chat app may look something like this, for example:
 const schema = a.schema({
   Chat: a.model({
     name: a.string(),
-    message: a.hasMany('Message')
+    message: a.hasMany('Message', 'chatId'),
   }),
   Message: a.model({
-    text: a.string()
-  })
+    text: a.string(),
+    chat: a.belongsTo('Chat', 'chatId'),
+    chatId: a.id()
+  }),
 });
 ```
 
