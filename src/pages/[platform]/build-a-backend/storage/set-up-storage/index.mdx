@@ -582,14 +582,15 @@ struct ContentView: View {
                 Text("Select a photo to upload")
             }
             .task(id: selectedPhoto) {
-                image = try? await selectedPhoto?.loadTransferable(type: Image.self)
                 if let imageData = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                    if let uiImage = UIImage(data: imageData) {
+                        image = Image(uiImage: uiImage)
+                    }
                     let uploadTask = Amplify.Storage.uploadData(
                         path: .fromString("picture-submissions/myPhoto.png"),
                         data: imageData
                     )
                 }
-
             }
         }
     }
