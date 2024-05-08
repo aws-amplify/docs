@@ -1,5 +1,14 @@
 Add the following dependency to your **app**'s `pubspec.yaml` along with others you added above in **Prerequisites**:
 
-import flutter0 from "/src/fragments/lib/project-setup/flutter/create-application/60_dependencies.mdx";
+```yaml
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+  flutter: ">=3.3.0"
 
-<Fragments fragments={{flutter: flutter0}} />
+dependencies:
+  flutter:
+    sdk: flutter
+
+  amplify_flutter: ^1.0.0
+  amplify_auth_cognito: ^1.0.0
+```
