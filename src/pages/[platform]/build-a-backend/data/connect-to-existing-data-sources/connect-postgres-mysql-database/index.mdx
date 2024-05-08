@@ -244,56 +244,74 @@ const sqlSchema = baseSqlSchema
 // highlight-end
 ```
 
-## Invoke SQL statements with custom queries and mutations
+## Add custom queries, mutations, subscriptions auto-generated SQL data schema
 
-You can either define inline SQL statements or reference a file path containing custom sql statements in designated files.
+Use the `.addToSchema(...)` to add in additional queries, mutations, and subscriptions to your auto-generated SQL data schema.
 
-### Use an inline SQL statement as a handler
+<Callout info>
+
+Note: you can't add additional data models via `a.model()`. They should be exclusively generated via `npx ampx generate schema-from-database`. 
+
+</Callout>
+
+### Use an inline SQL statement as a query or mutation handler
 
 ```ts
 // Add custom mutations or queries that execute SQL statements
 baseSqlSchema.authorization(allow => allow.guest())
 // highlight-start
-  .addQueries({
-    searchEventBasedOnGeolocation: a.query()
-      .arguments({
-        lat: a.float(),
-        long: a.float(),
-        radiusInMeters: a.float()
-      })
-      .returns(a.ref("Event").array())
-      .handler(a.handler.inlineSql(`
-        SELECT *
-        FROM todos
-        WHERE ST_DistanceSphere(
-          location,
-          ST_MakePoint(:lat, :long)
-        ) <= :radiusInMeters`
+  .addToSchema({
+    listEventsWithDecodedLatLong: a.query()
+      // reference custom types added to the schema 
+      .returns(a.ref("EventWithDecodedCoord").array())
+      .handler(a.handler.inlineSql(
+          `SELECT
+            id,
+            name,
+            address,
+            ST_X(geom) AS longitude,
+            ST_Y(geom) AS latitude
+          FROM locations;`
       ))
-      .authorization(allow => [allow.guest()])
+      .authorization(allow => [allow.guest()]),
+
+      // Define custom types to provide end-to-end typed results
+      // for custom queries / mutations
+      EventWithDecodedCoord: a.customType({
+        id: a.integer(),
+        name: a.string(),
+        address: a.string(),
+        longitude: a.float(),
+        latitude: a.float(),
+      })
   })
 // highlight-end
 ```
 
-### Reference an existing SQL file as a handler
+### Reference an existing SQL file as a query or mutation handler
 
+You can define the different SQL handlers in separate `.sql` files and reference them in your custom queries / mutations.
+
+First, configure the custom query or mutation in your **amplify/data/resource.ts** file:
 ```ts
-// Create a "updateTodoBasedOnLocation.sql" file with the statement
 const sqlSchema = baseSqlSchema.authorization(allow => allow.guest())
-// highlight-start
-  .addMutation({
-    updateEventBasedOnLocation: a.mutation()
+  .addToSchema({
+    createNewLocationWithLongLat: a.mutation()
       .arguments({
-        lat: a.float(),
-        long: a.float(),
-        radiusInMeters: a.float(),
-        eventId: a.integer()
+        lat: a.float().required(),
+        long: a.float().required(),
+        name: a.string().required(),
+        address: a.string().required()
       })
-      .returns(a.ref("Event"))
-      .handler(a.handler.sqlReference('./updateEventBasedOnLocation.sql'))
-      .authorization(allow => [allow.guest()])
+      .returns(a.json().array())
+      .authorization(allow => allow.authenticated())
+      // highlight-next-line
+      .handler(a.handler.sqlReference('./createNewLocationWithLongLat.sql'))
   })
-// highlight-end
+```
+
+Next, add a corresponding sql file to handle the request:
+```sql
 ```
 
 ## How does it work?
