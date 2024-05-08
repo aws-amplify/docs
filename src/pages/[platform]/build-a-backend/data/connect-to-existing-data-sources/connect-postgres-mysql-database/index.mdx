@@ -52,6 +52,14 @@ You must create a connection string using the following database information to 
 </li>
 </ul>
 
+<Callout info>
+
+**Only databases with certificates from well-known certificate providers are supported.** Support for databases using custom or self-signed SSL certificates is under active development.
+
+Amplify's MySQL and PostgreSQL feature builds on top of [AWS Lambda](https://aws.amazon.com/lambda) with a Node.js runtime. By default, Node.js includes root certificate authority (CA) certificates from [well-known certificate providers](https://github.com/nodejs/node/issues/4175). Lambda Node.js runtimes up to Node.js 18 augments these certificates with Amazon-specific CA certificates, making it easier to create functions accessing other AWS services.
+
+</Callout>
+
 ## Step 1 - Set secrets for database connection
 
 First, provide all the database connection information as secrets, you can use the Amplify sandbox's secret functionality to set them or go to the Amplify console to set secrets in a shared environment:
@@ -86,6 +94,8 @@ npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_ST
 ```
 
 <Accordion eyebrow="Info" title="Connecting to a database behind the VPC">
+
+If your RDS database exists within a VPC, it must be configured to be `Publicly accessible`. This does not mean the instance needs to be accessible from all IP addresses on the Internet, but this flag is required to allow your local machine to connect via an **Inbound Rule** rather than being inside your VPC or connected to the VPC via VPN.
 
 **To generate the TypeScript representation of your database schema:**
 
