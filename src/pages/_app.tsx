@@ -6,6 +6,7 @@ import { Layout } from '@/components/Layout';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
+import { accessibilityScanner } from '@/utils/accessibilityScanner';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -185,5 +186,7 @@ function MyApp({ Component, pageProps }) {
     </>
   );
 }
+
+accessibilityScanner(MyApp);
 
 export default MyApp;
