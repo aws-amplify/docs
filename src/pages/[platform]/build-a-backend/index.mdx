@@ -1,6 +1,5 @@
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { Text } from '@aws-amplify/ui-react';
 
 export const meta = {
   title: 'Build & connect backend',
@@ -32,7 +31,5 @@ export function getStaticProps(context) {
     }
   };
 }
-
-<View backgroundColor="red"><Text color="blue">Test text color</Text></View>
 
 <Overview childPageNodes={props.childPageNodes} />
