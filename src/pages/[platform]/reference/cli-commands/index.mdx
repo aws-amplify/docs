@@ -324,7 +324,18 @@ npx ampx generate graphql-client-code --format modelgen --type-target angular
 
 Generate React form components derived from your backend data models for your frontend application to consume.
 
-{/* @TODO */}
+<SubCommandHeading parentCommand="ampx-generate-forms">Options</SubCommandHeading>
+- `--stack`(_string_) - A stack name that contains an Amplify backend.
+- `--branch` (_string_) - Name of the git branch being deployed.
+- `--app-id` (_string_) - The app id of the target Amplify app.
+- `--out-dir` (_string_) - A path to directory where generated forms are written. Defaults to the `./ui-components` directory.
+- `--models` (_array_) - Model name to generate.
+- `--profile` (_string_) - An AWS profile name.
+<SubCommandHeading parentCommand="ampx-generate-forms">Usage</SubCommandHeading>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate forms --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID --out-dir ./src
+```
 
 ## npx ampx info
 
