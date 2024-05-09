@@ -2149,6 +2149,22 @@ export const directory = {
               platforms: ['flutter']
             },
             {
+              isExternal: true,
+              route: 'https://amplify.aws/learn/',
+              title: 'Learn',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
+              ]
+            },
+            {
               path: 'src/pages/gen1/[platform]/prev/index.mdx',
               children: [
                 {
