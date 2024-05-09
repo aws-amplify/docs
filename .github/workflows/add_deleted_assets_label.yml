@@ -26,7 +26,7 @@ jobs:
             const fs = require('fs');
             const artifactName = process.env.ARTIFACT_NAME;
             const workspace = process.env.WORKSPACE
-            getArtifact({github, context, fs, artifactName, workspace});
+            await getArtifact({github, context, fs, artifactName, workspace});
       - name: Unzip artifact
         run: unzip '${{ env.ARTIFACT_NAME }}.zip'
       - name: Add redirects-needed label to PR
@@ -38,4 +38,4 @@ jobs:
             const fs = require('fs');
             const artifactName = process.env.ARTIFACT_NAME;
             const label = process.env.LABEL_TO_ADD;
-            addLabelForDeletedFiles({github, context, fs, core, artifactName, label});
+            await addLabelForDeletedFiles({github, context, fs, core, artifactName, label});
