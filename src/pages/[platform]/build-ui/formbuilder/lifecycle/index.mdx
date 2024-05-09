@@ -1,0 +1,158 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Manage form lifecycle',
+  description: "Hook into the form's lifecycle events to customize user input before submission, run validations, handle errors, or self-manage user input events.",
+  platforms: [
+    'javascript',
+    'react',
+    'nextjs'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+Hook into the form's lifecycle events to customize user input before submission, run validations, or handle errors. 
+
+![Lifecycle diagram of the Amplify Forms](/images/console/formbuilder/lifecycle-diagram.png)
+
+1. **Initial state** - The inputs are either empty or pre-populated based on a default value provided by you.
+
+  **Use case:** If your user clicks on the **Clear** or **Reset** button, they'll be brought back to this state.
+
+2. [`onChange`](#get-form-data-as-your-user-inputs-data---onchange) - Event when form data is changed by the user.
+
+  **Use case:** Use this to get the form data after every user input.
+
+3. [`onValidate`](#extend-validation-rules-in-code---onvalidate) - Event hook for custom validations. This event triggers after `onChange`.
+
+  **Use case:**  Use this to extend validation rules via code. `onValidate` also supports asynchronous validation rules, which enable you to validate the form input against external APIs.
+
+4. [`onSubmit`](#handle-form-data-submissions---onsubmit) - Event when your user clicks the **Submit** button.
+
+  **Use case:**  If your form is **not connected to a data model**, use set this event handler to retrieve the form data. If your form is **connected to a data model**, use this to customize the provided form data before they are saved to the cloud. 
+
+5. [`onSuccess`](#handle-form-data-successfully-saving-to-the-cloud---onsuccess) - Event when saving form data to the cloud succeeds.
+
+  **Use case:**  Use this to dismiss the form or reroute your user after a successful form submission. Only use this if your form is connected to a data model.
+
+6. [`onError`](#handle-form-submission-errors---onerror) - Event when saving form data to the cloud fails.
+
+  **Use case:**  Use this to log the error and investigate further if your validation rules need to be enhanced to catch input formatting issues. Only use this if your form is connected to a data model.
+
+7. [`onCancel`](#handle-user-clicking-on-undefined-action-button---oncancel) - Event when your user clicks on the **Cancel** button.
+
+  **Use case:**  Use this to dismiss the form without saving the form data.
+
+## Get form data as your user inputs data - onChange
+
+In some cases, you want to get the form data in real-time as the user is filling the form. The `onChange` event provides you the form data in the `fields` parameter. 
+
+```jsx
+import { useState } from 'react'
+import { HomeCreateForm } from './ui-components'
+
+function App() {
+  const [formData, setFormData] = useState()
+
+  return (
+    <HomeCreateForm onChange={fields => setFormData(fields)}/>
+  )
+}
+```
+
+## Extend validation rules in code - onValidate
+
+With the `onValidate` event, you can extend the validation rules in code. Learn more about [How to add validation rules](/[platform]/build-ui/formbuilder/validations/).
+
+## Handle form data submissions - onSubmit
+
+`onSubmit` should be your default way to handle form submission. It is triggered every time the user clicks on the **Submit** action button.
+
+You can use the `onSubmit` handler to customize the form data before they are saved to the cloud. The form data that's returned from the `onSubmit` handler will be saved to the cloud.
+
+For example, if you want to trim all the string data before saving it:
+
+```jsx
+<HomeCreateForm
+    onSubmit={(fields) => {
+        const updatedFields = {}
+        Object.keys(fields).forEach(key => {
+            if (typeof fields[key] === 'string') {
+                updatedFields[key] = fields[key].trim()
+            } else {
+                updatedFields[key] = fields[key]
+            }
+        })
+        return updatedFields
+    }}
+/>
+```
+
+### Handle form data successfully saving to the cloud - onSuccess
+
+You can use the `onSuccess` handler to take an action after the form data has been successfully submitted. The example below hides the form after it has been successfully submitted. 
+
+```jsx
+import { useState } from 'react'
+import { HomeCreateForm } from './ui-components'
+
+function App() {
+  const [showForm, setShowForm] = useState(true)
+
+  return (
+    {showForm &&
+      <HomeCreateForm onSuccess={() => {
+        setShowForm(false) // Hide the form
+      }}/>}
+  )
+}
+```
+
+### Handle form submission errors - onError
+
+You might encounter additional errors during the submit process. You can log these errors and present an alert to customers by using the `onError` handler.
+
+```jsx
+import { HomeCreateForm } from './ui-components'
+
+function App() {
+  return (
+    <HomeCreateForm onError={(error) => {
+      console.log(error)
+    }}/>
+  )
+}
+```
+
+## Handle user clicking on **Cancel** action button - onCancel
+
+If the user clicks on the **Cancel** action button, you can use the `onCancel` event to hide the form or route the customer to another page.
+
+```jsx
+import { useState } from 'react'
+import { HomeCreateForm } from './ui-components'
+
+function App() {
+  const [showForm, setShowForm] = useState(true)
+
+  return (
+    {showForm &&
+      <HomeCreateForm onCancel={() => {
+        setShowForm(false) // Hide the form
+      }}/>}
+  )
+}
+```

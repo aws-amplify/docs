@@ -673,6 +673,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-ui/formbuilder/validations/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-ui/formbuilder/lifecycle/index.mdx'
                 }
               ]
             },
