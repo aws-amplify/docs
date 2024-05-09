@@ -72,6 +72,7 @@ Every `a.model()` automatically creates the following resources in the cloud:
 
 - a DynamoDB database table to store records
 - query and mutation APIs to create, read (list/get), update, and delete records
+- `createdAt` and `updatedAt` fields that help you keep track of when each record was initially created or when it was last updated
 - real-time APIs to subscribe for create, update, and delete events of records
 
 The `allow.publicApiKey()` rule designates that anyone authenticated using an API key can create, read, update, and delete todos.
