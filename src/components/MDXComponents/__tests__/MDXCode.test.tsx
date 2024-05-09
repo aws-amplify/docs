@@ -85,6 +85,30 @@ describe('MDXCode', () => {
     expect(container.querySelector('.show-line-numbers')).toBeInTheDocument();
   });
 
+  it('should hide line numbers by default for bash language', async () => {
+    // Line numbers have been moved to css so we are just looking for the needed class name
+    const codeString = 'test code';
+    const { container } = render(
+      <MDXCode codeString={codeString} language={'bash'}></MDXCode>
+    );
+    expect(
+      container.querySelector('.show-line-numbers')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should show line numbers for bash', async () => {
+    // Line numbers have been moved to css so we are just looking for the needed class name
+    const codeString = 'test code';
+    const { container } = render(
+      <MDXCode
+        codeString={codeString}
+        language={'bash'}
+        showLineNumbers={true}
+      ></MDXCode>
+    );
+    expect(container.querySelector('.show-line-numbers')).toBeInTheDocument();
+  });
+
   it('should not have line numbers if showLineNumbers is false', async () => {
     const codeString = 'test code';
     const { container } = render(
