@@ -379,7 +379,9 @@ Use the `signInWithRedirect` API to initiate sign-in with an OIDC identity provi
 import { signInWithRedirect } from 'aws-amplify/auth';
 
 await signInWithRedirect({
-  custom: 'MicrosoftEntraID'
+  provider: {
+    custom: 'MicrosoftEntraID'
+  }
 });
 ```
 </InlineFilter>
