@@ -1122,6 +1122,7 @@
     "resolver's",
     "resourcename",
     "Resources.S3Bucket.Properties.BucketName",
+    "respectprimarykeyattributesonconnectionfield",
     "RESTAPI",
     "RESTENDPOINT",
     "resubscription",

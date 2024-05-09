@@ -173,3 +173,36 @@ Or
 + Post.BLOG.eq(BlogModelIdentifier(id: "1234"))
     
 ```
+
+#### Support For Only Custom Primary Key Enabled Back-Ends 
+
+Amplify Flutter V2 no longer supports the Amplify CLI feature flag `respectprimarykeyattributesonconnectionfield` to be **disabled**. 
+
+_If this feature flag is already enabled in your current project you can skip this section._
+
+| `graphql.schema` | Feature Flag On   | Feature Flag off |
+| -----------------| :---------------: | ---------------- |
+| **has `@primaryKey`**| ✅   | Start at step 1. |
+| **no `@primaryKey`** | ✅   | Skip to step 4.  |
+
+If the feature flag is turned off **AND** your model schema has the `@primaryKey` annotation, please follow these migration steps.
+
+If the feature flag is turned off, but your `graphql.schema` does not contain references to `@primaryKey`, jump to step 4.
+
+1. Remove `@primaryKey` references from your `graphql.schema`
+2. Run `$ amplify push`
+3. Run `$ amplify codegen models`
+4. Enabled the feature flag: 
+    1. Locate `amplify/cli.json` inside your project
+    2. Enable the feature flag: 
+```json
+"features": {
+    "graphqltransformer": {
+      ...
+      "respectprimarykeyattributesonconnectionfield": true,
+      ...
+    },
+}
+```
+5. Run `$ amplify push`
+6. Run `$ amplify codegen models`
