@@ -49,7 +49,7 @@ const hasHighlights = (code: string): boolean => {
 export const MDXCode = ({
   codeString,
   language = 'js',
-  showLineNumbers = true,
+  showLineNumbers,
   testHeaderId,
   testId,
   title
@@ -59,6 +59,10 @@ export const MDXCode = ({
   const shouldShowHeader = shouldShowCopy || title;
   const titleId = `${useId()}-titleID`;
   const codeId = `${useId()}-codeID`;
+  const hideLineNumbers = ['bash'];
+  const defaultLineNumberValue = !hideLineNumbers.includes(language); //show line number by default for bash language
+  const showLineNumberValue =
+    showLineNumbers === undefined ? defaultLineNumberValue : showLineNumbers;
 
   useEffect(() => {
     setCode(addVersions(codeString));
@@ -95,7 +99,7 @@ export const MDXCode = ({
               >
                 <code className="pre-code" id={codeId}>
                   <TokenList
-                    showLineNumbers={showLineNumbers}
+                    showLineNumbers={showLineNumberValue}
                     tokens={tokens}
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}
