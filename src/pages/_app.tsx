@@ -6,6 +6,7 @@ import { Layout } from '@/components/Layout';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
+import * as Sentry from '@sentry/browser';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -20,6 +21,18 @@ function MyApp({ Component, pageProps }) {
   } = pageProps;
 
   const router = useRouter();
+  ('');
+
+  if (process.env.SENTRY_DSN) {
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      integrations: [Sentry.browserTracingIntegration()],
+      // Performance Monitoring
+      tracesSampleRate: 1.0, //  Capture 100% of the transactions
+      // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+      tracePropagationTargets: ['localhost:3000']
+    });
+  }
 
   useEffect(() => {
     const handleRouteChange = () => {

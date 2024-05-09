@@ -14,7 +14,8 @@ const ANALYTICS_CSP = {
       'https://aws.demdex.net',
       'https://dpm.demdex.net',
       'https://cm.everesttech.net',
-      '*.shortbread.aws.dev'
+      '*.shortbread.aws.dev',
+      '*.sentry.io'
     ],
     img: [
       'https://amazonwebservices.d2.sc.omtrdc.net',

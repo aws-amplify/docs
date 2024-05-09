@@ -12,6 +12,7 @@
     "@aws-amplify/amplify-cli-core": "^4.2.10",
     "@aws-amplify/ui-react": "^6.0.7",
     "@docsearch/react": "3",
+    "@sentry/browser": "^7.114.0",
     "aws-amplify": "^6.0.9",
     "next": "^13.5.6",
     "next-image-export-optimizer": "^1.8.3",
