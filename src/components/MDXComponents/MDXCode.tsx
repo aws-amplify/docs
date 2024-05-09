@@ -59,7 +59,7 @@ export const MDXCode = ({
   const shouldShowHeader = shouldShowCopy || title;
   const titleId = `${useId()}-titleID`;
   const codeId = `${useId()}-codeID`;
-  const defaultLineNumberValue = language === 'bash' ? false : true; //show line number by default for bash language
+  const defaultLineNumberValue = language !== 'bash'; //show line number by default for bash language
   const showLineNumberValue =
     showLineNumbers === undefined ? defaultLineNumberValue : showLineNumbers;
 
