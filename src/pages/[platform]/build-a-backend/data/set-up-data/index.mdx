@@ -101,8 +101,6 @@ npx ampx sandbox --outputs-out-dir <path_to_app/src/main/res/raw/>
 npx ampx sandbox --outputs-out-dir <path_to_swift_project>
 ```
 
-Drag and drop the **amplify_outputs.json** file into your Xcode project to add the generate file.
-
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
 
@@ -118,13 +116,13 @@ Once the cloud sandbox is up and running, it will also create an `amplify_output
 
 To connect your frontend code to your backend, you need to:
 
-1. configure the Amplify library with the Amplify client configuration file (`amplify_outputs.json`)
-2. generate a new API client from the Amplify library
-3. make an API request with end-to-end type-safety
-
-First, install the Amplify client library to your project:
+1. Configure the Amplify library with the Amplify client configuration file (`amplify_outputs.json`)
+2. Generate a new API client from the Amplify library
+3. Make an API request with end-to-end type-safety
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+First, install the Amplify client library to your project:
 
 ```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify
@@ -246,7 +244,7 @@ npx ampx generate graphql-client-code --format modelgen --model-target java --ou
 
 Drag and drop the **amplify_outputs.json** file from the Finder into Xcode.
 
-Next, add Amplify Library for Swift through the Swift Package Manager.  In Xcode, select **File** > **Add Packages...**.
+Next, add Amplify Library for Swift through Swift Package Manager. In Xcode, select **File** > **Add Packages...**.
 
 Then, enter the Amplify Library for Swift GitHub repo URL (https://github.com/aws-amplify/amplify-swift) into the search bar and hit **Enter**.
 
@@ -445,20 +443,54 @@ com.example.MyAmplifyApp I/MyAmplifyApp: Added Todo with id: SOME_TODO_ID
 
 <InlineFilter filters={["swift"]}>
 
-Go to your **ContentView.swift** and add a button to create a new todo:
+Create a new file called `TodoViewModel.swift` and the `createTodo` function with the following code:
 
-```swift title="ContentView.swift"
-import SwiftUI
-// highlight-next-line
+```swift title="TodoViewModel.swift"
+import Foundation
 import Amplify
 
+@MainActor
+class TodoViewModel: ObservableObject {
+    func createTodo() {
+        let todo = Todo(
+            content: "Build iOS Application",
+            isDone: false
+        )
+        Task {
+            do {
+                let result = try await Amplify.API.mutate(request: .create(todo))
+                switch result {
+                case .success(let todo):
+                    print("Successfully created todo: \(todo)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            } catch let error as APIError {
+                print("Failed to create todo: ", error)
+            } catch {
+                print("Unexpected error: \(error)")
+            }
+        }
+    }
+}
+
+```
+
+Update `ContentView.swift` with the following code:
+
+```swift title="ContentView.swift"
 struct ContentView: View {
+
+    // highlight-start
+    // Create an observable object instance.
+    @StateObject var vm = TodoViewModel()
+    // highlight-end
 
     var body: some View {
         // highlight-start
         VStack {
             Button(action: {
-                addNewTodo()
+                vm.createTodo()
             }) {
                 HStack {
                     Text("Add a New Todo")
@@ -469,29 +501,10 @@ struct ContentView: View {
         }
         // highlight-end
     }
-
-    // highlight-start
-    private func addNewTodo() {
-        Task {
-            do {
-                let item = Todo(content: "Build iOS Application", isDone: false)
-                let result = try await Amplify.API.mutate(request: .create(item))
-                switch result {
-                case .success(let todo):
-                    print("Successfully created todo: \(todo)")
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
-            } catch {
-                print("Could not save item: \(error)")
-            }
-        }
-    }
-    // highlight-end
 }
 ```
 
-Now if you run the application, and click on the "Create Todo" button, you should see a log indicating a todo was created:
+Now if you run the application, and click on the "Add a New Todo" button, you should see a log indicating a todo was created:
 
 ```console title="Logs" showLineNumbers={false}
 Successfully created todo: Todo(id: XYZ ...)
@@ -649,57 +662,66 @@ If you build and rerun the application, you should see the todo that was created
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-Start by adding a new state that stores the todos. Then add a `fetchTodos()` function and display the todos in the view:
+Update the `listTodos` function in the `TodoViewModel.swift` for listing to-do items:
+
+```swift title="TodoViewModel.swift"
+@MainActor
+class TodoViewModel: ObservableObject {
+
+    // highlight-next-line
+    @Published var todos: [Todo] = []
+
+    func createTodo() {
+        /// ...
+    }
+
+    // highlight-start
+    func listTodos() {
+        Task {
+            do {
+                let result = try await Amplify.API.query(request: .list(Todo.self))
+                switch result {
+                case .success(let todos):
+                    print("Successfully retrieved list of todos: \(todos)")
+                    self.todos = todos.elements
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            } catch let error as APIError {
+                print("Failed to query list of todos: ", error)
+            } catch {
+                print("Unexpected error: \(error)")
+            }
+        }
+    }
+    // highlight-end
+}
+```
+
+Now let's update the UI code to observe the todos. 
 
 ```swift title="ContentView.swift"
 import SwiftUI
 import Amplify
 
 struct ContentView: View {
-    // highlight-next-line
-    @State private var todos: [Todo] = []
+    @StateObject var vm = TodoViewModel()
 
     var body: some View {
         VStack {
             // highlight-start
-            List(todos, id: \.id) { todo in
+            List(vm.todos, id: \.id) { todo in
                 Text(todo.content ?? "")
             }
             // highlight-end
-            Button(action: {
-                addNewTodo()
-            }) {
-                HStack {
-                    Text("Add a New Todo")
-                    Image(systemName: "plus")
-                }
-            }
-            .accessibilityLabel("New Todo")
+            // .. Add a new Todo button
         }
         // highlight-start
         .task {
-            await fetchTodos()
+            await vm.listTodos()
         }
         // highlight-end
     }
-
-    // highlight-start
-    private func fetchTodos() async {
-        do {
-            let request = GraphQLRequest<Todo>.list(Todo.self)
-            let result = try await Amplify.API.query(request: request)
-        switch result {
-        case .success(let todos):
-            self.todos = todos.elements
-            print("Successfully retrieved list of todos: \(todos)")
-        case .failure(let error):
-            print("Got failed result with \(error.localizedDescription)")
-        }
-        } catch {
-            print("Failed to query list of todos: \(error)")
-        }
-    }
-    // highlight-end
 }
 
 ```
@@ -935,56 +957,23 @@ setContent {
 
 To add real-time updates, you can use the subscription feature of Amplify Data. It allows to subscribe to `onCreate`, `onUpdate`, and `onDelete` events of the application. In our example, let's append the list every time a new todo is added.
 
-First, add a private variable to store the subscription. Then, on `init()` establish the subscription and on disappear, cancel the subscription.
+First, add a private variable to store the subscription. Then create the subscription on the `init()` initializer, and add the `subscribe()` and `cancel()` functions.
 
-```swift title="ContentView.swift"
-import SwiftUI
-import Amplify
 
-struct ContentView: View {
-    @State private var todos: [Todo] = []
-    // highlight-next-line
-    private var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
-
-    var body: some View {
-        VStack {
-            // ...
-        }
-        // highlight-start
-        .onDisappear {
-            self.subscription.cancel()
-        }
-        // highlight-end
-        .task {
-            // ...
-        }
-    }
+```swift title="TodoViewModel.swift"
+@MainActor
+class TodoViewModel: ObservableObject {
+    @Published var todos: [Todo] = []
 
     // highlight-start
+    private var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
+
     init() {
-        self.subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
+       self.subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
     }
-    // highlight-end
 
-    // ... fetchTodos() and addNewTodo()
-}
-```
-
-Next, add a handler as new todo creation events are received:
-
-```swift title="ContentView.swift"
-// .. imports
-
-struct ContentView: View {
-    // ... state & subscription vars
-
-    var body: some View {
-        VStack {
-            // ...
-        }
-        .task {
-           await fetchTodos()
-            // highlight-start
+    func subscribe() {
+        Task {
             do {
                 for try await subscriptionEvent in subscription {
                     handleSubscriptionEvent(subscriptionEvent)
@@ -992,11 +981,9 @@ struct ContentView: View {
             } catch {
                 print("Subscription has terminated with \(error)")
             }
-            // highlight-end
         }
     }
 
-    // highlight-start
     private func handleSubscriptionEvent(_ subscriptionEvent: GraphQLSubscriptionEvent<Todo>) {
         switch subscriptionEvent {
         case .connection(let subscriptionConnectionState):
@@ -1011,8 +998,43 @@ struct ContentView: View {
             }
         }
     }
+
+    func cancel() {
+        self.subscription.cancel()
+    }
     // highlight-end
-    // ... init(), fetchTodos(), and addNewTodo()
+
+    func createTodo() {
+        /// ...
+    }
+
+    func listTodos() {
+        /// ...
+    }
+}
+```
+
+Then in `ContentView.swift`, when the view appears, call `vm.subscribe()`. On disappear, cancel the subscription.
+
+
+```swift title="ContentView.swift"
+struct ContentView: View {
+    @StateObject var vm = TodoViewModel()
+
+    var body: some View {
+        VStack {
+            // ...
+        }
+        // highlight-start
+        .onDisappear {
+            vm.cancel()
+        }
+        .task {
+            vm.listTodos()
+            vm.subscribe()
+        }
+        // highlight-end
+    }
 }
 ```
 
