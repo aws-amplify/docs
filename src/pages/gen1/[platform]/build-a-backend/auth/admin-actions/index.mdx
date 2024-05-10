@@ -161,7 +161,7 @@ async function listEditors(limit){
   let apiName = 'AdminQueries';
   let path = '/listUsersInGroup';
   let options = { 
-      queryStringParameters: {
+      queryParams: {
         "groupname": "Editors",
         "limit": limit,
       },
