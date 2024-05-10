@@ -86,6 +86,7 @@ backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myIndexPoli
 // patch the place index resource to the expected output configuration
 backend.addOutput({
   geo: {
+    aws_region: geoStack.region,
     search_indices: {
       default: myIndex.indexName,
       items: [myIndex.indexName],
