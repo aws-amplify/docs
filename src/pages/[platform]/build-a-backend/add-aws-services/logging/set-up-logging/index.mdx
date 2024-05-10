@@ -104,9 +104,9 @@ You will need to create a log group in Amazon CloudWatch to send logs to. You ca
 
 Below is a sample CDK construct to create the Amazon CloudWatch log group as well as creating and assigning the permission policies to Amplify roles.
 
-First create the file `amplify/custom/RemoteLoggingConstraintsConstruct.resource.ts` with the following:
+Create the `RemoteLoggingConstraintsConstruct` custom CDK construct as the following:
 
-```ts title="RemoteLoggingConstraintsConstruct.resource.ts"
+```ts title="amplify/custom/RemoteLoggingConstraintsConstruct/resource.ts"
 import * as cdk from "aws-cdk-lib"
 import { Construct } from "constructs"
 import * as logs from "aws-cdk-lib/aws-logs"
