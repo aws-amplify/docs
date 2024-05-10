@@ -185,6 +185,9 @@ code:not([class]) {
   }
   &:hover {
     background-color: var(--highlight-code-hover-background-color);
+    &:after {
+      background-color: var(--highlight-code-hover-background-color);
+    }
     & + .highlight-code {
       .line-highlight:before {
         background-color: var(--highlight-code-hover-background-color);
@@ -207,6 +210,11 @@ code:not([class]) {
     &:after {
       height: 4px;
       bottom: -3px;
+      background-color: var(--highlight-code-hover-background-color);
+    }
+  }
+  &:hover {
+    &:after {
       background-color: var(--highlight-code-hover-background-color);
     }
   }

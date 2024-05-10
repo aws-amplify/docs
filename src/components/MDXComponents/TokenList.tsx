@@ -160,7 +160,6 @@ export const TokenList = ({
 
       return (
         <MDXHighlightedCode
-          codeId={`highlighted:${i}`}
           key={`highlighted:${i}`}
           codeString={highlightedCodeString}
         >

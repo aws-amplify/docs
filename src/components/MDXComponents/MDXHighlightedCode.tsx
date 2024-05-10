@@ -5,7 +5,6 @@ import { trackCopyClicks } from '@/utils/track';
 import { prepareCopyText } from './utils/copy-code';
 
 interface MDXHighlightedCodeProps {
-  codeId: string;
   codeString: string;
   testId?: string;
   children?: React.ReactNode;
@@ -13,7 +12,6 @@ interface MDXHighlightedCodeProps {
 
 export const MDXHighlightedCode = ({
   codeString,
-  codeId,
   children
 }: MDXHighlightedCodeProps) => {
   const [copied, setCopied] = useState(false);
@@ -35,7 +33,6 @@ export const MDXHighlightedCode = ({
           aria-describedby={highlightCodeId}
           size="small"
           className="highlight-copy-button"
-          key={codeId}
         >
           <span className="highlight-copy-block-hint">
             {copied ? 'Copied' : 'Copy'}
