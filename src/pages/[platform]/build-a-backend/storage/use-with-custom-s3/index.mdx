@@ -67,6 +67,8 @@ The policy will look something like this
 ```
 Replace `<AWS-account-ID>` with your AWS account ID and `<role-name>` with the IAM role associated with your Amplify Auth setup. Replace `<bucket-name>` with the S3 bucket name.
 
+You can refer to [Amazon S3's Policies and Permissions documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html) for more ways to customize access to the bucket.
+
 <InlineFilter filters={["javascript", "react", "react-native", "vue", "angular"]}>
 
 Finally, specify the bucket name and bucket region when configuring Amplify in your application as seen below.
@@ -88,7 +90,7 @@ Amplify.configure({
 ```
 </InlineFilter>
 
-<InlineFilter filters={["swift","android","flutter"]}>
+<InlineFilter filters={["swift","android"]}>
 
 Finally, add a storage section that includes the bucket name and bucket region in the **amplify_outputs.json** file
 
@@ -111,6 +113,25 @@ Finally, add a storage section that includes the bucket name and bucket region i
   //highlight-end
 }
 
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+Finally, add a storage section that includes the bucket name and bucket region in the **amplifyconfiguration** file
+
+```json
+{
+  "storage": {
+    "plugins": {
+      "awsS3StoragePlugin": {
+        "bucket": "[BUCKET NAME]",
+        "region": "[REGION]"
+      }
+    }
+  }
+}
 ```
 
 </InlineFilter>
