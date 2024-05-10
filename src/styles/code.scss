@@ -102,6 +102,8 @@ code:not([class]) {
     padding-bottom: var(--amplify-space-xxs);
   }
   &:before {
+    transition: background-color
+      var(--amplify-components-button-transition-duration) ease;
     content: '';
     position: absolute;
     left: 0;
@@ -181,6 +183,14 @@ code:not([class]) {
       }
     }
   }
+  &:hover {
+    background-color: var(--highlight-code-hover-background-color);
+    & + .highlight-code {
+      .line-highlight:before {
+        background-color: var(--highlight-code-hover-background-color);
+      }
+    }
+  }
   @include darkMode {
     background-color: var(--amplify-colors-neutral-20);
     &:focus-visible {
@@ -205,8 +215,6 @@ code:not([class]) {
 .highlight-code {
   position: relative;
   margin-bottom: var(--amplify-space-xxs);
-  transition: background-color
-    var(--amplify-components-button-transition-duration) ease;
   &:hover {
     cursor: pointer;
     .line-highlight:before {
