@@ -162,12 +162,13 @@ code:not([class]) {
   }
   &:focus-visible {
     outline: 2px solid #fff;
+    outline-offset: -2px;
     &:after {
       content: '';
       position: absolute;
       height: 2px;
-      left: -1px;
-      right: -1px;
+      left: 1px;
+      right: 1px;
       bottom: -1px;
       background-color: var(--amplify-colors-neutral-90);
       z-index: 2;
@@ -182,17 +183,27 @@ code:not([class]) {
 }
 
 .highlight-copy-button:has(+ .highlight-code:hover) {
-  background-color: hsla(255, 100%, 100%, 0.1);
+  background-color: hsl(211, 22%, 19%);
+  &:focus-visible {
+    &:after {
+      height: 4px;
+      bottom: -3px;
+      // left: -1px;
+      // right: -1px;
+      background-color: hsl(211, 22%, 19%);
+    }
+  }
 }
 
 .highlight-code {
   position: relative;
   margin-bottom: var(--amplify-space-xxs);
-  transition: all var(--amplify-components-button-transition-duration);
+  transition: background-color
+    var(--amplify-components-button-transition-duration) ease;
   &:hover {
     cursor: pointer;
     .line-highlight:before {
-      background-color: hsla(255, 100%, 100%, 0.1);
+      background-color: hsl(211, 22%, 19%);
     }
   }
 }
