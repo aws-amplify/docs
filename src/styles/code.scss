@@ -181,9 +181,14 @@ code:not([class]) {
   }
 }
 
+.highlight-copy-button:has(+ .highlight-code:hover) {
+  background-color: hsla(255, 100%, 100%, 0.1);
+}
+
 .highlight-code {
   position: relative;
   margin-bottom: var(--amplify-space-xxs);
+  transition: all var(--amplify-components-button-transition-duration);
   &:hover {
     cursor: pointer;
     .line-highlight:before {
