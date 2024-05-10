@@ -109,6 +109,7 @@ code:not([class]) {
     background-color: var(--amplify-colors-primary-40);
     z-index: 1;
     height: 100%;
+    top: 0;
   }
   @include darkMode {
     &:before {
@@ -120,7 +121,13 @@ code:not([class]) {
   }
 }
 
-.line-number {
+.code-block {
+  counter-reset: code-block;
+}
+
+.show-line-numbers:before {
+  counter-increment: code-block;
+  content: counter(code-block);
   z-index: 1;
   position: relative;
   color: var(--code-theme-comment);

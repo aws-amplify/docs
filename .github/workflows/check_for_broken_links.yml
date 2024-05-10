@@ -32,7 +32,7 @@ jobs:
           role-to-assume: arn:aws:iam::464149486631:role/github_action_read_slack_webhook_url
           aws-region: us-west-2
       - name: Read secrets from AWS Secrets Manager into environment variables
-        uses: aws-actions/aws-secretsmanager-get-secrets@022e8919774ecb75e8e375656d7b1898936ab878 # v1.0.4
+        uses: aws-actions/aws-secretsmanager-get-secrets@f91b2a3e784edce744f972af1685eca7e24d2302 # v2.0.2
         with:
           secret-ids: |
             SLACK_WEBHOOK_URL

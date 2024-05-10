@@ -12,7 +12,7 @@ jobs:
       contents: read
       security-events: write
 
-  strategy:
+    strategy:
       fail-fast: false
       matrix:
         language: ['javascript']

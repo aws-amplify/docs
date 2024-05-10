@@ -344,7 +344,7 @@ import { onMounted, ref } from 'vue';
 import type { Schema } from '@/amplify/data/resource';
 
 // create a reactive reference to the array of todos
-const todos = ref<Schema['Todo'][]>([]);
+const todos = ref<Schema['Todo']['type'][]>([]);
 
 async function listTodos() {
  try {

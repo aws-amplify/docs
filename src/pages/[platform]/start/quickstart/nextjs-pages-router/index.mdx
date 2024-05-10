@@ -162,7 +162,7 @@ function App() {
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
-        <a href="">Review next step of this tutorial.</a>
+        <a href="https://docs.amplify.aws/nextjs/start/quickstart/nextjs-pages-router/">Review next step of this tutorial.</a>
       </div>
     </main>
   )
@@ -360,7 +360,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

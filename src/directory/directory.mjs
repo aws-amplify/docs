@@ -654,6 +654,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/index.mdx'
                 }
               ]
             }
@@ -2147,6 +2150,22 @@ export const directory = {
               title: 'Reference',
               description: 'Reference',
               platforms: ['flutter']
+            },
+            {
+              isExternal: true,
+              route: 'https://amplify.aws/learn/',
+              title: 'Learn',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
+              ]
             },
             {
               path: 'src/pages/gen1/[platform]/prev/index.mdx',

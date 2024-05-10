@@ -219,7 +219,7 @@ When using TypeScript, you frequently need to specify data model types for type 
 ```ts
 import { type Schema } from '@/amplify/data/resource';
 
-type Post = Schema['Post'];
+type Post = Schema['Post']['type'];
 
 const [posts, setPosts] = useState<Post[]>([]);
 ```
@@ -232,7 +232,7 @@ import type { Schema } from '../amplify/data/resource';
 
 
 const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
-type PostWithComments = SelectionSet<Schema['Post'], typeof selectionSet>;
+type PostWithComments = SelectionSet<Schema['Post']['type'], typeof selectionSet>;
 
 // ...
 const [posts, setPosts] = useState<PostWithComments[]>([]);
