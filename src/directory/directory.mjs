@@ -296,6 +296,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/storage/storagepath/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
                 },
                 {
@@ -1686,7 +1689,7 @@ export const directory = {
                       path: 'src/pages/gen1/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/restapi/test-api/index.mdx'
+                      path: 'src/pages/gen1/[platform]/prev/build-a-backend/restapi/test-api/index.mdx'
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
@@ -1758,16 +1761,10 @@ export const directory = {
                       path: 'src/pages/gen1/[platform]/build-ui/uibuilder/slots/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/import/index.mdx'
-                    },
-                    {
                       path: 'src/pages/gen1/[platform]/build-ui/uibuilder/theming/index.mdx'
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-ui/uibuilder/responsive/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/prev/build-a-backend/storage/modify-amplify-generated-resources/index.mdx'
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-ui/uibuilder/override/index.mdx'
