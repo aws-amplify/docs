@@ -151,7 +151,7 @@ async function addToGroup() {
       }, 
       headers: {
         'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       } 
   }
   return post({apiName, path, options});
@@ -167,7 +167,7 @@ async function listEditors(limit){
       },
       headers: {
         'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
   }
   const response = await get({apiName, path, options});
