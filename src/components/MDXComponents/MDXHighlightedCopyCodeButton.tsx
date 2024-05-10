@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useId } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { VisuallyHidden } from '@aws-amplify/ui-react';
+import { Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { trackCopyClicks } from '@/utils/track';
 import { prepareCopyText } from './utils/copy-code';
 
@@ -21,6 +21,7 @@ export const MDXHighlightedCopyCodeButton = ({
   const [copied, setCopied] = useState(false);
 
   const copyText = prepareCopyText(codeString);
+  const highlightCodeId = useId();
 
   const copy = () => {
     trackCopyClicks(copyText);
@@ -30,17 +31,26 @@ export const MDXHighlightedCopyCodeButton = ({
     }, 2000);
   };
   return (
-    <CopyToClipboard text={copyText} onCopy={copy}>
-      <button className="highlight-copy-block" key={codeId}>
+    <>
+      <CopyToClipboard text={copyText} onCopy={copy}>
+        <Button
+          aria-describedby={highlightCodeId}
+          size="small"
+          className="highlight-copy-button"
+          key={codeId}
+        >
+          <span className="highlight-copy-block-hint">
+            {copied ? 'Copied' : 'Copy'}
+          </span>
+          <VisuallyHidden>
+            {` `}
+            {title} highlighted code example
+          </VisuallyHidden>
+        </Button>
+      </CopyToClipboard>
+      <div className="highlight-code" id={highlightCodeId}>
         {children}
-        <span className="highlight-copy-block-hint">
-          {copied ? 'Copied' : 'Copy'}
-        </span>
-        <VisuallyHidden>
-          {` `}
-          {title} highlighted code example
-        </VisuallyHidden>
-      </button>
-    </CopyToClipboard>
+      </div>
+    </>
   );
 };
