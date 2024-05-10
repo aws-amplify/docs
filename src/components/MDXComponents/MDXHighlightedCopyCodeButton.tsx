@@ -48,9 +48,11 @@ export const MDXHighlightedCopyCodeButton = ({
           </VisuallyHidden>
         </Button>
       </CopyToClipboard>
-      <div className="highlight-code" id={highlightCodeId}>
-        {children}
-      </div>
+      <CopyToClipboard text={copyText} onCopy={copy}>
+        <div className="highlight-code" id={highlightCodeId}>
+          {children}
+        </div>
+      </CopyToClipboard>
     </>
   );
 };

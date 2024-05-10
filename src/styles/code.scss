@@ -72,7 +72,6 @@ code:not([class]) {
   &:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 2px;
-    // box-shadow: 0 0 0 2px var(--amplify-colors-white) inset;
   }
 }
 
@@ -185,6 +184,12 @@ code:not([class]) {
 .highlight-code {
   position: relative;
   margin-bottom: var(--amplify-space-xxs);
+  &:hover {
+    cursor: pointer;
+    .line-highlight:before {
+      background-color: hsla(255, 100%, 100%, 0.1);
+    }
+  }
 }
 
 .code-copy {
