@@ -35,7 +35,8 @@ Amplify's `geo` category enables you to search by places, addresses, and coordin
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { CfnPlaceIndex } from "aws-cdk-lib/aws-location";
+// highlight-next-line
+import { CfnMap, CfnPlaceIndex } from "aws-cdk-lib/aws-location";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 
@@ -47,6 +48,44 @@ const backend = defineBackend({
 
 const geoStack = backend.createStack("geo-stack");
 
+// create a location services map
+const map = new CfnMap(geoStack, "Map", {
+  mapName: "myMap",
+  description: "Map",
+  configuration: {
+    style: "VectorEsriNavigation",
+  },
+  pricingPlan: "RequestBasedUsage",
+  tags: [
+    {
+      key: "name",
+      value: "myMap",
+    },
+  ],
+});
+
+
+// create an IAM policy to allow interacting with geo resource
+const myGeoPolicy = new Policy(geoStack, "GeoPolicy", {
+  policyName: "myGeoPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: [
+        "geo:GetMapTile",
+        "geo:GetMapSprites",
+        "geo:GetMapGlyphs",
+        "geo:GetMapStyleDescriptor",
+      ],
+      resources: [map.attrArn],
+    }),
+  ],
+});
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+
+// highlight-start
 // create a location services place index
 const myIndex = new CfnPlaceIndex(geoStack, "PlaceIndex", {
   dataSource: "Here",
@@ -82,15 +121,26 @@ const myIndexPolicy = new Policy(geoStack, "IndexPolicy", {
 // attach the policy to the authenticated and unauthenticated IAM roles
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myIndexPolicy);
 backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myIndexPolicy);
+// highlight-end
 
 // patch the place index resource to the expected output configuration
 backend.addOutput({
   geo: {
     aws_region: geoStack.region,
+    maps: {
+      items: {
+        [map.mapName]: {
+          style: "VectorEsriNavigation",
+        },
+      },
+      default: map.mapName,
+    },
+// highlight-start
     search_indices: {
       default: myIndex.indexName,
       items: [myIndex.indexName],
     },
+// highlight-end
   },
 });
 ```
