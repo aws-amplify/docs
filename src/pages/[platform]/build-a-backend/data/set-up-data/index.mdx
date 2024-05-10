@@ -955,7 +955,7 @@ setContent {
 
 To add real-time updates, you can use the subscription feature of Amplify Data. It allows to subscribe to `onCreate`, `onUpdate`, and `onDelete` events of the application. In our example, let's append the list every time a new todo is added.
 
-First, add a private variable to store the subscription. Then on the `init()` create the subscription, and add the `subscribe()` and `cancel()` functions.
+First, add a private variable to store the subscription. Then create the subscription on the `init()` initializer, and add the `subscribe()` and `cancel()` functions.
 
 
 ```swift title="TodoViewModel.swift"
