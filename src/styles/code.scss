@@ -201,6 +201,17 @@ code:not([class]) {
         background-color: var(--amplify-colors-neutral-20);
       }
     }
+    &:hover {
+      background-color: var(--highlight-code-hover-background-color);
+      &:after {
+        background-color: var(--highlight-code-hover-background-color);
+      }
+      & + .highlight-code {
+        .line-highlight:before {
+          background-color: var(--highlight-code-hover-background-color);
+        }
+      }
+    }
   }
 }
 
