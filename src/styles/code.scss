@@ -79,6 +79,7 @@ code:not([class]) {
   flex: 1;
   display: flex;
   flex-direction: column;
+  --highlight-code-hover-background-color: hsl(211, 22%, 19%);
 }
 
 .token-line {
@@ -180,17 +181,23 @@ code:not([class]) {
       }
     }
   }
+  @include darkMode {
+    background-color: var(--amplify-colors-neutral-20);
+    &:focus-visible {
+      &:after {
+        background-color: var(--amplify-colors-neutral-20);
+      }
+    }
+  }
 }
 
 .highlight-copy-button:has(+ .highlight-code:hover) {
-  background-color: hsl(211, 22%, 19%);
+  background-color: var(--highlight-code-hover-background-color);
   &:focus-visible {
     &:after {
       height: 4px;
       bottom: -3px;
-      // left: -1px;
-      // right: -1px;
-      background-color: hsl(211, 22%, 19%);
+      background-color: var(--highlight-code-hover-background-color);
     }
   }
 }
@@ -203,7 +210,7 @@ code:not([class]) {
   &:hover {
     cursor: pointer;
     .line-highlight:before {
-      background-color: hsl(211, 22%, 19%);
+      background-color: var(--highlight-code-hover-background-color);
     }
   }
 }
