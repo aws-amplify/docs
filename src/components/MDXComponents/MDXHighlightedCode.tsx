@@ -4,20 +4,18 @@ import { Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { trackCopyClicks } from '@/utils/track';
 import { prepareCopyText } from './utils/copy-code';
 
-interface MDXCopyCodeButtonProps {
+interface MDXHighlightedCodeProps {
   codeId: string;
   codeString: string;
   testId?: string;
-  title?: string;
   children?: React.ReactNode;
 }
 
-export const MDXHighlightedCopyCodeButton = ({
+export const MDXHighlightedCode = ({
   codeString,
-  title,
   codeId,
   children
-}: MDXCopyCodeButtonProps) => {
+}: MDXHighlightedCodeProps) => {
   const [copied, setCopied] = useState(false);
 
   const copyText = prepareCopyText(codeString);
@@ -44,7 +42,7 @@ export const MDXHighlightedCopyCodeButton = ({
           </span>
           <VisuallyHidden>
             {` `}
-            {title} highlighted code example
+            highlighted code example
           </VisuallyHidden>
         </Button>
       </CopyToClipboard>
