@@ -87,6 +87,8 @@ a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
 
 ```ts
@@ -99,6 +101,62 @@ const { data: newPost, errors } = await client.models.Post.create({
 
 console.log(newPost?.location?.lat, newPost?.location?.long);
 ```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
+
+TODO: Android
+
+```ts
+const { data: newPost, errors } = await client.models.Post.create({
+  location: {
+    lat: 48.837006,
+    long: 8.28245,
+  },
+});
+
+console.log(newPost?.location?.lat, newPost?.location?.long);
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+TODO: Swift
+
+To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
+
+```ts
+const { data: newPost, errors } = await client.models.Post.create({
+  location: {
+    lat: 48.837006,
+    long: 8.28245,
+  },
+});
+
+console.log(newPost?.location?.lat, newPost?.location?.long);
+```
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+TODO: Flutter
+
+To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
+
+```ts
+const { data: newPost, errors } = await client.models.Post.create({
+  location: {
+    lat: 48.837006,
+    long: 8.28245,
+  },
+});
+
+console.log(newPost?.location?.lat, newPost?.location?.long);
+```
+</InlineFilter>
+
 
 ## Specify an enum field type
 Enum has a similar developer experience as custom types: short-hand and long-form approaches. To make building a dropdown UI easier, you can also retrieve all available enum options from your client code.
@@ -131,6 +189,7 @@ a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 When creating a new item client-side, the enums are also type-enforced:
 ```ts
 client.models.Post.create({
@@ -142,6 +201,58 @@ client.models.Post.create({
   privacySetting: 'NOT_PUBLIC',
 });
 ```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+TODO: Android
+
+When creating a new item client-side, the enums are also type-enforced:
+```ts
+client.models.Post.create({
+  content: 'hello',
+  // WORKS - value auto-completed
+  privacySetting: 'PRIVATE',
+
+  // DOES NOT WORK - TYPE ERROR
+  privacySetting: 'NOT_PUBLIC',
+});
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+TODO: Swift
+
+When creating a new item client-side, the enums are also type-enforced:
+```ts
+client.models.Post.create({
+  content: 'hello',
+  // WORKS - value auto-completed
+  privacySetting: 'PRIVATE',
+
+  // DOES NOT WORK - TYPE ERROR
+  privacySetting: 'NOT_PUBLIC',
+});
+```
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+TODO: Flutter
+
+When creating a new item client-side, the enums are also type-enforced:
+```ts
+client.models.Post.create({
+  content: 'hello',
+  // WORKS - value auto-completed
+  privacySetting: 'PRIVATE',
+
+  // DOES NOT WORK - TYPE ERROR
+  privacySetting: 'NOT_PUBLIC',
+});
+```
+</InlineFilter>
 
 ### List enum values client-side
 
