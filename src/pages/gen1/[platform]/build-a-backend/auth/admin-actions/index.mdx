@@ -309,7 +309,7 @@ class MyCustomInterceptor: URLRequestInterceptor {
         var request = request
         do {
             let token = try await latestAuthToken()
-            request.setValue(token, forHTTPHeaderField: "authorization") 
+            request.setValue(token, forHTTPHeaderField: "authorization")
         } catch {
             throw APIError.operationError("Failed to retrieve Cognito UserPool token.", "", error)
         }
