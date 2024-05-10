@@ -1,0 +1,118 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use Amplify Storage with any S3 bucket',
+  description: 'You can use the Amplify Storage APIs against your own S3 bucket in your account.',
+  platforms: [
+    'javascript',
+    'react',
+    'react-native',
+    'angular',
+    'vue',
+    'nextjs',
+    'swift',
+    'android',
+    'flutter'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+With Amplify Storage APIs, you can use your own S3 buckets instead of the Amplify-created ones.
+
+<Callout>
+
+**Important:** To utilize the storage APIs with an S3 bucket outside of Amplify, you must have Amplify Auth configured in your project.
+
+</Callout>
+
+For the specific Amazon S3 bucket that you want to use with these APIs, you need to make sure that the associated IAM role has the necessary permissions to read and write data to that bucket.
+
+To do this, go to **Amazon S3 console** > **Select the S3 bucket** > **Permissions** > **Edit** Bucket Policy.
+
+![Showing Amplify console showing Storage tab selected](/images/gen2/storage/s3-console-permissions.png)
+
+The policy will look something like this
+
+```json
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement1",
+			"Principal": { "AWS": "arn:aws:iam::<AWS-account-ID>:role/<role-name>" },
+			"Effect": "Allow",
+			"Action": [
+				"s3:PutObject",
+				"s3:GetObject",
+				"s3:DeleteObject",
+				"s3:ListBucket"
+			],
+			"Resource": [
+				"arn:aws:s3:::<bucket-name>/*"
+			]
+		}
+	]
+}
+```
+Replace `<AWS-account-ID>` with your AWS account ID and `<role-name>` with the IAM role associated with your Amplify Auth setup. Replace `<bucket-name>` with the S3 bucket name.
+
+<InlineFilter filters={["javascript", "react", "react-native", "vue", "angular"]}>
+
+Finally, specify the bucket name and bucket region when configuring Amplify in your application as seen below.
+
+```javascript
+
+Amplify.configure({
+  ...Amplify.getConfig(),
+  //highlight-start
+  Storage: {
+    S3: {
+      region: '[REGION]', // (required) - Amazon S3 bucket region
+      bucket: '[BUCKET NAME]' // (required) - Amazon S3 bucket URI
+    }
+  }
+  //highlight-end
+});
+
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift","android","flutter"]}>
+
+Finally, add a storage section that includes the bucket name and bucket region in the **amplify_outputs.json** file
+
+```json
+
+{
+  "auth": {
+    .
+    .
+  },
+  "data": {
+    .
+    .
+  },
+  //highlight-start
+  "storage": {
+    "aws_region": "[region]",
+    "bucket_name": "[bucket-name]"
+  },
+  //highlight-end
+}
+
+```
+
+</InlineFilter>
+
+Now that you've configured the necessary permissions, you can start using the storage APIs with your chosen S3 bucket.
