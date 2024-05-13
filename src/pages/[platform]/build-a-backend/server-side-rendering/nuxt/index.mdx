@@ -369,14 +369,14 @@ Using the Storage `list` API in `pages/storage-list.vue`:
 <script setup lang="ts">
 const { data, error } = useAsyncData(async () => {
   const listResult = await useNuxtApp().$Amplify.Storage.list({
-    path: 'public/'
+    path: 'album'
   });
   return listResult.items;
 });
 </script>
 
 <template>
-  <h3>Files with access level: guest</h3>
+  <h3>Files with under path: album</h3>
   <pre>{{ data }}</pre>
 </template>
 
