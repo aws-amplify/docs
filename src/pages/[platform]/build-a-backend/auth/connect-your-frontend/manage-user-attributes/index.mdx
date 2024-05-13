@@ -105,7 +105,7 @@ Future<void> _signUp({
 <InlineFilter filters={['swift']}>
 
 ```swift
-func signUp(username: String, password: String, email: String, phonenumber: String) async {
+func signUp(username: String, password: String, email: String) async {
     do {
         let signUpResult = try await Amplify.Auth.signUp(
             username: username,
