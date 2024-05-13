@@ -2267,9 +2267,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/existing-resources/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/schema-evolution/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/modify-amplify-generated-resources/index.mdx'
                         },
                         {
