@@ -2205,9 +2205,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/existing-resources/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/import-existing-resources/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/existing-resources-no-cli/index.mdx'
                         },
                         {
