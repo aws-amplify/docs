@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Set up Amplify REST API',
-  description: 'The API category provides a solution for making HTTP requests to REST and GraphQL endpoints. The REST API category can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to AWS_IAM.',
+  description: 'The API category provides a solution for making HTTP requests to REST API endpoints. The API library can be used for creating signed requests against Amazon API Gateway when the API Gateway Authorization is set to AWS_IAM or Cognito User Pools.',
   platforms: [
     'angular',
     'javascript',
@@ -26,7 +26,7 @@ export function getStaticProps(context) {
   };
 }
 
-To setup and configure your application with REST API or HTTP API to make requests to [Amazon API Gateway](https://aws.amazon.com/api-gateway/) and trigger the lambda function, you can create a REST or HTTP API using the AWS Cloud Development Kit (AWS CDK).
+Using the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/), you can configure Amplify Functions as resolvers for routes of a [REST API powered by Amazon API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-rest-api.html).
 
 ## Set up REST API with Lambda Function
 
@@ -167,162 +167,10 @@ backend.addOutput({
 });
 ```
 
-## Set up HTTP API with Lambda Function
-
-Create a new directory and a resource file, `amplify/functions/api-function/resource.ts`. Then, define the function with `defineFunction`:
-
-```ts title="amplify/functions/api-function/resource.ts"
-import { defineFunction } from "@aws-amplify/backend";
-
-export const myApiFunction = defineFunction({
-  name: "api-function",
-});
-```
-
-create the corresponding handler file, `amplify/functions/api-function/handler.ts`, file with the following contents:
-
-```ts title="amplify/functions/api-function/handler.ts"
-import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
-
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
-  console.log("event", event);
-  return {
-    statusCode: 200,
-    // Modify the CORS settings below to match your specific requirements
-    headers: {
-      "Access-Control-Allow-Origin": "*", // Restrict this to domains you trust
-      "Access-Control-Allow-Headers": "*", // Specify only the headers you need to allow
-    },
-    body: JSON.stringify("Hello from myFunction!"),
-  };
-};
-```
-
-Use the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an HTTP API resource powered by [Amazon API Gateway](https://aws.amazon.com/api-gateway/).
-
-```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend";
-import { Stack } from "aws-cdk-lib";
-import {
-  CorsHttpMethod,
-  HttpApi,
-  HttpMethod,
-} from "aws-cdk-lib/aws-apigatewayv2";
-import {
-  HttpIamAuthorizer,
-  HttpUserPoolAuthorizer,
-} from "aws-cdk-lib/aws-apigatewayv2-authorizers";
-import { HttpLambdaIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
-import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { myApiFunction } from "./functions/api-function/resource";
-import { auth } from "./auth/resource";
-import { data } from "./data/resource";
-
-const backend = defineBackend({
-  auth,
-  data,
-  myApiFunction,
-});
-
-// create a new API stack
-const apiStack = backend.createStack("api-stack");
-
-// create a IAM authorizer
-const iamAuthorizer = new HttpIamAuthorizer();
-
-// create a User Pool authorizer
-const userPoolAuthorizer = new HttpUserPoolAuthorizer(
-  "userPoolAuth",
-  backend.auth.resources.userPool,
-  {
-    userPoolClients: [backend.auth.resources.userPoolClient],
-  }
-);
-
-// create a new HTTP Lambda integration
-const httpLambdaIntegration = new HttpLambdaIntegration(
-  "LambdaIntegration",
-  backend.myApiFunction.resources.lambda
-);
-
-// create a new HTTP API with IAM as default authorizer
-const httpApi = new HttpApi(apiStack, "HttpApi", {
-  apiName: "myHttpApi",
-  defaultAuthorizer: iamAuthorizer,
-  corsPreflight: {
-    // Modify the CORS settings below to match your specific requirements
-    allowMethods: [
-      CorsHttpMethod.GET,
-      CorsHttpMethod.POST,
-      CorsHttpMethod.PUT,
-      CorsHttpMethod.DELETE,
-    ],
-    // Restrict this to domains you trust
-    allowOrigins: ["*"],
-    // Specify only the headers you need to allow
-    allowHeaders: ["*"],
-  },
-  createDefaultStage: true,
-});
-
-// add routes to the API with a IAM authorizer and different methods
-httpApi.addRoutes({
-  path: "/items",
-  methods: [HttpMethod.GET, HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE],
-  integration: httpLambdaIntegration,
-  authorizer: iamAuthorizer,
-});
-
-// add a proxy resource path to the API
-httpApi.addRoutes({
-  path: "/items/{proxy+}",
-  methods: [HttpMethod.OPTIONS, HttpMethod.ANY],
-  integration: httpLambdaIntegration,
-});
-
-// add route to the API with a User Pool authorizer
-httpApi.addRoutes({
-  path: "/cognito-auth-path",
-  methods: [HttpMethod.GET],
-  integration: httpLambdaIntegration,
-  authorizer: userPoolAuthorizer,
-});
-
-// create a new IAM policy to allow Invoke access to the API
-const apiPolicy = new Policy(apiStack, "ApiPolicy", {
-  statements: [
-    new PolicyStatement({
-      actions: ["execute-api:Invoke"],
-      resources: [
-        `${httpApi.arnForExecuteApi("items")}`,
-        `${httpApi.arnForExecuteApi("cognito-auth-path")}`,
-      ],
-    }),
-  ],
-});
-
-// attach the policy to the authenticated and unauthenticated IAM roles
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(apiPolicy);
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(apiPolicy);
-
-// add outputs to the configuration file
-backend.addOutput({
-  custom: {
-    API: {
-      [httpApi.httpApiName!]: {
-        endpoint: httpApi.url,
-        region: Stack.of(httpApi).region,
-        apiName: httpApi.httpApiName,
-      },
-    },
-  },
-});
-```
-
 ## Install Amplify Libraries
 
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
-Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
+Use the package manager of your choice to install the Amplify JavaScript library. For example, with `npm`:
 
 ```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify
@@ -330,7 +178,7 @@ npm add aws-amplify
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
-Use the package manager of your choice to install the amplify JS library. For example, with `npm`:
+Use the package manager of your choice to install the Amplify JavaScript library. For example, with `npm`:
 
 <Accordion title="Instructions for React Native version 0.72 and below">
 
@@ -357,7 +205,7 @@ To initialize the Amplify API category you need to configure Amplify with `Ampli
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `index.js` in React or `main.ts` in Angular.
 
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
-```javascript title="src/index.js"
+```javascript title="src/main.ts"
 import { Amplify } from 'aws-amplify';
 import outputs from '../amplify_outputs.json';
 
@@ -366,14 +214,14 @@ const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
   API: {
-    REST: amplifyconfig.custom.API,
+    REST: outputs.custom.API,
   },
 });
 ```
 </InlineFilter>
 
 <InlineFilter filters={["nextjs"]}>
-```tsx title="pages/index.tsx"
+```tsx title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
 import outputs from '@/amplify_outputs.json';
 
@@ -382,7 +230,7 @@ const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
   API: {
-    REST: amplifyconfig.custom.API,
+    REST: outputs.custom.API,
   },
 });
 ```
@@ -390,7 +238,7 @@ Amplify.configure({
 
 <Callout warning="true">
 
-Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
 
 </Callout>
 </InlineFilter>
