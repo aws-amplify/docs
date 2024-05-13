@@ -59,7 +59,7 @@ describe('Layout', () => {
     render(layoutComponent);
 
     const nav = await screen.getByRole('navigation', {
-      name: 'Amplify Dev Center - External links to additional Amplify resources'
+      name: 'Amplify Docs - External links to additional Amplify resources'
     });
 
     const themeWrapper = nav.parentElement?.parentElement;
@@ -72,7 +72,7 @@ describe('Layout', () => {
     render(layoutComponent);
 
     const nav = await screen.getByRole('navigation', {
-      name: 'Amplify Dev Center - External links to additional Amplify resources'
+      name: 'Amplify Docs - External links to additional Amplify resources'
     });
 
     const themeWrapper = nav.parentElement?.parentElement;
@@ -80,24 +80,24 @@ describe('Layout', () => {
     expect(themeWrapper).toHaveAttribute('data-amplify-color-mode', 'dark');
   });
 
-  // it('handleScroll test', async () => {
-  //   render(layoutComponent);
-  //   console.log(document.body.scrollTop);
+  // // it('handleScroll test', async () => {
+  // //   render(layoutComponent);
+  // //   console.log(document.body.scrollTop);
 
-  //   const main = await screen.getByRole('main', { name: 'Main content' });
-  //   main.setAttribute('height', '500px');
-  //   console.log(main.scrollHeight);
+  // //   const main = await screen.getByRole('main', { name: 'Main content' });
+  // //   main.setAttribute('height', '500px');
+  // //   console.log(main.scrollHeight);
 
-  //   // fireEvent.scroll(main, { target: { scrollY: 100 } });
-  //   fireEvent.scroll(main, { target: { scrollY: 30 } });
+  // //   // fireEvent.scroll(main, { target: { scrollY: 100 } });
+  // //   fireEvent.scroll(main, { target: { scrollY: 30 } });
 
-  //   console.log(document.body.scrollTop);
+  // //   console.log(document.body.scrollTop);
 
-  //   console.log(document.body.className);
+  // //   console.log(document.body.className);
 
-  //   // console.log(component.props.pageType);
-  //   // console.log(document.body.className);
-  // });
+  // //   // console.log(component.props.pageType);
+  // //   // console.log(document.body.className);
+  // // });
 
   it('should open menu on click of Menu button in mobile', async () => {
     render(layoutComponent);

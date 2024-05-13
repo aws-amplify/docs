@@ -2,6 +2,19 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { FrameworkGrid } from '../index';
 
+const routerMock = {
+  __esModule: true,
+  useRouter: () => {
+    return {
+      query: { platform: 'react' },
+      pathname: '/gen1/',
+      asPath: '/gen1/'
+    };
+  }
+};
+
+jest.mock('next/router', () => routerMock);
+
 describe('FrameworkGrid', () => {
   const component = <FrameworkGrid currentKey="react" />;
 

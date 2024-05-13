@@ -2,6 +2,19 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { FeatureList, FeatureItem, PlatformFeatureList } from '../index';
 
+const routerMock = {
+  __esModule: true,
+  useRouter: () => {
+    return {
+      query: { platform: 'react' },
+      pathname: '/gen1/',
+      asPath: '/gen1/'
+    };
+  }
+};
+
+jest.mock('next/router', () => routerMock);
+
 describe('FeatureLists', () => {
   const featureListComponent = (
     <FeatureList heading="Deploy" level={2}>
