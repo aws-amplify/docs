@@ -54,13 +54,14 @@ const schema = a
         }),
         // fields can be enums
         engagementStage: a.enum(["PROSPECT", "INTERESTED", "PURCHASED"]),
-        collection: a.belongsTo("Collection", "customerId")
+        collectionId: a.id(),
+        collection: a.belongsTo("Collection", "collectionId")
         // Use custom identifiers. By default, it uses an `id: a.id()` field
       })
       .identifier(["customerId"]),
     Collection: a
       .model({
-        customers: a.hasMany("Customer", "customerId"), // setup relationships between types
+        customers: a.hasMany("Customer", "collectionId"), // setup relationships between types
         tags: a.string().array(), // fields can be arrays
         representativeId: a.id().required(),
         // customize secondary indexes to optimize your query performance
