@@ -2166,10 +2166,10 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/multi-step-sign-in/index.mdx'
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/enable-guest-access/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/enable-guest-access/index.mdx'
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/multi-step-sign-in/index.mdx'
                         },
                         {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/add-social-provider/index.mdx'
