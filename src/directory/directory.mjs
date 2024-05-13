@@ -2337,9 +2337,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/lambda-triggers/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/import/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/custom-plugin/index.mdx'
                         },
                         {
