@@ -26,10 +26,6 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 <Fragments fragments={{ flutter: flutter_maintenance }} />
 
-import enableRichNotifications from '/src/fragments/lib-v1/push-notifications/react-native/enable_rich_notifications/enable-rich-notifications.mdx';
+import enableRichNotifications from '/src/fragments/lib-v1/push-notifications/common/enable-rich-notifications.mdx';
 
-<Fragments fragments={{ 'react-native': enableRichNotifications }} />
-
-import commonRoute from '/src/fragments/lib-v1/push-notifications/common/enable-rich-notifications.mdx';
-
-<Fragments fragments={{ flutter: commonRoute }} />
+<Fragments fragments={{ 'react-native': enableRichNotifications, flutter: enableRichNotifications }} />
