@@ -68,13 +68,32 @@ func signIn(username: String, password: String) async throws {
 
 ### Set up auth backend
 
-In order to use the authentication flow `USER_PASSWORD_AUTH`, your Cognito app client has to be configured to allow it. In the AWS Console, this is done by ticking the checkbox at General settings > App clients > Show Details (for the affected client) > Enable username-password (non-SRP) flow. If you're using the AWS CLI or CloudFormation, update your app client by adding `USER_PASSWORD_AUTH` to the list of "Explicit Auth Flows".
+In order to use the authentication flow `USER_PASSWORD_AUTH`, your Cognito app client has to be configured to allow it. Amplify Gen 2 enables SRP auth by default. To enable USER_PASSWORD_AUTH, you can update the `backend.ts` file with the following changes:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend'
+import { auth } from './auth/resource'
+import { data } from './data/resource'
+
+const backend = defineBackend({
+  auth,
+  data,
+});
+
+// highlight-start
+backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
+  "ALLOW_USER_PASSWORD_AUTH",
+  "ALLOW_USER_SRP_AUTH",
+  "ALLOW_REFRESH_TOKEN_AUTH"
+];
+// highlight-end
+```
 
 ### Migrate users with Amazon Cognito
 
 Amazon Cognito provides a trigger to migrate users from your existing user directory seamlessly into Cognito. You achieve this by configuring your User Pool's "Migration" trigger which invokes a Lambda function whenever a user that does not already exist in the user pool authenticates, or resets their password.
 
-In short, the Lambda function will validate the user credentials against your existing user directory and return a response object containing the user attributes and status on success. An error message will be returned if an error occurs. There's a documentation [here](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-import-using-lambda.html) on how to set up this migration flow and more detailed instructions [here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html#cognito-user-pools-lambda-trigger-syntax-user-migration) on how the lambda should handle request and response objects.
+In short, the Lambda function will validate the user credentials against your existing user directory and return a response object containing the user attributes and status on success. An error message will be returned if an error occurs. There's documentation around [how to set up this migration flow](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-import-using-lambda.html) and more detailed instructions on [how the lambda should handle request and response objects]((https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html#cognito-user-pools-lambda-trigger-syntax-user-migration)).
 
 ## CUSTOM_AUTH flow
 
