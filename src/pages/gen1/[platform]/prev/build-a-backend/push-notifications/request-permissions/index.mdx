@@ -26,10 +26,6 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 <Fragments fragments={{ flutter: flutter_maintenance }} />
 
-import requestPermissions from '/src/fragments/lib-v1/push-notifications/react-native/request-permissions.mdx';
+import requestPermissions from '/src/fragments/lib-v1/push-notifications/common/request-permissions.mdx';
 
-<Fragments fragments={{ 'react-native': requestPermissions }} />
-
-import commonRoute from '/src/fragments/lib-v1/push-notifications/common/request-permissions.mdx';
-
-<Fragments fragments={{ flutter: commonRoute }} />
+<Fragments fragments={{ 'react-native': requestPermissions, flutter: requestPermissions }} />

@@ -1,31 +1,19 @@
 The Push Notifications category allows you to integrate push notifications in your app with Amazon Pinpoint targeting, campaign, and journey management support. You can segment your users, trigger push notifications to your app, and record metrics in Pinpoint when users receive or open notifications. Amazon Pinpoint helps you to create messaging campaigns and journeys targeted to specific user segments or demographics and collect interaction metrics with push notifications.
 
-import reactNativeExpoCallout from '/src/fragments/lib/push-notifications/react-native/getting_started/expo-callout.mdx';
+import reactNativeExpoCallout from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/expo-callout.mdx';
 
 <Fragments fragments={{ 'react-native': reactNativeExpoCallout }} />
 
 ## Prerequisites
 
-import androidPreReq from '/src/fragments/lib/push-notifications/android/getting_started/10_pre_req.mdx';
-import crossPlatformPreReq from '/src/fragments/lib/push-notifications/common/getting_started/cross-platform-prereq.mdx';
-import iosPreReq from '/src/fragments/lib/push-notifications/ios/getting_started/10_pre_req.mdx';
+import crossPlatformPreReq from '/src/fragments/lib-v1/push-notifications/common/getting_started/cross-platform-prereq.mdx';
 
 <Fragments
   fragments={{
-    android: androidPreReq,
     flutter: crossPlatformPreReq,
-    swift: iosPreReq,
     'react-native': crossPlatformPreReq
   }}
 />
-
-import iosSetEntitlements from '/src/fragments/lib/push-notifications/ios/getting_started/20_set_entitlements.mdx';
-
-<Fragments fragments={{ swift: iosSetEntitlements }} />
-
-import iosCreateAppDelegate from '/src/fragments/lib/push-notifications/ios/getting_started/30_create_app_delegate.mdx';
-
-<Fragments fragments={{ swift: iosCreateAppDelegate }} />
 
 ## Set up backend resources
 
@@ -34,7 +22,7 @@ To use Push Notifications with Amplify, you have the option to either have the A
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
-> Prerequisite: [Install and configure the Amplify CLI](/gen1/[platform]/tools/cli/start/set-up-cli/)
+> Prerequisite: [Install and configure the Amplify CLI](/gen1/[platform]/prev/tools/cli/start/set-up-cli/)
 
 <Callout warning>
 
@@ -48,16 +36,12 @@ To start provisioning push notification resources in the backend, go to your pro
 amplify add notifications
 ```
 
-import androidCliResources from '/src/fragments/lib/push-notifications/android/getting_started/20_cli_resources.mdx';
-import iosCliResources from '/src/fragments/lib/push-notifications/ios/getting_started/40_cli_resources.mdx';
-import flutterCliResources from '/src/fragments/lib/push-notifications/flutter/getting_started/20_cli_resources.mdx';
-import reactNativeCliResources from '/src/fragments/lib/push-notifications/react-native/getting_started/20_cli_resources.mdx';
+import flutterCliResources from '/src/fragments/lib-v1/push-notifications/flutter/getting_started/20_cli_resources.mdx';
+import reactNativeCliResources from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/20_cli_resources.mdx';
 
 <Fragments
   fragments={{
-    android: androidCliResources,
     flutter: flutterCliResources,
-    swift: iosCliResources,
     'react-native': reactNativeCliResources
   }}
 />
@@ -65,16 +49,12 @@ import reactNativeCliResources from '/src/fragments/lib/push-notifications/react
 </Block>
 <Block name="Existing resources">
 
-import androidExistingResources from '/src/fragments/lib/push-notifications/android/getting_started/30_existing_resources.mdx';
-import flutterExistingResources from '/src/fragments/lib/push-notifications/flutter/getting_started/30_existing_resources.mdx';
-import iosExistingResources from '/src/fragments/lib/push-notifications/ios/getting_started/50_existing_resources.mdx';
-import reactNativeExistingResources from '/src/fragments/lib/push-notifications/react-native/getting_started/30_existing_resources.mdx';
+import flutterExistingResources from '/src/fragments/lib-v1/push-notifications/flutter/getting_started/30_existing_resources.mdx';
+import reactNativeExistingResources from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/30_existing_resources.mdx';
 
 <Fragments
   fragments={{
-    android: androidExistingResources,
     flutter: flutterExistingResources,
-    swift: iosExistingResources,
     'react-native': reactNativeExistingResources
   }}
 />
@@ -84,36 +64,28 @@ import reactNativeExistingResources from '/src/fragments/lib/push-notifications/
 
 ## Install Amplify Libraries
 
-import androidInstallLib from '/src/fragments/lib/push-notifications/android/getting_started/40_install_lib.mdx';
-import flutterInstallLib from '/src/fragments/lib-v1/push-notifications/flutter/getting-started/40_install_lib.mdx';
-import iosInstallLib from '/src/fragments/lib/push-notifications/ios/getting_started/60_install_lib.mdx';
-import reactNativeInstallLib from '/src/fragments/lib/push-notifications/react-native/getting_started/40_install_lib.mdx';
+import flutterInstallLib from '/src/fragments/lib-v1/push-notifications/flutter/getting_started/40_install_lib.mdx';
+import reactNativeInstallLib from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/40_install_lib.mdx';
 
 <Fragments
   fragments={{
-    android: androidInstallLib,
     flutter: flutterInstallLib,
-    swift: iosInstallLib,
     'react-native': reactNativeInstallLib
   }}
 />
 
-import reactNativeIntegrateNativeModule from '/src/fragments/lib/push-notifications/react-native/getting_started/50_integrate_native_modules.mdx';
+import reactNativeIntegrateNativeModule from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/50_integrate_native_modules.mdx';
 
 <Fragments fragments={{ 'react-native': reactNativeIntegrateNativeModule }} />
 
 ## Initialize Amplify Push Notifications
 
-import androidInitPN from '/src/fragments/lib/push-notifications/android/getting_started/50_init_push_notifications.mdx';
-import flutterInitPN from '/src/fragments/lib/push-notifications/flutter/getting_started/50_init_push_notifications.mdx';
-import iosInitPN from '/src/fragments/lib/push-notifications/ios/getting_started/70_init_push_notifications.mdx';
-import reactNativeInitPN from '/src/fragments/lib/push-notifications/react-native/getting_started/60_init_push_notifications.mdx';
+import flutterInitPN from '/src/fragments/lib-v1/push-notifications/flutter/getting_started/50_init_push_notifications.mdx';
+import reactNativeInitPN from '/src/fragments/lib-v1/push-notifications/react-native/getting_started/60_init_push_notifications.mdx';
 
 <Fragments
   fragments={{
-    android: androidInitPN,
     flutter: flutterInitPN,
-    swift: iosInitPN,
     'react-native': reactNativeInitPN
   }}
 />

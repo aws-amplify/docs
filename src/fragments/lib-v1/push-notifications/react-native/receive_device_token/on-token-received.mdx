@@ -1,0 +1,9 @@
+```js
+const myTokenReceivedHandler = (token) => {
+  // Do something with the received token
+};
+
+const listener = Notifications.Push.onTokenReceived(myTokenReceivedHandler);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```

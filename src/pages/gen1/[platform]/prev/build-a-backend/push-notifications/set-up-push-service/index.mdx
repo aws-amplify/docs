@@ -27,14 +27,7 @@ import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
 
 <Fragments fragments={{ flutter: flutter_maintenance }} />
 
-import crossPlatformSetupService from '/src/fragments/lib/push-notifications/common/setup_push_service/cross-platform-setup.mdx';
+import crossPlatformSetupService from '/src/fragments/lib-v1/push-notifications/common/setup_push_service/setup-push-service.mdx';
 
-<Fragments fragments={{ 'react-native': crossPlatformSetupService }} />
+<Fragments fragments={{ 'react-native': crossPlatformSetupService, flutter: crossPlatformSetupService }} />
 
-import commonRoute from '/src/fragments/lib-v1/push-notifications/common/setup_push_service/setup-push-service.mdx';
-
-<Fragments
-  fragments={{
-    flutter: commonRoute,
-  }}
-/>
