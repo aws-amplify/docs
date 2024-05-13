@@ -36,7 +36,7 @@ For client side authentication there are four different flows that can be config
 
 <Callout>
 
-Runtime configuration will take precedence and will override any auth flow type configuration present in amplifyconfiguration.json
+Runtime configuration will take precedence and will override any auth flow type configuration present in amplify_outputs.json
 
 </Callout>
 
@@ -66,7 +66,7 @@ func signIn(username: String, password: String) async throws {
 }
 ```
 
-### Setup auth backend
+### Set up auth backend
 
 In order to use the authentication flow `USER_PASSWORD_AUTH`, your Cognito app client has to be configured to allow it. In the AWS Console, this is done by ticking the checkbox at General settings > App clients > Show Details (for the affected client) > Enable username-password (non-SRP) flow. If you're using the AWS CLI or CloudFormation, update your app client by adding `USER_PASSWORD_AUTH` to the list of "Explicit Auth Flows".
 

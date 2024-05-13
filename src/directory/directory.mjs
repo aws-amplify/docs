@@ -100,7 +100,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/switch-auth/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/switching-authentication-flows/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/index.mdx'
@@ -172,7 +172,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/using-sdk/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-aws-sdk/index.mdx'
                 }
               ]
             },
