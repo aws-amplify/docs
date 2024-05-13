@@ -25,19 +25,19 @@ export function getStaticProps(context) {
   };
 }
 
-If you have not already done so, please read the introduction documentation, [Use Amplify Categories APIs in Server Side Rendering](/gen1/[platform]/build-a-backend/server-side-rendering/), to learn about how to use Amplify categories APIs in server-side rendering.
+If you have not already done so, please read the introduction documentation, [Use Amplify Categories APIs in Server-Side Rendering](/gen1/[platform]/build-a-backend/server-side-rendering/), to learn about how to use Amplify categories' APIs in server-side rendering.
 
-This documentation provides a getting-started guide to using the generic `runWithAmplifyServerContext` adapter (exported from `aws-amplify/adapter-core`) to enable Amplify Gen2 in a Nuxt 3 project. The examples in this documentation may not present best practices for your Nuxt project. You are welcome to provide suggestions and contributions to improve this documentation or to create a Nuxt adapter package for Amplify and let others use it.
+This documentation provides a getting-started guide to using the generic `runWithAmplifyServerContext` adapter (exported from `aws-amplify/adapter-core`) to enable Amplify in a Nuxt 3 project. The examples in this documentation may not present best practices for your Nuxt project. You are welcome to provide suggestions and contributions to improve this documentation or to create a Nuxt adapter package for Amplify and let others use it.
 
 <Callout>
 
-**NOTE:** This guide assumes that you have a deep knowledge of Nuxt 3.
+**Note:** This guide assumes that you have a deep knowledge of Nuxt 3.
 
 </Callout>
 
 ## Start Using Amplify Gen2 in Your Nuxt 3 project
 
-You can install Amplify Gen2 following this guide, [Manual installation](/[platform]/start/manual-installation/).
+You can install relevant Amplify libraries by following the [manual installation](/[platform]/start/manual-installation/) guide.
 
 ## Set Up the AmplifyAPIs Plugin
 
@@ -48,7 +48,7 @@ Nuxt 3 offers universal rendering by default, where your data fetching logic may
 
 <Callout>
 
-**NOTE:** the leading number in the files name indicate the plugin loading order, details see https://nuxt.com/docs/guide/directory-structure/plugins#registration-order. The `.client` and `.server` indicate the runtime that the logic contained in the file will run on, client or server. For details see: https://nuxt.com/docs/guide/directory-structure/plugins
+**Note:** the leading number in the files name indicate the plugin loading order, details see https://nuxt.com/docs/guide/directory-structure/plugins#registration-order. The `.client` and `.server` indicate the runtime that the logic contained in the file will run on, client or server. For details see: https://nuxt.com/docs/guide/directory-structure/plugins
 
 </Callout>
 
@@ -141,10 +141,10 @@ import type {
 } from '@aws-amplify/core';
 import type { Schema } from '~/amplify/data/resource';
 
-import config from '../amplify_outputs.json';
+import outputs from '../amplify_outputs.json';
 
 // parse the content of `amplify_outputs.json` into the shape of ResourceConfig
-const amplifyConfig = parseAmplifyConfig(config);
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 // create the Amplify used token cookies names array
 const userPoolClientId = amplifyConfig.Auth!.Cognito.userPoolClientId;
@@ -402,7 +402,7 @@ The above two pages can be rendered on both the client and server sides by defau
 
 <Callout warning>
 
-Only a subset of Amplify APIs are usable on the server side, and as the libraries evolve, `amplify-apis.client` and `amplify-apis.server` may diverge further. You can guard your API calls to ensure an API is available in the context where you use it. E.g., you can use `if (process.client)` to ensure that a client-only API isn't executed on the server.
+Only a subset of Amplify APIs are usable on the server side, and as the libraries evolve, `amplify-apis.client` and `amplify-apis.server` may diverge further. You can guard your API calls to ensure an API is available in the context where you use it (e.g., you can use `if (process.client)` to ensure that a client-only API isn't executed on the server).
 
 </Callout>
 
@@ -414,7 +414,7 @@ The auth middleware will use the plugin set up in the previous step as a depende
 
 <Callout>
 
-**NOTE:** This file will run on both client and server, details see: https://nuxt.com/docs/guide/directory-structure/middleware#when-middleware-runs. The `02` name prefix ensures this plugin loads after the previous so `useNuxtApp().$Amplify` becomes available.
+**Note:** This file will run on both client and server, details see: https://nuxt.com/docs/guide/directory-structure/middleware#when-middleware-runs. The `02` name prefix ensures this plugin loads after the previous so `useNuxtApp().$Amplify` becomes available.
 
 </Callout>
 
