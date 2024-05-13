@@ -296,9 +296,6 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/storagepath/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx'
                 },
                 {
