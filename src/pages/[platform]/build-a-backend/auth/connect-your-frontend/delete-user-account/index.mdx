@@ -23,6 +23,7 @@ export async function getStaticPaths() {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
