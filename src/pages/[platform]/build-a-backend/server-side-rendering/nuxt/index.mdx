@@ -69,7 +69,7 @@ import {
 } from 'aws-amplify/auth';
 import { list } from 'aws-amplify/storage';
 import { generateClient } from 'aws-amplify/api';
-import config from '../amplify_outputs.json';
+import outputs from '../amplify_outputs.json';
 
 const client = generateClient<Schema>();
 
@@ -424,7 +424,7 @@ Example implementation:
 
 ```ts title="plugins/02.authRedirect.ts"
 import { Amplify } from 'aws-amplify';
-import config from '~/amplify_outputs.json';
+import outputs from '~/amplify_outputs.json';
 
 // Amplify.configure() only needs to be called on the client side
 if (process.client) {
@@ -496,7 +496,7 @@ import {
 import { parseAmplifyConfig } from 'aws-amplify/utils';
 
 import type { LibraryOptions } from '@aws-amplify/core';
-import config from '~/amplify_outputs.json';
+import outputs from '~/amplify_outputs.json';
 
 const amplifyConfig = parseAmplifyConfig(config);
 
