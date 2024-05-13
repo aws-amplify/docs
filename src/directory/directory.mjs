@@ -2293,9 +2293,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/restapi/customize-authz/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/restapi/test-api/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/restapi/existing-resources/index.mdx'
                         },
                         {
