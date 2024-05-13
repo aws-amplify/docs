@@ -2294,9 +2294,6 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/restapi/existing-resources/index.mdx'
-                        },
-                        {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/restapi/override-api-gateway/index.mdx'
                         }
                       ]
                     },
