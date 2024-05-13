@@ -2301,9 +2301,6 @@ export const directory = {
                       path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/index.mdx',
                       children: [
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/configure-storage/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/set-up-storage/index.mdx'
                         },
                         {
