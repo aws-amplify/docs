@@ -2202,9 +2202,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/delete-user-account/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/user-group-management/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/auth/existing-resources/index.mdx'
                         },
                         {
