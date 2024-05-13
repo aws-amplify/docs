@@ -35,7 +35,7 @@ This documentation provides a getting-started guide to using the generic `runWit
 
 </Callout>
 
-## Start Using Amplify Gen2 in Your Nuxt 3 project
+## Start Using Amplify in Your Nuxt 3 project
 
 You can install relevant Amplify libraries by following the [manual installation](/[platform]/start/manual-installation/) guide.
 
@@ -44,7 +44,7 @@ You can install relevant Amplify libraries by following the [manual installation
 Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed on both the client and server sides. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs of Amplify are slightly different. You can set up an `AmplifyAPIs` plugin to make your data fetching logic run smoothly across the client and server.
 
 1. If you havenâ€™t already done so, create a `plugins` directory under the root of your Nuxt project
-2. Create two files `01.amplify-apis.client.ts` and `01.amplify-apis.server.ts` under the `plugins` directory
+2. Create two files `01.amplifyApis.client.ts` and `01.amplifyApis.server.ts` under the `plugins` directory
 
 <Callout>
 
@@ -54,11 +54,12 @@ Nuxt 3 offers universal rendering by default, where your data fetching logic may
 
 In these files, you will register both client-specific and server-specific Amplify APIs that you will use in your Nuxt project as a plugin. You can then access these APIs via the `useNuxtApp` composable.
 
-### Implement `01.amplify-apis.client.ts`
+### Implement `01.amplifyApis.client.ts`
 
 Example implementation:
 
-```ts title="plugins/01.amplify-apis.client.ts"
+```ts title="plugins/01.amplifyApis.client.ts"
+import type { Schema } from '~/amplify/data/resource';
 import { Amplify } from 'aws-amplify';
 import {
   fetchAuthSession,
@@ -68,7 +69,6 @@ import {
 } from 'aws-amplify/auth';
 import { list } from 'aws-amplify/storage';
 import { generateClient } from 'aws-amplify/api';
-import type { Schema } from '~/amplify/data/resource';
 import config from '../amplify_outputs.json';
 
 const client = generateClient<Schema>();
@@ -114,12 +114,18 @@ Make sure you call `Amplify.configure` as early as possible in your applicationâ
 
 </Callout>
 
-### Implement `01.amplify-apis.server.ts`
+### Implement `01.amplifyApis.server.ts`
 
 Example implementation:
 
-```ts title="plugins/01.amplify-apis.server.ts"
+```ts title="plugins/01.amplifyApis.server.ts"
 import type { CookieRef } from 'nuxt/app';
+import type { Schema } from '~/amplify/data/resource';
+import type { ListPaginateWithPathInput } from 'aws-amplify/storage';
+import type {
+  LibraryOptions,
+  FetchAuthSessionOptions
+} from '@aws-amplify/core';
 import {
   createKeyValueStorageFromCookieStorageAdapter,
   createUserPoolsTokenProvider,
@@ -134,12 +140,6 @@ import {
 } from 'aws-amplify/auth/server';
 import { list } from 'aws-amplify/storage/server';
 import { generateClient } from 'aws-amplify/api/server';
-import type { ListPaginateWithPathInput } from 'aws-amplify/storage';
-import type {
-  LibraryOptions,
-  FetchAuthSessionOptions
-} from '@aws-amplify/core';
-import type { Schema } from '~/amplify/data/resource';
 
 import outputs from '../amplify_outputs.json';
 
@@ -398,7 +398,7 @@ const { data, error } = useAsyncData(async () => {
 </template>
 ```
 
-The above two pages can be rendered on both the client and server sides by default. `useNuxtApp().$Amplify` will pick up the correct implementation of `01.amplify-apis.client.ts` and `01.amplify-apis.server.ts` to use, depending on the runtime.
+The above two pages can be rendered on both the client and server sides by default. `useNuxtApp().$Amplify` will pick up the correct implementation of `01.amplifyApis.client.ts` and `01.amplifyApis.server.ts` to use, depending on the runtime.
 
 <Callout warning>
 
@@ -410,7 +410,7 @@ Only a subset of Amplify APIs are usable on the server side, and as the librarie
 
 The auth middleware will use the plugin set up in the previous step as a dependency; therefore you can add the auth middleware via another plugin that will be loaded after the previous one.
 
-1. Create a `02.auth-redirect.ts` file under plugins directory
+1. Create a `02.authRedirect.ts` file under plugins directory
 
 <Callout>
 
@@ -418,11 +418,11 @@ The auth middleware will use the plugin set up in the previous step as a depende
 
 </Callout>
 
-### Implement `02.auth-redirect.ts`
+### Implement `02.authRedirect.ts`
 
 Example implementation:
 
-```ts title="plugins/02.auth-redirect.ts"
+```ts title="plugins/02.authRedirect.ts"
 import { Amplify } from 'aws-amplify';
 import config from '~/amplify_outputs.json';
 
