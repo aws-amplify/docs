@@ -2249,9 +2249,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/subscribe-data/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/search-and-result-aggregations/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/working-with-files/index.mdx'
                         },
                         {
