@@ -2228,9 +2228,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/set-up-graphql-api/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/connect-api-to-existing-database/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/data-modeling/index.mdx'
                         },
                         {
