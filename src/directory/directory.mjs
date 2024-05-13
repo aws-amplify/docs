@@ -2343,9 +2343,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/existing-resources/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/modify-amplify-generated-resources/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/sdk/index.mdx'
                         },
                         {
