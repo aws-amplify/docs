@@ -160,6 +160,7 @@ code:not([class]) {
   margin-inline-start: var(--amplify-space-xxl);
   position: relative;
   user-select: none;
+  gap: var(--amplify-space-xxs);
   &:focus {
     box-shadow: none;
   }
@@ -215,6 +216,10 @@ code:not([class]) {
   }
 }
 
+/* This :has selector allows us to style the .highlight-copy-button
+that is preceding the .highlight-code block so that interaction between
+them looks "connected", i.e. the hover style on one triggers the 
+hover style on the other */
 .highlight-copy-button:has(+ .highlight-code:hover) {
   background-color: var(--highlight-code-hover-background-color);
   &:focus-visible {
@@ -250,6 +255,7 @@ code:not([class]) {
   padding-block: var(--amplify-space-xxxs);
   color: var(--amplify-colors-white);
   border-radius: var(--amplify-radii-small);
+  gap: var(--amplify-space-xxs);
   &:hover {
     color: var(--amplify-colors-white);
     background-color: var(--code-copy-hover-background-color);

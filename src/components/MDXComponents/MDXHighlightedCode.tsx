@@ -3,7 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { trackCopyClicks } from '@/utils/track';
 import { prepareCopyText } from './utils/copy-code';
-
+import { IconClipboard } from '@/components/Icons';
 interface MDXHighlightedCodeProps {
   codeString: string;
   testId?: string;
@@ -34,9 +34,9 @@ export const MDXHighlightedCode = ({
           size="small"
           className="highlight-copy-button"
         >
-          <span className="highlight-copy-block-hint">
-            {copied ? 'Copied' : 'Copy'}
-          </span>
+          <IconClipboard />
+          {copied ? 'Copied' : 'Copy'}
+
           <VisuallyHidden>
             {` `}
             highlighted code example
