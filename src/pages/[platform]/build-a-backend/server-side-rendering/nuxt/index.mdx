@@ -35,11 +35,11 @@ This documentation provides a getting-started guide to using the generic `runWit
 
 </Callout>
 
-## Start Using Amplify in Your Nuxt 3 project
+## Start using Amplify in your Nuxt 3 project
 
 You can install relevant Amplify libraries by following the [manual installation](/[platform]/start/manual-installation/) guide.
 
-## Set Up the AmplifyAPIs Plugin
+## Set up the AmplifyAPIs plugin
 
 Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed on both the client and server sides. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs of Amplify are slightly different. You can set up an `AmplifyAPIs` plugin to make your data fetching logic run smoothly across the client and server.
 
@@ -357,7 +357,7 @@ export default defineNuxtPlugin({
 });
 ```
 
-#### Usage Example
+#### Usage example
 
 Using the Storage `list` API in `pages/storage-list.vue`:
 
@@ -405,7 +405,7 @@ Only a subset of Amplify APIs are usable on the server side, and as the librarie
 
 </Callout>
 
-## Set Up Auth Middleware to Protect Your Routes
+## Set up Auth middleware to protect your routes
 
 The auth middleware will use the plugin set up in the previous step as a dependency; therefore you can add the auth middleware via another plugin that will be loaded after the previous one.
 
@@ -472,7 +472,7 @@ Make sure you call `Amplify.configure` as early as possible in your applicationâ
 
 Following the specification of Nuxt, your API route handlers will live under `~/server`, which is a separate environment from other parts of your Nuxt app; hence, the plugins created in the previous sections are not usable here, and extra work is required.
 
-### Set Up Amplify Server Context Utility
+### Set up Amplify server context utility
 
 1. If you havenâ€™t already done so, create a `utils` directory under the server directory of your Nuxt project
 2. Create an `amplifyUtils.ts` file under the `utils` directory
@@ -565,7 +565,7 @@ export const runAmplifyApi = <Result>(
 
 You can then use `runAmplifyApi` function to call Amplify APIs in an isolated server context.
 
-#### Usage Example
+#### Usage example
 
 Take implementing an API route `GET /api/current-user` , in `server/api/current-user.ts`:
 
@@ -584,7 +584,7 @@ export default defineEventHandler(async (event) => {
 
 Then you can fetch data from this route, for example, `fetch('http://localhost:3000/api/current-user')`.
 
-## Set Up Server Middleware to Protect Your API Routes
+## Set up server middleware to protect your API routes
 
 Similar to API routes, the previously added auth middleware are not usable under `/server`, hence extra work is required to set up a auth middleware to protect your routes.
 
