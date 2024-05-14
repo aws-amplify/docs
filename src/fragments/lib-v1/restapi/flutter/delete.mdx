@@ -5,9 +5,9 @@ Future<void> deleteTodo() async {
   try {
     final restOperation = Amplify.API.delete('todo/1');
     final response = await restOperation.response;
-    print('DELETE call succeeded: ${response.decodeBody()}');
+    safePrint('DELETE call succeeded: ${response.decodeBody()}');
   } on ApiException catch (e) {
-    print('DELETE call failed: $e');
+    safePrint('DELETE call failed: $e');
   }
 }
   ```
