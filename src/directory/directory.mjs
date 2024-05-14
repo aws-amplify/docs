@@ -2234,9 +2234,6 @@ export const directory = {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/api-graphql-concepts/index.mdx'
                         },
                         {
-                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/customize-authorization-modes/index.mdx'
-                        },
-                        {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/customize-authz-modes/index.mdx'
                         },
                         {
