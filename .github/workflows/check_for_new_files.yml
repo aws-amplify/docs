@@ -19,7 +19,7 @@ jobs:
           result-encoding: string
           script: |
             const { getAddedFiles } = require('./.github/workflows/scripts/check_for_new_files.js');
-            return getAddedFiles({github, context, core});
+            return await getAddedFiles({github, context, core});
       - name: Install npm package ignore
         if: ${{ steps.set-added-files-count.outputs.result > 0 }}
         run: yarn add ignore@5.2.4 -W # help verify CODEOWNERS
@@ -34,4 +34,4 @@ jobs:
           script: |
             const ignore = require('ignore');
             const { validateCodeowners } = require('./.github/workflows/scripts/check_for_new_files.js');
-            validateCodeowners({github, context, fetch, ignore});
+            await validateCodeowners({github, context, fetch, ignore});

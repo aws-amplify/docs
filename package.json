@@ -9,7 +9,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "@aws-amplify/amplify-cli-core": "^4.2.10",
+    "@aws-amplify/amplify-cli-core": "^4.3.5",
     "@aws-amplify/ui-react": "^6.0.7",
     "@docsearch/react": "3",
     "aws-amplify": "^6.0.9",
@@ -60,7 +60,7 @@
     "lint-staged": "^14.0.0",
     "next-bundle-analyzer": "^0.6.7",
     "prettier": "^3.0.3",
-    "puppeteer": "^22.2.0",
+    "puppeteer": "^22.8.0",
     "rehype": "^11.0.0",
     "rehype-img-size": "^1.0.1",
     "rehype-mdx-code-props": "^2.0.0",

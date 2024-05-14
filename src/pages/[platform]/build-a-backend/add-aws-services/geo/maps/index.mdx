@@ -902,30 +902,6 @@ struct ContentView: View {
 
 <Block name="UIKit">
 
-<BlockSwitcher>
-<Block name="Stable Release">
-
-```swift
-import AmplifyMapLibreAdapter
-import Mapbox
-import Amplify
-
-var mapView: MGLMapView?
-
-AmplifyMapLibre.createMap { result in
-    switch result {
-    case .failure(let error):
-        print(error)
-    case .success(let map):
-        mapView = map
-    }
-}
-```
-
-</Block>
-
-<Block name="Developer Preview">
-
 ```swift
 import AmplifyMapLibreAdapter
 import Mapbox
@@ -938,8 +914,6 @@ do {
     print(error)
 }
 ```
-</Block>
-</BlockSwitcher>
 
 </Block>
 </BlockSwitcher>

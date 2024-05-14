@@ -19,7 +19,6 @@ import { Overview } from './src/components/Overview';
 import ExternalLink from './src/components/ExternalLink';
 import { ExternalLinkButton } from './src/components/ExternalLinkButton';
 import { InternalLinkButton } from './src/components/InternalLinkButton';
-import FilterContent from './src/components/FilterContent';
 import { Grid, View } from '@aws-amplify/ui-react';
 import { Columns } from './src/components/Columns';
 import { Video } from './src/components/Video';
@@ -68,7 +67,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ExternalLink,
     ExternalLinkButton,
     InternalLinkButton,
-    FilterContent,
     Grid,
     Columns,
     Video,

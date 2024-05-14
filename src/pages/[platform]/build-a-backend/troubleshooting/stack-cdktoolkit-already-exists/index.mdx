@@ -1,0 +1,51 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Troubleshoot "Stack CDKToolkit already exists"',
+  description: 'Addressing issues with upgrading CDKToolkit stacks',
+  platforms: [
+    "android",
+    'angular',
+    "flutter",
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    "swift",
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+If you are deploying an Amplify Gen 2 app for the first time and have previously [bootstrapped](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html) your AWS account to work with the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/), and you encounter the following error in the Amplify Console:
+
+```console title="Amplify Console" showLineNumbers={false}
+Build error!
+Stack [CDKToolkit] already exists
+```
+
+You can mitigate by manually updating your `CDKToolkit` stack using the browser-based [AWS CloudShell](https://aws.amazon.com/cloudshell/):
+
+```bash title="AWS CloudShell" showLineNumbers={false}
+cdk bootstrap aws://$(aws sts get-caller-identity --query Account --output text)/$AWS_REGION
+```
+
+Or by running `bootstrap` using the AWS CDK CLI from your terminal:
+
+```bash title="Terminal" showLineNumbers={false}
+npx aws-cdk@latest bootstrap aws://<your-aws-account-id>/<your-aws-region>
+```
+
+If you continue to experience this issue after applying the workaround noted above, please file an issue in the [GitHub repository for Amplify Backend](https://github.com/aws-amplify/amplify-backend).

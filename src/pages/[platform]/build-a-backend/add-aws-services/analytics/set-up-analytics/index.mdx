@@ -144,7 +144,7 @@ npm add aws-amplify
   **Note:** **Up to Next Major Version** should be selected from the **Dependency Rule** dropdown.
 
   </Callout>
-3. Lastly, choose **AWSPinpointAnalyticsPlugin**, **AWSCognitoAuthPlugin**, and **Amplify**. Then click **Add Package**.
+3. Lastly, add **AWSPinpointAnalyticsPlugin**, **AWSCognitoAuthPlugin**, and **Amplify** to your target. Then click **Add Package**.
 
 </InlineFilter>
 
@@ -222,7 +222,17 @@ Amplify.configure({
 </InlineFilter>
 
 <InlineFilter filters= {["swift"]}>
-To use the Amplify Analytics and Authentication categories in your app, you need to create and configure their corresponding plugins by calling the `Amplify.add(plugin:)` and `Amplify.configure()` methods.
+<Callout warning>
+Make sure to generate the `amplify_outputs.json` file by running the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
+```
+
+Next, move the file to your project. You can do this by dragging and dropping the file into your Xcode project.
+</Callout>
+
+To use the Amplify Analytics and Authentication categories in your app, you need to create and configure their corresponding plugins by calling the `Amplify.add(plugin:)` and `Amplify.configure(with:)` methods.
 
 <BlockSwitcher>
 
