@@ -56,182 +56,92 @@ import all5 from '/src/fragments/lib/auth/common/mfa/update_mfa.mdx';
 
 You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign up. However, if the primary login mechanism for your Cognito resource is `phone_number` (without enabling `username`), then you do not need to pass it as an attribute.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import android6 from '/src/fragments/lib/auth/android/sms/sign_up.mdx';
 
-<BlockSwitcher>
-<Block name="TypeScript">
+<Fragments fragments={{ android: android6 }} />
 
-```ts
-import { signUp } from 'aws-amplify/auth';
+import flutter6 from '/src/fragments/lib/auth/flutter/sms/sign_up.mdx';
 
-async function handleSignUp(
-  username: string,
-  password: string,
-  phone_number: string,
-  email: string
-) {
-  try {
-    await signUp({
-      username,
-      password,
-      options: {
-        userAttributes: {
-          phone_number,
-          email
-        }
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
+<Fragments fragments={{ flutter: flutter6 }} />
 
-</Block>
+import iosSignUp from '/src/fragments/lib/auth/ios/sms/sign_up.mdx';
 
-<Block name="JavaScript">
-
-```javascript
-import { signUp } from 'aws-amplify/auth';
-
-async function handleSignUp(username, password, phone_number, email) {
-  try {
-    await signUp({
-      username,
-      password,
-      options: {
-        userAttributes: {
-          phone_number,
-          email
-        }
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-</InlineFilter>
+<Fragments fragments={{ swift: iosSignUp }} />
 
 By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email, depending on your Amazon Cognito configuration.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import flutter7 from '/src/fragments/lib/auth/flutter/sms/confirm_sign_up.mdx';
 
-<BlockSwitcher>
-<Block name="TypeScript">
+<Fragments fragments={{ flutter: flutter7 }} />
 
-```ts
-import { confirmSignUp } from 'aws-amplify/auth';
+import android7 from '/src/fragments/lib/auth/android/sms/confirm_sign_up.mdx';
 
-async function handleSignUpConfirmation(
-  username: string,
-  confirmationCode: string
-) {
-  try {
-    await confirmSignUp({ username, confirmationCode });
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
+<Fragments fragments={{ android: android7 }} />
 
-</Block>
-<Block name="JavaScript">
+import iosConfirmSignUp from '/src/fragments/lib/auth/ios/sms/confirm_sign_up.mdx';
 
-```js
-import { confirmSignUp } from 'aws-amplify/auth';
-
-async function handleSignUpConfirmation(username, confirmationCode) {
-  try {
-    await confirmSignUp({ username, confirmationCode });
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-</InlineFilter>
+<Fragments fragments={{ swift: iosConfirmSignUp }} />
 
 ### Handling SMS MFA challenge during Sign In
 
 After a user signs in, if they have MFA enabled for their account, a challenge will be returned that you would need to call the `confirmSignIn` API where the user provides their confirmation code sent to their phone number.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import flutter8 from '/src/fragments/lib/auth/flutter/sms/sign_in.mdx';
 
-<BlockSwitcher>
-<Block name="TypeScript">
+<Fragments fragments={{ flutter: flutter8 }} />
 
-```typescript
-import { signIn } from 'aws-amplify/auth';
+import iosSignInTOTP from '/src/fragments/lib/auth/ios/sms/sign_in.mdx';
 
-async function handleSignIn(username: string, password: string) {
-  try {
-    await signIn({ username, password });
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
+<Fragments fragments={{ swift: iosSignInTOTP }} />
 
-</Block>
-<Block name="JavaScript">
+import android8 from '/src/fragments/lib/auth/android/sms/sign_in.mdx';
 
-```js
-import { signIn } from 'aws-amplify/auth';
-
-async function handleSignIn(username, password) {
-  try {
-    await signIn({ username, password });
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-</InlineFilter>
+<Fragments fragments={{ android: android8 }} />
 
 If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their phone.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import flutter9 from '/src/fragments/lib/auth/flutter/sms/confirm_sign_in.mdx';
 
+<Fragments fragments={{ flutter: flutter9 }} />
+
+import iosConfirmSignInTOTP from '/src/fragments/lib/auth/ios/sms/confirm_sign_in.mdx';
+
+<Fragments fragments={{ swift: iosConfirmSignInTOTP }} />
+
+import android9 from '/src/fragments/lib/auth/android/sms/confirm_sign_in.mdx';
+
+<Fragments fragments={{ android: android9 }} />
+
+After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
+
+<InlineFilter filters={['android']}>
 <BlockSwitcher>
-<Block name="TypeScript">
+<Block name="Java">
 
-```ts
-import { confirmSignIn } from 'aws-amplify/auth';
-
-async function handleSignInConfirmation(otpCode: string) {
-  try {
-    await confirmSignIn({ challengeResponse: otpCode });
-  } catch (error) {
-    console.log(error);
-  }
-}
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+            AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+            plugin.updateMFAPreference(
+                    MFAPreference.ENABLED,
+                    null,
+                    () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
+                    e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
+            );
+        }
 ```
 
 </Block>
+<Block name="Kotlin">
 
-<Block name="JavaScript">
-
-```js
-import { confirmSignIn } from 'aws-amplify/auth';
-
-async function handleSignInConfirmation(otpCode) {
-  try {
-    await confirmSignIn({ challengeResponse: otpCode });
-  } catch (error) {
-    console.log(error);
-  }
+```kotlin
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin) {
+    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+    plugin.updateMFAPreference(
+        MFAPreference.ENABLED,
+        null,
+        { Log.i( "AuthQuickstart", "MFA preference updated successfully") },
+        { e: AuthException? -> Log.e( "AuthQuickstart", "Failed to update MFA preference", e) }
+    )
 }
 ```
 
@@ -240,19 +150,64 @@ async function handleSignInConfirmation(otpCode) {
 
 </InlineFilter>
 
-After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
+<InlineFilter filters={['swift']}>
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+<BlockSwitcher>
 
-```ts
-import { updateMFAPreference } from 'aws-amplify/auth';
+<Block name="Async/Await">
 
-async function handleUpdateMFAPreference() {
-  try {
-    await updateMFAPreference({ sms: 'PREFERRED' });
-  } catch (error) {
-    console.log(error);
-  }
+```swift
+func updateMFAPreferences() async throws {
+    let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+    let smsMfaPreference: MFAPreference = .enabled // or .preferred
+
+    try await authCognitoPlugin?.updateMFAPreference(
+        sms: smsMfaPreference)
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func updateMFAPreferences() -> AnyCancellable {
+    Amplify.Publisher.create {
+        let authCognitoPlugin = try Amplify.Auth.getPlugin(
+            for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+        let smsMfaPreference: MFAPreference = .enabled // or .preferred
+
+        try await authCognitoPlugin?.updateMFAPreference(
+            sms: smsMfaPreference)
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: {
+        print("Update MFA preference succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> updateMfaPreferences() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  await cognitoPlugin.updateMfaPreference(
+    sms: MfaPreference.enabled, // or .preferred
+  );
 }
 ```
 
@@ -264,124 +219,112 @@ You can use Time-based One-Time Password (TOTP) for multi-factor authentication 
 
 ### Setting up TOTP for a user
 
-After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
+After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `continueSignInWithTOTPSetup` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
 
-- MFA is marked as **Required** in your user pool.
-- TOTP is enabled in your user pool.
+- MFA is marked as **Required** in Cognito User Pool.
+- TOTP is enabled in the Cognito User Pool
 - User does not have TOTP MFA set up already.
 
-The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
+The `continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import iosSignIn from '/src/fragments/lib/auth/ios/totp/sign_in.mdx';
 
-<BlockSwitcher>
-<Block name="TypeScript">
+<Fragments fragments={{ swift: iosSignIn }} />
 
-```ts
-import { signIn, SignInOutput } from 'aws-amplify/auth';
+import androidSignIn from '/src/fragments/lib/auth/android/totp/sign_in.mdx';
 
-async function handleSignIn(username: string, password: string) {
+<Fragments fragments={{ android: androidSignIn }} />
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> signInUser(String username, String password) async {
   try {
-    const output = await signIn({
-      username,
-      password
-    });
-
-    handleSignInNextSteps(output);
-  } catch (error) {
-    console.log(error);
+    final result = await Amplify.Auth.signIn(
+      username: username,
+      password: password,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
   }
 }
 
-function handleSignInNextSteps(output: SignInOutput) {
-  const { nextStep } = output;
-  switch (nextStep.signInStep) {
-    // ...
-    case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
-      const totpSetupDetails = nextStep.totpSetupDetails;
-      const appName = 'my_app_name';
-      const setupUri = totpSetupDetails.getSetupUri(appName);
-      // Open setupUri with an authenticator APP to retrieve an OTP code
-      break;
-    // ...
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithTotpSetup:
+      final totpSetupDetails = result.nextStep.totpSetupDetails!;
+      final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+      safePrint('Open URI to complete setup: $setupUri');
+    // ···
   }
 }
 ```
-
-</Block>
-
-<Block name="JavaScript">
-
-```js
-import { signIn } from 'aws-amplify/auth';
-
-async function handleSignIn(username, password) {
-  try {
-    const output = await signIn({
-      username,
-      password
-    });
-
-    handleSignInNextSteps(output);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-function handleSignInNextSteps(output) {
-  const { nextStep } = output;
-  switch (nextStep.signInStep) {
-    // ...
-    case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
-      const totpSetupDetails = nextStep.totpSetupDetails;
-      const appName = 'my_app_name';
-      const setupUri = totpSetupDetails.getSetupUri(appName);
-      // Open setupUri with an authenticator APP to retrieve an OTP code
-      break;
-    // ...
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
 
 </InlineFilter>
 
 The TOTP code can be obtained from the user via a text field or any other means. Once the user provides the TOTP code, call `confirmSignIn` with the TOTP code as the `challengeResponse` parameter.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import iosConfirmSignIn from '/src/fragments/lib/auth/ios/totp/confirm_sign_in.mdx';
 
-<BlockSwitcher>
-<Block name="TypeScript">
+<Fragments fragments={{ swift: iosConfirmSignIn }} />
 
-```ts
-import { confirmSignIn } from 'aws-amplify/auth';
+import androidConfirmSignIn from '/src/fragments/lib/auth/android/totp/confirm_sign_in.mdx';
 
-async function handleSignInConfirmation(totpCode: string) {
+<Fragments fragments={{ android: androidConfirmSignIn }} />
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> confirmTotpUser(String totpCode) async {
   try {
-    await confirmSignIn({ challengeResponse: totpCode });
-  } catch (error) {
-    console.log(error);
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: totpCode,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming TOTP code: ${e.message}');
   }
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
+
+<InlineFilter filters={['android']}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+            AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+            plugin.updateMFAPreference(
+                    null,
+                    MFAPreference.ENABLED,
+                    () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
+                    e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
+            );
+        }
+```
+
 </Block>
+<Block name="Kotlin">
 
-<Block name="JavaScript">
-
-```js
-import { confirmSignIn } from 'aws-amplify/auth';
-
-async function handleSignInConfirmation(totpCode) {
-  try {
-    await confirmSignIn({ challengeResponse: totpCode });
-  } catch (error) {
-    console.log(error);
-  }
+```kotlin
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin) {
+    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+    plugin.updateMFAPreference(
+        null,
+        MFAPreference.ENABLED,
+        { Log.i("AuthQuickstart", "MFA preference updated successfully") },
+        { e: AuthException? -> Log.e("AuthQuickstart", "Failed to update MFA preference", e) }
+    )
 }
 ```
 
@@ -390,21 +333,50 @@ async function handleSignInConfirmation(totpCode) {
 
 </InlineFilter>
 
-After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
+<BlockSwitcher>
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+<Block name="Async/Await">
 
-```ts
-import { updateMFAPreference } from 'aws-amplify/auth';
+```swift
+func updateMFAPreferences() async throws {
+    let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
 
-async function handleUpdateMFAPreference() {
-  try {
-    await updateMFAPreference({ totp: 'PREFERRED' });
-  } catch (error) {
-    console.log(error);
-  }
+    let totpMfaPreference: MFAPreference = .enabled // or .preferred
+
+    try await authCognitoPlugin?.updateMFAPreference(
+        totp: totpMfaPreference)
 }
 ```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func updateMFAPreferences() -> AnyCancellable {
+    Amplify.Publisher.create {
+        let authCognitoPlugin = try Amplify.Auth.getPlugin(
+            for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+        let totpMfaPreference: MFAPreference = .enabled // or .preferred
+
+        try await authCognitoPlugin?.updateMFAPreference(
+            totp: totpMfaPreference)
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: {
+        print("Update MFA preference succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -412,8 +384,8 @@ async function handleUpdateMFAPreference() {
 
 TOTP MFA can be set up after a user has signed in. This can be done when the following conditions are met:
 
-- MFA is marked as **Optional** or **Required** in your user pool.
-- TOTP is marked as an enabled MFA method in your user pool.
+- MFA is marked as **Optional** or **Required** in the Cognito User Pool
+- TOTP is marked as an enabled MFA method in Cognito user pool
 
 TOTP can be set up by calling the `setUpTOTP` and `verifyTOTPSetup` APIs in the `Auth` category.
 
@@ -421,19 +393,24 @@ Invoke the `setUpTOTP` API to generate a `TOTPSetupDetails` object which should 
 
 that contains the `sharedSecret` which will be used to either to generate a QR code or can be manually entered into an Authenticator app.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import iosSetUpTOTP from '/src/fragments/lib/auth/ios/totp/set_up_totp.mdx';
 
-```typescript
-import { setUpTOTP } from 'aws-amplify/auth';
+<Fragments fragments={{ swift: iosSetUpTOTP }} />
 
-async function handleTOTPSetup() {
+import androidSetUpTOTP from '/src/fragments/lib/auth/android/totp/set_up_totp.mdx';
+
+<Fragments fragments={{ android: androidSetUpTOTP }} />
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> setUpTotp() async {
   try {
-    const totpSetupDetails = await setUpTOTP();
-    const appName = 'my_app_name';
-    const setupUri = totpSetupDetails.getSetupUri(appName);
-    // Open setupUri with an authenticator APP to retrieve an OTP code
-  } catch (error) {
-    console.log(error);
+    final totpSetupDetails = await Amplify.Auth.setUpTotp();
+    final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+    safePrint('Open URI to complete setup: $setupUri');
+  } on AuthException catch (e) {
+    safePrint('An error occurred setting up TOTP: $e');
   }
 }
 ```
@@ -442,36 +419,56 @@ async function handleTOTPSetup() {
 
 Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTOTPSetup` to complete the TOTP setup process.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import iosVerifyTOTPSetup from '/src/fragments/lib/auth/ios/totp/verify_totp_setup.mdx';
 
-<BlockSwitcher>
-<Block name="TypeScript">
+<Fragments fragments={{ swift: iosVerifyTOTPSetup }} />
 
-```ts
-import { verifyTOTPSetup } from 'aws-amplify/auth';
+import androidVerifyTOTPSetup from '/src/fragments/lib/auth/android/totp/verify_totp_setup.mdx';
 
-async function handleTOTPVerification(totpCode: string) {
+<Fragments fragments={{ android: androidVerifyTOTPSetup }} />
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> verifyTotpSetup(String totpCode) async {
   try {
-    await verifyTOTPSetup({ code: totpCode });
-  } catch (error) {
-    console.log(error);
+    await Amplify.Auth.verifyTotpSetup(totpCode);
+  } on AuthException catch (e) {
+    safePrint('An error occurred verifying TOTP: $e');
   }
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+            AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+            plugin.updateMFAPreference(
+                    null,
+                    MFAPreference.ENABLED,
+                    () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
+                    e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
+            );
+        }
+```
+
 </Block>
+<Block name="Kotlin">
 
-<Block name="JavaScript">
-
-```js
-import { verifyTOTPSetup } from 'aws-amplify/auth';
-
-async function handleTOTPVerification(totpCode) {
-  try {
-    await verifyTOTPSetup({ code: totpCode });
-  } catch (error) {
-    console.log(error);
-  }
+```kotlin
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin) {
+    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+    plugin.updateMFAPreference(
+        null,
+        MFAPreference.ENABLED,
+        { Log.i("AuthQuickstart", "MFA preference updated successfully" ) },
+        { e: AuthException? -> Log.e("AuthQuickstart", "Failed to update MFA preference", e) }
+    )
 }
 ```
 
@@ -480,21 +477,54 @@ async function handleTOTPVerification(totpCode) {
 
 </InlineFilter>
 
+<InlineFilter filters={['swift']}>
+
 After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+<BlockSwitcher>
 
-```ts
-import { updateMFAPreference } from 'aws-amplify/auth';
+<Block name="Async/Await">
 
-async function handleUpdateMFAPreference() {
-  try {
-    await updateMFAPreference({ sms: 'ENABLED', totp: 'PREFERRED' });
-  } catch (error) {
-    console.log(error);
-  }
+```swift
+func updateMFAPreferences() async throws {
+    let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+    let totpMfaPreference: MFAPreference = .enabled // or .preferred
+
+    try await authCognitoPlugin?.updateMFAPreference(
+        totp: totpMfaPreference)
 }
 ```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func updateMFAPreferences() -> AnyCancellable {
+    Amplify.Publisher.create {
+        let authCognitoPlugin = try Amplify.Auth.getPlugin(
+            for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+        let totpMfaPreference: MFAPreference = .enabled // or .preferred
+
+        try await authCognitoPlugin?.updateMFAPreference(
+            totp: totpMfaPreference)
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: {
+        print("Update MFA preference succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -502,11 +532,11 @@ async function handleUpdateMFAPreference() {
 
 <Callout warning>
 
-If a user loses access to their TOTP device, they would need to contact an administrator to help get access to their account. Based on the Cognito user pool configuration, the administrator can use the [AdminSetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserMFAPreference.html) to either change the MFA preference to a different MFA method or to disable MFA for the user.
+If a user loses access to their TOTP device, they would need to contact an administrator to help get access to their account. Based on the Cognito User Pool configuration, the administrator can use the [AdminSetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserMFAPreference.html) to either change the MFA preference to a different MFA method or to disable MFA for the user.
 
 </Callout>
 
-In a scenario where MFA is marked as **Required** in your user pool and another MFA method is not set up, the administrator would need to first initiate an [AdminUpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html) call and update the user’s phone number attribute. Once this is complete, the administrator can continue changing the MFA preference to SMS as suggested above.
+In a scenario where MFA is marked as **Required** in Cognito User Pool and another MFA method is not set up, the administrator would need to first initiate an [AdminUpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html) call and update the user’s phone number attribute. Once this is complete, the administrator can continue changing the MFA preference to SMS as suggested above.
 
 ## Setting a user's preferred MFA option
 
@@ -514,19 +544,23 @@ In a scenario where MFA is marked as **Required** in your user pool and another 
 
 Invoke the following API to get the current MFA preference and enabled MFA types, if any, for the current user.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import iosFetchMFAPreference from '/src/fragments/lib/auth/ios/mfa_preference/10_fetch_mfa_preference.mdx';
 
-```ts
-import { fetchMFAPreference } from 'aws-amplify/auth';
+<Fragments fragments={{ swift: iosFetchMFAPreference }} />
 
-async function handleFetchMFAPreference() {
-  try {
-    const output = await fetchMFAPreference();
-    console.log(`Enabled MFA types for the user: ${output.enabled}`);
-    console.log(`Preferred MFA type for the user: ${output.preferred}`);
-  } catch (error) {
-    console.log(error);
-  }
+import androidFetchMFAPreference from '/src/fragments/lib/auth/android/mfa_preference/10_fetch_mfa_preference.mdx';
+
+<Fragments fragments={{ android: androidFetchMFAPreference }} />
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> getCurrentMfaPreference() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  final currentPreference = await cognitoPlugin.fetchMfaPreference();
+  safePrint('Enabled MFA types for user: ${currentPreference.enabled}');
+  safePrint('Preferred MFA type for user: ${currentPreference.preferred}');
 }
 ```
 
@@ -542,106 +576,72 @@ Only one MFA method can be marked as preferred at a time. If the user has multip
 
 </Callout>
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import iosUpdateMFAPreferences from '/src/fragments/lib/auth/ios/mfa_preference/20_update_mfa_preference.mdx';
 
-```ts
-import { updateMFAPreference } from 'aws-amplify/auth';
+<Fragments fragments={{ swift: iosUpdateMFAPreferences }} />
 
-async function handleUpdateMFAPreference() {
-  try {
-    await updateMFAPreference({ sms: 'ENABLED', totp: 'PREFERRED' });
-  } catch (error) {
-    console.log(error);
-  }
+import androidUpdateMFAPreferences from '/src/fragments/lib/auth/android/mfa_preference/20_update_mfa_preference.mdx';
+
+<Fragments fragments={{ android: androidUpdateMFAPreferences }} />
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> updateMfaPreferences() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  await cognitoPlugin.updateMfaPreference(
+    sms: MfaPreference.enabled,
+    totp: MfaPreference.preferred,
+  );
 }
 ```
 
 </InlineFilter>
 
-If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
+If multiple MFA methods are enabled for the user, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+import iosContinueSignInWithMFASelection from '/src/fragments/lib/auth/ios/signin_next_steps/91_continue_mfa_selection_code.mdx';
 
-<BlockSwitcher>
-<Block name="TypeScript">
+<Fragments fragments={{ swift: iosContinueSignInWithMFASelection }} />
 
-```ts
-import { confirmSignIn, SignInOutput } from 'aws-amplify/auth';
+import androidContinueSignInWithMFASelection from '/src/fragments/lib/auth/android/signin_next_steps/91_confirm_totp_mfa.mdx';
 
-function handleSignInNextSteps(output: SignInOutput) {
-  const { nextStep } = output;
-  switch (nextStep.signInStep) {
-    // ...
-    case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
-      const allowedMFATypes = nextStep.allowedMFATypes;
-      const mfaType = promptUserForMFAType(allowedMFATypes);
-    case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
-      // display user to enter otp code;
-      break;
-    case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
-      // display user to enter otp code;
-      break;
-    // ...
+<Fragments fragments={{ android: androidContinueSignInWithMFASelection }} />
+
+<InlineFilter filters={['flutter']}>
+
+The MFA types which are currently supported by Amplify Auth are:
+
+- `MfaType.sms`
+- `MfaType.totp`
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithMfaSelection:
+      final allowedMfaTypes = result.nextStep.allowedMfaTypes!;
+      final selection = await _promptUserPreference(allowedMfaTypes);
+      return _handleMfaSelection(selection);
+    // ···
   }
 }
 
-function promptUserForMFAType(
-  allowedMFATypes?: ('SMS' | 'TOTP')[]
-): 'SMS' | 'TOTP' {
-  // Prompt user to select MFA type
+Future<MfaType> _promptUserPreference(Set<MfaType> allowedTypes) async {
+  // ···
 }
 
-async function handleMFASelection(mfaType: 'SMS' | 'TOTP') {
+Future<void> _handleMfaSelection(MfaType selection) async {
   try {
-    const output = await confirmSignIn({
-      challengeResponse: mfaType
-    });
-    handleSignInNextSteps(output);
-  } catch (error) {
-    console.log(error);
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: selection.confirmationValue,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error resending code: ${e.message}');
   }
 }
 ```
-
-</Block>
-
-<Block name="JavaScript">
-
-```js
-function handleSignInNextSteps(output) {
-  const { nextStep } = output;
-  switch (nextStep.signInStep) {
-    // ...
-    case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
-      const allowedMFATypes = nextStep.allowedMFATypes;
-      const mfaType = promptUserForMFAType(allowedMFATypes);
-    case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
-      // display user to enter otp code;
-      break;
-    case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
-      // display user to enter otp code;
-      break;
-    // ...
-  }
-}
-
-function promptUserForMFAType(allowedMFATypes) {
-  // Prompt user to select MFA type
-}
-
-async function handleMFASelection(mfaType) {
-  try {
-    const output = await confirmSignIn({
-      challengeResponse: mfaType
-    });
-    handleSignInNextSteps(output);
-  } catch (error) {
-    console.log(error);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
 
 </InlineFilter>
