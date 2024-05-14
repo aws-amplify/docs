@@ -27,11 +27,11 @@ export function getStaticProps(context) {
 
 If you have not already done so, please read the introduction documentation, [Use Amplify Categories APIs in Server-Side Rendering](/gen1/[platform]/build-a-backend/server-side-rendering/), to learn about how to use Amplify categories' APIs in server-side rendering.
 
-This documentation provides a getting-started guide to using the generic `runWithAmplifyServerContext` adapter (exported from `aws-amplify/adapter-core`) to enable Amplify in a Nuxt 3 project. The examples in this documentation may not present best practices for your Nuxt project. You are welcome to provide suggestions and contributions to improve this documentation or to create a Nuxt adapter package for Amplify and let others use it.
+This documentation provides a getting started guide to using the generic `runWithAmplifyServerContext` adapter (exported from `aws-amplify/adapter-core`) to enable Amplify in a Nuxt 3 project. The examples in this documentation may not present best practices for your Nuxt project. You are welcome to provide suggestions and contributions to improve this documentation or to create a Nuxt adapter package for Amplify and let others use it.
 
 <Callout>
 
-**Note:** This guide assumes that you have a deep knowledge of Nuxt 3.
+**Note:** This guide assumes that you have deep knowledge of Nuxt 3.
 
 </Callout>
 
@@ -41,14 +41,14 @@ You can install relevant Amplify libraries by following the [manual installation
 
 ## Set up the AmplifyAPIs plugin
 
-Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed on both the client and server sides. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs of Amplify are slightly different. You can set up an `AmplifyAPIs` plugin to make your data fetching logic run smoothly across the client and server.
+Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed in both client and server runtimes. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs are slightly different. You can set up an `AmplifyAPIs` plugin to make your data fetching logic run smoothly across the client and server.
 
 1. If you haven’t already done so, create a `plugins` directory under the root of your Nuxt project
 2. Create two files `01.amplifyApis.client.ts` and `01.amplifyApis.server.ts` under the `plugins` directory
 
 <Callout>
 
-**Note:** the leading number in the files name indicate the plugin loading order, details see https://nuxt.com/docs/guide/directory-structure/plugins#registration-order. The `.client` and `.server` indicate the runtime that the logic contained in the file will run on, client or server. For details see: https://nuxt.com/docs/guide/directory-structure/plugins
+**Note:** the leading number in the filenames indicates the plugin loading order, details see https://nuxt.com/docs/guide/directory-structure/plugins#registration-order. The `.client` and `.server` indicate the runtime that the logic contained in the file will run on, client or server. For details see: https://nuxt.com/docs/guide/directory-structure/plugins
 
 </Callout>
 
@@ -110,7 +110,7 @@ export default defineNuxtPlugin({
 
 <Callout warning="true">
 
-Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+Make sure you call `Amplify.configure` as early as possible in your application’s lifecycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
 
 </Callout>
 
@@ -153,7 +153,7 @@ const lastAuthUserCookieName = `CognitoIdentityServiceProvider.${userPoolClientI
 // create a GraphQL client that can be used in a server context
 const gqlServerClient = generateClient<Schema>({ config: amplifyConfig });
 
-// Extra the model operation function types for creating wrapper function later
+// extract the model operation function types for creating wrapper function later
 type RemoveFirstParam<Params extends any[]> = Params extends [infer _, ...infer Rest] ? Rest : never; 
 type TodoListInput = RemoveFirstParam<Parameters<typeof gqlServerClient.models.Todo.list>>;
 type TodoCreateInput = RemoveFirstParam<Parameters<typeof gqlServerClient.models.Todo.create>>;
@@ -397,7 +397,7 @@ const { data, error } = useAsyncData(async () => {
 </template>
 ```
 
-The above two pages can be rendered on both the client and server sides by default. `useNuxtApp().$Amplify` will pick up the correct implementation of `01.amplifyApis.client.ts` and `01.amplifyApis.server.ts` to use, depending on the runtime.
+The above two pages can be rendered on both the client and server by default. `useNuxtApp().$Amplify` will pick up the correct implementation of `01.amplifyApis.client.ts` and `01.amplifyApis.server.ts` to use, depending on the runtime.
 
 <Callout warning>
 
@@ -407,7 +407,7 @@ Only a subset of Amplify APIs are usable on the server side, and as the librarie
 
 ## Set up Auth middleware to protect your routes
 
-The auth middleware will use the plugin set up in the previous step as a dependency; therefore you can add the auth middleware via another plugin that will be loaded after the previous one.
+The auth middleware will use the plugin configured in the previous step as a dependency; therefore you can add the auth middleware via another plugin that will be loaded after the previous one.
 
 1. Create a `02.authRedirect.ts` file under plugins directory
 
