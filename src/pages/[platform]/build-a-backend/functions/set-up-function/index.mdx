@@ -52,7 +52,8 @@ export const sayHello = defineFunction({
 Next, create the corresponding handler file at `amplify/functions/say-hello/handler.ts`. This is where your function code will go.
 
 ```ts title="amplify/functions/say-hello/handler.ts"
-export const handler = async (event) => {
+import { LambdaFunctionURLEvent } from "aws-lambda";
+export const handler = async (event: LambdaFunctionURLEvent) => {
   // your function code goes here
   return 'Hello, World!';
 };
@@ -74,6 +75,49 @@ defineBackend({
 ```
 
 Now when you run `npx ampx sandbox` or deploy your app on Amplify, it will include your backend function. See the [examples](../examples/) below for connecting your functions to event sources.
+
+In order to invoke your function from your frontend code, you may invoke it via a function url. In order to achieve that, you'll first need to attach one via cdk in backend.ts:
+
+
+```ts title="amplify/backend.ts"
+import { IFunction, FunctionUrlAuthType } from "aws-cdk-lib/aws-lambda";
+import { defineBackend } from '@aws-amplify/backend';
+import { sayHello } from './functions/say-hello/resource';
+
+const backend = defineBackend({
+  sayHello
+});
+
+const underlyingLambda = backend.sayHello.resources.lambda as IFunction;
+const functionUrl = underlyingLambda.addFunctionUrl({
+  authType: FunctionUrlAuthType.NONE,
+  cors: {
+    allowedOrigins: ["*"],
+    allowedHeaders: ["*"],
+  },
+});
+
+backend.addOutput({
+  custom: {
+    sayHello: functionUrl,
+  },
+});
+```
+
+Then, you can use the function url we added from your frontend code. This example accomplishes this using a new `src/helper.ts` file.
+
+```ts title="src/helper.ts"
+import config from "../amplify_outputs.json";
+export const invokeFunction = async (): Promise<string> => {
+  const response = await fetch(
+    config.custom.sayHello,
+    {},
+  );
+  const data = await response.text();
+  // Prints "Hello World"
+  console.log(data)
+}
+```
 
 ## Next steps
 
