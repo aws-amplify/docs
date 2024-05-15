@@ -321,24 +321,24 @@
     fast-xml-parser "^4.2.5"
     tslib "^2.5.0"
 
-"@aws-amplify/ui-react-core@3.0.10":
-  version "3.0.10"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-react-core/-/ui-react-core-3.0.10.tgz"
-  integrity sha512-W8xQTosEHXVIqXQzehEVIc3u99O1VeoA6EGwVQxdIL2akpniCGr0bgCVlqDC8tu6K5Tp+nM9PcAaiZymoi2PRA==
+"@aws-amplify/ui-react-core@3.0.15":
+  version "3.0.15"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react-core/-/ui-react-core-3.0.15.tgz#f14421e5b53749b19e78a35938366af6ce2f4713"
+  integrity sha512-xuWR063a37pXPf0ohqDX9vvILlMqIlScUXB4vWlamlUQZiLK3Je33fNt8bxOGegzFVvFk25/hIQU6j09jJ5yLw==
   dependencies:
-    "@aws-amplify/ui" "6.0.10"
+    "@aws-amplify/ui" "6.0.15"
     "@xstate/react" "^3.2.2"
     lodash "4.17.21"
     react-hook-form "^7.43.5"
     xstate "^4.33.6"
 
-"@aws-amplify/ui-react@^6.0.7":
-  version "6.1.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-react/-/ui-react-6.1.4.tgz"
-  integrity sha512-g+ZRu7ZmKliQEQFM7KxX0PcHlIlI78t8EOeSPX8d30T8SWqfIZQ8yA985CN4oGmychi/+rxBTiawXfqrwRzMZg==
+"@aws-amplify/ui-react@^6.1.10":
+  version "6.1.10"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-6.1.10.tgz#43644257afee278de4675b0255f401d0f0ff6b9f"
+  integrity sha512-LAFympPAlPXdeMHvt6QPSZZRvm72jKwAvMNdvnei0quz6QhKMaYWxtmMEWQmukXVGexif3z0ej9qSWPyPp9a3g==
   dependencies:
-    "@aws-amplify/ui" "6.0.10"
-    "@aws-amplify/ui-react-core" "3.0.10"
+    "@aws-amplify/ui" "6.0.15"
+    "@aws-amplify/ui-react-core" "3.0.15"
     "@radix-ui/react-direction" "1.0.0"
     "@radix-ui/react-dropdown-menu" "1.0.0"
     "@radix-ui/react-slider" "1.0.0"
@@ -347,10 +347,10 @@
     qrcode "1.5.0"
     tslib "^2.5.2"
 
-"@aws-amplify/ui@6.0.10":
-  version "6.0.10"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui/-/ui-6.0.10.tgz"
-  integrity sha512-i9glC6Wh20ldN8BNqNHkg8KT7oHyZWt2UTSTlfRDH/doHKFAnIO/4bUES+DNoe3EYTtimvzDfCWXMNLADJvwYw==
+"@aws-amplify/ui@6.0.15":
+  version "6.0.15"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui/-/ui-6.0.15.tgz#4368a56a52a2ee6460f124b2a811bc61fcc3939b"
+  integrity sha512-SOcr/3XfXG1rQfDbhS1EcOoliDVcd8LYHNkJVgHS78msBFq+PErbO2K/HeXC7JkXx8Nwt4xnc3PDZXzCpdlU6w==
   dependencies:
     csstype "^3.1.1"
     lodash "4.17.21"
