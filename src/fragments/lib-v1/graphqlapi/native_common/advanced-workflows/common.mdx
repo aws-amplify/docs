@@ -138,15 +138,9 @@ import flutter5 from '/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflow
 
 <Fragments fragments={{ flutter: flutter5 }} />
 
-## Combining multiple GraphQL operations in a single request
+## Combining Multiple Operations
 
-<InlineFilter filters={['swift', 'android']} >
 When you want to perform more than one operation in a single request, you can place them within the same document. For example, to retrieve a Post and a Todo
-</InlineFilter>
-
-<InlineFilter filters={['flutter']} >
-GraphQL allows you to run multiple GraphQL operations (queries/mutations) as part of a single network request from the client code. To perform multiple operations in a single request, you can place them within the same GraphQL document. For example, to retrieve a Post and a Todo:
-</InlineFilter>
 
 import ios6 from '/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/40_multiple.mdx';
 
@@ -160,25 +154,15 @@ import flutter7 from '/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflow
 
 <Fragments fragments={{ flutter: flutter7 }} />
 
-<InlineFilter filters={['flutter']} >
-<Callout>
-
-Combining multiple GraphQL requests on the client-side is different than server-side transaction support. To run multiple transactions as a batch operation refer to the [Batch Put Custom Resolver](/gen1/[platform]/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/) example.
-
-</Callout>
-</InlineFilter>
-
 ## Adding Headers to Outgoing Requests
 
 By default, the API plugin includes appropriate authorization headers on your outgoing requests. However, you may have an advanced use case where you wish to send additional request headers to AppSync.
 
-<InlineFilter filters={['flutter']} >
 <Callout>
 
 If your API does not require any authorization or if you would like manipulate the request yourself, please refer to the [Set authorization mode to NONE](/gen1/[platform]/build-a-backend/graphqlapi/customize-authz-modes/#none)
 
 </Callout>
-</InlineFilter>
 
 import ios8 from '/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/50_interceptor.mdx';
 

@@ -1,5 +1,3 @@
-However, if you need to access them in relation to working with an API outside Amplify or want access to AWS specific identifying information (e.g. IdentityId), you can access these implementation details by calling fetchAuthSession on the Cognito Auth Plugin. This will return a `CognitoAuthSession`, which has additional attributes compared to `AuthSession`, which is typically returned by fetchAuthSession. See the example below:
-
 ```dart
 Future<void> fetchAuthSession() async {
   try {
