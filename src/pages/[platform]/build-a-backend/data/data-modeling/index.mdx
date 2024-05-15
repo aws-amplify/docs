@@ -36,7 +36,7 @@ export function getStaticProps(context) {
 Every data model is defined as part of a data schema (`a.schema()`). You can enhance your data model with various fields, customize their identifiers, apply authorization rules, or model relationships. Every data model (`a.model()`) automatically provides create, read, update, and delete API operations as well as real-time subscription events. Below is a quick tour of the many functionalities you can add to your data model:
 
 ```ts
-import { a } from "@aws-amplify/backend";
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a
   .schema({
@@ -54,19 +54,21 @@ const schema = a
         }),
         // fields can be enums
         engagementStage: a.enum(["PROSPECT", "INTERESTED", "PURCHASED"]),
+        collectionId: a.id(),
+        collection: a.belongsTo("Collection", "collectionId")
         // Use custom identifiers. By default, it uses an `id: a.id()` field
       })
       .identifier(["customerId"]),
     Collection: a
       .model({
-        customers: a.hasMany("Customer", "customerId"), // setup relationships between types
+        customers: a.hasMany("Customer", "collectionId"), // setup relationships between types
         tags: a.string().array(), // fields can be arrays
         representativeId: a.id().required(),
         // customize secondary indexes to optimize your query performance
       })
       .secondaryIndexes((index) => [index("representativeId")]),
   })
-  .authorization((allow) => [allow.owner()]);
+  .authorization((allow) => [allow.publicApiKey()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
