@@ -316,7 +316,7 @@ Next, add a corresponding sql file to handle the request:
 <Block name="MySQL">
 ```sql title="createNewLocationWithLongLat.sql"
 INSERT INTO locations (name, address, geom)
-VALUES (:name, :address, ST_GEOMFROMTEXT(CONCAT('POINT (', :long, ' ', :lat, ')')));
+VALUES (:name, :address, ST_GEOMFROMTEXT(CONCAT('POINT (', :long, ' ', :lat, ')'), 4326));
 ```
 </Block>
 <Block name="PostgreSQL">
