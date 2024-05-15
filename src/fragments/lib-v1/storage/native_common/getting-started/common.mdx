@@ -99,11 +99,9 @@ import flutter11 from '/src/fragments/lib-v1/storage/flutter/getting-started/30_
 
 <Fragments fragments={{ flutter: flutter11 }} />
 
-<InlineFilter filters={['swift', 'android']}>
 ## Uploading data to your bucket
 
 To upload to S3 from a data object, specify the key and the data object to be uploaded.
-</InlineFilter>
 
 import ios12 from '/src/fragments/lib-v1/storage/ios/getting-started/40_upload.mdx';
 
@@ -113,7 +111,10 @@ import android13 from '/src/fragments/lib-v1/storage/android/getting-started/40_
 
 <Fragments fragments={{ android: android13 }} />
 
-<InlineFilter filters={['swift', 'android']}>
+import flutter14 from '/src/fragments/lib-v1/storage/flutter/getting-started/40_upload.mdx';
+
+<Fragments fragments={{ flutter: flutter14 }} />
+
 Upon successfully executing this code, you should see a new folder in your bucket, called `public`. It should contain a file called `ExampleKey`, whose contents is `Example file contents`.
 
 ## Next Steps
@@ -126,8 +127,4 @@ Congratulations! You've uploaded a file to an s3 bucket. Check out the following
 - [Remove Files](/gen1/[platform]/prev/build-a-backend/storage/remove/)
 - [File Access Levels](/gen1/[platform]/prev/build-a-backend/storage/configure-access/)
 - [Using Lambda Triggers](/gen1/[platform]/prev/build-a-backend/storage/lambda-triggers/)
-</InlineFilter>
-
-<InlineFilter filters={['android', 'swift']}>
-  - [Escape Hatch](/gen1/[platform]/prev/build-a-backend/storage/sdk/)
-</InlineFilter>
+- [Escape Hatch](/gen1/[platform]/prev/build-a-backend/storage/sdk/)
