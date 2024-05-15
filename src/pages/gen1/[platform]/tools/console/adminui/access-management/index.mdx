@@ -114,3 +114,104 @@ If your Studio application experiences any issues logging in or the resources ha
 If you receive an error that you're not authorized to perform an action, your policies must be updated to allow you to perform the action.
 
 If you need help, contact your AWS administrator. Your administrator is the person who provided you with your sign-in credentials. See [AWS managed policies for AWS Amplify](https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html) for more details.
+
+### Updating Login Cognito Lambda triggers runtime
+
+If you need to update the [Cognito Lambda triggers](/gen1/[platform]/tools/console/adminui/access-management/#cognito-lambda-triggers) runtime, you can do so by updating the Lambda functions triggers associated with the Cognito User Pool named **`amplify_backend_manager_<app-id>`**.
+
+1. Log in to the AWS Management Console, open the Amplify console and select your Amplify project with Amplify Studio enabled.
+2. Retrieve the App-ID present on the overview page under the App name.
+3. Go to Amazon Cognito, select `User pools`. Search for the user pool with the App-Id. You will observe the app user pool with the naming format `amplify_backend_manager_<app-id>`.
+4. Click on the user pool and go to `User Pool Properties` which should display the `Lambda Triggers`. 
+![Cognito Lambda Triggers](/images/studio/lambda-triggers-studio.png)
+5. For each lambda trigger, click on the link specified in the `Attached Lambda Function`. Note, If your lambda trigger is `Verify auth challenge response Lambda trigger` the function requires additional steps provided on [Update verify auth challenge response Lambda trigger](/gen1/[platform]/tools/console/adminui/access-management/#update-verify-auth-challenge-response-lambda-trigger) section. 
+6. Click on `Edit runtime settings` and change the runtime to `Node.js 20.x` from the drop-down options.
+![Lambda runtime](/images/studio/lambda_runtime.png)
+7. Click `Save`.
+
+### Update verify auth challenge response Lambda trigger
+
+This function requires code change as Lambda with `NodeJS 20.x` use a newer version of `aws-sdk`.
+
+1. Go to Lambda Code Source and select `index.js` file.
+![Lambda source code](/images/studio/trigger_source_code.png)
+2. Replace the contents of `index.js` with the following:
+
+```js
+const { AmplifyBackendClient, GetTokenCommand, DeleteTokenCommand } = require('@aws-sdk/client-amplifybackend');
+
+exports.handler = async (event, context) => {
+  try {
+    const amplifyBackendService = new AmplifyBackendService(event);
+    await amplifyBackendService.validateToken();
+    console.log(`verified challenge code with result: ${event.response.answerCorrect}`);
+    context.done(null, event);
+    return event;
+  } catch (e) {
+    console.error('exception occurred during verify', e);
+    event.response.answerCorrect = false;
+    context.done(e, event);
+  }
+};
+
+class AmplifyBackendService {
+  constructor(event) {
+    const { sessionId, appId } = event.request.clientMetadata;
+    const { challengeAnswer } = event.request;
+    this.appId = appId;
+    this.sessionId = sessionId;
+    this.challengeAnswer = challengeAnswer;
+    this.event = event;
+  }
+
+  async validateToken() {
+    this.amplifyBackend = this.initService();
+    // 1. Get token
+    const tokenResponse = await this.getToken();
+
+    // 2. Validate token
+    const challengeCode = tokenResponse.ChallengeCode;
+    if (challengeCode && this.challengeAnswer && this.challengeAnswer === challengeCode) {
+      this.event.response.answerCorrect = true;
+    } else {
+      this.event.response.answerCorrect = false;
+    }
+
+    // 3. Delete token
+    await this.deleteToken();
+
+    return this.event.response.answerCorrect;
+  }
+
+  initService() {
+    const amplifyBackend = process.env.ENDPOINT
+      ? new AmplifyBackendClient({
+          endpoint: process.env.ENDPOINT,
+        })
+      : new AmplifyBackendClient();
+    return amplifyBackend;
+  }
+
+  getToken() {
+    return this.amplifyBackend.send(
+      new GetTokenCommand({
+        AppId: this.appId,
+        SessionId: this.sessionId,
+      }),
+    );
+  }
+
+  deleteToken() {
+    return this.amplifyBackend.send(
+      new DeleteTokenCommand({
+        AppId: this.appId,
+        SessionId: this.sessionId,
+      }),
+    );
+  }
+}
+
+exports.AmplifyBackendService = AmplifyBackendService;
+```
+
+3. Click `Deploy` to save the changes.
