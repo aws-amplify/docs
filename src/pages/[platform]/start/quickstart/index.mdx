@@ -2185,7 +2185,8 @@ Now move the `amplify_outputs.json` file you downloaded above to `app/src/main/r
 The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.
 </Accordion>
 
-### 5. App Prerequisites
+### 5. Install dependencies
+
 Amplify uses some modern Java APIs that require desugaring to be added for earlier versions of Android. In your app/build.gradle.kts add the following lines:
 ```kotlin title="app/build.gradle.kts"
 android {
