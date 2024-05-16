@@ -69,51 +69,44 @@ Replace `<AWS-account-ID>` with your AWS account ID and `<role-name>` with the I
 
 You can refer to [Amazon S3's Policies and Permissions documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html) for more ways to customize access to the bucket.
 
-<InlineFilter filters={["javascript", "react", "react-native", "vue", "angular"]}>
+Next, use the `addOutput` method from the backend definition object to define a custom s3 bucket by specifying the name and region of the bucket in your **amplify/backend.ts** file.
 
-Finally, specify the bucket name and bucket region when configuring Amplify in your application as seen below.
+<Callout>
+
+**Important**
+
+You cannot use both a storage backend configured through Amplify and a custom S3 bucket at the same time. 
+
+If you specify a custom S3 bucket, no sandbox storage resource will be created. The provided custom S3 bucket will be used, even in the sandbox environment.
+
+</Callout>
 
 ```javascript
 
-Amplify.configure({
-  ...Amplify.getConfig(),
-  //highlight-start
-  Storage: {
-    S3: {
-      region: '[REGION]', // (required) - Amazon S3 bucket region
-      bucket: '[BUCKET NAME]' // (required) - Amazon S3 bucket URI
-    }
-  }
-  //highlight-end
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+const backend = defineBackend({
+  auth,
+  data,
 });
 
-```
-</InlineFilter>
-
-<InlineFilter filters={["swift","android"]}>
-
-Finally, add a storage section that includes the bucket name and bucket region in the **amplify_outputs.json** file
-
-```json
-
-{
-  "auth": {
-    .
-    .
+//highlight-start
+backend.addOutput({
+  storage: {
+    aws_region: "<region>",
+    bucket_name: "<bucket-name>"
   },
-  "data": {
-    .
-    .
-  },
-  //highlight-start
-  "storage": {
-    "aws_region": "[region]",
-    "bucket_name": "[bucket-name]"
-  },
-  //highlight-end
-}
+});
+//highlight-end
 
 ```
+<InlineFilter filters={["javascript", "nextjs", "react", "angular", "vue", "android", "swift"]}>
+
+To ensure the local amplify_outputs.json file is up-to-date, you can run [the npx ampx generate outputs command](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs) or download the latest amplify_output.json from the Amplify console as shown below.
+
+![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 </InlineFilter>
 
