@@ -16,10 +16,10 @@ const graphQLDocument = '''query GetPost(\$id: ID!) {
   }
 }''';
 final getPostRequest = GraphQLRequest<Post>(
-  document: graphQLDocument,
-  modelType: Post.classType,
-  variables: <String, String>{'id': somePostId},
-  decodePath: getPost,
+    document: graphQLDocument,
+    modelType: Post.classType,
+    variables: <String, String>{'id': somePostId},
+    decodePath: getPost,
 );
 ```
 

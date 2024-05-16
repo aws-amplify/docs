@@ -4,11 +4,10 @@ Then, include it, along with any other auth providers, in the call to `addPlugin
 await Amplify.addPlugin(
   AmplifyAPI(
     authProviders: const [
-      CustomOIDCProvider(),
-      CustomFunctionProvider(),
+        CustomOIDCProvider(),
+        CustomFunctionProvider(),
     ],
-  ),
-);
+));
 ```
 
 <Callout warning>

@@ -9,7 +9,7 @@ Future<void> getTodo() async {
     final response = await restOperation.response;
     print('GET call succeeded: ${response.decodeBody()}');
   } on ApiException catch (e) {
-    print('GET call failed: $e');
+      print('GET call failed: $e');
   }
 }
 ```
