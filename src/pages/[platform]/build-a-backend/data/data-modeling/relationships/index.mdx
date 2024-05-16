@@ -24,6 +24,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      
       meta
     }
   };
@@ -114,24 +115,16 @@ Amplify.API.mutate(ModelMutation.create(team),
 <InlineFilter filters={["swift"]}>
 
 ```swift
-Task {
-    do {
-        let team = Team(mantra: "Go Frontend!")
-        let createTeamResult = try await Amplify.API.mutate(request: .create(team))
-        guard case .success = createTeamResult else {
-            print("API response: \(createTeamResult)")
-            return
-        }
+do {
+    let team = Team(mantra: "Go Frontend!")
+    let createdTeam = try await Amplify.API.mutate(request: .create(team)).get()
 
-        let member = Member(name: "Tim", team: try createTeamResult.get()) // Directly pass in the post instance
-        let createMemberResult = try await Amplify.API.mutate(request: .create(member))
-        guard case .success = createMemberResult else {
-            print("API response: \(createMemberResult)")
-            return
-        }
-    } catch {
-        print("Create team or member failed", error)
-    }
+    let member = Member(
+        name: "Tim",
+        team: createdTeam) // Directly pass in the team instance
+    let createdMember = try await Amplify.API.mutate(request: .create(member))
+} catch {
+    print("Create team or member failed", error)
 }
 ```
 
@@ -195,24 +188,14 @@ Amplify.API.mutate(ModelMutation.create(newTeam),
 <InlineFilter filters={["swift"]}>
 
 ```swift
-Task {
-    do {
-        let newTeam = Team(mantra: "Go Fullstack!")
-        let createNewTeamResult = try await Amplify.API.mutate(request: .create(newTeam))
-        guard case .success = createNewTeamResult else {
-            print("API response: \(createNewTeamResult)")
-            return
-        }
+do {
+    let newTeam = Team(mantra: "Go Fullstack!")
+    let createdNewTeam = try await Amplify.API.mutate(request: .create(newTeam)).get()
 
-        let updatedMember = Member(id: existingMember.id, name: existingMember.name, team: try createNewTeamResult.get())
-        let updateMemberResult = try await Amplify.API.mutate(request: .update(updatedMember))
-        guard case .success = updateMemberResult else {
-            print("API response: \(updateMemberResult)")
-            return
-        }
-    } catch {
-        print("Create team or member failed", error)
-    }
+    existingMember.setTeam(createdNewTeam)
+    let updatedMember = try await Amplify.API.mutate(request: .update(existingMember)).get()
+} catch {
+    print("Create team or update member failed", error)
 }
 ```
 
@@ -263,11 +246,11 @@ Amplify.API.mutate(ModelMutation.update(memberWithRemovedTeam),
 <InlineFilter filters={["swift"]}>
 
 ```swift
-let memberWithRemovedTeam = Member(id: existingMember.id, name: existingMember.name, team: nil)
-let memberRemoveResult = try await Amplify.API.mutate(request: .update(memberWithRemovedTeam))
-guard case .success = memberRemoveResult else {
-    print("API response: \(memberRemoveResult)")
-    return
+do {
+    existingMember.setTeam(nil)
+    let memberRemovedTeam = try await Amplify.API.mutate(request: .update(existingMember)).get()
+} catch {
+    print("Failed to remove team from member", error)
 }
 ```
 
@@ -377,21 +360,20 @@ Amplify.API.query(
 <InlineFilter filters={["swift"]}>
 
 ```swift
-Task {
-    do {
-        let queryTeamResult = try await Amplify.API.query(request: .get(Team.self, byIdentifier: "MY_TEAM_ID"))
-        guard case .success(let queryTeamOptional) = queryTeamResult,
-              let queriedTeam = queryTeamOptional,
-              let members = queriedTeam.members else {
-            print("API response: \(queryTeamResult)")
-            return
-        }
+do {
+    let queriedTeam = try await Amplify.API.query(
+        request: .get(
+            Team.self,
+            byIdentifier: team.identifier)).get()
 
-        try await members.fetch()
-
-    } catch {
-        print("Failed to fetch cart or customer", error)
+    guard let queriedTeam, let members = queriedTeam.members else {
+        print("Missing team or members")
+        return
     }
+    try await members.fetch()
+    print("Number of members: \(members.count)")
+} catch {
+    print("Failed to fetch team or members", error)
 }
 ```
 
@@ -432,27 +414,20 @@ Amplify.API.query(
 <InlineFilter filters={["swift"]}>
 
 ```swift
-Task {
-    do {
-        let queryTeamResult = try await Amplify.API.query(request:
-                .get(
-                    Team.self,
-                    byIdentifier: "MY_TEAM_ID",
-                    includes: { team in
-                        [team.members]
-        }))
-        guard case .success(let queryTeamOptional) = queryTeamResult,
-              let queriedTeam = queryTeamOptional,
-              let members = queriedTeam.members else {
-            print("API response: \(queryTeamResult)")
-            return
-        }
-
-        try await members.fetch()
-
-    } catch {
-        print("Failed to fetch cart or customer", error)
+do {
+    let queriedTeamWithMembers = try await Amplify.API.query(
+        request: .get(
+            Team.self,
+            byIdentifier: team.identifier,
+            includes: { team in [team.members]}))
+        .get()
+    guard let queriedTeamWithMembers, let members = queriedTeamWithMembers.members else {
+        print("Missing team or members")
+        return
     }
+    print("Number of members: \(members.count)")
+} catch {
+    print("Failed to fetch team with members", error)
 }
 ```
 
@@ -535,24 +510,16 @@ Amplify.API.mutate(ModelMutation.create(customer),
 <InlineFilter filters={["swift"]}>
 
 ```swift
-Task {
-    do {
-        let customer = Customer(name: "Rene")
-        let createCustomerResult = try await Amplify.API.mutate(request: .create(customer))
-        guard case .success = createCustomerResult else {
-            print("API response: \(createCustomerResult)")
-            return
-        }
+do {
+    let customer = Customer(name: "Rene")
+    let createdCustomer = try await Amplify.API.mutate(request: .create(customer)).get()
 
-        let cart = Cart(items: ["Tomato", "Ice", "Mint"], customer: try createCustomerResult.get())
-        let createCartResult = try await Amplify.API.mutate(request: .create(cart))
-        guard case .success = createCartResult else {
-            print("API response: \(createCartResult)")
-            return
-        }
-    } catch {
-        print("Create customer or cart failed", error)
-    }
+    let cart = Cart(
+        items: ["Tomato", "Ice", "Mint"],
+        customer: createdCustomer)
+    let createdCart = try await Amplify.API.mutate(request: .create(cart)).get()
+} catch {
+    print("Create customer or cart failed", error)
 }
 ```
 
@@ -618,24 +585,13 @@ Amplify.API.mutate(ModelMutation.create(newCustomer),
 <InlineFilter filters={["swift"]}>
 
 ```swift
-Task {
-    do {
-        let newCustomer = Customer(name: "Ian")
-        let createNewCustomerResult = try await Amplify.API.mutate(request: .create(newCustomer))
-        guard case .success = createNewCustomerResult else {
-            print("API response: \(createNewCustomerResult)")
-            return
-        }
-
-        let updatedCart = Cart(id: existingCart.id, items: existingCart.items, customer: try createNewCustomerResult.get())
-        let updateCartResult = try await Amplify.API.mutate(request: .update(updatedCart))
-        guard case .success = updateCartResult else {
-            print("API response: \(updateCartResult)")
-            return
-        }
-    } catch {
-        print("Create customer or cart failed", error)
-    }
+do {
+    let newCustomer = Customer(name: "Rene")
+    let newCustomerCreated = try await Amplify.API.mutate(request: .create(newCustomer)).get()
+    existingCart.setCustomer(newCustomerCreated)
+    let updatedCart = try await Amplify.API.mutate(request: .update(existingCart)).get()
+} catch {
+    print("Create customer or cart failed", error)
 }
 ```
 
@@ -658,9 +614,9 @@ final cartUpdateResponse = await Amplify.API.mutate(request: cartUpdateRequest).
 
 ### Delete a "Has One" relationship between records
 
-You can set the relationship field to `null` to delete a "Has One" relationship between records.
-
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+You can set the relationship field to `null` to delete a "Has One" relationship between records.
 
 ```ts
 await client.models.Cart.update({
@@ -672,6 +628,8 @@ await client.models.Cart.update({
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
+
+You can set the relationship field to `null` to delete a "Has One" relationship between records.
 
 ```kt
 val cartWithRemovedCustomer = existingCart.copyOfBuilder().customer(null).build()
@@ -686,12 +644,14 @@ Amplify.API.mutate(ModelMutation.update(cartWithRemovedCustomer),
 
 <InlineFilter filters={["swift"]}>
 
+You can set the relationship field to `nil` to delete a "Has One" relationship between records.
+
 ```swift
-let cartWithRemovedCustomer = Cart(id: existingCart.id, items: existingCart.items, customer: nil)
-let cartRemoveRequest = try await Amplify.API.mutate(request: .update(cartWithRemovedCustomer))
-guard case .success = cartRemoveRequest else {
-    print("API response: \(cartRemoveRequest)")
-    return
+do {
+    existingCart.setCustomer(nil)
+    let cartWithCustomerRemoved = try await Amplify.API.mutate(request: .update(existingCart)).get()
+} catch {
+    print("Failed to remove customer from cart", error)
 }
 ```
 
@@ -715,19 +675,18 @@ final cartRemoveResponse = await Amplify.API.mutate(request: cartRemoveRequest).
 <InlineFilter filters={["swift"]}>
 
 ```swift
-Task {
-    do {
-        let queryCartResult = try await Amplify.API.query(request: .get(Cart.self, byIdentifier: "MY_CART_ID"))
-        guard case .success(let queryCartOptional) = queryCartResult,
-              let queriedCart = queryCartOptional,
-              let customer = try await queriedCart.customer else {
-            print("API response: \(queryCartResult)")
-            return
-        }
-
-    } catch {
-        print("Failed to fetch cart or customer", error)
+do {
+    guard let queriedCart = try await Amplify.API.query(
+        request: .get(
+            Cart.self,
+            byIdentifier: existingCart.identifier)).get() else {
+        print("Missing cart")
+        return
     }
+
+    let customer = try await queriedCart.customer
+} catch {
+    print("Failed to fetch cart or customer", error)
 }
 ```
 
@@ -898,7 +857,7 @@ const schema = a.schema({
 
 On the client-side, you can fetch the related data with the following code:
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
 
 ```ts
 const client = generateClient<Schema>();
@@ -909,6 +868,26 @@ const { data: author } = await post?.author();
 const { data: editor } = await post?.editor();
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+ do {
+    guard let queriedPost = try await Amplify.API.query(
+        request: .get(
+            Post.self,
+            byIdentifier: post.identifier)).get() else {
+        print("Missing post")
+        return
+    }
+
+    let loadedAuthor = try await queriedPost.author
+    let loadedEditor = try await queriedPost.editor
+} catch {
+    print("Failed to fetch post, author, or editor", error)
+}
+```
 </InlineFilter>
 
 ## Model relationships for models with sort keys in their identifier
