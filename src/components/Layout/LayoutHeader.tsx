@@ -51,6 +51,7 @@ export const LayoutHeader = ({
     }
   };
 
+  // Search result transform function that will strip out the pageMain anchor tag
   const transformItems = (items) => {
     items.map((item) => {
       if (item.url.includes('#pageMain')) {
