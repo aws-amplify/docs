@@ -36,6 +36,8 @@ With Amplify Storage APIs, you can use your own S3 buckets instead of the Amplif
 
 </Callout>
 
+## Step 1 - Add necessary permissions to the S3 bucket
+
 For the specific Amazon S3 bucket that you want to use with these APIs, you need to make sure that the associated IAM role has the necessary permissions to read and write data to that bucket.
 
 To do this, go to **Amazon S3 console** > **Select the S3 bucket** > **Permissions** > **Edit** Bucket Policy.
@@ -68,6 +70,8 @@ The policy will look something like this
 Replace `<AWS-account-ID>` with your AWS account ID and `<role-name>` with the IAM role associated with your Amplify Auth setup. Replace `<bucket-name>` with the S3 bucket name.
 
 You can refer to [Amazon S3's Policies and Permissions documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html) for more ways to customize access to the bucket.
+
+## Step 2 - Specify S3 bucket in Amplify's backend config
 
 Next, use the `addOutput` method from the backend definition object to define a custom s3 bucket by specifying the name and region of the bucket in your **amplify/backend.ts** file.
 
@@ -102,9 +106,12 @@ backend.addOutput({
 //highlight-end
 
 ```
+
 <InlineFilter filters={["javascript", "nextjs", "react", "angular", "vue", "react-native", "android", "swift"]}>
 
-To ensure the local amplify_outputs.json file is up-to-date, you can run [the npx ampx generate outputs command](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs) or download the latest amplify_output.json from the Amplify console as shown below.
+## Step 3 - Import latest amplify_outputs.json file
+
+To ensure the local **amplify_outputs.json** file is up-to-date, you can run [the npx ampx generate outputs command](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs) or download the latest **amplify_output.json** from the Amplify console as shown below.
 
 ![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
@@ -112,20 +119,9 @@ To ensure the local amplify_outputs.json file is up-to-date, you can run [the np
 
 <InlineFilter filters={["flutter"]}>
 
-Finally, add a storage section that includes the bucket name and bucket region in the **amplifyconfiguration** file
+## Step 3 - Import latest amplifyconfiguration.dart file
 
-```json
-{
-  "storage": {
-    "plugins": {
-      "awsS3StoragePlugin": {
-        "bucket": "[BUCKET NAME]",
-        "region": "[REGION]"
-      }
-    }
-  }
-}
-```
+To ensure the local **amplifyconfiguration.dart** file is up-to-date, you can run [the npx ampx generate outputs command](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs).
 
 </InlineFilter>
 
