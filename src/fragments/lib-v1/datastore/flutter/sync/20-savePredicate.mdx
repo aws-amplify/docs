@@ -13,8 +13,8 @@ Future<void> savePredicate(Post post) async {
       updatedPost,
       where: Post.TITLE.beginsWith("[Amplify]"),
     );
-  } on DataStoreException {
-    safePrint('Could not update post, maybe the title has been changed?');
+  } on DataStoreException catch (e) {
+    safePrint('Could not update post: $e');
   }
 }
 ```
