@@ -4,15 +4,6 @@ You can get the current user's ID from the Amplify Auth category as shown per th
 
 If you have asked for location access and received permission, you can also provide that in `UserProfileLocation`
 
-<Callout>
-
-Breaking changes from v0 to v1:  
-
-The Analytics- prefix of the original `AnalyticsUserProfile` and `AnalyticsUserProfileLocation` classes is removed.  Furthermore, `AnalyticsProperties` is renamed to `CustomProperties`. 
-
-
-</Callout>
-
 ```dart
 Future<void> addAnalyticsWithLocation({
   required String userId,
@@ -43,7 +34,3 @@ Future<void> addAnalyticsWithLocation({
   );
 }
 ```
-
-import flutter0 from "/src/fragments/lib/analytics/native_common/identify-use-cases.mdx";
-
-<Fragments fragments={{flutter: flutter0}} />
