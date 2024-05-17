@@ -1,104 +1,189 @@
 * @aws-amplify/documentation-team 
-/src/fragments/ @ykethan @jay2113 @chrisbonifacio @aspittel @renebrandel @swaminator @dbanksdesign @josefaidt @ErikCH @arundna @hdworld11 @aws-amplify/documentation-team 
-/src/pages/ @ykethan @jay2113 @chrisbonifacio @aspittel @renebrandel @swaminator @dbanksdesign @josefaidt @ErikCH @arundna @hdworld11 @aws-amplify/documentation-team 
+
+#Unowned
+/src/pages/gen1/[platform]/build-a-backend/existing-resources/
+/src/pages/gen1/[platform]/build-a-backend/functions/
+/src/pages/[platform]/build-a-backend/functions/
+/src/pages/gen1/[platform]/build-a-backend/more-features/
+/src/pages/gen1/[platform]/how-amplify-works/
+/src/pages/[platform]/how-amplify-works/
+/src/pages/gen1/[platform]/sdk/api/
+/src/pages/gen1/[platform]/sdk/configuration/
+/src/pages/gen1/[platform]/sdk/info
+/src/pages/gen1/[platform]/tools/libraries
+/src/pages/gen1/[platform]/prev/start/
+/src/pages/gen1/[platform]/prev/tools/
+/src/pages/[platform]/build-a-backend/functions/
+/src/pages/[platform]/build-a-backend/add-aws-services/custom-resources
+/src/pages/[platform]/build-a-backend/add-aws-services/delete-backup-resources/
+/src/pages/[platform]/build-a-backend/add-aws-services/environment-variables-and-secrets/
+/src/pages/[platform]/build-a-backend/q-developer/
 
 #CLI
-/src/**/cli/ @josefaidt @aws-amplify/documentation-team 
+/src/fragments/cli/ @josefaidt
+/src/pages/gen1/[platform]/tools/cli/ @josefaidt
+/src/pages/gen1/[platform]/tools/cli-legacy/ @josefaidt
+/src/pages/[platform]/reference/cli-commands/ @josefaidt
 
 #Studio
-/src/pages/console/  @dbanksdesign  @aws-amplify/documentation-team 
+/src/pages/gen1/[platform]/tools/console/ @dbanksdesign 
  
 #Analytics
-/src/**/**/analytics @hdworld11 @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/**/analytics/ @hdworld11
+/src/pages/gen1/[platform]/build-a-backend/more-features/analytics/ @hdworld11
+/src/pages/gen1/[platform]/prev/build-a-backend/more-features/analytics/ @hdworld11
+/src/pages/gen1/[platform]/sdk/analytics/ @hdworld11
+/src/pages/[platform]/build-a-backend/add-aws-services/analytics/ @hdworld11
+/src/pages/gen1/[platform]/build-a-backend/existing-resources/cli @hdworld11
 
 #Auth
-/src/**/**/auth @josefaidt @aws-amplify/documentation-team 
-/src/**/**/authz @josefaidt @renebrandel @aws-amplify/documentation-team 
-/src/**/**/authentication @renebrandel @josefaidt @aws-amplify/documentation-team 
+/src/fragments/**/auth/ @josefaidt
+/src/pages/gen1/[platform]/build-a-backend/auth/ @josefaidt
+/src/pages/gen1/[platform]/prev/build-a-backend/auth/ @josefaidt
+/src/pages/gen1/[platform]/sdk/auth/ @josefaidt
+/src/pages/gen1/[platform]/start/getting-started/auth/ @josefaidt
+/src/pages/[platform]/build-a-backend/auth/
 
 #Client Configuration
-/src/**/**/client-configuration @renebrandel @josefaidt @hdworld11 @aws-amplify/documentation-team 
-/src/**/**/configuration @renebrandel @josefaidt @hdworld11 @aws-amplify/documentation-team 
+/src/fragments/**/client-configuration @renebrandel @josefaidt @hdworld11
+/src/fragments/**/configuration @renebrandel @josefaidt @hdworld11
 
 #Common
-/src/fragments/common @renebrandel @hdworld11 @josefaidt @dbanksdesign @aws-amplify/documentation-team 
-/src/fragments/lib/common @renebrandel @hdworld11 @josefaidt @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/common @renebrandel @hdworld11 @josefaidt @dbanksdesign 
+/src/fragments/**/common @renebrandel @hdworld11 @josefaidt @dbanksdesign 
 
 #Data
-/src/**/**/datastore @renebrandel @aws-amplify/documentation-team 
-/src/**/**/data @renebrandel @aws-amplify/documentation-team 
+/src/fragments/**/datastore @renebrandel
+/src/pages/gen1/[platform]/build-a-backend/more-features/datastore @renebrandel
+/src/pages/gen1/[platform]/prev/build-a-backend/more-features/datastore/ @renebrandel
+/src/pages/[platform]/build-a-backend/data/ @renebrandel
 
 #Debugging
-/src/fragments/**/debugging @josefaidt @aws-amplify/documentation-team 
+/src/fragments/**/debugging @josefaidt
+/src/pages/gen1/[platform]/build-a-backend/debugging/ @josefaidt
+/src/pages/gen1/[platform]/prev/build-a-backend/debugging/ @josefaidt
 
 #Geo
-/src/**/**/geo @hdworld11 @aws-amplify/documentation-team 
+/src/fragments/**/geo @hdworld11
+/src/pages/gen1/[platform]/build-a-backend/more-features/geo/ @hdworld11
+/src/pages/gen1/[platform]/prev/build-a-backend/more-features/geo/ @hdworld11
+/src/pages/[platform]/build-a-backend/add-aws-services/geo/ @hdworld11
 
 #Getting Started
-/src/**/start @renebrandel @hdworld11 @josefaidt @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/start @renebrandel @hdworld11 @josefaidt @dbanksdesign
+/src/fragments/gen2/quickstart/ @renebrandel @hdworld11 @josefaidt @dbanksdesign
+/src/fragments/**/start/ @renebrandel @hdworld11 @josefaidt @dbanksdesign
 
 #GraphQL API
-/src/**/**/api-graphql @renebrandel @aws-amplify/documentation-team 
-/src/**/**/graphqlapi @renebrandel @aws-amplify/documentation-team 
-/src/**/cli-legacy/graphql-transformer @renebrandel @aws-amplify/documentation-team 
-/src/fragments/sdk/api/**/graphql.mdx @renebrandel @aws-amplify/documentation-team 
+/src/fragments/**/api-graphql @renebrandel
+/src/fragments/**/graphqlapi @renebrandel
+/src/fragments/sdk/api/**/graphql.mdx @renebrandel
+/src/pages/gen1/[platform]/build-a-backend/functions/graphql-from-lambda/ @renebrandel
+/src/pages/gen1/[platform]/build-a-backend/graphqlapi/ @renebrandel
+/src/pages/gen1/[platform]/prev/build-a-backend/graphqlapi/ @renebrandel
+/src/pages/gen1/[platform]/sdk/api/graphql/ @renebrandel
 
 #In-App Messaging
-/src/**/**/in-app-messaging @hdworld11 @aws-amplify/documentation-team 
+/src/fragments/**/in-app-messaging @hdworld11
+/src/pages/gen1/[platform]/build-a-backend/more-features/in-app-messaging/ @hdworld11
+/src/pages/gen1/[platform]/prev/build-a-backend/more-features/in-app-messaging/ @hdworld11
+/src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/ @hdworld11
 
 #Info
-/src/fragments/**/info @renebrandel @hdworld11 @josefaidt @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/**/info @renebrandel @hdworld11 @josefaidt @dbanksdesign
 
 #Interactions
-/src/**/**/interactions @josefaidt @aws-amplify/documentation-team 
+/src/fragments/**/interactions @josefaidt
+/src/pages/gen1/[platform]/build-a-backend/more-features/interactions/ @josefaidt
+/src/pages/gen1/[platform]/prev/build-a-backend/more-features/interactions/ @josefaidt
+/src/pages/[platform]/build-a-backend/add-aws-services/interactions/ @josefaidt
+
 
 #Logging
-/src/fragments/lib/logging @hdworld11 @aws-amplify/documentation-team 
+/src/fragments/**/logging @hdworld11 
+/src/pages/gen1/[platform]/build-a-backend/more-features/logging/ @hdworld11 
+/src/pages/[platform]/build-a-backend/add-aws-services/logging/ @hdworld11 
 
 #Predictions
-/src/**/**/predictions @hdworld11 @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/**/predictions @hdworld11 @dbanksdesign
+/src/pages/gen1/[platform]/build-a-backend/more-features/predictions/ @hdworld11 @dbanksdesign
+/src/pages/gen1/[platform]/prev/build-a-backend/more-features/predictions/ @hdworld11 @dbanksdesign
+/src/pages/[platform]/build-a-backend/add-aws-services/predictions/ @hdworld11 @dbanksdesign
 
-#Project Setup
-/src/**/**/project-setup @renebrandel @josefaidt @dbanksdesign @hdworld11 @aws-amplify/documentation-team 
+#Project Setup / Quickstart
+/src/fragments/**/project-setup @renebrandel @josefaidt @dbanksdesign @hdworld11 
+/src/pages/gen1/[platform]/prev/start/ @renebrandel @josefaidt @dbanksdesign @hdworld11
+/src/pages/gen1/[platform]/start/ @renebrandel @josefaidt @dbanksdesign @hdworld11
+/src/pages/[platform]/start/ @renebrandel @josefaidt @dbanksdesign @hdworld11
 
 #PubSub
-/src/**/**/pubsub @renebrandel @aws-amplify/documentation-team 
+/src/fragments/**/pubsub @renebrandel
+/src/pages/gen1/[platform]/build-a-backend/more-features/pubsub/ @renebrandel
+/src/pages/gen1/[platform]/prev/build-a-backend/more-features/pubsub/ @renebrandel
+/src/pages/gen1/[platform]/sdk/pubsub/ @renebrandel
+/src/pages/[platform]/build-a-backend/add-aws-services/pubsub/ @renebrandel
 
 #Push Notifications
-/src/**/**/push-notifications @hdworld11 @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/**/push-notifications @hdworld11 @dbanksdesign
+/src/pages/gen1/[platform]/build-a-backend/push-notifications/ @hdworld11 @dbanksdesign
+/src/pages/gen1/[platform]/prev/build-a-backend/push-notifications/ @hdworld11 @dbanksdesign
+/src/pages/gen1/[platform]/sdk/push-notifications/ @hdworld11 @dbanksdesign
 
 #Rest API
-/src/**/**/api-rest @josefaidt @aws-amplify/documentation-team 
-/src/**/**/restapi @josefaidt @aws-amplify/documentation-team 
-/src/fragments/sdk/api/**/rest.mdx @josefaidt @aws-amplify/documentation-team 
+/src/fragments/**/api-rest @josefaidt  
+/src/fragments/**/restapi @josefaidt  
+/src/fragments/sdk/api/**/rest.mdx @josefaidt 
+/src/pages/gen1/[platform]/build-a-backend/restapi/ @josefaidt 
+/src/pages/gen1/[platform]/prev/build-a-backend/restapi/ @josefaidt 
+/src/pages/gen1/[platform]/sdk/api/rest/ @josefaidt 
+/src/pages/[platform]/build-a-backend/add-aws-services/rest-api/ @josefaidt 
 
 #SSR
-/src/fragments/lib/ssr @renebrandel @josefaidt @dbanksdesign @aws-amplify/documentation-team 
+/src/fragments/**/ssr @renebrandel @josefaidt @dbanksdesign
+/src/pages/gen1/[platform]/build-a-backend/server-side-rendering/ @renebrandel @josefaidt @dbanksdesign
+/src/pages/gen1/[platform]/prev/build-a-backend/server-side-rendering/ @renebrandel @josefaidt @dbanksdesign
+/src/pages/[platform]/build-a-backend/server-side-rendering/ @renebrandel @josefaidt @dbanksdesign
 
 #Storage
-/src/**/**/storage @hdworld11 @aws-amplify/documentation-team 
+/src/fragments/**/storage @hdworld11
+/src/pages/gen1/[platform]/build-a-backend/storage/ @hdworld11
+/src/pages/gen1/[platform]/prev/build-a-backend/storage/ @hdworld11
+/src/pages/gen1/[platform]/sdk/storage/ @hdworld11
+/src/pages/[platform]/build-a-backend/storage/ @hdworld11
 
 #Troubleshooting
-/src/fragments/lib/troubleshooting @josefaidt @aws-amplify/documentation-team 
+/src/fragments/**/troubleshooting @josefaidt
+/src/pages/gen1/[platform]/build-a-backend/troubleshooting/ @josefaidt
+/src/pages/gen1/[platform]/prev/build-a-backend/troubleshooting/ @josefaidt
+/src/pages/[platform]/build-a-backend/troubleshooting/ @josefaidt
+
+#UI
+/src/fragments/ui/auth/react/
+/src/pages/gen1/[platform]/build-ui/
+/src/pages/gen1/[platform]/prev/build-ui/
+/src/pages/[platform]/build-ui/
 
 #Utilities
-/src/**/**/utilities @josefaidt @aws-amplify/documentation-team 
+/src/fragments/**/utilities @josefaidt
+/src/pages/gen1/[platform]/build-a-backend/utilities/ @josefaidt
+/src/pages/gen1/[platform]/prev/build-a-backend/utilities/ @josefaidt
 
-#Gen2
-/src/pages/gen2 @ykethan @jay2113 @chrisbonifacio @aspittel @renebrandel @swaminator @dbanksdesign @josefaidt @ErikCH @arundna @hdworld11
+#Deploy and Host 
+/src/pages/gen1/[platform]/deploy-and-host/ @mauerbac
+/src/pages/gen1/[platform]/prev/deploy-and-host/ @mauerbac
+/src/pages/[platform]/deploy-and-host/ @mauerbac
 
 #Docs Engineering
 /src/components @aws-amplify/documentation-team
 /src/constants @aws-amplify/documentation-team 
 /src/data @aws-amplify/documentation-team
 /src/directory @aws-amplify/documentation-team 
+/src/pages/contribute/ @aws-amplify/documentation-team
 /src/pages/_app.tsx @aws-amplify/documentation-team 
 /src/pages/_document.tsx @aws-amplify/documentation-team 
 /src/pages/404.tsx @aws-amplify/documentation-team  
-/src/pages/contribute @aws-amplify/documentation-team
 /src/pages/index.tsx @aws-amplify/documentation-team
 /src/pages/**/index.tsx @aws-amplify/documentation-team
-/src/plugins @aws-amplify/documentation-team 
 /src/public @aws-amplify/documentation-team 
 /src/styles @aws-amplify/documentation-team
 /src/themes @aws-amplify/documentation-team 
