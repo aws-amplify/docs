@@ -1,23 +1,19 @@
 * @aws-amplify/documentation-team 
 
-#Unowned
-/src/pages/gen1/[platform]/build-a-backend/existing-resources/
-/src/pages/gen1/[platform]/build-a-backend/functions/
-/src/pages/[platform]/build-a-backend/functions/
-/src/pages/gen1/[platform]/build-a-backend/more-features/
-/src/pages/gen1/[platform]/how-amplify-works/
-/src/pages/[platform]/how-amplify-works/
-/src/pages/gen1/[platform]/sdk/api/
-/src/pages/gen1/[platform]/sdk/configuration/
-/src/pages/gen1/[platform]/sdk/info
-/src/pages/gen1/[platform]/tools/libraries
-/src/pages/gen1/[platform]/prev/start/
-/src/pages/gen1/[platform]/prev/tools/
-/src/pages/[platform]/build-a-backend/functions/
-/src/pages/[platform]/build-a-backend/add-aws-services/custom-resources
+#Other
+/src/pages/gen1/[platform]/build-a-backend/existing-resources/ @josefaidt @hdworld11 @renebrandel @dbanksdesign 
+/src/pages/gen1/[platform]/build-a-backend/functions/ @josefaidt
+/src/pages/gen1/[platform]/how-amplify-works/ @aspittel
+/src/pages/gen1/[platform]/sdk/api/ @hdworld11
+/src/pages/gen1/[platform]/sdk/info @hdworld11
+/src/pages/gen1/[platform]/sdk/configuration/ @hdworld11
+/src/pages/[platform]/how-amplify-works/ @aspittel
+/src/pages/[platform]/build-a-backend/functions/ @josefaidt
+/src/pages/[platform]/build-a-backend/functions/ @josefaidt
+/src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/ @josefaidt @hdworld11 @renebrandel @dbanksdesign 
 /src/pages/[platform]/build-a-backend/add-aws-services/delete-backup-resources/
-/src/pages/[platform]/build-a-backend/add-aws-services/environment-variables-and-secrets/
-/src/pages/[platform]/build-a-backend/q-developer/
+/src/pages/[platform]/build-a-backend/add-aws-services/environment-variables-and-secrets/ @swaminator @josefaidt
+/src/pages/[platform]/build-a-backend/q-developer/ @arundna
 
 #CLI
 /src/fragments/cli/ @josefaidt
@@ -70,9 +66,9 @@
 /src/pages/[platform]/build-a-backend/add-aws-services/geo/ @hdworld11
 
 #Getting Started
-/src/fragments/start @renebrandel @hdworld11 @josefaidt @dbanksdesign
-/src/fragments/gen2/quickstart/ @renebrandel @hdworld11 @josefaidt @dbanksdesign
-/src/fragments/**/start/ @renebrandel @hdworld11 @josefaidt @dbanksdesign
+/src/fragments/start @aspittel
+/src/fragments/gen2/quickstart/ @aspittel
+/src/fragments/**/start/ @aspittel
 
 #GraphQL API
 /src/fragments/**/api-graphql @renebrandel
@@ -158,10 +154,10 @@
 /src/pages/[platform]/build-a-backend/troubleshooting/ @josefaidt
 
 #UI
-/src/fragments/ui/auth/react/
-/src/pages/gen1/[platform]/build-ui/
-/src/pages/gen1/[platform]/prev/build-ui/
-/src/pages/[platform]/build-ui/
+/src/fragments/ui/auth/react/ @dbanksdesign
+/src/pages/gen1/[platform]/build-ui/ @dbanksdesign
+/src/pages/gen1/[platform]/prev/build-ui/ @dbanksdesign
+/src/pages/[platform]/build-ui/ @dbanksdesign
 
 #Utilities
 /src/fragments/**/utilities @josefaidt
@@ -177,7 +173,7 @@
 /src/components @aws-amplify/documentation-team
 /src/constants @aws-amplify/documentation-team 
 /src/data @aws-amplify/documentation-team
-/src/directory @aws-amplify/documentation-team 
+/src/directory @aspittel
 /src/pages/contribute/ @aws-amplify/documentation-team
 /src/pages/_app.tsx @aws-amplify/documentation-team 
 /src/pages/_document.tsx @aws-amplify/documentation-team 
