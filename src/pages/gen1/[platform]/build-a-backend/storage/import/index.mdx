@@ -68,17 +68,25 @@ By default, Amplify Libraries assumes that S3 buckets are configured with the fo
 - `private/{user_identity_id}/` - Only accessible for the individual user
 
 <InlineFilter filters={[
-    'android',
     'angular',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'swift',
     'vue'
 ]}>
 
-You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration [overwrite the default storage path behavior](/gen1/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path).
+You can either configure your IAM role to use the Amplify-recommended policies or use [`path`](/gen1/[platform]/build-a-backend/storage/path/) to specify your own path.
+
+</InlineFilter>
+
+<InlineFilter filters={[
+    'android',
+    'swift',
+    'flutter'
+]}>
+
+You can either configure your IAM role to use the Amplify-recommended policies or use [`StoragePath`](/gen1/[platform]/build-a-backend/storage/storagepath/) to specify your own path.
 
 </InlineFilter>
 
