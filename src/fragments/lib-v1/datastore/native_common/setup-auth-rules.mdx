@@ -55,7 +55,7 @@ The following are commonly used patterns for static group authorization. For mor
 
 ```graphql
 type YourModel @model @auth(rules: [{ allow: groups,
-  groups: ["Admin"] }]) {
+                                      groups: ["Admin"] }]) {
   ...
 }
 ```
