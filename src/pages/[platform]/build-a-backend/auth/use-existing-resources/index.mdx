@@ -20,9 +20,10 @@ export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
 }
 
-export function getStaticProps() {
+export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -30,9 +31,17 @@ export function getStaticProps() {
 
 Amplify Auth can be configured to use a existing resources. If you are in a team setting or part of a company that has previously created auth resources, you have a few different options to configure your application to use existing auth resources:
 
-- [Add auth configuration as an output of the backend](#add-auth-as-a-backend-output)
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+- [Add auth configuration as an output of the backend](#add-auth-as-a-backend-output)
 - [Configure the client library directly (without an Amplify backend)](#configure-the-client-library-directly)
+
+</InlineFilter>
+{/* merge content after hosting outputs schema */}
+<InlineFilter filters={["android", "flutter", "swift"]}>
+
+- [Add auth configuration as an output of the backend](#add-auth-as-a-backend-output)
+
 </InlineFilter>
 
 <Callout info>
@@ -172,19 +181,22 @@ Amplify.configure({
 ```
 
 </InlineFilter>
-<InlineFilter filters={["flutter"]}>
+<InlineFilter filters={["android", "flutter", "swift"]}>
 
+Configuring the mobile client libraries directly is not supported, however you can manually create `amplify_outputs.json` with the following schema:
 
+<Callout info>
 
-</InlineFilter>
-<InlineFilter filters={["android"]}>
+**Note:** it is strongly recommended to use backend outputs to generate this file for each sandbox or branch deployment
 
+</Callout>
 
-
-</InlineFilter>
-<InlineFilter filters={["swift"]}>
-
-
+{/* pending hosted outputs schema */}
+```json title="amplify_outputs.json"
+{
+  "$schema": "..."
+}
+```
 
 </InlineFilter>
 </InlineFilter>
