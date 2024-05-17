@@ -3,7 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { trackCopyClicks } from '@/utils/track';
 import { prepareCopyText } from './utils/copy-code';
-
+import { IconClipboard } from '@/components/Icons';
 interface MDXCopyCodeButtonProps {
   codeId: string;
   codeString: string;
@@ -38,7 +38,7 @@ export const MDXCopyCodeButton = ({
         testId={testId}
         aria-describedby={title ? undefined : codeId}
       >
-        {copied ? 'Copied!' : 'Copy'}
+        <IconClipboard /> {copied ? 'Copied!' : 'Copy'}
         <VisuallyHidden>
           {` `}
           {title} code example
