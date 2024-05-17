@@ -11,7 +11,7 @@
 /src/pages/[platform]/build-a-backend/functions/ @josefaidt
 /src/pages/[platform]/build-a-backend/functions/ @josefaidt
 /src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/ @josefaidt @hdworld11 @renebrandel @dbanksdesign 
-/src/pages/[platform]/build-a-backend/add-aws-services/delete-backup-resources/
+/src/pages/[platform]/build-a-backend/add-aws-services/delete-backup-resources/ @josefaidt @hdworld11 @renebrandel @dbanksdesign 
 /src/pages/[platform]/build-a-backend/add-aws-services/environment-variables-and-secrets/ @swaminator @josefaidt
 /src/pages/[platform]/build-a-backend/q-developer/ @arundna
 
@@ -38,7 +38,7 @@
 /src/pages/gen1/[platform]/prev/build-a-backend/auth/ @josefaidt
 /src/pages/gen1/[platform]/sdk/auth/ @josefaidt
 /src/pages/gen1/[platform]/start/getting-started/auth/ @josefaidt
-/src/pages/[platform]/build-a-backend/auth/
+/src/pages/[platform]/build-a-backend/auth/ @josefaidt
 
 #Client Configuration
 /src/fragments/**/client-configuration @renebrandel @josefaidt @hdworld11
@@ -69,6 +69,10 @@
 /src/fragments/start @aspittel
 /src/fragments/gen2/quickstart/ @aspittel
 /src/fragments/**/start/ @aspittel
+/src/fragments/**/project-setup @aspittel
+/src/pages/gen1/[platform]/prev/start/ @aspittel
+/src/pages/gen1/[platform]/start/ @aspittel
+/src/pages/[platform]/start/ @aspittel
 
 #GraphQL API
 /src/fragments/**/api-graphql @renebrandel
@@ -94,7 +98,6 @@
 /src/pages/gen1/[platform]/prev/build-a-backend/more-features/interactions/ @josefaidt
 /src/pages/[platform]/build-a-backend/add-aws-services/interactions/ @josefaidt
 
-
 #Logging
 /src/fragments/**/logging @hdworld11 
 /src/pages/gen1/[platform]/build-a-backend/more-features/logging/ @hdworld11 
@@ -105,12 +108,6 @@
 /src/pages/gen1/[platform]/build-a-backend/more-features/predictions/ @hdworld11 @dbanksdesign
 /src/pages/gen1/[platform]/prev/build-a-backend/more-features/predictions/ @hdworld11 @dbanksdesign
 /src/pages/[platform]/build-a-backend/add-aws-services/predictions/ @hdworld11 @dbanksdesign
-
-#Project Setup / Quickstart
-/src/fragments/**/project-setup @renebrandel @josefaidt @dbanksdesign @hdworld11 
-/src/pages/gen1/[platform]/prev/start/ @renebrandel @josefaidt @dbanksdesign @hdworld11
-/src/pages/gen1/[platform]/start/ @renebrandel @josefaidt @dbanksdesign @hdworld11
-/src/pages/[platform]/start/ @renebrandel @josefaidt @dbanksdesign @hdworld11
 
 #PubSub
 /src/fragments/**/pubsub @renebrandel
