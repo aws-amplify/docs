@@ -3,6 +3,7 @@
   &__link {
     color: inherit;
     text-decoration: none;
+    border-radius: var(--amplify-radii-small);
 
     &:hover &__card__title {
       color: var(--amplify-colors-primary-60);

@@ -44,6 +44,13 @@ export const baseTheme = createTheme({
             }
           }
         },
+        primary: {
+          _focus: {
+            boxShadow: {
+              value: 'none'
+            }
+          }
+        },
         large: {
           paddingInlineStart: { value: '{space.xl.value}' },
           paddingInlineEnd: { value: '{space.xl.value}' }

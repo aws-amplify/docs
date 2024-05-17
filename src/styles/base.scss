@@ -132,7 +132,7 @@ a,
     text-decoration: none;
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid var(--amplify-colors-border-focus);
   }
 }
@@ -189,6 +189,14 @@ ol:not([class]) {
   }
 }
 
+.amplify-button {
+  &:focus-visible {
+    transition: none;
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
+  }
+}
+
 .skip-to-main {
   position: fixed;
   z-index: 201; // GlobalNav is set to 200
@@ -204,12 +212,9 @@ ol:not([class]) {
     white-space: nowrap;
     width: 1px;
   }
-}
-
-.amplify-button {
-  &:focus-visible {
-    transition: none;
-    outline: 2px solid var(--amplify-colors-border-focus);
-    outline-offset: 2px;
+  [data-amplify-theme='default-theme'] & {
+    &:focus-visible {
+      outline-color: var(--amplify-colors-white);
+    }
   }
 }
