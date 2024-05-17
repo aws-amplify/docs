@@ -34,13 +34,13 @@ export const baseTheme = createTheme({
         _focus: {
           borderColor: { value: 'transparent' },
           boxShadow: {
-            value: '0 0 0 2px var(--amplify-colors-border-focus)'
+            value: 'none'
           }
         },
         link: {
           _focus: {
             boxShadow: {
-              value: '0 0 0 2px var(--amplify-colors-border-focus)'
+              value: 'none'
             }
           }
         },

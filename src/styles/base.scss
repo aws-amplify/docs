@@ -205,3 +205,11 @@ ol:not([class]) {
     width: 1px;
   }
 }
+
+.amplify-button {
+  &:focus-visible {
+    transition: none;
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
+  }
+}
