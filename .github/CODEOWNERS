@@ -170,7 +170,8 @@
 /src/components @aws-amplify/documentation-team
 /src/constants @aws-amplify/documentation-team 
 /src/data @aws-amplify/documentation-team
-/src/directory @aspittel
+/src/directory  @aws-amplify/documentation-team
+/src/directory/directory.mjs @aspittel @swaminator @renebrandel
 /src/pages/contribute/ @aws-amplify/documentation-team
 /src/pages/_app.tsx @aws-amplify/documentation-team 
 /src/pages/_document.tsx @aws-amplify/documentation-team 
