@@ -37,7 +37,7 @@ const userInput = "I want to reserve a hotel for tonight";
 
 // Provide a bot name and user input
 const response = await Interactions.send({
-  botName: "TheBotName",
+  botName: "TheBotAliasName",
   message: userInput
 });
 
@@ -53,7 +53,7 @@ You can use `onComplete()` method to register a function to catch errors or chat
 import { Interactions } from '@aws-amplify/interactions';
 
 Interactions.onComplete({
-  botName: "TheBotName",
+  botName: "TheBotAliasName",
   callback: (error?: Error, completion?: {[key: string]: any}) => {
      if (error) {
         alert('bot conversation failed');
