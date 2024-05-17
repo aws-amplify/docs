@@ -2,16 +2,6 @@
 
 You can subscribe to changes on your Models. This reacts dynamically to updates of data to the underlying Storage Engine, which could be the result of GraphQL Subscriptions as well as Queries or Mutations that run against the backing AppSync API if you are synchronizing with the cloud.
 
-<Callout info>
-**NOTE:** AWS AppSync has an [adjustable limit of 100 subscriptions per connection](https://docs.aws.amazon.com/general/latest/gr/appsync.html). DataStore automatically subscribes to create, update, and delete mutations for all models.
-
-This means that GraphQL APIs with DataStore enabled are limited to 33 models and DynamoDB tables.
-
-(3 **subscriptions** * 33 **models** = 99 **subscriptions per connection**).
-
-However, You can [request a service limit increase](https://console.aws.amazon.com/servicequotas/home/services/appsync/quotas/L-AA33EB36) from AWS AppSync to meet the real-time requirements of your application.
-</Callout>
-
 import js0 from '/src/fragments/lib-v1/datastore/js/real-time/observe-snippet.mdx';
 
 <Fragments
