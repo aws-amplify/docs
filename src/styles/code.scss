@@ -250,7 +250,7 @@ hover style on the other */
 .code-copy {
   --code-copy-hover-background-color: var(--amplify-colors-neutral-90);
   --code-copy-focus-background-color: var(--amplify-colors-neutral-90);
-  --code-copy-focus-box-shadow: var(--amplify-colors-white);
+  --code-copy-focus-outline-color: var(--amplify-colors-white);
   margin-inline-start: auto;
   padding-block: var(--amplify-space-xxxs);
   color: var(--amplify-colors-white);
@@ -260,10 +260,13 @@ hover style on the other */
     color: var(--amplify-colors-white);
     background-color: var(--code-copy-hover-background-color);
   }
-  &:focus-visible {
+  &:focus,
+  &:active {
     color: var(--amplify-colors-white);
     background-color: var(--code-copy-focus-background-color);
-    outline-color: var(--code-copy-focus-box-shadow);
+  }
+  &:focus-visible {
+    outline-color: var(--code-copy-focus-outline-color);
   }
   @include darkMode {
     --code-copy-hover-background-color: var(--amplify-colors-neutral-20);
