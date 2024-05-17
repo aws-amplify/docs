@@ -333,6 +333,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/use-aws-sdk/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/storage/use-with-custom-s3/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
                 }
               ]
