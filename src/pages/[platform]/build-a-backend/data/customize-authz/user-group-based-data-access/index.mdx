@@ -47,6 +47,8 @@ const schema = a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
 
 ```ts
@@ -68,6 +70,27 @@ const { errors, data: newSalary } = await client.models.Salary.create(
   // highlight-end
 );
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your application, you can perform CRUD operations against the model with the `amazonCognitoUserPools` auth mode.
+
+```swift
+do {
+    let salary = Salary(
+        wage: 50.25,
+        currency: "USD")
+    let createdSalary = try await Amplify.API.mutate(request: .create(
+        salary,
+        authMode: .amazonCognitoUserPools)).get()
+} catch {
+    print("Failed to create salary", error)
+}
+```
+
+</InlineFilter>
 
 This can then be updated to allow access to multiple defined groups; in this example below we added access for "Leadership".
 
