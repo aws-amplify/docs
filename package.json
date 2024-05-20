@@ -97,6 +97,7 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
+    "countGen2": "node tasks/count-gen2pages.mjs",
     "refresh": "yarn clean && yarn",
     "test": "jest --coverage",
     "dev": "yarn prebuild && next dev",
