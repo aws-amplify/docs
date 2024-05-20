@@ -60,6 +60,9 @@ export function MenuItem({
       // Close the menu after clicking a link (applies to the mobile menu)
       toggleMenuOpen(false);
     }
+
+    const mainContent = document.getElementById('pageMain');
+    mainContent?.focus();
   };
 
   const handleFocus = () => {
