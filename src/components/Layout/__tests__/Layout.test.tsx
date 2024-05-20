@@ -80,25 +80,6 @@ describe('Layout', () => {
     expect(themeWrapper).toHaveAttribute('data-amplify-color-mode', 'dark');
   });
 
-  // // it('handleScroll test', async () => {
-  // //   render(layoutComponent);
-  // //   console.log(document.body.scrollTop);
-
-  // //   const main = await screen.getByRole('main', { name: 'Main content' });
-  // //   main.setAttribute('height', '500px');
-  // //   console.log(main.scrollHeight);
-
-  // //   // fireEvent.scroll(main, { target: { scrollY: 100 } });
-  // //   fireEvent.scroll(main, { target: { scrollY: 30 } });
-
-  // //   console.log(document.body.scrollTop);
-
-  // //   console.log(document.body.className);
-
-  // //   // console.log(component.props.pageType);
-  // //   // console.log(document.body.className);
-  // // });
-
   it('should open menu on click of Menu button in mobile', async () => {
     render(layoutComponent);
     const menuButton = await screen.getByRole('button', { name: 'Menu' });
