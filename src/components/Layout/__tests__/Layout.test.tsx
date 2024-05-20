@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Layout } from '../index';
-// import { LayoutProvider } from '../index';
 import userEvent from '@testing-library/user-event';
 
 const routerMock = {
@@ -18,9 +17,6 @@ const routerMock = {
 jest.mock('next/router', () => routerMock);
 
 describe('Layout', () => {
-  // const toggleMenuOpen = jest.fn();
-  // const handleColorModeChange = jest.fn();
-
   const layoutComponent = (
     <Layout
       pageTitle="Title"
@@ -35,19 +31,6 @@ describe('Layout', () => {
       <></>
     </Layout>
   );
-
-  // const layoutProviderComponent = (
-  //   <LayoutProvider
-  //     value={{
-  //       colorMode: 'light',
-  //       menuOpen: 'false',
-  //       toggleMenuOpen,
-  //       handleColorModeChange
-  //     }}
-  //   >
-  //     {layoutComponent}
-  //   </LayoutProvider>
-  // );
 
   it('should render the Layout component', async () => {
     render(layoutComponent);
