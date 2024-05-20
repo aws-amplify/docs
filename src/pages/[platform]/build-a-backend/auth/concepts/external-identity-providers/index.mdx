@@ -276,70 +276,8 @@ export const auth = defineAuth({
   }
 });
 ```
-
-[Learn more about configuring the React Authenticator component for external providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers)
-
-{/* @TODO refactor with connect-your-frontend/sign-in */}
-## Set up your frontend
-
-<Callout info>
-
-If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
-
-</Callout>
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
-
-Use the `signInWithRedirect` API to initiate sign-in with an external identity provider.
-
-```ts title="src/my-client-side-js.js"
-import { signInWithRedirect } from 'aws-amplify/auth';
-
-await signInWithRedirect({
-  provider: 'Apple'
-});
-```
-
-</InlineFilter>
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
-
-### (Required for Multi-Page Applications) Complete external Sign In after Redirect
-
-If you are developing a multi-page application, and the redirected page is not the same page that initiated the sign in, you will need to add the following code to the redirected page to ensure the sign in gets completed:
-
-```ts title="src/my-redirected-page.ts"
-import 'aws-amplify/auth/enable-oauth-listener';
-import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
-import { Hub } from 'aws-amplify/utils';
-
-Hub.listen("auth", ({ payload }) => {
-  switch (payload.event) {
-    case "signInWithRedirect":
-      const user = await getCurrentUser();
-      const userAttributes = await fetchUserAttributes();
-      console.log({user, userAttributes});
-      break;
-    case "signInWithRedirect_failure":
-      // handle sign in failure
-      break;
-    case "customOAuthState":
-      const state = payload.data; // this will be customState provided on signInWithRedirect function
-      console.log(state);
-      break;
-  }
-});
-```
-
-<Callout>
-
-**Note:** The listener only works on the client side in the context of a SSR-enabled project, so ensure to import the listener on the client side only. For example, in a Next.js project, you should add the above import statement to a component that renders on the client side only by `'use client'`.
-
-</Callout>
-
-<Accordion eyebrow="Under the hood" headingLevel="4" title="Why external Sign In needs to be explicitly handled for Multi-Page Applications">
-
-When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the external sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
-
-</Accordion>
+- [Learn more about configuring the React Authenticator component for external providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers)
 </InlineFilter>
 
 ## Configure OIDC provider
@@ -429,6 +367,69 @@ await signInWithRedirect({
 ```
 </InlineFilter>
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+{/* @TODO refactor with connect-your-frontend/sign-in */}
+## Set up your frontend
+
+<Callout info>
+
+If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
+
+</Callout>
+
+Use the `signInWithRedirect` API to initiate sign-in with an external identity provider.
+
+```ts title="src/my-client-side-js.js"
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+await signInWithRedirect({
+  provider: 'Apple'
+});
+```
+
+</InlineFilter>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+
+### (Required for Multi-Page Applications) Complete external Sign In after Redirect
+
+If you are developing a multi-page application, and the redirected page is not the same page that initiated the sign in, you will need to add the following code to the redirected page to ensure the sign in gets completed:
+
+```ts title="src/my-redirected-page.ts"
+import 'aws-amplify/auth/enable-oauth-listener';
+import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import { Hub } from 'aws-amplify/utils';
+
+Hub.listen("auth", ({ payload }) => {
+  switch (payload.event) {
+    case "signInWithRedirect":
+      const user = await getCurrentUser();
+      const userAttributes = await fetchUserAttributes();
+      console.log({user, userAttributes});
+      break;
+    case "signInWithRedirect_failure":
+      // handle sign in failure
+      break;
+    case "customOAuthState":
+      const state = payload.data; // this will be customState provided on signInWithRedirect function
+      console.log(state);
+      break;
+  }
+});
+```
+
+<Callout>
+
+**Note:** The listener only works on the client side in the context of a SSR-enabled project, so ensure to import the listener on the client side only. For example, in a Next.js project, you should add the above import statement to a component that renders on the client side only by `'use client'`.
+
+</Callout>
+
+<Accordion eyebrow="Under the hood" headingLevel="4" title="Why external Sign In needs to be explicitly handled for Multi-Page Applications">
+
+When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the external sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
+
+</Accordion>
+</InlineFilter>
+
 ## Next steps
 
-- [Learn how to sign in with external providers](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sign-in-with-external-provider)
+- [Learn how to sign in with external providers](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sign-in-with-an-external-identity-provider)

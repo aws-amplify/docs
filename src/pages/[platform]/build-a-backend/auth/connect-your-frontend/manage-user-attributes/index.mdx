@@ -54,7 +54,7 @@ await signUp({
 ```
 </InlineFilter>
 
-<InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs', 'flutter']}>
+<InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs', 'flutter', 'swift']}>
 ### Configure custom user attributes during sign-up
 
 Custom attributes can be passed in with the `userAttributes` option of the `signUp` API:
@@ -98,6 +98,33 @@ Future<void> _signUp({
       userAttributes: userAttributes,
     ),
   );
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+func signUp(username: String, password: String, email: String) async {
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: .init(userAttributes: [
+                AuthUserAttribute(.email, value: email), 
+                AuthUserAttribute(.custom("my-custom-attribute"), value: <custom attribute value>)
+            ])
+        )
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
 }
 ```
 </InlineFilter>
@@ -583,7 +610,13 @@ RxAmplify.Auth.updateUserAttributes(attributes)
 
 ### Verify user attribute
 
+<InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs', 'flutter', 'android']}>
 Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, part of the result of the `updateUserAttribute` or `updateUserAttributes` APIs will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, part of the result of the `updateUserAttribute` or `updateUserAttributes` APIs will be `confirmAttributeWithCode`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
+</InlineFilter>
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
 ```typescript
@@ -742,9 +775,9 @@ async function handleSendUserAttributeVerificationCode(
 <Block name="Async/Await">
 
 ```swift
-func resendCode() async {
+func sendVerificationCode() async {
     do {
-        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
+        let deliveryDetails = try await Amplify.Auth.sendVerificationCode(forUserAttributeKey: .email)
         print("Resend code send to - \(deliveryDetails)")
     } catch let error as AuthError {
         print("Resend code failed with error \(error)")
@@ -759,9 +792,9 @@ func resendCode() async {
 <Block name="Combine">
 
 ```swift
-func resendCode() -> AnyCancellable {
+func sendVerificationCode() -> AnyCancellable {
     Amplify.Publisher.create {
-        try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
+        try await Amplify.Auth.sendVerificationCode(forUserAttributeKey: .email)
         }.sink {
             if case let .failure(authError) = $0 {
                 print("Resend code failed with error \(authError)")

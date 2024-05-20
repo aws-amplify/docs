@@ -30,11 +30,37 @@ export function getStaticProps() {
 
 Amplify provides a client library that enables you to interact with backend resources such as Amplify Auth.
 
+<InlineFilter filters={["react"]}>
 <Callout info>
 
 The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
 
 </Callout>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/swift/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/flutter/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/android/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
 
 ## Using the signIn API
 
@@ -185,7 +211,7 @@ func signIn(username: String, password: String) async {
         let signInResult = try await Amplify.Auth.signIn(
             username: username, 
             password: password
-            )
+        )
         if signInResult.isSignedIn {
             print("Sign in succeeded")
         }
@@ -206,7 +232,7 @@ func signIn(username: String, password: String) -> AnyCancellable {
         try await Amplify.Auth.signIn(
             username: username, 
             password: password
-            )
+        )
     }.sink {
         if case let .failure(authError) = $0 {
             print("Sign in failed \(authError)")
@@ -227,6 +253,7 @@ func signIn(username: String, password: String) -> AnyCancellable {
 
 The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "flutter", "android"]}>
 - `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_TOTP_CODE` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
@@ -236,6 +263,19 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 - `RESET_PASSWORD` - The user must reset their password via `resetPassword`.
 - `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
 - `DONE` - The sign in process has been completed.
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+- `confirmSignInWithNewPassword` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
+- `confirmSignInWithCustomChallenge` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
+- `confirmSignInWithTOTPCode` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
+- `continueSignInWithTOTPSetup` - The TOTP setup process must be continued. Complete the process with `confirmSignIn`.
+- `confirmSignInWithSMSMFACode` - The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`.
+- `continueSignInWithMFASelection` - The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`.
+- `resetPassword` - The user must reset their password via `resetPassword`.
+- `confirmSignUp` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
+- `done` - The sign in process has been completed.
+</InlineFilter>
 
 For more information on handling the TOTP and MFA steps that may be returned, see [multi-factor authentication](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/).
 
@@ -337,7 +377,7 @@ export default function App() {
 {/* with multi-factor auth */}
 ## With multi-factor auth enabled
 
-When multi-factor authentication (MFA) is enabled in your backend auth resource, you will also need to include MFA details when users sign up. This will change depending on if you enable SMS, TOTP, or both. Visit the [multi-factor authentication documentation](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) to learn more about enabling MFA on your backend auth resource.
+When multi-factor authentication (MFA) is **required** with SMS in your backend auth resource, you will need to pass the phone number during sign-up API call. If you are using the `email` or `username` as the primary sign-in mechanism, you will need to pass the `phone_number` attribute as a user attribute. This will change depending on if you enable SMS, TOTP, or both. Visit the [multi-factor authentication documentation](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) to learn more about enabling MFA on your backend auth resource.
 
 <InlineFilter filters={["android"]}>
 
@@ -483,7 +523,13 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
 
 </InlineFilter>
 
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "flutter", "android"]}>
 You will then confirm sign-up, sign in, and receive a `nextStep` in the sign-in result of type `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`. A confirmation code will also be texted to the phone number provided above. Pass the code you received to the `confirmSignIn` API:
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+You will then confirm sign-up, sign in, and receive a `nextStep` in the sign-in result of type `confirmSignInWithSMSMFACode`. A confirmation code will also be texted to the phone number provided above. Pass the code you received to the `confirmSignIn` API:
+</InlineFilter>
 
 <InlineFilter filters={["android", "flutter", "react-native", "swift"]}>
 <Callout info>

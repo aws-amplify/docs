@@ -53,7 +53,7 @@ import { generateMonthlyReports } from '../functions/generate-monthly-reports/re
 export const storage = defineStorage({
   name: 'myReports',
   access: (allow) => ({
-    '/reports/*': [
+    'reports/*': [
       allow.resource(generateMonthlyReports).to(['read', 'write', 'delete'])
     ]
   })
