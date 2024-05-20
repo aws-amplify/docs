@@ -51,16 +51,6 @@ export const LayoutHeader = ({
     }
   };
 
-  // if our search result includes a hash to the main content anchor, remove it.
-  const transformItems = (items) => {
-    items.map((item) => {
-      if (item.url.includes('#pageMain')) {
-        item.url = item.url.replace('#pageMain', '');
-      }
-    });
-    return items;
-  };
-
   return (
     <View as="header" className="layout-header">
       <Flex className={`layout-search layout-search--${pageType}`}>
