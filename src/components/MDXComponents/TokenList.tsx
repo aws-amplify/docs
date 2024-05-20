@@ -1,6 +1,7 @@
 import type { Token } from 'prism-react-renderer';
 import type { TokenListProps } from './types';
-import { MDXHighlightedCopyCodeButton } from './MDXHighlightedCopyCodeButton';
+import { MDXHighlightedCode } from './MDXHighlightedCode';
+import classNames from 'classnames';
 
 type ProcessedToken = {
   line: Token[];
@@ -135,12 +136,11 @@ export const TokenList = ({
         {...getLineProps({ line: token.line })}
         className={`token-line${shouldHighlight ? ' line-highlight' : ''}`}
       >
-        {showLineNumbers && (
-          <span className="line-number">{token.lineNumber}</span>
-        )}
-        {token.line.map((token, key) => (
-          <span key={key} {...getTokenProps({ token })} />
-        ))}
+        <div className={classNames({ 'show-line-numbers': showLineNumbers })}>
+          {token.line.map((token, key) => (
+            <span key={key} {...getTokenProps({ token })} />
+          ))}
+        </div>
       </div>
     ) : null;
   }
@@ -159,8 +159,7 @@ export const TokenList = ({
         .join('\n');
 
       return (
-        <MDXHighlightedCopyCodeButton
-          codeId={`highlighted:${i}`}
+        <MDXHighlightedCode
           key={`highlighted:${i}`}
           codeString={highlightedCodeString}
         >
@@ -172,7 +171,7 @@ export const TokenList = ({
               showLineNumbers
             );
           })}
-        </MDXHighlightedCopyCodeButton>
+        </MDXHighlightedCode>
       );
     }
   });

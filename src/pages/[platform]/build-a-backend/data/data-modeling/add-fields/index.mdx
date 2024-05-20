@@ -87,6 +87,8 @@ a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
 
 ```ts
@@ -100,8 +102,28 @@ const { data: newPost, errors } = await client.models.Post.create({
 console.log(newPost?.location?.lat, newPost?.location?.long);
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+To set or read the location field on the client side, you can create a Post object with the location values.
+
+```swift
+let post = Post(
+    location: .init(
+        lat: 48.837006,
+        long: 8.28245))
+let createdPost = try await Amplify.API.mutate(request: .create(post)).get()
+print("\(createdPost)")
+```
+
+</InlineFilter>
+
 ## Specify an enum field type
-Enum has a similar developer experience as custom types: short-hand and long-form approaches. To make building a dropdown UI easier, you can also retrieve all available enum options from your client code.
+
+Enum has a similar developer experience as custom types: short-hand and long-form approaches. 
+
+Short-hand approach
 
 ```ts
 a.schema({
@@ -111,6 +133,8 @@ a.schema({
   }),
 });
 ```
+
+Long-form approach
 
 ```ts
 a.schema({
@@ -131,6 +155,8 @@ a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 When creating a new item client-side, the enums are also type-enforced:
 ```ts
 client.models.Post.create({
@@ -143,6 +169,23 @@ client.models.Post.create({
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+Creating a new item client-side with the enum value:
+
+```swift
+let post = Post(
+    content: "hello",
+    privacySetting: .private)
+let createdPost = try await Amplify.API.mutate(request: .create(post)).get()
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ### List enum values client-side
 
 You can list available enum values client-side using the `client.enums.<ENUM_NAME>.values()` API. For example, this allows you to display the available enum values within a dropdown UI.
@@ -151,6 +194,8 @@ You can list available enum values client-side using the `client.enums.<ENUM_NAM
 const availableSettings = client.enums.PrivacySetting.values()
 // availableSettings returns ["PRIVATE", "FRIENDS_ONLY", "PUBLIC"]
 ```
+
+</InlineFilter>
 
 ## Mark fields as required
 

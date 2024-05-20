@@ -39,6 +39,9 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/start/kotlin-coroutines/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
             }
           ]
@@ -98,6 +101,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-in-with-web-ui/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/switching-authentication-flows/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/index.mdx'
@@ -161,6 +167,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-aws-sdk/index.mdx'
                 }
               ]
             },
@@ -327,6 +336,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/use-aws-sdk/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/storage/use-with-custom-s3/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
                 }
               ]
@@ -391,6 +403,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-app-router-server-components/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nuxt/index.mdx'
                 }
               ]
             },
@@ -507,6 +522,9 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-http-api/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/customize-authz/index.mdx'
@@ -642,6 +660,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/index.mdx'
                 }
               ]
             }
@@ -2135,6 +2156,22 @@ export const directory = {
               title: 'Reference',
               description: 'Reference',
               platforms: ['flutter']
+            },
+            {
+              isExternal: true,
+              route: 'https://amplify.aws/learn/',
+              title: 'Learn',
+              platforms: [
+                'android',
+                'javascript',
+                'nextjs',
+                'react',
+                'react-native',
+                'angular',
+                'flutter',
+                'swift',
+                'vue'
+              ]
             },
             {
               path: 'src/pages/gen1/[platform]/prev/index.mdx',

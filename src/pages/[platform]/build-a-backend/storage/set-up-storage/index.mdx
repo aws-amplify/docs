@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -95,7 +96,7 @@ export const storage = defineStorage({
   name: 'amplifyTeamDrive',
   access: (allow) => ({
     'profile-pictures/{entity_id}/*': [
-      allow.guest.to(['read'])
+      allow.guest.to(['read']),
       allow.entity('identity').to(['read', 'write', 'delete'])
     ],
     'picture-submissions/*': [
@@ -506,27 +507,27 @@ import React from 'react';
 import { uploadData } from 'aws-amplify/storage';
 
 function App() {
-    const [file, setFile] = React.useState();
+  const [file, setFile] = React.useState();
 
-    const handleChange = (event: any) => {
-        setFile(event.target.files[0]);
-    };
+  const handleChange = (event: any) => {
+    setFile(event.target.files[0]);
+  };
 
-    return (
-        <div>
-            <input type="file" onChange={handleChange} />
-            <button
-                onClick={() =>
-                    uploadData({
-                        path: `picture-submissions/${file.name}`,
-                        data: file,
-                    })
-                }
-            >
-                Upload
-            </button>
-        </div>
-    );
+  return (
+    <div>
+      <input type="file" onChange={handleChange} />
+        <button
+          onClick={() =>
+            uploadData({
+              path: `picture-submissions/${file.name}`,
+              data: file,
+          })
+        }
+      >
+        Upload
+      </button>
+    </div>
+  );
 }
 ```
 </InlineFilter>
@@ -546,9 +547,9 @@ upload.addEventListener("click", () => {
     console.log("Complete File read successfully!", event.target.result);
     try {
       await uploadData({
-                data: event.target.result,
-                path: `picture-submissions/${file.files[0].name}`
-            });
+        data: event.target.result,
+        path: `picture-submissions/${file.files[0].name}`
+      });
     } catch (e) {
       console.log("error", e);
     }
@@ -582,14 +583,15 @@ struct ContentView: View {
                 Text("Select a photo to upload")
             }
             .task(id: selectedPhoto) {
-                image = try? await selectedPhoto?.loadTransferable(type: Image.self)
                 if let imageData = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                    if let uiImage = UIImage(data: imageData) {
+                        image = Image(uiImage: uiImage)
+                    }
                     let uploadTask = Amplify.Storage.uploadData(
                         path: .fromString("picture-submissions/myPhoto.png"),
                         data: imageData
                     )
                 }
-
             }
         }
     }

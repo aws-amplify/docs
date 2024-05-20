@@ -31,7 +31,7 @@ export function getStaticProps(context) {
 
 **Is there a way to upgrade an existing Amplify project from Gen 1 to Gen 2?**
 
-We are working on supporting migrations from Gen 1 to Gen 2. In the meantime, Gen 1 is still fully supported and you can continue to use it in apps you've already created.
+We are still actively developing migration tooling to aid in transitioning your project from Gen 1 to Gen 2. Until then, we recommend you continue working with your Gen 1 Amplify project. We’ve put together a Gen 1 vs. Gen 2 feature support matrix [here](https://docs.amplify.aws/react/start/migrate-to-gen2/). We remain committed to supporting both Gen 1 and Gen 2 for the foreseeable future. For new projects, we recommend adopting Gen 2 to take advantage of its enhanced capabilities. Meanwhile, customers on Gen 1 will continue to receive support for high-priority bugs and essential security updates.
 
 **If I have a Gen 1 app, can I use Gen 2 in it?**
 
@@ -53,11 +53,15 @@ Amplify Gen 2 supports a wide range of programming languages for client-side dev
 
 Amplify Gen 2 offers built-in support for Auth, Data, Storage, and Functions. Other use cases can be implemented in Amplify Gen 2 as well using AWS Cloud Development Kit (AWS CDK) constructs which there is documentation for under the respective category name.
 
+**Can I use Gen 2 with a JavaScript frontend that doesn't use TypeScript?**
+
+Yes. Amplify Gen 2's TypeScript backend definition works with JavaScript frontends. In addition, you still get an end-to-end typed data fetching experience even with a pure JavaScript frontend. See [Generate a Data client](/react/build-a-backend/data/connect-to-API/#generate-the-amplify-data-client) for the recommended JavaScript client code.
+
 **What if we want to add a feature like AI/ML or Amazon Location Service to our application in Gen 2?**
 
 Because Amplify builds on the AWS Cloud Development Kit (AWS CDK), any AWS services supported by the CDK can be added to your app using [custom resources](/[platform]/build-a-backend/add-aws-services/custom-resources/) and L2/L1 AWS CDK constructs.
 
-**What happens once my application grows too big and I want to do more configuration with my application (add more features, other AWS services, etc.)?*
+**What happens once my application grows too big and I want to do more configuration with my application (add more features, other AWS services, etc.)?**
 
 You can stay with Amplify no matter how big your application grows. Amplify is layered on top of the AWS CDK and AWS CloudFormation. These provide a standardized way of interacting with AWS, so you can add any [AWS service supported by CDK to your Amplify app](/[platform]/build-a-backend/add-aws-services/custom-resources/). You can also override [Amplify-generated configuration of your resources](/[platform]/build-a-backend/add-aws-services/overriding-resources/) using the CDK. You can use any deployment pipeline you choose if you want more control over your CI.
 

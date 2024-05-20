@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -40,6 +41,6 @@ This package provides a Level 3 (L3) CDK construct wrapping the behavior of the 
 
 For more information on data modeling, visit the [data-modeling documentation](/[platform]/build-a-backend/data/data-modeling).
 
-## Amplify Auth (alpha)
+## Amplify Auth
 
-The official `AmplifyAuth` construct is currently in alpha and is not yet suitable for production use in your CDK applications. It can be found on the [npm registry](https://www.npmjs.com/package/@aws-amplify/auth-construct-alpha).
+The official `AmplifyAuth` construct can be found on the [npm registry](https://www.npmjs.com/package/@aws-amplify/auth-construct).

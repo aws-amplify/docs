@@ -16,6 +16,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -126,11 +127,11 @@ import { type Schema } from "@/amplify/data/resource";
 import outputs from "@/amplify_outputs.json";
 
 export const { runWithAmplifyServerContext } = createServerRunner({
-  outputs,
+  config: outputs,
 });
 
 export const cookiesClient = generateServerClientUsingCookies<Schema>({
-  config,
+  config: outputs,
   cookies,
 });
 

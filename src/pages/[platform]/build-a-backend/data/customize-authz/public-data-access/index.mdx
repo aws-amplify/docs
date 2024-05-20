@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -44,6 +45,8 @@ const schema = a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` by specifying the `apiKey` auth mode.
 
 ```ts
@@ -64,6 +67,25 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 );
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your application, you can perform CRUD operations against the model by specifying the `apiKey` auth mode.
+
+```swift
+do {
+    let todo = Todo(content: "My new todo")
+    let createdTodo = try await Amplify.API.mutate(request: .create(
+        todo,
+        authMode: .apiKey)).get()
+} catch {
+    print("Failed to create todo", error)
+}
+```
+
+</InlineFilter>
+
 ## Add public authorization rule using Amazon Cognito identity pool's unauthenticated role
 
 You can also override the authorization provider. In the example below, `identityPool` is specified as the provider which allows you to use an "Unauthenticated Role" from the Cognito identity pool for public access instead of an API key. Your Auth resources defined in `amplify/auth/resource.ts` generates scoped down IAM policies for the "Unauthenticated role" in the Cognito identity pool automatically.
@@ -77,6 +99,8 @@ const schema = a.schema({
     .authorization(allow => [allow.guest()]),
 });
 ```
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
 
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `identityPool` auth mode.
 
@@ -122,3 +146,22 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   // highlight-end
 );
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your application, you can perform CRUD operations against the model with the `awsIAM` auth mode.
+
+```swift
+do {
+    let todo = Todo(content: "My new todo")
+    let createdTodo = try await Amplify.API.mutate(request: .create(
+        todo,
+        authMode: .awsIAM)).get()
+} catch {
+    print("Failed to create todo", error)
+}
+```
+
+</InlineFilter>

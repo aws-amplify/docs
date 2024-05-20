@@ -17,6 +17,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -65,9 +66,7 @@ Deploy to AWS
 
 Select **Start with an existing app** > **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/deploy.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/deploy.mp4" />
 
 ### 3. View deployed app
 
@@ -94,9 +93,7 @@ Let's take a tour of the project structure in this starter repository by opening
 
  When the build completes, visit the newly deployed branch by selecting "View deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/hosted-app.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
 
 In the Amplify Console, navigate to the Data manager to see the data entered in your database.
 
@@ -111,9 +108,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/branch-details.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
 
@@ -168,7 +163,7 @@ function App() {
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
-        <a href="">Review next step of this tutorial.</a>
+        <a href="https://docs.amplify.aws/nextjs/start/quickstart/nextjs-pages-router/">Review next step of this tutorial.</a>
       </div>
     </main>
   )
@@ -220,9 +215,7 @@ npm run dev
 
 This should start a local dev server at http://localhost:3000.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-delete.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
 
 ### 6. Implement login UI
 
@@ -313,9 +306,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -370,7 +361,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string(),
     // highlight-next-line
-  }).authorization([a.allow.owner()]),
+  }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -412,9 +403,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 

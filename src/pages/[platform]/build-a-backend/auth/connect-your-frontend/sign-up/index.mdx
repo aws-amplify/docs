@@ -32,11 +32,37 @@ Amplify provides a client library that enables you to interact with backend reso
 
 {/* signUp api definition */}
 
+<InlineFilter filters={["react"]}>
 <Callout info>
 
 The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
 
 </Callout>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/swift/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/flutter/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/android/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
 
 To get started, you can use the `signUp()` API to create a new user in your backend:
 
@@ -259,9 +285,16 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
 
 The `signUp` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "flutter", "android"]}>
 - `CONFIRM_SIGN_UP` - The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp`.
 - `DONE` - The sign up process has been fully completed.
 - `COMPLETE_AUTO_SIGN_IN` - The sign up process needs to complete by invoking the `autoSignIn` API.
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+- `confirmUser` - The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp` API.
+- `done` - The sign up process has been fully completed.
+</InlineFilter>
 
 ## Confirm sign-up
 

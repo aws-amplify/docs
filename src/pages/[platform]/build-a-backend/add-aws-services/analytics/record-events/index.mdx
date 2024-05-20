@@ -405,23 +405,13 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 By default, events are automatically flushed out to the network every 60 seconds.
 
-If you would like to change this, update `amplify_outputs.json` and set the value you would prefer under `autoFlushEventsInterval`, expressed in seconds:
+You can change this through the `options` parameter when initializing the plugin, by creating a `AWSPinpointAnalyticsPlugin.Options` instance and setting its `autoFlushEventsInterval` property to the desired value, expressed in seconds:
 
-```json
-{
-  "Version": "1.0",
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "<your-app-id>",
-          "region": "<your-app-region>"
-        },
-        "autoFlushEventsInterval": 60
-      }
-    }
-  }
-}
+```swift
+let options = AWSPinpointAnalyticsPlugin.Options(
+    autoFlushEventsInterval: 60
+)
+try Amplify.add(plugin: AWSPinpointAnalyticsPlugin(options: options))
 ```
 
 > **Note**
@@ -448,34 +438,13 @@ To learn how frequently users authenticate with your app, update your applicatio
  - `_userauth.sign_up`
  - `_userauth.auth_fail`
 
-You can report authentication events by doing either of the following:
-
- - Managing user sign-up and sign-in with Amazon Cognito user pools.
-
-  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplify_outputs.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
-
-  ```json
-  "CognitoUserPool": {
-      "Default": {
-          "PoolId": "<your-user-pool-id>",
-          "AppClientId": "<your-app-client-id>",
-          "Region": "<your-app-region>",
-          "PinpointAppId": "<your-pinpoint-app-id>"
-     }
-  }
-  ```
-
-- Manually recording events using the `recordEvent()` API.
-
-  If you don't want to use Cognito user pools, you can use the Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
+You can report these events by doing the following:
 
 ```swift
-func sendUserSignInEvent() {
-    let event = BasicAnalyticsEvent(
-        name: "_userauth.sign_in"
-    )
-    Amplify.Analytics.record(event: event)
-}
+let event = BasicAnalyticsEvent(
+    name: "_userauth.sign_in" // Or any of the accepted values
+)
+Amplify.Analytics.record(event: event)
 ```
 
 ## Global Properties

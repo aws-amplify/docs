@@ -5,10 +5,8 @@
   &:hover {
     background-color: var(--amplify-colors-primary-90);
   }
-  &:focus {
-    box-shadow: none;
-    outline: 2px solid var(--amplify-colors-white);
-    outline-offset: 2px;
+  &:focus-visible {
+    outline-color: var(--amplify-colors-white);
   }
   .popover-icon {
     font-size: var(--amplify-font-sizes-xs);

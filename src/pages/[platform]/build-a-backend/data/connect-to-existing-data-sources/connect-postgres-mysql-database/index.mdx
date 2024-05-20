@@ -52,6 +52,14 @@ You must create a connection string using the following database information to 
 </li>
 </ul>
 
+<Callout info>
+
+**Only databases with certificates from well-known certificate providers are supported.** Support for databases using custom or self-signed SSL certificates is under active development.
+
+Amplify's MySQL and PostgreSQL feature builds on top of [AWS Lambda](https://aws.amazon.com/lambda) with a Node.js runtime. By default, Node.js includes root certificate authority (CA) certificates from [well-known certificate providers](https://github.com/nodejs/node/issues/4175). Lambda Node.js runtimes up to Node.js 18 augments these certificates with Amazon-specific CA certificates, making it easier to create functions accessing other AWS services.
+
+</Callout>
+
 ## Step 1 - Set secrets for database connection
 
 First, provide all the database connection information as secrets, you can use the Amplify sandbox's secret functionality to set them or go to the Amplify console to set secrets in a shared environment:
@@ -87,9 +95,11 @@ npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_ST
 
 <Accordion eyebrow="Info" title="Connecting to a database behind the VPC">
 
+If your RDS database exists within a VPC, it must be configured to be `Publicly accessible`. This does not mean the instance needs to be accessible from all IP addresses on the Internet, but this flag is required to allow your local machine to connect via an **Inbound Rule** rather than being inside your VPC or connected to the VPC via VPN.
+
 **To generate the TypeScript representation of your database schema:**
 
-If your database is protected by a VPC, you will need to add an **Inbound Rule** for the database port from your local IP address. The `npx ampx generate schema-from-database` command connects to your database from your local workstation to read schema information. 
+If your database is protected by a VPC, you will need to add an **Inbound Rule** for the database port from your local IP address. The `npx ampx generate schema-from-database` command connects to your database from your local workstation to read schema information.
 
 If you are connecting to an RDS Proxy, the machine you run the `generate schema-from-database` command must be in the same VPC as the proxy itself, or you must connect to it via VPN. Simply opening an **Inbound Rule** for the database port is not sufficient.
 
@@ -131,10 +141,10 @@ This creates a new **schema.sql.ts** with a schema reflecting the types of your 
 ```ts
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 // highlight-start
-import { schema as baseSqlSchema } from './schema.sql';
+import { schema as generatedSqlSchema } from './schema.sql';
 
 // Add a global authorization rule
-const sqlSchema = baseSqlSchema.authorization(allow => allow.guest())
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
 // highlight-end
 
 // Relational database sources can coexist with DynamoDB tables managed by Amplify.
@@ -155,7 +165,7 @@ const combinedSchema = a.combine([schema, sqlSchema]);
 export type Schema = ClientSchema<typeof combinedSchema>;
 
 export const data = defineData({
-  // Update the data definition to use the combined schema, instead of just 
+  // Update the data definition to use the combined schema, instead of just
   // your DynamoDB-backed schema
   // highlight-next-line
   schema: combinedSchema
@@ -169,7 +179,7 @@ Use the `.setAuthorization()` modifier to set model-level and field-level author
 ```ts
 // Add an authorization rule to the schema
 // highlight-start
-const sqlSchema = baseSqlSchema.setAuthorization((models) => [
+const sqlSchema = generatedSqlSchema.setAuthorization((models) => [
   // Model-level authorization rules
   models.event.authorization((allow) => [allow.publicApiKey()]),
   // Field-level authorization rules
@@ -207,12 +217,12 @@ To improve the ergonomics of your API, you might want to rename the generate fie
 
 ```ts
 // Rename models or fields to be more idiomatic for frontend code
-const sqlSchema = baseSqlSchema.authorization(allow => allow.guest())
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
 // highlight-start
   .renameModels(() => [
     //⌄⌄⌄⌄⌄ existing model name based on table name
     ['event', 'Event']
-    //        ^^^^^^ renamed data model name 
+    //        ^^^^^^ renamed data model name
   ])
   // highlight-end
 ```
@@ -220,7 +230,7 @@ const sqlSchema = baseSqlSchema.authorization(allow => allow.guest())
 ## Add relationships between tables
 
 ```ts
-const sqlSchema = baseSqlSchema
+const sqlSchema = generatedSqlSchema
   .authorization(allow => allow.guest())
 // highlight-start
   .setRelationships((models) => [
@@ -234,57 +244,88 @@ const sqlSchema = baseSqlSchema
 // highlight-end
 ```
 
-## Invoke SQL statements with custom queries and mutations
+## Add custom queries, mutations, subscriptions auto-generated SQL data schema
 
-You can either define inline SQL statements or reference a file path containing custom sql statements in designated files.
+Use the `.addToSchema(...)` to add in additional queries, mutations, and subscriptions to your auto-generated SQL data schema.
 
-### Use an inline SQL statement as a handler
+<Callout info>
+
+Note: you can't add additional data models via `a.model()`. They should be exclusively generated via `npx ampx generate schema-from-database`.
+
+</Callout>
+
+### Use an inline SQL statement as a query or mutation handler
 
 ```ts
 // Add custom mutations or queries that execute SQL statements
-baseSqlSchema.authorization(allow => allow.guest())
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
 // highlight-start
-  .addQueries({
-    searchEventBasedOnGeolocation: a.query()
-      .arguments({
-        lat: a.float(),
-        long: a.float(),
-        radiusInMeters: a.float()
-      })
-      .returns(a.ref("Event").array())
-      .handler(a.handler.inlineSql(`
-        SELECT *
-        FROM todos
-        WHERE ST_DistanceSphere(
-          location,
-          ST_MakePoint(:lat, :long)
-        ) <= :radiusInMeters`
+  .addToSchema({
+    listEventsWithDecodedLatLong: a.query()
+      // reference custom types added to the schema
+      .returns(a.ref("EventWithDecodedCoord").array())
+      .handler(a.handler.inlineSql(
+          `SELECT
+            id,
+            name,
+            address,
+            ST_X(geom) AS longitude,
+            ST_Y(geom) AS latitude
+          FROM locations;`
       ))
-      .authorization(allow => [allow.guest()])
-  })
-// highlight-end
-```
+      .authorization(allow => [allow.guest()]),
 
-### Reference an existing SQL file as a handler
-
-```ts
-// Create a "updateTodoBasedOnLocation.sql" file with the statement
-const sqlSchema = baseSqlSchema.authorization(allow => allow.guest())
-// highlight-start
-  .addMutation({
-    updateEventBasedOnLocation: a.mutation()
-      .arguments({
-        lat: a.float(),
-        long: a.float(),
-        radiusInMeters: a.float(),
-        eventId: a.integer()
+      // Define custom types to provide end-to-end typed results
+      // for custom queries / mutations
+      EventWithDecodedCoord: a.customType({
+        id: a.integer(),
+        name: a.string(),
+        address: a.string(),
+        longitude: a.float(),
+        latitude: a.float(),
       })
-      .returns(a.ref("Event"))
-      .handler(a.handler.sqlReference('./updateEventBasedOnLocation.sql'))
-      .authorization(allow => [allow.guest()])
   })
 // highlight-end
 ```
+
+### Reference an existing SQL file as a query or mutation handler
+
+You can define the different SQL handlers in separate `.sql` files and reference them in your custom queries / mutations.
+
+First, configure the custom query or mutation in your **amplify/data/resource.ts** file:
+```ts
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
+  .addToSchema({
+    createNewLocationWithLongLat: a.mutation()
+      .arguments({
+        lat: a.float().required(),
+        long: a.float().required(),
+        name: a.string().required(),
+        address: a.string().required()
+      })
+      .returns(a.json().array())
+      .authorization(allow => allow.authenticated())
+      // highlight-next-line
+      .handler(a.handler.sqlReference('./createNewLocationWithLongLat.sql'))
+  })
+```
+
+Next, add a corresponding sql file to handle the request:
+
+<BlockSwitcher>
+<Block name="MySQL">
+```sql title="createNewLocationWithLongLat.sql"
+INSERT INTO locations (name, address, geom)
+VALUES (:name, :address, ST_GEOMFROMTEXT(CONCAT('POINT (', :long, ' ', :lat, ')'), 4326));
+```
+</Block>
+<Block name="PostgreSQL">
+```sql title="createNewLocationWithLongLat.sql"
+INSERT INTO locations (name, address, geom)
+VALUES (:name, :address, ST_SetSRID(ST_MakePoint(:long, :lat), 4326))
+```
+</Block>
+</BlockSwitcher>
 
 ## How does it work?
 
