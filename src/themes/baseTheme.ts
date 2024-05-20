@@ -84,6 +84,9 @@ export const baseTheme = createTheme({
         data: {
           padding: { value: '{space.small}' }
         }
+      },
+      fieldcontrol: {
+        borderRadius: { value: '{radii.medium}' }
       }
     }
   },

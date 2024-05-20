@@ -35,6 +35,7 @@ import {
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
+import { Search } from '@/components/Search';
 
 export const Layout = ({
   children,
@@ -254,6 +255,7 @@ export const Layout = ({
                   {useCustomTitle ? null : (
                     <Heading level={1}>{pageTitle}</Heading>
                   )}
+                  <Search />
                   {children}
                   {showNextPrev && <NextPrevious />}
                 </Flex>

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useSearchBox, useInstantSearch } from 'react-instantsearch';
-import { Button, TextField } from '@aws-amplify/ui-react';
+import { Button, Flex, TextField } from '@aws-amplify/ui-react';
 export const SearchForm = (props) => {
   const { query, refine } = useSearchBox(props);
   const { status } = useInstantSearch();
@@ -15,8 +15,10 @@ export const SearchForm = (props) => {
     refine(newQuery);
   }
   return (
-    <form
+    <Flex
+      as="form"
       action=""
+      gap="xs"
       role="search"
       noValidate
       onSubmit={(event) => {
@@ -40,6 +42,7 @@ export const SearchForm = (props) => {
     >
       <TextField
         label="Search docs"
+        labelHidden={true}
         ref={inputRef}
         autoComplete="off"
         autoCorrect="off"
@@ -47,6 +50,7 @@ export const SearchForm = (props) => {
         placeholder="Search"
         spellCheck={false}
         maxLength={512}
+        flex="1 0 auto"
         type="search"
         value={inputValue}
         onChange={(event) => {
@@ -58,6 +62,6 @@ export const SearchForm = (props) => {
         Reset
       </button> */}
       <span hidden={!isSearchStalled}>Searching…</span>
-    </form>
+    </Flex>
   );
 };
