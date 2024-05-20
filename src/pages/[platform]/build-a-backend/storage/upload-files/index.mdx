@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -706,26 +707,28 @@ Monitor progress of upload by using the `onProgress` options
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
 
-try {
-  const result = uploadData({
-    path: "album/2024/1.jpg",
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-    data: file,
-    options: {
-      onProgress: ({ transferredBytes, totalBytes }) => {
-        if (totalBytes) {
-          console.log(
-            `Upload progress ${
-              Math.round((transferredBytes / totalBytes) * 100)
-            } %`
-          );
-        }
-      }
-    }
-  }).result;
-  console.log('Path from Response: ', result.path);
-} catch (error) {
-  console.log('Error : ', error);
+const monitorUpload = async () => {
+  try {
+    const result = await uploadData({
+      path: "album/2024/1.jpg",
+      // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+      data: file,
+      options: {
+        onProgress: ({ transferredBytes, totalBytes }) => {
+          if (totalBytes) {
+            console.log(
+              `Upload progress ${Math.round(
+                (transferredBytes / totalBytes) * 100
+              )} %`
+            );
+          }
+        },
+      },
+    }).result;
+    console.log("Path from Response: ", result.path);
+  } catch (error) {
+    console.log("Error : ", error);
+  }
 }
 ```
 </InlineFilter>

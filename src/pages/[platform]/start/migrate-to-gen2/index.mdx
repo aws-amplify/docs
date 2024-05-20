@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -196,6 +197,32 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 
 ### Other categories
 
+<InlineFilter filters={['android', 'swift']}>
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---| 
+| REST API| Yes|	No
+| Analytics| Yes|	Yes with custom CDK
+| Geo| Yes|	Yes with custom CDK
+| Predictions | Yes|	No
+| Interactions| Yes|	No
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---| 
+| REST API| Yes|	Yes with custom CDK
+| Analytics| Yes|	Yes with custom CDK
+| Geo| No|	No
+| Predictions | No|	No
+| Interactions| No|	No
+
+</InlineFilter>
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
 | Feature | Gen 1 | Gen 2 |
 |---|---|---| 
 | REST API| Yes|	Yes with custom CDK
@@ -203,3 +230,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Geo| Yes|	Yes with custom CDK
 | Predictions | Yes|	Yes with custom CDK
 | Interactions| Yes|	Yes with custom CDK
+
+</InlineFilter>
+
+

@@ -55,7 +55,7 @@ By default, your auth resource is scaffolded using `email` as the default login 
 
 </Callout>
 
-### Deploy auth resource
+## Deploy auth resource
 
 After you have chosen and defined your authentication resource, run the following command to create your resource in your personal cloud sandbox.
 
@@ -455,51 +455,31 @@ Be sure to have compileSdk version as 34 or higher.
 
 The Authenticator component is built using [Jetpack Compose](https://developer.android.com/jetpack/compose). Enable Jetpack Compose by adding the following to the android section of your app's `build.gradle` file:
 
-```groovy showLineNumbers={false}
+```kotlin title="app/build.gradle.kts" showLineNumbers={false}
 compileOptions {
     // Support for Java 8 features
-    coreLibraryDesugaringEnabled true
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    isCoreLibraryDesugaringEnabled = true
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 buildFeatures {
-    compose true
+    compose = true
 }
 composeOptions {
-  kotlinCompilerExtensionVersion '1.2.0'
+  kotlinCompilerExtensionVersion = "1.2.0"
 }
-```
-
-Add the following dependencies to your *app*'s `build.gradle` file and click "Sync Now" when prompted:
-
-
-<BlockSwitcher>
-<Block name="Kotlin DSL">
-
-```kotlin
 dependencies {
-    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
-</Block>
-<Block name="Groovy">
+Add the following dependencies to your *app*'s `build.gradle.kts` file and click "Sync Now" when prompted:
 
-```groovy
+```kotlin title="app/build.gradle.kts" 
 dependencies {
-  dependencies {
-    // Authenticator dependency
-    implementation 'com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION'
-
-    // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
-  }
+    implementation("com.amplifyframework.ui:authenticator:ANDROID_AUTHENTICATOR_VERSION")
 }
 ```
-
-</Block>
-</BlockSwitcher>
 
 <Callout warning>
 Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
@@ -624,21 +604,16 @@ Move the generated files to your project. You can do this by dragging and droppi
 
 Open your project in Xcode and select File > Add Packages... and add the following dependencies:
 
-- Amplify Library for Swift: Enter its [GitHub URL](https://github.com/aws-amplify/amplify-swift), *select Up to Next Major Version* and click *Add Package*
+- Amplify Library for Swift: Enter its GitHub URL (https://github.com/aws-amplify/amplify-swift), *select Up to Next Major Version* and click *Add Package*
 
   - Select the following libraries:
     - Amplify
     - AWSCognitoAuthPlugin
 
-- Amplify UI Swift - Authenticator: Enter its [GitHub URL](https://github.com/aws-amplify/amplify-ui-swift-authenticator), *select Up to Next Major Version* and click *Add Package*
+- Amplify UI Swift - Authenticator: Enter its GitHub URL (https://github.com/aws-amplify/amplify-ui-swift-authenticator), *select Up to Next Major Version* and click *Add Package*
 
   - Select the following library:
     - Authenticator
-
-Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
-
-![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
-
 
 Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
 

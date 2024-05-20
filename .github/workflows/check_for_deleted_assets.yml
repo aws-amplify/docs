@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository to get the workflow scripts
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3 https://github.com/actions/checkout/commit/c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - name: Get count of deleted files
-        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         id: set-deleted-files-count
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -23,7 +23,7 @@ jobs:
             const paths = PATHS_TO_CHECK.split(',');
 
             const { getDeletedFilesFromPR } = require('./.github/workflows/scripts/utilities.js');
-            return getDeletedFilesFromPR({github, context, paths});
+            return await getDeletedFilesFromPR({github, context, paths});
       - name: Create artifact containing the PR number and deleted file count
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
@@ -32,7 +32,7 @@ jobs:
           echo ${{ env.PR_NUMBER }} >> $artifactName
           echo ${{ steps.set-deleted-files-count.outputs.result }} >> $artifactName
       - name: Upload the deleted assets file to artifacts
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2 https://github.com/actions/upload-artifact/commit/0b7f8abb1508181956e8e162db84b466c27e18ce
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: '${{ env.ARTIFACT_NAME }}.txt'

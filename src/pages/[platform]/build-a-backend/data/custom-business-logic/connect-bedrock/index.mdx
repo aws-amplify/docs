@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Connect to Amazon Bedrock as a data source',
+  title: 'Connect to Amazon Bedrock for generative AI use cases',
   description:
     'Connect to Amazon Bedrock to build generative AI applications with AWS Amplify.',
   platforms: [
@@ -127,6 +127,14 @@ backend.data.resources.cfnResources.cfnGraphqlApi.environmentVariables = {
 </BlockSwitcher>
 
 For the purpose of this guide, we will use Anthropic's Claude 3 Haiku to generate content. If you want to use a different model, you can find the ID for your model of choice in the Amazon Bedrock documentation's [list of model IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html) or the [Amazon Bedrock console](https://console.aws.amazon.com/bedrock/) and replace the value of `MODEL_ID`.
+
+<Callout info>
+The availability of Amazon Bedrock and its foundation models may vary by region.
+
+The policy statement in the code above assumes that your Amplify app is deployed in a region supported by Amazon Bedrock and the Claude 3 Haiku model. If you are deploying your app in a region where Amazon Bedrock is not available, update the code above accordingly.
+
+For a list of supported regions please refer to the [Amazon Bedrock documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/bedrock-regions.html).
+</Callout>
 
 
 ## Step 2 - Define a custom query

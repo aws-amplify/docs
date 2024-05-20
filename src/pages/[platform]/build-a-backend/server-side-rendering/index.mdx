@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -59,7 +60,7 @@ import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import outputs from '@/amplify_outputs.json';
 
 export const { runWithAmplifyServerContext } = createServerRunner({
-  outputs
+  config: outputs
 });
 ```
 

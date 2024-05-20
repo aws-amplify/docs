@@ -16,6 +16,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -30,11 +31,39 @@ The Amplify Logger enables you to troubleshoot and debug issues with your apps, 
 
 
 
-* An Android application targeting at least Android SDK API level 24 with Amplify libraries integrated
+* An Android application targeting Android SDK API level 24 (Android 7.0) or above with Amplify libraries integrated
     * For a full example, please follow the [quickstart](/android/start/quickstart/).
 * The Amplify Logger is available for versions 2.11.0 and beyond of the Amplify Android SDK
 
+### Install the Amplify library
 
+Expand **Gradle Scripts**, open **build.gradle (Module: app)**. You will already have configured Amplify by following the steps in the [quickstart guide](/[platform]/start/quickstart/).
+
+Add these libraries into the `dependencies` block:
+```kotlin title="app/build.gradle.kts"  
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // Amplify API dependencies
+    // highlight-start
+    implementation("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")
+    implementation("com.amplifyframework:aws-logging-cloudwatch:ANDROID_VERSION")
+    // highlight-end
+    // ... other dependencies
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+}
+```
+
+`aws-auth-cognito` is used to provide authentication for Amazon CloudWatch.
+
+Click **Sync Now**.
 
 </InlineFilter>
 

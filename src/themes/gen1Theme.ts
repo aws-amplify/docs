@@ -16,10 +16,7 @@ export const gen1Theme = createTheme(
             },
             _focus: {
               backgroundColor: { value: '{colors.primary.20}' },
-              color: { value: '{colors.font.primary}' },
-              boxShadow: {
-                value: '0 0 0 2px var(--amplify-colors-border-focus)'
-              }
+              color: { value: '{colors.font.primary}' }
             },
             _hover: {
               backgroundColor: { value: '{colors.primary.20}' },

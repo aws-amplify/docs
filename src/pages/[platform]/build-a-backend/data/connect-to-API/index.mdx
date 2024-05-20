@@ -50,8 +50,16 @@ Amplify.configure(outputs);
 
 ## Generate the Amplify Data client
 
-Once the Amplify library is configured, you can generate a "Data client" for your frontend code to make fully-typed API requests to your backend. To generate a new Data client, use the following code:
+Once the Amplify library is configured, you can generate a "Data client" for your frontend code to make fully-typed API requests to your backend.
 
+<Callout info>
+**If you're using Amplify with a JavaScript-only frontend (i.e. not TypeScript), then you can still get a fully-typed data fetching experience by annotating the generated client with a JSDoc comment**. Select the **JavaScript** in the code block below to see how.
+</Callout>
+
+To generate a new Data client, use the following code:
+
+<BlockSwitcher>
+<Block name="TypeScript">
 ```ts
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
@@ -64,6 +72,25 @@ const fetchTodos = async () => {
   const { data: todos, errors } = await client.models.Todo.list();
 };
 ```
+</Block>
+<Block name="JavaScript">
+```js
+import { generateClient } from 'aws-amplify/data';
+
+/**
+ * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
+ */
+const client = generateClient();
+
+// Now you should be able to make CRUDL operations with the
+// Data client
+const fetchTodos = async () => {
+  const { data: todos, errors } = await client.models.Todo.list();
+};
+```
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -606,9 +633,12 @@ RxAmplify.addPlugin(plugin);
 
 <InlineFilter filters={["swift"]}>
 
-To include custom headers in your outgoing requests, add an `URLRequestInterceptor` to the `AWSAPIPlugin`. Also specify the name of one of the APIs configured in your **amplify_outputs.json** file.
+To include custom headers in your outgoing requests, add an `URLRequestInterceptor` to the `AWSAPIPlugin`.
 
 ```swift
+import Amplify
+import AWSAPIPlugin
+
 struct CustomInterceptor: URLRequestInterceptor {
     func intercept(_ request: URLRequest) throws -> URLRequest {
         var request = request
@@ -616,10 +646,11 @@ struct CustomInterceptor: URLRequestInterceptor {
         return request
     }
 }
-let apiPlugin = try AWSAPIPlugin()
-try Amplify.addPlugin(apiPlugin)
-try Amplify.configure(with: .amplifyOutputs)
+let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
 try apiPlugin.add(interceptor: CustomInterceptor(), for: AWSAPIPlugin.defaultGraphQLAPI)
+try Amplify.add(plugin: apiPlugin)
+try Amplify.configure(with: .amplifyOutputs)
+
 ```
 
 </InlineFilter>

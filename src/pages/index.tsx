@@ -5,6 +5,7 @@ import {
   generateGetStartedLinks
 } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
+import { Video } from '@/components/Video';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { FeatureItem, FeatureList } from '@/components/FeatureLists';
@@ -121,19 +122,7 @@ export default function Page() {
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Develop</Heading>
-        <video
-          src="/videos/typed-api.mp4"
-          style={{
-            width: '100%',
-            borderRadius: 'var(--amplify-radii-large)',
-            marginBottom: 'var(--amplify-space-small)',
-            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
-          }}
-          autoPlay
-          muted
-          loop
-          playsInline={true}
-        />
+        <Video src="/videos/typed-api.mp4" />
 
         <Columns columns={2} as="ul">
           <FeatureItem

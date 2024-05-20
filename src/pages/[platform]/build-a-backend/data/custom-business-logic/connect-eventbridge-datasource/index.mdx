@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Connect to Amazon EventBridge data sources',
+  title: 'Connect to Amazon EventBridge to send and receive events',
   description:
     'Connect to Amazon EventBridge data sources to build event-driven applications with AWS Amplify.',
   platforms: [
@@ -65,7 +65,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.public()]),
+    .authorization(allow => [allow.publicApiKey()]),
   // highlight-start
   OrderStatus: a.enum(["OrderPending", "OrderShipped", "OrderDelivered"]),
   OrderStatusChange: a.customType({

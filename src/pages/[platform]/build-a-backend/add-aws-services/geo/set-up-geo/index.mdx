@@ -176,12 +176,26 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 ## Install Amplify Libraries
 
 <InlineFilter filters={['android']}>
-Add the following dependencies to your **build.gradle (Module :app)** file and click "Sync Now" when prompted:
+Add the following dependencies to your **build.gradle.kts (Module :app)** file and click "Sync Now" when prompted:
 
-```groovy
+```kotlin title="app/build.gradle.kts"
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
 dependencies {
-    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
-    implementation 'com.amplifyframework:aws-geo-location:ANDROID_VERSION'
+    // Amplify API dependencies
+    // highlight-start
+    implementation("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")
+    implementation("com.amplifyframework:aws-geo-location:ANDROID_VERSION")
+    // highlight-end
+    // ... other dependencies
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
 ```
 
@@ -195,21 +209,18 @@ dependencies {
 <InlineFilter filters={['swift']}>
 The Geo plugin is dependent on Cognito Auth.
 
-<BlockSwitcher>
+1. To install the Amplify Libraries in your application, open your project in Xcode and select **File > Add Packages...**.
 
-<Block name="Swift Package Manager">
+2. Enter the **Amplify Library for Swift** GitHub repo URL (`https://github.com/aws-amplify/amplify-swift`) into the search bar and click **Add Package**.
 
-1. To install Amplify Geo and Authentication to your application, open your project in Xcode and select **File > Add Packages...**.
+  <Callout>
 
-1. Enter the **Amplify Library for Swift** GitHub repo URL (`https://github.com/aws-amplify/amplify-swift`) into the search bar and and hit **Enter** Wait for the result to load. You'll see the repository rules for which version of amplify-ios-mapLibre you want Swift Package Manager to install.
+  **Note:** **Up to Next Major Version** should be selected from the **Dependency Rule** dropdown.
 
-1. Choose the dependency rule **Up to Next Major Version**, as it will use the latest compatible version of the dependency, then click **Add Package**.
+  </Callout>
 
-1. Lastly, choose **AWSLocationGeoPlugin**, **AWSCognitoAuthPlugin**, and **Amplify**. Then click Finish.
+3. Lastly, add **AWSLocationGeoPlugin**, **AWSCognitoAuthPlugin**, and **Amplify** to your target. Then click **Add Package**.
 
-</Block>
-
-</BlockSwitcher>
 </InlineFilter>
 
 ## Initialize Amplify Geo
@@ -326,12 +337,23 @@ Initialized Amplify
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
-To initialize the Amplify Geo, use the `Amplify.addPlugin()` method to add the AWSLocationGeoPlugin. Next, finish configuring Amplify by calling `Amplify.configure()`.
+<Callout warning>
+Make sure to generate the `amplify_outputs.json` file by running the following command: 
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
+```
+
+Next, move the file to your project. You can do this by dragging and dropping the file into your Xcode project.
+</Callout>
+
+To initialize Amplify Geo, use the `Amplify.add(plugin:)` method to add the AWS Location Geo plugin. Next, finish configuring Amplify by calling `Amplify.configure(with:)`.
 
 Open the main file of the application - `AppDelegate.swift` or `<YOUR_APP_NAME>App.swift` depending on the app's life cycle - and **add the following** import statements at the top of the file:
 
 ```swift
 import Amplify
+import AWSCognitoAuthPlugin
 import AWSLocationGeoPlugin
 ```
 

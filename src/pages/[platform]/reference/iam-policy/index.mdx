@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -32,9 +33,7 @@ export function getStaticProps(context) {
 
 Branch deployments require the [`AmplifyBackendDeployFullAccess`](https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmplifyBackendDeployFullAccess) managed policy to be able to deploy backend resources during a fullstack deployment. When connecting your project through the console, a role with this policy attached will be automatically created for you.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/references/iam-policy.mp4" />
-</video>
+<Video src="/images/gen2/references/iam-policy.mp4" />
 
 ## Cloud sandbox deployments
 

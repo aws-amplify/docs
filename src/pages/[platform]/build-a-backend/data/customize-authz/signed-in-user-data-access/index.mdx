@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -50,6 +51,8 @@ const schema = a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
 
 ```ts
@@ -69,6 +72,24 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   // highlight-end
 );
 ```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your application, you can perform CRUD operations against the model with the `amazonCognitoUserPools` auth mode.
+
+```swift
+do {
+    let todo = Todo(content: "My new todo")
+    let createdTodo = try await Amplify.API.mutate(request: .create(
+        todo,
+        authMode: .amazonCognitoUserPools)).get()
+} catch {
+    print("Failed to create todo", error) 
+}
+```
+
+</InlineFilter>
 
 ## Use identity pool for signed-in user authentication
 
@@ -84,6 +105,8 @@ const schema = a.schema({
     .authorization(allow => [allow.authenticated('identityPool')]),
 });
 ```
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
 
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `iam` auth mode.
 
@@ -108,5 +131,26 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   // highlight-end
 );
 ```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your application, you can perform CRUD operations against the model with the `awsIAM` auth mode.
+
+<Callout info>
+ The user must be logged in for the Amplify Library to use the authenticated role from your Cognito identity pool.
+</Callout>
+
+```swift
+do {
+    let todo = Todo(content: "My new todo")
+    let createdTodo = try await Amplify.API.mutate(request: .create(
+        todo,
+        authMode: .awsIAM)).get()
+} catch {
+    print("Failed to create todo", error)
+}
+```
+</InlineFilter>
 
 In addition, you can also use OpenID Connect with `authenticated` authorization. See [OpenID Connect as an authorization provider](/[platform]/build-a-backend/data/customize-authz/using-oidc-authorization-provider/).

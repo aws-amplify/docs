@@ -2,6 +2,7 @@ import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
 import ExportedImage from 'next-image-export-optimizer';
 import { MDXCode } from '@/components/MDXComponents/';
 import { IconChevron } from '@/components/Icons';
+import { Video } from '@/components/Video';
 import { Columns } from '@/components/Columns';
 import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
@@ -174,21 +175,7 @@ const Gen2Overview = () => {
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>Develop</Heading>
-        {!isMobilePlatform && (
-          <video
-            src="/videos/typed-api.mp4"
-            style={{
-              width: '100%',
-              borderRadius: 'var(--amplify-radii-large)',
-              marginBottom: 'var(--amplify-space-small)',
-              boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
-            }}
-            autoPlay
-            muted
-            loop
-            playsInline={true}
-          />
-        )}
+        {!isMobilePlatform && <Video src="/videos/typed-api.mp4" />}
 
         <Columns columns={2} as="ul">
           {!isMobilePlatform && (

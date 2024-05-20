@@ -23,11 +23,13 @@
 @import './home.scss';
 @import './icons.scss';
 @import './layout.scss';
-@import './platform-navigator.scss';
 @import './link-card.scss';
 @import './menu.scss';
 @import './modal.scss';
+@import './next-previous.scss';
+@import './overview';
 @import './page-last-updated.scss';
+@import './platform-navigator.scss';
 @import './popover.scss';
 @import './repo-actions.scss';
 @import './search.scss';
@@ -35,12 +37,6 @@
 @import './split-button.scss';
 @import './toc.scss';
 @import './table.scss';
-@import './youtube-embed';
-@import './overview';
 @import './version-switcher.scss';
-@import './next-previous.scss';
-
-/* Temp */
-[id*='lastupdated-'] {
-  display: none;
-}
+@import './video.scss';
+@import './youtube-embed';

@@ -276,9 +276,98 @@ export const auth = defineAuth({
   }
 });
 ```
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+- [Learn more about configuring the React Authenticator component for external providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers)
+</InlineFilter>
 
-[Learn more about configuring the React Authenticator component for external providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers)
+## Configure OIDC provider
 
+To setup a OIDC provider, you can configure them in your `amplify/auth/resource.ts` file. For example, if you would like to setup a Microsoft EntraID provider, you can do so as follows:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth, secret } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      oidc: [
+        {
+          name: 'MicrosoftEntraID',
+          clientId: secret('MICROSOFT_ENTRA_ID_CLIENT_ID'),
+          clientSecret: secret('MICROSOFT_ENTRA_ID_CLIENT_SECRET'),
+          issuerUrl: '<your-issuer-url>',
+        },
+      ],
+      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+      callbackUrls: [
+        'http://localhost:3000/profile',
+        'https://mywebsite.com/profile',
+      ],
+    },
+  },
+});
+```
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+
+Use the `signInWithRedirect` API to initiate sign-in with an OIDC identity provider.
+
+```ts title="src/my-client-side-js.js"
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+await signInWithRedirect({
+  provider: {
+    custom: 'MicrosoftEntraID'
+  }
+});
+```
+</InlineFilter>
+
+## Configure SAML provider
+
+To setup a SAML provider, you can configure them in your `amplify/auth/resource.ts` file. For example, if you would like to setup a Microsoft EntraID provider, you can do so as follows:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      saml: {
+        name: 'MicrosoftEntraIDSAML',
+        metadata: {
+          metadataContent: '<your-url-hosting-saml-metadata>', // or content of the metadata file
+          metadataType: 'URL', // or 'FILE'
+        },
+      },
+      logoutUrls: ['http://localhost:3000/', 'https://mywebsite.com'],
+      callbackUrls: [
+        'http://localhost:3000/profile',
+        'https://mywebsite.com/profile',
+      ],
+    },
+  },
+});
+```
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+
+Use the `signInWithRedirect` API to initiate sign-in with a SAML identity provider.
+
+```ts title="src/my-client-side-js.js"
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+await signInWithRedirect({
+  provider: {
+    custom: 'MicrosoftEntraIDSAML'
+  }
+});
+```
+</InlineFilter>
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 {/* @TODO refactor with connect-your-frontend/sign-in */}
 ## Set up your frontend
 
@@ -287,7 +376,6 @@ export const auth = defineAuth({
 If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
 
 </Callout>
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 Use the `signInWithRedirect` API to initiate sign-in with an external identity provider.
 
@@ -344,4 +432,4 @@ When you import and use the `signInWithRedirect` function, it will add a listene
 
 ## Next steps
 
-- [Learn how to sign in with external providers](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sign-in-with-external-provider)
+- [Learn how to sign in with external providers](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sign-in-with-an-external-identity-provider)

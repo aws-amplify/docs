@@ -317,9 +317,7 @@ Deploy to AWS
 
 Select **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/deploy.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/deploy.mp4" />
 
 ### 3. View deployed app
 
@@ -344,13 +342,11 @@ Let's take a tour of the project structure in this starter repository by opening
 ```
 </Accordion>
 
- When the build completes, visit the newly deployed branch by selecting "View deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
+ When the build completes, visit the newly deployed branch by selecting "Visit deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/hosted-app.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
 
-In the Amplify Console, navigate to the Data manager to see the data entered in your database.
+In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
 ![Amplify data manager user interface showing the ToDo model with two to do instances](/images/gen2/getting-started/data-manager.png)
 
@@ -362,9 +358,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/branch-details.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
 
@@ -421,7 +415,7 @@ function App() {
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
-        <a href="">Review next step of this tutorial.</a>
+        <a href="https://docs.amplify.aws/react/start/quickstart/">Review next step of this tutorial.</a>
       </div>
     </main>
   )
@@ -436,11 +430,7 @@ npm run dev
 
 This should start a local dev server at http://localhost:5173.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-delete.mp4" />
-</video>
-
-
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
 
 ### 6. Implement login UI
 
@@ -467,9 +457,10 @@ function App() {
           // highlight-next-line
           <button onClick={signOut}>Sign out</button>
         </main>
+    // highlight-start
       )}
-    // highlight-next-line
     </Authenticator>
+    // highlight-end
   )
 }
 ```
@@ -478,9 +469,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -577,9 +566,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -653,9 +640,7 @@ Deploy to AWS
 
 Select **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/deploy.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/deploy.mp4" />
 
 ### 3. View deployed app
 
@@ -681,13 +666,11 @@ Let's take a tour of the project structure in this starter repository by opening
 ```
 </Accordion>
 
- When the build completes, visit the newly deployed branch by selecting "View deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
+ When the build completes, visit the newly deployed branch by selecting "Visit deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/hosted-app.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
 
-In the Amplify Console, navigate to the Data manager to see the data entered in your database.
+In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
 ![Amplify data manager user interface showing the ToDo model with two to do instances](/images/gen2/getting-started/data-manager.png)
 
@@ -699,9 +682,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/branch-details.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
 
@@ -761,7 +742,7 @@ function App() {
     <div>
       🥳 App successfully hosted. Try creating a new todo.
       <br />
-      <a href="https://docs.amplify.aws/gen2/start/quickstart/nextjs-pages-router/">
+      <a href="https://docs.amplify.aws/vue/start/quickstart/">
         Review next steps of this tutorial.
       </a>
     </div>
@@ -778,11 +759,7 @@ npm run dev
 
 This should start a local dev server at http://localhost:5173.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-delete.mp4" />
-</video>
-
-
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
 
 ### 6. Implement login UI
 
@@ -822,9 +799,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -925,9 +900,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -987,9 +960,7 @@ Deploy to AWS
 
 Select **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gens2/getting-started/react/deploy.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/deploy.mp4" />
 
 ### 3. View deployed app
 
@@ -1014,13 +985,11 @@ Let's take a tour of the project structure in this starter repository by opening
 ```
 </Accordion>
 
- When the build completes, visit the newly deployed branch by selecting "View deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
+ When the build completes, visit the newly deployed branch by selecting "Visit deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/hosted-app.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
 
-In the Amplify Console, navigate to the Data manager to see the data entered in your database.
+In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
 ![Amplify data manager user interface showing the ToDo model with two to do instances](/images/gen2/getting-started/data-manager.png)
 
@@ -1032,9 +1001,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/branch-details.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button.
 
@@ -1097,11 +1064,7 @@ npm run start
 
 This should start a local dev server at http://localhost:5173.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-delete.mp4" />
-</video>
-
-
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
 
 ### 6. Implement login UI
 
@@ -1170,9 +1133,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -1264,9 +1225,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/demo-auth.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -1427,9 +1386,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 Run your application in your local environment again. You should be presented with a login experience now.
 
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/flutter/flutter-getting-started-1.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/flutter/flutter-getting-started-1.mp4" />
 
 ## Adding Data
 
@@ -1670,9 +1627,7 @@ return false;
 
 This will delete the Todo item when the user swipes the item from right to left. Now if you run the application you should see the following flow.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/flutter/flutter-getting-started-2.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/flutter/flutter-getting-started-2.mp4" />
 
 You can terminate the sandbox environment now to clean up the project.
 
@@ -1764,9 +1719,7 @@ npx ampx sandbox
 
 Once the sandbox environment is deployed, it will create an `amplify_outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
 
 ## Adding Authentication
 
@@ -1841,9 +1794,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Run your application in your local environment again. You should be presented with a login experience now.
 
-<video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
-  <source src="/images/gen2/getting-started/ios/ios-getting-started-1.mp4" />
-</video>
+<Video with="40%" src="/images/gen2/getting-started/ios/ios-getting-started-1.mp4" />
 
 ## Adding Data
 
@@ -1905,7 +1856,7 @@ init() {
 }
 ```
 
-Create a new file called `TodoViewModel.swift` and the `createTodo` function the following code:
+Create a new file called `TodoViewModel.swift` and the `createTodo` function with the following code:
 
 ```swift title="TodoViewModel.swift"
 import Amplify
@@ -1973,8 +1924,6 @@ class TodoViewModel: ObservableObject {
         }
     }
 }
-
-
 ```
 
 This will assign the value of the fetched todos into a Published object. 
@@ -2126,9 +2075,7 @@ struct TodoRow: View {
 
 This will update the UI to show a toggle to update the todo `isDone` and a swipe to delete the todo. Now if you run the application you should see the following flow.
 
-<video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
-  <source src="/images/gen2/getting-started/ios/ios-getting-started-3.mp4" />
-</video>
+<Video width="40%" src="/images/gen2/getting-started/ios/ios-getting-started-3.mp4" />
 
 You can terminate the sandbox environment now to clean up the project.
 
@@ -2178,9 +2125,7 @@ Deploy to AWS
 
 Select **GitHub**, pick the starter repository, and hit "Save and Deploy".
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/deploy.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/deploy.mp4" />
 
 ### 3: View deployed backend
 
@@ -2201,9 +2146,7 @@ Let's take a tour of the project structure in this starter repository. The start
 
  When the build completes, visit the newly deployed branch by selecting the branch name and then looking at the **Deployed backend resources** section under deployments.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/react/branch-details.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
 
 ## Make app updates
 
@@ -2241,8 +2184,25 @@ Now move the `amplify_outputs.json` file you downloaded above to `app/src/main/r
 The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.
 </Accordion>
 
+### 5. Install dependencies
 
-### 5. Implement login UI
+Amplify uses some modern Java APIs that require desugaring to be added for earlier versions of Android. In your app/build.gradle.kts add the following lines:
+```kotlin title="app/build.gradle.kts"
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+}
+```
+
+### 6. Implement login UI
 
 The deployed backend application already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file.
 
@@ -2259,15 +2219,6 @@ dependencies {
 
 Afterwards create a `MyAmplifyApp` class that extends `Application` and add the following code:
 
-<Callout warning>
-Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command: 
-
-```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
-```
-
-Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
-</Callout>
 
 ```kotlin title="MyAmplifyApp.kt"
 import android.app.Application
@@ -2347,11 +2298,9 @@ class MainActivity : ComponentActivity() {
 
 Now if you run the application on the Android emulator, you should see the authentication flow working.
 
-<video autoPlay={true} muted={true} loop={true} width="40%" playsInline={true}>
-  <source src="/images/gen2/getting-started/android/android-getting-started-1.mp4" />
-</video>
+<Video width="40%" src="/images/gen2/getting-started/android/android-getting-started-1.mp4" />
 
-### 6. Read and write data
+### 7. Read and write data
 
 The initial scaffolding already has a pre-configured data backend defined in the `amplify/data/resource.ts` file. The default example will create a Todo model with `content` field.
 
@@ -2488,7 +2437,7 @@ setContent {
                     TodoList()
 ```
 
-### 7. Enable real-time data
+### 8. Enable real-time data
 
 If you build and rerun the application, you should see the todo that was created in the previous build. But notice how when you click on the "create Todo" button, it doesn't add any new todos to the list below until the next time your app relaunches. To solve this, let's add real-time updates to the todo list.
 
@@ -2535,7 +2484,7 @@ fun TodoList() {
 
 Let's update our backend to implement per-user authorization rules, allowing each user to only access their own to-dos.
 
-### 7. Implement per-user authorization
+### 9. Implement per-user authorization
 
 First, clone the deployed repository.
 
@@ -2577,7 +2526,7 @@ Commit this change to your git repository. Amplify's CI/CD system will automatic
 git commit -am "added per-user data isolation"
 git push
 ```
-### 8. Test in app
+### 10. Test in app
 
 Now, let's go back to your Android application and test out the user isolation of the to-do items. Fetch the latest `amplify_outputs.json` and model files by re-running the following command in your Android Studio terminal.
 
@@ -2749,9 +2698,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Run your application in your local environment again. You should be presented with a login experience now.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/reactnative/reactnative-getting-started-1.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/reactnative/reactnative-getting-started-1.mp4" />
 
 ## Adding Data
 
@@ -2925,9 +2872,7 @@ const styles = StyleSheet.create({
 
 If you run the application now, you should see the following behavior:
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
-  <source src="/images/gen2/getting-started/reactnative/reactnative-getting-started-2.mp4" />
-</video>
+<Video src="/images/gen2/getting-started/reactnative/reactnative-getting-started-2.mp4" />
 
 You can terminate the sandbox environment now to clean up the project.
 
@@ -2937,7 +2882,7 @@ For publishing the changes to cloud, you need to create a remote git repository.
 
 </InlineFilter>
 
-<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue", "android", "swift", "flutter"]}>
+<InlineFilter filters={["javascript", "react-native", "angular", "react", "vue", "android", "swift", "flutter"]}>
 
 ## 🥳 Success
 

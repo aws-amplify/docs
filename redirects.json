@@ -8640,7 +8640,7 @@
 		"status": "301"
 	},
 	{
-		"source": "/react-native/build-a-backend/more-features/predictions/[*}",
+		"source": "/react-native/build-a-backend/more-features/predictions/[}",
 		"target": "/react-native/build-a-backend/more-features/",
 		"status": "301"
 	},
@@ -9675,8 +9675,513 @@
 		"status": "301"
 	},
 	{
-		"source": "/gen1/flutter/build-a-backend/storage/move/",
+		"source": "/gen1/gen2/deploy-and-host/hosting/",
+		"target": "/react/deploy-and-host/hosting/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/gen2/deploy-and-host/fullstack-branching/",
+		"target": "/react/deploy-and-host/fullstack-branching/",
+		"status": "301"
+	},
+	{
+		"source": "/gen2/build-a-backend/data/customize-authz/custom-data-access-patterns/",
+		"target": "/react/build-a-backend/data/customize-authz/custom-data-access-patterns/",
+		"status": "301"
+	},
+	{
+		"source": "/vue/prev/build-a-backend/storage/copy/",
+		"target": "/gen1/vue/prev/build-a-backend/storage/copy/",
+		"status": "301"
+	},
+	{
+		"source": "/react/prev/build-a-backend/more-features/in-app-messaging/sync-messages/",
+		"target": "/gen1/react/prev/build-a-backend/more-features/in-app-messaging/sync-messages/",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/prev/",
+		"target": "/gen1/react-native/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/prev/build-a-backend/auth/add-social-provider/",
+		"target": "/gen1/nextjs/prev/build-a-backend/auth/add-social-provider/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/prev/start/project-setup/prerequisites/",
+		"target": "/gen1/javascript/prev/start/project-setup/prerequisites/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/prev/build-a-backend/auth/manage-passwords/",
+		"target": "/gen1/javascript/prev/build-a-backend/auth/manage-passwords/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/prev/build-a-backend/",
+		"target": "/gen1/javascript/prev/build-a-backend/",
+		"status": "301"
+	},
+	{
+		"source": "/flutter/prev/build-a-backend/graphqlapi/query-data/",
+		"target": "/gen1/flutter/prev/build-a-backend/graphqlapi/query-data/",
+		"status": "301"
+	},
+	{
+		"source": "/flutter/prev/build-a-backend/graphqlapi/mutate-data/",
+		"target": "/gen1/flutter/prev/build-a-backend/graphqlapi/mutate-data/",
+		"status": "301"
+	},
+	{
+		"source": "/angular/prev/build-a-backend/",
+		"target": "/gen1/angular/prev/build-a-backend/",
+		"status": "301"
+	},
+	{
+		"source": "/angular/prev/",
+		"target": "/gen1/angular/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/start/project-setup/create-application/",
+		"target": "/gen1/android/prev/start/project-setup/create-application/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/build-a-backend/restapi/set-up-rest-api/",
+		"target": "/gen1/android/prev/build-a-backend/restapi/set-up-rest-api/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/build-a-backend/debugging/",
+		"target": "/gen1/android/prev/build-a-backend/debugging/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/delete-user-account/",
+		"target": "/gen1/<platform>/build-a-backend/auth/delete-user-account/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/auth-events/",
+		"target": "/gen1/<platform>/build-a-backend/auth/auth-events/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/add-social-provider/",
+		"target": "/gen1/<platform>/build-a-backend/auth/add-social-provider/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/migrate-to-gen2/",
+		"target": "/react/start/migrate-to-gen2/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/vue/build-a-backend/storage/list-files/",
+		"target": "/gen1/vue/build-a-backend/storage/list/",
+		"status": "301"
+	},
+	{
+		"source": "/swift/build-a-backend/add-aws-services/rest-api/set-up-rest-api/",
+		"target": "/gen1/swift/build-a-backend/restapi/set-up-rest-api/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/graphqlapi/connect-api-to-existing-database/",
+		"target": "/gen1/<platform>/build-a-backend/graphqlapi/connect-api-to-existing-database/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/manage-user-session/",
+		"target": "/<platform>/build-a-backend/auth/connect-your-frontend/manage-user-sessions/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/admin-actions/",
+		"target": "/<platform>/build-a-backend/auth/manage-users/with-admin-actions/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/enable-sign-up/",
+		"target": "/<platform>/build-a-backend/auth/connect-your-frontend/sign-up/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/manage-mfa/",
+		"target": "/<platform>/build-a-backend/auth/concepts/multi-factor-authentication/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/manage-user-profile/",
+		"target": "/<platform>/build-a-backend/auth/concepts/user-attributes",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/override-cognito/",
+		"target": "/<platform>/build-a-backend/auth/modify-resources-with-cdk/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/storage/path/",
+		"target": "/gen1/react/build-a-backend/storage/path/",
+		"status": "301"
+	},
+	{
+		"source": "/react/start/quickstart/vite-react-app/",
+		"target": "/react/start/quickstart/",
+		"status": "301"
+	},
+	{
+		"source": "/react/reference/amplifyconfiguration/",
+		"target": "/react/reference/amplify_outputs/",
+		"status": "301"
+	},
+	{
+		"source": "/swift/connected-components/authenticator/",
+		"target": "/swift/build-ui/",
+		"status": "301"
+	},
+	{
+		"source": "/migrate-to-gen2/",
+		"target": "/react/start/migrate-to-gen2/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/",
+		"target": "/gen1/android/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/build-a-backend/more-features/predictions/android/prev/build-a-backend/more-features/",
+		"target": "/gen1/android/prev/build-a-backend/more-features/predictions/android/prev/build-a-backend/more-features/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/start/project-setup/kotlin-coroutines/",
+		"target": "/gen1/android/prev/start/project-setup/kotlin-coroutines/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/start/project-setup/prerequisites/",
+		"target": "/gen1/android/prev/start/project-setup/prerequisites/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/start/project-setup/rxjava/",
+		"target": "/gen1/android/prev/start/project-setup/rxjava/",
+		"status": "301"
+	},
+	{
+		"source": "/android/prev/start/project-setup/use-existing-resources/",
+		"target": "/gen1/android/prev/start/project-setup/use-existing-resources/",
+		"status": "301"
+	},
+	{
+		"source": "/angular/prev/start/project-setup/create-application/",
+		"target": "/gen1/angular/prev/start/project-setup/create-application/",
+		"status": "301"
+	},
+	{
+		"source": "/flutter/prev/",
+		"target": "/gen1/flutter/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/flutter/prev/start/project-setup/prerequisites/",
+		"target": "/gen1/flutter/prev/start/project-setup/prerequisites/",
+		"status": "301"
+	},
+	{
+		"source": "/gen2/angular/prev/build-a-backend/auth/manage-mfa/",
+		"target": "/gen1/gen2/angular/prev/build-a-backend/auth/manage-mfa/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-ui/formbuilder/data-binding/",
+		"target": "/gen1/javascript/build-ui/formbuilder/data-binding/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/prev/",
+		"target": "/gen1/javascript/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/prev/build-a-backend/auth/node/add/",
+		"target": "/gen1/javascript/prev/build-a-backend/auth/node/add/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/prev/build-a-backend/restapi/update-data/javascript/prev/build-a-backend/",
+		"target": "/gen1/javascript/prev/build-a-backend/restapi/update-data/javascript/prev/build-a-backend/",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/build-ui/formbuilder/overrides/",
+		"target": "/gen1/nextjs/build-ui/formbuilder/overrides/",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/prev/",
+		"target": "/gen1/nextjs/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/prev/start/project-setup/create-application/",
+		"target": "/gen1/nextjs/prev/start/project-setup/create-application/",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/prev/start/project-setup/prerequisites/",
+		"target": "/gen1/nextjs/prev/start/project-setup/prerequisites/",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/prev/start/project-setup/create-application/",
+		"target": "/gen1/react-native/prev/start/project-setup/create-application/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-ui/formbuilder/data-binding/",
+		"target": "/gen1/react/build-ui/formbuilder/data-binding/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-ui/formbuilder/overrides/",
+		"target": "/gen1/react/build-ui/formbuilder/overrides/",
+		"status": "301"
+	},
+	{
+		"source": "/react/prev/",
+		"target": "/gen1/react/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/react/prev/build-a-backend/troubleshooting/upgrade-amplify-packages/react/prev/",
+		"target": "/gen1/react/prev/build-a-backend/troubleshooting/upgrade-amplify-packages/react/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/react/prev/start/project-setup/create-application/",
+		"target": "/gen1/react/prev/start/project-setup/create-application/",
+		"status": "301"
+	},
+	{
+		"source": "/react/prev/start/project-setup/prerequisites/",
+		"target": "/gen1/react/prev/start/project-setup/prerequisites/",
+		"status": "301"
+	},
+	{
+		"source": "/swift/prev/start/project-setup/combine-framework/",
+		"target": "/gen1/swift/prev/start/project-setup/combine-framework/",
+		"status": "301"
+	},
+	{
+		"source": "/swift/prev/start/project-setup/create-application/",
+		"target": "/gen1/swift/prev/start/project-setup/create-application/",
+		"status": "301"
+	},
+	{
+		"source": "/vue/prev/",
+		"target": "/gen1/vue/prev/",
+		"status": "301"
+	},
+	{
+		"source": "/vue/prev/start/project-setup/create-application/",
+		"target": "/gen1/vue/prev/start/project-setup/create-application/",
+		"status": "301"
+	},
+	{
+		"source": "/android/build-a-backend/data/connect-api-to-existing-database/",
+		"target": "/android/build-a-backend/data/connect-to-existing-data-sources/",
+		"status": "301"
+	},
+	{
+		"source": "/android/build-a-backend/data/connect-existing-data/",
+		"target": "/android/build-a-backend/data/connect-to-existing-data-sources/",
+		"status": "301"
+	},
+	{
+		"source": "/android/build-a-backend/data/custom-business-logic/connect-external-ddb-table/",
+		"target": "/android/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/flutter/prev/build-a-backend/graphqlapi/connect-api-to-existing-database/",
+		"target": "/gen1/flutter/prev/build-a-backend/graphqlapi/existing-resources/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-ui/formbuilder/call-to-action/",
+		"target": "/gen1/javascript/build-ui/formbuilder/call-to-action/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/prev/start/project-setup/create-application/",
+		"target": "/gen1/javascript/prev/start/project-setup/create-application/",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/build-ui/formbuilder/call-to-action/",
+		"target": "/gen1/nextjs/build-ui/formbuilder/call-to-action/",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/build-ui/formbuilder/data-binding/",
+		"target": "/gen1/nextjs/build-ui/formbuilder/data-binding/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-ui/formbuilder/call-to-action/",
+		"target": "/gen1/react/build-ui/formbuilder/call-to-action/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-a-backend/data/connect-existing-data/",
+		"target": "/javascript/build-a-backend/data/connect-to-existing-data-sources/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-ui/formbuilder/overrides/",
+		"target": "/javascript/build-ui/formbuilder/customize/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/start/configure/",
+		"target": "/javascript/start/account-setup/",
+		"status": "301"
+	},
+	{
+		"source": "/react/start/quickstart/nextjs-app-router-server-components/",
+		"target": "/nextjs/build-a-backend/server-side-rendering/nextjs-app-router-server-components/",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/build-a-backend/auth/concepts/user-attributes/",
+		"target": "/react-native/build-a-backend/auth/concepts/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/auth/password-management/",
+		"target": "/react/build-a-backend/auth/manage-users/manage-passwords/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/data/connect-api-to-existing-database/",
+		"target": "/react/build-a-backend/data/connect-to-existing-data-sources/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/data/connect-existing-data/",
+		"target": "/react/build-a-backend/data/connect-to-existing-data-sources/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-ui/forms/",
+		"target": "/react/build-ui/formbuilder/",
+		"status": "301"
+	},
+	{
+		"source": "/react/start/mobile-support/",
+		"target": "/react/start/",
+		"status": "301"
+	},
+	{
+		"source": "/react/start/configure/",
+		"target": "/react/start/account-setup/",
+		"status": "301"
+	},
+	{
+		"source": "/react/start/quickstart/nextjs-app-router-client-components/",
+		"target": "/react/start/quickstart/",
+		"status": "301"
+	},
+	{
+		"source": "/react/start/quickstart/nextjs-pages-router/",
+		"target": "/react/start/quickstart/",
+		"status": "301"
+	},
+	{
+		"source": "/ios/",
+		"target": "/swift/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/custom-business-logic/connect-external-ddb-table/",
+		"target": "/<platform>/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/nextjs/build-a-backend/graphqlapi/customize-authz-modes/",
+		"target": "/gen1/nextjs/build-a-backend/graphqlapi/customize-authorization-rules/",
+		"status": "301"
+	},
+	{
+		"source": "/cli/restapi/",
+		"target": "/gen1/react/build-a-backend/restapi/configure-rest-api/",
+		"status": "301"
+	},
+	{
+		"source": "/cli/start/",
+		"target": "/gen1/react/tools/cli/start/",
+		"status": "301"
+	},
+	{
+		"source": "/cli/usage/plugin/",
+		"target": "/gen1/react/tools/cli/plugins/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/angular/start/getting-started/data-model/q/integration/angular/",
+		"target": "/gen1/angular/start/getting-started/data-model/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/react/start/getting-started/setup/q/integration/flutter/",
+		"target": "/gen1/react/start/getting-started/setup/",
+		"status": "301"
+	},
+	{
+		"source": "/lib-v1/auth/getting-started/q/platform/next/",
+		"target": "/gen1/nextjs/prev/build-a-backend/auth/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/js/",
+		"target": "/gen1/javascript",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/flutter/prev/build-a-backend/graphqlapi/data-modeling/",
+		"target": "/gen1/flutter/tools/console/data/data-model/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/nextjs/prev/build-a-backend/graphqlapi/best-practice/query-with-sorting/",
+		"target": "/gen1/nextjs/build-a-backend/graphqlapi/best-practice/query-with-sorting/",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/",
+		"target": "/gen1/react/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/react/cli-commands/",
+		"target": "/gen1/react/tools/cli/commands/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/react/reference/cli-commands/",
+		"target": "/gen1/react/tools/cli/commands/",
+		"status": "301"
+	},
+  {
+    "source": "/gen1/flutter/build-a-backend/storage/move/",
 		"target": "/gen1/flutter/prev/build-a-backend/storage/move/",
 		"status": "301"
-	}
+  }
 ]
