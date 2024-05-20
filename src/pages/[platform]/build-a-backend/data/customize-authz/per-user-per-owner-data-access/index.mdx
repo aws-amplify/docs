@@ -36,7 +36,6 @@ The `owner` authorization strategy restricts operations on a record to only the 
 
 You can use the `owner` authorization strategy to restrict a record's access to a specific user. When `owner` authorization is configured, only the record's `owner` is allowed the specified operations.
 
-
 ```ts title="amplify/data/resource.ts"
 // The "owner" of a Todo is allowed to create, read, update, and delete their own todos
 const schema = a.schema({
@@ -60,6 +59,8 @@ const schema = a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
 
 ```ts
@@ -79,6 +80,23 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   // highlight-end
 );
 ```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your application, you can perform CRUD operations against the model with the `amazonCognitoUserPools` auth mode.
+
+```swift
+do {
+    let todo = Todo(content: "My new todo")
+    let createdTodo = try await Amplify.API.mutate(request: .create(
+        todo,
+        authMode: .amazonCognitoUserPools)).get()
+} catch {
+    print("Failed to create todo", error)
+}
+```
+</InlineFilter>
 
 Behind the scenes, Amplify will automatically add a `owner: a.string()` field to each record which contains the record owner's identity information upon record creation.
 
