@@ -82,8 +82,6 @@ export const LayoutHeader = ({
                   `gen:${isGen1 ? 'gen1' : 'gen2'}`
                 ]
               }}
-
-              transformItems={transformItems}
             />
           </View>
         </View>
