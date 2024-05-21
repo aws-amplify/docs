@@ -106,14 +106,20 @@ Below is a sample CDK construct to create the Amazon CloudWatch log group as wel
 
 Create the `RemoteLoggingConstraintsConstruct` custom CDK construct as the following:
 
-```ts title="amplify/custom/RemoteLoggingConstraintsConstruct/resource.ts"
+```ts title="amplify/custom/RemoteLoggingConstraints/resource.ts"
 import * as cdk from "aws-cdk-lib"
 import { Construct } from "constructs"
 import * as logs from "aws-cdk-lib/aws-logs"
 import * as iam from "aws-cdk-lib/aws-iam"
 
-export class RemoteLoggingConstraintsConstruct extends Construct {
-  constructor(scope: Construct, id: string, authRoleName: string, unAuthRoleName: string, logGroupName: string) {
+type RemoteLoggingConstraintProps = {
+    authRoleName: string; 
+    unAuthRoleName: string; 
+    logGroupName: string;
+};
+
+export class RemoteLoggingConstraints extends Construct {
+  constructor(scope: Construct, id: string, props: RemoteLoggingConstraintProps) {
     super(scope, id)
 
     const region = cdk.Stack.of(this).region
@@ -160,9 +166,11 @@ const backend = defineBackend({
 const loggingConstruct = new RemoteLoggingConstraintsConstruct(
   backend.createStack('logging-stack'),
   'logging-stack',
-  backend.auth.resources.authenticatedUserIamRole.roleName,
-  backend.auth.resources.unauthenticatedUserIamRole.roleName,
-  <log-group-name>
+  { 
+    authRoleName: backend.auth.resources.authenticatedUserIamRole.roleName,
+    unAuthRoleName: backend.auth.resources.unauthenticatedUserIamRole.roleName,
+    logGroupName: <log-group-name>
+  }
 );
 // highlight-end
 ```
