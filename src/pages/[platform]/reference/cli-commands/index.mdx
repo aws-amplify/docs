@@ -234,14 +234,14 @@ npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e108
 
 ## npx ampx generate graphql-client-code
 
-Generate GraphQL statements and types for your frontend application to consume. 
+Generate GraphQL statements and types for your frontend application to consume.
 
 <SubCommandHeading parentCommand="ampx-generate-graphql-client-code">Options</SubCommandHeading>
 
 The available parameters for `npx ampx generate graphql-client-code` are:
 
 Required parameters:
-- Stack identifier 
+- Stack identifier
   - `--stack`(_string_) - A stack name that contains an Amplify backend.
 - Project identifier
   - `--app-id`(_string_) - The Amplify App ID of the project.
@@ -252,6 +252,7 @@ Optional parameters:
 - `--format`(_string_) (choices: `modelgen`, `graphql-codegen`, `introspection`) - Specifies the format of the GraphQL client code to be generated.
 - `--model-target` (_string_) (choices: `java`, `swift`, `javascript`, `typescript`, `dart`) - Specifies the modelgen export target. Only applies when the --format parameter is set to modelgen.
 - `--statement-target`(_string_) (choices: `javascript`, `graphql`, `flow`, `typescript`, `angular`) - Specifies the graphql-codegen statement export target. Only applies when the --format parameter is set to graphql-codegen.
+- `--statement-max-depth`(_integer_) - Specifies the maximum depth of the generated GraphQL statements. Only applies when the --format parameter is set to graphql-codegen.
 - `--type-target`(_string_) (choices: `json`, `swift`, `typescript`, `flow`, `scala`, `flow-modern`, `angular`) - Specifies the optional graphql-codegen type export target. Only applies when the --format parameter is set to graphql-codegen.
 - `--all`(_boolean_)- Shows hidden options.
 - `--profile`(_string_) - Specifies an AWS profile name.
@@ -260,7 +261,7 @@ Optional parameters:
 <SubCommandHeading parentCommand="ampx-generate-graphql-client-code">Usage</SubCommandHeading>
 
 
-### Generate GraphQL client code using the Amplify App ID and branch. 
+### Generate GraphQL client code using the Amplify App ID and branch.
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx generate graphql-client-code --app-id <your-amplify-app-id>	--branch staging
@@ -301,7 +302,7 @@ Run Amplify codegen command to generate GraphQL codegen:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx generate graphql-client-code --stack Backend --platform ts --out ./src
-```   
+```
 
 ### Generate codegen in specific language and format
 
