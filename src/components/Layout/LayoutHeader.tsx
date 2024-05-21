@@ -51,6 +51,16 @@ export const LayoutHeader = ({
     }
   };
 
+  // Search result transform function that will strip out the pageMain anchor tag
+  const transformItems = (items) => {
+    items.map((item) => {
+      if (item.url.includes('#pageMain')) {
+        item.url = item.url.replace('#pageMain', '');
+      }
+    });
+    return items;
+  };
+
   return (
     <View as="header" className="layout-header">
       <Flex className={`layout-search layout-search--${pageType}`}>
@@ -82,6 +92,7 @@ export const LayoutHeader = ({
                   `gen:${isGen1 ? 'gen1' : 'gen2'}`
                 ]
               }}
+              transformItems={transformItems}
             />
           </View>
         </View>
