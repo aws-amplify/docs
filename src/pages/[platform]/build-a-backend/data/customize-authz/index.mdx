@@ -69,7 +69,7 @@ Authorization rules can be applied globally across all data models in a schema, 
 
 Amplify will always use the most specific authorization rule that is available. For example, if there is an authorization rule for a field and an authorization rule for the model that the field belongs to, Amplify will evaluate against the field-level authorization rule. Review [Field-level authorization rules](#field-level-authorization-rules) to learn more.
 
-If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
+If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more. For `userPools` and `oidc` authorization modes, the rules are evaluated in the sequence `authenticated` > `group(s)` > `owner(s)DefinedIn` > `group(s)DefinedIn`.
 
 ### Global authorization rule (only for getting started)
 
