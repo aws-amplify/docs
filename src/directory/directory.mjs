@@ -343,6 +343,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/reference/index.mdx'
                 }
               ]
             },
