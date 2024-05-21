@@ -163,7 +163,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/use-existing-resources/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-existing-cognito-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
