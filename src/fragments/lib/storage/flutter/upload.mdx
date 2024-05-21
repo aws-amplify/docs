@@ -1,6 +1,6 @@
 ## Upload File
 
-To upload to S3 from a file, specify the `key` and the `localFile` to be uploaded, where the `localFile` can be an instance of `AWSFile` created from either an OS platform `File` instance or the result of Flutter file picker plugins such as [file_picker](https://pub.dev/packages/file_picker).
+To upload to S3 from a file, specify the `path` to upload the file to and the `localFile` to be uploaded. `localFile` can be an instance of `AWSFile` created from either an OS platform `File` instance or the result of Flutter file picker plugins such as [file_picker](https://pub.dev/packages/file_picker).
 
 ### Upload platform `File`
 
@@ -13,50 +13,67 @@ by running: `flutter pub add aws_common`
 
 <BlockSwitcher>
 
-<Block name = "Mobile & Desktop">
+<Block name = "From Local File Path (All Platforms)">
 
 ```dart
-import 'dart:io' as io;
+import 'package:amplify_flutter/amplify_flutter.dart';
 
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-import 'package:aws_common/vm.dart';
-
-Future<void> uploadIOFile(io.File file) async {
-  final awsFile = AWSFilePlatform.fromFile(file);
+Future<void> uploadFile() async {
   try {
-    final uploadResult = await Amplify.Storage.uploadFile(
-      localFile: awsFile,
-      key: 'upload/file.png',
+    final result = await Amplify.Storage.uploadFile(
+      localFile: AWSFile.fromPath('/path/to/local/file.txt'),
+      path: const StoragePath.fromString('public/file.txt'),
     ).result;
-    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
+    safePrint('Uploaded file: ${result.uploadedItem.path}');
   } on StorageException catch (e) {
-    safePrint('Error uploading file: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```
 
 </Block>
 
-<Block name = "Web">
+<Block name = "From File (Mobile & Desktop)">
 
 ```dart
-import 'dart:html' as html;
+import 'dart:io' show File;
 
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:aws_common/vm.dart';
+
+Future<void> uploadFile(File file) async {
+  try {
+    final result = await Amplify.Storage.uploadFile(
+      localFile: AWSFilePlatform.fromFile(file),
+      path: const StoragePath.fromString('public/file.png'),
+    ).result;
+    safePrint('Uploaded file: ${result.uploadedItem.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+<Block name = "From File (Web)">
+
+```dart
+import 'dart:html' show File;
+
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:aws_common/web.dart';
 
-Future<void> uploadHtmlFile(html.File file) async {
+Future<void> uploadFile(File file) async {
   final awsFile = AWSFilePlatform.fromFile(file);
   try {
-    final uploadResult = await Amplify.Storage.uploadFile(
+    final result = await Amplify.Storage.uploadFile(
       localFile: awsFile,
-      key: 'upload/file.png',
+      path: const StoragePath.fromString('public/file.png'),
     ).result;
-    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
+    safePrint('Uploaded file: ${result.uploadedItem.path}');
   } on StorageException catch (e) {
-    safePrint('Error uploading file: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```
@@ -88,7 +105,7 @@ Future<void> uploadImage() async {
     return;
   }
 
-  // Upload file with its filename as the key
+  // Upload file using the filename
   final platformFile = result.files.single;
   try {
     final result = await Amplify.Storage.uploadFile(
@@ -96,48 +113,39 @@ Future<void> uploadImage() async {
         platformFile.readStream!,
         size: platformFile.size,
       ),
-      key: platformFile.name,
+      path: StoragePath.fromString('public/${platformFile.name}'),
       onProgress: (progress) {
         safePrint('Fraction completed: ${progress.fractionCompleted}');
       },
     ).result;
-    safePrint('Successfully uploaded file: ${result.uploadedItem.key}');
+    safePrint('Successfully uploaded file: ${result.uploadedItem.path}');
   } on StorageException catch (e) {
-    safePrint('Error uploading file: $e');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```
 
 ## Upload Data
 
-To upload to S3 from a data object, specify the `key` and `data`, where `data` is an instance of `S3DataPayload` created from various data formats.
+To upload to S3 from a data object, specify the `path` to upload the file to and the `data` to upload. `data` should be an instance of `StorageDataPayload` created from various data formats.
 
 <BlockSwitcher>
 
 <Block name="String">
 
 ```dart
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-
-Future<void> uploadStringData({
-  required String dataString,
-  required String key,
-}) async {
+Future<void> uploadData() async {
   try {
     final result = await Amplify.Storage.uploadData(
-      data: S3DataPayload.string(
-        dataString,
+      data: StorageDataPayload.string(
+        'hello world',
         contentType: 'text/plain',
       ),
-      key: key,
+      path: const StoragePath.fromString('public/example.txt'),
     ).result;
-
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
+    safePrint('Uploaded data: ${result.uploadedItem.path}');
   } on StorageException catch (e) {
-    safePrint('Error uploading data: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```
@@ -147,23 +155,21 @@ Future<void> uploadStringData({
 <Block name="JSON Object">
 
 ```dart
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-
-Future<void> uploadJsonObject({
-  required Map<String, Object?> json,
-  required String key,
-}) async {
+Future<void> uploadData() async {
   try {
     final result = await Amplify.Storage.uploadData(
-      data: S3DataPayload.json(json),
-      key: key,
+      data: StorageDataPayload.json({
+        'title': 'example',
+        'author': {
+          'firstName': 'Jane',
+          'lastName': 'Doe',
+        },
+      }),
+      path: const StoragePath.fromString('public/example.json'),
     ).result;
-
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
+    safePrint('Uploaded data: ${result.uploadedItem.path}');
   } on StorageException catch (e) {
-    safePrint('Error uploading data: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```
@@ -172,26 +178,19 @@ Future<void> uploadJsonObject({
 
 <Block name="Data URL">
 
-`S3DataPayload.dataUrl()` parses the provided data URL string, and throws exception if the data URL is invalid. See more info about [data URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs).
+`StorageDataPayload.dataUrl()` parses the provided data URL string, and throws exception if the data URL is invalid. See more info about [data URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs).
 
 ```dart
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-
-Future<void> uploadDataUrl({
-  required String dataUrl,
-  required String key,
-}) async {
+Future<void> uploadData() async {
+  const dataUrl = 'data:text/plain;charset=utf-8;base64,aGVsbG8gd29ybGQ=';
   try {
     final result = await Amplify.Storage.uploadData(
-      data: S3DataPayload.dataUrl(dataUrl),
-      key: key,
+      data: StorageDataPayload.dataUrl(dataUrl),
+      path: const StoragePath.fromString('public/example.txt'),
     ).result;
-
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
+    safePrint('Uploaded data: ${result.uploadedItem.path}');
   } on StorageException catch (e) {
-    safePrint('Error uploading data: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```
@@ -201,29 +200,61 @@ Future<void> uploadDataUrl({
 <Block name="Bytes">
 
 ```dart
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-
-Future<void> uploadBytes({
-  required List<int> bytes,
-  required String key,
-  required String contentType,
-}) async {
+Future<void> uploadBytes() async {
   try {
+    final bytes = 'hello world'.codeUnits;
     final result = await Amplify.Storage.uploadData(
-      data: S3DataPayload.bytes(
+      data: StorageDataPayload.bytes(
         bytes,
-        contentType: contentType,
+        contentType: 'text/plain',
       ),
-      key: key,
+      path: const StoragePath.fromString('public/example.txt'),
     ).result;
-
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
+    safePrint('Uploaded data: ${result.uploadedItem.path}');
   } on StorageException catch (e) {
-    safePrint('Error uploading data: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
+```
+
+</Block>
+
+</BlockSwitcher>
+
+## Upload Progress
+
+To track progress of the upload, use the progress listener callback.
+
+<BlockSwitcher>
+
+<Block name="Upload File Progress">
+
+```dart
+final operation = Amplify.Storage.uploadFile(
+  localFile: AWSFile.fromPath('/path/to/local/file.txt'),
+  path: const StoragePath.fromString('public/example.txt'),
+  onProgress: (progress) {
+    safePrint('fraction totalBytes: ${progress.totalBytes}');
+    safePrint('fraction transferredBytes: ${progress.transferredBytes}');
+    safePrint('fraction completed: ${progress.fractionCompleted}');
+  }
+);
+```
+
+</Block>
+
+<Block name="Upload Data Progress">
+
+```dart
+final operation = Amplify.Storage.uploadData(
+  data: StorageDataPayload.string('hello world'),
+  path: const StoragePath.fromString('public/example.txt'),
+  onProgress: (progress) {
+    safePrint('fraction totalBytes: ${progress.totalBytes}');
+    safePrint('fraction transferredBytes: ${progress.transferredBytes}');
+    safePrint('fraction completed: ${progress.fractionCompleted}');
+  },
+);
 ```
 
 </Block>
@@ -234,48 +265,45 @@ Future<void> uploadBytes({
 
 You can attach metadata while uploading data or a file by specifying the `metadata` property in options. If you want the `metadata` to be included in the upload result, you can set the `getProperties` flag to `true` in options.
 
-```dart
-Future<void> uploadWithOptions() async {
-  // When uploading data, use `StorageUploadDataOptions`
-  final uploadDataOperation = Amplify.Storage.uploadData(
-    data: S3DataPayload.string(
-      'example',
-      contentType: 'text/plain',
-    ),
-    key: 'example.txt',
-    options: const StorageUploadDataOptions(
-      metadata: {
-        'project': 'ExampleProject',
-      },
-      pluginOptions: S3UploadDataPluginOptions(
-        getProperties: true,
-      ),
-    ),
-  );
-  final uploadDataResult = await uploadDataOperation.result;
-  safePrint(
-    'Uploaded data with metadata: ${uploadDataResult.uploadedItem.metadata}',
-  );
+<BlockSwitcher>
 
-  // When uploading a file, use `StorageUploadFileOptions`
-  final uploadFileOperation = Amplify.Storage.uploadFile(
-    localFile: AWSFile.fromPath('path/to/example.txt'),
-    key: 'example.txt',
-    options: const StorageUploadFileOptions(
-      metadata: {
-        'project': 'ExampleProject',
-      },
-      pluginOptions: S3UploadFilePluginOptions(
-        getProperties: true,
-      ),
+<Block name="Upload File Options">
+
+```dart
+final result = await Amplify.Storage.uploadFile(
+  localFile: AWSFile.fromPath('/path/to/local/file.txt'),
+  path: const StoragePath.fromString('public/example.txt'),
+  options: const StorageUploadFileOptions(
+    metadata: {'key': 'value'},
+    pluginOptions: S3UploadFilePluginOptions(
+      getProperties: true,
     ),
-  );
-  final uploadFileResult = await uploadFileOperation.result;
-  safePrint(
-    'Uploaded file with metadata: ${uploadFileResult.uploadedItem.metadata}',
-  );
-}
+  ),
+).result
+safePrint('metadata: ${result.uploadedItem.metadata}');
 ```
+
+</Block>
+
+<Block name="Upload Data Options">
+
+```dart
+final result = await Amplify.Storage.uploadData(
+  data: StorageDataPayload.string('example'),
+  path: const StoragePath.fromString('public/example.txt'),
+  options: const StorageUploadDataOptions(
+    metadata: {'key': 'value'},
+    pluginOptions: S3UploadDataPluginOptions(
+      getProperties: true,
+    ),
+  ),
+).result;
+safePrint('metadata: ${result.uploadedItem.metadata}');
+```
+
+</Block>
+
+</BlockSwitcher>
 
 The [`Amplify.Storage.getProperties` API](/gen1/[platform]/build-a-backend/storage/get-properties/) allows you to retrieve metadata without downloading the file.
 
@@ -291,32 +319,49 @@ A call to `Amplify.Storage.uploadFile` or `Amplify.Storage.uploadData` returns a
 
 To cancel the upload (for example, in response to the user pressing a Cancel button), simply call `.cancel()` on the returned upload operation.
 
+`Amplify.Storage.uploadFile` also allows for the operation to be paused and resumed.
+
+<BlockSwitcher>
+
+<Block name="Upload File Control">
+
 ```dart
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+Future<void> upload() async {
+  final operation = Amplify.Storage.uploadFile(
+    localFile: AWSFile.fromPath('/path/to/local/file.txt'),
+    path: const StoragePath.fromString('public/example.txt'),
+  );
 
-S3UploadFileOperation? uploadOperation;
+  // pause operation
+  await operation.pause();
 
-Future<void> uploadFile(String path) async {
-  try {
-    final storagePlugin = Amplify.Storage.getPlugin(AmplifyStorageS3.pluginKey);
-    uploadOperation = storagePlugin.uploadFile(
-      localFile: AWSFile.fromPath(path),
-      key: 'example_file.txt',
-    );
+  // resume operation
+  await operation.resume();
 
-    final result = await uploadOperation!.result;
-    safePrint('Uploaded ${result.uploadedItem.key}');
-  } on StorageException catch (e) {
-    safePrint('Error uploading file: ${e.message}');
-  }
-}
-
-void cancelUpload() {
-  uploadOperation?.cancel();
-  uploadOperation = null;
+  // cancel operation
+  await operation.cancel();
 }
 ```
+
+</Block>
+
+<Block name="Upload Data Control">
+
+```dart
+Future<void> upload() async {
+  final operation = Amplify.Storage.uploadData(
+    data: StorageDataPayload.string('example'),
+    path: const StoragePath.fromString('public/example.txt'),
+  );
+
+  // cancel operation
+  await operation.cancel();
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ## Multipart Upload
 

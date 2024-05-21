@@ -4,11 +4,11 @@ Sign-in with web UI will display the sign-in UI inside a webview. After the sign
 
 ## Platform Setup
 
-<h3>Web</h3>
+### Web
 
 To use Hosted UI in your Flutter web application locally, you must run the app with the `--web-port=3000` argument (with the value being whichever port you assigned to localhost host when configuring your redirect URIs).
 
-<h3>Android</h3>
+### Android
 
 Add the following `queries` element to the `AndroidManifest.xml` file in your app's `android/app/src/main` directory, as well as the following `intent-filter` to the `MainActivity` in the same file.
 
@@ -36,12 +36,12 @@ Replace `myapp` with your redirect URI scheme as necessary:
 </application>
 ```
 
-<h3>macOS</h3>
+### macOS
 
 Open XCode and enable the App Sandbox capability and then select "Incoming Connections (Server)" under "Network".
 
 ![Incoming Connections setting selected in the App Sandbox section of the runner signing and capabilities tab.](/images/project-setup/flutter/mac/xcode-entitlements.png)
 
-<h3>iOS, Windows and Linux</h3>
+### iOS, Windows and Linux
 
 No specific platform configuration is required.

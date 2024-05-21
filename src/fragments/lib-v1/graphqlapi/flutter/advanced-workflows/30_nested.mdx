@@ -1,6 +1,6 @@
 ```dart
 const getPost = 'getPost';
-String graphQLDocument = '''query GetPost(\$id: ID!) {
+const graphQLDocument = '''query GetPost(\$id: ID!) {
   $getPost(id: \$id) {
     id
     title
@@ -25,8 +25,10 @@ final getPostRequest = GraphQLRequest<Post>(
 
 Then, query for the `Post` with nested comments included in decoded response:
 ```dart
-Future<void> queryPostWithNestedComments(GraphQLRequest<Post> getPostRequest) async {
-  final response = await Amplify.API.query(request: getTodoRequest).response;
-  print('Response $response');
+Future<void> queryPostWithNestedComments(
+  GraphQLRequest<Post> getPostRequest,
+) async {
+  final response = await Amplify.API.query(request: getPostRequest).response;
+  safePrint('Response $response');
 }
 ```
