@@ -76,14 +76,14 @@ const backend = defineBackend({
 
 // extract L1 CfnUserPool resources
 const { cfnUserPool } = backend.auth.resources.cfnResources;
-// use CDK's `addPropertyOverride` to modify properties directly
-cfnUserPool.addPropertyOverride("Schema", [
-  {
-    Name: "publicName",
-    AttributeDataType: "String",
-    Mutable: true,
-  },
-]);
+// update the schema property to add custom attributes
+if (Array.isArray(cfnUserPool.schema)) {
+  cfnUserPool.schema.push({
+    name: "policyName",
+    attributeDataType: "Boolean",
+    developerOnlyAttribute: true,
+  });
+}
 ```
 
 {/* token validity */}
