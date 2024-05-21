@@ -23,3 +23,27 @@
     }
   }
 }
+
+.search-results {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--amplify-space-medium);
+}
+
+.search-result {
+  a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border: 1px solid var(--amplify-colors-neutral-80);
+    border-radius: var(--amplify-radii-medium);
+    background: var(--amplify-colors-neutral-10);
+    mark {
+      background: none;
+      text-decoration: underline;
+    }
+  }
+}
