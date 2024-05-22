@@ -1,0 +1,9 @@
+<Callout>
+  If you use TypeScript for your development, the string values returned can be
+  represented as PushNotificationPermissionStatus enum members as well.
+</Callout>
+
+```js
+const status = await Notifications.Push.getPermissionStatus();
+// 'SHOULD_REQUEST' | 'SHOULD_EXPLAIN_THEN_REQUEST' | 'GRANTED' | 'DENIED'
+```

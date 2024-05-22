@@ -1,10 +1,14 @@
 ```dart
-Future<void> readFromDatabase() async {
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+import 'models/ModelProvider.dart';
+
+Future<void> queryPosts() async {
   try {
     final posts = await Amplify.DataStore.query(Post.classType);
-    print('Posts: $posts');
+    safePrint('Posts: $posts');
   } on DataStoreException catch (e) {
-    print('Query failed: $e');
+    safePrint('Something went wrong querying posts: ${e.message}');
   }
 }
 ```

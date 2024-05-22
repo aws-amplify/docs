@@ -60,17 +60,7 @@ For more information on how to use the `visionos-preview` branch, see [Platform 
 
 <InlineFilter filters={["flutter"]}>
 
-- A Flutter application targeting Flutter SDK >=3.3.0 with Amplify libraries integrated
-
-  The following are also required, depending on which platforms you are targeting:
-
-  - An iOS configuration targeting at least iOS 13.0 and XCode version >=13.2
-  - An Android configuration targeting at least Android API level 24 (Android 7.0) or above
-  - Any browser supported by Flutter for Web (you can check the list of supported browsers [here](https://docs.flutter.dev/development/platform-integration/web/faq#which-web-browsers-are-supported-by-flutter))
-  - Any Windows OS meeting Flutter minimums
-  - macOS version 10.15 or higher
-  - Any Ubuntu Linux distribution meeting Flutter minimums
-
+Amplify Flutter requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Refer to [Flutter's supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms) when targeting Web, Windows, or Linux.
 
 </InlineFilter>
 ## Set up Analytics backend
@@ -181,13 +171,10 @@ In your Flutter project directory, open **pubspec.yaml**.
 Add Analytics by adding these libraries into your dependencies block:
 
 ```yaml
-environment:
-  sdk: '>=2.18.0 <4.0.0'
-
 dependencies:
-  amplify_analytics_pinpoint: ^1.0.0
-  amplify_auth_cognito: ^1.0.0
-  amplify_flutter: ^1.0.0
+  amplify_analytics_pinpoint: ^2.0.0
+  amplify_auth_cognito: ^2.0.0
+  amplify_flutter: ^2.0.0
 ```
 </InlineFilter>
 
@@ -325,7 +312,7 @@ Future<void> _configureAmplify() async {
 
 <Callout>
 
-When running your app on MacOS you will need to enable keychain sharing in Xcode, as described in the [Project setup guide](/gen1/[platform]/start/project-setup/platform-setup/#enable-keychain).
+When running your app on macOS you will need to enable keychain sharing in Xcode, as described in the [Project setup guide](/gen1/[platform]/start/project-setup/platform-setup/#enable-keychain).
 
 </Callout>
 

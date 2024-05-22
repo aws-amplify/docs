@@ -10178,5 +10178,10 @@
 		"source": "/gen1/react/reference/cli-commands/",
 		"target": "/gen1/react/tools/cli/commands/",
 		"status": "301"
-	}
+	},
+  {
+    "source": "/gen1/flutter/build-a-backend/storage/move/",
+		"target": "/gen1/flutter/prev/build-a-backend/storage/move/",
+		"status": "301"
+  }
 ]

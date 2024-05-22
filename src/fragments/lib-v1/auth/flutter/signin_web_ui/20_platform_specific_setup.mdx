@@ -4,10 +4,15 @@ Sign-in with web UI will display the sign-in UI inside a webview. After the sign
 
 ## Platform Setup
 
-<h3>Android</h3>
+### Web
 
-Add the following `activity` and `queries` tag to the `AndroidManifest.xml` file in your app's `android/app/src/main` directory,
-replacing `myapp` with your redirect URI prefix if necessary. Note that this differs from the amplify-flutter stable release, so you will need to make these changes even if you are transitioning an existing project.
+To use Hosted UI in your Flutter web application locally, you must run the app with the `--web-port=3000` argument (with the value being whichever port you assigned to localhost host when configuring your redirect URIs).
+
+### Android
+
+Add the following `queries` element to the `AndroidManifest.xml` file in your app's `android/app/src/main` directory, as well as the following `intent-filter` to the `MainActivity` in the same file.
+
+Replace `myapp` with your redirect URI scheme as necessary:
 
 ```xml
 <queries>
@@ -19,53 +24,24 @@ replacing `myapp` with your redirect URI prefix if necessary. Note that this dif
 <application>
   ...
   <activity
-      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
-      android:exported="true">
-      <intent-filter>
-          <action android:name="android.intent.action.VIEW" />
-          <category android:name="android.intent.category.DEFAULT" />
-          <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="myapp" />
-      </intent-filter>
+        android:name=".MainActivity" android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="myapp" />
+        </intent-filter>
   </activity>
   ...
 </application>
 ```
 
-In order to use the `<queries>` element cited below, you may need to upgrade the Android gradle plugin version in your `build.gradle` file to one of the versions specified below:
+### macOS
 
-| Your plugin version    | Upgrade version     |
-| :--------------------- | ------------------: |
-|  4.1.x +               | N/A                 |
-|  4.0.x                 | 4.0.1               |
-|  3.6.x                 | 3.6.4               |
-|  3.5.x                 | 3.5.4               |
-|  3.4.x                 | 3.4.3               |
-|  3.3.x                 | 3.3.3               |
+Open XCode and enable the App Sandbox capability and then select "Incoming Connections (Server)" under "Network".
 
+![Incoming Connections setting selected in the App Sandbox section of the runner signing and capabilities tab.](/images/project-setup/flutter/mac/xcode-entitlements.png)
 
-<h3>iOS</h3>
+### iOS, Windows and Linux
 
-Add the following entry to the URL scheme in the `Info.plist` file in your app's `ios/Runner` directory. Replace `myapp` with the "redirect signin URI" you provided to the CLI:
-
-```xml
- <plist version="1.0">
-
-     <dict>
-     <!-- YOUR OTHER PLIST ENTRIES HERE -->
-
-     <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
-     <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
-     <key>CFBundleURLTypes</key>
-     <array>
-         <dict>
-             <key>CFBundleURLSchemes</key>
-             <array>
-                 <string>myapp</string>
-             </array>
-         </dict>
-     </array>
-
-     <!-- ... -->
-     </dict>
-```
+No specific platform configuration is required.

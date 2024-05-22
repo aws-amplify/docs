@@ -99,9 +99,9 @@ enum PostStatus {
 
 Now you will to convert the platform-agnostic `schema.graphql` into platform-specific data structures. DataStore relies on code generation to guarantee schemas are correctly converted to platform code.
 
-Like the initial setup, models can be generated either using the IDE integration or Amplify CLI directly.
+<InlineFilter filters={["swift", "android"]}>
 
-<InlineFilter filters={["swift", "android", "flutter"]}>
+Like the initial setup, models can be generated either using the IDE integration or Amplify CLI directly.
 
 ### Code generation: Platform integration
 
@@ -112,10 +112,6 @@ import ios12 from '/src/fragments/lib-v1/datastore/ios/getting-started/40_codege
 import android13 from '/src/fragments/lib-v1/datastore/android/getting-started/40_codegen.mdx';
 
 <Fragments fragments={{ android: android13 }} />
-
-import flutter14 from '/src/fragments/lib-v1/datastore/flutter/getting-started/40_codegen.mdx';
-
-<Fragments fragments={{ flutter: flutter14 }} />
 
 </InlineFilter>
 
@@ -194,7 +190,7 @@ import android25 from '/src/fragments/lib-v1/datastore/android/getting-started/7
 
 <Fragments fragments={{ android: android25 }} />
 
-import flutter26 from '/src/fragments/lib-v1/datastore/flutter/getting-started/80_saveSnippet.mdx';
+import flutter26 from '/src/fragments/lib-v1/datastore/flutter/getting-started/60_saveSnippet.mdx';
 
 <Fragments fragments={{ flutter: flutter26 }} />
 

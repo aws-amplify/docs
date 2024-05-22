@@ -17,13 +17,15 @@ void _configureAmplify() async {
   // Update AmplifyDataStore instance like below
   final datastorePlugin = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(Post.classType, () => Post.RATING.gt(5)),
-      DataStoreSyncExpression(
-        Comment.classType,
-        () => Comment.POST.beginsWith('This'),
-      )
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(Post.classType, () => Post.RATING.gt(5)),
+        DataStoreSyncExpression(
+          Comment.classType,
+          () => Comment.POST.beginsWith('This'),
+        ),
+      ],
+    ),
   );
   ...
 }
@@ -49,12 +51,14 @@ int rating = 5;
 Future<void> initialize() async {
   final dataStorePlugin = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(
-        Post.classType,
-        () => Post.RATING.gt(rating),
-      ),
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(
+          Post.classType,
+          () => Post.RATING.gt(rating),
+        ),
+      ],
+    ),
   );
 
   await Amplify.addPlugin(dataStorePlugin);
@@ -113,20 +117,21 @@ You can also have your sync expression return `QueryPredicateConstant.all` in or
 int rating = 5;
 
 Future<void> initialize() async {
-  var dataStorePlugin = AmplifyDataStore(
+  final dataStorePlugin = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(
-        Post.classType,
-        () {
-          if (rating > 0) {
-            return QueryPredicate.all;
-          }
-
-          return Post.RATING.gt(rating);
-        },
-      ),
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(
+          Post.classType,
+          () {
+            if (rating > 0) {
+              return QueryPredicate.all;
+            }
+            return Post.RATING.gt(rating);
+          },
+        ),
+      ],
+    ),
   );
 
   await Amplify.addPlugin(dataStorePlugin);
@@ -173,12 +178,14 @@ Future<void> initializeSingleEquals() async {
   // Using eq operator with the primary key of the GSI
   final singleEqualsStore = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(
-        User.classType,
-        () => User.LASTNAME.eq("Doe"),
-      ),
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(
+          User.classType,
+          () => User.LASTNAME.eq("Doe"),
+        ),
+      ],
+    ),
   );
 
   await Amplify.addPlugin(singleEqualsStore);
@@ -189,12 +196,14 @@ Future<void> initializeChainedEquals() async {
   // chaining the gt operator with the sort key
   final chainedEqualGtStore = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(
-        User.classType,
-        () => User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10")),
-      ),
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(
+          User.classType,
+          () => User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10")),
+        ),
+      ],
+    ),
   );
 
   await Amplify.addPlugin(chainedEqualGtStore);

@@ -4,23 +4,22 @@ This will list all files located under path `album` that:
 * have `private` access level
 * are in the root of `album/` (the result doesn't include files under any sub path)
 
-```dart
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+`excludeSubPaths` can be used to exclude nested paths. `/` is used by as the delimiter for nested paths. This can be customized with the `delimiter` option. 
 
+```dart
 Future<void> listAlbum() async {
   try {
     String? nextToken;
     bool hasNextPage;
     do {
       final result = await Amplify.Storage.list(
-        path: 'album/',
+        path: const StoragePath.fromString('public/album/'),
         options: StorageListOptions(
-          accessLevel: StorageAccessLevel.private,
           pageSize: 50,
           nextToken: nextToken,
           pluginOptions: const S3ListPluginOptions(
             excludeSubPaths: true,
+            delimiter: '/',
           ),
         ),
       ).result;
@@ -29,8 +28,7 @@ Future<void> listAlbum() async {
       hasNextPage = result.hasNextPage;
     } while (hasNextPage);
   } on StorageException catch (e) {
-    safePrint('Error listing files: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```
@@ -42,22 +40,17 @@ You can also list all files under a given path without pagination by using the `
 This will list all public files (i.e. those with `guest` access level):
 
 ```dart
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-
-Future<void> listAllWithGuestAccessLevel() async {
+Future<void> listAll() async {
   try {
     final result = await Amplify.Storage.list(
+      path: const StoragePath.fromString('public/'),
       options: const StorageListOptions(
-        accessLevel: StorageAccessLevel.guest,
         pluginOptions: S3ListPluginOptions.listAll(),
       ),
     ).result;
-
     safePrint('Listed items: ${result.items}');
   } on StorageException catch (e) {
-    safePrint('Error listing files: ${e.message}');
-    rethrow;
+    safePrint(e.message);
   }
 }
 ```

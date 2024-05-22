@@ -275,10 +275,6 @@ You can now configure a single GraphQL API to deliver private and public data. P
 
 As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use the different `friendly_name_<AuthMode>` as the `apiName` parameter in the `Amplify.API` call to reference each authorization type.
 
-import flutter18 from '/src/fragments/lib-v1/graphqlapi/flutter/authz/auth_mode.mdx';
-
-<Fragments fragments={{ flutter: flutter18 }} />
-
 The following snippets highlight the new values in the `amplifyconfiguration.json`/`.dart` and the client code configurations.
 
 The `friendly_name` illustrated here is created from Amplify CLI prompt. There are 4 clients in this configuration that connect to the same API except that they use different `AuthMode`.
