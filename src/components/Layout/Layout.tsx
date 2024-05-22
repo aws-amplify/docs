@@ -35,6 +35,7 @@ import {
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
+import { AccessibilityAnalyzer } from '@/components/AccessibilityAnalyzer';
 
 export const Layout = ({
   children,
@@ -264,6 +265,7 @@ export const Layout = ({
           </IconsProvider>
         </ThemeProvider>
       </LayoutProvider>
+      <AccessibilityAnalyzer />
     </>
   );
 };
