@@ -10,7 +10,7 @@
   "private": true,
   "dependencies": {
     "@aws-amplify/amplify-cli-core": "^4.3.5",
-    "@aws-amplify/ui-react": "^6.0.7",
+    "@aws-amplify/ui-react": "^6.1.12",
     "@docsearch/react": "3",
     "aws-amplify": "^6.0.9",
     "next": "^14.2.3",
