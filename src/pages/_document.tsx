@@ -114,7 +114,8 @@ export default class MyDocument extends Document {
             httpEquiv="Content-Security-Policy"
             content={getCspContent(this.props)}
           />
-          {process.env.buildEnv === 'production' ? (
+          {process.env.BUILD_ENV === 'production' ||
+          process.env.BUILD_ENV === 'staging' ? (
             <script
               src="https://prod.assets.shortbread.aws.dev/shortbread.js"
               defer
