@@ -51,7 +51,7 @@ export const myDynamoDBFunction = defineFunction({
 
 Third, create the corresponding handler file, `amplify/functions/dynamoDB-function/handler.ts`, file with the following contents:
 
-```ts title="amplify/functions/dynamoDB-function/resource.ts"
+```ts title="amplify/functions/dynamoDB-function/handler.ts"
 import type { DynamoDBStreamHandler } from "aws-lambda";
 import { Logger } from "@aws-lambda-powertools/logger";
 
