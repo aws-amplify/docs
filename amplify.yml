@@ -4,7 +4,6 @@ frontend:
     preBuild:
       commands:
         - yarn install
-        - node tasks/addLastUpdatedToMdxFiles.js
         - echo "downloading directory from repo"
         - mkdir temp
         - cd temp
