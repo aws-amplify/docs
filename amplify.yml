@@ -4,11 +4,20 @@ frontend:
     preBuild:
       commands:
         - yarn install
+        - node tasks/addLastUpdatedToMdxFiles.js
+        - echo "downloading directory from repo"
+        - mkdir temp
+        - cd temp
+        - git clone https://github.com/jacoblogan/dummyRepo.git
+        - rm ../src/directory/directory.mjs
+        - cp ./dummyRepo/directory.mjs ../src/directory
+        - cd ..
+        - rm -rf temp
     build:
       commands:
         - echo "BUILD_ENV=$BUILD_ENV" >> .env.custom
-        - node -e 'console.log(`node heap limit = ${require("v8").getHeapStatistics().heap_size_limit / (1024 * 1024)} Mb`)'
-        - NODE_ENV=production yarn build:release
+        - NODE_ENV=production yarn build
+        - if [ "${AWS_BRANCH}" = "main" ]; then node tasks/build-algolia-search.mjs; fi
   artifacts:
     # IMPORTANT - Please verify your build output directory
     baseDirectory: /client/www/next-build
