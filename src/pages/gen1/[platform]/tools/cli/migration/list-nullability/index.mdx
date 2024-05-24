@@ -59,10 +59,6 @@ This is to align the optionality of the generated Swift models as closely as pos
 
 ### **Who is impacted?**
 
-<BlockSwitcher>
-
-<Block name="iOS">
-
 Developers building an iOS app with Amplify DataStore or Amplify API generates Swift models by running the command `amplify codegen models`.
 
 _Previous generated Swift code_
@@ -96,10 +92,6 @@ The difference between the current and previous code:
 - `optionalElementRequiredList` - the list component was required and is now optional. The list was optional and is now required
 - `optionalElementOptionalList` - the list component was required and is now optional.
 
-</Block>
-
-</BlockSwitcher>
-
 ### **When do I have to upgrade?**
 
 This is behind a feature flag in Amplify CLI 5.1.2 and will be deprecated by November 1st, 2021. Developers with existing apps should upgrade to the latest CLI, set the feature flag, and update their app code or their schema (see recommendations following) to account for the change in optionality of the types. Developers building a new app will automatically generate code with the latest changes and no action is required.
@@ -123,10 +115,6 @@ amplify --v # at least 5.1.2
 4. Run `amplify codegen models` to generate the latest models.
 
 5. Open the App and make sure the app compiles with the latest generated models. Depending on your schema, you may be in the following scenarios.
-
-<BlockSwitcher>
-
-<Block name="iOS">
 
 Scenario 1. Schema: `requiredElementOptionalList: [String!]`
 
@@ -211,7 +199,3 @@ if let optionalElementList = container.optionalElementOptionalList {
 Since the list component was required and is now optional, unwrap the optional value to retrieve the value.
 
 **Recommendation:** Update the type in the schema from `[String]` to `[String!]!` to make the list and list component required if you do not store null values in the list or a null list. This will remove the need to unwrap the list and the list components.
-
-</Block>
-
-</BlockSwitcher>
