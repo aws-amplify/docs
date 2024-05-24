@@ -1,0 +1,289 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Single Table Design in Amazon DynamoDB',
+  description:
+    'Learn how to implement single-table design in Amazon DynamoDB with Amplify Gen 2',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue',
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+## Introduction
+
+Amazon DynamoDB is a high-performance NoSQL database ideal for serverless applications. Unlike relational databases, it doesn't rely on table joins. However, you can model relational designs within a single DynamoDB table using a different approach.
+
+This document explores single-table design in DynamoDB using a racing application as an example. The application is a home fitness system with intense virtual cycling races. Up to 1,000 racers compete simultaneously, pushing their limits and vying for leader board positions.
+
+## Requirements
+
+This application offers various exercise classes, each with multiple races and racers. The system logs race data for each racer every second.
+
+A traditional relational database would use [normalized](https://en.wikipedia.org/wiki/Database_normalization) tables and relationships to store this data.
+
+Relational databases often rely on key relationships between tables. Joining these tables allows querying related data in a single view. While flexible, this approach can be computationally expensive and challenging to scale horizontally.
+
+Many serverless architectures prioritize scalability, and relational databases might not scale efficiently as workloads grow. DynamoDB scales to high traffic but lacks joins. Fortunately, it offers alternative data modeling methods to meet an application's needs.
+
+## DynamoDB Terminology and Concepts
+
+Unlike traditional databases, DynamoDB has no limit on data storage per table. It's designed for predictable performance at any scale, offering consistent query latency regardless of traffic.
+
+A crucial aspect of running DynamoDB in production is managing throughput. There are two modes:
+
+- **Provisioned mode**: You set the throughput capacity. Cost-effective for applications with predictable traffic patterns.
+
+- **On-demand mode**: The service manages capacity. Suitable for unknown traffic patterns or situations where you prefer automated capacity management.
+
+Each DynamoDB table requires a **partition key**, which can be a string, numeric, or binary value. This key acts as a hash value to locate items in constant time, regardless of table size. It differs from primary keys in SQL databases and doesn't relate to data in other tables. When using only a partition key, it essentially acts as what's commonly referred to as a "Primary key" to identify a single item and so it must be unique across table items.
+
+In an Amplify Gen 2 Data schema, a partition key of `id` is created by default but can also be defined using the `identifier` modifier:
+
+```ts
+RacingTable: a
+  .model({
+    pk: a.string().required(),
+  })
+  .identifier(["pk"])
+```
+
+Optionally, tables can have a **sort key** that enables searching and sorting within items that share the same partition key. While partition keys require exact value searches, sort keys allow for pattern searches.
+
+In an Amplify Gen 2 Data schema, any fields listed after the first index in the `identifier` array are considered sort keys.
+
+```ts
+RacingTable: a
+  .model({
+    pk: a.string().required(),
+    sk: a.string().required(),
+  })
+  // highlight-start
+  .identifier(["pk", "sk"])
+  // highlight-end
+```
+
+With only partition and sort keys, query possibilities are limited without data duplication. To address this, DynamoDB offers two types of indexes:
+
+- **Global secondary index (GSIs)**: An index with a partition key and a sort key that can be different from those on the base table. A global secondary index is considered "global" because queries on the index can span all of the data in the base table, across all partitions. A global secondary index has no size limitations and has its own provisioned throughput settings for read and write activity that are separate from those of the table.
+
+In an Amplify Gen 2 Data schema, this may be represented as:
+
+```ts
+RacingTable: a
+  .model({
+    pk: a.string().required(),
+    sk: a.string().required(),
+    numeric: a.float(),
+  })
+  .identifier(["pk"])
+  // highlight-start
+  .secondaryIndexes((index) => [index("sk").sortKeys(["numeric"])]),
+  // highlight-end
+```
+
+- **Local secondary index (LSI)**: An index that has the same partition key as the base table, but a different sort key. A local secondary index is "local" in the sense that every partition of a local secondary index is scoped to a base table partition that has the same partition key value. As a result, the total size of indexed items for any one partition key value can't exceed 10 GB. Also, a local secondary index shares provisioned throughput settings for read and write activity with the table it is indexing.
+
+```ts
+RacingTable: a
+  .model({
+    pk: a.string().required(),
+    sk: a.string().required(),
+    numeric: a.float(),
+  })
+  .identifier(["pk", "sk"])
+  // highlight-start
+  .secondaryIndexes((index) => [index("pk").sortKeys(["numeric"]),
+  // highlight-end
+```
+
+There are key differences between LSI and GSI:
+
+| Feature | LSI	| GSI |
+|--------|------|-----|
+| Create/Delete	| At table creation/deletion | Anytime |
+| Size Limit | Up to 10 GB per partition | Unlimited |
+| Throughput | Shared with table | Separate throughput |
+| Key Type | Primary key only | Composite key (partition & sort key) |
+| Consistency Model	| Both eventual and strong consistency | Eventual consistency only |
+
+## Determining Data Access Requirements
+
+Relational database design focuses on normalization without considering data access patterns. In contrast, NoSQL schema design prioritizes the list of questions the application needs to answer. NoSQL databases offer less dynamic query flexibility compared to SQL, so defining data access patterns upfront is crucial.
+
+To determine data access patterns in new applications, user stories and use cases can help identify query types. For migrating existing applications, query logs can reveal typical queries used.
+
+In this example, the frontend application requires these queries:
+
+1. Get results for each race by racer ID.
+2. Get a list of races by class ID.
+3. Get the best performance by racer for a class ID.
+4. Get the list of top scores by race ID.
+5. Get the second-by-second performance by racer for all races.
+
+While implementing this design with multiple DynamoDB tables is possible, it's unnecessary and inefficient. A key goal in querying DynamoDB data is retrieving all required data in a single query request. This is a core concept in NoSQL databases, and single-table design simplifies data management and maximizes query throughput.
+
+## Modeling Many-to-Many Relationships with DynamoDB
+
+In traditional SQL, a many-to-many relationship is typically represented with three tables. In this example, these tables were racers, raceResults, and races.
+
+DynamoDB uses the [adjacency list](https://en.wikipedia.org/wiki/Adjacency_list) design pattern to combine multiple SQL-like tables into a single NoSQL table. This pattern has various uses and can effectively model many-to-many relationships in this case.
+
+The partition key in this design stores both types of items: races and racers. The key value indicates the expected data type within the item (e.g., "race-1" or "racer-2").
+
+Here's how the table design looks:
+
+
+| PK       | SK       | results   |
+|----------|----------|-----------|
+| race-1   | racer-2  | `{...}`   | (Racer data for racer-2)   |
+| race-1   | racer-3  | `{...}`   | (Racer data for racer-3)   |
+| racer-2  |          | `{...}`   | (Race results for racer-2) |
+
+This design allows querying by racer ID or race ID. For a single race, you can query by partition key to retrieve all results or use the sort key to filter by a specific racer or get overall results. Racer results are stored as nested JSON within the table.
+
+However, the sort key cannot be updated once set. To enable sorting by output for leader boards, you'll need an index.
+
+An index can utilize a separate sort key that can be updated. This allows the racing application to store the latest results in this field and then query and sort by output to generate leader boards.
+
+The table above doesn't represent the normalized view of the races table. Consequently, querying by class ID to retrieve a list of races isn't possible.
+
+There are a couple of solutions:
+
+1. **Add a second GSI**: This GSI would allow querying by class ID and return a list of partition keys (race IDs).
+
+2. **Overload GSIs**: GSIs can contain multiple value types.
+
+The racing application example utilizes both LSI and GSI to accommodate all data access patterns. Here's a breakdown of how this is modeled:
+
+```ts
+const schema = a.schema({
+  RacingTable: a
+    .model({
+      pk: a.string().required(),
+      sk: a.string().required(),
+      numeric: a.float(),
+      results: a.json(),
+    })
+    // Main composite key: PK and SK
+    .identifier(["pk", "sk"])
+
+    .secondaryIndexes((index) => [
+      // LSI: Partition key: pk, Sort key: numeric
+      index("pk")
+        .sortKeys(["numeric"])
+        .queryField("listByLocalSecondaryIndex"),
+
+      // GSI: Partition key: sk, Sort key: numeric
+      index("sk")
+        .sortKeys(["numeric"])
+        .queryField("listByGlobalSecondaryIndex"),
+    ])
+    .authorization((allow) => [allow.publicApiKey()]),
+});
+```
+
+- Main composite key: PK and SK.
+- Local secondary index: Partition key is PK, and sort key is `numeric`.
+- Global secondary index: Partition key is SK, and sort key is `numeric`.
+
+Using the `queryField()` modifier, we can change the name of the queries for the secondary indexes. By default, the query name is formatted as `listRacingTableBy<PartitionKeyName>And<SortKeyName>`, but to make the distinction between the LSI and GSI, they've been renamed to `listByLocalSecondaryIndex` and `listByGlobalSecondaryIndex`.
+
+## Reviewing Data Access Patterns
+
+Before creating the DynamoDB table, it's crucial to test the proposed schema against the list of data access patterns. Let's revisit the racing application's queries to ensure the table schema supports them:
+
+1. **Get results for each race by racer ID**: Use the table's partition key, searching for PK = racer ID. This returns a list of all races (PK) for a specific racer.
+
+```ts title="App.tsx"
+const { data, errors } =
+  await client.models.RacingTable.list({
+    pk: "<racerID>",
+  });
+```
+
+2. **Get a list of races by class ID**: Use the local secondary index, searching for partition key = class ID. This results in a list of races (PK) for a given class ID.
+
+```ts
+const { data, errors } =
+  await client.models.RacingTable.listByLocalSecondaryIndex({
+    pk: "<classID>",
+  });
+```
+
+3. **Get the best performance by racer for a class ID**: Use the table's partition key, searching for PK = class ID. This returns a list of racers and their best outputs for the given class ID.
+
+```ts
+const { data, errors } = await client.models.RacingTable.list({
+  pk: "<classID>",
+});
+```
+
+4. **Get the list of top scores by race ID**: Use the global secondary index, searching for PK = race ID, sorting by the GSI sort key (descending) to rank the results. This returns a sorted list of results for a race.
+
+```ts
+const { data, errors } =
+  await client.models.RacingTable.listByGlobalSecondaryIndex(
+    {
+      sk: "<raceID>",
+    },
+    { sortDirection: "DESC" }
+  );
+```
+
+5. **Get the second-by-second performance by racer for all races**: Use the main table index, searching for PK = racer ID. Optionally use the sort key to restrict to a single race. This returns items with second-by-second performance stored in a nested JSON attribute.
+
+```ts
+const { data, errors } = await client.models.RacingTable.list({
+  pk: "<racerID>",
+});
+```
+
+## Optimizing Items and Capacity
+
+In the racing application, races are only 5 minutes long, so the results attribute only contains 300 data points (one per second). Utilizing a nested JSON structure within items flattens data compared to the 300 rows it would occupy in a relational database design.
+
+DynamoDB has a maximum item size of 400 KB, including attribute names. If you have significantly more data points, you might reach this limit. Here's a workaround:
+
+Split the data across multiple items with the item order indicated in the sort key. This allows your application to reassemble the attributes and recreate the original dataset upon retrieval.
+For instance, if races were an hour long, there would be 3,600 data points. These could be stored in six rows, each containing 600 second-by-second results:
+
+| PK      | SK | results |
+|---------|----|---------|
+| race-1  | 1  | `{...}` | (First 600 data points)|
+| race-1  | 2  | `{...}` | (Next 600 data points) |
+| race-1  | 3  | `{...}` | (Last 600 data points) |
+
+To maximize storage per row, consider using short attribute names. Additionally, compressing data in attributes is possible by:
+
+- Storing data as GZIP output instead of raw JSON.
+- Using a binary data type for the attribute.
+
+While these methods increase processing for applications that compress and decompress data, they can significantly enhance the amount of data stored per row.
+
+For further details on storing large items and attributes, refer to the Amazon DynamoDB documentation on best practices: [Best practices for storing large items and attributes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-use-s3-too.html).
+
+## Conclusion
+
+Using a single-table design pattern allows you to implement common relational database patterns using DynamoDB. With adjacency lists, it can also provide many-to-many relational functionality without requiring multiple tables.
+
+The racing application example showcased how to identify data access patterns and then model the data using composite keys and indexes to retrieve relevant data with single queries. Finally, we discussed methods for optimizing items and capacity for workloads that store large amounts of data.
