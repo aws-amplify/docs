@@ -3,6 +3,8 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+env:
+  BUILD_DIR: 'client/www/next-build'
 permissions:
   contents: read
 jobs:
@@ -23,7 +25,7 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Run Server
         run: |
-          python -m http.server 3000 -d ${{ vars.BUILD_DIR }} &
+          python -m http.server 3000 -d ${{ env.BUILD_DIR }} &
           sleep 5
       - name: Run Console Errors
         id: consoleErrors

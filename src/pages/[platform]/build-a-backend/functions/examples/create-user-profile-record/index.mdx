@@ -45,6 +45,12 @@ npm add --save-dev @types/aws-lambda
 
 Update the `amplify/data/resource.ts` file to define a data model for the user's profile:
 
+<Callout warning>
+
+Make sure to configure the authorization rule to allow the `postConfirmation` resource as highlighted below. Granting access to resources creates environment variables for your Function such as the GraphQL API endpoint. To learn more visit the [environment variables and secrets documentation for Functions](/[platform]/build-a-backend/functions/environment-variables-and-secrets/).
+
+</Callout>
+
 ```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { postConfirmation } from "../auth/post-confirmation/resource";

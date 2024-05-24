@@ -1010,8 +1010,8 @@ At the bottom of the page you will see a tab for **Deployed backend resources**.
 Clone the repository locally.
 
 ```bash title="Terminal" showLineNumbers={false}
-git clone https://github.com/<github-user>/amplify-vite-react-template.git
-cd amplify-vite-react-template && npm install
+git clone https://github.com/<github-user>/amplify-angular-template.git
+cd amplify-angular-template && npm install
 ```
 
 Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
@@ -1031,10 +1031,10 @@ The **amplify_outputs.json** file contains backend endpoint information, publicl
 
 ### 5. Implement delete functionality
 
-Go to the **src/todos/todos.component.ts** file and add a new `deleteTodo` function.
+Go to the **src/app/todos/todos.component.ts** file and add a new `deleteTodo` function.
 
 ```tsx title="src/todos/todos.component.ts"
-@Component {
+export class TodosComponent implements OnInit {
   // ...
   // highlight-start
   deleteTodo(id: string) {
@@ -1046,7 +1046,7 @@ Go to the **src/todos/todos.component.ts** file and add a new `deleteTodo` funct
 
 Call the `deleteTodo` function from the UI.
 
-```html title="src/todos/todos.component.html"
+```html title="src/app/todos/todos.component.html"
 ...
   <ul>
     <li *ngFor="let todo of todos;" (click)="deleteTodo(todo.id)">
@@ -1062,7 +1062,7 @@ Try out the deletion functionality now by starting the local dev server:
 npm run start
 ```
 
-This should start a local dev server at http://localhost:5173.
+This should start a local dev server at http://localhost:4200.
 
 <Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
 
@@ -1095,7 +1095,7 @@ Amplify.configure(outputs);
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   // highlight-next-line
-  imports: [RouterOutlet, TodosComponent,AmplifyAuthenticatorModule],
+  imports: [RouterOutlet, TodosComponent, AmplifyAuthenticatorModule],
 })
 export class AppComponent {
   title = 'amplify-angular-template';
