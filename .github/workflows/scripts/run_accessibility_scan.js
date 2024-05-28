@@ -18,6 +18,7 @@ module.exports = {
         node.target.forEach( target => {
           console.log('CSS target: ', target)
         })
+        console.log('\n');
       })
       
     }
