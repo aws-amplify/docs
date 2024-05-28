@@ -43,4 +43,4 @@ jobs:
           script: |
             const { runAccessibilityScan } = require('./.github/workflows/scripts/run_accessibility_scan.js');
             const pages = ${{ steps.pages-to-a11y-test.outputs.result }}
-            return await runAxe(pages)
+            return await runAccessibilityScan(pages)
