@@ -1,4 +1,4 @@
-name: axe
+name: Accessibility Scan
 on:
   pull_request:
     branches: [main]
