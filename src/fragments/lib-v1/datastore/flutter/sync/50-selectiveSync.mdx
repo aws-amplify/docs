@@ -1,10 +1,16 @@
 ## Selectively syncing a subset of your data
 
-By default, DataStore downloads the entire contents of your cloud data source to your local device. The max number of records that will be stored is configurable [here](/gen1/[platform]/prev/build-a-backend/more-features/datastore/conflict-resolution/#custom-configuration).
+By default, DataStore fetches all the records that you’re authorized to access from your cloud data source to your local device. The maximum number of records that will be stored locally is configurable [here](/gen1/[platform]/prev/build-a-backend/more-features/datastore/conflict-resolution/).
 
-You can utilize selective sync to only persist a subset of your data instead.
+You can utilize selective sync to persist a subset of your data instead.
 
 Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
+
+<Callout>
+
+Note that selective sync is applied on top of authorization rules you’ve defined on your schema with the `@auth` directive. For more information see the [Setup authorization rules](/gen1/[platform]/prev/build-a-backend/more-features/datastore/authz-rules-setup/) section.
+
+</Callout>
 
 ```dart
 void _configureAmplify() async {

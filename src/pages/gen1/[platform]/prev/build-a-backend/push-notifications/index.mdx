@@ -5,9 +5,16 @@ export const meta = {
   title: 'Push Notifications',
   description:
     'Drive customer engagement using push notifications with campaign analytics and targeting',
-  platforms: ['react-native'],
+  platforms: [
+    'react-native',
+    'flutter'
+  ],
   route: '/gen1/[platform]/prev/build-a-backend/push-notifications'
 };
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
 
 export const getStaticPaths = async () => {
   return getCustomStaticPath(meta.platforms);

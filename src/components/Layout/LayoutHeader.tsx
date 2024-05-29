@@ -3,18 +3,12 @@ import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { Platform } from '@/data/platforms';
-// import {
-//   ALGOLIA_API_KEY,
-//   ALGOLIA_INDEX_NAME,
-//   ALGOLIA_APP_ID
-// } from '../../constants/algolia';
+
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
-import flatDirectory from 'src/directory/flatDirectory.json';
-// import { DocSearch } from '@docsearch/react';
-// import '@docsearch/css';
+import flatDirectory from '@/directory/flatDirectory.json';
 import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';

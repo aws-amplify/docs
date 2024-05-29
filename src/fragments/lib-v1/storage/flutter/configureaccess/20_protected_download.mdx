@@ -1,35 +1,33 @@
 ```dart
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 
-Future<void> downloadProtected(String cognitoIdentityId) async {
-  // Create a file to store downloaded contents
-  final documentsDir = await getApplicationDocumentsDirectory();
-  final filepath = documentsDir.path + '/example.txt';
-  final file = File(filepath);
-
-  // Set access level and Cognito Identity ID.
-  // Note: `targetIdentityId` is only needed when downloading
-  // protected files of a user other than the one currently
-  // logged in.
-  final downloadOptions = S3DownloadFileOptions(
+Future<void> downloadProtectedFile({
+  required String key,
+  required String targetIdentityId,
+  required String downloadPath,
+}) async {
+  final awsFile = AWSFile.fromPath(downloadPath);
+  final options = StorageDownloadFileOptions(
+    // specify that the file has a protected access level
     accessLevel: StorageAccessLevel.protected,
-
-    // e.g. us-west-2:2f41a152-14d1-45ff-9715-53e20751c7ee
-    targetIdentityId: cognitoIdentityId,
+    // specify the identity ID of the user who uploaded this file
+    pluginOptions: S3DownloadFilePluginOptions.forIdentity(
+      targetIdentityId,
+    ),
   );
 
-  // Download protected file and read contents
   try {
-    await Amplify.Storage.downloadFile(
-      key: 'ExampleKey',
-      local: file,
-      options: downloadOptions,
-    );
-    final contents = file.readAsStringSync();
-    safePrint('Got protected file with contents: $contents');
+    final result = await Amplify.Storage.downloadFile(
+      key: key,
+      localFile: awsFile,
+      options: options,
+    ).result;
+
+    safePrint('Downloaded file is located at: ${result.localFile.path}');
   } on StorageException catch (e) {
-    safePrint('Error downloading protected file: $e');
+    safePrint('Something went wrong downloading the file: ${e.message}');
+    rethrow;
   }
 }
 ```

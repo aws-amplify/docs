@@ -8,7 +8,8 @@ export const meta = {
     'angular',
     'nextjs',
     'react',
-    'vue'
+    'vue',
+    'flutter'
   ]
 };
 
@@ -25,6 +26,10 @@ export function getStaticProps(context) {
   };
 }
 
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
 import js0 from '/src/fragments/lib-v1/storage/js/get-properties.mdx';
 
 <Fragments
@@ -36,3 +41,7 @@ import js0 from '/src/fragments/lib-v1/storage/js/get-properties.mdx';
     vue: js0
   }}
 />
+
+import flutter0 from '/src/fragments/lib-v1/storage/flutter/get-properties.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />

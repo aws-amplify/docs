@@ -1,9 +1,10 @@
 ```dart
 Future<void> signOutCurrentUser() async {
-  try {
-    await Amplify.Auth.signOut();
-  } on AuthException catch (e) {
-    print(e.message);
+  final result = await Amplify.Auth.signOut();
+  if (result is CognitoCompleteSignOut) {
+    safePrint('Sign out completed successfully');
+  } else if (result is CognitoFailedSignOut) {
+    safePrint('Error signing user out: ${result.exception.message}');
   }
 }
 ```

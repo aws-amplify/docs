@@ -1,19 +1,21 @@
 Below, you query for an instance with an `id` of `123`, and then delete it, if found:
 
 ```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+import 'models/ModelProvider.dart';
+
 Future<void> deletePostsWithId() async {
-  final oldPosts = await Amplify.DataStore.query(
+  final postToDelete = (await Amplify.DataStore.query(
     Post.classType,
     where: Post.ID.eq('123'),
-  );
-  // Query can return more than one posts with a different predicate
-  // For this example, it is ensured that it will return one post
-  final oldPost = oldPosts.first;
+  ))
+      .first;
+
   try {
-    await Amplify.DataStore.delete(oldPost);
-    print('Deleted a post');
+    await Amplify.DataStore.delete(postToDelete);
   } on DataStoreException catch (e) {
-    print('Delete failed: $e');
+    safePrint('Something went wrong deleting model: ${e.message}');
   }
 }
 ```

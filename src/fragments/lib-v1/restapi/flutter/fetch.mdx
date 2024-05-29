@@ -5,10 +5,9 @@ To make a GET request use `Amplify.API.get`:
 ```dart
 Future<void> getTodo() async {
   try {
-    const options = RestOptions(path: '/todo');
-    final restOperation = Amplify.API.get(restOptions: options);
+    final restOperation = Amplify.API.get('todo');
     final response = await restOperation.response;
-    print('GET call succeeded: ${response.body}');
+    print('GET call succeeded: ${response.decodeBody()}');
   } on ApiException catch (e) {
       print('GET call failed: $e');
   }
@@ -56,14 +55,12 @@ Then you can use query parameters in your path as follows:
 ```dart
 Future<void> getTodo() async {
   try {
-    const options = RestOptions(
-        path: '/todo',
-        queryParameters: {'q' : 'test'},
+    final restOperation = Amplify.API.get(
+      'todo',
+      queryParameters: {'q': 'test'},
     );
-    final restOperation = Amplify.API.get(restOptions: options);
     final response = await restOperation.response;
-    print('GET call succeeded');
-    print(response.body);
+    print('GET call succeeded: ${response.decodeBody()}');
   } on ApiException catch (e) {
     print('GET call failed: $e');
   }
