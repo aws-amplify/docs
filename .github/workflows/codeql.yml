@@ -32,6 +32,6 @@ jobs:
           config-file: ./.github/codeql/codeql-config.yml
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@162eb1e32abe518e88bd229ebc8784a533ceaa51 # v2.25.6
+        uses: github/codeql-action/analyze@162eb1e32abe518e88bd229ebc8784a533ceaa51
         with:
           category: '/language:${{matrix.language}}'
