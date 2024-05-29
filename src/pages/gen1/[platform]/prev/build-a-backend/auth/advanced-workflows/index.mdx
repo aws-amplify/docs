@@ -6,6 +6,7 @@ export const meta = {
   platforms: [
     'javascript',
     'react-native',
+    'flutter',
     'angular',
     'nextjs',
     'react',
@@ -25,6 +26,10 @@ export function getStaticProps(context) {
     }
   };
 }
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
 
 <InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
 
@@ -582,3 +587,7 @@ Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM ro
 </Callout>
 
 </InlineFilter>
+
+import flutter from '/src/fragments/lib-v1/auth/flutter/advanced/advanced.mdx';
+
+<Fragments fragments={{ flutter: flutter}} />

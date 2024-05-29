@@ -44,20 +44,17 @@ const backend = defineBackend({
 });
 // extract L1 CfnUserPool resources
 const { cfnUserPool } = backend.auth.resources.cfnResources;
-// use CDK's `addPropertyOverride` to modify properties directly
-cfnUserPool.addPropertyOverride(
-  "Policies",
-  {
-    PasswordPolicy: {
-      MinimumLength: 10,
-      RequireLowercase: true,
-      RequireNumbers: true,
-      RequireSymbols: true,
-      RequireUppercase: true,
-      TemporaryPasswordValidityDays: 20,
-    },
-  }
-);
+// modify cfnUserPool policies directly
+cfnUserPool.policies = {
+  passwordPolicy: {
+    minimumLength: 10,
+    requireLowercase: true,
+    requireNumbers: true,
+    requireSymbols: true,
+    requireUppercase: true,
+    temporaryPasswordValidityDays: 20,
+  },
+};
 ```
 
 ## Custom Attributes
@@ -76,14 +73,14 @@ const backend = defineBackend({
 
 // extract L1 CfnUserPool resources
 const { cfnUserPool } = backend.auth.resources.cfnResources;
-// use CDK's `addPropertyOverride` to modify properties directly
-cfnUserPool.addPropertyOverride("Schema", [
-  {
-    Name: "publicName",
-    AttributeDataType: "String",
-    Mutable: true,
-  },
-]);
+// update the schema property to add custom attributes
+if (Array.isArray(cfnUserPool.schema)) {
+  cfnUserPool.schema.push({
+    name: 'policyName',
+    attributeDataType: 'Boolean',
+    developerOnlyAttribute: true,
+  });
+}
 ```
 
 {/* token validity */}

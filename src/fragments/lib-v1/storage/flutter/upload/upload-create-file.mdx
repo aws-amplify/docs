@@ -1,37 +1,49 @@
+<BlockSwitcher>
 
-
-import flutter0 from "/src/fragments/lib-v1/storage/flutter/path-provider.mdx";
-
-<Fragments fragments={{flutter: flutter0}} />
-
+<Block name="Mobile & Desktop">
 ```dart
-import 'dart:io';
+import 'dart:io' as io;
 
-import 'package:path_provider/path_provider.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:aws_common/vm.dart';
 
-Future<void> createAndUploadFile() async {
-  // Create a dummy file
-  const exampleString = 'Example file contents';
-  final tempDir = await getTemporaryDirectory();
-
-  final exampleFile = File('${tempDir.path}/example.txt');
-  await exampleFile.create();
-  await exampleFile.writeAsString(exampleString);
-
-  // Upload the file to S3
+Future<void> uploadIOFile(io.File file) async {
+  final awsFile = AWSFilePlatform.fromFile(file);
   try {
-    final result = await Amplify.Storage.uploadFile(
-      local: exampleFile,
-      key: 'ExampleKey',
-      onProgress: (progress) {
-        safePrint('Fraction completed: ${progress.getFractionCompleted()}');
-      },
-    );
-    safePrint('Successfully uploaded file: ${result.key}');
+    final uploadResult = await Amplify.Storage.uploadFile(
+      localFile: awsFile,
+      key: 'upload/file.png',
+    ).result;
+    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading file: $e');
-  } finally {
-    await exampleFile.delete();
+    safePrint('Error uploading file: ${e.message}');
+    rethrow;
   }
 }
 ```
+</Block>
+
+<Block name="Web">
+```dart
+import 'dart:html' as html;
+
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:aws_common/web.dart';
+
+Future<void> uploadHtmlFile(html.File file) async {
+  final awsFile = AWSFilePlatform.fromFile(file);
+  try {
+    final uploadResult = await Amplify.Storage.uploadFile(
+      localFile: awsFile,
+      key: 'upload/file.png',
+    ).result;
+    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
+  } on StorageException catch (e) {
+    safePrint('Error uploading file: ${e.message}');
+    rethrow;
+  }
+}
+```
+</Block>
+
+</BlockSwitcher>
