@@ -1,0 +1,47 @@
+{
+  "javascript": {
+    "storage": {
+      "list": {
+        "shortDescription": "List all files in a storage bucket",
+        "description": "List all files in a storage bucket that are prefixed by a specified path name. Files are paginated. `pageSize` is defaulted to 1000. Additionally, the result will include a nextToken if there are more items to retrieve.",
+        "options": {
+          "path": {
+            "required": "yes",
+            "type": "string",
+            "description": "the path prefix for files to include"
+          },
+          "listAll": {
+            "required": "no",
+            "type": "boolean",
+            "description": "Whether to list all files within the specified path"
+          },
+          "pageSize": {
+            "required": "no",
+            "type": "int",
+            "description": "Sets the maximum number of files to be return. The range is 0 - 1000"
+          },
+          "nextToken": {
+            "required": "no",
+            "type": "string",
+            "description": "Indicates whether the list is being continued on this bucket with a token"
+          },
+          "useAccelerateEndpoint": {
+            "required": "no",
+            "type": "boolean",
+            "description": "Whether to use accelerate endpoint"
+          }
+        },
+        "returns": [
+          {
+            "type": "ListReturnObject",
+            "description": "A list of objects with path and metadata: eTag, lastModified, size for each file"
+          },
+          {
+            "type": "nextToken",
+            "description": "nextToken"
+          }
+        ]
+      }
+    }
+  }
+}

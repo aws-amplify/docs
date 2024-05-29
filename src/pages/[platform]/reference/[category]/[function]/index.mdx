@@ -1,0 +1,95 @@
+import references from '@/references/references.json';
+
+export const meta = {
+  title: 'API Reference',
+  description: 'Amplify Storage API Reference Docs'
+};
+
+export const getStaticPaths = async () => {
+  return {
+    fallback: false,
+    paths: [
+      {
+        params: {
+          platform: 'javascript',
+          category: 'storage',
+          function: 'list'
+        }
+      }
+    ]
+  };
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      category: context.params.category,
+      function: context.params.function,
+      showBreadcrumbs: false,
+      meta
+    }
+  };
+}
+
+## { references[props.platform][props.category][props.function].shortDescription }
+
+{ references[props.platform][props.category][props.function].description }
+
+### Options:
+
+| Option | Required | Type |  |
+| --- | --- | --- | --- |
+| `path` | yes | `string` or `callback` | the path prefix for files to include |
+| `listAll` | no | `boolean` | Whether to list all files within the specified path |
+| `pageSize` | no | `int` | Sets the maximum number of files to be return. The range is 0 - 1000 |
+| `nextToken` | no | `string` | Indicates whether the list is being continued on this bucket with a token |
+| `useAccelerateEndpoint` | no | `boolean` | Whether to use accelerate endpoint |
+
+---
+
+### Returns:
+
+- A list of objects with path and metadata: `eTag`, `lastModified`, `size` for each file
+- `nextToken`
+
+```js
+{
+  items: [
+    {
+      path: "photos/123.jpg",
+      eTag: "30074401292215403a42b0739f3b5262",
+      lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
+      size: 138256
+    },
+    // ...
+  ],
+  nextToken:  'whatever a token looks like',
+}
+```
+
+### Example:
+
+```js
+import { list } from 'aws-amplify/storage';
+
+try {
+  const result = await list({
+    path: 'photos/'
+    // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
+  });
+} catch (error) {
+  console.log(error);
+}
+```
+
+### Types:
+
+```tsx
+interface AuthSession {
+  credentials?: AWSCredentials;
+  identityId?: string;
+  tokens?: AuthTokens;
+  userSub?: string;
+}
+```

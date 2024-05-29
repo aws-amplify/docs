@@ -21,7 +21,8 @@
       "@/protected/*": ["src/protected/*"],
       "@/themes/*": ["src/themes/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/directory/*": ["src/directory/*"]
+      "@/directory/*": ["src/directory/*"],
+      "@/references/*": ["src/references/*"]
     }
   },
   "extends": "./tsconfig.base.json",
