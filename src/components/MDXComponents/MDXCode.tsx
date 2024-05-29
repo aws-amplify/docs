@@ -46,6 +46,8 @@ const hasHighlights = (code: string): boolean => {
   return false;
 };
 
+export const emptyCodeString = 'Codeblock must contain a non empty code string';
+
 export const MDXCode = ({
   codeString,
   language = 'js',
@@ -54,6 +56,9 @@ export const MDXCode = ({
   testId,
   title
 }: MDXCodeProps) => {
+  if (!codeString || !codeString.trim()) {
+    throw new Error(emptyCodeString);
+  }
   const [code, setCode] = useState(codeString);
   const shouldShowCopy = language !== 'console' && !hasHighlights(codeString);
   const shouldShowHeader = shouldShowCopy || title;
