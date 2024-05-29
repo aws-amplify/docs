@@ -1,0 +1,66 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Custom token provider',
+  description: 'Learn how to configure Amplify client libraries to interact with and use a custom token provider',
+  platforms: [
+    // 'android',
+    'angular',
+    // 'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    // 'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify client libraries can be configured to fetch access tokens and ID tokens from an OpenID Connect (OIDC) compliant identity provider (IdP) in place of Amazon Cognito. This is useful if you intend to keep user profile data in your existing identity provider and reduce costs by configuring Amplify resources such as Amplify Data to use an OIDC provider directly.
+
+```ts title="src/main.ts"
+import { Amplify } from 'aws-amplify';
+import { TokenProvider, decodeJWT } from 'aws-amplify/auth';
+import outputs from '../amplify_outputs.json'
+
+// ...
+
+const myTokenProvider: TokenProvider = {
+  async getTokens({ forceRefresh } = {}) {
+    if (forceRefresh) {
+      // try to obtain new tokens if possible
+    }
+
+    const accessTokenString = '<access-token-from-provider>';
+    const idTokenString = '<id-token-from-provider>';
+
+    return {
+      accessToken: decodeJWT(accessTokenString),
+      idToken: decodeJWT(idTokenString),
+    };
+  },
+};
+
+Amplify.configure(outputs, {
+  Auth: {
+    tokenProvider: myTokenProvider
+  }
+});
+```
+
+## Next steps
+
+- [Learn more about tokens and credentials in Amplify](/[platform]/build-a-backend/auth/concepts/tokens-and-credentials/)
+- [Learn how to federate with an Amazon Cognito Identity Pool to obtain AWS credentials for service interactions](/[platform]/build-a-backend/auth/advanced-workflows/federation-only/)

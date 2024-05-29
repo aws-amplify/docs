@@ -1,0 +1,403 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Federation-only flows with external identity providers',
+  description: 'Learn how to configure Amplify client libraries to federate with Cognito Identity Pools',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+With identity federation, you do not need to create custom sign-in code or manage your own user identities. Instead, users of your app can sign in using a well-known external identity provider (IdP), such as Login with Amazon, Facebook, Google, or any other OpenID Connect (OIDC)-compatible IdP. They can receive an authentication token, and then exchange that token for temporary security credentials in AWS that map to an IAM role with permissions to use the resources in your AWS account. Using an IdP helps you keep your AWS account secure because you 
+don't have to embed and distribute long-term security credentials with your application.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+<Callout info>
+
+**Note:** the following examples requires the `@aws-sdk/client-cognito-identity` package to obtain credentials from Cognito. To get started, install with the following command:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-sdk/client-cognito-identity
+```
+
+</Callout>
+
+```ts title="src/CustomCredentialsProvider.ts"
+  import { CognitoIdentity } from '@aws-sdk/client-cognito-identity';
+import { Amplify } from 'aws-amplify';
+import {
+  fetchAuthSession,
+  CredentialsAndIdentityIdProvider,
+  CredentialsAndIdentityId,
+  GetCredentialsOptions,
+  AuthTokens,
+} from 'aws-amplify/auth';
+import outputs from '../amplify_outputs.json'
+
+// You can make use of the sdk to get identityId and credentials
+const cognitoidentity = new CognitoIdentity({
+  region: '<region-from-config>',
+});
+
+// Note: The custom provider class must implement CredentialsAndIdentityIdProvider
+class CustomCredentialsProvider implements CredentialsAndIdentityIdProvider {
+  
+  // Example class member that holds the login information
+  federatedLogin?: {
+    domain: string,
+    token: string
+  };
+
+  // Custom method to load the federated login information
+  loadFederatedLogin(login?: typeof this.federatedLogin) {
+    // You may also persist this by caching if needed
+    this.federatedLogin = login;
+  }
+
+  async getCredentialsAndIdentityId(
+    getCredentialsOptions: GetCredentialsOptions
+  ): Promise<CredentialsAndIdentityId | undefined> {
+    try {
+      
+      // You can add in some validation to check if the token is available before proceeding
+      // You can also refresh the token if it's expired before proceeding
+
+      const getIdResult = await cognitoidentity.getId({
+        // Get the identityPoolId from config
+        IdentityPoolId: '<identity-pool-id-from-config>',
+        Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
+      });
+
+      const cognitoCredentialsResult = await cognitoidentity.getCredentialsForIdentity({
+        IdentityId: getIdResult.IdentityId,
+        Logins: { [this.federatedLogin.domain]: this.federatedLogin.token },
+      });
+
+      const credentials: CredentialsAndIdentityId = {
+        credentials: {
+          accessKeyId: cognitoCredentialsResult.Credentials?.AccessKeyId,
+          secretAccessKey: cognitoCredentialsResult.Credentials?.SecretKey,
+          sessionToken: cognitoCredentialsResult.Credentials?.SessionToken,
+          expiration: cognitoCredentialsResult.Credentials?.Expiration,
+        },
+        identityId: getIdResult.IdentityId,
+      };
+      return credentials;
+    } catch (e) {
+      console.log('Error getting credentials: ', e);
+    }
+  }
+  // Implement this to clear any cached credentials and identityId. This can be called when signing out of the federation service.
+  clearCredentialsAndIdentityId(): void {}
+}
+
+// Create an instance of your custom provider
+const customCredentialsProvider = new CustomCredentialsProvider();
+Amplify.configure(outputs, {
+  Auth: {
+    // Supply the custom credentials provider to Amplify
+    credentialsProvider: customCredentialsProvider
+  },
+});
+```
+
+</InlineFilter>
+{/* wrap mobile content's prose in a combined filter, then show individual code snippets */}
+<InlineFilter filters={["android", "flutter", "swift"]}>
+
+Imagine that you are creating a mobile app that accesses AWS resources, such as a game that runs on a mobile device and stores player and score information using Amazon S3 and DynamoDB.
+
+When you write such an app, you make requests to AWS services that must be signed with an AWS access key. However, we strongly recommend that you do not embed or distribute long-term AWS credentials with apps that a user downloads to a device, even in an encrypted store. Instead, build your app so that it requests temporary AWS security credentials dynamically when needed using identity federation. The supplied temporary credentials map to an AWS role that has only the permissions needed to perform the tasks required by the mobile app.
+
+You can use `federateToIdentityPool` to get AWS credentials directly from Cognito Federated Identities and not use User Pool federation. If you logged in with `Auth.signIn` you **cannot** call `federateToIdentityPool` as Amplify will perform this federation automatically for you in the background. In general, you should only call `Auth.federatedSignIn()` when using OAuth flows.
+
+You can use the escape hatch API `federateToIdentityPool` with a valid token from other social providers.
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+const googleIdToken = 'idToken';
+final session = await cognitoPlugin.federateToIdentityPool(
+  token: googleIdToken,
+  provider: AuthProvider.google,
+);
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.federateToIdentityPool(
+        "YOUR_TOKEN",
+        AuthProvider.facebook(),
+        result -> {
+            Log.i("AuthQuickstart", "Successful federation to Identity Pool.");
+            // use result.getCredentials()
+        },
+        e -> {
+            Log.e("AuthQuickstart", "Failed to federate to Identity Pool.", e)
+        }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+(Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin)?.let { plugin ->
+    plugin.federateToIdentityPool(
+        "YOUR_TOKEN",
+        AuthProvider.facebook(),
+        {
+            Log.i("AuthQuickstart", "Successful federation to Identity Pool.")
+            // use "it.credentials"
+        },
+        {
+            Log.e("AuthQuickstart", "Failed to federate to Identity Pool.", it)
+        }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+```swift
+func federateToIdentityPools() async throws {
+    guard let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin else {
+        fatalError("Unable to get the Auth plugin")
+    }
+    do {
+        let result = try await authCognitoPlugin.federateToIdentityPool(
+            withProviderToken: "YOUR_TOKEN", for: .facebook)
+        print("Federation successful with result: \(result)")
+    } catch {
+        print("Failed to federate to identity pools with error: \(error)")
+    }
+}
+```
+
+</InlineFilter>
+
+<Callout>
+
+Note that when federated, APIs such as `Auth.getCurrentUser` will throw an error as the user is not authenticated with User Pools.
+
+</Callout>
+
+### Retrieve Session
+
+After federated login, you can retrieve the session using the `Auth.fetchAuthSession` API.
+
+### Token Refresh
+
+<Callout>
+
+Automatic authentication token refresh is NOT supported when federated.
+
+</Callout>
+
+By default, Amplify will _not_ automatically refresh the tokens from the federated providers. You will need to handle the token refresh logic and provide the new token to the `federateToIdentityPool` API.
+
+### Clear Session
+
+You can clear the federated session using the `clearFederationToIdentityPool` API.
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+await cognitoPlugin.clearFederationToIdentityPool();
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.clearFederationToIdentityPool(
+        () -> Log.i("AuthQuickstart", "Federation cleared successfully."),
+        e -> Log.e("AuthQuickstart", "Failed to clear federation.", e)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+(Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin)?.let { plugin ->
+    plugin.clearFederationToIdentityPool(
+        { Log.i("AuthQuickstart", "Federation cleared successfully.") },
+        { Log.e("AuthQuickstart", "Failed to clear federation.", it) }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+```swift
+func clearFederationToIdentityPools() async throws {
+    guard let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin else {
+        fatalError("Unable to get the Auth plugin")
+    }
+    do {
+        try await authCognitoPlugin.clearFederationToIdentityPool()
+        print("Federation cleared successfully")
+    } catch {
+        print("Clear federation failed with error: \(error)")
+    }
+}
+```
+
+</InlineFilter>
+
+<Callout>
+
+`clearFederationToIdentityPool` will only clear the session from the local cache; the developer needs to handle signing out from the federated identity provider.
+
+</Callout>
+
+### Provide Custom Identity ID
+
+You can provide a custom identity ID to the `federateToIdentityPool` API. This is useful when you want to use the same identity ID across multiple sessions.
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+final cognitoPlugin =
+    Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+const googleIdToken = 'idToken';
+const identityId = 'us-west-2:b4cd4809-7ab1-42e1-b044-07dab9eaa768';
+final session = await cognitoPlugin.federateToIdentityPool(
+  token: googleIdToken,
+  provider: AuthProvider.google,
+  options: FederateToIdentityPoolOptions(
+    developerProvidedIdentityId: identityId,
+  ),
+);
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+FederateToIdentityPoolOptions options = FederateToIdentityPoolOptions.builder()
+    .developerProvidedIdentityId("YOUR_CUSTOM_IDENTITY_ID")
+    .build();
+
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.federateToIdentityPool(
+        "YOUR_TOKEN",
+        AuthProvider.facebook(),
+        options,
+        result -> {
+            Log.i("AuthQuickstart", "Successful federation to Identity Pool.");
+            // use result.getCredentials()
+        },
+        e -> {
+            Log.e("AuthQuickstart", "Failed to federate to Identity Pool.", e)
+        }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = FederateToIdentityPoolOptions.builder()
+    .developerProvidedIdentityId("YOUR_CUSTOM_IDENTITY_ID")
+    .build()
+
+(Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin)?.let { plugin ->
+    plugin.federateToIdentityPool(
+        "YOUR_TOKEN",
+        AuthProvider.facebook(),
+        options,
+        {
+            Log.i("AuthQuickstart", "Successful federation to Identity Pool.")
+            // use "it.credentials"
+        },
+        {
+            Log.e("AuthQuickstart", "Failed to federate to Identity Pool.", it)
+        }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+```swift
+func federateToIdentityPoolsUsingCustomIdentityId() async throws {
+    guard let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin else {
+        fatalError("Unable to get the Auth plugin")
+    }
+    do {
+        let identityId = "YOUR_CUSTOM_IDENTITY_ID"
+        let result = try await authCognitoPlugin.federateToIdentityPool(
+            withProviderToken: "YOUR_TOKEN",
+            for: .facebook,
+            options: .init(developerProvidedIdentityID: identityId))
+        print("Federation successful with result: \(result)")
+    } catch {
+        print("Failed to federate to identity pools with error: \(error)")
+    }
+}
+```
+
+</InlineFilter>
+{/* end mobile-wrapped content */}
+</InlineFilter>

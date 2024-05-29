@@ -160,6 +160,17 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/federation-only/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/custom-token-provider/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
