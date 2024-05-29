@@ -55,12 +55,12 @@ In the example above, everyone (`public`) can read every Post but authenticated 
 Use the guide below to select the correct authorization strategy for your use case:
 
 | **Recommended use case** | **Strategy** | **`authMode`** |
-|---|---|---|
+|--------------------------|--------------|----------------|
 | [Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access.](/[platform]/build-a-backend/data/customize-authz/public-data-access) | `publicApiKey` | `apiKey` |
 | [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using Amazon Cognito identity pool's role for unauthenticated identities.]( /[platform]/build-a-backend/data/customize-authz/public-data-access/#add-public-authorization-rule-using-iam-authentication) | `guest` | `identityPool` |
-| [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner`/`ownerDefinedIn`/`ownersDefinedIn` | `userPools` / `oidc` |
-| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/[platform]/build-a-backend/data/customize-authz/signed-in-user-data-access) | `authenticated` | `userPools` / `oidc` / `identityPool` |
-| [Per user group data access. A specific or dynamically configured group of users has access.](/[platform]/build-a-backend/data/customize-authz/user-group-based-data-access) | `group`/`groupDefinedIn`/`groups`/`groupsDefinedIn` | `userPools` / `oidc` |
+| [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner`/`ownerDefinedIn`/`ownersDefinedIn` | `userPool` / `oidc` |
+| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/[platform]/build-a-backend/data/customize-authz/signed-in-user-data-access) | `authenticated` | `userPool` / `oidc` / `identityPool` |
+| [Per user group data access. A specific or dynamically configured group of users has access.](/[platform]/build-a-backend/data/customize-authz/user-group-based-data-access) | `group`/`groupDefinedIn`/`groups`/`groupsDefinedIn` | `userPool` / `oidc` |
 | [Define your own custom authorization rule within a serverless function.](/[platform]/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `lambda` |
 
 ## Understand how authorization rules are applied
