@@ -13,14 +13,12 @@ export const meta = {
   ]
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
-
+}
 export function getStaticProps(context) {
   return {
     props: {
-      platform: context.params.platform,
       meta
     }
   };
