@@ -16,6 +16,7 @@ export const meta = {
 export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
 }
+
 export function getStaticProps(context) {
   return {
     props: {
