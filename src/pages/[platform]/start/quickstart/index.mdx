@@ -1263,17 +1263,26 @@ You can follow the [official documentation](https://flutter.dev/docs/get-started
 
 Once you have installed Flutter, you can create a new Flutter project using the following command:
 
+<Callout info>
+In this Quickstart guide, you will be building the application on Web. However, if you want to run the application on other platforms, be sure to make the required installations for them by following the [guide here]().
+</Callout>
+
 ```bash title="Terminal" showLineNumbers={false}
 flutter create my_amplify_app
 ```
 
 ## Create Backend
 
-The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
+The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory. First go to the base project directory with the following command:
 
 ```bash title="Terminal" showLineNumbers={false}
-npm create amplify@latest
-? Where should we create your project? (.) # press enter
+cd my_amplify_app
+```
+
+After that, run the following to create an Amplify project:
+
+```bash title="Terminal" showLineNumbers={false}
+npm create amplify@latest -y
 ```
 
 Running this command will scaffold Amplify backend files in your current project with the following files added:
@@ -1316,7 +1325,7 @@ npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
 
 ## Adding Authentication
 
-The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
+The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
 The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library.
 
@@ -1364,7 +1373,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
