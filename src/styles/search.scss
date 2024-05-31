@@ -26,7 +26,7 @@
 
 .search-results {
   list-style-type: none;
-  margin: 0;
+  margin: var(--amplify-space-medium) 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -46,4 +46,35 @@
       text-decoration: underline;
     }
   }
+}
+
+.search-modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  display: flex;
+}
+
+.search-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: var(--amplify-colors-overlay-20);
+}
+.search-container {
+  background: white;
+  padding: var(--amplify-space-xl);
+  border-radius: var(--amplify-radii-medium);
+  margin: auto;
+  height: 80vh;
+  width: 100%;
+  overflow-y: auto;
+  max-width: 500px;
+  z-index: 2;
 }

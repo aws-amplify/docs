@@ -13,6 +13,7 @@ import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import { Search } from '@/components/Search';
 
 export const LayoutHeader = ({
   currentPlatform,
@@ -65,7 +66,9 @@ export const LayoutHeader = ({
             { 'layout-search__search--toc': showTOC }
           )}
         >
-          <View className="layout-search__search__container"></View>
+          <View className="layout-search__search__container">
+            <Search />
+          </View>
         </View>
       </Flex>
       <View
