@@ -21,7 +21,7 @@ const overrides = {
   '/gen1/javascript/prev': 'V5',
   '/gen1/swift/prev': 'V1',
   '/gen1/android/prev': 'V1',
-  '/gen1/flutter/prev': 'V0',
+  '/gen1/flutter/prev': 'V1',
   '/gen1/react/prev': 'V5',
   '/gen1/react-native/prev': 'V5',
   '/gen1/angular/prev': 'V5',

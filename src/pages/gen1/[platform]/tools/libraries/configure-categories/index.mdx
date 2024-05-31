@@ -10,19 +10,6 @@ export const meta = {
     'nextjs',
     'vue',
     'react'
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'vue',
-        'nextjs',
-        'angular',
-        'react',
-        'react-native',
-        'javascript'
-      ],
-      canonicalPath: '/gen1/javascript/tools/libraries/configure-categories/'
-    }
   ]
 };
 
@@ -68,7 +55,7 @@ Amplify.configure({
       loginWith: { // Optional
         oauth: {
           domain: 'abcdefghij1234567890-29051e27.auth.us-east-1.amazoncognito.com',
-          scopes: ['openid email phone profile aws.cognito.signin.user.admin '],
+          scopes: ['openid','email','phone','profile','aws.cognito.signin.user.admin'],
           redirectSignIn: ['http://localhost:3000/','https://example.com/'],
           redirectSignOut: ['http://localhost:3000/','https://example.com/'],
           responseType: 'code',

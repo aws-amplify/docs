@@ -13,22 +13,6 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'javascript',
-        'swift',
-        'flutter',
-        'react',
-        'vue',
-        'angular',
-        'react-native',
-        'android',
-        'nextjs'
-      ],
-      canonicalPath: '/gen1/javascript/build-a-backend/storage/import/'
-    }
   ]
 };
 
@@ -83,7 +67,28 @@ By default, Amplify Libraries assumes that S3 buckets are configured with the fo
 - `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user
 - `private/{user_identity_id}/` - Only accessible for the individual user
 
-You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration [overwrite the default storage path behavior](/gen1/[platform]/build-a-backend/storage/configure-access/#customize-object-key-path).
+<InlineFilter filters={[
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+]}>
+
+You can either configure your IAM role to use the Amplify-recommended policies or use [`path`](/gen1/[platform]/build-a-backend/storage/path/) to specify your own path.
+
+</InlineFilter>
+
+<InlineFilter filters={[
+    'android',
+    'swift',
+    'flutter'
+]}>
+
+You can either configure your IAM role to use the Amplify-recommended policies or use [`StoragePath`](/gen1/[platform]/build-a-backend/storage/storagepath/) to specify your own path.
+
+</InlineFilter>
 
 It is highly recommended to review your S3 bucket's CORS settings. Review the [recommendation guide here](/gen1/[platform]/build-a-backend/storage/set-up-storage/#amazon-s3-bucket-cors-policy-setup).
 

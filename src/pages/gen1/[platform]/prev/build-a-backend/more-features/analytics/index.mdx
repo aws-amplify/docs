@@ -15,18 +15,7 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/gen1/[platform]/prev/build-a-backend/more-features/analytics',
-  canonicalObjects: [
-    {
-      platforms: [
-        'nextjs',
-        'react',
-        'angular',
-        'vue'
-      ],
-      canonicalPath: '/gen1/react/prev/build-a-backend/more-features/analytics/'
-    }
-  ]
+  route: '/gen1/[platform]/prev/build-a-backend/more-features/analytics'
 };
 
 export const getStaticPaths = async () => {
@@ -43,5 +32,9 @@ export function getStaticProps(context) {
     }
   };
 }
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
 
 <Overview childPageNodes={props.childPageNodes} />

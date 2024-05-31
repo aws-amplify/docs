@@ -214,17 +214,17 @@ const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
 
 ## TypeScript type helpers for Amplify Data
 
-When using TypeScript, you frequently need to specify data model types for type generics. For instance, with React's `useState`, you provide a type in TypeScript to ensure type-safety in your component code using the state. Use the `Schema["MODEL_NAME"]` pattern to get TypeScript types for the shapes of data models returned from the backend API. This allows you to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
+When using TypeScript, you frequently need to specify data model types for type generics. For instance, with React's `useState`, you provide a type in TypeScript to ensure type-safety in your component code using the state. Use the `Schema["MODEL_NAME"]["type"]` pattern to get TypeScript types for the shapes of data models returned from the backend API. This allows you to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
 
 ```ts
 import { type Schema } from '@/amplify/data/resource';
 
-type Post = Schema['Post'];
+type Post = Schema['Post']['type'];
 
 const [posts, setPosts] = useState<Post[]>([]);
 ```
 
-You can combine the `Schema["MODEL_NAME"]` type with the `SelectionSet` helper type to describe the return type of API requests using the `selectionSet` parameter:
+You can combine the `Schema["MODEL_NAME"]["type"]` type with the `SelectionSet` helper type to describe the return type of API requests using the `selectionSet` parameter:
 
 ```ts
 import type { SelectionSet } from 'aws-amplify/data';
@@ -232,7 +232,7 @@ import type { Schema } from '../amplify/data/resource';
 
 
 const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
-type PostWithComments = SelectionSet<Schema['Post'], typeof selectionSet>;
+type PostWithComments = SelectionSet<Schema['Post']['type'], typeof selectionSet>;
 
 // ...
 const [posts, setPosts] = useState<PostWithComments[]>([]);
@@ -434,7 +434,7 @@ func listTodos() -> AnyCancellable {
 
 If you are using SwiftUI and have SwiftUI imported in the same code file, you will need to import the class `Amplify.List` to resolve name collision with `SwiftUI.List`:
 
-```swift 
+```swift
 import SwiftUI
 import Amplify
 import class Amplify.List
@@ -645,7 +645,7 @@ try {
 </Block>
 <Block name="RxJava">
 
-```java 
+```java
 RxAmplify.API.query(ModelQuery.list(Todo.class, Todo.NAME.contains("first"))
     .subscribe(
         response -> {
@@ -848,14 +848,14 @@ Future<List<Todo?>> queryPaginatedListItems() async {
 
 ## Query Predicates
 
-Models also support the use of query predicates for comparison. These are accessible from the Model's attributes, for example `Blog["attribute"]["operator"]`. 
+Models also support the use of query predicates for comparison. These are accessible from the Model's attributes, for example `Blog["attribute"]["operator"]`.
 
-Supported operators: 
+Supported operators:
 - `eq` - equal
-- `ne` - not equal 
-- `gt` - greater than 
-- `ge` - greater than or equal 
-- `lt` - less than 
+- `ne` - not equal
+- `gt` - greater than
+- `ge` - greater than or equal
+- `lt` - less than
 - `le` - less than or equal
 - `beginsWith` - Matches models where the given field begins with the provided value.
 - `between` - Matches models where the given field is between the provided start and end values.

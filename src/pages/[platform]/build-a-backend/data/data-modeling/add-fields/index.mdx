@@ -39,9 +39,9 @@ Amplify Data supports all AWS AppSync scalar types as field types. The following
 |`a.integer()`|An integer value between -(2^31) and 2^31-1.|`number` but rounded to closest integer value upon query/mutation|Int|
 |`a.float()`|An IEEE 754 floating point value.|`number`|Float|
 |`a.boolean()`|A Boolean value, either true or false.|`boolean`|Boolean|
-|`a.date()`|An extended ISO 8601 date string in the format YYYY-MM-DD.|`Date` but time information is cleared upon query/mutation|AWSDate|
-|`a.time()`|An extended ISO 8601 time string in the format hh:mm:ss.sss.|`Date` but date information is removed upon query/mutation|AWSTime|
-|`a.datetime()`|An extended ISO 8601 date and time string in the format YYYY-MM-DDThh:mm:ss.sssZ.|`Date`|AWSDateTime|
+|`a.date()`|An extended ISO 8601 date string in the format `YYYY-MM-DD`.|`string`|AWSDate|
+|`a.time()`|An extended ISO 8601 time string in the format `hh:mm:ss.sss`.|`string`|AWSTime|
+|`a.datetime()`|An extended ISO 8601 date and time string in the format `YYYY-MM-DDThh:mm:ss.sssZ`.|`string`|AWSDateTime|
 |`a.timestamp()`|An integer value representing the number of seconds before or after 1970-01-01-T00:00Z.|`number`|AWSTimestamp|
 |`a.email()`|An email address in the format local-part@domain-part as defined by RFC 822.|`string` with local-part and domain-part type enforcement|AWSEmail|
 |`a.json()`|A JSON string. Any valid JSON construct is automatically parsed and loaded in the resolver code as maps, lists, or scalar values, rather than as the literal input strings. Unquoted strings or otherwise invalid JSON result in a validation error.|`any`|AWSJSON|
@@ -87,30 +87,54 @@ a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 To set or read the location field on the client side, you can expand a nested object and the type system will auto-infer the allowed values.
 
 ```ts
-const newPost = await client.models.Post.create({
+const { data: newPost, errors } = await client.models.Post.create({
   location: {
     lat: 48.837006,
-    long: 8.282450,
-  }
+    long: 8.28245,
+  },
 });
 
-console.log(newPost.location.lat, newPost.location.long)
+console.log(newPost?.location?.lat, newPost?.location?.long);
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+To set or read the location field on the client side, you can create a Post object with the location values.
+
+```swift
+let post = Post(
+    location: .init(
+        lat: 48.837006,
+        long: 8.28245))
+let createdPost = try await Amplify.API.mutate(request: .create(post)).get()
+print("\(createdPost)")
+```
+
+</InlineFilter>
+
 ## Specify an enum field type
-Enum has a similar developer experience as custom types: short-hand and long-form approaches. To make building a dropdown UI easier, you can also retrieve all available enum options from your client code.
+
+Enum has a similar developer experience as custom types: short-hand and long-form approaches. 
+
+Short-hand approach
 
 ```ts
 a.schema({
   Post: a.model({
     privacySetting: a.enum(['PRIVATE', 'FRIENDS_ONLY', 'PUBLIC']),
-    content: string(),
+    content: a.string(),
   }),
 });
 ```
+
+Long-form approach
 
 ```ts
 a.schema({
@@ -121,7 +145,7 @@ a.schema({
   ]),
 
   Post: a.model({
-    content: string(),
+    content: a.string(),
     privacySetting: a.ref('PrivacySetting'),
   }),
 
@@ -130,6 +154,8 @@ a.schema({
   }),
 });
 ```
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
 
 When creating a new item client-side, the enums are also type-enforced:
 ```ts
@@ -143,6 +169,23 @@ client.models.Post.create({
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+Creating a new item client-side with the enum value:
+
+```swift
+let post = Post(
+    content: "hello",
+    privacySetting: .private)
+let createdPost = try await Amplify.API.mutate(request: .create(post)).get()
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ### List enum values client-side
 
 You can list available enum values client-side using the `client.enums.<ENUM_NAME>.values()` API. For example, this allows you to display the available enum values within a dropdown UI.
@@ -151,6 +194,8 @@ You can list available enum values client-side using the `client.enums.<ENUM_NAM
 const availableSettings = client.enums.PrivacySetting.values()
 // availableSettings returns ["PRIVATE", "FRIENDS_ONLY", "PUBLIC"]
 ```
+
+</InlineFilter>
 
 ## Mark fields as required
 

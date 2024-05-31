@@ -2,6 +2,7 @@ import { View, ViewProps, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { IconCheck } from '@/components/Icons';
 import { Popover } from '@/components/Popover';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
 interface GenSwitcherProps extends ViewProps {
   isGen1?: boolean;
@@ -9,6 +10,8 @@ interface GenSwitcherProps extends ViewProps {
 }
 
 export const GenSwitcher = ({ isGen1, testId }: GenSwitcherProps) => {
+  const currentPlatform = useCurrentPlatform() || '';
+
   return (
     <View className="gen-switcher" testId={testId}>
       <Popover>
@@ -26,10 +29,10 @@ export const GenSwitcher = ({ isGen1, testId }: GenSwitcherProps) => {
           anchor="left"
           className="gen-switcher__list"
         >
-          <Popover.ListItem href="/" current={!isGen1}>
+          <Popover.ListItem href={`/${currentPlatform}`} current={!isGen1}>
             Gen 2 {isGen1 ? '' : <IconCheck className="gen-switcher__check" />}
           </Popover.ListItem>
-          <Popover.ListItem href="/gen1" current={isGen1}>
+          <Popover.ListItem href={`/gen1/${currentPlatform}`} current={isGen1}>
             Gen 1 {isGen1 ? <IconCheck className="gen-switcher__check" /> : ''}
           </Popover.ListItem>
         </Popover.List>

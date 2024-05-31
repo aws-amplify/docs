@@ -11,19 +11,6 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'react',
-        'vue',
-        'nextjs',
-        'javascript',
-        'react-native',
-        'angular'
-      ],
-      canonicalPath: '/gen1/javascript/prev/build-a-backend/auth/manage-mfa/'
-    }
   ]
 };
 
@@ -39,6 +26,10 @@ export function getStaticProps(context) {
     }
   };
 }
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
 
 <InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
@@ -837,3 +828,7 @@ Now that you completed setting up multi-factor authentication you may also want 
 </InlineFilter>
 
 </InlineFilter>
+
+import flows from '/src/fragments/lib-v1/auth/common/mfa/flows.mdx';
+
+<Fragments fragments={{flutter: flows}} />

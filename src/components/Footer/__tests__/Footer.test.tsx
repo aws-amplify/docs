@@ -20,7 +20,7 @@ describe('Footer', () => {
     const footerLinks = await screen.getAllByRole('link');
     const linkUrls = {
       Discord: 'https://discord.gg/amplify',
-      Twitter: 'https://twitter.com/AWSAmplify',
+      X: 'https://x.com/AWSAmplify',
       Github: 'https://github.com/aws-amplify',
       'site terms': 'https://aws.amazon.com/terms/',
       'privacy policy': 'https://aws.amazon.com/privacy/'

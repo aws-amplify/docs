@@ -1,0 +1,27 @@
+If the next step is `confirmSignInWithTOTPCode`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
+
+After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.confirmSignInWithTotpMfaCode:
+      safePrint('Enter a one-time code from your registered authenticator app');
+    // ···
+  }
+}
+
+// Then, pass the TOTP code to `confirmSignIn`
+
+Future<void> confirmTotpUser(String totpCode) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: totpCode,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming TOTP code: ${e.message}');
+  }
+}
+```

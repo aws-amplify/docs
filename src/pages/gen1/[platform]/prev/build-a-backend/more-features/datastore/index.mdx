@@ -15,21 +15,7 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/gen1/[platform]/prev/build-a-backend/more-features/datastore',
-  canonicalObjects: [
-    {
-      platforms: [
-        'vue',
-        'react-native',
-        'javascript',
-        'flutter',
-        'react',
-        'angular',
-        'nextjs'
-      ],
-      canonicalPath: '/gen1/javascript/prev/build-a-backend/more-features/datastore/'
-    }
-  ]
+  route: '/gen1/[platform]/prev/build-a-backend/more-features/datastore'
 };
 
 export const getStaticPaths = async () => {
@@ -46,5 +32,9 @@ export function getStaticProps(context) {
     }
   };
 }
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
 
 <Overview childPageNodes={props.childPageNodes} />

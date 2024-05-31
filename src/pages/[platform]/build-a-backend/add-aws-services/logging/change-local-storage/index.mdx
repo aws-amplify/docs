@@ -16,6 +16,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -90,7 +91,7 @@ do {
     let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "<log-group-name>", region: "<region>", localStoreMaxSizeInMB: 2)
     let loggingPlugin = AWSCloudWatchLoggingPlugin(loggingPluginConfiguration: loggingConfiguration)
     try Amplify.add(plugin: loggingPlugin)
-    try Amplify.configure()
+    try Amplify.configure(with: .amplifyOutputs)
 } catch {
     assert(false, "Error initializing Amplify: \(error)")
 }

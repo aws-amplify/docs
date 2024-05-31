@@ -13,22 +13,6 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ],
-  canonicalObjects: [
-    {
-      platforms: [
-        'swift',
-        'flutter',
-        'react-native',
-        'vue',
-        'nextjs',
-        'react',
-        'android',
-        'javascript',
-        'angular'
-      ],
-      canonicalPath: '/gen1/javascript/build-a-backend/auth/admin-actions/'
-    }
   ]
 };
 
@@ -167,7 +151,7 @@ async function addToGroup() {
       }, 
       headers: {
         'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       } 
   }
   return post({apiName, path, options});
@@ -177,13 +161,13 @@ async function listEditors(limit){
   let apiName = 'AdminQueries';
   let path = '/listUsersInGroup';
   let options = { 
-      queryStringParameters: {
+      queryParams: {
         "groupname": "Editors",
         "limit": limit,
       },
       headers: {
         'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
   }
   const response = await get({apiName, path, options});

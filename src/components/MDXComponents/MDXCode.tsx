@@ -27,6 +27,10 @@ const addVersions = (code: string) => {
   );
   code = code.replace(/ANDROID_SDK_VERSION/g, versions.ANDROID_SDK_VERSION);
   code = code.replace(/KOTLIN_SDK_VERSION/g, versions.KOTLIN_SDK_VERSION);
+  code = code.replace(
+    /ANDROID_AUTHENTICATOR_VERSION/g,
+    versions.ANDROID_AUTHENTICATOR_VERSION
+  );
   return code;
 };
 
@@ -45,7 +49,7 @@ const hasHighlights = (code: string): boolean => {
 export const MDXCode = ({
   codeString,
   language = 'js',
-  showLineNumbers = true,
+  showLineNumbers,
   testHeaderId,
   testId,
   title
@@ -55,6 +59,10 @@ export const MDXCode = ({
   const shouldShowHeader = shouldShowCopy || title;
   const titleId = `${useId()}-titleID`;
   const codeId = `${useId()}-codeID`;
+  const hideLineNumbers = ['bash'];
+  const defaultLineNumberValue = !hideLineNumbers.includes(language); //show line number by default for bash language
+  const showLineNumberValue =
+    showLineNumbers === undefined ? defaultLineNumberValue : showLineNumbers;
 
   useEffect(() => {
     setCode(addVersions(codeString));
@@ -63,7 +71,7 @@ export const MDXCode = ({
   return (
     <Highlight theme={theme} code={code} language={language}>
       {({ style, tokens, getLineProps, getTokenProps }) => (
-        <View data-testid={testId}>
+        <View data-testid={testId} className={'code-block'}>
           <View className="pre-container">
             {shouldShowHeader ? (
               <Flex className="pre-header" data-testid={testHeaderId}>
@@ -91,7 +99,7 @@ export const MDXCode = ({
               >
                 <code className="pre-code" id={codeId}>
                   <TokenList
-                    showLineNumbers={showLineNumbers}
+                    showLineNumbers={showLineNumberValue}
                     tokens={tokens}
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}

@@ -45,7 +45,7 @@ In this tutorial, we’ll go over the following:
 The first step to using the SDKs in the client is to install the necessary dependencies with the following command:
 
 ```bash title="Terminal" showLineNumbers={false}
-npm install @aws-sdk/client-location
+npm add @aws-sdk/client-location
 ```
 
 ## Connecting your app to Amazon Location Service
@@ -63,8 +63,8 @@ import {
   LocationClient,
   AssociateTrackerConsumerCommand
 } from '@aws-sdk/client-location';
-import amplifyconfig from '../amplifyconfiguration.json';
-Amplify.configure(amplifyconfig);
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs);
 
 const createClient = async () => {
   const session = await fetchAuthSession();
@@ -225,7 +225,7 @@ Log.i("MyAmplifyApp", response.entries.toString())
 
 If you need functionality in the AWSLocation framework used by the Amplify Geo category that isn't available, we provide an escape hatch so you can reference it directly.
 
-Note: If you provisioned your Geo resources, then the IAM policy will be specifically scoped to only allow actions required by the library. Please [adjust your authorization permissions](/[platform]/build-a-backend/more-features/geo/existing-resources/) accordingly for your escape hatch use-cases.
+Note: If you provisioned your Geo resources, then the IAM policy will be specifically scoped to only allow actions required by the library. Please [adjust your authorization permissions](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) accordingly for your escape hatch use-cases.
 
 ```swift
 import AWSLocation

@@ -15,28 +15,7 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/gen1/[platform]/prev/build-a-backend/restapi',
-  canonicalObjects: [
-    {
-      platforms: [
-        'flutter',
-        'android',
-        'swift'
-      ],
-      canonicalPath: '/gen1/swift/prev/build-a-backend/restapi/'
-    },
-    {
-      platforms: [
-        'angular',
-        'nextjs',
-        'vue',
-        'javascript',
-        'react',
-        'react-native'
-      ],
-      canonicalPath: '/gen1/javascript/prev/build-a-backend/restapi/'
-    }
-  ]
+  route: '/gen1/[platform]/prev/build-a-backend/restapi'
 };
 
 export const getStaticPaths = async () => {
@@ -53,5 +32,9 @@ export function getStaticProps(context) {
     }
   };
 }
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
 
 <Overview childPageNodes={props.childPageNodes} />

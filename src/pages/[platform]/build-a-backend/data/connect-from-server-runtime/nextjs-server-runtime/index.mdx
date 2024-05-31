@@ -24,6 +24,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -33,7 +34,7 @@ This guide walks through how you can connect to Amplify Data from Next.js Server
 
 Before you begin, you will need:
 
-- [A Next.js application created](/gen1/nextjs/start/project-setup/create-application/)
+- [A Next.js application created](/[platform]/start/quickstart/)
 - [Installed and configured Amplify libraries for Next.js](/nextjs/build-a-backend/server-side-rendering/)
 - [Deployed Amplify Data resources](/[platform]/build-a-backend/data/set-up-data/), or directly using [AWS AppSync](https://aws.amazon.com/appsync/)
 
@@ -43,7 +44,7 @@ Connecting to Amplify Data will include choosing the correct data client for Nex
 
 ### Step 1 - Choose the correct Data client for Next.js server runtimes
 
-Amplify offers two specialized data clients for Next.js server runtimes (from `@aws-amplify/adapter-nextjs/data`) that you should use depending whether you retrieve the user tokens using [`cookies`](https://nextjs.org/docs/app/api-reference/functions/cookies) or [`NextRequest` and `NextResponse`](https://nextjs.org/docs/app/api-reference/functions/next-request):
+Amplify offers two specialized data clients for Next.js server runtimes (from `@aws-amplify/adapter-nextjs/data`) that you should use depending whether you retrieve the user tokens using [`cookies`](https://nextjs.org/docs/app/api-reference/functions/cookies) or [`NextRequest`](https://nextjs.org/docs/app/api-reference/functions/next-request) and [`NextResponse`](https://nextjs.org/docs/app/api-reference/functions/next-response):
 
 - `generateServerClientUsingCookies()` 🍪 generates a data client with the Next.js `cookies` function from `next/headers`. Each API request dynamically refetches the cookies at runtime.
 - `generateServerClientUsingReqRes()` 🌐 generates a data client requiring `NextRequest` and `NextResponse` provided to an `runWithAmplifyServerContext` function to prevent token contamination.
@@ -88,11 +89,11 @@ To generate a Data client for the Next.js server runtime using cookies, you need
 ```ts
 import { type Schema } from '@/amplify/data/resource';
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/data';
-import amplifyConfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 import { cookies } from 'next/headers';
 
 export const cookieBasedClient = generateServerClientUsingCookies<Schema>({
-  config: amplifyConfig,
+  config: outputs,
   cookies,
 });
 ```
@@ -113,14 +114,14 @@ To generate a data client for the Next.js server runtime using `NextRequest` and
 import { type Schema } from '@/amplify/data/resource';
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import { generateServerClientUsingReqRes } from '@aws-amplify/adapter-nextjs/data';
-import amplifyConfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 
 export const { runWithAmplifyServerContext } = createServerRunner({
-  config: amplifyConfig,
+  config: outputs,
 });
 
 export const reqResBasedClient = generateServerClientUsingReqRes<Schema>({
-  config: amplifyConfig,
+  config: outputs,
 });
 ```
 
@@ -147,11 +148,11 @@ Import the cookie-based server Data client in your Next.js React Server Componen
 ```ts
 import { type Schema } from '@/amplify/data/resource';
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/data';
-import amplifyConfig from '@/amplifyconfiguration.json';
+import outputs from '@/amplify_outputs.json';
 import { cookies } from 'next/headers';
 
 export const cookieBasedClient = generateServerClientUsingCookies<Schema>({
-  config: amplifyConfig,
+  config: outputs,
   cookies,
 });
 
@@ -181,7 +182,7 @@ import {
 } from '@/utils/amplifyServerUtils';
 
 type ResponseData = {
-  todos: Schema['Todo'][];
+  todos: Schema['Todo']['type'][];
 };
 
 export default async function handler(
@@ -200,7 +201,6 @@ export default async function handler(
 
   response.status(200).json({ todos });
 }
-
 ```
 
 </Block>

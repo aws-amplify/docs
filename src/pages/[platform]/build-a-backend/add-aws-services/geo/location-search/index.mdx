@@ -44,7 +44,7 @@ To add a location search UI component to your map, you can use the [maplibre-gl-
 Install the necessary dependencies with the following command:
 
 ```bash title="Terminal" showLineNumbers={false} 
-npm install @maplibre/maplibre-gl-geocoder maplibre-gl@1 maplibre-gl-js-amplify
+npm add @maplibre/maplibre-gl-geocoder maplibre-gl@1 maplibre-gl-js-amplify
 ```
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `4.0.0` or above is installed.
@@ -326,7 +326,7 @@ This returns a place with metadata as shown in the example below.
 <InlineFilter filters={['swift', 'android']}>
 ## Add location search functionality on a map
 
-First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search]([/platform]/build-a-backend/add-aws-services/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/build-a-backend/add-aws-services/geo/maps/) in your application.
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/build-a-backend/add-aws-services/geo/maps/) in your application.
 
 <InlineFilter filters={['android']}>
 `AmplifyMapView` provides built-in location search, search field, and place markers. Follow the [AmplifyMapView section](/[platform]/build-a-backend/add-aws-services/geo/maps/#amplifymapview) on the Maps page to setup the `AmplifyMapView`.
@@ -391,19 +391,19 @@ You can customize the feature images displayed on the `AMLMapView` or `AMLMapCom
 {/* // spell-checker: disable */}
 
 ```swift
-    var body: some View {
-        AMLMapView(mapState: mapState)
-            .featureImage {
-                let image = UIImage(
-                    systemName: "paperplane.circle.fill",
-                    withConfiguration: UIImage.SymbolConfiguration(
-                        font: .systemFont(ofSize: 22, weight: .medium)
-                    )
-                )!
-                return image
-             }
-            .edgesIgnoringSafeArea(.all)
-    }
+var body: some View {
+    AMLMapView(mapState: mapState)
+        .featureImage {
+            let image = UIImage(
+                systemName: "paperplane.circle.fill",
+                withConfiguration: UIImage.SymbolConfiguration(
+                    font: .systemFont(ofSize: 22, weight: .medium)
+                )
+            )!
+            return image
+            }
+        .edgesIgnoringSafeArea(.all)
+}
 ```
 
 {/* // spell-checker: enable */}

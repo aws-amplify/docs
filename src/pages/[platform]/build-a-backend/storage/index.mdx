@@ -1,15 +1,20 @@
-import { Card } from '@aws-amplify/ui-react';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Storage',
   description: 'Set up and connect to storage.',
+  route: '/[platform]/build-a-backend/storage',
   platforms: [
     'angular',
     'javascript',
     'nextjs',
     'react',
-    'vue'
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
   ]
 };
 
@@ -18,53 +23,13 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      meta
+      meta,
+      childPageNodes
     }
   };
 }
 
-### What is Amplify Storage?
-
-Amplify Storage enables developers to seamlessly integrate file storage and management capabilities into frontend web and mobile apps. It offers intuitive APIs and UI components for core features like file upload, download, and listing, simplifying the process of building scalable and secure file storage solutions. Amplify Storage is built on top of Amazon S3 and empowers developers to focus on delivering exceptional user experiences without worrying about the complexities of cloud storage services.
-
-### Benefits of Amplify Storage on top of S3
-
-<Columns columns={2}>
-<Card variation="outlined">
-##### Security Credentials
-
-With Amplify configuration, you don't have the individually sign your requests to S3.
-</Card>
-
-<Card variation="outlined">
-##### Authorization
-
-Explicitly define who has access to individual paths in your storage bucket.
-</Card>
-
-<Card variation="outlined">
-##### UI Components
-
-Implement upload and image display features in minutes by using the cloud-connected UI components.
-</Card>
-
-<Card variation="outlined">
-##### Bundle Size
-
-Significantly smaller bundle size compared to the AWS SDK as you do not have to import the entire SDK.
-</Card>
-
-<Card variation="outlined">
-##### Multipart upload
-
-Smartly slices and uploads file chunks to optimize bandwidth with necessary retry mechanisms.
-</Card>
-
-<Card variation="outlined">
-##### Consistency
-
-Use the same Amplify interface for using all features like Authentication and Data, reducing the need for setting up multiple AWS services individually.
-</Card>
-</Columns>
+<Overview childPageNodes={props.childPageNodes} />

@@ -8,7 +8,11 @@ export const meta = {
     'javascript',
     'nextjs',
     'react',
-    'vue'
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
   ]
 };
 
@@ -19,6 +23,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };

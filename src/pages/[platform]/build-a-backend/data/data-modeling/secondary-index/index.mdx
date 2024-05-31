@@ -24,6 +24,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -47,6 +48,8 @@ export const schema = a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 The example client query below allows you to query for "Customer" records based on their `accountRepresentativeId`:
 
 ```ts title="src/App.tsx"
@@ -57,12 +60,50 @@ const client = generateClient<Schema>();
 
 const { data, errors } =
   // highlight-start
-  await client.models.Customer.listByAccountRepresentativeId({
+  await client.models.Customer.listCustomerByAccountRepresentativeId({
     accountRepresentativeId: "YOUR_REP_ID",
   });
-// highlight-end
+  // highlight-end
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+The example client query below creates a custom GraphQL request that allows you to query for "Customer" records based on their `accountRepresentativeId`:
+
+```swift
+struct PaginatedList<ModelType: Model>: Decodable {
+    let items: [ModelType]
+    let nextToken: String?
+}
+let operationName = "listCustomer8ByAccountRepresentativeId"
+let document = """
+query ListCustomer8ByAccountRepresentativeId {
+  \(operationName)(accountRepresentativeId: "\(accountRepresentativeId)") {
+    items {
+      createdAt
+      accountRepresentativeId
+      id
+      name
+      phoneNumber
+      updatedAt
+    }
+    nextToken
+  }
+}
+"""
+
+let request = GraphQLRequest<PaginatedList<Customer>>(
+    document: document,
+    responseType: PaginatedList<Customer>.self,
+    decodePath: operationName)
+
+let queriedCustomers = try await Amplify.API.query(
+    request: request).get()
+```
+
+</InlineFilter>
 <Accordion title="Review how this works under the hood with Amazon DynamoDB">
 
 Amplify uses Amazon DynamoDB tables as the default data source for `a.model()`. For key-value databases, it is critical to model your access patterns with "secondary indexes". Use the `.index()` modifier to configure a secondary index.
@@ -92,21 +133,57 @@ export const schema = a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 On the client side, you should find a new `listBy...` query that's named after hash key and sort keys. For example, in this case: `listByAccountRepresentativeIdAndName`. You can supply the filter as part of this new list query:
 
 ```ts title="src/App.tsx"
-const {
-  data,
-  errors
-} =
-// highlight-next-line
-  await client.models.Customer.listByAccountRepresentativeIdAndName({
-    accountRepresentativeId: 'YOUR_REP_ID',
+const { data, errors } =
+  // highlight-next-line
+  await client.models.Customer.listCustomerByAccountRepresentativeIdAndName({
+    accountRepresentativeId: "YOUR_REP_ID",
     name: {
-      beginsWith: 'Rene',
+      beginsWith: "Rene",
     },
   });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+On the client side, you can create a custom GraphQL request based on the new `listBy...` query that's named after hash key and sort keys. You can supply the filter as part of this new list query:
+
+```swift
+struct PaginatedList<ModelType: Model>: Decodable {
+    let items: [ModelType]
+    let nextToken: String?
+}
+let operationName = "listCustomer9ByAccountRepresentativeIdAndName"
+let document = """
+query ListCustomer8ByAccountRepresentativeId {
+  \(operationName)(accountRepresentativeId: "\(accountRepresentativeId)", name: {beginsWith: "\(name)"}) {
+    items {
+      accountRepresentativeId
+      createdAt
+      id
+      name
+      phoneNumber
+      updatedAt
+    }
+    nextToken
+  }
+}
+"""
+let request = GraphQLRequest<PaginatedList<Customer>>(
+    document: document,
+    responseType: PaginatedList<Customer>.self,
+    decodePath: operationName)
+
+let queriedCustomers = try await Amplify.API.query(
+    request: request).get()
+```
+</InlineFilter>
 
 ## Customize the query field for secondary indexes
 
@@ -129,6 +206,8 @@ const schema = a.schema({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 In your client app code, you'll see query updated under the Data client:
 
 ```ts title="src/App.tsx"
@@ -140,6 +219,45 @@ const {
   accountRepresentativeId: 'YOUR_REP_ID',
 })
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your client app code, you can use the updated query name.
+
+```swift
+struct PaginatedList<ModelType: Model>: Decodable {
+    let items: [ModelType]
+    let nextToken: String?
+}
+let operationName = "listByRep"
+let document = """
+query ListByRep {
+  \(operationName)(accountRepresentativeId: "\(accountRepresentativeId)") {
+    items {
+      accountRepresentativeId
+      createdAt
+      id
+      name
+      phoneNumber
+      updatedAt
+    }
+    nextToken
+  }
+}
+"""
+
+let request = GraphQLRequest<PaginatedList<Customer>>(
+    document: document,
+    responseType: PaginatedList<Customer>.self,
+    decodePath: operationName)
+
+let queriedCustomers = try await Amplify.API.query(
+    request: request).get()
+```
+</InlineFilter>
+
 
 ## Customize the name of secondary indexes
 

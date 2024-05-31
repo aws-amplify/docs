@@ -86,31 +86,20 @@ RxAmplify.Analytics.recordEvent(event);
 
 The Amazon Pinpoint event count updates in minutes after recording your event.
 
-However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint. 
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint.
 
 </Callout>
 
 ## Flush events
 
-Events have a default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
+Events have a default configuration to flush out to the network every 30 seconds. You can change this value by passing the `autoFlushEventsInterval` option to the `AWSPinpointAnalyticsPlugin`. The option value is measured in milliseconds.
 
-```json
-{
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "<your-app-id>",
-          "region": "<your-app-region>",
-          "autoFlushEventsInterval": 10000
-        },
-        "pinpointTargeting": {
-          "region": "<your-app-region>"
-        }
-      }
-    }
-  }
+```kotlin
+val options = AWSPinpointAnalyticsPlugin.Options {
+    autoFlushEventsInterval = 60_000
 }
+Amplify.addPlugin(AWSPinpointAnalyticsPlugin(options))
+Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), this)
 ```
 
 To manually flush events, call:
@@ -139,7 +128,7 @@ RxAmplify.Analytics.flushEvents();
 </Block>
 </BlockSwitcher>
 
-When flushing events, a [Hub event](/[platform]/build-a-backend/utilities/hub/) is sent containing the events which were successfully sent to the Pinpoint service.  To receive a list of these events, subscribe to the `HubChannel.ANALYTICS` channel and handle an event of the type `AnalyticsChannelEventName.FLUSH_EVENTS`.
+When flushing events, a [Hub event](/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/) is sent containing the events which were successfully sent to the Pinpoint service.  To receive a list of these events, subscribe to the `HubChannel.ANALYTICS` channel and handle an event of the type `AnalyticsChannelEventName.FLUSH_EVENTS`.
 
 ## Authentication events
 
@@ -157,7 +146,7 @@ You can report authentication events by doing either of the following:
 
  - Managing user sign-up and sign-in with Amazon Cognito user pools.
 
-  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplifyconfiguration.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
+  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplify_outputs.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
 
   ```json
   "CognitoUserPool": {
@@ -173,7 +162,7 @@ You can report authentication events by doing either of the following:
 - Manually recording events using the `recordEvent()` API.
 
   If you don't want to use Cognito user pools, you can use the Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
-  
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -310,7 +299,7 @@ Future<void> recordCustomEvent() async {
 
 The Amazon Pinpoint event count updates in minutes after recording your event.
 
-However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Amazon Pinpoint. 
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Amazon Pinpoint.
 
 </Callout>
 
@@ -416,23 +405,13 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 By default, events are automatically flushed out to the network every 60 seconds.
 
-If you would like to change this, update `amplifyconfiguration.json` and set the value you would prefer under `autoFlushEventsInterval`, expressed in seconds:
+You can change this through the `options` parameter when initializing the plugin, by creating a `AWSPinpointAnalyticsPlugin.Options` instance and setting its `autoFlushEventsInterval` property to the desired value, expressed in seconds:
 
-```json
-{
-  "Version": "1.0",
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "<your-app-id>",
-          "region": "<your-app-region>"
-        },
-        "autoFlushEventsInterval": 60
-      }
-    }
-  }
-}
+```swift
+let options = AWSPinpointAnalyticsPlugin.Options(
+    autoFlushEventsInterval: 60
+)
+try Amplify.add(plugin: AWSPinpointAnalyticsPlugin(options: options))
 ```
 
 > **Note**
@@ -459,34 +438,13 @@ To learn how frequently users authenticate with your app, update your applicatio
  - `_userauth.sign_up`
  - `_userauth.auth_fail`
 
-You can report authentication events by doing either of the following:
-
- - Managing user sign-up and sign-in with Amazon Cognito user pools.
-
-  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplifyconfiguration.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
-
-  ```json
-  "CognitoUserPool": {
-      "Default": {
-          "PoolId": "<your-user-pool-id>",
-          "AppClientId": "<your-app-client-id>",
-          "Region": "<your-app-region>",
-          "PinpointAppId": "<your-pinpoint-app-id>"
-     }
-  }
-  ```
-
-- Manually recording events using the `recordEvent()` API.
-
-  If you don't want to use Cognito user pools, you can use the Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
+You can report these events by doing the following:
 
 ```swift
-func sendUserSignInEvent() {
-    let event = BasicAnalyticsEvent(
-        name: "_userauth.sign_in"
-    )
-    Amplify.Analytics.record(event: event)
-}
+let event = BasicAnalyticsEvent(
+    name: "_userauth.sign_in" // Or any of the accepted values
+)
+Amplify.Analytics.record(event: event)
 ```
 
 ## Global Properties

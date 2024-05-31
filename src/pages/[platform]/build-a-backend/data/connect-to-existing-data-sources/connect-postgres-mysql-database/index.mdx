@@ -1,0 +1,421 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect your app to existing MySQL and PostgreSQL database.',
+  description:
+    'Learn how to connect your app to existing MySQL and PostgreSQL database.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue',
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+
+Amplify's native integration supports any MySQL or Postgres database, no matter if they're hosted on AWS within a VPC or outside of AWS with a 3rd party hosted database provider.
+
+You must create a connection string using the following database information to get started:
+
+<ul>
+<li>
+<input type="checkbox"/> Database **hostname**
+</li>
+<li>
+<input type="checkbox"/> Database **port**
+</li>
+<li>
+<input type="checkbox"/> Database **username**
+</li>
+<li>
+<input type="checkbox"/> Database **user password**
+</li>
+<li>
+<input type="checkbox"/> Database **name**
+</li>
+</ul>
+
+<Callout info>
+
+**Only databases with certificates from well-known certificate providers are supported.** Support for databases using custom or self-signed SSL certificates is under active development.
+
+Amplify's MySQL and PostgreSQL feature builds on top of [AWS Lambda](https://aws.amazon.com/lambda) with a Node.js runtime. By default, Node.js includes root certificate authority (CA) certificates from [well-known certificate providers](https://github.com/nodejs/node/issues/4175). Lambda Node.js runtimes up to Node.js 18 augments these certificates with Amazon-specific CA certificates, making it easier to create functions accessing other AWS services.
+
+</Callout>
+
+## Step 1 - Set secrets for database connection
+
+First, provide all the database connection information as secrets, you can use the Amplify sandbox's secret functionality to set them or go to the Amplify console to set secrets in a shared environment:
+
+```bash showLineNumbers={false}
+npx ampx sandbox secret set SQL_CONNECTION_STRING
+```
+
+<BlockSwitcher>
+<Block name="MySQL">
+**Connection string format for MySQL**
+```console showLineNumbers={false}
+mysql://user:password@hostname:port/db-name
+```
+</Block>
+
+<Block name="PostgreSQL">
+**Connection string format for PostgreSQL**
+```console showLineNumbers={false}
+postgres://user:password@hostname:port/db-name
+```
+</Block>
+</BlockSwitcher>
+
+
+## Step 2 - Generate TypeScript representation of your database schema
+
+Run the following command to generate the Data schema with your database connection information. It'll infer an `a.model()` representation for **all database tables that have primary key specified**.
+
+```bash
+npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_STRING --out amplify/data/schema.sql.ts
+```
+
+<Accordion eyebrow="Info" title="Connecting to a database behind the VPC">
+
+If your RDS database exists within a VPC, it must be configured to be `Publicly accessible`. This does not mean the instance needs to be accessible from all IP addresses on the Internet, but this flag is required to allow your local machine to connect via an **Inbound Rule** rather than being inside your VPC or connected to the VPC via VPN.
+
+**To generate the TypeScript representation of your database schema:**
+
+If your database is protected by a VPC, you will need to add an **Inbound Rule** for the database port from your local IP address. The `npx ampx generate schema-from-database` command connects to your database from your local workstation to read schema information.
+
+If you are connecting to an RDS Proxy, the machine you run the `generate schema-from-database` command must be in the same VPC as the proxy itself, or you must connect to it via VPN. Simply opening an **Inbound Rule** for the database port is not sufficient.
+
+**To connect to your database during runtime:**
+When you specify connection information, we'll compare the hostname you supply against a list of RDS instances, clusters, and proxies in your account in the same region as your project. If we find a match, we'll automatically detect the VPC configuration for your database and provision a SQL Lambda function to connect to the database and retrieve the schema.
+
+The VPC security group in which your database instance, cluster, or proxy is installed must have **Inbound rules** that allow traffic from the following TCP ports:
+
+1. The specified database port (e.g., 3306 for MySQL databases or 5432 for Postgres databases).
+2. Port 443 (HTTPS) to allow the Lambda function to connect to AWS Systems Manager to retrieve configuration parameters.
+
+Finally, the security group must have **Outbound rules** that allow traffic on those same ports from the security group itself.
+
+</Accordion>
+
+<Accordion eyebrow="Info" title="Handling of implicit fields (id, createdAt, updatedAt)">
+
+When creating new DynamoDB-backed data models via `a.model()`, a set of a implicit fields, such as `id`, `createdAt`, and `updatedAt` are added by default. When connecting to an existing SQL database, these fields are not implicitly added as they are not part of the underlying data source. If `createdAt` and `updatedAt` are valid columns in the underlying database table, then Amplify Data will automatically populate those fields with their respective values upon create and update mutations.
+
+</Accordion>
+
+<Accordion title="RDS Proxy for improved connectivity" eyebrow="Learn more">
+
+Consider adding an RDS Proxy in front of the cluster to manage database connections.
+
+When using Amplify GraphQL API with a relational database like Amazon RDS, each query from your application needs to open a separate connection to the database.
+
+If there are a large number of queries occurring concurrently, it can exceed the connection limit on the database and result in errors like "Too many connections". To avoid this, Amplify can use an RDS Proxy when connecting your GraphQL API to a database.
+
+The RDS Proxy acts as an intermediary sitting in front of your database. Instead of each application query opening a direct connection to the database, they will connect through the Proxy. The Proxy helps manage and pool these connections to avoid overwhelming your database cluster. This improves the availability of your API, allowing more queries to execute concurrently without hitting connection limits.
+
+However, there is a tradeoff of increased latency - queries may take slightly longer as they wait for an available connection from the Proxy pool. There are also additional costs associated with using RDS Proxy. Please refer to the [pricing page for RDS Proxy](https://aws.amazon.com/rds/proxy/pricing/) to learn more.
+
+</Accordion>
+
+
+This creates a new **schema.sql.ts** with a schema reflecting the types of your database. **Do not edit the schema.sql.ts file directly**. Import the schema to your **amplify/data/resource.ts** file and apply any additive changes there. This ensures that you can continuously regenerate the TypeScript schema representation of your SQL database without losing any additive changes that you apply out-of-band.
+
+```ts
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+// highlight-start
+import { schema as generatedSqlSchema } from './schema.sql';
+
+// Add a global authorization rule
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
+// highlight-end
+
+// Relational database sources can coexist with DynamoDB tables managed by Amplify.
+const schema = a.schema({
+  Todo: a.model({
+    content: a.string(),
+  }).authorization(allow => [allow.guest()])
+});
+
+// Use the a.combine() operator to stitch together the models backed by DynamoDB
+// and the models backed by Postgres or MySQL databases.
+// highlight-next-line
+const combinedSchema = a.combine([schema, sqlSchema]);
+
+// Don't forget to update your client types to take into account the types from
+// both schemas.
+// highlight-next-line
+export type Schema = ClientSchema<typeof combinedSchema>;
+
+export const data = defineData({
+  // Update the data definition to use the combined schema, instead of just
+  // your DynamoDB-backed schema
+  // highlight-next-line
+  schema: combinedSchema
+});
+```
+
+## Step 3 - Fine-grained authorization rules
+
+Use the `.setAuthorization()` modifier to set model-level and field-level authorization rules for the SQL-backed data models. Review [Customize your auth rules](/[platform]/build-a-backend/data/customize-authz) for detailed authorization rule options.
+
+```ts
+// Add an authorization rule to the schema
+// highlight-start
+const sqlSchema = generatedSqlSchema.setAuthorization((models) => [
+  // Model-level authorization rules
+  models.event.authorization((allow) => [allow.publicApiKey()]),
+  // Field-level authorization rules
+  models.event.fields.id.authorization(allow => [allow.publicApiKey(), allow.guest()]),
+  models.event.fields.created_at.authorization(allow => [allow.publicApiKey(), allow.guest()])
+]);
+// highlight-end
+```
+
+## Step 4 - Deploy your Data resources using the cloud sandbox
+
+Finally, you can now validate your Data resources with your cloud sandbox:
+
+```bash
+npx ampx sandbox
+```
+
+On the client side, you can now make create, read, update, delete, and subscribe to your SQL-backed data models:
+
+```ts
+const { data: events } = await client.models.event.list()
+```
+
+## Step 5 - Configuring database connection for production
+
+When deploying your app to production, you need to [add the database connection string as a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). Make sure to add the appropriate database connection string with the same secret name you used in the sandbox environment. For example, we used `SQL_CONNECTION_STRING` above.
+
+<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+  <source src="/images/gen2/secrets-and-vars/secrets.mp4" />
+</video>
+
+## Rename generated models and fields
+
+To improve the ergonomics of your API, you might want to rename the generate fields or types to better accommodate your use case. Use the `renameModels()` and `renameModelFields()` modifiers to rename the auto-inferred data models and their fields.
+
+```ts
+// Rename models or fields to be more idiomatic for frontend code
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
+// highlight-start
+  .renameModels(() => [
+    //⌄⌄⌄⌄⌄ existing model name based on table name
+    ['event', 'Event']
+    //        ^^^^^^ renamed data model name
+  ])
+  // highlight-end
+```
+
+## Add relationships between tables
+
+```ts
+const sqlSchema = generatedSqlSchema
+  .authorization(allow => allow.guest())
+// highlight-start
+  .setRelationships((models) => [
+    models.Note.relationships({
+      comments: a.hasMany("Comment", "note_id"),
+    }),
+    models.Comment.relationships({
+      note: a.belongsTo("Note", "note_id")
+    })
+  ]);
+// highlight-end
+```
+
+## Add custom queries, mutations, subscriptions auto-generated SQL data schema
+
+Use the `.addToSchema(...)` to add in additional queries, mutations, and subscriptions to your auto-generated SQL data schema.
+
+<Callout info>
+
+Note: you can't add additional data models via `a.model()`. They should be exclusively generated via `npx ampx generate schema-from-database`.
+
+</Callout>
+
+### Use an inline SQL statement as a query or mutation handler
+
+```ts
+// Add custom mutations or queries that execute SQL statements
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
+// highlight-start
+  .addToSchema({
+    listEventsWithDecodedLatLong: a.query()
+      // reference custom types added to the schema
+      .returns(a.ref("EventWithDecodedCoord").array())
+      .handler(a.handler.inlineSql(
+          `SELECT
+            id,
+            name,
+            address,
+            ST_X(geom) AS longitude,
+            ST_Y(geom) AS latitude
+          FROM locations;`
+      ))
+      .authorization(allow => [allow.guest()]),
+
+      // Define custom types to provide end-to-end typed results
+      // for custom queries / mutations
+      EventWithDecodedCoord: a.customType({
+        id: a.integer(),
+        name: a.string(),
+        address: a.string(),
+        longitude: a.float(),
+        latitude: a.float(),
+      })
+  })
+// highlight-end
+```
+
+### Reference an existing SQL file as a query or mutation handler
+
+You can define the different SQL handlers in separate `.sql` files and reference them in your custom queries / mutations.
+
+First, configure the custom query or mutation in your **amplify/data/resource.ts** file:
+```ts
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
+  .addToSchema({
+    createNewLocationWithLongLat: a.mutation()
+      .arguments({
+        lat: a.float().required(),
+        long: a.float().required(),
+        name: a.string().required(),
+        address: a.string().required()
+      })
+      .returns(a.json().array())
+      .authorization(allow => allow.authenticated())
+      // highlight-next-line
+      .handler(a.handler.sqlReference('./createNewLocationWithLongLat.sql'))
+  })
+```
+
+Next, add a corresponding sql file to handle the request:
+
+<BlockSwitcher>
+<Block name="MySQL">
+```sql title="createNewLocationWithLongLat.sql"
+INSERT INTO locations (name, address, geom)
+VALUES (:name, :address, ST_GEOMFROMTEXT(CONCAT('POINT (', :long, ' ', :lat, ')'), 4326));
+```
+</Block>
+<Block name="PostgreSQL">
+```sql title="createNewLocationWithLongLat.sql"
+INSERT INTO locations (name, address, geom)
+VALUES (:name, :address, ST_SetSRID(ST_MakePoint(:long, :lat), 4326))
+```
+</Block>
+</BlockSwitcher>
+
+## How does it work?
+
+The Amplify uses AWS Lambda functions to enable features like querying data from your database. To work properly, these Lambda functions need access to common logic and dependencies.
+
+Amplify provides this shared code in the form of Lambda Layers. You can think of Lambda Layers as a package of reusable runtime code that Lambda functions can reference.
+
+When you deploy an Amplify API, it will create two Lambda functions:
+
+### SQL Lambda
+
+This allows you to query and write data to your database from your API.
+
+<Callout>
+  **NOTE:** If the database is in a VPC, this Lambda function will be deployed
+  in the same VPC as the database. The usage of Amazon Virtual Private Cloud
+  (VPC) or VPC peering, with AWS Lambda functions will incur additional charges
+  as explained, this comes with an additional cost as explained on the [Amazon
+  Elastic Compute Cloud (EC2) on-demand pricing
+  page](https://aws.amazon.com/ec2/pricing/on-demand/).
+</Callout>
+
+### Updater Lambda
+
+This automatically keeps the SQL Lambda up-to-date by managing its Lambda Layers.
+
+A Lambda layer that includes all the core SQL connection logic lives within the AWS Amplify service account but is executed within your AWS account, when invoked by the SQL Lambda. This allows the Amplify service team to own the ongoing maintenance and security enhancements of the SQL connection logic.
+
+This allows the Amplify team to maintain and enhance the SQL Layer without needing direct access to your Lambdas. If updates to the Layer are needed, the Updater Lambda will receive a signal from Amplify and automatically update the SQL Lambda with the latest Layer.
+
+### Mapping of SQL data types to field types for auto-generated schema
+
+<Callout warning>
+
+**Note:** MySQL does not support time zone offsets in date time or timestamp fields. Instead, we will convert these values to `datetime`, without the offset. Unlike MySQL, PostgreSQL does support date time or timestamp values with an offset.
+
+</Callout>
+
+| SQL                | Mapped field types      |
+|--------------------|--------------|
+| **String**         |              |
+| char               | a.string()       |
+| varchar            | a.string()       |
+| tinytext           | a.string()       |
+| text               | a.string()       |
+| mediumtext         | a.string()       |
+| longtext           | a.string()       |
+| **Geometry**       |              |
+| geometry           | a.string()       |
+| point              | a.string()       |
+| linestring         | a.string()       |
+| geometryCollection | a.string()       |
+| **Numeric**        |              |
+| smallint           | a.integer()          |
+| mediumint          | a.integer()          |
+| int                | a.integer()          |
+| integer            | a.integer()          |
+| bigint             | a.integer()          |
+| tinyint            | a.integer()          |
+| float              | a.float()        |
+| double             | a.float()        |
+| decimal            | a.float()        |
+| dec                | a.float()        |
+| numeric            | a.float()        |
+| **Date and Time**  |              |
+| date               | a.date()      |
+| datetime           | a.datetime()   |
+| timestamp          | a.datetime()   |
+| time               | a.time()       |
+| year               | a.integer()          |
+| **Binary**         |              |
+| binary             | a.string()        |
+| varbinary          | a.string()        |
+| tinyblob           | a.string()        |
+| blob               | a.string()        |
+| mediumblob         | a.string()        |
+| longblob           | a.string()        |
+| **Others**         |              |
+| bool               | a.boolean()       |
+| boolean            | a.boolean()       |
+| bit                | a.integer()          |
+| json               | a.json()       |
+| enum               | a.enum()          |
+
+## Troubleshooting
+
+### Debug Mode
+
+To return the actual SQL error instead of a generic error from underlying API responses, an environment variable `DEBUG_MODE` can be set to `true` on the Amplify-generated SQL Lambda function. You can find this Lambda function in the AWS Lambda console with the naming convention of: `<stack-name>-<api-name>-SQLLambdaFunction<hash>`.
+
+### My SQL table doesn't get generated when running `npx ampx generate schema-from-database`
+
+This is likely because the table doesn't have a designated primary key. A primary key is required for `npx ampx generate schema-from-database` to infer the table structure and create a create, read, update, and delete API.

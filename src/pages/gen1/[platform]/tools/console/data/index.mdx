@@ -5,27 +5,17 @@ export const meta = {
   title: 'Data',
   description: 'Data',
   platforms: [
+    'android',
+    'angular',
+    'flutter',
     'javascript',
     'nextjs',
-    'react'
+    'react',
+    'react-native',
+    'swift',
+    'vue'
   ],
-  route: '/gen1/[platform]/tools/console/data',
-  canonicalObjects: [
-    {
-      platforms: [
-        'react-native',
-        'nextjs',
-        'vue',
-        'angular',
-        'react',
-        'javascript',
-        'swift',
-        'flutter',
-        'android'
-      ],
-      canonicalPath: '/gen1/javascript/tools/console/data/'
-    }
-  ]
+  route: '/gen1/[platform]/tools/console/data'
 };
 
 export const getStaticPaths = async () => {

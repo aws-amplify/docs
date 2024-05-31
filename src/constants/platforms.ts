@@ -38,8 +38,8 @@ export const PLATFORM_VERSIONS: Record<Platform, PlatformVersion> = {
     current: 'v2'
   },
   flutter: {
-    prev: 'v0',
-    current: 'v1'
+    prev: 'v1',
+    current: 'v2'
   },
   javascript: {
     prev: 'v5',

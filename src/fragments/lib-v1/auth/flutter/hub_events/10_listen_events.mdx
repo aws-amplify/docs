@@ -1,20 +1,17 @@
 ```dart
-// Do not forget to import the following for StreamSubscription
-import 'dart:async';
-
-StreamSubscription<HubEvent> hubSubscription = Amplify.Hub.listen([HubChannel.Auth], (hubEvent) {
-  switch(hubEvent.eventName) {
-    case 'SIGNED_IN':
-      print('USER IS SIGNED IN');
+final subscription = Amplify.Hub.listen(HubChannel.Auth, (AuthHubEvent event) {
+  switch (event.type) {
+    case AuthHubEventType.signedIn:
+      safePrint('User is signed in.');
       break;
-    case 'SIGNED_OUT':
-      print('USER IS SIGNED OUT');
+    case AuthHubEventType.signedOut:
+      safePrint('User is signed out.');
       break;
-    case 'SESSION_EXPIRED':
-      print('SESSION HAS EXPIRED');
+    case AuthHubEventType.sessionExpired:
+      safePrint('The session has expired.');
       break;
-    case 'USER_DELETED':
-      print('USER HAS BEEN DELETED');
+    case AuthHubEventType.userDeleted:
+      safePrint('The user has been deleted.');
       break;
   }
 });

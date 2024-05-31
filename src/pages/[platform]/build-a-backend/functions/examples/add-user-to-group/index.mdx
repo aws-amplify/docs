@@ -37,19 +37,19 @@ A user is "confirmed" when they verify their account. Typically this happens whe
 
 </Callout>
 
-To get started, install the AWS SDK v3 package that will be used to perform actions against your auth resource:
+To get started, install the AWS SDK v3 package, which will be used to perform actions against your auth resource, and the `@types/aws-lambda` package, which is used to define the handler type:
 
 ```bash title="Terminal"
-npm add --save-dev @aws-sdk/client-cognito-identity-provider
+npm add --save-dev @aws-sdk/client-cognito-identity-provider @types/aws-lambda
 ```
 
-Second, create a new directory and a resource file, `amplify/auth/post-confirmation/resource.ts`. Then, define the Function with `defineFunction`:
+Next, create a new directory and a resource file, `amplify/auth/post-confirmation/resource.ts`. Then, define the Function with `defineFunction`:
 
 ```ts title="amplify/auth/post-confirmation/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
 
 export const postConfirmation = defineFunction({
-  entry: './post-confirmation.ts',
+  name: 'post-confirmation',
   // optionally define an environment variable for your group name
   environment: {
     GROUP_NAME: 'EVERYONE'
@@ -57,7 +57,31 @@ export const postConfirmation = defineFunction({
 });
 ```
 
-Third, create the corresponding handler file, `amplify/auth/post-confirmation/handler.ts`, file with the following contents:
+After creating the Function definition you will need to:
+
+1. create the `EVERYONE` group
+2. grant access to your auth resource to ensure it can perform the `addUserToGroup` action
+3. set the Function as the post confirmation trigger
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend";
+import { postConfirmation } from "./post-confirmation/resource"
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  groups: ["EVERYONE"],
+  triggers: {
+    postConfirmation,
+  },
+  access: (allow) => [
+    allow.resource(postConfirmation).to(["addUserToGroup"]),
+  ],
+})
+```
+
+Then create the Function's corresponding handler file, `amplify/auth/post-confirmation/handler.ts`, file with the following contents:
 
 ```ts title="amplify/auth/post-confirmation/handler.ts"
 import type { PostConfirmationTriggerHandler } from 'aws-lambda';
@@ -80,20 +104,6 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
   console.log('processed', response.$metadata.requestId);
   return event;
 };
-```
-
-Lastly, set the newly created Function resource on your auth resource:
-
-```ts title="amplify/auth/resource.ts"
-import { defineAuth } from '@aws-amplify/backend';
-import { postConfirmation } from './post-confirmation/resource';
-
-export const auth = defineAuth({
-  // ...
-  triggers: {
-    postConfirmation
-  }
-});
 ```
 
 After deploying the changes, whenever a user signs up and verifies their account they are automatically added to the group named "EVERYONE".

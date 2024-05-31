@@ -105,7 +105,9 @@ export const Layout = ({
   const title = [
     pageTitle,
     platform ? PLATFORMS[platform] : null,
-    isGen1 ? 'AWS Amplify Gen 1 Documentation' : 'AWS Amplify Documentation'
+    isGen1
+      ? 'AWS Amplify Gen 1 Documentation'
+      : 'AWS Amplify Gen 2 Documentation'
   ]
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
