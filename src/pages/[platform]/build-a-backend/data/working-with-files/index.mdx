@@ -315,7 +315,6 @@ if (!updatedSong?.coverArtPath) return;
 
 // Retrieve the file's signed URL:
 const signedURL = await getUrl({ path: updatedSong.coverArtPath });
-
 ```
 
 </InlineFilter>
@@ -323,7 +322,39 @@ const signedURL = await getUrl({ path: updatedSong.coverArtPath });
 ## Query a record and retrieve the associated file
 
 To retrieve the file associated with a record, first query the record, then use Storage to get the signed URL. The signed URL can then be used to download the file, display an image, etc:
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+import Amplify
 
+do {
+    let result = try await Amplify.API.query(request: .get(Song.self, byId: song.id))
+
+    switch result {
+    case .success(let song):
+
+        // If the record has no associated file, we can return early.
+        if (song?.coverArtPath == nil) {
+            print("No associated file")
+            return
+        } else {
+
+            // Retrieve the file's signed URL:
+            let signedUrl = try await Amplify.Storage.getURL(key: song!.coverArtPath!)
+        }
+    case .failure(let error):
+        print("Got failed result with \(error.errorDescription)")
+    }
+} catch let error as APIError {
+    print("Failed to retrieve song: ", error)
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 import { generateClient } from "aws-amplify/api";
 import { getUrl } from "aws-amplify/storage";
@@ -337,6 +368,7 @@ const client = generateClient<Schema>({
 const response = await client.models.Song.get({
   id: currentSong.id,
 });
+
 const song = response.data;
 
 // If the record has no associated file, we can return early.
@@ -346,6 +378,7 @@ if (!song?.coverArtPath) return;
 const signedURL = await getUrl({ path: song.coverArtPath });
 
 ```
+</InlineFilter>
 
 ## Delete and remove files associated with API records
 
