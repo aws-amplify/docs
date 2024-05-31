@@ -124,6 +124,67 @@ The API record's `id` is prepended to the Storage file name to ensure uniqueness
 
 </Callout>
 
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+import Amplify
+
+// Create the API record:
+var song = Song(name: "My first song")
+
+do {
+    let result = try await Amplify.API.mutate(request: .create(song))
+
+    switch result {
+    case .success(let newSong):
+        song = newSong
+    case .failure(let error):
+        print("Got failed result with \(error.errorDescription)")
+    }
+} catch let error as APIError {
+    print("Failed to create song: ", error)
+} catch {
+    print("Unexpected error: \(error)")
+}
+
+// Upload the Storage file:
+let uploadTask = Amplify.Storage.uploadData(
+    path: .fromString("images/\(song.id)-cover.png"),
+    data: imageData
+)
+
+let key = try await uploadTask.value
+
+// Add the file association to the record:
+var updatedSong = Song(id: song.id, name: song.name, coverArtPath: key)
+
+do {
+    let updateResult = try await Amplify.API.mutate(request: .update(updatedSong))
+
+    switch updateResult {
+    case .success(let song):
+        updatedSong = song
+    case .failure(let error):
+        print("Got failed result with \(error.errorDescription)")
+    }
+} catch let error as APIError {
+    print("Failed to create song: ", error)
+} catch {
+    print("Unexpected error: \(error)")
+}
+
+// If the record has no associated file, we can return early.
+if (updatedSong.coverArtPath == nil) {
+    print("No associated file")
+    return
+};
+
+// Retrieve the file's signed URL:
+let signedUrl = try await Amplify.Storage.getURL(key: updatedSong.coverArtPath!)
+```
+</InlineFilter>
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
 ```ts title="src/App.tsx"
 
 import { generateClient } from "aws-amplify/api";
@@ -168,13 +229,57 @@ if (!updatedSong.coverArtPath) return;
 
 // Retrieve the file's signed URL:
 const signedURL = await getUrl({ path: updatedSong.coverArtPath });
-
-
 ```
+</InlineFilter>
 
 ## Add or update a file for an associated record
 
 To associate a file with a record, update the record with the key returned by the Storage upload. The following example uploads the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image.
+
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+import Amplify
+
+// Upload the Storage file:
+let uploadTask = Amplify.Storage.uploadData(
+    path: .fromString("images/\(song.id)-cover.png"),
+    data: imageData
+)
+
+let path = try await uploadTask.value
+
+// Add the file association to the record:
+var updatedSong = Song(id: song.id, name: song.name, coverArtPath: path)
+
+do {
+    let updateResult = try await Amplify.API.mutate(request: .update(updatedSong))
+
+    switch updateResult {
+    case .success(let song):
+        updatedSong = song
+    case .failure(let error):
+        print("Got failed result with \(error.errorDescription)")
+    }
+} catch let error as APIError {
+    print("Failed to create song: ", error)
+} catch {
+    print("Unexpected error: \(error)")
+}
+
+// If the record has no associated file, we can return early.
+if (updatedSong.coverArtPath == nil) {
+    print("No associated file")
+    return
+};
+
+// Retrieve the file's signed URL:
+let signedUrl = try await Amplify.Storage.getURL(key: updatedSong.coverArtPath!)
+```
+</InlineFilter>
+
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 
 ```ts title="src/App.tsx"
 import { generateClient } from "aws-amplify/api";
@@ -212,6 +317,8 @@ if (!updatedSong?.coverArtPath) return;
 const signedURL = await getUrl({ path: updatedSong.coverArtPath });
 
 ```
+
+</InlineFilter>
 
 ## Query a record and retrieve the associated file
 
@@ -736,7 +843,7 @@ function App({ signOut, user }: WithAuthenticatorProps) {
   const [currentImageUrl, setCurrentImageUrl] = useState<
     string | null | undefined
     >("");
-  
+
   async function createSongWithImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
     const file = e.target.files[0];
@@ -926,7 +1033,7 @@ function App({ signOut, user }: WithAuthenticatorProps) {
 
       // Delete the record from the API:
       await client.models.Song.delete({ id: song.id });
-      
+
       clearLocalState();
 
     } catch (error) {
