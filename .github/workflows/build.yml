@@ -3,6 +3,8 @@ on:
   pull_request:
     branches: [main, next-release/main]
     types: [opened, synchronize]
+env:
+  BUILD_DIR: 'client/www/next-build'
 jobs:
   build:
     name: Build
@@ -17,8 +19,15 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Run tests
-        run: yarn prebuild && yarn test
+        run: yarn prebuild && yarn test:unit
       - name: Run Build
         run: yarn build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+      - name: Run site
+        run: | 
+          python -m http.server 3000 -d ${{ env.BUILD_DIR }} &
+          sleep 5
+      - name: Run E2E Tests
+        run: yarn test:e2e
+  

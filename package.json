@@ -58,6 +58,7 @@
     "jest": "^29.7.0",
     "jest-cli": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "jest-puppeteer": "^10.0.1",
     "json5": "^2.2.3",
     "lint-staged": "^14.0.0",
     "next-bundle-analyzer": "^0.6.7",
@@ -100,7 +101,8 @@
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
     "refresh": "yarn clean && yarn",
-    "test": "jest --coverage",
+    "test:unit": "jest --projects jest.unit.config.js --coverage",
+    "test:e2e": "jest --projects e2e/jest.e2e.config.js",
     "dev": "yarn prebuild && next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
