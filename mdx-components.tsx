@@ -22,6 +22,11 @@ import { InternalLinkButton } from './src/components/InternalLinkButton';
 import { Grid, View } from '@aws-amplify/ui-react';
 import { Columns } from './src/components/Columns';
 import { Video } from './src/components/Video';
+import {
+  ReferenceTable,
+  ReferenceList,
+  ReferenceExample
+} from './src/components/Reference';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -71,6 +76,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Columns,
     Video,
     View,
+    ReferenceTable,
+    ReferenceList,
+    ReferenceExample,
     ...components
   };
 }
