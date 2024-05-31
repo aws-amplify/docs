@@ -24,7 +24,7 @@
   z-index: 5;
   box-shadow: var(--navbar-box-shadow);
   @include darkMode {
-    --navbar-background-color: var(--amplify-colors-primary-40);
+    --navbar-background-color: #ccc;
   }
 }
 
