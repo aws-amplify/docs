@@ -43,6 +43,9 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/start/platform-setup/index.mdx'
             }
           ]
         },
