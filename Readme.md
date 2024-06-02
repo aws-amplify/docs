@@ -6,7 +6,7 @@
 
 ### Prerequisites
 
-- [Node.js 16.14.0 or later](https://nodejs.org/en/)
+- [Node.js 18.17.0 or later, but below 22.0.0](https://nodejs.org/en/)
 - [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 
 ## Set up the docs repo
