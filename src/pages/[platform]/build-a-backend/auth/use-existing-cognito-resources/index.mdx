@@ -31,9 +31,9 @@ export function getStaticProps(context) {
 
 Amplify Auth can be configured to use an existing Amazon Cognito user pool and identity pool. If you are in a team setting or part of a company that has previously created auth resources, you have a few different options to configure your application to use existing auth resources.
 
-If you are using Amplify to build your backend, it is recommended to [add a reference to your auth resource using `backend.addOutput`](#add-auth-as-a-backend-output).
+If you are using Amplify to build your backend, it is recommended to [add a reference to your auth resource using `backend.addOutput`](#use-auth-resources-with-an-amplify-backend).
 
-If you do not use Amplify to build your backend, you can [configure the client library directly](#configure-the-client-library-directly).
+If you do not use Amplify to build your backend, you can [configure the client library directly](#use-auth-resources-without-an-amplify-backend).
 
 <Callout info>
 
@@ -41,7 +41,7 @@ If you do not use Amplify to build your backend, you can [configure the client l
 
 </Callout>
 
-## Add auth as a backend output
+## Use auth resources with an Amplify backend
 
 The easiest way to get started with your existing resource is to use `backend.addOutput` to surface auth configuration to `amplify_outputs.json` automatically. In it's simplest form:
 
@@ -130,7 +130,7 @@ backend.addOutput({
 })
 ```
 
-## Configure the client library directly
+## Use auth resources without an Amplify backend
 
 Alternatively, you can use existing resources without an Amplify backend.
 
