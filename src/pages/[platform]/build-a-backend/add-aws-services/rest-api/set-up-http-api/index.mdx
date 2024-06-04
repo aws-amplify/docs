@@ -109,7 +109,6 @@ const httpLambdaIntegration = new HttpLambdaIntegration(
 // create a new HTTP API with IAM as default authorizer
 const httpApi = new HttpApi(apiStack, "HttpApi", {
   apiName: "myHttpApi",
-  defaultAuthorizer: iamAuthorizer,
   corsPreflight: {
     // Modify the CORS settings below to match your specific requirements
     allowMethods: [
@@ -137,7 +136,15 @@ httpApi.addRoutes({
 // add a proxy resource path to the API
 httpApi.addRoutes({
   path: "/items/{proxy+}",
-  methods: [HttpMethod.OPTIONS, HttpMethod.ANY],
+  methods: [HttpMethod.ANY],
+  integration: httpLambdaIntegration,
+  authorizer: iamAuthorizer,
+});
+
+// add the options method to the route
+httpApi.addRoutes({
+  path: "/items/{proxy+}",
+  methods: [HttpMethod.OPTIONS],
   integration: httpLambdaIntegration,
 });
 
@@ -155,8 +162,9 @@ const apiPolicy = new Policy(apiStack, "ApiPolicy", {
     new PolicyStatement({
       actions: ["execute-api:Invoke"],
       resources: [
-        `${httpApi.arnForExecuteApi("items")}`,
-        `${httpApi.arnForExecuteApi("cognito-auth-path")}`,
+        `${httpApi.arnForExecuteApi("*", "/items")}`,
+        `${httpApi.arnForExecuteApi("*", "/items/*")}`,
+        `${httpApi.arnForExecuteApi("*", "/cognito-auth-path")}`,
       ],
     }),
   ],
