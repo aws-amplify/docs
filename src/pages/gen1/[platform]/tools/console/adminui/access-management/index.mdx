@@ -119,22 +119,22 @@ If you need help, contact your AWS administrator. Your administrator is the pers
 
 If you need to update the [Cognito Lambda triggers](/gen1/[platform]/tools/console/adminui/access-management/#cognito-lambda-triggers) runtime, you can do so by updating the Lambda functions triggers associated with the Cognito User Pool named **`amplify_backend_manager_<app-id>`**.
 
-1. Log in to the AWS Management Console, open the Amplify console and select your Amplify project with Amplify Studio enabled.
-2. Retrieve the App-ID present on the overview page under the App name.
-3. Go to Amazon Cognito, select `User pools`. Search for the user pool with the App-Id. You will observe the app user pool with the naming format `amplify_backend_manager_<app-id>`.
-4. Click on the user pool and go to `User Pool Properties` which should display the `Lambda Triggers`. 
-![Cognito Lambda Triggers](/images/studio/lambda-triggers-studio.png)
-5. For each lambda trigger, click on the link specified in the `Attached Lambda Function`. Note, If your lambda trigger is `Verify auth challenge response Lambda trigger` the function requires additional steps provided on [Update verify auth challenge response Lambda trigger](/gen1/[platform]/tools/console/adminui/access-management/#update-verify-auth-challenge-response-lambda-trigger) section. 
-6. Click on `Edit runtime settings` and change the runtime to `Node.js 20.x` from the drop-down options.
+1. Log in to the **AWS Management Console**, open the **Amplify console** and select your Amplify project with Amplify Studio enabled.
+2. Retrieve the App ID present on the overview page under the App name.
+3. Go to **Amazon Cognito console**, select **User pools**. Search for the user pool with the App Id. You will observe the app user pool with the naming format `amplify_backend_manager_<app-id>`.
+4. Select the user pool and go to **User Pool Properties** which should display the **Lambda Triggers**. 
+![Cognito Lambda Triggers created by studio](/images/studio/lambda-triggers-studio.png)
+5. For each lambda trigger, select the link specified in the **Attached Lambda Function** column. Note, If your lambda trigger is **Verify auth challenge response Lambda trigger** the function requires additional steps provided on [Update verify auth challenge response Lambda trigger](/gen1/[platform]/tools/console/adminui/access-management/#update-verify-auth-challenge-response-lambda-trigger) section. 
+6. Select **Edit runtime settings** and change the runtime to **Node.js 20.x** from the drop-down options.
 ![Lambda runtime](/images/studio/lambda_runtime.png)
-7. Click `Save`.
+7. Finally, select **Save**.
 
 ### Update verify auth challenge response Lambda trigger
 
-This function requires code change as Lambda with `NodeJS 20.x` use a newer version of `aws-sdk`.
+This function requires code change as Lambda with **NodeJS 20.x** use a newer version of **aws-sdk**.
 
 1. Go to Lambda Code Source and select `index.js` file.
-![Lambda source code](/images/studio/trigger_source_code.png)
+![Lambda source code section for a Cognito trigger resource](/images/studio/trigger_source_code.png)
 2. Replace the contents of `index.js` with the following:
 
 ```js
@@ -214,4 +214,4 @@ class AmplifyBackendService {
 exports.AmplifyBackendService = AmplifyBackendService;
 ```
 
-3. Click `Deploy` to save the changes.
+3. Finally, select **Deploy** to save the changes.
