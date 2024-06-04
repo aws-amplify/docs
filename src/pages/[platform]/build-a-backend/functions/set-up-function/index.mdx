@@ -24,6 +24,7 @@ export function getStaticPaths() {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -52,7 +53,9 @@ export const sayHello = defineFunction({
 Next, create the corresponding handler file at `amplify/functions/say-hello/handler.ts`. This is where your function code will go.
 
 ```ts title="amplify/functions/say-hello/handler.ts"
-export const handler = async (event) => {
+import { Handler } from 'aws-lambda';
+
+export const handler: Handler = async (event, context) => {
   // your function code goes here
   return 'Hello, World!';
 };

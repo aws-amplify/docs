@@ -30,11 +30,37 @@ export function getStaticProps() {
 
 Amplify provides a client library that enables you to interact with backend resources such as Amplify Auth.
 
+<InlineFilter filters={["react"]}>
 <Callout info>
 
 The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
 
 </Callout>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/swift/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/flutter/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/android/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
 
 {/* signOut api definition */}
 
@@ -239,17 +265,17 @@ func signOutLocally() async {
         // Sign Out completed with some errors. User is signed out of the device.
         
         if let hostedUIError = hostedUIError {
-            print("HostedUI error  \(String(describing: hostedUIError))
+            print("HostedUI error  \(String(describing: hostedUIError))")
         }
 
         if let globalSignOutError = globalSignOutError {
             // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
-            print("GlobalSignOut error  \(String(describing: globalSignOutError))
+            print("GlobalSignOut error  \(String(describing: globalSignOutError))")
         }
 
         if let revokeTokenError = revokeTokenError {
             // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
-            print("Revoke token error  \(String(describing: revokeTokenError))
+            print("Revoke token error  \(String(describing: revokeTokenError))")
         }
 
     case .failed(let error):
@@ -281,17 +307,17 @@ func signOutLocally() -> AnyCancellable {
         case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
             // Sign Out completed with some errors. User is signed out of the device.
             if let hostedUIError = hostedUIError {
-                print("HostedUI error  \(String(describing: hostedUIError))
+                print("HostedUI error  \(String(describing: hostedUIError))")
             }
 
             if let globalSignOutError = globalSignOutError {
                 // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
-                print("GlobalSignOut error  \(String(describing: globalSignOutError))
+                print("GlobalSignOut error  \(String(describing: globalSignOutError))")
             }
 
             if let revokeTokenError = revokeTokenError {
                 // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
-                print("Revoke token error  \(String(describing: revokeTokenError))
+                print("Revoke token error  \(String(describing: revokeTokenError))")
             }
 
         case .failed(let error):

@@ -55,12 +55,12 @@ In the example above, everyone (`public`) can read every Post but authenticated 
 Use the guide below to select the correct authorization strategy for your use case:
 
 | **Recommended use case** | **Strategy** | **`authMode`** |
-|---|---|---|
+|--------------------------|--------------|----------------|
 | [Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access.](/[platform]/build-a-backend/data/customize-authz/public-data-access) | `publicApiKey` | `apiKey` |
 | [Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using Amazon Cognito identity pool's role for unauthenticated identities.]( /[platform]/build-a-backend/data/customize-authz/public-data-access/#add-public-authorization-rule-using-iam-authentication) | `guest` | `identityPool` |
-| [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner`/`ownerDefinedIn`/`ownersDefinedIn` | `userPools` / `oidc` |
-| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/[platform]/build-a-backend/data/customize-authz/signed-in-user-data-access) | `authenticated` | `userPools` / `oidc` / `identityPool` |
-| [Per user group data access. A specific or dynamically configured group of users has access.](/[platform]/build-a-backend/data/customize-authz/user-group-based-data-access) | `group`/`groupDefinedIn`/`groups`/`groupsDefinedIn` | `userPools` / `oidc` |
+| [Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify/auth/resource.ts` Cognito user pool by default.](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access) | `owner`/`ownerDefinedIn`/`ownersDefinedIn` | `userPool` / `oidc` |
+| [Any signed-in data access. Unlike owner-based access, **any** signed-in user has access.](/[platform]/build-a-backend/data/customize-authz/signed-in-user-data-access) | `authenticated` | `userPool` / `oidc` / `identityPool` |
+| [Per user group data access. A specific or dynamically configured group of users has access.](/[platform]/build-a-backend/data/customize-authz/user-group-based-data-access) | `group`/`groupDefinedIn`/`groups`/`groupsDefinedIn` | `userPool` / `oidc` |
 | [Define your own custom authorization rule within a serverless function.](/[platform]/build-a-backend/data/customize-authz/custom-data-access-patterns) | `custom` | `lambda` |
 
 ## Understand how authorization rules are applied
@@ -69,7 +69,7 @@ Authorization rules can be applied globally across all data models in a schema, 
 
 Amplify will always use the most specific authorization rule that is available. For example, if there is an authorization rule for a field and an authorization rule for the model that the field belongs to, Amplify will evaluate against the field-level authorization rule. Review [Field-level authorization rules](#field-level-authorization-rules) to learn more.
 
-If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more.
+If there are multiple authorization rules present, they will be logically OR'ed. Review [Configure multiple authorization rules](#configure-multiple-authorization-rules) to learn more. For `userPools` and `oidc` authorization modes, the rules are evaluated in the sequence `authenticated` > `group(s)` > `owner(s)DefinedIn` > `group(s)DefinedIn`.
 
 ### Global authorization rule (only for getting started)
 
@@ -164,6 +164,8 @@ const schema = a.schema({
 
 On the client side, make sure to always authenticate with the corresponding authorization mode.
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+
 ```ts
 import { generateClient } from 'aws-amplify/data'
 import type { Schema } from '@/amplify/data/resource' // Path to your backend resource definition
@@ -183,6 +185,44 @@ const { data: listPostsResult , errors } = await client.models.Post.list({
 	authMode: 'identityPool',
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+Creating a post is restricted to Cognito User Pools.
+
+```swift
+do {
+    let post = Post(title: "Hello World")
+    let createdTodo = try await Amplify.API.mutate(request: .create(
+        post,
+        authMode: .amazonCognitoUserPools)).get()
+} catch {
+    print("Failed to create post", error)
+}
+```
+
+Listing posts is available to unauthenticated users (verified by Amazon Cognito identity pool's unauthenticated role)
+
+```swift
+do {
+    let queriedPosts = try await Amplify.API.query(request: .list(
+        Post.self,
+        authMode: .awsIAM)).get()
+    print("Number of posts:", queriedPosts.count)
+} catch {
+    print("Failed to list posts", error)
+}
+```
+
+</InlineFilter>
+
+<Callout info>
+
+**Note**: Authorization rules are only supported on data models (model-level and field-level) and custom operations (queries, mutations and subscriptions). They are not fully supported on custom types.
+
+</Callout>
 
 ## Learn more about specific authorization strategies
 

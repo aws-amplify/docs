@@ -24,17 +24,11 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
 }
-
-<InlineFilter filters={['flutter']}>
-<Callout warning>
-
-Storage for Gen 2 is not yet available for Flutter
-</Callout>
-</InlineFilter>
 
 Customize authorization for your storage bucket by defining access to file paths for guests, authenticated users, and user groups. Access can also be defined for functions that require access to the storage bucket.
 

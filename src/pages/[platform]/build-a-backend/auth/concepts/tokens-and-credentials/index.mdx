@@ -253,8 +253,14 @@ class InMemoryStorage implements SecureStorageInterface {
 </InlineFilter>
 
 ## Token Revocation
-
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android", "flutter"]}>
 Token revocation is enabled automatically in Amplify Auth. To revoke tokens you can set up global sign-out with `signOut({ global: true })` to globally sign out your user from all of their devices.
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+Token revocation is enabled automatically in Amplify Auth. To revoke tokens you can invoke `await Amplify.Auth.signOut(options: .init(globalSignOut: true))` to globally sign out your user from all of their devices.
+</InlineFilter>
+
 
 ## Next steps
 

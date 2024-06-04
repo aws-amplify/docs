@@ -69,8 +69,14 @@ npx ampx sandbox
 <InlineFilter filters={['flutter']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --config-format dart --config-out-dir lib
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
 ```
+
+<Callout info>
+
+**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
+
+</Callout>
 
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -368,14 +374,10 @@ flutter pub add amplify_authenticator
 or you can update your `pubspec.yaml` file with the following
 
 ```yaml
-environment:
-  sdk: ">=2.18.0 <4.0.0"
-  flutter: ">=3.3.0"
-
 dependencies:
-  amplify_flutter: ^1.0.0
-  amplify_auth_cognito: ^1.0.0
-  amplify_authenticator: ^1.0.0
+  amplify_flutter: ^2.0.0
+  amplify_auth_cognito: ^2.0.0
+  amplify_authenticator: ^2.0.0
 ```
 
 and run the following command to download the libraries.
@@ -385,12 +387,6 @@ flutter pub get
 ```
 
 Next, update your `main.dart` file with the following:
-
-<Callout info>
-
-**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
-
-</Callout>
 
 ```dart
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
@@ -608,21 +604,16 @@ Move the generated files to your project. You can do this by dragging and droppi
 
 Open your project in Xcode and select File > Add Packages... and add the following dependencies:
 
-- Amplify Library for Swift: Enter its [GitHub URL](https://github.com/aws-amplify/amplify-swift), *select Up to Next Major Version* and click *Add Package*
+- Amplify Library for Swift: Enter its GitHub URL (https://github.com/aws-amplify/amplify-swift), *select Up to Next Major Version* and click *Add Package*
 
   - Select the following libraries:
     - Amplify
     - AWSCognitoAuthPlugin
 
-- Amplify UI Swift - Authenticator: Enter its [GitHub URL](https://github.com/aws-amplify/amplify-ui-swift-authenticator), *select Up to Next Major Version* and click *Add Package*
+- Amplify UI Swift - Authenticator: Enter its GitHub URL (https://github.com/aws-amplify/amplify-ui-swift-authenticator), *select Up to Next Major Version* and click *Add Package*
 
   - Select the following library:
     - Authenticator
-
-Once you are done, add the API dependencies to your project. Select **File > Add Package Dependencies...** and add the `AWSAPIPlugin`.
-
-![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
-
 
 Next, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
 

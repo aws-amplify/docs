@@ -1,5 +1,6 @@
 .feedback {
-  padding-top: var(--amplify-space-xl);
+  padding: var(--amplify-space-xl) var(--amplify-space-xxxs)
+    var(--amplify-space-xxxs);
   overflow: hidden;
 }
 
@@ -12,7 +13,6 @@
   font-size: 0.9rem;
   justify-content: center;
   gap: 0;
-  // pointer-events: none;
   visibility: hidden;
   &-no {
     &:hover {

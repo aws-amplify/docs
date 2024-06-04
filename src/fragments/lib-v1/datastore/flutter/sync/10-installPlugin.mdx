@@ -5,7 +5,7 @@ Although DataStore presents a distinct API, its cloud synchronization functional
 Make sure you have the following plugin dependency in your `pubspec.yaml`.
 
 ```yaml
-amplify_api: ^0.6.0
+amplify_api: ^1.0.0
 ```
 
 Locate your Amplify initialization code, and add an `AmplifyAPI()` plugin. Your initialization code should already include an `AmplifyDataStore()` plugin from previous steps. Note the new `import` statement for API towards the top of the file.
@@ -13,11 +13,10 @@ Locate your Amplify initialization code, and add an `AmplifyAPI()` plugin. Your 
 Be sure to import your API library first:
 
 ```dart
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_datastore/amplify_datastore.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-// Add the following line
+// import the Amplify API plugin
 import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'amplifyconfiguration.dart';
 import 'models/ModelProvider.dart';

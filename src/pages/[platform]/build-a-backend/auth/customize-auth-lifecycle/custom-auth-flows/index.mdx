@@ -60,123 +60,6 @@ For more information on adding capabilities to your application, see [Xcode Capa
 
 The custom auth flow can be [configured manually](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
 
-## Register a user
-
-The flow as mentioned above requires a username and a valid email id as parameters to register a user. Invoke the following api to initiate a sign up flow.
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func signUp(username: String, email: String) async {
-    let userAttributes = [AuthUserAttribute(.email, value: email)]
-    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
-    do {
-        let signUpResult = try await Amplify.Auth.signUp(
-            username: username,
-            password: UUID().uuidString,
-            options: options
-        )
-
-        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
-        } else {
-            print("Signup Complete")
-        }
-    } catch let error as AuthError {
-        print("An error occurred while registering a user \(error)")
-    } catch {
-        print("Unexpected error: \(error)")
-    }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func signUp(username: String, password: String, email: String) -> AnyCancellable {
-    let userAttributes = [AuthUserAttribute(.email, value: email)]
-    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
-    let sink = Amplify.Publisher.create {
-        try await Amplify.Auth.signUp(
-            username: username,
-            password: UUID().uuidString,
-            options: options
-        )
-    }.sink {
-        if case let .failure(authError) = $0 {
-            print("An error occurred while registering a user \(authError)")
-        }
-    }
-    receiveValue: { signUpResult in
-        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
-        } else {
-            print("Signup Complete")
-        }
-
-    }
-    return sink
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email id provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-func confirmSignUp(for username: String, with confirmationCode: String) async {
-    do {
-        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
-            for: username,
-            confirmationCode: confirmationCode
-        )
-        print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
-    } catch let error as AuthError {
-        print("An error occurred while confirming sign up \(error)")
-    } catch {
-        print("Unexpected error: \(error)")
-    }
-}
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
-    Amplify.Publisher.create {
-        try await Amplify.Auth.confirmSignUp(for: username, confirmationCode: confirmationCode)
-        }.sink {
-            if case let .failure(authError) = $0 {
-                print("An error occurred while confirming sign up \(authError)")
-            }
-        }
-        receiveValue: { _ in
-            print("Confirm signUp succeeded")
-        }
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-You will know the sign up flow is complete if you see the following in your console window:
-
-```console
-Confirm signUp succeeded
-```
 ## Sign in a user
 
 Implement a UI to get the username from the user. After the user enters the username you can start the sign in flow by calling the following method:
@@ -731,9 +614,8 @@ RxAmplify.Auth.signIn("username", "password", options)
 The Auth category can be configured to perform a [custom authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html) defined by you. The following guide shows how to setup a simple passwordless authentication flow.
 
 ## Prerequisites
-A Flutter application targeting Flutter SDK >= 3.3.0 with Amplify libraries integrated.
 
-Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#platform-setup) for more details on platform specific setup.
+Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Refer to [Flutter's supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms) when targeting Web, Windows, or Linux. Additional setup is required for some target platforms. Please see the [platform setup](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#platform-setup) for more details on platform specific setup.
 
 ## Configure Auth
 

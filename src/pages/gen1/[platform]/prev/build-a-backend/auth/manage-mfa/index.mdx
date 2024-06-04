@@ -27,6 +27,10 @@ export function getStaticProps(context) {
   };
 }
 
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
 <InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
 
 The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. Amplify Auth supports the MFA methods with Time-based-One-Time Passwords (TOTP) as well as text messages (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. We’ll also review how to set up MFA to remember a device and reduce sign-in friction for your users.
@@ -824,3 +828,7 @@ Now that you completed setting up multi-factor authentication you may also want 
 </InlineFilter>
 
 </InlineFilter>
+
+import flows from '/src/fragments/lib-v1/auth/common/mfa/flows.mdx';
+
+<Fragments fragments={{flutter: flows}} />

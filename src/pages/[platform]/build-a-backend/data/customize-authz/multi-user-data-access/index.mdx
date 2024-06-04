@@ -24,6 +24,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -40,10 +41,13 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
+      owners: a.string().array(),
     })
     .authorization(allow => [allow.ownersDefinedIn('owners')]),
 });
 ```
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
 
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
 
@@ -65,8 +69,10 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   // highlight-end
 );
 ```
+
+Add another user as an owner
+
 ```ts
-// Add another user as an owner
 await client.models.Todo.update(
   {
     id: newTodo.id,
@@ -79,6 +85,38 @@ await client.models.Todo.update(
   // highlight-end
 );
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your application, you can perform CRUD operations against the model with the `amazonCognitoUserPools` auth mode.
+
+```swift
+do {
+    let todo = Todo(content: "My new todo")
+    let createdTodo = try await Amplify.API.mutate(request: .create(
+        todo,
+        authMode: .amazonCognitoUserPools)).get()
+} catch {
+    print("Failed to create todo", error)
+}
+```
+
+Add another user as an owner
+
+```swift
+do {
+    createdTodo.owners?.append(otherUserId)
+    let updatedTodo = try await Amplify.API.mutate(request: .update(
+        createdTodo,
+        authMode: .amazonCognitoUserPools)).get()
+} catch {
+    print("Failed to update todo", error)
+}
+```
+
+</InlineFilter>
 
 ## Override to a list of owners
 

@@ -21,6 +21,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -70,7 +71,7 @@ import { Amplify } from "aws-amplify";
 
 // configure the Amplify client library
 if (process.client) {
-  Amplify.configure(config, { ssr: true });
+  Amplify.configure(outputs, { ssr: true });
 }
 
 // generate your data client using the Schema from your backend
