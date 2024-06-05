@@ -43,6 +43,9 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/start/platform-setup/index.mdx'
             }
           ]
         },
@@ -170,6 +173,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-existing-cognito-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/use-aws-sdk/index.mdx'

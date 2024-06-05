@@ -450,7 +450,7 @@ function App() {
   return (
     // highlight-start
     <Authenticator>
-      {({ signOut, user }) => (
+      {({ signOut }) => (
     // highlight-end
         <main>
           {/*...*/}
@@ -1263,17 +1263,26 @@ You can follow the [official documentation](https://flutter.dev/docs/get-started
 
 Once you have installed Flutter, you can create a new Flutter project using the following command:
 
+<Callout info>
+In this Quickstart guide, you will build the application for web. However, if you want to run the application on other platforms, be sure to follow the required setup [guide here](/[platform]/start/platform-setup/).
+</Callout>
+
 ```bash title="Terminal" showLineNumbers={false}
 flutter create my_amplify_app
 ```
 
 ## Create Backend
 
-The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
+The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory. First, go to the base project directory with the following command:
 
 ```bash title="Terminal" showLineNumbers={false}
-npm create amplify@latest
-? Where should we create your project? (.) # press enter
+cd my_amplify_app
+```
+
+After that, run the following to create an Amplify project:
+
+```bash title="Terminal" showLineNumbers={false}
+npm create amplify@latest -y
 ```
 
 Running this command will scaffold Amplify backend files in your current project with the following files added:
@@ -1316,7 +1325,7 @@ npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
 
 ## Adding Authentication
 
-The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
+The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
 The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library.
 
@@ -1364,7 +1373,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -1457,10 +1466,14 @@ Future<void> _configureAmplify() async {
     await Amplify.addPlugins(
       [
         AmplifyAuthCognito(),
-        AmplifyAPI(modelProvider: ModelProvider.instance),
+        AmplifyAPI(
+          options: APIPluginOptions(
+            modelProvider: ModelProvider.instance,
+          ),
+        ),
       ],
     );
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -1468,7 +1481,7 @@ Future<void> _configureAmplify() async {
 }
 ```
 
-Next create a new widget called `TodoScreen` and add the following code:
+Next create a new widget called `TodoScreen` and add the following code to the end of the **main.dart** file:
 
 ```dart title="main.dart"
 
@@ -1490,8 +1503,6 @@ class _TodoScreenState extends State<TodoScreen> {
             id: uuid(),
             content: "Random Todo ${DateTime.now().toIso8601String()}",
             isDone: false,
-            createdAt: TemporalDateTime(DateTime.now()),
-            updatedAt: TemporalDateTime(DateTime.now()),
           );
           final request = ModelMutations.create(newTodo);
           final response = await Amplify.API.mutate(request: request).response;
@@ -1500,7 +1511,6 @@ class _TodoScreenState extends State<TodoScreen> {
           } else {
             safePrint('Creating Todo successful.');
           }
-          _refreshTodos();
         },
       ),
       body: const Placeholder(),
@@ -1572,36 +1582,59 @@ Future<void> _refreshTodos() async {
 }
 ```
 
-and update the body with the following code:
+and update the `build` function like the following:
 
 ```dart title="main.dart"
-body: _todos.isEmpty == true
-    ? const Center(
-        child: Text(
-          "The list is empty.\nAdd some items by clicking the floating action button.",
-          textAlign: TextAlign.center,
-        ),
-      )
-    : ListView.builder(
-        itemCount: _todos.length,
-        itemBuilder: (context, index) {
-          final todo = _todos[index];
-          return Dismissible(
-            key: UniqueKey(),
-            confirmDismiss: (direction) async {
-              return false;
-            },
-            child: CheckboxListTile.adaptive(
-              value: todo.isDone,
-              title: Text(todo.content!),
-              onChanged: (isChecked) async { },
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    floatingActionButton: FloatingActionButton.extended(
+      label: const Text('Add Random Todo'),
+      onPressed: () async {
+        final newTodo = Todo(
+          id: uuid(),
+          content: "Random Todo ${DateTime.now().toIso8601String()}",
+          isDone: false,
+        );
+        final request = ModelMutations.create(newTodo);
+        final response = await Amplify.API.mutate(request: request).response;
+        if (response.hasErrors) {
+          safePrint('Creating Todo failed.');
+        } else {
+          safePrint('Creating Todo successful.');
+        }
+        _refreshTodos();
+      },
+    ),
+    body: _todos.isEmpty == true
+        ? const Center(
+            child: Text(
+              "The list is empty.\nAdd some items by clicking the floating action button.",
+              textAlign: TextAlign.center,
             ),
-          );
-        },
-      ),
+          )
+        : ListView.builder(
+            itemCount: _todos.length,
+            itemBuilder: (context, index) {
+              final todo = _todos[index];
+              return Dismissible(
+                key: UniqueKey(),
+                confirmDismiss: (direction) async {
+                  return false;
+                },
+                child: CheckboxListTile.adaptive(
+                  value: todo.isDone,
+                  title: Text(todo.content!),
+                  onChanged: (isChecked) async {},
+                ),
+              );
+            },
+          ),
+  );
+}
 ```
 
-Now let's add a update and delete functionality.
+Now let's add the update and delete functionality.
 
 For update, add the following code to the `onChanged` method of the `CheckboxListTile.adaptive` widget:
 
@@ -1647,7 +1680,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#publishing-changes-to-cloud).
+For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 
