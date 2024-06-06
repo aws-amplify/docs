@@ -69,8 +69,14 @@ npx ampx sandbox
 <InlineFilter filters={['flutter']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --config-format dart --config-out-dir lib
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
 ```
+
+<Callout info>
+
+**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
+
+</Callout>
 
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -381,12 +387,6 @@ flutter pub get
 ```
 
 Next, update your `main.dart` file with the following:
-
-<Callout info>
-
-**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
-
-</Callout>
 
 ```dart
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';

@@ -90,9 +90,6 @@ Make sure that the file key used for Storage is unique. In this case, the API re
 
 </Callout>
 
-<BlockSwitcher>
-<Block name="Swift">
-
 ```swift
 let song = Song(name: name)
 
@@ -122,15 +119,9 @@ guard case .success(let updatedSong) = updateResult else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ## Add or update a file for an associated record
 
 To associate a new or different file with the record, update the existing record with the file key. The following example uploads the file using Storage and updates the record with the file's key. If an image is already associated with the record, this will update the record with the new image.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Upload the new art image
@@ -147,15 +138,9 @@ guard case .success(let updatedSong) = result else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ## Query a record and retrieve the associated file
 
 To retrieve the file associated with a record, first query the record, then use Storage to download the data to display an image:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Get the song record
@@ -180,9 +165,6 @@ let imageData = try await Amplify.Storage.downloadData(key: coverArtKey,
 let image = UIImage(data: imageData)
 ```
 
-</Block>
-</BlockSwitcher>
-
 ## Delete and remove files associated with API records
 
 There are three common deletion workflows when working with Storage files and the GraphQL API:
@@ -194,9 +176,6 @@ There are three common deletion workflows when working with Storage files and th
 ### Remove the file association, continue to persist both file and record
 
 The following example removes the file association from the record, but does not delete the file from S3 or the record from the DynamoDB instance.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Get the song record
@@ -223,15 +202,9 @@ guard case .success(let updatedSong) = updateResult else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ### Remove the file association and delete the file
 
 The following example removes the file from the record, then deletes the file from S3:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Get the song record
@@ -262,15 +235,9 @@ try await Amplify.Storage.remove(key: coverArtKey,
                                  options: .init(accessLevel: .private))
 ```
 
-</Block>
-</BlockSwitcher>
-
 ### Delete both file and record
 
 The following example deletes the record from DynamoDB and then deletes the file from S3:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Get the song record
@@ -298,9 +265,6 @@ guard case .success = deleteResult else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ## Working with multiple files
 
 You may want to add multiple files to a single record, such as a user profile with multiple images. To do this, you can add a list of file keys to the record. The following example adds a list of file keys to a record:
@@ -322,9 +286,6 @@ CRUD operations when working with multiple files is the same as when working wit
 ### Create a record with multiple associated files
 
 First create a record via the GraphQL API, then upload the files to Storage, and finally add the associations between the record and files.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Create the photo album record
@@ -368,15 +329,9 @@ guard case .success(let updatedAlbum) = updateResult else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ### Create a record with a single associated file
 
 When a schema allows for multiple associated images, you can still create a record with a single associated file.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Create the photo album record
@@ -402,15 +357,9 @@ guard case .success(let updatedAlbum) = updateResult else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ### Add new files to an associated record
 
 To associate additional files with a record, update the record with the keys returned by the Storage uploads.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Upload the new photo album image
@@ -447,15 +396,9 @@ guard case .success(let updatedAlbum) = updateResult else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ### Update the file for an associated record
 
 Updating a file for an associated record is the same as updating a file for a single file record, with the exception that you will need to update the list of file keys. The following replaces the last image in the album with a new image.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Upload the new photo album image
@@ -480,15 +423,9 @@ guard case .success(let updatedAlbum) = updateResult else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ### Query a record and retrieve the associated files
 
 To retrieve the files associated with a record, first query the record, then use Storage to retrieve all the images.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Get the song record
@@ -531,17 +468,11 @@ let images = await withTaskGroup(of: UIImage?.self) { group in
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 ### Delete and remove files associated with API records
 
 The workflow for deleting and removing files associated with API records is the same as when working with a single file, except that when performing a delete you will need to iterate over the list of files keys and call `Storage.remove()` for each file.
 
 #### Remove the file association, keep the persisted file and record
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Get the album record
@@ -568,13 +499,7 @@ guard case .success(let updatedAlbum) = updateResult else {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 #### Remove the file association and delete the files
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Get the album record
@@ -621,13 +546,7 @@ await withTaskGroup(of: Void.self) { group in
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 #### Delete the record and all associated files
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 // Get the album record
@@ -680,9 +599,6 @@ guard case .success = deleteResult else {
     return
 }
 ```
-
-</Block>
-</BlockSwitcher>
 
 ## Data consistency when working with records and files
 
