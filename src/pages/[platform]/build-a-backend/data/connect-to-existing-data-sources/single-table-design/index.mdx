@@ -166,6 +166,7 @@ const backend = defineBackend({
 });
 
 const racingTable = new Table(Stack.of(backend.data), "RacingTable", {
+  tableName: "RacingTable",
   partitionKey: {
     name: "pk",
     type: AttributeType.STRING,
