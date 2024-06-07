@@ -282,12 +282,10 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-postgres-mysql-database/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/index.mdx',
-                      children: [
-                        {
-                          path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/single-table-design/index.mdx'
-                        }
-                      ]
+                      path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/single-table-design/index.mdx'
                     }
                   ]
                 },
