@@ -672,6 +672,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/index.mdx'
                 }
               ]
             }
