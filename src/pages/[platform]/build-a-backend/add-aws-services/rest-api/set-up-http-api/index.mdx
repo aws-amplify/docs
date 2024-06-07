@@ -227,6 +227,7 @@ const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
   API: {
+    ...existingConfig.API,
     REST: outputs.custom.API,
   },
 });
@@ -243,6 +244,7 @@ const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
   API: {
+    ...existingConfig.API,
     REST: outputs.custom.API,
   },
 });

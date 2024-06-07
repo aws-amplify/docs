@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { MDXCode } from '../MDXCode';
+import { MDXCode, emptyCodeString } from '../MDXCode';
 
 jest.mock('react-copy-to-clipboard', () => ({
   CopyToClipboard: jest.fn().mockImplementation(({ children }) => {
@@ -181,5 +181,20 @@ describe('MDXCode', () => {
     expect(highlightedLines[0]).toContainHTML('result');
     expect(highlightedLines[1]).toContainHTML('value');
     expect(highlightedLines[2]).toContainHTML('}');
+  });
+
+  it('should throw an error for an empty codeblock string', async () => {
+    const mdxCode = <MDXCode codeString={''}></MDXCode>;
+    expect(() => {
+      render(mdxCode);
+    }).toThrow(emptyCodeString);
+  });
+
+  it('should throw an error if the codestring contains only whitespace', async () => {
+    const codeString = ' \t\n\r\v\f';
+    const mdxCode = <MDXCode codeString={codeString}></MDXCode>;
+    expect(() => {
+      render(mdxCode);
+    }).toThrow(emptyCodeString);
   });
 });

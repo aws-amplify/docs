@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { BlockSwitcherErrorMessage } from '../BlockSwitcher';
 import { BlockSwitcher } from '../index';
 import { Block } from '../index';
 
@@ -81,5 +82,14 @@ describe('BlockSwitcher', () => {
       expect(panels[1]).not.toHaveClass('amplify-tabs__panel--active');
       expect(panels[2]).toHaveClass('amplify-tabs__panel--active');
     });
+  });
+
+  it('should throw an error if only a single block exists', () => {
+    const singleBlock = (
+      <BlockSwitcher>
+        <Block name="JavaScript">{blockAContent}</Block>
+      </BlockSwitcher>
+    );
+    expect(() => render(singleBlock)).toThrow(BlockSwitcherErrorMessage);
   });
 });

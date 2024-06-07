@@ -6,6 +6,8 @@ import rehypeMdxCodeProps from 'rehype-mdx-code-props';
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
 import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
+
 dotenv.config({ path: './.env.custom' });
 
 const nextJSConfig = () => {
@@ -13,7 +15,11 @@ const nextJSConfig = () => {
     extension: /\.mdx$/,
     options: {
       remarkPlugins: [remarkGfm],
-      rehypePlugins: [[rehypeImgSize, { dir: 'public' }], rehypeMdxCodeProps]
+      rehypePlugins: [
+        [rehypeImgSize, { dir: 'public' }],
+        rehypeMdxCodeProps,
+        rehypeSlug
+      ]
     }
   });
 
