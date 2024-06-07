@@ -151,15 +151,15 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@aws-amplify/amplify-cli-core@^4.3.6":
-  version "4.3.6"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.3.6.tgz#2aaa9a03254060e9dba49995c07620351665b085"
-  integrity sha512-GY5Pcbk9IGtO6oMK3Qha1H2fH01HShva0cxLZaMfOwhaNPqXORJiMcpFWXSx9NMu9Gvj+iAt7yPiB04dANBk0w==
+"@aws-amplify/amplify-cli-core@^4.3.7":
+  version "4.3.7"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.3.7.tgz#d6fe559d17abd183f08b3f5c0f926befb7048c8d"
+  integrity sha512-GoGQS9jozt2Bw+su9/giv673qnGVbJX5s0js87Xap+PuBXIjfyKFytBAQIJ0KQQl7YacEtT7lQ/5TQdpXvejug==
   dependencies:
     "@aws-amplify/amplify-cli-logger" "1.3.8"
     "@aws-amplify/amplify-function-plugin-interface" "1.12.1"
     "@aws-amplify/amplify-prompts" "2.8.6"
-    "@aws-amplify/graphql-transformer-interfaces" "^3.7.0"
+    "@aws-amplify/graphql-transformer-interfaces" "^3.8.0"
     "@aws-sdk/util-arn-parser" "^3.310.0"
     "@yarnpkg/lockfile" "^1.1.0"
     ajv "^6.12.6"
@@ -296,10 +296,10 @@
     rxjs "^7.8.1"
     ulid "^2.3.0"
 
-"@aws-amplify/graphql-transformer-interfaces@^3.7.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.7.0.tgz#841cf2a8847ea4066584f85bcbe1c8da78371c65"
-  integrity sha512-fHGc8D78C3sIBNqKbS5KjGu2xDACSFdyS0YdwZiQu+MMMs7IWGnip8aogSFFgeCQ3kSHqrMUd+1CdI7Zh015Rg==
+"@aws-amplify/graphql-transformer-interfaces@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.8.0.tgz#6ca9baaab67b5639a67487d062fc81fc6ea83664"
+  integrity sha512-/VNL0x0CTGTQq/bcdytp7Q+o28nhIsvSZww2t/lpnF05My4EUDYHzmGoLIB6IB+1X1U6S+DiWVViqMPiLpkQNA==
   dependencies:
     graphql "^15.5.0"
 
@@ -10343,7 +10343,16 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -10427,7 +10436,14 @@ stringify-entities@^4.0.0:
     character-entities-html4 "^2.0.0"
     character-entities-legacy "^3.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -11508,7 +11524,7 @@ winston@^3.3.3:
     triple-beam "^1.3.0"
     winston-transport "^4.5.0"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -11521,6 +11537,15 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-6.2.0.tgz"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
