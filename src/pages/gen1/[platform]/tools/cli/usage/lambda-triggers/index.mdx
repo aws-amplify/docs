@@ -375,6 +375,10 @@ exports.handler = function (event, context) {
 
 `record.dynamodb` will contain a DynamoDB change json describing the item changed in DynamoDB table. Please note that it does not represent an original and new item as stored in DynamoDB table. To retrieve a original and new item you need to convert a DynamoDB json to original form:
 
+<BlockSwitcher>
+
+<Block name="AWS SDK V2">
+
 ```js
 const AWS = require('aws-sdk');
 const records = event.Records.map((record) => ({
@@ -382,6 +386,20 @@ const records = event.Records.map((record) => ({
   old: AWS.DynamoDB.Converter.unmarshall(record.dynamodb.OldImage)
 }));
 ```
+</Block>
+
+<Block name="AWS SDK V3">
+
+```js
+const { unmarshall } = require("@aws-sdk/util-dynamodb");
+const records = event.Records.map((record) => ({
+  new: unmarshall(record.dynamodb.NewImage),
+  old: unmarshall(record.dynamodb.OldImage),
+}));
+```
+</Block>
+
+</BlockSwitcher>
 
 ## Kinesis Stream Trigger
 
