@@ -12,6 +12,7 @@
     "@aws-amplify/amplify-cli-core": "^4.3.6",
     "@aws-amplify/ui-react": "^6.1.12",
     "@docsearch/react": "3",
+    "ajv": "^8.16.0",
     "aws-amplify": "^6.0.9",
     "next": "^14.2.3",
     "next-image-export-optimizer": "^1.8.3",
@@ -111,6 +112,7 @@
     "prepare": "husky install",
     "analyze": "ANALYZE=true yarn next-build",
     "prebuild": "node src/directory/generateDirectory.mjs && node src/directory/generateFlatDirectory.mjs",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate-redirects": "node tasks/validate-redirects.mjs"
   }
 }
