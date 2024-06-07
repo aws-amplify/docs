@@ -12,12 +12,12 @@
 	{
 		"source": "/lib/ssr/ssr/",
 		"target": "/gen1/javascript/prev/build-a-backend/server-side-rendering/",
-		"status": "606"
+		"status": "301"
 	},
 	{
 		"source": "cli/plugins/",
 		"target": "/javascript/tools/cli/plugins/",
-		"status": "301"
+		"status": "601"
 	},
 	{
 		"source": "/<*>",
