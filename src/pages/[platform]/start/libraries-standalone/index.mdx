@@ -1,0 +1,43 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { Card } from '@aws-amplify/ui-react';
+
+export const meta = {
+  title: 'Connect to AWS resources',
+  description: 'You can use Amplify client libraries to connect directly to your AWS resources without having to set up an Amplify backend.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amplify client libraries provide you with the flexibility to directly connect your application to AWS resources, regardless of whether you choose to set up an Amplify backend environment or not. You can take advantage of the Amplify libraries while maintaining control over your AWS resources. 
+
+If you prefer not to use the Amplify backend, you can still benefit from the Amplify libraries by following the instructions provided
+
+<Columns columns={2}>
+<Card variation="outlined">
+[Connect to Cognito](/[platform]/build-a-backend/auth/use-existing-cognito-resources/)
+
+Connect to Cognito resources using Amplify APIs for Auth
+</Card>
+</Columns>
