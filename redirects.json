@@ -15,9 +15,9 @@
 		"status": "301"
 	},
 	{
-		"source": "cli/plugins/",
+		"source": "/cli/plugins/",
 		"target": "/javascript/tools/cli/plugins/",
-		"status": "601"
+		"status": "301"
 	},
 	{
 		"source": "/<*>",
