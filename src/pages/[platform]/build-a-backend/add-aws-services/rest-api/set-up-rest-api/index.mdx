@@ -89,6 +89,9 @@ const apiStack = backend.createStack("api-stack");
 const myRestApi = new RestApi(apiStack, "RestApi", {
   restApiName: "myRestApi",
   deploy: true,
+  deployOptions: {
+    stageName: "dev",
+  },
   defaultCorsPreflightOptions: {
     allowOrigins: Cors.ALL_ORIGINS, // Restrict this to domains you trust
     allowMethods: Cors.ALL_METHODS, // Specify only the methods you need to allow
@@ -138,8 +141,9 @@ const apiRestPolicy = new Policy(apiStack, "RestApiPolicy", {
     new PolicyStatement({
       actions: ["execute-api:Invoke"],
       resources: [
-        `${myRestApi.arnForExecuteApi("items")}`,
-        `${myRestApi.arnForExecuteApi("cognito-auth-path")}`,
+        `${myRestApi.arnForExecuteApi("*", "/items", "dev")}`,
+        `${myRestApi.arnForExecuteApi("*", "/items/*", "dev")}`,
+        `${myRestApi.arnForExecuteApi("*", "/cognito-auth-path", "dev")}`,
       ],
     }),
   ],
@@ -214,6 +218,7 @@ const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
   API: {
+    ...existingConfig.API,
     REST: outputs.custom.API,
   },
 });
@@ -230,6 +235,7 @@ const existingConfig = Amplify.getConfig();
 Amplify.configure({
   ...existingConfig,
   API: {
+    ...existingConfig.API,
     REST: outputs.custom.API,
   },
 });

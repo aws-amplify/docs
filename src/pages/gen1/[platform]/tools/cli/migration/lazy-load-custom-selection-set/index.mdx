@@ -65,9 +65,6 @@ type Comment @model @auth(rules: [{ allow: public }]) {
 
 Currently, developers querying for the `Comment` will contain the `Post` eager loaded:
 
-<BlockSwitcher>
-<Block name="Swift">
-
 ```swift
 let response = try await Amplify.API.query(request: .get(Comment.self, byId: "commentId"))
 if case .success(let queriedComment) = response {
@@ -75,13 +72,7 @@ if case .success(let queriedComment) = response {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 With the new model types and library changes, the same request will no longer eager load the post. The post is lazy loaded from the GraphQL service at the time the post is accessed.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let response = try await Amplify.API.query(request: .get(Comment.self, byId: "commentId"))
@@ -94,13 +85,7 @@ if case .success(let queriedComment) = response {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 To achieve the previous behavior, specifying the model path using the new `includes` parameter:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let response = try await Amplify.API.query(request:
@@ -118,13 +103,7 @@ if case .success(let queriedComment) = response {
 
 This will populate the selection set of the post in the GraphQL document which indicates to your GraphQL service to retrieve the post model as part of the operation. Once you await on the post, the post model will immediately be returned without making a network request.
 
-</Block>
-</BlockSwitcher>
-
 This customization extends to `@hasMany` relationships as well. Let's take for example, the queried post.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let response = try await Amplify.API.query(request:
@@ -145,13 +124,7 @@ if case .success(let queriedPost) = response {
 
 The queried post allows you to lazy load the comments by calling `fetch()` and it will make a network request.
 
-</Block>
-</BlockSwitcher>
-
 The comments can be eager loaded by including the post’s model path to the comment:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let response = try await Amplify.API.query(request:
@@ -171,13 +144,7 @@ if case .success(let queriedPost) = response {
 
 The network request for post includes the comments, eager loading the comments in a single network call.
 
-</Block>
-</BlockSwitcher>
-
 This customization can be extended to including or excluding deeply connected models. If the Post and Comment each belong to a User specified by the field “author”, then a single request can be constructed to retrieve its nested models.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let response = try await Amplify.API.query(request: .get(
@@ -191,17 +158,11 @@ let response = try await Amplify.API.query(request: .get(
 
 The post, its comments, and the author of the post and each of its comments will be retrieved in a single network call.
 
-</Block>
-</BlockSwitcher>
-
 ## Lazy loading connected models
 
 Whether you are using **DataStore** or **API**, once you have retrieved a model, you can traverse the model graph from a single model instance to its connected models through the APIs available.
 
 For `@hasOne` and `@belongsTo` relations, access it by awaiting for the post. This will retrieve the model from your GraphQL service or local database in DataStore.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let comment = /* queried from Amplify.API or Amplify.DataStore, or lazy loaded from a post */
@@ -209,13 +170,7 @@ let post = try await comment.post
 let authorOfPost = try await post.author
 ```
 
-</Block>
-</BlockSwitcher>
-
 For `@hasMany` relations, call `fetch()` to load the posts. This will retrieve the list of models from your data source.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let post = /* queried from Amplify.API or Amplify.DataStore, or lazy loaded from a comment */
@@ -235,13 +190,7 @@ if allCommentsForPost.hasNextPage() {
 }
 ```
 
-</Block>
-</BlockSwitcher>
-
 The following is a full example of lazy loading `@belongsTo` and `@hasMany` connected models.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let comment = /* queried from Amplify.API or Amplify.DataStore, or lazy loaded from a post */
@@ -265,9 +214,6 @@ if let allCommentsForPost = post.comments {
 ```
 
 The queried comment is used to lazy load its post. The author of the post is lazy loaded from the post. All of the comments for the post are lazy loaded as `allCommentsForPost`. For each comment, the author is loaded as `commentAuthor`. If there are more comments to load, `hasNextPage()` returns true and `getNextPage()` loads the next page from the underlying data source.
-
-</Block>
-</BlockSwitcher>
 
 ## Cross platform app development with DataStore (Swift)
 
@@ -323,9 +269,6 @@ By explicitly enabling the feature flag `generateModelsForLazyLoadAndCustomSelec
 
 **Amplify.API** will no longer eager load the `@belongsTo` and `@hasOne` connected models when using the latest codegen. To allow your app backwards compatibility with previous versions of your app, specify the model path with `includes` for all `@belongsTo` and `@hasOne` relationships. This is crucial to allow previous versions of the app to decode mutations sourced from new versions of the app successfully.
 
-<BlockSwitcher>
-<Block name="Swift">
-
 Your released app makes subscription and mutation requests:
 
 ```swift
@@ -338,29 +281,17 @@ let graphQLResponse = try await Amplify.API.mutate(request: .create(comment))
 
 The selection set on the mutation request is aligned with the selection set on the subscription request. It will include the post fields and the response payload received by the subscription can be decoded to the previous Comment model type.
 
-</Block>
-</BlockSwitcher>
-
 If the model types have been replaced with the latest codegen for lazy loading, the same mutation will no longer include the post fields, causing the subscription in the previous app to fail decoding the response payload. To make sure the new version of the app works with previous versions, include the `@belongsTo` and `@hasOne` connected models in the selection set using the `includes` parameter of your mutation request.
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 let graphQLResponse = try await Amplify.API.mutate(request: .create(comment, includes: { comment in [ comment.post ]}))
 ```
-
-</Block>
-</BlockSwitcher>
 
 ### Scenario 2. Using DataStore (Swift)
 
 DataStore will no longer eager load the belongs-to and `@hasOne` connected models when using the latest codegen. Your new app will continue to be backwards compatible with previous versions, however the call pattern to retrieve these connected models have changed. See the next scenario for the changes you have to make at the call site.
 
 ### Scenario 3. "Belongs to" / "Has One" access pattern
-
-<BlockSwitcher>
-<Block name="Swift">
 
 Previously
 
@@ -376,5 +307,3 @@ let comment = /* queried Comment through DataStore or API */
 let post = try await comment.post
 ```
 
-</Block>
-</BlockSwitcher>

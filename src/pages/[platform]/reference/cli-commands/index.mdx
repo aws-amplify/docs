@@ -1,5 +1,4 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { SubCommandHeading } from '@/components/CliCommands/CommandHeading';
 
 export const meta = {
   title: 'CLI commands',
@@ -18,8 +17,8 @@ export const meta = {
   /**
    * Notes for documentation:
    * - only document 2 command levels deep. document further levels in the top-level command as usage examples but without additional subheading
-   *   - (good) amplify sandbox secret
-   *   - (bad) amplify sandbox secret set
+   *   - (good) ampx sandbox secret
+   *   - (bad) ampx sandbox secret set
    * - all commands should describe:
    *   - what the command is and when it is used
    *   - unordered list of options
@@ -48,7 +47,7 @@ All commands can be prefixed with [AWS CLI environment variables](https://docs.a
 
 Sandbox enables you to develop your backend alongside your frontend's development server. Run `npx ampx sandbox` to deploy to your personal cloud sandbox, this command will automatically watch for changes in the `amplify/` folder, and redeploy each time you save a file.
 
-<SubCommandHeading parentCommand="ampx-sandbox">Options</SubCommandHeading>
+### Options
 
 - `--dir-to-watch` (_string_) - Directory to watch for file changes. All subdirectories and files will be included. Defaults to the amplify directory.
 - `--exclude` (_string[]_) - An array of paths or glob patterns to ignore. Paths can be relative or absolute and can either be files or directories.
@@ -58,7 +57,7 @@ Sandbox enables you to develop your backend alongside your frontend's developmen
 - `--outputs-version` (_string_) - Version of the configuration. Version 0 represents classic amplify-cli config file amplify-configuration and 1 represents newer config file amplify_outputs (choices: `0`, `1`).
 - `--profile` (_string_) - An AWS profile name.
 
-<SubCommandHeading parentCommand="ampx-sandbox">Usage</SubCommandHeading>
+### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox
@@ -109,13 +108,13 @@ npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
 
 Delete your personal cloud sandbox. This should only be used if you have an active cloud sandbox that you opted to _not_ delete when exiting `npx ampx sandbox`.
 
-<SubCommandHeading parentCommand="ampx-sandbox-delete">Options</SubCommandHeading>
+### Options
 
 - `--name` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name in your package.json.
 - `--profile` (_string_) - An AWS profile name.
 - `-y, --yes` (_boolean_) - Do not ask for confirmation before deleting the sandbox environment.
 
-<SubCommandHeading parentCommand="ampx-sandbox-delete">Usage</SubCommandHeading>
+### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox delete
@@ -125,11 +124,11 @@ npx ampx sandbox delete
 
 Manage backend secrets used with your personal cloud sandbox.
 
-<SubCommandHeading parentCommand="ampx-sandbox-secret">Options</SubCommandHeading>
+### Options
 
 - `--profile` (_string_) - An AWS profile name.
 
-<SubCommandHeading parentCommand="ampx-sandbox-secret">Usage</SubCommandHeading>
+### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox secret
@@ -207,7 +206,7 @@ npx ampx generate <subcommand> --app-id <app-id> --branch <git-branch-name>
 
 Generate the backend outputs file (e.g. `amplify_outputs.json`) for your frontend application to consume. This is intended to be used to manually generate a configuration file for an environment other than your personal cloud sandbox. For example, you might use it if you would like to verify something your coworker is seeing in their cloud sandbox, or to demonstrate frontend changes locally using a pre-existing "staging" branch.
 
-<SubCommandHeading parentCommand="ampx-generate-outputs">Options</SubCommandHeading>
+### Options
 
 In addition to the required options noted in [`ampx generate`](#npx-ampx-generate):
 
@@ -216,7 +215,7 @@ In addition to the required options noted in [`ampx generate`](#npx-ampx-generat
 - `--out-dir` (_string_) - A path to the directory where config is written. If not provided, it defaults to the working directory of the current process.
 - `--outputs-version` (_string_) - Version of the configuration. Version 0 represents classic amplify-cli config file amplify-configuration and 1 represents newer config file amplify_outputs (choices: `0`, `1`).
 
-<SubCommandHeading parentCommand="ampx-generate-outputs">Usage</SubCommandHeading>
+### Usage
 
 As mentioned above, you can specify a team member's cloud sandbox CloudFormation stack:
 
@@ -236,7 +235,7 @@ npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e108
 
 Generate GraphQL statements and types for your frontend application to consume.
 
-<SubCommandHeading parentCommand="ampx-generate-graphql-client-code">Options</SubCommandHeading>
+### Options
 
 The available parameters for `npx ampx generate graphql-client-code` are:
 
@@ -257,16 +256,16 @@ Optional parameters:
 - `--profile`(_string_) - Specifies an AWS profile name.
 - `--debug` (_boolean_) - Print debug logs to the console.
 - `--help`(_boolean_) - Displays help information about the command.
-<SubCommandHeading parentCommand="ampx-generate-graphql-client-code">Usage</SubCommandHeading>
 
+### Usage
 
-### Generate GraphQL client code using the Amplify App ID and branch.
+#### Generate GraphQL client code using the Amplify App ID and branch.
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx generate graphql-client-code --app-id <your-amplify-app-id>	--branch staging
 ```
 
-### Generate GraphQL client code for a branch that is connected to Amplify
+#### Generate GraphQL client code for a branch that is connected to Amplify
 
 Sometimes you want to test your latest local changes with the backend of another deployed branch. If you want to generate the GraphQL client code file(s) for the latest deployment of another branch, you can run the following command:
 
@@ -274,7 +273,7 @@ Sometimes you want to test your latest local changes with the backend of another
 npx ampx generate graphql-client-code --branch staging
 ```
 
-### Generate codegen for CDK app using a joint "AmplifyBackendStack" construct
+#### Generate codegen for CDK app using a joint "AmplifyBackendStack" construct
 
 Assume you have deployed your Amplify project with the CDK construct. You will need to remember your app's project name (designated as the second parameter in your CDK construct) and stack name (designated as part of your `npx cdk deploy` context)
 
@@ -291,7 +290,7 @@ export class MyAmplifyStack extends cdk.Stack {
 }
 ```
 
-### Deployment command for CDK project
+#### Deployment command for CDK project
 
 ```bash title="Terminal" showLineNumbers={false}
 npx cdk deploy
@@ -303,13 +302,13 @@ Run Amplify codegen command to generate GraphQL codegen:
 npx ampx generate graphql-client-code --stack Backend --platform ts --out ./src
 ```
 
-### Generate codegen in specific language and format
+#### Generate codegen in specific language and format
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx generate graphql-client-code --format modelgen --type-target angular
 ```
 
-### Supported GraphQL client code combinations:
+#### Supported GraphQL client code combinations:
 
 | Format | Platform | Codegen command in Amplify CLI | Command in Amplify Gen2 | Default generated file/path |
 | -------| -------- | ------------------------------ | ----------------------- | --------------------------- |
@@ -325,7 +324,8 @@ npx ampx generate graphql-client-code --format modelgen --type-target angular
 
 Generate React form components derived from your backend data models for your frontend application to consume.
 
-<SubCommandHeading parentCommand="ampx-generate-forms">Options</SubCommandHeading>
+### Options
+
 - `--stack`(_string_) - A stack name that contains an Amplify backend.
 - `--branch` (_string_) - Name of the git branch being deployed.
 - `--app-id` (_string_) - The app id of the target Amplify app.
@@ -333,7 +333,7 @@ Generate React form components derived from your backend data models for your fr
 - `--models` (_array_) - Model name to generate.
 - `--profile` (_string_) - An AWS profile name.
 
-<SubCommandHeading parentCommand="ampx-generate-forms">Usage</SubCommandHeading>
+### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx generate forms --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID --out-dir ./src
@@ -379,14 +379,14 @@ No CDK environment variables
 
 Deploys the Amplify project in a CI/CD pipeline for a specified Amplify app and branch.
 
-<SubCommandHeading parentCommand="ampx-pipeline-deploy">Options</SubCommandHeading>
+### Options
 
 - `--branch` (_string_) - Name of the git branch being deployed.
 - `--app-id` (_string_) - The app id of the target Amplify app.
 - `--outputs-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
 - `--outputs-version` (_string_) - Version of the configuration. Version 0 represents classic amplify-cli config file amplify-configuration and 1 represents newer config file amplify_outputs (choices: `0`, `1`).
 
-<SubCommandHeading parentCommand="ampx-pipeline-deploy">Usage</SubCommandHeading>
+### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
