@@ -128,7 +128,7 @@ The API record's `id` is prepended to the Storage file name to ensure uniqueness
 ```swift title="ContentView"
 import Amplify
 
-// Create the API record:
+ // Create the API record:
 var song = Song(name: "My first song")
 
 do {
@@ -152,13 +152,13 @@ let uploadTask = Amplify.Storage.uploadData(
     data: imageData
 )
 
-let key = try await uploadTask.value
-
-// Add the file association to the record:
-var updatedSong = Song(id: song.id, name: song.name, coverArtPath: key)
-
 do {
-    let updateResult = try await Amplify.API.mutate(request: .update(updatedSong))
+    let key = try await uploadTask.value
+
+    // Add the file association to the record:
+    var updatedSong = Song(id: song.id, name: song.name, coverArtPath: key)
+
+    let updateResult = try await Amplify.API.mutate(request: .update(Song(id: updatedSong.id, name: song.name, coverArtPath: nil)))
 
     switch updateResult {
     case .success(let song):
@@ -166,20 +166,18 @@ do {
     case .failure(let error):
         print("Got failed result with \(error.errorDescription)")
     }
-} catch let error as APIError {
-    print("Failed to create song: ", error)
-} catch {
-    print("Unexpected error: \(error)")
+
+    // If the record has no associated file, we can return early.
+    if (updatedSong.coverArtPath == nil) {
+        print("No associated file")
+        return
+    };
+
+    // Retrieve the file's signed URL:
+    let signedUrl = try await Amplify.Storage.getURL(key: updatedSong.coverArtPath!)
+
+    print(signedUrl)
 }
-
-// If the record has no associated file, we can return early.
-if (updatedSong.coverArtPath == nil) {
-    print("No associated file")
-    return
-};
-
-// Retrieve the file's signed URL:
-let signedUrl = try await Amplify.Storage.getURL(key: updatedSong.coverArtPath!)
 ```
 </InlineFilter>
 
@@ -392,6 +390,32 @@ There are three common deletion workflows when working with Storage files and th
 
 The following example removes the file association from the record, but does not delete the file from S3, nor the record from the database.
 
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+import Amplify
+
+do {
+    let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id))
+
+    // If the record has no associated file, we can return early.
+    if (currentSong.coverArtPath == nil) {
+        return
+    }
+
+    // Remove associated file from record
+    let updatedSong = try await Amplify.API.mutate(request: .update(Song(id: currentSong.id, name: currentSong.name, coverArtPath: nil)))
+
+} catch let error as APIError {
+    print("Failed to remove photo association: ", error)
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 
 import { generateClient } from "aws-amplify/api";
@@ -417,9 +441,41 @@ const updatedSong = await client.models.Song.update({
 });
 
 ```
+</InlineFilter>
+
 ### Remove the record association and delete the file
 
 The following example removes the file from the record, then deletes the file from S3:
+
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+import Amplify
+
+do {
+    let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id))
+
+    // If the record has no associated file, we can return early.
+    if (currentSong.coverArtPath == nil) {
+        return
+    }
+
+    // Remove associated file from record
+    let updatedSong = try await Amplify.API.mutate(request: .update(Song(id: currentSong.id, name: currentSong.id, coverArtPath: nil)))
+
+    // Delete the file from S3
+    try await Amplify.Storage.remove(key: currentSong.coverArtPath!)
+
+} catch let error as APIError {
+    print("Failed to remove photo association: ", error)
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 
 ```ts title="src/App.tsx"
 import { generateClient } from "aws-amplify/api";
@@ -448,9 +504,39 @@ const updatedSong = await client.models.Song.update({
 await remove({ path: song.coverArtPath });
 
 ```
+</InlineFilter>
 
 ### Delete both file and record
 
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+import Amplify
+
+do {
+    let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id))
+
+    // If the record has no associated file, we can return early.
+    if (currentSong.coverArtPath == nil) {
+        return
+    }
+
+    // Delete the record from the API
+    try await Amplify.API.mutate(request: .delete(Song.self, byId: currentSong.id))
+
+    // Delete the file from S3
+    try await Amplify.Storage.remove(key: currentSong.coverArtPath!)
+
+} catch let error as APIError {
+    print("Failed to remove photo association: ", error)
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 import { generateClient } from "aws-amplify/api";
 import { remove } from "aws-amplify/storage";
@@ -475,6 +561,7 @@ await remove({ path: song.coverArtPath });
 await client.models.Song.delete({ id: song.id });
 
 ```
+</InlineFilter>
 
 ## Working with multiple files
 
@@ -502,8 +589,91 @@ CRUD operations when working with multiple files is the same as when working wit
 
 First create a record via the GraphQL API, then upload the files to Storage, and finally add the associations between the record and files.
 
-```ts title="src/App.tsx"
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+import Amplify
 
+// Create the API record:
+func createPhotoAlbum() async -> PhotoAlbum? {
+  var photoAlbum: PhotoAlbum?
+
+  do {
+      let photoAlbumData = PhotoAlbum(name: "My first PhotoAlbum")
+      let response = try await Amplify.API.mutate(request: .create(photoAlbumData))
+      print("Created PhotoAlbum: ", response)
+      switch response {
+      case .success(let newPhotoAlbum):
+          photoAlbum = newPhotoAlbum
+      case .failure(let error):
+          print("Failed with result: \(error.errorDescription)")
+      }
+  } catch let error as APIError {
+      print("Failed to create PhotoAlbum: ", error)
+
+  } catch {
+      print("Unexpected error: \(error)")
+  }
+
+  return photoAlbum
+}
+
+// Upload all files to Storage:
+func uploadImages(images: [Data]) async throws {
+  if let album = await createPhotoAlbum() {
+      var imagePaths: [String] = []
+      var signedUrls: [String] = []
+
+      for (index, image) in images.enumerated() {
+          let imagePath = "images/\(album.id)/photo-\(index)"
+          imagePaths.append(imagePath)
+
+          do {
+              let uploadTask = Amplify.Storage.uploadData(path: .fromString(imagePath), data: image)
+              let key = try await uploadTask.value
+
+              let signedUrl = try await Amplify.Storage.getURL(key: key)
+              signedUrls.append(signedUrl.absoluteString)
+          } catch {
+              print("Error uploading image \(index): \(error)")
+              throw error // Re-throw the error for caller handling
+          }
+
+      }
+
+      await updatePhotoAlbumWithPhotos(photoAlbum: album, imagePaths: imagePaths)
+
+      print(signedUrls)
+  } else {
+      print("Failed to create PhotoAlbum")
+  }
+}
+
+// Update the record with the file associations:
+func updatePhotoAlbumWithPhotos(photoAlbum: PhotoAlbum, imagePaths: [String]) async {
+  print("Inside UpdatePhotoAlbum imagePaths:", imagePaths)
+  let updatedPhotoAlbum = PhotoAlbum(id: photoAlbum.id, name: photoAlbum.name, imagePaths: imagePaths)
+  do {
+      let result = try await Amplify.API.mutate(request: .update(updatedPhotoAlbum))
+
+      switch result {
+      case .success(let updatedPhotoAlbum):
+          print("Update PhotoAlbum: ", updatedPhotoAlbum)
+      case .failure(let error):
+          print("Got failed result with \(error.errorDescription)")
+      }
+  } catch let error as APIError {
+      print("Failed to create song: ", error)
+  } catch {
+      print("Unexpected error: \(error)")
+  }
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
+```ts title="src/App.tsx"
 import { generateClient } from "aws-amplify/api";
 import { uploadData, getUrl } from "aws-amplify/storage";
 import type { Schema } from "../amplify/data/resource";
@@ -559,13 +729,84 @@ const signedUrls = await Promise.all(
     async (path) => await getUrl({ path: path! })
   )
 );
-
 ```
+</InlineFilter>
 
 ### Add new files to an associated record
 
 To associate additional files with a record, update the record with the keys returned by the Storage uploads.
 
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+func addNewFilesToAssociatedRecord(id: String, images: [Data]) async {
+        // Query existing record to retrieve currently associated files:
+        do {
+            let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: id))
+
+            switch queryResponse {
+            case .success(let album):
+                // Upload all files to Storage:
+                let newImagePaths = try await uploadNewImages(for: album!, images: images)
+
+                // Merge existing and new file paths:
+                let updatedImagePaths = (album?.imagePaths)! + newImagePaths
+
+                print("update image paths:", updatedImagePaths)
+
+                do {
+                    print("PhotoAlbum", album!)
+
+                    // Update record with merged file associations:
+                    let result = try await Amplify.API.mutate(request: .update(PhotoAlbum(id: album!.id, name: album!.name, imagePaths: updatedImagePaths)))
+
+                    print("Updated PhotoAlbum", result)
+                }
+
+            case .failure(let error):
+                print("Get failed result with \(error.errorDescription)")
+            }
+
+        } catch let error as APIError {
+            print("Failed to query photo album: ", error)
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+    }
+
+    func uploadNewImages(for album: PhotoAlbum, images: [Data]) async throws -> [String] {
+        var newImagePaths: [String] = []
+
+        for (index, image) in images.enumerated() {
+            var newIndex = index
+            if let albumImagePaths = album.imagePaths, !albumImagePaths.isEmpty {
+                newIndex = index + albumImagePaths.count
+            }
+
+            let imagePath = "images/\(album.id)/photo-\(newIndex)"
+
+            do {
+                let uploadTask = Amplify.Storage.uploadData(path: .fromString(imagePath), data: image)
+                let key = try await uploadTask.value
+
+                print("new image key", key)
+
+                newImagePaths.append(imagePath)
+            } catch {
+                print("Error uploading image \(index): \(error)")
+                throw error // Re-throw the error for caller handling
+            }
+        }
+
+        print("new image paths:", newImagePaths)
+
+        return newImagePaths
+    }
+```
+</InlineFilter>
+
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 
 import { generateClient } from "aws-amplify/api";
@@ -621,13 +862,80 @@ const signedUrls = await Promise.all(
     async (path) => await getUrl({ path: path! })
   )
 );
-
 ```
+</InlineFilter>
 
 ### Update the file for an associated record
 
 Updating a file for an associated record is the same as updating a file for a single file record, with the exception that you will need to update the list of file keys.
+<InlineFilter filters={[
+  "swift"
+]}>
+```swift title="ContentView"
+func updateFileForAssociatedRecord(currentPhotoAlbum: PhotoAlbum, newImage: Data, fileName: String) async {
+  do {
+      // Upload the new file to Storage
+      let newFilePath = "images/\(currentPhotoAlbum.id)-\(fileName)"
+      let uploadTask = Amplify.Storage.uploadData(path: .fromString(newFilePath), data: newImage)
+      let result = try await uploadTask.value
+      print("Uploaded new file: \(result)")
 
+      // Query the existing record
+      let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentPhotoAlbum.id))
+
+      switch queryResponse {
+      case .success(let album):
+          // Retrieve the last image path
+          let lastImagePath = album?.imagePaths?.last
+
+          // Remove the last file association by key
+          var updatedImagePaths = album?.imagePaths?.filter { $0 != lastImagePath } ?? []
+          updatedImagePaths.append(result)
+
+          // Update the record with the updated list of file paths
+          let updatedAlbum = PhotoAlbum(id: currentPhotoAlbum.id, name: currentPhotoAlbum.name, imagePaths: updatedImagePaths)
+          let updateResult = try await Amplify.API.mutate(request: .update(updatedAlbum))
+
+          switch updateResult {
+          case .success(let updatedAlbum):
+              print("Updated PhotoAlbum with new file: \(updatedAlbum)")
+
+              // Retrieve signed URLs for the updated image paths
+              if let imagePaths = updatedAlbum.imagePaths {
+                  let signedUrls = try await withThrowingTaskGroup(of: String?.self) { group in
+                      for imagePath in imagePaths {
+                          group.addTask {
+                              try await Amplify.Storage.getURL(key: imagePath!).absoluteString
+                          }
+                      }
+
+                      var signedUrlsArray: [String] = []
+                      for try await signedUrl in group {
+                          if let signedUrl = signedUrl {
+                              signedUrlsArray.append(signedUrl)
+                          }
+                      }
+                      return signedUrlsArray
+                  }
+                  print("Signed URLs: \(signedUrls)")
+              }
+
+          case .failure(let error):
+              print("Failed to update PhotoAlbum: \(error.errorDescription)")
+          }
+
+      case .failure(let error):
+          print("Failed to query PhotoAlbum: \(error.errorDescription)")
+      }
+  } catch {
+      print("Unexpected error: \(error)")
+  }
+}
+```
+</InlineFilter>
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 import { generateClient } from "aws-amplify/api";
 import { uploadData, getUrl } from "aws-amplify/storage";
@@ -686,11 +994,56 @@ const signedUrls = await Promise.all(
 );
 
 ```
-
+</InlineFilter>
 ### Query a record and retrieve the associated files
 
 To retrieve the files associated with a record, first query the record, then use Storage to retrieve all of the signed URLs.
 
+<InlineFilter filters={["swift"]}>
+```swift title="ContentView"
+func getImagesForPhotoAlbum(photoAlbumId: String) async throws {
+  do {
+      // Query the record to get the file paths
+      let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: photoAlbumId))
+
+      switch queryResponse {
+      case .success(let photoAlbum):
+          // If the record has no associated files, return early
+          guard let imagePaths = photoAlbum?.imagePaths, !imagePaths.isEmpty else {
+              return
+          }
+
+          // Retrieve the signed URLs for the associated images
+          let signedUrls = try await withThrowingTaskGroup(of: URL?.self) { group in
+              for imagePath in imagePaths {
+                  group.addTask {
+                      try await Amplify.Storage.getURL(key: imagePath!)
+                  }
+              }
+
+              var signedUrlsArray: [URL] = []
+              for try await signedUrl in group {
+                  if let signedUrl = signedUrl {
+                      signedUrlsArray.append(signedUrl)
+                  }
+              }
+              return signedUrlsArray
+          }
+
+          print(signedUrls)
+
+      case .failure(let error):
+          throw error
+      }
+  } catch {
+      throw error
+  }
+}
+```
+</InlineFilter>
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 async function getImagesForPhotoAlbum() {
 import { generateClient } from "aws-amplify/api";
@@ -706,6 +1059,7 @@ const client = generateClient<Schema>({
 const response = await client.models.PhotoAlbum.get({
   id: currentPhotoAlbum.id,
 });
+
 const photoAlbum = response.data;
 
 // If the record has no associated files, we can return early.
@@ -718,8 +1072,9 @@ const signedUrls = await Promise.all(
     return await getUrl({ path: imagePath });
   })
 );
-
+}
 ```
+</InlineFilter>
 
 ### Delete and remove files associated with API records
 
@@ -727,6 +1082,40 @@ The workflow for deleting and removing files associated with API records is the 
 
 #### Remove the file association, continue to persist both files and record
 
+<InlineFilter filters={[
+  "swift"
+]}>
+```swift title="ContentView"
+func removePhotoAssociation(currentPhotoAlbum: PhotoAlbum) async {
+  do {
+      let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentPhotoAlbum.id))
+
+      switch queryResponse {
+      case .success(let photoAlbum):
+          // If the record has no associated file, we can return early.
+          if photoAlbum?.imagePaths == nil || photoAlbum?.imagePaths?.isEmpty == true {
+              return
+          }
+
+          // Update record with null imagePaths
+          let updatedPhotoAlbum = try await Amplify.API.mutate(request: .update(PhotoAlbum(id: photoAlbum!.id, name: photoAlbum!.name, imagePaths: nil)))
+
+          print("Updated PhotoAlbum: \(updatedPhotoAlbum)")
+
+      case .failure(let error):
+          print("Failed to query PhotoAlbum: \(error.errorDescription)")
+      }
+  } catch let error as APIError {
+      print("Failed to remove photo association: ", error)
+  } catch {
+      print("Unexpected error: \(error)")
+  }
+}
+```
+</InlineFilter>
+<InlineFilter files={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 
 import { generateClient } from "aws-amplify/api";
@@ -750,11 +1139,56 @@ const updatedPhotoAlbum = await client.models.PhotoAlbum.update({
   id: photoAlbum.id,
   imagePaths: null,
 });
-
 ```
+</InlineFilter>
 
 #### Remove the record association and delete the files
 
+<InlineFilter files={[
+  "swift"
+]}>
+```swift title="ContentView"
+func removePhotoAssociation(currentPhotoAlbum: PhotoAlbum) async {
+  do {
+      let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentPhotoAlbum.id))
+
+      switch queryResponse {
+      case .success(let photoAlbum):
+          // If the record has no associated file, we can return early.
+          if photoAlbum?.imagePaths == nil || photoAlbum?.imagePaths?.isEmpty == true {
+              return
+          }
+
+          // Remove associated files from record
+          let updatedPhotoAlbum = try await Amplify.API.mutate(request: .update(PhotoAlbum(id: photoAlbum!.id, name: photoAlbum!.name, imagePaths: nil)))
+
+          print("Updated PhotoAlbum: \(updatedPhotoAlbum)")
+
+          // Delete the files from S3
+          if let imagePaths = photoAlbum?.imagePaths {
+              try await withThrowingTaskGroup(of: Void.self) { group in
+                  for imagePath in imagePaths {
+                      group.addTask {
+                          try await Amplify.Storage.remove(key: imagePath!)
+                      }
+                  }
+              }
+          }
+
+      case .failure(let error):
+          print("Failed to query PhotoAlbum: \(error.errorDescription)")
+      }
+  } catch let error as APIError {
+      print("Failed to remove photo association: ", error)
+  } catch {
+      print("Unexpected error: \(error)")
+  }
+}
+```
+</InlineFilter>
+<InlineFilter files={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 import { generateClient } from "aws-amplify/api";
 import { remove } from "aws-amplify/storage";
@@ -789,11 +1223,40 @@ await Promise.all(
     await remove({ path: imagePath });
   })
 );
-
 ```
+</InlineFilter>
 
 #### Delete record and all associated files
 
+<InlineFilter>
+```swift title="ContentView"
+import Amplify
+
+do {
+    let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id))
+
+    // If the record has no associated file, we can return early.
+    if (currentSong.coverArtPath == nil) {
+        return
+    }
+
+    // Delete the record from the API
+    try await Amplify.API.mutate(request: .delete(Song.self, byId: currentSong.id))
+
+    // Delete the file from S3
+    try await Amplify.Storage.remove(key: currentSong.coverArtPath!)
+
+} catch let error as APIError {
+    print("Failed to remove photo association: ", error)
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ```ts title="src/App.tsx"
 
 import { generateClient } from "aws-amplify/api";
@@ -830,6 +1293,7 @@ await Promise.all(
 );
 
 ```
+</InlineFilter>
 
 ## Data consistency when working with records and files
 
@@ -839,6 +1303,9 @@ One example is when we [create an API record, associate the Storage file with th
 
 It is important to understand when these mismatches can occur and to add meaningful error handling around these cases. This guide does not include exhaustive error handling, real-time subscriptions, re-querying of outdated records, or attempts to retry failed operations. However, these are all important considerations for a production-level application.
 
+<InlineFilter filters={[
+  "javascript", "react-native", "angular", "nextjs", "react", "vue"
+]}>
 ## Complete examples
 
 <BlockSwitcher>
@@ -1657,5 +2124,5 @@ export default withAuthenticator(App);
 ```
 </Block>
 </BlockSwitcher>
-
+</InlineFilter>
 
