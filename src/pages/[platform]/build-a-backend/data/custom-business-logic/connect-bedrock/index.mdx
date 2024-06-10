@@ -154,14 +154,14 @@ import {
 export const MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0";
 
 export const generateHaikuFunction = defineFunction({
-  entry: "./generate-haiku.ts",
+  entry: "./generateHaiku.ts",
   environment: {
     MODEL_ID,
   },
 });
 
 const schema = a.schema({
-  generate: a
+  generateHaiku: a
     .query()
     .arguments({ prompt: a.string().required() })
     .returns(a.string())
