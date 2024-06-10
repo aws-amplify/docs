@@ -5,14 +5,14 @@
 		"status": "301"
 	},
 	{
-		"source": "/cli/function/function/",
+		"source": "cli/function/function/",
 		"target": "/javascript/build-a-backend/functions/set-up-function/",
 		"status": "301"
 	},
 	{
 		"source": "/lib/ssr/ssr/",
 		"target": "/gen1/javascript/prev/build-a-backend/server-side-rendering/",
-		"status": "301"
+		"status": "601"
 	},
 	{
 		"source": "/cli/plugins/",

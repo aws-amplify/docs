@@ -28,5 +28,5 @@ jobs:
             const { invalidRedirects } = require('./.github/workflows/scripts/validate-redirects.js');
             return await invalidRedirects();
       - name: Fail if any invalid redirects have been found
-        if: ${{ steps.redirects.outputs.result }}
+        if: ${{ steps.redirects.outputs.result != 'undefined' }}
         run: exit 1 && echo ${{ steps.redirects.outputs.result }}
