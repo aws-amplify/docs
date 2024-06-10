@@ -35,4 +35,4 @@ jobs:
             return await checkDevLinks();
       - name: Fail if broken links have been found
         if: ${{ steps.checkLinks.outputs.result }}
-        run: exit 1 && echo ${{ toJson(steps.checkLinks.outputs.result) }}
+        run: exit 1
