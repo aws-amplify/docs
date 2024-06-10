@@ -1,7 +1,7 @@
 module.exports = {
   invalidRedirects: () => {
     const Ajv = require('ajv');
-    const redirectsImport = require('../../../redirects.json');
+    const redirects = require('../../../redirects.json');
     const ajv = new Ajv();
 
     const schema = {
@@ -31,11 +31,10 @@ module.exports = {
       }
     };
 
-    let redirects = redirectsImport;
     const errors = [];
+    const validate = ajv.compile(schema);
 
     const validateEntries = (redirects) => {
-      const validate = ajv.compile(schema);
       const valid = validate(redirects);
 
       if (!valid) {
@@ -43,18 +42,16 @@ module.exports = {
         const invalidEntry =
           JSON.stringify(redirects[error.instancePath.slice(1, -7)]);
         const loc = error.schemaPath.slice(error.schemaPath.indexOf('properties') + 11, -8);
-        const errorMessage = '\n\n' + 'INVALID ENTRY: Please correct the error in the "' + loc +'" property of the following entry: \n' + invalidEntry + '\n\n' + 'ERROR MESSAGE: ' + error.message;
+        const errorMessage = '\n\n' + 'INVALID ENTRY: Please correct the error in the "' + loc +'" property of the following entry: \n' + invalidEntry + '\n' + 'ERROR MESSAGE: ' + error.message;
+        errors.push(errorMessage);
 
-        errors.push(errorMessage)
-        redirects = redirects.splice(error.instancePath.slice(1, -7))
-        
-        validateEntries(redirects)
-      } else if (valid && errors.length > 0) {
-        return errors.stringify();
-      }
+        validateEntries(redirects.splice(parseInt(error.instancePath.slice(1, -7)) + 1));
+
+      } 
     }
-
     validateEntries(redirects);
+
+    return errors;
   }
 }
 
