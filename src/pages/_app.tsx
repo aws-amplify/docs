@@ -31,8 +31,8 @@ function MyApp({ Component, pageProps }) {
       process.env.RUM_APP_REGION
     ) {
       const config: AwsRumConfig = {
+        signing: false,
         sessionSampleRate: 1,
-        identityPoolId: process.env.RUM_IDENTITY_POOL_ID,
         endpoint: process.env.RUM_ENDPOINT,
         telemetries: ['performance'],
         allowCookies: false,
