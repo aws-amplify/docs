@@ -36,7 +36,6 @@ const nextJSConfig = () => {
       ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
       ALGOLIA_API_KEY: process.env.ALGOLIA_API_KEY,
       ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME,
-      RUM_IDENTITY_POOL_ID: process.env.RUM_IDENTITY_POOL_ID,
       RUM_ENDPOINT: process.env.RUM_ENDPOINT,
       RUM_APP_ID: process.env.RUM_APP_ID,
       RUM_APP_REGION: process.env.RUM_APP_REGION,

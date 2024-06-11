@@ -25,7 +25,6 @@ function MyApp({ Component, pageProps }) {
 
   try {
     if (
-      process.env.RUM_IDENTITY_POOL_ID &&
       process.env.RUM_ENDPOINT &&
       process.env.RUM_APP_ID &&
       process.env.RUM_APP_REGION
