@@ -1,0 +1,163 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Microsoft Entra ID (SAML)',
+  description: 'Learn how to connect a Microsoft Entra ID provider with SAML',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}
+
+Microsoft Entra ID can be configured as a SAML provider for use with Amazon Cognito.
+
+<Callout warning>
+
+**Warning:** there is a known limitation where upstream sign-out functionality successfully signs out of Entra ID, but fails to redirect back to the user app.
+
+</Callout>
+
+To get started, define your Amplify Auth resource with the appropriate redirect URIs:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      logoutUrls: ["http://localhost:3000/come-back-soon"],
+      callbackUrls: ["http://localhost:3000/profile"],
+    },
+  },
+})
+```
+
+Deploy to your personal cloud sandbox with `npx ampx sandbox`. This will generate a domain you can use to configure your new Entra ID App. After deploying your changes successfully, copy the generated `domain` value from `amplify_outputs.json`
+
+```json title="amplify_outputs.json"
+{
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "<your-cognito-user-pool-id>",
+    "user_pool_client_id": "<your-cognito-user-pool-client-id>",
+    "identity_pool_id": "<your-cognito-identity-pool-id>",
+    "mfa_methods": [],
+    "standard_required_attributes": [
+      "email"
+    ],
+    "username_attributes": [
+      "email"
+    ],
+    "user_verification_types": [
+      "email"
+    ],
+    "mfa_configuration": "OFF",
+    "password_policy": {
+      "min_length": 8,
+      "require_numbers": true,
+      "require_lowercase": true,
+      "require_uppercase": true,
+      "require_symbols": true
+    },
+    "oauth": {
+      "identity_providers": [],
+      "redirect_sign_in_uri": [
+        "http://localhost:3000/profile"
+      ],
+      "redirect_sign_out_uri": [
+        "http://localhost:3000/come-back-soon"
+      ],
+      "response_type": "code",
+      "scopes": [
+        "phone",
+        "email",
+        "openid",
+        "profile",
+        "aws.cognito.signin.user.admin"
+      ],
+      // highlight-next-line
+      "domain": "<some-hash>.auth.us-east-1.amazoncognito.com"
+    },
+  },
+  "version": "1"
+}
+```
+
+Next, navigate to [portal.amazon.com](https://portal.azure.com/), select **Entra ID**. In your default directory, or company's existing directory, under **Manage**, select **Enterprise Applications**
+
+{/* @TODO update screenshot for enterprise apps */}
+![Azure portal highlighting App Registrations and New registration in Entra ID](/images/auth/examples/microsoft-entra-id-saml/entra-id-new-registration.png)
+
+Afterwards, select **New application**, then select **Create your own application**. Specify a name for the application and choose **Register an application to integrate with Entra ID (App you're developing)**
+
+![Azure portal highlighting App Registrations and New registration in Entra ID](/images/auth/examples/microsoft-entra-id-saml/entra-id-new-enterprise-application.png)
+
+Select **Complete**. After being redirected to the **Register an application** form, specify a name for your Entra ID App -- this is the name of the app that will integrate with Amazon Cognito (e.g. `amplify-gen2-saml-with-entra-id`). Using the domain copied from the generated `amplify_outputs.json` file, specify a **Redirect URI (Optional)** as a **Web** redirect
+
+<Callout info>
+
+**Note:** redirect URIs for SAML providers follow the convention:
+
+```text showLineNumbers={false}
+https://<some-hash>.auth.<aws-region>.amazoncognito.com/saml2/idpresponse
+```
+
+[Learn more about configuring Amazon Cognito with SAML identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-saml-idp.html)
+
+</Callout>
+
+![Entra ID app registration form with redirect URI specified](/images/auth/examples/microsoft-entra-id-saml/entra-id-register-an-app-redirect-uri.png)
+
+Complete the Entra ID App registration by selecting **Register**.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      saml: {
+        name: "MicrosoftEntraIDSAML",
+        metadata: {
+          metadataType: "URL",
+          metadataContent: "<your-metadata-content-url>",
+        },
+        attributeMapping: {
+          email: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+        },
+      },
+      logoutUrls: ["http://localhost:3000/come-back-soon"],
+      callbackUrls: ["http://localhost:3000/profile"],
+    },
+  },
+})
+```
