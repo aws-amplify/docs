@@ -126,58 +126,23 @@ The API record's `id` is prepended to the Storage file name to ensure uniqueness
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-import Amplify
+let song = Song(name: name)
 
- // Create the API record:
-var song = Song(name: "My first song")
-
-do {
-    let result = try await Amplify.API.mutate(request: .create(song))
-
-    switch result {
-    case .success(let newSong):
-        song = newSong
-    case .failure(let error):
-        print("Got failed result with \(error.errorDescription)")
-    }
-} catch let error as APIError {
-    print("Failed to create song: ", error)
-} catch {
-    print("Unexpected error: \(error)")
+guard let imageData = artCover.pngData() else {
+    print("Could not get data from UIImage.")
+    return
 }
 
-// Upload the Storage file:
-let uploadTask = Amplify.Storage.uploadData(
-    path: .fromString("images/\(song.id)-cover.png"),
-    data: imageData
-)
+// Create the song record
+var createdSong = try await Amplify.API.mutate(request: .create(song)).get()
 
-do {
-    let key = try await uploadTask.value
+// Upload the art cover image
+_ = Amplify.Storage.uploadData(path: .fromString("images/\(createdSong.id)-cover.png"), data: imageData)
 
-    // Add the file association to the record:
-    var updatedSong = Song(id: song.id, name: song.name, coverArtPath: key)
+// Update the song record with the image key
+createdSong.coverArtPath = createdSong.id
 
-    let updateResult = try await Amplify.API.mutate(request: .update(Song(id: updatedSong.id, name: song.name, coverArtPath: nil)))
-
-    switch updateResult {
-    case .success(let song):
-        updatedSong = song
-    case .failure(let error):
-        print("Got failed result with \(error.errorDescription)")
-    }
-
-    // If the record has no associated file, we can return early.
-    if (updatedSong.coverArtPath == nil) {
-        print("No associated file")
-        return
-    };
-
-    // Retrieve the file's signed URL:
-    let signedUrl = try await Amplify.Storage.getURL(key: updatedSong.coverArtPath!)
-
-    print(signedUrl)
-}
+_ = try await Amplify.API.mutate(request: .update(createdSong)).get()
 ```
 </InlineFilter>
 
@@ -236,42 +201,18 @@ To associate a file with a record, update the record with the key returned by th
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-import Amplify
+let imagePath = "images/\(currentSong.id)-cover.png"
 
-// Upload the Storage file:
-let uploadTask = Amplify.Storage.uploadData(
-    path: .fromString("images/\(song.id)-cover.png"),
-    data: imageData
-)
-
-let path = try await uploadTask.value
+// Upload the new art image
+_ = try await Amplify.Storage.uploadData(path: .fromString(imagePath), data: imageData).value
 
 // Add the file association to the record:
-var updatedSong = Song(id: song.id, name: song.name, coverArtPath: path)
+currentSong.coverArtPath = imagePath
 
-do {
-    let updateResult = try await Amplify.API.mutate(request: .update(updatedSong))
-
-    switch updateResult {
-    case .success(let song):
-        updatedSong = song
-    case .failure(let error):
-        print("Got failed result with \(error.errorDescription)")
-    }
-} catch let error as APIError {
-    print("Failed to create song: ", error)
-} catch {
-    print("Unexpected error: \(error)")
-}
-
-// If the record has no associated file, we can return early.
-if (updatedSong.coverArtPath == nil) {
-    print("No associated file")
-    return
-};
+let result = try await Amplify.API.mutate(request: .update(currentSong)).get()
 
 // Retrieve the file's signed URL:
-let signedUrl = try await Amplify.Storage.getURL(key: updatedSong.coverArtPath!)
+let signedUrl = try await Amplify.Storage.getURL(key: imagePath)
 ```
 </InlineFilter>
 
@@ -322,31 +263,13 @@ const signedURL = await getUrl({ path: updatedSong.coverArtPath });
 To retrieve the file associated with a record, first query the record, then use Storage to get the signed URL. The signed URL can then be used to download the file, display an image, etc:
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-import Amplify
+// Get the song record
+let song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get()
 
-do {
-    let result = try await Amplify.API.query(request: .get(Song.self, byId: song.id))
+// Download the art cover
+let imageData = try await Amplify.Storage.downloadData(path: .fromString((song?.coverArtPath)!)).value
 
-    switch result {
-    case .success(let song):
-
-        // If the record has no associated file, we can return early.
-        if (song?.coverArtPath == nil) {
-            print("No associated file")
-            return
-        } else {
-
-            // Retrieve the file's signed URL:
-            let signedUrl = try await Amplify.Storage.getURL(key: song!.coverArtPath!)
-        }
-    case .failure(let error):
-        print("Got failed result with \(error.errorDescription)")
-    }
-} catch let error as APIError {
-    print("Failed to retrieve song: ", error)
-} catch {
-    print("Unexpected error: \(error)")
-}
+let image = UIImage(data: imageData)
 ```
 </InlineFilter>
 
@@ -392,24 +315,19 @@ The following example removes the file association from the record, but does not
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-import Amplify
+// Get the song record
+var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get()
 
-do {
-    let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id))
-
-    // If the record has no associated file, we can return early.
-    if (currentSong.coverArtPath == nil) {
-        return
-    }
-
-    // Remove associated file from record
-    let updatedSong = try await Amplify.API.mutate(request: .update(Song(id: currentSong.id, name: currentSong.name, coverArtPath: nil)))
-
-} catch let error as APIError {
-    print("Failed to remove photo association: ", error)
-} catch {
-    print("Unexpected error: \(error)")
+// If the record has no associated file, we can return early.
+guard song?.coverArtPath != nil else {
+    print("There is no cover art key to remove image association")
+    return
 }
+
+// Remove associated file from record
+song?.coverArtPath = nil
+
+let updateResult = try await Amplify.API.mutate(request: .update(song!)).get()
 ```
 </InlineFilter>
 
@@ -449,27 +367,22 @@ The following example removes the file from the record, then deletes the file fr
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-import Amplify
+// Get the song record
+var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get()
 
-do {
-    let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id))
-
-    // If the record has no associated file, we can return early.
-    if (currentSong.coverArtPath == nil) {
-        return
-    }
-
-    // Remove associated file from record
-    let updatedSong = try await Amplify.API.mutate(request: .update(Song(id: currentSong.id, name: currentSong.id, coverArtPath: nil)))
-
-    // Delete the file from S3
-    try await Amplify.Storage.remove(key: currentSong.coverArtPath!)
-
-} catch let error as APIError {
-    print("Failed to remove photo association: ", error)
-} catch {
-    print("Unexpected error: \(error)")
+// If the record has no associated file, we can return early.
+guard let coverArtPath = song?.coverArtPath else {
+    print("There is no cover art key to remove image association")
+    return
 }
+
+// Remove associated file from record
+song?.coverArtPath = nil
+
+let updateResult = try await Amplify.API.mutate(request: .update(song!)).get()
+
+// Delete the file from S3
+try await Amplify.Storage.remove(path: .fromString(coverArtPath))
 ```
 </InlineFilter>
 
@@ -510,26 +423,15 @@ await remove({ path: song.coverArtPath });
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-import Amplify
+// Get the song record
+let song = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id)).get()
 
-do {
-    let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id))
+// Delete the record from the API
+let deleteResult = try await Amplify.API.mutate(request: .delete(song!))
 
-    // If the record has no associated file, we can return early.
-    if (currentSong.coverArtPath == nil) {
-        return
-    }
-
-    // Delete the record from the API
-    try await Amplify.API.mutate(request: .delete(Song.self, byId: currentSong.id))
-
-    // Delete the file from S3
-    try await Amplify.Storage.remove(key: currentSong.coverArtPath!)
-
-} catch let error as APIError {
-    print("Failed to remove photo association: ", error)
-} catch {
-    print("Unexpected error: \(error)")
+// Delete the file from S3
+if let coverArt = song?.coverArtPath {
+    try await Amplify.Storage.remove(path: .fromString(coverArt))
 }
 ```
 </InlineFilter>
@@ -591,82 +493,38 @@ First create a record via the GraphQL API, then upload the files to Storage, and
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-import Amplify
-
 // Create the API record:
-func createPhotoAlbum() async -> PhotoAlbum? {
-  var photoAlbum: PhotoAlbum?
+let album = PhotoAlbum(name: name)
 
-  do {
-      let photoAlbumData = PhotoAlbum(name: "My first PhotoAlbum")
-      let response = try await Amplify.API.mutate(request: .create(photoAlbumData))
-      print("Created PhotoAlbum: ", response)
-      switch response {
-      case .success(let newPhotoAlbum):
-          photoAlbum = newPhotoAlbum
-      case .failure(let error):
-          print("Failed with result: \(error.errorDescription)")
-      }
-  } catch let error as APIError {
-      print("Failed to create PhotoAlbum: ", error)
-
-  } catch {
-      print("Unexpected error: \(error)")
-  }
-
-  return photoAlbum
-}
+var createdAlbum = try await Amplify.API.mutate(request: .create(album)).get()
 
 // Upload all files to Storage:
-func uploadImages(images: [Data]) async throws {
-  if let album = await createPhotoAlbum() {
-      var imagePaths: [String] = []
-      var signedUrls: [String] = []
+let imagePaths = await withTaskGroup(of: String?.self) { group in
+    for imageData in imagesData {
+        group.addTask {
+            let path = "\(album.id)-\(UUID().uuidString)"
+            do {
+                _ = try await Amplify.Storage.uploadData(path: .fromString(path),
+                                                          data: imageData
+                ).value
+                return path
+            } catch {
+                print("Failed with error:", error)
+                return nil
+            }
+        }
+    }
 
-      for (index, image) in images.enumerated() {
-          let imagePath = "images/\(album.id)/photo-\(index)"
-          imagePaths.append(imagePath)
-
-          do {
-              let uploadTask = Amplify.Storage.uploadData(path: .fromString(imagePath), data: image)
-              let key = try await uploadTask.value
-
-              let signedUrl = try await Amplify.Storage.getURL(key: key)
-              signedUrls.append(signedUrl.absoluteString)
-          } catch {
-              print("Error uploading image \(index): \(error)")
-              throw error // Re-throw the error for caller handling
-          }
-
-      }
-
-      await updatePhotoAlbumWithPhotos(photoAlbum: album, imagePaths: imagePaths)
-
-      print(signedUrls)
-  } else {
-      print("Failed to create PhotoAlbum")
-  }
+    var imagePaths: [String?] = []
+    for await imagePath in group {
+        imagePaths.append(imagePath)
+    }
+    return imagePaths.compactMap { $0 }
 }
 
-// Update the record with the file associations:
-func updatePhotoAlbumWithPhotos(photoAlbum: PhotoAlbum, imagePaths: [String]) async {
-  print("Inside UpdatePhotoAlbum imagePaths:", imagePaths)
-  let updatedPhotoAlbum = PhotoAlbum(id: photoAlbum.id, name: photoAlbum.name, imagePaths: imagePaths)
-  do {
-      let result = try await Amplify.API.mutate(request: .update(updatedPhotoAlbum))
-
-      switch result {
-      case .success(let updatedPhotoAlbum):
-          print("Update PhotoAlbum: ", updatedPhotoAlbum)
-      case .failure(let error):
-          print("Got failed result with \(error.errorDescription)")
-      }
-  } catch let error as APIError {
-      print("Failed to create song: ", error)
-  } catch {
-      print("Unexpected error: \(error)")
-  }
-}
+// Add the file association to the record:
+createdAlbum.imagePaths = imagePaths
+let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum)).get()
 ```
 </InlineFilter>
 
@@ -734,73 +592,31 @@ const signedUrls = await Promise.all(
 
 ### Add new files to an associated record
 
-To associate additional files with a record, update the record with the keys returned by the Storage uploads.
+To associate additional files with a record, update the record with the paths returned by the Storage uploads.
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-func addNewFilesToAssociatedRecord(id: String, images: [Data]) async {
-        // Query existing record to retrieve currently associated files:
-        do {
-            let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: id))
+// Upload file to Storage:
+let path = "\(currentAlbum.id)-\(UUID().uuidString)"
 
-            switch queryResponse {
-            case .success(let album):
-                // Upload all files to Storage:
-                let newImagePaths = try await uploadNewImages(for: album!, images: images)
+_ = try await Amplify.Storage.uploadData(path: .fromString(path),
+                                          data: imageData).value
 
-                // Merge existing and new file paths:
-                let updatedImagePaths = (album?.imagePaths)! + newImagePaths
+// Query existing record to retrieve currently associated files:
+var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get()
 
-                print("update image paths:", updatedImagePaths)
+guard var imagePaths = album?.imagePaths else {
+    print("Album does not contain images")
+    return
+}
 
-                do {
-                    print("PhotoAlbum", album!)
+// Add new path to the existing paths
+imagePaths.append(path)
 
-                    // Update record with merged file associations:
-                    let result = try await Amplify.API.mutate(request: .update(PhotoAlbum(id: album!.id, name: album!.name, imagePaths: updatedImagePaths)))
+// Update record with merged file associations:
+album?.imagePaths = imagePaths
 
-                    print("Updated PhotoAlbum", result)
-                }
-
-            case .failure(let error):
-                print("Get failed result with \(error.errorDescription)")
-            }
-
-        } catch let error as APIError {
-            print("Failed to query photo album: ", error)
-        } catch {
-            print("Unexpected error: \(error)")
-        }
-    }
-
-    func uploadNewImages(for album: PhotoAlbum, images: [Data]) async throws -> [String] {
-        var newImagePaths: [String] = []
-
-        for (index, image) in images.enumerated() {
-            var newIndex = index
-            if let albumImagePaths = album.imagePaths, !albumImagePaths.isEmpty {
-                newIndex = index + albumImagePaths.count
-            }
-
-            let imagePath = "images/\(album.id)/photo-\(newIndex)"
-
-            do {
-                let uploadTask = Amplify.Storage.uploadData(path: .fromString(imagePath), data: image)
-                let key = try await uploadTask.value
-
-                print("new image key", key)
-
-                newImagePaths.append(imagePath)
-            } catch {
-                print("Error uploading image \(index): \(error)")
-                throw error // Re-throw the error for caller handling
-            }
-        }
-
-        print("new image paths:", newImagePaths)
-
-        return newImagePaths
-    }
+let updateResult = try await Amplify.API.mutate(request: .update(album!)).get()
 ```
 </InlineFilter>
 
@@ -872,65 +688,24 @@ Updating a file for an associated record is the same as updating a file for a si
   "swift"
 ]}>
 ```swift title="ContentView"
-func updateFileForAssociatedRecord(currentPhotoAlbum: PhotoAlbum, newImage: Data, fileName: String) async {
-  do {
-      // Upload the new file to Storage
-      let newFilePath = "images/\(currentPhotoAlbum.id)-\(fileName)"
-      let uploadTask = Amplify.Storage.uploadData(path: .fromString(newFilePath), data: newImage)
-      let result = try await uploadTask.value
-      print("Uploaded new file: \(result)")
+// Upload new file to Storage:
+let path = "\(currentAlbum.id)-\(UUID().uuidString)"
 
-      // Query the existing record
-      let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentPhotoAlbum.id))
+_ = try await Amplify.Storage.uploadData(path: .fromString(path), data: imageData).value
 
-      switch queryResponse {
-      case .success(let album):
-          // Retrieve the last image path
-          let lastImagePath = album?.imagePaths?.last
+// Update the album with the image keys
+var album = currentAlbum
 
-          // Remove the last file association by key
-          var updatedImagePaths = album?.imagePaths?.filter { $0 != lastImagePath } ?? []
-          updatedImagePaths.append(result)
-
-          // Update the record with the updated list of file paths
-          let updatedAlbum = PhotoAlbum(id: currentPhotoAlbum.id, name: currentPhotoAlbum.name, imagePaths: updatedImagePaths)
-          let updateResult = try await Amplify.API.mutate(request: .update(updatedAlbum))
-
-          switch updateResult {
-          case .success(let updatedAlbum):
-              print("Updated PhotoAlbum with new file: \(updatedAlbum)")
-
-              // Retrieve signed URLs for the updated image paths
-              if let imagePaths = updatedAlbum.imagePaths {
-                  let signedUrls = try await withThrowingTaskGroup(of: String?.self) { group in
-                      for imagePath in imagePaths {
-                          group.addTask {
-                              try await Amplify.Storage.getURL(key: imagePath!).absoluteString
-                          }
-                      }
-
-                      var signedUrlsArray: [String] = []
-                      for try await signedUrl in group {
-                          if let signedUrl = signedUrl {
-                              signedUrlsArray.append(signedUrl)
-                          }
-                      }
-                      return signedUrlsArray
-                  }
-                  print("Signed URLs: \(signedUrls)")
-              }
-
-          case .failure(let error):
-              print("Failed to update PhotoAlbum: \(error.errorDescription)")
-          }
-
-      case .failure(let error):
-          print("Failed to query PhotoAlbum: \(error.errorDescription)")
-      }
-  } catch {
-      print("Unexpected error: \(error)")
-  }
+if var imagePaths = album.imagePaths {
+    imagePaths.removeLast()
+    imagePaths.append(path)
+    album.imagePaths = imagePaths
+} else {
+    album.imagePaths = [path]
 }
+
+// Update record with updated file associations:
+let updateResult = try await Amplify.API.mutate(request: .update(album)).get()
 ```
 </InlineFilter>
 <InlineFilter filters={[
@@ -1001,43 +776,36 @@ To retrieve the files associated with a record, first query the record, then use
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-func getImagesForPhotoAlbum(photoAlbumId: String) async throws {
-  do {
-      // Query the record to get the file paths
-      let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: photoAlbumId))
+// Query the record to get the file paths:
+let album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get()
 
-      switch queryResponse {
-      case .success(let photoAlbum):
-          // If the record has no associated files, return early
-          guard let imagePaths = photoAlbum?.imagePaths, !imagePaths.isEmpty else {
-              return
-          }
+// If the record has no associated files, we can return early.
+guard let imagePathsOptional = album?.imagePaths else {
+    print("Album does not contain images")
+    return
+}
 
-          // Retrieve the signed URLs for the associated images
-          let signedUrls = try await withThrowingTaskGroup(of: URL?.self) { group in
-              for imagePath in imagePaths {
-                  group.addTask {
-                      try await Amplify.Storage.getURL(key: imagePath!)
-                  }
-              }
+let imagePaths = imagePathsOptional.compactMap { $0 }
 
-              var signedUrlsArray: [URL] = []
-              for try await signedUrl in group {
-                  if let signedUrl = signedUrl {
-                      signedUrlsArray.append(signedUrl)
-                  }
-              }
-              return signedUrlsArray
-          }
+// Download the files from S3:
+let images = await withTaskGroup(of: UIImage?.self) { group in
+    for path in imagePaths {
+        group.addTask {
+            do {
+                let imageData = try await Amplify.Storage.downloadData(path: .fromString(path)).value
+                return UIImage(data: imageData)
+            } catch {
+                print("Failed with error:", error)
+                return nil
+            }
+        }
+    }
 
-          print(signedUrls)
-
-      case .failure(let error):
-          throw error
-      }
-  } catch {
-      throw error
-  }
+    var images: [UIImage?] = []
+    for await image in group {
+        images.append(image)
+    }
+    return images.compactMap { $0 }
 }
 ```
 </InlineFilter>
@@ -1086,33 +854,22 @@ The workflow for deleting and removing files associated with API records is the 
   "swift"
 ]}>
 ```swift title="ContentView"
-func removePhotoAssociation(currentPhotoAlbum: PhotoAlbum) async {
-  do {
-      let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentPhotoAlbum.id))
+// Get the API record:
+var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get()
 
-      switch queryResponse {
-      case .success(let photoAlbum):
-          // If the record has no associated file, we can return early.
-          if photoAlbum?.imagePaths == nil || photoAlbum?.imagePaths?.isEmpty == true {
-              return
-          }
-
-          // Update record with null imagePaths
-          let updatedPhotoAlbum = try await Amplify.API.mutate(request: .update(PhotoAlbum(id: photoAlbum!.id, name: photoAlbum!.name, imagePaths: nil)))
-
-          print("Updated PhotoAlbum: \(updatedPhotoAlbum)")
-
-      case .failure(let error):
-          print("Failed to query PhotoAlbum: \(error.errorDescription)")
-      }
-  } catch let error as APIError {
-      print("Failed to remove photo association: ", error)
-  } catch {
-      print("Unexpected error: \(error)")
-  }
+// If the record has no associated file, we can return early.
+guard let imagePaths = album?.imagePaths, !imagePaths.isEmpty else {
+    print("There are no images to remove association")
+    return
 }
+
+// Remove the file association from the record:
+album?.imagePaths = nil
+
+let updateResult = try await Amplify.API.mutate(request: .update(album!)).get()
 ```
 </InlineFilter>
+
 <InlineFilter files={[
   "javascript", "react-native", "angular", "nextjs", "react", "vue"
 ]}>
@@ -1148,41 +905,33 @@ const updatedPhotoAlbum = await client.models.PhotoAlbum.update({
   "swift"
 ]}>
 ```swift title="ContentView"
-func removePhotoAssociation(currentPhotoAlbum: PhotoAlbum) async {
-  do {
-      let queryResponse = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentPhotoAlbum.id))
+// Get the API record:
+var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get()
 
-      switch queryResponse {
-      case .success(let photoAlbum):
-          // If the record has no associated file, we can return early.
-          if photoAlbum?.imagePaths == nil || photoAlbum?.imagePaths?.isEmpty == true {
-              return
-          }
+// If the record has no associated files, we can return early.
+guard let imagePathsOptional = album?.imagePaths else {
+    print("Album does not contain images")
+    return
+}
 
-          // Remove associated files from record
-          let updatedPhotoAlbum = try await Amplify.API.mutate(request: .update(PhotoAlbum(id: photoAlbum!.id, name: photoAlbum!.name, imagePaths: nil)))
+let imagePaths = imagePathsOptional.compactMap { $0 }
 
-          print("Updated PhotoAlbum: \(updatedPhotoAlbum)")
+// Remove associated files from record:
+album?.imagePaths = nil
 
-          // Delete the files from S3
-          if let imagePaths = photoAlbum?.imagePaths {
-              try await withThrowingTaskGroup(of: Void.self) { group in
-                  for imagePath in imagePaths {
-                      group.addTask {
-                          try await Amplify.Storage.remove(key: imagePath!)
-                      }
-                  }
-              }
-          }
+let updateResult = try await Amplify.API.mutate(request: .update(album!)).get()
 
-      case .failure(let error):
-          print("Failed to query PhotoAlbum: \(error.errorDescription)")
-      }
-  } catch let error as APIError {
-      print("Failed to remove photo association: ", error)
-  } catch {
-      print("Unexpected error: \(error)")
-  }
+// Delete the file from S3
+await withTaskGroup(of: Void.self) { group in
+    for path in imagePaths {
+        group.addTask {
+            do {
+                try await Amplify.Storage.remove(path: .fromString(path))
+            } catch {
+                print("Failed with error:", error)
+            }
+        }
+    }
 }
 ```
 </InlineFilter>
@@ -1230,27 +979,34 @@ await Promise.all(
 
 <InlineFilter>
 ```swift title="ContentView"
-import Amplify
+// Get the album record
+var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get()
 
-do {
-    let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id))
+// If the record has no associated file, we can return early.
+guard let imagePathsOptional = album?.imagePaths else {
+    print("Album does not contain images")
 
-    // If the record has no associated file, we can return early.
-    if (currentSong.coverArtPath == nil) {
-        return
-    }
-
-    // Delete the record from the API
-    try await Amplify.API.mutate(request: .delete(Song.self, byId: currentSong.id))
-
-    // Delete the file from S3
-    try await Amplify.Storage.remove(key: currentSong.coverArtPath!)
-
-} catch let error as APIError {
-    print("Failed to remove photo association: ", error)
-} catch {
-    print("Unexpected error: \(error)")
+    let deleteResult = try await Amplify.API.mutate(request: .delete(album!)).get()
+    return
 }
+
+let imagePaths = imagePathsOptional.compactMap { $0 }
+
+// Remove the files from S3:
+await withTaskGroup(of: Void.self) { group in
+    for path in imagePaths {
+        group.addTask {
+            do {
+                try await Amplify.Storage.remove(path: .fromString(path))
+            } catch {
+                print("Failed with error:", error)
+            }
+        }
+    }
+}
+
+// Delete the API record:
+let deleteResult = try await Amplify.API.mutate(request: .delete(album!)).get()
 ```
 </InlineFilter>
 
@@ -1303,11 +1059,1207 @@ One example is when we [create an API record, associate the Storage file with th
 
 It is important to understand when these mismatches can occur and to add meaningful error handling around these cases. This guide does not include exhaustive error handling, real-time subscriptions, re-querying of outdated records, or attempts to retry failed operations. However, these are all important considerations for a production-level application.
 
+## Complete examples
+<InlineFilter filters={[
+  "swift"
+]}>
+<BlockSwitcher>
+<Block name="Main App">
+```swift title="AmplifySwiftApp"
+import SwiftUI
+import Amplify
+import AWSAPIPlugin
+import AWSCognitoAuthPlugin
+import AWSS3StoragePlugin
+import Authenticator
+import PhotosUI
+
+@main
+struct WorkingWithFilesApp: App {
+
+    init() {
+        do {
+            Amplify.Logging.logLevel = .verbose
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSS3StoragePlugin())
+            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+            try Amplify.configure()
+            print("Amplify configured with API, Storage, and Auth plugins!")
+        } catch {
+            print("Failed to initialize Amplify with \(error)")
+        }
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            Authenticator { state in
+                TabView {
+                    SongView()
+                        .tabItem {
+                            Label("Song", systemImage: "music.note")
+                        }
+
+                    PhotoAlbumView()
+                        .tabItem {
+                            Label("PhotoAlbum", systemImage: "photo")
+                        }
+                }
+
+            }
+        }
+    }
+}
+
+struct SignOutButton: View {
+    var body: some View {
+        Button("Sign out") {
+            Task {
+                await Amplify.Auth.signOut()
+            }
+        }.foregroundColor(.black)
+    }
+}
+
+struct TappedButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(10)
+            .background(configuration.isPressed ? Color.teal.opacity(0.8) : Color.teal)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+extension Color {
+    static let teal = Color(red: 45/255, green: 111/255, blue: 138/255)
+}
+
+struct DimmedBackgroundView: View {
+    var body: some View {
+        Color.gray.opacity(0.5)
+            .ignoresSafeArea()
+    }
+}
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+    @Environment(\.presentationMode) var presentationMode
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        let parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            if let uiImage = info[.originalImage] as? UIImage {
+                parent.selectedImage = uiImage
+            }
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = context.coordinator
+        return imagePicker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+    }
+}
+
+struct MultiImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImages: [UIImage]
+
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images
+        configuration.selectionLimit = 0
+
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
+        // No need for updates in this case
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+
+    class Coordinator: PHPickerViewControllerDelegate {
+        private let parent: MultiImagePicker
+
+        init(parent: MultiImagePicker) {
+            self.parent = parent
+        }
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.parent.selectedImages = []
+            }
+            for result in results {
+                if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                    result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                        if let image = image as? UIImage {
+                            DispatchQueue.main.async {
+                                self.parent.selectedImages.append(image)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+</Block>
+<Block name="Song">
+```swift title="SongView"
+import SwiftUI
+import Amplify
+
+class SongViewModel: ObservableObject {
+
+    @Published var currentSong: Song? = nil
+    @Published var currentImage: UIImage? = nil
+    @Published var isLoading: Bool = false
+
+    // Create a song with an associated image
+    func createSong(name: String, artCover: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        let song = Song(name: name)
+
+        guard let imageData = artCover.pngData() else {
+            print("Could not get data from image.")
+            return
+        }
+
+        // Create the song record
+        let result = try await Amplify.API.mutate(request: .create(song))
+        guard case .success(var createdSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+
+        // Upload the art cover image
+        _ = try await Amplify.Storage.uploadData(key: createdSong.id,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+
+        // Update the song record with the image key
+        createdSong.coverArtKey = createdSong.id
+        let updateResult = try await Amplify.API.mutate(request: .update(createdSong))
+        guard case .success(let updatedSong) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+
+        await setCurrentSong(updatedSong)
+    }
+
+    // Add or update an image for an associated record
+    func updateArtCover(artCover: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+
+        guard var currentSong = currentSong else {
+            print("There is no song to associated the image with. Create a Song first.")
+            return
+        }
+        guard let imageData = artCover.pngData() else {
+            print("Could not get data from UIImage.")
+            return
+        }
+
+        // Upload the new art image
+        _ = try await Amplify.Storage.uploadData(key: currentSong.id,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+
+        // Update the song record
+        currentSong.coverArtKey = currentSong.id
+        let result = try await Amplify.API.mutate(request: .update(currentSong))
+        guard case .success(let updatedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+
+        await setCurrentSong(updatedSong)
+    }
+
+    func refreshSongAndArtCover() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentSong = currentSong else {
+            print("There is no song to refresh the record and image. Create a song first.")
+            return
+        }
+        await setCurrentSong(nil)
+        await setCurrentImage(nil)
+
+        // Get the song record
+        let result = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id))
+        guard case .success(let queriedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard let song = queriedSong else {
+            print("Song may have been deleted, no song with id: ", currentSong.id)
+            await setCurrentSong(nil)
+            return
+        }
+
+        guard let coverArtKey = song.coverArtKey else {
+            print("Song does not contain cover art")
+            await setCurrentSong(song)
+            await setCurrentImage(nil)
+            return
+        }
+
+        // Download the art cover
+        let imageData = try await Amplify.Storage.downloadData(key: coverArtKey,
+                                                               options: .init(accessLevel: .private)).value
+        let image = UIImage(data: imageData)
+        await setCurrentSong(song)
+        await setCurrentImage(image)
+    }
+
+    func removeImageAssociationFromSong() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentSong = currentSong else {
+            print("There is no song to remove art cover from it. Create a song first.")
+            return
+        }
+
+        // Get the song record
+        let result = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id))
+        guard case .success(let queriedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var song = queriedSong else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
+            await setCurrentSong(nil)
+            return
+        }
+        guard song.coverArtKey != nil else {
+            print("There is no cover art key to remove image association")
+            return
+        }
+
+        // Set the association to nil and update it
+        song.coverArtKey = nil
+        let updateResult = try await Amplify.API.mutate(request: .update(song))
+        guard case .success(let updatedSong) = updateResult else {
+            print("Failed with error: ", result)
+            return
+        }
+
+        await setCurrentSong(updatedSong)
+    }
+
+    func removeImageAssociationAndDeleteImage() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentSong = currentSong else {
+            print("There is no song to remove art cover from it. Create a song first.")
+            return
+        }
+
+        // Get the song record
+        let result = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id))
+        guard case .success(let queriedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var song = queriedSong else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
+            await setCurrentSong(nil)
+            return
+        }
+        guard let coverArtKey = song.coverArtKey else {
+            print("There is no cover art key to remove image association")
+            return
+        }
+
+        // Set the association to nil and update it
+        song.coverArtKey = nil
+        let updateResult = try await Amplify.API.mutate(request: .update(song))
+        guard case .success(let updatedSong) = updateResult else {
+            print("Failed with error: ", result)
+            return
+        }
+
+        // Remove the image
+        try await Amplify.Storage.remove(key: coverArtKey,
+                                         options: .init(accessLevel: .private))
+
+        await setCurrentSong(updatedSong)
+        await setCurrentImage(nil)
+    }
+
+    func deleteSongAndArtCover() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentSong = currentSong else {
+            print("There is no song to delete. Create a song first.")
+            return
+        }
+
+        // Get the song record
+        let result = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id))
+        guard case .success(let queriedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard let song = queriedSong else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
+            await setCurrentSong(nil)
+            return
+        }
+
+        if let coverArt = song.coverArtKey {
+            // Remove the image
+            try await Amplify.Storage.remove(key: coverArt,
+                                             options: .init(accessLevel: .private))
+        }
+
+        // Delete the song record
+        let deleteResult = try await Amplify.API.mutate(request: .delete(song))
+        guard case .success = deleteResult else {
+            print("Failed with error: ", deleteResult)
+            return
+        }
+        await setCurrentSong(nil)
+        await setCurrentImage(nil)
+    }
+
+    @MainActor
+    func setCurrentSong(_ song: Song?) {
+        self.currentSong = song
+    }
+
+    @MainActor
+    func setCurrentImage(_ image: UIImage?) {
+        self.currentImage = image
+    }
+
+    @MainActor
+    func setIsLoading(_ isLoading: Bool) {
+        self.isLoading = isLoading
+    }
+}
+
+struct SongView: View {
+
+    @State private var isImagePickerPresented = false
+    @State private var songName: String = ""
+
+    @StateObject var viewModel = SongViewModel()
+
+    var body: some View {
+        NavigationView {
+            ZStack {
+                VStack {
+                    SongInformation()
+                    DisplayImage()
+                    OpenImagePickerButton()
+                    SongNameTextField()
+                    CreateOrUpdateSongButton()
+                    AdditionalOperations()
+                    Spacer()
+                }
+                .padding()
+                .sheet(isPresented: $isImagePickerPresented) {
+                    ImagePicker(selectedImage: $viewModel.currentImage)
+                }
+                VStack {
+                    IsLoadingView()
+                }
+            }
+            .navigationBarItems(trailing: SignOutButton())
+        }
+    }
+
+    @ViewBuilder
+    func SongInformation() -> some View {
+        if let song = viewModel.currentSong {
+            Text("Song Id: \(song.id)").font(.caption)
+            if song.name != "" {
+                Text("Song Name: \(song.name)").font(.caption)
+            }
+        }
+    }
+
+    @ViewBuilder
+    func DisplayImage() -> some View {
+        if let image = viewModel.currentImage {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        } else {
+            Text("No Image Selected")
+                .foregroundColor(.gray)
+        }
+
+    }
+
+    func OpenImagePickerButton() -> some View {
+        Button("Select \(viewModel.currentImage != nil ? "a new ": "" )song album cover") {
+            isImagePickerPresented.toggle()
+        }.buttonStyle(TappedButtonStyle())
+    }
+
+    @ViewBuilder
+    func SongNameTextField() -> some View {
+        TextField("\(viewModel.currentSong != nil ? "Update": "Enter") song name", text: $songName)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .multilineTextAlignment(.center)
+    }
+
+    @ViewBuilder
+    func CreateOrUpdateSongButton() -> some View {
+        if viewModel.currentSong == nil, let image = viewModel.currentImage {
+            Button("Save") {
+                Task {
+                    try? await viewModel.createSong(name: songName,
+                                             artCover: image)
+                }
+            }
+            .buttonStyle(TappedButtonStyle())
+            .disabled(viewModel.isLoading)
+        } else if viewModel.currentSong != nil, let image = viewModel.currentImage {
+            Button("Update") {
+                Task {
+                    try? await viewModel.updateArtCover(artCover: image)
+                }
+            }
+            .buttonStyle(TappedButtonStyle())
+            .disabled(viewModel.isLoading)
+        }
+    }
+
+    @ViewBuilder
+    func AdditionalOperations() -> some View {
+        if viewModel.currentSong != nil {
+            VStack {
+                Button("Refresh") {
+                    Task {
+                        try? await viewModel.refreshSongAndArtCover()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Remove association from song") {
+                    Task {
+                        try? await viewModel.removeImageAssociationFromSong()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Remove association and delete image") {
+                    Task {
+                        try? await viewModel.removeImageAssociationAndDeleteImage()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Delete song and art cover") {
+                    Task {
+                        try? await viewModel.deleteSongAndArtCover()
+                    }
+                    songName = ""
+                }.buttonStyle(TappedButtonStyle())
+            }.disabled(viewModel.isLoading)
+        }
+    }
+
+    @ViewBuilder
+    func IsLoadingView() -> some View {
+        if viewModel.isLoading {
+            ZStack {
+                DimmedBackgroundView()
+                ProgressView()
+            }
+        }
+    }
+}
+
+struct SongView_Previews: PreviewProvider {
+    static var previews: some View {
+        SongView()
+    }
+}
+```
+</Block>
+<Block name="Photo Album">
+```swift title="PhotoAlbumView"
+import SwiftUI
+import Amplify
+import Photos
+
+class PhotoAlbumViewModel: ObservableObject {
+    @Published var currentImages: [UIImage] = []
+    @Published var currentAlbum: PhotoAlbum? = nil
+    @Published var isLoading: Bool = false
+
+    // Create a record with multiple associated files
+    func createPhotoAlbum(name: String, photos: [UIImage]) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+
+        let imagesData = photos.compactMap { $0.pngData() }
+        guard !imagesData.isEmpty else {
+            print("Could not get data from [UIImage]")
+            return
+        }
+
+        // Create the photo album record
+        let album = PhotoAlbum(name: name)
+        let result = try await Amplify.API.mutate(request: .create(album))
+        guard case .success(var createdAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+
+        // Upload the photo album images
+        let imageKeys = await withTaskGroup(of: String?.self) { group in
+            for imageData in imagesData {
+                group.addTask {
+                    let key = "\(album.id)-\(UUID().uuidString)"
+                    do {
+                        _ = try await Amplify.Storage.uploadData(key: key,
+                                                                 data: imageData,
+                                                                 options: .init(accessLevel: .private)).value
+                        return key
+                    } catch {
+                        print("Failed with error:", error)
+                        return nil
+                    }
+                }
+            }
+
+            var imageKeys: [String?] = []
+            for await imageKey in group {
+                imageKeys.append(imageKey)
+            }
+            return imageKeys.compactMap { $0 }
+        }
+
+        // Update the album with the image keys
+        createdAlbum.imageKeys = imageKeys
+        let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+
+        await setCurrentAlbum(updatedAlbum)
+    }
+
+    // Create a record with a single associated file
+    func createPhotoAlbum(name: String, photo: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+
+        guard let imageData = photo.pngData() else {
+            print("Could not get data from UIImage")
+            return
+        }
+
+        // Create the photo album record
+        let album = PhotoAlbum(name: name)
+        let result = try await Amplify.API.mutate(request: .create(album))
+        guard case .success(var createdAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+
+        // Upload the photo album image
+        let key = "\(album.id)-\(UUID().uuidString)"
+        _ = try await Amplify.Storage.uploadData(key: key,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+
+        // Update the album with the image key
+        createdAlbum.imageKeys = [key]
+        let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+
+        await setCurrentAlbum(updatedAlbum)
+    }
+
+    // Add new file to an associated record
+    func addAdditionalPhotos(_ photo: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+
+        guard let imageData = photo.pngData() else {
+            print("Could not get data from UIImage.")
+            return
+        }
+
+        // Upload the new photo album image
+        let key = "\(currentAlbum.id)-\(UUID().uuidString)"
+        _ = try await Amplify.Storage.uploadData(key: key,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+
+        // Get the latest album
+        let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var album = queriedAlbum else {
+            print("Album may have been deleted, no album with id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+
+        guard var imageKeys = album.imageKeys else {
+            print("Album does not contain images")
+            await setCurrentAlbum(album)
+            await setCurrentImages([])
+            return
+        }
+
+        // Add new to the existing keys
+        imageKeys.append(key)
+
+        // Update the album with the image keys
+        album.imageKeys = imageKeys
+        let updateResult = try await Amplify.API.mutate(request: .update(album))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+
+        await setCurrentAlbum(updatedAlbum)
+    }
+
+    func replaceLastImage(_ photo: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+
+        guard let imageData = photo.pngData() else {
+            print("Could not get data from UIImage")
+            return
+        }
+
+
+        // Upload the new photo album image
+        let key = "\(currentAlbum.id)-\(UUID().uuidString)"
+        _ = try await Amplify.Storage.uploadData(key: key,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+
+        // Update the album with the image keys
+        var album = currentAlbum
+        if var imageKeys = album.imageKeys {
+            imageKeys.removeLast()
+            imageKeys.append(key)
+            album.imageKeys = imageKeys
+        } else {
+            album.imageKeys = [key]
+        }
+        let updateResult = try await Amplify.API.mutate(request: .update(album))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+
+        await setCurrentAlbum(updatedAlbum)
+    }
+
+    // Query a record and retrieve the associated files
+    func refreshAlbumAndPhotos() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+        await setCurrentAlbum(nil)
+        await setCurrentImages([])
+
+        // Get the song record
+        let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard let album = queriedAlbum else {
+            print("Album may have been deleted, no album with id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+
+        guard let imageKeysOptional = album.imageKeys else {
+            print("Album does not contain images")
+            await setCurrentAlbum(album)
+            await setCurrentImages([])
+            return
+        }
+        let imageKeys = imageKeysOptional.compactMap { $0 }
+
+        // Download the photos
+        let images = await withTaskGroup(of: UIImage?.self) { group in
+            for key in imageKeys {
+                group.addTask {
+                    do {
+                        let imageData = try await Amplify.Storage.downloadData(key: key,
+                                                                               options: .init(accessLevel: .private)).value
+                        return UIImage(data: imageData)
+                    } catch {
+                        print("Failed with error:", error)
+                        return nil
+                    }
+                }
+            }
+
+            var images: [UIImage?] = []
+            for await image in group {
+                images.append(image)
+            }
+            return images.compactMap { $0 }
+        }
+
+        await setCurrentAlbum(album)
+        await setCurrentImages(images)
+    }
+
+    // Remove the file association
+    func removeStorageAssociationsFromAlbum() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+
+        // Get the album record
+        let result = try await Amplify.API.mutate(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var album = queriedAlbum else {
+            print("Song may have been deleted, no song by id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+        guard let imageKeys = album.imageKeys, !imageKeys.isEmpty else {
+            print("There are no images to remove association")
+            return
+        }
+
+        // Set the association to nil and update it
+        album.imageKeys = nil
+        let updateResult = try await Amplify.API.mutate(request: .update(album))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", result)
+            return
+        }
+
+        await setCurrentAlbum(updatedAlbum)
+    }
+
+    // Remove the record association and delete the files
+    func removeStorageAssociationsAndDeletePhotos() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+
+        // Get the album record
+        let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var album = queriedAlbum else {
+            print("Album may have been deleted, no album with id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+
+        guard let imageKeysOptional = album.imageKeys else {
+            print("Album does not contain images")
+            await setCurrentAlbum(album)
+            await setCurrentImages([])
+            return
+        }
+        let imageKeys = imageKeysOptional.compactMap { $0 }
+
+        // Set the associations to nil and update it
+        album.imageKeys = nil
+        let updateResult = try await Amplify.API.mutate(request: .update(album))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", result)
+            return
+        }
+
+        // Remove the photos
+        await withTaskGroup(of: Void.self) { group in
+            for key in imageKeys {
+                group.addTask {
+                    do {
+                        try await Amplify.Storage.remove(key: key,
+                                                         options: .init(accessLevel: .private))
+                    } catch {
+                        print("Failed with error:", error)
+                    }
+                }
+            }
+
+            for await _ in group {
+            }
+        }
+
+        await setCurrentAlbum(updatedAlbum)
+        await setCurrentImages([])
+    }
+
+    // Delete record and all associated files
+    func deleteAlbumAndPhotos() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+
+        // Get the album record
+        let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard let album = queriedAlbum else {
+            print("Album may have been deleted, no album with id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+
+        guard let imageKeysOptional = album.imageKeys else {
+            print("Album does not contain images")
+
+            // Delete the album record
+            let deleteResult = try await Amplify.API.mutate(request: .delete(album))
+            guard case .success = deleteResult else {
+                print("Failed with error: ", deleteResult)
+                return
+            }
+
+            await setCurrentAlbum(nil)
+            await setCurrentImages([])
+            return
+        }
+        let imageKeys = imageKeysOptional.compactMap { $0 }
+
+        // Remove the photos
+        await withTaskGroup(of: Void.self) { group in
+            for key in imageKeys {
+                group.addTask {
+                    do {
+                        try await Amplify.Storage.remove(key: key,
+                                                         options: .init(accessLevel: .private))
+                    } catch {
+                        print("Failed with error:", error)
+                    }
+                }
+            }
+
+            for await _ in group {
+            }
+        }
+
+        // Delete the album record
+        let deleteResult = try await Amplify.API.mutate(request: .delete(album))
+        guard case .success = deleteResult else {
+            print("Failed with error: ", deleteResult)
+            return
+        }
+
+        await setCurrentAlbum(nil)
+        await setCurrentImages([])
+    }
+
+    @MainActor
+    func setCurrentAlbum(_ album: PhotoAlbum?) {
+        self.currentAlbum = album
+    }
+
+    @MainActor
+    func setCurrentImages(_ images: [UIImage]) {
+        self.currentImages = images
+    }
+
+    @MainActor
+    func setIsLoading(_ isLoading: Bool) {
+        self.isLoading = isLoading
+    }
+}
+
+struct PhotoAlbumView: View {
+    @State private var isImagePickerPresented: Bool = false
+    @State private var albumName: String = ""
+    @State private var isLastImagePickerPresented = false
+    @State private var lastImage: UIImage? = nil
+    @StateObject var viewModel = PhotoAlbumViewModel()
+
+    var body: some View {
+        NavigationView {
+            ZStack {
+                VStack {
+                    AlbumInformation()
+                    DisplayImages()
+                    OpenImagePickerButton()
+                    PhotoAlbumNameTextField()
+                    CreateOrUpdateAlbumButton()
+                    AdditionalOperations()
+                }
+                .padding()
+                .sheet(isPresented: $isImagePickerPresented) {
+                    MultiImagePicker(selectedImages: $viewModel.currentImages)
+                }
+                .sheet(isPresented: $isLastImagePickerPresented) {
+                    ImagePicker(selectedImage: $lastImage)
+                }
+                VStack {
+                    IsLoadingView()
+                }
+            }
+            .navigationBarItems(trailing: SignOutButton())
+        }
+    }
+
+    @ViewBuilder
+    func AlbumInformation() -> some View {
+        if let album = viewModel.currentAlbum {
+            Text("Album Id: \(album.id)").font(.caption)
+            if album.name != "" {
+                Text("Album Name: \(album.name)").font(.caption)
+            }
+        }
+    }
+
+    @ViewBuilder
+    func DisplayImages() -> some View {
+        // Display selected images
+        ScrollView(.horizontal) {
+            HStack {
+                ForEach($viewModel.currentImages, id: \.self) { image in
+                    Image(uiImage: image.wrappedValue)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 100)
+                }
+            }
+        }
+        if $viewModel.currentImages.isEmpty {
+            Text("No Images Selected")
+                .foregroundColor(.gray)
+        }
+    }
+
+    func OpenImagePickerButton() -> some View {
+        // Button to open the image picker
+        Button("Select \(!viewModel.currentImages.isEmpty ? "new " : "")photo album images") {
+            isImagePickerPresented.toggle()
+        }.buttonStyle(TappedButtonStyle())
+    }
+
+    @ViewBuilder
+    func PhotoAlbumNameTextField() -> some View {
+        TextField("\(viewModel.currentAlbum != nil ? "Update": "Enter") album name", text: $albumName)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .multilineTextAlignment(.center)
+    }
+
+    @ViewBuilder
+    func CreateOrUpdateAlbumButton() -> some View {
+        if viewModel.currentAlbum == nil, !viewModel.currentImages.isEmpty {
+            Button("Save") {
+                Task {
+                    try? await viewModel.createPhotoAlbum(name: albumName,
+                                                   photos: viewModel.currentImages)
+                }
+            }
+            .buttonStyle(TappedButtonStyle())
+            .disabled(viewModel.isLoading)
+        } else if viewModel.currentAlbum != nil {
+            Button("Select \(lastImage != nil ? "another ": "")photo to replace last photo in the album") {
+                isLastImagePickerPresented.toggle()
+            }
+            .buttonStyle(TappedButtonStyle())
+            .disabled(viewModel.isLoading)
+
+            if let lastImage = lastImage {
+                Image(uiImage: lastImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                Button("Replace last image in album with above") {
+                    Task {
+                        try? await viewModel.replaceLastImage(lastImage)
+                        self.lastImage = nil
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }
+                .buttonStyle(TappedButtonStyle())
+                .disabled(viewModel.isLoading)
+                Button("Append above image to album") {
+                    Task {
+                        try? await viewModel.addAdditionalPhotos(lastImage)
+                        self.lastImage = nil
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }
+                .buttonStyle(TappedButtonStyle())
+                .disabled(viewModel.isLoading)
+            }
+        }
+    }
+
+    @ViewBuilder
+    func AdditionalOperations() -> some View {
+        if viewModel.currentAlbum != nil {
+            VStack {
+                Button("Refresh") {
+                    Task {
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Remove associations from album") {
+                    Task {
+                        try? await viewModel.removeStorageAssociationsFromAlbum()
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Remove association and delete photos") {
+                    Task {
+                        try? await viewModel.removeStorageAssociationsAndDeletePhotos()
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Delete album and images") {
+                    Task {
+                        try? await viewModel.deleteAlbumAndPhotos()
+                    }
+                    albumName = ""
+                }.buttonStyle(TappedButtonStyle())
+            }.disabled(viewModel.isLoading)
+        }
+    }
+
+    @ViewBuilder
+    func IsLoadingView() -> some View {
+        if viewModel.isLoading {
+            ZStack {
+                DimmedBackgroundView()
+                ProgressView()
+            }
+        }
+    }
+}
+
+struct PhotoAlbumView_Previews: PreviewProvider {
+    static var previews: some View {
+        PhotoAlbumView()
+    }
+}
+```
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
 <InlineFilter filters={[
   "javascript", "react-native", "angular", "nextjs", "react", "vue"
 ]}>
-## Complete examples
-
 <BlockSwitcher>
 <Block name="Single File (TS)">
 
