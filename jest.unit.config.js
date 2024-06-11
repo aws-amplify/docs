@@ -22,6 +22,5 @@ module.exports = {
     '@/data/(.*)': '<rootDir>/src/data/$1',
     '@/directory/(.*)': '<rootDir>/src/directory/$1',
     '@/themes/(.*)': '<rootDir>/src/themes/$1'
-  },
-  transformIgnorePatterns: ['node_modules/(?!variables/.*)']
+  }
 };
