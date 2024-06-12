@@ -151,6 +151,36 @@ RxAmplify.Storage.getUrl(StoragePath.fromString("public/example")).subscribe(
 
 </Block>
 </BlockSwitcher>
+
+### Check the existence of a file
+
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `AWSS3StorageGetPresignedUrlOptions`. If the file is inaccessible or does not exist, a `StorageException` is thrown.
+This allows you to check if an object exists during generating the presigned URL, which you can then use to download
+that object.
+
+
+```kotlin
+val options = AWSS3StorageGetPresignedUrlOptions
+  .builder()
+  .setValidateObjectExistence(true)
+  .build()
+  
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/example"),
+    options,
+    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") },
+    { Log.e("MyAmplifyApp", "URL generation failure", it) }
+)
+```
+
+### More `getURL` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| expires | Integer | Number of seconds before the URL expires |
+| useAccelerateEndpoint | Boolean | Flag to configure use of acceleration mode |
+
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
