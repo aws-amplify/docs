@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from '@/directory/directory';
+import { useRouter } from 'next/router';
 
 enum Levels {
   Category = 1,
@@ -19,6 +20,7 @@ type MenuItemProps = {
   level: number;
   currentPlatform?: Platform;
   hideChildren?: boolean;
+  mainId: string;
 };
 
 function getPathname(route, currentPlatform: Platform | undefined) {
@@ -38,11 +40,13 @@ export function MenuItem({
   parentSetOpen,
   level,
   currentPlatform,
-  hideChildren
+  hideChildren,
+  mainId
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const children = useMemo(
     () => (hideChildren ? [] : pageNode.children),
     [hideChildren, pageNode.children]
@@ -60,10 +64,10 @@ export function MenuItem({
       // Close the menu after clicking a link (applies to the mobile menu)
       toggleMenuOpen(false);
     }
-
-    const mainContent = document.getElementById('pageMain');
-    mainContent?.focus();
   };
+
+  // const events = router.events;
+  // events.on('routeChangeComplete', focusContent);
 
   const handleFocus = () => {
     if (parentSetOpen) {
@@ -104,6 +108,15 @@ export function MenuItem({
       parentSetOpen(true);
     }
   }, [open, parentSetOpen]);
+
+  useEffect(() => {
+    const focusContent = () => {
+      const mainContent = document.getElementById(mainId);
+      mainContent?.focus();
+    };
+
+    router.events.on('routeChangeComplete', focusContent);
+  }, [router.events, mainId]);
 
   if (
     currentPlatform &&
