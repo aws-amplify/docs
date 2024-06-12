@@ -115,7 +115,7 @@ export function MenuItem({
       mainContent?.focus();
     };
 
-    router.events.on('routeChangeComplete', focusContent);
+    router.events?.on('routeChangeComplete', focusContent);
   }, [router.events, mainId]);
 
   if (
