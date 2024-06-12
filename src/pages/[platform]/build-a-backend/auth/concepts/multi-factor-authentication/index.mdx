@@ -377,16 +377,19 @@ switch (nextStep.signInStep) {
 ```
 </InlineFilter>
 
-<InlineFilter filters={["flutter"]}>
-After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
+<InlineFilter filters={["swift", "flutter"]}>
+After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `continueSignInWithTOTPSetup` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
 
 - MFA is marked as **Required** in your user pool.
 - TOTP is enabled in your user pool.
 - User does not have TOTP MFA set up already.
 
-The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
+The `continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
 
 ```dart
 Future<void> signInUser(String username, String password) async {
@@ -416,15 +419,6 @@ Future<void> _handleSignInResult(SignInResult result) async {
 
 <InlineFilter filters={["swift"]}>
 
-After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `continueSignInWithTOTPSetup` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
-
-- MFA is marked as **Required** in your user pool.
-- TOTP is enabled in your user pool.
-- User does not have TOTP MFA set up already.
-
-The `continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app.
-
-Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 ```swift
 func signIn(username: String, password: String) async {
     do {
@@ -809,8 +803,12 @@ async function handleMFASelection(mfaType: 'SMS' | 'TOTP') {
 ```
 </InlineFilter>
 
-<InlineFilter filters={["flutter"]}>
+<InlineFilter filters={["swift", "flutter"]}>
 If multiple MFA methods are enabled for the user, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
   switch (result.nextStep.signInStep) {
@@ -841,8 +839,6 @@ Future<void> _handleMfaSelection(MfaType selection) async {
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
-
-If multiple MFA methods are enabled for the user, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
 
 ```swift
 func signIn(username: String, password: String) async {
