@@ -39,6 +39,9 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/start/connect-existing-aws-resources/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/start/kotlin-coroutines/index.mdx'
             },
             {
