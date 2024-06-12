@@ -6,7 +6,7 @@
 
 ### Prerequisites
 
-- [Node.js 16.14.0 or later](https://nodejs.org/en/)
+- [Node.js 18.17.0 or later, but below 22.0.0](https://nodejs.org/en/)
 - [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 
 ## Set up the docs repo
@@ -175,6 +175,21 @@ Videos can be added using the `<Video />` component and referencing a path to th
 ```jsx
 <Video src="/path/to/video.mp4" />
 ```
+
+## Accessibility testing
+
+We run automated accessibility testing on pages affected by a pull request in both light and dark mode. Some common violations and their solutions are listed here:
+
+```
+Element has insufficient color contrast
+```
+[Text colors must have a contrast ratio of 4.5:1 against their background](https://www.w3.org/TR/WCAG22/#contrast-minimum). Avoid adding custom styling to text; our design system should ensure that accessible color combinations are in use.
+
+```
+Heading order invalid
+```
+Headings should be properly nested. This means, for example, an `<h3>` element must be nested beneath an `<h2>` element on the page, an `<h4>` must be nested beneath an `<h3>` and so on. Use [markdown syntax to create your headings](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#headings).
+
 
 ## Debug client-side code with browser developer tools
 

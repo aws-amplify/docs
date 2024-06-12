@@ -29,13 +29,6 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={['flutter']}>
-<Callout warning>
-
-Storage for Gen 2 is not yet available for Flutter
-</Callout>
-</InlineFilter>
-
 <InlineFilter filters={["javascript","nextjs","react"]}>
 
 You can implement upload functionality in your app by either using the Storage Manager UI component or further customizing the upload experience using the upload API.
@@ -155,7 +148,7 @@ import { uploadData } from 'aws-amplify/storage';
 try {
   const result = await uploadData({
     path: "album/2024/1.jpg",
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
     data: file,
     options: {
       onProgress // Optional progress callback.
@@ -711,7 +704,7 @@ const monitorUpload = async () => {
   try {
     const result = await uploadData({
       path: "album/2024/1.jpg",
-      // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+      // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
       data: file,
       options: {
         onProgress: ({ transferredBytes, totalBytes }) => {

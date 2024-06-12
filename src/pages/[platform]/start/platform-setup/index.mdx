@@ -1,0 +1,59 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Platform setup',
+  description: 'Instructions for platform-specific configurations needed for amplify-flutter',
+  platforms: [
+    'flutter',
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+
+### iOS
+From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 11.0 or higher.
+
+```bash
+platform :ios, '11.0'
+```
+
+<Callout>
+
+When preparing your application for deployment, you should also update your iOS Deployment Target to at least 11.0. See the [Flutter docs](https://docs.flutter.dev/deployment/ios) to learn more about building your iOS app for release.
+
+</Callout>
+
+### Android
+From your project root, navigate to the `android/app/` directory and modify `build.gradle` using a text editor of your choice and update the target Android SDK version to 21 or higher:
+
+```bash
+minSdkVersion 21
+```
+
+<Callout warning>
+
+If you are using Flutter 2.10 or above, you will need to ensure that your app supports an [up-to-date Kotlin version](https://docs.flutter.dev/release/breaking-changes/kotlin-version).
+This will typically be version 1.5.31 or higher.
+<br />
+You can do this by updating the Kotlin version in your app's `android/build.gradle` file:
+
+```yaml
+buildscript {
+    ext.kotlin_version = '1.5.31'
+    ...
+}
+```
+
+</Callout>

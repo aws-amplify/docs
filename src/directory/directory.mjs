@@ -43,6 +43,9 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/start/platform-setup/index.mdx'
             }
           ]
         },
@@ -170,6 +173,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-existing-cognito-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/use-aws-sdk/index.mdx'
@@ -666,6 +672,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/index.mdx'
                 }
               ]
             }
@@ -1283,9 +1292,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/storage/copy/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/gen1/[platform]/build-a-backend/storage/move/index.mdx'
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/storage/remove/index.mdx'
@@ -2361,6 +2367,9 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/copy/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/move/index.mdx'
                         },
                         {
                           path: 'src/pages/gen1/[platform]/prev/build-a-backend/storage/remove/index.mdx'

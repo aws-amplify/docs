@@ -1,0 +1,160 @@
+## Setting Up APNs for Push Notifications
+
+Push notifications for iOS apps are sent using Apple Push Notification service (APNs). Before you can send push notifications to iOS devices, you must create an app ID on the Apple Developer portal, and you must create the required certificates.
+
+This section describes how to use the Apple Developer portal to obtain iOS and APNs credentials. These credentials enable you to create an iOS project that can receive push notifications.
+
+After completing the steps in this section, you will have the following items in your Apple Developer account:
+
+- An app ID.
+- An SSL certificate, which authorizes you to send push notifications to your app through APNs.
+- A registration for your test device, such as an iPhone, with your Apple Developer account.
+- An iOS distribution certificate, which enables you to install your app on your test device.
+- A provisioning profile, which allows your app to run on your test device.
+
+Before you begin, you must have an account with the Apple Developer Program as an individual or as part of an organization, and you must have agent or admin privileges in that account.
+
+**Topics**
+
+- [Step 1: Create an App ID](#step-1-create-an-app-id)
+- [Step 2: Create an APNs SSL Certificate](#step-2-create-an-apns-ssl-certificate)
+- [Step 3: Register a Test Device](#step-3-register-a-test-device)
+- [Step 4: Create an iOS Distribution Certificate](#step-4-create-an-ios-distribution-certificate)
+- [Step 5: Create a Provisioning Profile](#step-5-create-a-provisioning-profile)
+
+### Step 1: Create an App ID
+
+Create an app ID to identify your app in the Apple Developer portal. You need this ID when you create an SSL certificate for sending push notifications, when you create an iOS distribution certificate, and when you create a provisioning profile.
+
+If you already have an ID assigned to your app, you can skip this step. You can use an existing app ID provided it doesn't contain a wildcard character ("\*").
+
+**To assign an App ID to your app**
+
+- Sign in to your [Apple Developer account](https://developer.apple.com/membercenter/index.action) and navigate to [Identifiers](https://developer.apple.com/account/resources/identifiers/list)
+- In the **Identifiers** pane, click the **Register an App ID** button, or click the blue **(+)** button in the header.
+
+![image](/images/push-notifications/setup-apns/create-identifier--add.png)
+
+- In the **Register a new identifier** pane, Select **App IDs** and click **Continue**.
+
+![image](/images/push-notifications/setup-apns/create-identifier--app-id.png)
+
+- In the **Register a new identifier** pane, Select **App** and click **Continue**.
+
+![image](/images/push-notifications/setup-apns/create-identifier--app-type.png)
+
+- In the **Registering an App ID** pane, for **Description**, type a name for your app ID that makes it easy to recognize later.
+- For **App ID Prefix**, select **Explicit**, and type a bundle ID for your app. If you already have an app, use the bundle ID assigned to it. You can find this ID in the app project in Xcode on your Mac. Otherwise, take note of the bundle ID because you will assign it to your app in Xcode later.
+
+![image](/images/push-notifications/setup-apns/create-identifier--bundle-id.png)
+
+- Under **Capabilities**, select **Push Notifications**.
+
+![image](/images/push-notifications/setup-apns/create-identifier--enable-PN.png)
+
+- Click **Continue**. In the **Confirm your App ID** pane, check that all values were entered correctly.
+- Click **Register** to register the new app ID.
+
+### Step 2: Create an APNs SSL Certificate
+
+You will create and download a certificate from your Apple Developer account. Then, you will install the certificate in Keychain Access and export it as a `.p12` file. Which will allow Pinpoint to communicate with Apple's Push Notification Service (APNS).
+
+If you already have an SSL certificate for your app, you can skip this step.
+
+**To create an SSL certificate for push notifications**
+
+- Under **Certificates, Identifiers & Profiles**, navigate to [Identifiers](https://developer.apple.com/account/resources/identifiers/list)
+- From the list of iOS Identifiers, click the app that you created in [Step 1: Create an App ID](#step-1-create-an-app-id).
+- Under **Capabilities**, locate **Push Notifications**, click **Configure**
+
+![image](/images/push-notifications/setup-apns/create-certificate--configure.png)
+
+- In the **Production SSL Certificate** section, click **Create Certificate**.
+
+![image](/images/push-notifications/setup-apns/create-certificate--create.png)
+
+- Follow these [instructions](https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request) for creating a local Certificate Signing Request (CSR) file using the Keychain Access application on your Mac.
+
+![image](/images/push-notifications/setup-apns/create-certificate--cert-assistant.png)
+
+- In the **Create a New Certificate** pane, click **Choose File**, and then select the CSR file you created and click **Continue**.
+
+![image](/images/push-notifications/setup-apns/create-certificate--upload-cert.png)
+
+- When the certificate is ready, click **Download** to save the certificate to your computer. It should be called `aps.cer`.
+- Double-click the downloaded certificate to install it to the Keychain on your Mac.
+- On your Mac, start the Keychain Access application.
+- Click the **My Certificates** chip in the toolbar to find the certificate you just added. The certificate will be named "Apple Push Services:`com.my.app.id`", where `com.my.app.id` is the bundle ID you configured in the previous step.
+
+![image](/images/push-notifications/setup-apns/create-certificate--my-cert.png)
+
+- Right-click the push certificate and then select **Export "Apple Push Services:`com.my.app.id`"** from the context menu to export a file containing the certificate.
+
+![image](/images/push-notifications/setup-apns/create-certificate--export-cert.png)
+
+- Name the file `amplify` and ensure that `p12` is selected as the export format, then save it to your computer. Click **OK** to skip adding a password to the certificate. Then enter your computer password to complete the export.
+
+<Callout>
+
+Note: The remaining steps are done automatically in Xcode when the "Automatically manage signing" box is checked.
+
+</Callout>
+
+### Step 3: Register a Test Device
+
+Register a test device with your Apple Developer account so that you can test your app on that device. Later, you associate this test device with your provisioning profile, which allows your app to launch on your device.
+
+If you already have a registered device, you can skip this step.
+
+**To add a device**
+
+- Under **Certificates, Identifiers & Profiles**, navigate to [Devices](https://developer.apple.com/account/resources/devices/list)
+- In the **Devices** pane, click the **Register a Device** button, or click the blue **(+)** button in the header.
+- In the **Register Device** section, choose the platform of device that you want to add, such as **iOS**.
+- For **Device Name**, type a name that is easy to recognize later.
+- For **Device ID (UDID)**, type the unique device ID. For an iPhone, you can find the UDID by completing the following steps:
+
+  - Connect your iPhone to your Mac with a USB cable.
+  - Open the Xcode app.
+  - In the Xcode menu bar navigate to **Window > Devices and Simulators**
+  - Xcode will display the summary page for your connected devices, select desired device.
+  - In the header, the summary page provides information about your iPhone. The value next to **Identifier: ** is your **UDID**.
+  - Select and copy your **UDID**.
+  - Paste your UDID into the **UDID** field in the Apple Developer website.
+  - Click **Continue**.
+
+- On the **Register a New Device** pane, verify the details for your device, and click **Register**.
+- Your device name and identifier have been added to the list of devices. Click **Done**.
+
+### Step 4: Create an iOS Distribution Certificate
+
+An iOS distribution certificate enables you to install your app on a test device and deliver push notifications to that device. You specify your iOS distribution certificate later when you create a provisioning profile for your app.
+
+If you already have an iOS distribution certificate, you can skip this step.
+
+**To create an iOS distribution certificate**
+
+- Under **Certificates, Identifiers & Profiles**, navigate to [Certificates](https://developer.apple.com/account/resources/certificates/list)
+- In the **Certificates** pane, click the blue **(+)** button in the header. The **Create a New Certificate** pane is shown.
+- In the **Software** section, select **iOS Distribution (App Store and Ad Hoc)**, and then click **Continue**.
+- Follow these [instructions](https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request) for creating a Certificate Signing Request (CSR) file. You use the Keychain Access application on your Mac to create the request and save it on your local disk.
+- In the **Create a New Certificate** pane, click **Choose File**, and then select the CSR file you created and click **Continue**.
+- When the certificate is ready, click **Download** to save the certificate to your computer.
+- Double-click the downloaded certificate to install it in Keychain on your Mac.
+
+### Step 5: Create a Provisioning Profile
+
+A provisioning profile allows your app to run on your test device. You create and download a provisioning profile from your Apple Developer account and then install the provisioning profile in Xcode.
+
+**To create a provisioning profile**
+
+- Under **Certificates, Identifiers & Profiles**, navigate to [Profiles](https://developer.apple.com/account/resources/profiles/list)
+- In the **Profiles** pane, click the **Generate a profile** button, or click the blue **(+)** button in the header. The **Register a New Provisioning Profile** pane is shown.
+- Under the **Distribution** section, select **Ad Hoc**, and then click **Continue**.
+- For **Select an App ID**, select the app ID you created for your app, and then click **Continue**.
+- Select your iOS Distribution certificate and then click **Continue**.
+- For **Select devices**, select the device that you registered for testing, and click **Continue**.
+- Type a name for this provisioning profile, such as `ApnsDistributionProfile`, and click **Generate**.
+- Click **Download** to download the generated provisioning profile.
+- Install the provisioning profile by double-clicking the downloaded file. The Xcode app opens in response.
+- To verify that the provisioning profile is installed, check the list of installed provisioning profiles in Xcode by following this [guide](https://help.apple.com/xcode/mac/current/#/devaafd622d2).

@@ -1,13 +1,21 @@
 ```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+import 'models/ModelProvider.dart';
+
 Future<void> updatePost() async {
-  final postsWithId = await Amplify.DataStore.query(
+  final oldPost = (await Amplify.DataStore.query(
     Post.classType,
     where: Post.ID.eq('123'),
-  );
+  ))
+      .first;
 
-  final oldPost = postsWithId.first;
-  final newPost = oldPost.copyWith(id: oldPost.id, title: 'Updated Title');
+  final newPost = oldPost.copyWith(title: 'Updated Title');
 
-  await Amplify.DataStore.save(newPost);
+  try {
+    await Amplify.DataStore.save(newPost);
+  } on DataStoreException catch (e) {
+    safePrint('Something went wrong updating model: ${e.message}');
+  }
 }
 ```

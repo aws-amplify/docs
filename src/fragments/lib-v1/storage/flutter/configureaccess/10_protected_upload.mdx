@@ -1,35 +1,25 @@
 ```dart
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 
-Future<void> uploadProtected() async {
-  // Create a dummy file
-  const exampleString = 'Example file contents';
-  final tempDir = await getTemporaryDirectory();
-  final exampleFile = File(tempDir.path + '/example.txt')
-    ..createSync()
-    ..writeAsStringSync(exampleString);
-
-  // Set the access level to `protected` for the current user
-  // Note: A user must be logged in through Cognito Auth
-  // for this to work.
-  final uploadOptions = S3UploadFileOptions(
+Future<void> uploadProtectedFile({
+  required String filePath,
+  required String key,
+}) async {
+  final awsFile = AWSFile.fromPath(filePath);
+  const options = StorageUploadFileOptions(
     accessLevel: StorageAccessLevel.protected,
   );
 
-  // Upload the file to S3 with protected access
   try {
-    final UploadFileResult result = await Amplify.Storage.uploadFile(
-        local: exampleFile,
-        key: 'ExampleKey',
-        options: uploadOptions,
-        onProgress: (progress) {
-          safePrint('Fraction completed: ${progress.getFractionCompleted()}');
-        }
-    );
-    safePrint('Successfully uploaded file: ${result.key}');
+    final uploadResult = await Amplify.Storage.uploadFile(
+      localFile: awsFile,
+      key: key,
+      options: options,
+    ).result;
+    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
   } on StorageException catch (e) {
-    safePrint('Error uploading protected file: $e');
+    safePrint('Something went wrong uploading file: ${e.message}');
+    rethrow;
   }
 }
 ```

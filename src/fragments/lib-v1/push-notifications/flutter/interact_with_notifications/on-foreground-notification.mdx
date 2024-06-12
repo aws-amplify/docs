@@ -1,0 +1,12 @@
+```dart
+void myNotificationReceivedHandler(PushNotificationMessage notification) {
+  // Respond to the received push notification message in realtime
+}
+
+final subscription = Amplify
+  .Notifications.Push.onNotificationReceivedInForeground
+  .listen(myNotificationReceivedHandler);
+
+// Remember to cancel the subscription when it is no longer needed
+subscription.cancel();
+```

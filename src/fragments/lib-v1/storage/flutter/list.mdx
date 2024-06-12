@@ -1,15 +1,64 @@
 You can list all files uploaded under a given path.
 
-This will list all public files (i.e. those with `guest` access level):
+This will list all files located under path `album` that:
+* have `private` access level
+* are in the root of `album/` (the result doesn't include files under any sub path)
 
 ```dart
-Future<void> listItems() async {
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
+Future<void> listAlbum() async {
   try {
-    final result = await Amplify.Storage.list();
-    final items = result.items;
-    safePrint('Got items: $items');
+    String? nextToken;
+    bool hasNextPage;
+    do {
+      final result = await Amplify.Storage.list(
+        path: 'album/',
+        options: StorageListOptions(
+          accessLevel: StorageAccessLevel.private,
+          pageSize: 50,
+          nextToken: nextToken,
+          pluginOptions: const S3ListPluginOptions(
+            excludeSubPaths: true,
+          ),
+        ),
+      ).result;
+      safePrint('Listed items: ${result.items}');
+      nextToken = result.nextToken;
+      hasNextPage = result.hasNextPage;
+    } while (hasNextPage);
   } on StorageException catch (e) {
-    safePrint('Error listing items: $e');
+    safePrint('Error listing files: ${e.message}');
+    rethrow;
   }
 }
 ```
+
+Pagination is enabled by default. The default `pageSize` is `1000` if it is not set in the `StorageListOptions`.
+
+You can also list all files under a given path without pagination by using the `pluginOptions` and `S3ListPluginOptions.listAll()` constructor.
+
+This will list all public files (i.e. those with `guest` access level):
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
+Future<void> listAllWithGuestAccessLevel() async {
+  try {
+    final result = await Amplify.Storage.list(
+      options: const StorageListOptions(
+        accessLevel: StorageAccessLevel.guest,
+        pluginOptions: S3ListPluginOptions.listAll(),
+      ),
+    ).result;
+
+    safePrint('Listed items: ${result.items}');
+  } on StorageException catch (e) {
+    safePrint('Error listing files: ${e.message}');
+    rethrow;
+  }
+}
+```
+import { delimiter } from "path"

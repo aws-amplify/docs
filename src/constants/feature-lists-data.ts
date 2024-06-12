@@ -266,12 +266,6 @@ const featureListData = {
               'Upload and download files to and from cloud storage with advanced controls like pausing and resuming upload operations.',
             linkText: 'Upload and Download files',
             link: 'build-a-backend/storage/upload/'
-          },
-          {
-            content:
-              'Manage content through APIs for listing, accessing, and manipulating files. Set file permission levels, configure automatic events and triggers, and more.',
-            linkText: 'Advanced file operations and access control',
-            link: 'build-a-backend/storage/configure-access/'
           }
         ],
         heading: 'Storage'

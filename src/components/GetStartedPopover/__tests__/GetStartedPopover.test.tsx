@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { GetStartedPopover } from '../index';
+import { GetStartedPopover, generateGetStartedLinks } from '../index';
 import userEvent from '@testing-library/user-event';
 import {
   IconAndroid,
@@ -34,7 +34,8 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'react' }
       },
-      icon: <IconReact />
+      icon: <IconReact />,
+      platform: 'react'
     },
     {
       title: 'JavaScript',
@@ -42,7 +43,8 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'javascript' }
       },
-      icon: <IconJS />
+      icon: <IconJS />,
+      platform: 'javascript'
     },
     {
       title: 'Flutter',
@@ -50,7 +52,8 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'flutter' }
       },
-      icon: <IconFlutter />
+      icon: <IconFlutter />,
+      platform: 'flutter'
     },
     {
       title: 'Swift',
@@ -58,7 +61,8 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'swift' }
       },
-      icon: <IconSwift />
+      icon: <IconSwift />,
+      platform: 'swift'
     },
     {
       title: 'Android',
@@ -66,7 +70,8 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'android' }
       },
-      icon: <IconAndroid />
+      icon: <IconAndroid />,
+      platform: 'android'
     },
     {
       title: 'React Native',
@@ -74,7 +79,8 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'react-native' }
       },
-      icon: <IconReact />
+      icon: <IconReact />,
+      platform: 'react-native'
     },
     {
       title: 'Angular',
@@ -82,7 +88,8 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'angular' }
       },
-      icon: <IconAngular />
+      icon: <IconAngular />,
+      platform: 'angular'
     },
     {
       title: 'Next.js',
@@ -90,7 +97,8 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'nextjs' }
       },
-      icon: <IconNext />
+      icon: <IconNext />,
+      platform: 'nextjs'
     },
     {
       title: 'Vue',
@@ -98,12 +106,20 @@ describe('GetStartedPopover', () => {
         pathname: getStartedHref,
         query: { platform: 'vue' }
       },
-      icon: <IconVue />
+      icon: <IconVue />,
+      platform: 'vue'
     }
   ];
 
   const component = (
     <GetStartedPopover platform={'react'} getStartedLinks={getStartedLinks} />
+  );
+
+  const componentWithGeneratedLinks = (
+    <GetStartedPopover
+      platform={'react'}
+      getStartedLinks={generateGetStartedLinks(getStartedHref)}
+    />
   );
 
   it('should render the GetStartedPopover component', async () => {
@@ -283,6 +299,23 @@ describe('GetStartedPopover', () => {
 
     expect(nextjsOption.getAttribute('href')).toContain(
       '/gen1/nextjs/start/getting-started/introduction'
+    );
+  });
+
+  it('should generate getStartedLinks using generateGetStartedLinks function', async () => {
+    render(componentWithGeneratedLinks);
+
+    const swiftOption = await screen.findByRole('link', { name: 'Swift' });
+    const angularOption = await screen.findByRole('link', { name: 'Angular' });
+    const nextjsOption = await screen.findByRole('link', { name: 'Next.js' });
+    expect(swiftOption.getAttribute('href')).toContain(
+      '/swift/start/quickstart'
+    );
+    expect(angularOption.getAttribute('href')).toContain(
+      '/angular/start/quickstart'
+    );
+    expect(nextjsOption.getAttribute('href')).toContain(
+      '/nextjs/start/quickstart'
     );
   });
 });

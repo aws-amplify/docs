@@ -12,7 +12,7 @@ import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
-import flatDirectory from 'src/directory/flatDirectory.json';
+import flatDirectory from '@/directory/flatDirectory.json';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
 import { PageLastUpdated } from '../PageLastUpdated';
@@ -51,6 +51,20 @@ export const LayoutHeader = ({
     }
   };
 
+  // Search result transform function that will strip out the pageMain anchor tag
+  // Algolia search results include the anchor tag where the content was found but since we
+  // are aggregating records this ends up always being the pageMain anchor tag which is the
+  // page's main content section.  This adds focus to the main content section on every search
+  // and creates a funny user experience.  Removing this tag will avoid that.
+  const transformItems = (items) => {
+    items.map((item) => {
+      if (item.url.includes('#pageMain')) {
+        item.url = item.url.replace('#pageMain', '');
+      }
+    });
+    return items;
+  };
+
   return (
     <View as="header" className="layout-header">
       <Flex className={`layout-search layout-search--${pageType}`}>
@@ -82,6 +96,7 @@ export const LayoutHeader = ({
                   `gen:${isGen1 ? 'gen1' : 'gen2'}`
                 ]
               }}
+              transformItems={transformItems}
             />
           </View>
         </View>
