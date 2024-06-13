@@ -68,6 +68,7 @@ export const data = defineData({
   },
 });
 ```
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "swift"]}>
 
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `lambda` auth mode.
 
@@ -88,6 +89,33 @@ const { errors, data: newTodo } = await client.models.Todo.create(
   // highlight-end
 );
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+In your application, you can perform CRUD operations against the model with the `function` auth mode.
+
+```dart
+try {
+  final todo = Todo(content: 'My new todo');
+  final request = ModelMutations.create(todo);
+  final createdTodo = await Amplify.DataStore.save(
+    request: request, 
+    authorizationMode: APIAuthorizationType.function
+    ).response;
+
+  if (createdTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+  safePrint('Mutation result: ${createdTodo.name}');
+
+} on APIException catch (e) {
+  safePrint('Failed to create todo', e);
+}
+```
+
+</InlineFilter>
 
 The Lambda function of choice will receive an authorization token from the client and execute the desired authorization logic. The AppSync GraphQL API will receive a payload from Lambda after invocation to allow or deny the API call accordingly.
 
