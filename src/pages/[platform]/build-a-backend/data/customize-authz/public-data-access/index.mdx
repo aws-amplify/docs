@@ -69,8 +69,11 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 
 </InlineFilter>
 
-<InlineFilter filters={["flutter"]}>
+<InlineFilter filters={["swift", "flutter"]}>
 In your application, you can perform CRUD operations against the model by specifying the `apiKey` auth mode.
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
 
 ```dart
 try {
@@ -95,8 +98,6 @@ try {
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
-
-In your application, you can perform CRUD operations against the model by specifying the `apiKey` auth mode.
 
 ```swift
 do {
@@ -175,7 +176,7 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
-In your application, you can perform CRUD operations against the model with the `awsIAM` auth mode.
+In your application, you can perform CRUD operations against the model with the `iam` auth mode.
 
 ```dart
 try {
@@ -200,7 +201,6 @@ try {
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
-
 In your application, you can perform CRUD operations against the model with the `awsIAM` auth mode.
 
 ```swift
