@@ -123,20 +123,20 @@ The API record's `id` is prepended to the Storage file name to ensure uniqueness
 let song = Song(name: name)
 
 guard let imageData = artCover.pngData() else {
-    print("Could not get data from UIImage.")
+    print("Could not get data from image.")
     return
 }
 
 // Create the song record
 var createdSong = try await Amplify.API.mutate(request: .create(song)).get()
+let coverArtPath = "images/\(createdSong.id)"
 
 // Upload the art cover image
-_ = Amplify.Storage.uploadData(path: .fromString("images/\(createdSong.id)-cover.png"), data: imageData)
+_ = try await Amplify.Storage.uploadData(path: .fromString(coverArtPath), data: imageData).value
 
 // Update the song record with the image path
-createdSong.coverArtPath = createdSong.id
-
-_ = try await Amplify.API.mutate(request: .update(createdSong)).get()
+createdSong.coverArtPath = coverArtPath
+let updatedSong = try await Amplify.API.mutate(request: .update(createdSong)).get()
 ```
 </InlineFilter>
 
@@ -195,18 +195,24 @@ To associate a file with a record, update the record with the path returned by t
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-let imagePath = "images/\(currentSong.id)-cover.png"
+guard var currentSong = currentSong else {
+            print("There is no song to associated the image with. Create a Song first.")
+            return
+        }
+
+guard let imageData = artCover.pngData() else {
+    print("Could not get data from UIImage.")
+    return
+}
+
+let coverArtPath = "images/\(currentSong.id)"
 
 // Upload the new art image
-_ = try await Amplify.Storage.uploadData(path: .fromString(imagePath), data: imageData).value
+_ = try await Amplify.Storage.uploadData(path: .fromString(coverArtPath), data: imageData).value
 
-// Add the file association to the record:
-currentSong.coverArtPath = imagePath
-
-let result = try await Amplify.API.mutate(request: .update(currentSong)).get()
-
-// Retrieve the file's signed URL:
-let signedUrl = try await Amplify.Storage.getURL(path: imagePath)
+// Update the song record
+currentSong.coverArtPath = coverArtPath
+let updatedSong = try await Amplify.API.mutate(request: .update(currentSong)).get()
 ```
 </InlineFilter>
 
@@ -258,10 +264,19 @@ To retrieve the file associated with a record, first query the record, then use 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
 // Get the song record
-let song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get()
+guard let song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
+    print("Song may have been deleted, no song by id: ", currentSong.id)
+    return
+}
+
+// If the record has no associated file, we can return early.
+guard coverArtPath = song.coverArtPath else {
+    print("There is no cover art path to retrieve image")
+    return
+}
 
 // Download the art cover
-let imageData = try await Amplify.Storage.downloadData(path: .fromString((song?.coverArtPath)!)).value
+let imageData = try await Amplify.Storage.downloadData(path: .fromString(song.coverArtPath)).value
 
 let image = UIImage(data: imageData)
 ```
@@ -315,7 +330,7 @@ guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifi
 }
 
 // If the record has no associated file, we can return early.
-guard song?.coverArtPath != nil else {
+guard song.coverArtPath != nil else {
     print("There is no cover art path to remove image association")
     return
 }
@@ -363,22 +378,22 @@ The following example removes the file from the record, then deletes the file fr
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
-        // Get the song record
-        guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
-            print("Song may have been deleted, no song by id: ", currentSong.id)
-            return
-        }
+// Get the song record
+guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
+    print("Song may have been deleted, no song by id: ", currentSong.id)
+    return
+}
 
-        // If the record has no associated file, we can return early.
-        guard song.coverArtPath != nil else {
-            print("There is no cover art path to remove image association")
-            return
-        }
+// If the record has no associated file, we can return early.
+guard song.coverArtPath != nil else {
+    print("There is no cover art path to remove image association")
+    return
+}
 
-        // Remove associated file from record
-        song.coverArtPath = nil
+// Remove associated file from record
+song.coverArtPath = nil
 
-        let updateResult = try await Amplify.API.mutate(request: .update(song)).get()
+let updateResult = try await Amplify.API.mutate(request: .update(song)).get()
 
 // Delete the file from S3
 try await Amplify.Storage.remove(path: .fromString(coverArtPath))
@@ -423,13 +438,16 @@ await remove({ path: song.coverArtPath });
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
 // Get the song record
-let song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get()
+guard let song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
+    print("Song may have been deleted, no song by id: ", currentSong.id)
+    return
+}
 
 // Delete the record from the API
-let deleteResult = try await Amplify.API.mutate(request: .delete(song!))
+let deleteResult = try await Amplify.API.mutate(request: .delete(song))
 
 // Delete the file from S3
-if let coverArt = song?.coverArtPath {
+if let coverArt = song.coverArtPath {
     try await Amplify.Storage.remove(path: .fromString(coverArt))
 }
 ```
@@ -503,8 +521,7 @@ let imagePaths = await withTaskGroup(of: String?.self) { group in
         group.addTask {
             let path = "images/\(album.id)-\(UUID().uuidString)"
             do {
-                _ = try await Amplify.Storage.uploadData(path: .fromString(path),
-                                                          data: imageData
+                _ = try await Amplify.Storage.uploadData(path: .fromString(path), data: imageData
                 ).value
                 return path
             } catch {
@@ -523,7 +540,8 @@ let imagePaths = await withTaskGroup(of: String?.self) { group in
 
 // Add the file association to the record:
 createdAlbum.imagePaths = imagePaths
-let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum)).get()
+
+_ = try await Amplify.API.mutate(request: .update(createdAlbum)).get()
 ```
 </InlineFilter>
 
@@ -987,7 +1005,7 @@ await Promise.all(
 <InlineFilter>
 ```swift title="ContentView"
 // Get the album record
-guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
+guard let album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
     print("Album may have been deleted, no album by id: ", currentAlbum.id)
     return
 }
@@ -996,7 +1014,7 @@ guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byI
 guard let imagePathsOptional = album.imagePaths else {
     print("Album does not contain images")
 
-    let deleteResult = try await Amplify.API.mutate(request: .delete(album!)).get()
+    let deleteResult = try await Amplify.API.mutate(request: .delete(album)).get()
     return
 }
 
@@ -1256,7 +1274,7 @@ class SongViewModel: ObservableObject {
                 await setIsLoading(false)
             }
         }
-        let song = Song(name: name)
+                let song = Song(name: name)
 
         guard let imageData = artCover.pngData() else {
             print("Could not get data from image.")
@@ -1265,15 +1283,34 @@ class SongViewModel: ObservableObject {
 
         // Create the song record
         var createdSong = try await Amplify.API.mutate(request: .create(song)).get()
+        let coverArtPath = "images/\(createdSong.id)"
 
         // Upload the art cover image
-        _ = try await Amplify.Storage.uploadData(path: .fromString("images/\(createdSong.id)"), data: imageData).value
+        _ = try await Amplify.Storage.uploadData(path: .fromString(coverArtPath), data: imageData).value
 
         // Update the song record with the image path
-        createdSong.coverArtPath = createdSong.id
+        createdSong.coverArtPath = coverArtPath
         let updatedSong = try await Amplify.API.mutate(request: .update(createdSong)).get()
 
         await setCurrentSong(updatedSong)
+    }
+
+    func getSongAndFile(currentSong: Song, imageData: Data) async throws {
+        // Get the song record
+        guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
+            return
+        }
+
+        guard let coverArtPath = song.coverArtPath else {
+            print("There is no cover art path to retrieve image")
+            return
+        }
+
+        // Download the art cover
+        let imageData = try await Amplify.Storage.downloadData(path: .fromString(coverArtPath)).value
+
+        let image = UIImage(data: imageData)
     }
 
     // Add or update an image for an associated record
@@ -1289,16 +1326,19 @@ class SongViewModel: ObservableObject {
             print("There is no song to associated the image with. Create a Song first.")
             return
         }
+
         guard let imageData = artCover.pngData() else {
             print("Could not get data from UIImage.")
             return
         }
 
+        let coverArtPath = "images/\(currentSong.id)"
+
         // Upload the new art image
-        _ = try await Amplify.Storage.uploadData(path: .fromString("images/\(currentSong.id)"), data: imageData).value
+        _ = try await Amplify.Storage.uploadData(path: .fromString(coverArtPath), data: imageData).value
 
         // Update the song record
-        currentSong.coverArtPath = currentSong.id
+        currentSong.coverArtPath = coverArtPath
         let updatedSong = try await Amplify.API.mutate(request: .update(currentSong)).get()
 
         await setCurrentSong(updatedSong)
@@ -1319,9 +1359,12 @@ class SongViewModel: ObservableObject {
         await setCurrentImage(nil)
 
         // Get the song record
-        let song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get()
+        guard let song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
+            return
+        }
 
-        guard let coverArtPath = song?.coverArtPath else {
+        guard let coverArtPath = song.coverArtPath else {
             print("Song does not contain cover art")
             await setCurrentSong(song)
             await setCurrentImage(nil)
@@ -1350,7 +1393,7 @@ class SongViewModel: ObservableObject {
         }
 
         // Get the song record
-        guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
+        guard var song = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
             print("Song may have been deleted, no song by id: ", currentSong.id)
             return
         }
@@ -1382,7 +1425,7 @@ class SongViewModel: ObservableObject {
 
         // Get the song record
         guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
-            print("Song may have been deleted, no song by id: ", currentSong.id)
+            print("Error: could not retrieve the song")
             return
         }
 
@@ -1415,8 +1458,8 @@ class SongViewModel: ObservableObject {
         }
 
         // Get the song record
-        guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
-            print("Song may have been deleted, no song by id: ", currentSong.id)
+        guard var song = try await Amplify.API.mutate(request: .get(Song.self, byId: currentSong.id)).get() else {
+            print("Error: could not retrieve the song")
             return
         }
 
@@ -1620,7 +1663,8 @@ class PhotoAlbumViewModel: ObservableObject {
                 group.addTask {
                     let path = "images/\(album.id)-\(UUID().uuidString)"
                     do {
-                        _ = try await Amplify.Storage.uploadData(path: .fromString(path), data: imageData).value
+                        _ = try await Amplify.Storage.uploadData(path: .fromString(path),
+                                                                 data: imageData).value
                         return path
                     } catch {
                         print("Failed with error:", error)
@@ -1672,6 +1716,40 @@ class PhotoAlbumViewModel: ObservableObject {
         await setCurrentAlbum(updatedAlbum)
     }
 
+    func test(currentAlbum: PhotoAlbum) async throws {
+        // Get the album record
+        guard let album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
+            print("Album may have been deleted, no album by id: ", currentAlbum.id)
+            return
+        }
+
+        // If the record has no associated file, we can return early.
+        guard let imagePathsOptional = album.imagePaths else {
+            print("Album does not contain images")
+
+            let deleteResult = try await Amplify.API.mutate(request: .delete(album)).get()
+            return
+        }
+
+        let imagePaths = imagePathsOptional.compactMap { $0 }
+
+        // Remove the files from S3:
+        await withTaskGroup(of: Void.self) { group in
+            for path in imagePaths {
+                group.addTask {
+                    do {
+                        try await Amplify.Storage.remove(path: .fromString(path))
+                    } catch {
+                        print("Failed with error:", error)
+                    }
+                }
+            }
+        }
+
+        // Delete the API record:
+        let deleteResult = try await Amplify.API.mutate(request: .delete(album)).get()
+    }
+
     // Add new file to an associated record
     func addAdditionalPhotos(_ photo: UIImage) async throws {
         await setIsLoading(true)
@@ -1696,8 +1774,8 @@ class PhotoAlbumViewModel: ObservableObject {
         _ = try await Amplify.Storage.uploadData(path: .fromString(path), data: imageData).value
 
         // Get the latest album
-        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
-            print("Album may have been deleted, no album by id: ", currentAlbum.id)
+        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
+            print("Error: could not retrieve album")
             return
         }
 
@@ -1743,7 +1821,6 @@ class PhotoAlbumViewModel: ObservableObject {
 
         // Update the album with the image paths
         var album = currentAlbum
-
         if var imagePaths = album.imagePaths {
             imagePaths.removeLast()
             imagePaths.append(path)
@@ -1777,7 +1854,7 @@ class PhotoAlbumViewModel: ObservableObject {
         guard let album = try await Amplify.API.query(
             request:
                     .get(PhotoAlbum.self,
-                         byIdentifier: currentAlbum.id)).get() else {
+                         byId: currentAlbum.id)).get() else {
             print("Error: could not retrieve album")
             return
         }
@@ -1829,8 +1906,8 @@ class PhotoAlbumViewModel: ObservableObject {
         }
 
         // Get the album record
-        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
-            print("Album may have been deleted, no album by id: ", currentAlbum.id)
+        guard var album = try await Amplify.API.mutate(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
+            print("Error: could not retrieve album")
             return
         }
 
@@ -1861,8 +1938,8 @@ class PhotoAlbumViewModel: ObservableObject {
         }
 
         // Get the album record
-        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
-            print("Album may have been deleted, no album by id: ", currentAlbum.id)
+        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
+            print("Error: could not retrieve album")
             return
         }
 
@@ -1913,8 +1990,8 @@ class PhotoAlbumViewModel: ObservableObject {
         }
 
         // Get the album record
-        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
-            print("Album may have been deleted, no album by id: ", currentAlbum.id)
+        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
+            print("Error: could not retrieve album")
             return
         }
 
