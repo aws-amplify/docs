@@ -28,13 +28,13 @@ export function getStaticProps() {
   };
 }
 
-Microsoft Entra ID can be configured as a SAML provider for use with Amazon Cognito.
+{/* add important things to know */}
+{/* SAML redirect URIs (including logout and limitation with upstream signout) */}
+{/* how to set attribute mapping with soap namespace */}
 
-<Callout warning>
+Microsoft Entra ID can be configured as a SAML provider for use with Amazon Cognito. Integrating Entra ID enables you to sign in with your existing enterprise users, and maintain profiles unique to the Amplify Auth resource for use within your Amplify app. To learn more, visit the [Azure documentation for SAML authentication with Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/architecture/auth-saml).
 
-**Warning:** there is a known limitation where upstream sign-out functionality successfully signs out of Entra ID, but fails to redirect back to the user app.
-
-</Callout>
+## Start your personal cloud sandbox
 
 To get started, define your Amplify Auth resource with the appropriate redirect URIs:
 
@@ -107,32 +107,63 @@ Deploy to your personal cloud sandbox with `npx ampx sandbox`. This will generat
 }
 ```
 
+## Set up Microsoft Entra ID
+
+{/* @todo migrate to use sample Entra ID SAML Toolkit??? */}
+
 Next, navigate to [portal.amazon.com](https://portal.azure.com/), select **Entra ID**. In your default directory, or company's existing directory, under **Manage**, select **Enterprise Applications**
 
-{/* @TODO update screenshot for enterprise apps */}
-![Azure portal highlighting App Registrations and New registration in Entra ID](/images/auth/examples/microsoft-entra-id-saml/entra-id-new-registration.png)
+![Entra ID default directory page highlighting Enterprise Applications](/images/auth/examples/microsoft-entra-id-saml/entra-id-select-enterprise-applications.png)
 
-Afterwards, select **New application**, then select **Create your own application**. Specify a name for the application and choose **Register an application to integrate with Entra ID (App you're developing)**
+Afterwards, select **New application**, then select **Create your own application**. Specify a name for the application and choose **Integrate any other application you don't find in the gallery (Non-gallery)**
 
-![Azure portal highlighting App Registrations and New registration in Entra ID](/images/auth/examples/microsoft-entra-id-saml/entra-id-new-enterprise-application.png)
+![Azure portal creating a new enterprise application for Entra ID](/images/auth/examples/microsoft-entra-id-saml/entra-id-new-enterprise-application.png)
 
-Select **Complete**. After being redirected to the **Register an application** form, specify a name for your Entra ID App -- this is the name of the app that will integrate with Amazon Cognito (e.g. `amplify-gen2-saml-with-entra-id`). Using the domain copied from the generated `amplify_outputs.json` file, specify a **Redirect URI (Optional)** as a **Web** redirect
+Now that you have created the new enterprise application you can begin to configure Single Sign-on with SAML. Select **Single sign-on**
+
+![Entra ID enterprise application highlighting "single sign-on"](/images/auth/examples/microsoft-entra-id-saml/entra-id-select-single-sign-on.png)
+
+Then select **SAML**
+
+![Entra ID enterprise application single sign-on setup highlighting "SAML"](/images/auth/examples/microsoft-entra-id-saml/entra-id-select-saml.png)
+
+You will be directed to a page to set up single sign-on with SAML, which needs a few pieces of information from your Amplify Auth resource.
+
+![Entra ID set up single sign-on page with a form requiring an entity ID and reply URL](/images/auth/examples/microsoft-entra-id-saml/entra-id-set-up-saml.png)
+
+In the **Basic SAML Configuration** step, select **Edit** and populate with the appropriate values.
+
+| Label | Value |
+|-------|-------|
+| Identifier (Entity ID) | `urn:amazon:cognito:sp:<your-cognito-user-pool-id>` |
+| Reply URL (Assertion Consumer Service URL) | `https://<your-cognito-domain>/saml2/idpresponse` |
+| Logout Url (Optional) | `https://<your-cognito-domain>/saml2/logout` |
 
 <Callout info>
 
-**Note:** redirect URIs for SAML providers follow the convention:
+**Note:** Amazon Cognito redirect URIs for SAML providers follow the convention:
 
 ```text showLineNumbers={false}
-https://<some-hash>.auth.<aws-region>.amazoncognito.com/saml2/idpresponse
+https://<some-hash>.auth.<aws-region>.amazoncognito.com/saml2/<action>
 ```
 
-[Learn more about configuring Amazon Cognito with SAML identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-saml-idp.html)
+If you are using a custom domain the route remains the same: `/saml2/<action>`. [Learn more about configuring Amazon Cognito with SAML identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-saml-idp.html)
 
 </Callout>
 
-![Entra ID app registration form with redirect URI specified](/images/auth/examples/microsoft-entra-id-saml/entra-id-register-an-app-redirect-uri.png)
+<Callout warning>
 
-Complete the Entra ID App registration by selecting **Register**.
+**Warning:** there is a known limitation where upstream sign-out functionality successfully signs out of Entra ID, but fails to redirect back to the user app. This behavior is disabled by default with SAML integrations in Amplify Auth.
+
+</Callout>
+
+Save the configuration and proceed to Step 3's **SAML Certificates** section. Copy the **App Federation Metadata Url**
+
+![Entra ID set up single sign-on page highlighting the app federation metadata URL](/images/auth/examples/microsoft-entra-id-saml/entra-id-copy-federation-url.png)
+
+## Configure Amplify Auth with Entra ID
+
+Now that you've configured your SAML provider with Microsoft Entra ID and copied the **App Federation Metadata Url**, configure your Amplify Auth resource with the new SAML provider and paste the URL value into the `metadataContent` property:
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from "@aws-amplify/backend"
@@ -161,3 +192,52 @@ export const auth = defineAuth({
   },
 })
 ```
+
+User attributes can be found in Step 2's **Attributes & Claims** section, and are prefixed with a namespace by default. The example above shows mapping the default claim for the SAML user's email address, however additional attributes can be mapped.
+
+## Optionally upload the Cognito Signing Certificate
+
+In the AWS Console, navigate to your Cognito User Pool. Select the identity provider, **MicrosoftEntraIDSAML**, created after configuring Amplify Auth with the Entra ID SAML provider. Select **View signing certificate** and **download as .crt**
+
+![Amazon Cognito console highlighting "view signing certificate" for SAML provider](/images/auth/examples/microsoft-entra-id-saml/cognito-view-signing-certificate.png)
+
+Rename the file extension to `.cer` in order to upload to Azure. On the **Single sign-on** page, scroll down to **Step 3** (**SAML Certificates**), and under **Verification Certificates (optional)**, select **Edit**.
+
+![Entra ID single sign-on page highlighting "edit" for verification certificates](/images/auth/examples/microsoft-entra-id-saml/entra-id-edit-verification-certificate.png)
+
+Select **Require verification certificates** and upload the certificate.
+
+![Entra ID verification certificate upload pane](/images/auth/examples/microsoft-entra-id-saml/entra-id-upload-verification-certificate.png)
+
+Save your changes, and now requests to Entra ID from your Cognito User Pool will be verified.
+
+## Connect your frontend
+
+Now you're users are ready to sign in with Microsoft Entra ID. To sign in with this custom provider, specify the provider name as the name specified in your Amplify Auth definition: `MicrosoftEntraIDSAML`
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts title="main.ts"
+import { signInWithRedirect } from "aws-amplify/auth"
+
+signInWithRedirect({
+  provider: { custom: "MicrosoftEntraIDSAML" }
+})
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/* @todo */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/* @todo */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+{/* @todo */}
+
+</InlineFilter>
