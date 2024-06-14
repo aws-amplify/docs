@@ -1,5 +1,5 @@
 import { xmlUrlNode, findCanonicalPage } from '../generate-sitemap.mjs';
-import { PLATFORMS } from '@/data/platforms';
+import { PLATFORMS } from '@/constants/platforms';
 
 jest.mock('node:crypto', () => {
   return {};
@@ -72,7 +72,7 @@ describe('generate-sitemap', () => {
 
   describe('findCanonicalPage', () => {
     it('should find the canonical page based on the platforms ranking', () => {
-      const pages = PLATFORMS.map(
+      const pages = Object.keys(PLATFORMS).map(
         (platform) =>
           `/${platform}/deploy-and-host/fullstack-branching/cross-account-deployments/index.html`
       );
