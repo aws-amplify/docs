@@ -112,3 +112,46 @@ Once the sandbox environment is running, you would also generate the configurati
 </InlineFilter>
 
 - To locate the `App ID` for your backend application, navigate to the Amplify console and select your **backend-app**. On the Overview page, the `App ID` is displayed under the project name.
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --branch main --app-id BACKEND-APP-ID
+```
+</InlineFilter>
+
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+## Sharing schema type definitions
+
+If you're using Amplify Data, we recommend adding a `paths` entry in your `tsconfig.json` file that points to the `amplify/data/resource.ts` file to easily access your schema type definitions from your frontend apps.
+
+```json title="tsconfig.json" showLineNumbers={false}
+{
+  "compilerOptions": {
+    "paths": {
+      "@/data-schema": ["./packages/my-shared-backend/amplify/data/resource"]
+    }
+  }
+}
+```
+
+You can then import the `Schema` type from this path in your frontend code to get code completion and strong typing for your API calls:
+
+```ts title="apps/admin-dashboard/page.tsx"
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "@/data-schema";
+
+const client = generateClient<Schema>();
+
+const createTodo = async () => {
+  await client.models.Todo.create({
+    content: window.prompt("Todo content?"),
+    isDone: false,
+  });
+}
+
+```
+
+</InlineFilter>
