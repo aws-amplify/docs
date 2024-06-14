@@ -1402,8 +1402,8 @@ class SongViewModel: ObservableObject {
         }
 
         // Get the song record
-        guard var song = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
-            print("Error: could not retrieve the song")
+        guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
             return
         }
 
