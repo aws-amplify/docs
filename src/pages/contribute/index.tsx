@@ -4,7 +4,6 @@ import { InternalLinkButton } from '@/components/InternalLinkButton';
 import HowItWorks from '@/components/contribute/HowItWorks';
 import { YoutubeEmbed } from '@/components/YoutubeEmbed';
 import { Columns } from '@/components/Columns';
-import * as img from '../../constants/img';
 
 const meta = {
   title: 'AWS Amplify Contributor Program',
@@ -64,24 +63,24 @@ export default function Contribute() {
         wrap={'wrap'}
       >
         <ExportedImage
-          alt={img.BADGE_FOUNDATIONAL.alt}
+          alt="AWS Amplify open source contributor Foundational Badge"
           height={200}
           width={200}
-          src={img.BADGE_FOUNDATIONAL.src}
+          src="/assets/badge-foundational.png"
         />
 
         <ExportedImage
-          alt={img.BADGE_ITERMEDIATE.alt}
+          alt="AWS Amplify open source contributor Intermediate Badge"
           height={200}
           width={200}
-          src={img.BADGE_ITERMEDIATE.src}
+          src="/assets/badge-intermediate.png"
         />
 
         <ExportedImage
-          alt={img.BADGE_ADVANCED.alt}
+          alt="AWS Amplify open source contributor Advanced Badge"
           height={200}
           width={200}
-          src={img.BADGE_ADVANCED.src}
+          src="/assets/badge-advanced.png"
         />
       </Flex>
 
