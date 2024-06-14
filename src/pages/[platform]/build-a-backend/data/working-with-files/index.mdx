@@ -1663,8 +1663,7 @@ class PhotoAlbumViewModel: ObservableObject {
                 group.addTask {
                     let path = "images/\(album.id)-\(UUID().uuidString)"
                     do {
-                        _ = try await Amplify.Storage.uploadData(path: .fromString(path),
-                                                                 data: imageData).value
+                        _ = try await Amplify.Storage.uploadData(path: .fromString(path), data: imageData).value
                         return path
                     } catch {
                         print("Failed with error:", error)
@@ -1714,40 +1713,6 @@ class PhotoAlbumViewModel: ObservableObject {
         let updatedAlbum = try await Amplify.API.mutate(request: .update(createdAlbum)).get()
 
         await setCurrentAlbum(updatedAlbum)
-    }
-
-    func test(currentAlbum: PhotoAlbum) async throws {
-        // Get the album record
-        guard let album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
-            print("Album may have been deleted, no album by id: ", currentAlbum.id)
-            return
-        }
-
-        // If the record has no associated file, we can return early.
-        guard let imagePathsOptional = album.imagePaths else {
-            print("Album does not contain images")
-
-            let deleteResult = try await Amplify.API.mutate(request: .delete(album)).get()
-            return
-        }
-
-        let imagePaths = imagePathsOptional.compactMap { $0 }
-
-        // Remove the files from S3:
-        await withTaskGroup(of: Void.self) { group in
-            for path in imagePaths {
-                group.addTask {
-                    do {
-                        try await Amplify.Storage.remove(path: .fromString(path))
-                    } catch {
-                        print("Failed with error:", error)
-                    }
-                }
-            }
-        }
-
-        // Delete the API record:
-        let deleteResult = try await Amplify.API.mutate(request: .delete(album)).get()
     }
 
     // Add new file to an associated record
@@ -1852,9 +1817,7 @@ class PhotoAlbumViewModel: ObservableObject {
 
         // Get the song record
         guard let album = try await Amplify.API.query(
-            request:
-                    .get(PhotoAlbum.self,
-                         byId: currentAlbum.id)).get() else {
+            request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
             print("Error: could not retrieve album")
             return
         }
@@ -1865,6 +1828,7 @@ class PhotoAlbumViewModel: ObservableObject {
             await setCurrentImages([])
             return
         }
+
         let imagePaths = imagePathsOptional.compactMap { $0 }
 
         // Download the photos
@@ -1990,7 +1954,7 @@ class PhotoAlbumViewModel: ObservableObject {
         }
 
         // Get the album record
-        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
+        guard let album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
             print("Error: could not retrieve album")
             return
         }
