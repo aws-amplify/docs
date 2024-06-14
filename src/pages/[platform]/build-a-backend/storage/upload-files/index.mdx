@@ -148,7 +148,7 @@ import { uploadData } from 'aws-amplify/storage';
 try {
   const result = await uploadData({
     path: "album/2024/1.jpg",
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
     data: file,
     options: {
       onProgress // Optional progress callback.
@@ -704,7 +704,7 @@ const monitorUpload = async () => {
   try {
     const result = await uploadData({
       path: "album/2024/1.jpg",
-      // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+      // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
       data: file,
       options: {
         onProgress: ({ transferredBytes, totalBytes }) => {

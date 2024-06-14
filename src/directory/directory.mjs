@@ -39,10 +39,16 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/start/connect-existing-aws-resources/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/start/kotlin-coroutines/index.mdx'
             },
             {
               path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/start/platform-setup/index.mdx'
             }
           ]
         },
@@ -170,6 +176,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-existing-cognito-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/use-aws-sdk/index.mdx'
@@ -666,6 +675,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/index.mdx'
                 }
               ]
             }

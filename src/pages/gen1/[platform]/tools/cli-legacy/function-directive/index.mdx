@@ -148,6 +148,10 @@ When building applications, it is often useful to fetch information for the curr
 
 For example purposes assume the function is named `GraphQLResolverFunction`:
 
+<BlockSwitcher>
+
+<Block name="AWS SDK V2">
+
 ```js
 /* Amplify Params - DO NOT EDIT
 You can access the following resource attributes as environment variables from your Lambda function
@@ -217,6 +221,80 @@ exports.handler = async (event) => {
   throw new Error('Resolver not found.');
 };
 ```
+</Block>
+
+<Block name="AWS SDK V3">
+
+```js
+/* Amplify Params - DO NOT EDIT
+You can access the following resource attributes as environment variables from your Lambda function
+var environment = process.env.ENV
+var region = process.env.REGION
+var authMyResourceNameUserPoolId = process.env.AUTH_MYRESOURCENAME_USERPOOLID
+
+Amplify Params - DO NOT EDIT */
+
+const { CognitoIdentityProviderClient, AdminGetUserCommand } = require('@aws-sdk/client-cognito-identity-provider');
+const cognitoIdentityProviderClient = new CognitoIdentityProviderClient({ region: process.env.REGION });
+
+/**
+ * Get user pool information from environment variables.
+ */
+const COGNITO_USERPOOL_ID = process.env.AUTH_MYRESOURCENAME_USERPOOLID;
+if (!COGNITO_USERPOOL_ID) {
+  throw new Error(
+    `Function requires environment variable: 'COGNITO_USERPOOL_ID'`
+  );
+}
+const COGNITO_USERNAME_CLAIM_KEY = 'cognito:username';
+
+/**
+ * Using this as the entry point, you can use a single function to handle many resolvers.
+ */
+const resolvers = {
+  Query: {
+    echo: (ctx) => {
+      return ctx.arguments.msg;
+    },
+    me: async (ctx) => {
+      const params = {
+        UserPoolId: COGNITO_USERPOOL_ID,
+        Username: ctx.identity.claims[COGNITO_USERNAME_CLAIM_KEY]
+      };
+      try {
+        const response = await cognitoIdentityProviderClient.send(new AdminGetUserCommand(params));
+        return response.UserAttributes;
+      } catch (e) {
+        throw new Error(`NOT FOUND`);
+      }
+    }
+  }
+};
+
+// event
+// {
+//   "typeName": "Query", /* Filled dynamically based on @function usage location */
+//   "fieldName": "me", /* Filled dynamically based on @function usage location */
+//   "arguments": { /* GraphQL field arguments via $ctx.arguments */ },
+//   "identity": { /* AppSync identity object via $ctx.identity */ },
+//   "source": { /* The object returned by the parent resolver. E.G. if resolving field 'Post.comments', the source is the Post object. */ },
+//   "request": { /* AppSync request object. Contains things like headers. */ },
+//   "prev": { /* If using the built-in pipeline resolver support, this contains the object returned by the previous function. */ },
+// }
+exports.handler = async (event) => {
+  const typeHandler = resolvers[event.typeName];
+  if (typeHandler) {
+    const resolver = typeHandler[event.fieldName];
+    if (resolver) {
+      return await resolver(event);
+    }
+  }
+  throw new Error('Resolver not found.');
+};
+```
+</Block>
+
+</BlockSwitcher>
 
 You can connect this function to your AppSync API deployed via Amplify using this schema:
 
