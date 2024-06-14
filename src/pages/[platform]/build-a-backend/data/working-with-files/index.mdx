@@ -120,7 +120,7 @@ You can create a record via the Amplify Data client, upload a file to Storage, a
 
 <Callout>
 
-The API record's `id` is prepended to the Storage file name to ensure uniqueness. If this is excluded, multiple API records could then be associated with the same file key unintentionally.
+The API record's `id` is prepended to the Storage file name to ensure uniqueness. If this is excluded, multiple API records could then be associated with the same file path unintentionally.
 
 </Callout>
 
@@ -139,7 +139,7 @@ var createdSong = try await Amplify.API.mutate(request: .create(song)).get()
 // Upload the art cover image
 _ = Amplify.Storage.uploadData(path: .fromString("images/\(createdSong.id)-cover.png"), data: imageData)
 
-// Update the song record with the image key
+// Update the song record with the image path
 createdSong.coverArtPath = createdSong.id
 
 _ = try await Amplify.API.mutate(request: .update(createdSong)).get()
@@ -197,7 +197,7 @@ const signedURL = await getUrl({ path: updatedSong.coverArtPath });
 
 ## Add or update a file for an associated record
 
-To associate a file with a record, update the record with the key returned by the Storage upload. The following example uploads the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image.
+To associate a file with a record, update the record with the path returned by the Storage upload. The following example uploads the file using Storage, updates the record with the file's path, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image.
 
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
@@ -212,7 +212,7 @@ currentSong.coverArtPath = imagePath
 let result = try await Amplify.API.mutate(request: .update(currentSong)).get()
 
 // Retrieve the file's signed URL:
-let signedUrl = try await Amplify.Storage.getURL(key: imagePath)
+let signedUrl = try await Amplify.Storage.getURL(path: imagePath)
 ```
 </InlineFilter>
 
@@ -320,7 +320,7 @@ var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: cu
 
 // If the record has no associated file, we can return early.
 guard song?.coverArtPath != nil else {
-    print("There is no cover art key to remove image association")
+    print("There is no cover art path to remove image association")
     return
 }
 
@@ -372,7 +372,7 @@ var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: cu
 
 // If the record has no associated file, we can return early.
 guard let coverArtPath = song?.coverArtPath else {
-    print("There is no cover art key to remove image association")
+    print("There is no cover art path to remove image association")
     return
 }
 
@@ -502,7 +502,7 @@ var createdAlbum = try await Amplify.API.mutate(request: .create(album)).get()
 let imagePaths = await withTaskGroup(of: String?.self) { group in
     for imageData in imagesData {
         group.addTask {
-            let path = "\(album.id)-\(UUID().uuidString)"
+            let path = "images/\(album.id)-\(UUID().uuidString)"
             do {
                 _ = try await Amplify.Storage.uploadData(path: .fromString(path),
                                                           data: imageData
@@ -597,10 +597,9 @@ To associate additional files with a record, update the record with the paths re
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
 // Upload file to Storage:
-let path = "\(currentAlbum.id)-\(UUID().uuidString)"
+let path = "images/\(currentAlbum.id)-\(UUID().uuidString)"
 
-_ = try await Amplify.Storage.uploadData(path: .fromString(path),
-                                          data: imageData).value
+_ = try await Amplify.Storage.uploadData(path: .fromString(path), data: imageData).value
 
 // Query existing record to retrieve currently associated files:
 var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get()
@@ -689,7 +688,7 @@ Updating a file for an associated record is the same as updating a file for a si
 ]}>
 ```swift title="ContentView"
 // Upload new file to Storage:
-let path = "\(currentAlbum.id)-\(UUID().uuidString)"
+let path = "images/\(currentAlbum.id)-\(UUID().uuidString)"
 
 _ = try await Amplify.Storage.uploadData(path: .fromString(path), data: imageData).value
 
@@ -744,9 +743,9 @@ if (!photoAlbum?.imagePaths?.length) return;
 // Retrieve last image path:
 const [lastImagePath] = photoAlbum.imagePaths.slice(-1);
 
-// Remove last file association by key
+// Remove last file association by path
 const updatedimagePaths = [
-  ...photoAlbum.imagePaths.filter((key) => key !== lastImagePath),
+  ...photoAlbum.imagePaths.filter((path) => path !== lastImagePath),
   newFilePath,
 ];
 
@@ -846,7 +845,7 @@ const signedUrls = await Promise.all(
 
 ### Delete and remove files associated with API records
 
-The workflow for deleting and removing files associated with API records is the same as when working with a single file, except that when performing a delete you will need to iterate over the list of files keys and call `Storage.remove()` for each file.
+The workflow for deleting and removing files associated with API records is the same as when working with a single file, except that when performing a delete you will need to iterate over the list of file paths and call `Storage.remove()` for each file.
 
 #### Remove the file association, continue to persist both files and record
 
@@ -1258,8 +1257,7 @@ class SongViewModel: ObservableObject {
         var createdSong = try await Amplify.API.mutate(request: .create(song)).get()
 
         // Upload the art cover image
-        _ = try await Amplify.Storage.uploadData(path: .fromString("images/\(createdSong.id)"),
-                                                 data: imageData).value
+        _ = try await Amplify.Storage.uploadData(path: .fromString("images/\(createdSong.id)"), data: imageData).value
 
         // Update the song record with the image path
         createdSong.coverArtPath = createdSong.id
@@ -1287,8 +1285,7 @@ class SongViewModel: ObservableObject {
         }
 
         // Upload the new art image
-        _ = try await Amplify.Storage.uploadData(path: .fromString("images/\(currentSong.id)"),
-                                                 data: imageData).value
+        _ = try await Amplify.Storage.uploadData(path: .fromString("images/\(currentSong.id)"), data: imageData).value
 
         // Update the song record
         currentSong.coverArtPath = currentSong.id
@@ -2673,9 +2670,9 @@ function App({ signOut, user }: WithAuthenticatorProps) {
       // Retrieve last image path:
       const [lastImagePath] = photoAlbum.imagePaths.slice(-1);
 
-      // Remove last file association by key
+      // Remove last file association by path
       const updatedimagePaths = [
-        ...photoAlbum.imagePaths.filter((key) => key !== lastImagePath),
+        ...photoAlbum.imagePaths.filter((path) => path !== lastImagePath),
         newFilePath,
       ];
 
