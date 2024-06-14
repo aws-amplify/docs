@@ -424,7 +424,7 @@ await remove({ path: song.coverArtPath });
 <InlineFilter filters={["swift"]}>
 ```swift title="ContentView"
 // Get the song record
-let song = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id)).get()
+let song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get()
 
 // Delete the record from the API
 let deleteResult = try await Amplify.API.mutate(request: .delete(song!))
@@ -1340,7 +1340,7 @@ class SongViewModel: ObservableObject {
         }
 
         // Get the song record
-        var song = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id)).get()
+        var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get()
 
         guard song?.coverArtPath != nil else {
             print("There is no cover art path to remove image association")
@@ -1815,7 +1815,7 @@ class PhotoAlbumViewModel: ObservableObject {
         }
 
         // Get the album record
-        guard var album = try await Amplify.API.mutate(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
+        guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id)).get() else {
             print("Error: could not retrieve album")
             return
         }
