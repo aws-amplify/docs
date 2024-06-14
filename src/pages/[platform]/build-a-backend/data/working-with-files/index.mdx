@@ -378,7 +378,7 @@ The following example removes the file from the record, then deletes the file fr
 ```swift title="ContentView"
 // Get the song record
 guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
-    print("Error: could not retrieve the song")
+    print("Song may have been deleted, no song by id: ", currentSong.id)
     return
 }
 
@@ -435,7 +435,7 @@ await remove({ path: song.coverArtPath });
 ```swift title="ContentView"
 // Get the song record
 guard let song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id)).get() else {
-    print("Error: could not retrieve the song")
+    print("Song may have been deleted, no song by id: ", currentSong.id)
     return
 }
 
@@ -612,7 +612,7 @@ _ = try await Amplify.Storage.uploadData(path: .fromString(path), data: imageDat
 
 // Get the latest album
 guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-    print("Error: could not retrieve album")
+    print("Album may have been deleted, no album by id: ", currentAlbum.id)
     return
 }
 
@@ -791,7 +791,7 @@ To retrieve the files associated with a record, first query the record, then use
 // Query the record to get the file paths:
 guard let album = try await Amplify.API.query(
     request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-    print("Error: could not retrieve album")
+    print("Album may have been deleted, no album by id: ", currentAlbum.id)
     return
 }
 
@@ -873,7 +873,7 @@ The workflow for deleting and removing files associated with API records is the 
 ```swift title="ContentView"
 // Get the album record
 guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-    print("Error: could not retrieve album")
+    print("Album may have been deleted, no album by id: ", currentAlbum.id)
     return
 }
 
@@ -925,7 +925,7 @@ const updatedPhotoAlbum = await client.models.PhotoAlbum.update({
 ```swift title="ContentView"
 // Get the album record
 guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-    print("Error: could not retrieve album")
+    print("Album may have been deleted, no album by id: ", currentAlbum.id)
     return
 }
 
@@ -1004,7 +1004,7 @@ await Promise.all(
 ```swift title="ContentView"
 // Get the album record
 guard let album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-    print("Error: could not retrieve album")
+    print("Album may have been deleted, no album by id: ", currentAlbum.id)
     return
 }
 
@@ -1429,7 +1429,7 @@ class SongViewModel: ObservableObject {
 
         // Get the song record
         guard var song = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id)).get() else {
-            print("Error: could not retrieve the song")
+            print("Song may have been deleted, no song by id: ", currentSong.id)
             return
         }
 
@@ -1463,7 +1463,7 @@ class SongViewModel: ObservableObject {
 
         // Get the song record
         guard var song = try await Amplify.API.query(request: .get(Song.self, byId: currentSong.id)).get() else {
-            print("Error: could not retrieve the song")
+            print("Song may have been deleted, no song by id: ", currentSong.id)
             return
         }
 
@@ -1744,7 +1744,7 @@ class PhotoAlbumViewModel: ObservableObject {
 
         // Get the latest album
         guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-            print("Error: could not retrieve album")
+            print("Album may have been deleted, no album by id: ", currentAlbum.id)
             return
         }
 
@@ -1822,7 +1822,7 @@ class PhotoAlbumViewModel: ObservableObject {
         // Get the song record
         guard let album = try await Amplify.API.query(
             request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-            print("Error: could not retrieve album")
+            print("Album may have been deleted, no album by id: ", currentAlbum.id)
             return
         }
 
@@ -1875,7 +1875,7 @@ class PhotoAlbumViewModel: ObservableObject {
 
         // Get the album record
         guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-            print("Error: could not retrieve album")
+            print("Album may have been deleted, no album by id: ", currentAlbum.id)
             return
         }
 
@@ -1907,7 +1907,7 @@ class PhotoAlbumViewModel: ObservableObject {
 
         // Get the album record
         guard var album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-            print("Error: could not retrieve album")
+            print("Album may have been deleted, no album by id: ", currentAlbum.id)
             return
         }
 
@@ -1959,7 +1959,7 @@ class PhotoAlbumViewModel: ObservableObject {
 
         // Get the album record
         guard let album = try await Amplify.API.query(request: .get(PhotoAlbum.self, byId: currentAlbum.id)).get() else {
-            print("Error: could not retrieve album")
+            print("Album may have been deleted, no album by id: ", currentAlbum.id)
             return
         }
 
