@@ -9,6 +9,7 @@ export const MDXTable: React.FC<MDXTableProps> = ({ children, ...props }) => {
   return (
     <ScrollView
       tabIndex={0}
+      role="region"
       aria-label="Scrollable table"
       className="scrollview"
     >
