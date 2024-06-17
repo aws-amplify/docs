@@ -115,12 +115,20 @@ Add another user as an owner
 
 ```dart
 try {
-  createdTodo.owners?.append(otherUserId);
-  let updatedTodo = await Amplify.API.mutate(request: .update(
+  createdTodo.owners!.add(otherUserId);
+  let updateRequest = ModelMutations.update(
     createdTodo,
-    authMode: .userPools)).get()
+    authorizationMode: APIAuthorizationType.userPools,
+  );
+  final updatedTodo = await Amplify.API.mutations(request: updateRequest).response;
+
+  if (updatedTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+
 } catch {
-  print("Failed to update todo", error)
+  safePrint("Failed to update todo", error)
 }
 ```
 </InlineFilter>
