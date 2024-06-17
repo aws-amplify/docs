@@ -341,7 +341,7 @@ Future<void> main() async {
   try {
     final api = AmplifyAPI(
       options: APIPluginOptions(
-        modelRegistration: ModelProvider()
+        modelProvider: ModelProvider.instance
         )
       );
     await Amplify.addPlugins([api]);
