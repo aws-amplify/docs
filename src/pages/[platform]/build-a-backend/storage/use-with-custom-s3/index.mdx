@@ -1,8 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Use Amplify Storage with any S3 bucket',
-  description: 'You can use the Amplify Storage APIs against your own S3 bucket in your account.',
+  title: 'Use existing S3 resources',
+  description: 'Connect to S3 resources using Amplify Storage's client library',
   platforms: [
     'javascript',
     'react',
@@ -27,9 +27,23 @@ export function getStaticProps(context) {
       meta
     }
   };
-}
+};
 
-With Amplify Storage APIs, you can use your own S3 buckets instead of the Amplify-created ones.
+Amplify Storage can be configured to use an existing Amazon S3 bucket. If you are in a team setting or part of a company that has previously created S3 resources, you have a few different options to configure your application to use existing S3 resources.
+
+If you are using Amplify to build your backend, it is recommended to add a reference to your S3 resource using `backend.addOutput` in **amplify/backend.ts**.
+
+If you do not use Amplify to build your backend, you can [configure the client library directly](#use-storage-resources-without-an-amplify-backend).
+
+<Callout info>
+
+**Note:** when using existing auth resources, it may be necessary to add policies or permissions for your authenticated and unauthenticated IAM roles. These changes must be performed manually using the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/)
+
+</Callout>
+
+## Use storage resources with an Amplify backend
+
+Follow these instructions if you have already configured Amplify backend with Auth and Data, and you would like to connect an existing S3 resource with your Amplify backend.
 
 <Callout>
 
@@ -37,7 +51,7 @@ With Amplify Storage APIs, you can use your own S3 buckets instead of the Amplif
 
 </Callout>
 
-## Step 1 - Add necessary permissions to the S3 bucket
+### Step 1 - Add necessary permissions to the S3 bucket
 
 For the specific Amazon S3 bucket that you want to use with these APIs, you need to make sure that the associated IAM role has the necessary permissions to read and write data to that bucket.
 
@@ -72,7 +86,7 @@ Replace `<AWS-account-ID>` with your AWS account ID and `<role-name>` with the I
 
 You can refer to [Amazon S3's Policies and Permissions documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html) for more ways to customize access to the bucket.
 
-## Step 2 - Specify S3 bucket in Amplify's backend config
+### Step 2 - Specify S3 bucket in Amplify's backend config
 
 Next, use the `addOutput` method from the backend definition object to define a custom s3 bucket by specifying the name and region of the bucket in your **amplify/backend.ts** file.
 
@@ -98,19 +112,39 @@ const backend = defineBackend({
 });
 
 //highlight-start
-backend.addOutput({
-  storage: {
-    aws_region: "<region>",
-    bucket_name: "<bucket-name>"
-  },
+const storageStack = backend.createStack("StorageStack");
+
+// Get IBucket object
+const bucket = Bucket.fromBucketAttributes(
+                        storageStack, 
+                        "Bucket", 
+                        {
+                          bucketName: "myTestAmplify-bucket-2028299435",
+                        }
+                );
+//highlight-end
+
+//highlight-start
+// ex: You can further customize grants like this
+bucket.grantRead({
+  grantPrincipal: backend.auth.resources.authenticatedUserIamRole,
 });
 //highlight-end
 
+//highlight-start
+// add the bucket to your backend using `addOutput`
+backend.addOutput({
+  storage: {
+    aws_region: storageStack.region,
+    bucket_name: bucket.bucketName,
+  },
+});
+//highlight-end
 ```
 
 <InlineFilter filters={["javascript", "nextjs", "react", "angular", "vue", "react-native", "android", "swift"]}>
 
-## Step 3 - Import latest amplify_outputs.json file
+### Step 3 - Import latest amplify_outputs.json file
 
 To ensure the local **amplify_outputs.json** file is up-to-date, you can run [the npx ampx generate outputs command](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs) or download the latest **amplify_outputs.json** from the Amplify console as shown below.
 
@@ -120,10 +154,33 @@ To ensure the local **amplify_outputs.json** file is up-to-date, you can run [th
 
 <InlineFilter filters={["flutter"]}>
 
-## Step 3 - Import latest amplifyconfiguration.dart file
+### Step 3 - Import latest amplifyconfiguration.dart file
 
 To ensure the local **amplifyconfiguration.dart** file is up-to-date, you can run [the npx ampx generate outputs command](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs).
 
 </InlineFilter>
 
 Now that you've configured the necessary permissions, you can start using the storage APIs with your chosen S3 bucket.
+
+## Use storage resources without an Amplify backend
+
+Alternatively, you can use existing resources without an Amplify backend.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+```ts title="src/main.ts"
+
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Storage: {
+    S3: {
+      region: '[REGION]', // (required) - Amazon S3 bucket region
+      bucket: '[BUCKET NAME]' // (required) - Amazon S3 bucket URI
+    }
+  }
+});
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+</InlineFilter>
