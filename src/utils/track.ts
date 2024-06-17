@@ -95,24 +95,6 @@ export const trackCopyClicks = (data) => {
   }
 };
 
-// Track the click on the "Whats new" banner component
-export const trackWhatsNewBanner = () => {
-  const opt = {
-    event: {
-      type: 'click',
-      name: 'WhatsNewBanner'
-    }
-  };
-
-  if (AWSMA) {
-    AWSMA.ready(() => {
-      document.dispatchEvent(
-        new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
-      );
-    });
-  }
-};
-
 // Track the click on the Version Switcher component
 export const trackVersionChange = (viewOld: boolean) => {
   const opt = {
