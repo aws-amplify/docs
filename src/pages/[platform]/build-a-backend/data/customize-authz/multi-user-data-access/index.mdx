@@ -94,11 +94,11 @@ In your application, you can perform CRUD operations against the model with the 
 ```dart
 try {
   final todo = Todo(content: 'My new todo');
-  final request = ModelMutations.create(todo);
-  final createdTodo = await Amplify.DataStore.save(
-    request: request, 
-    authorizationMode: APIAuthorizationType.userPools
-    ).response;
+  final request = ModelMutations.create(
+    todo,  
+    authorizationMode: APIAuthorizationType.userPools,
+  );
+  final createdTodo = await Amplify.API.mutations(request: request).response;
 
   if (createdTodo == null) {
     safePrint('errors: ${response.errors}');
