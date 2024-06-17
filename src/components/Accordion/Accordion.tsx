@@ -9,6 +9,7 @@ type AccordionProps = {
   headingLevel?: '2' | '3' | '4' | '5' | '6';
   eyebrow?: string;
   children?: React.ReactNode;
+  test?: string;
 };
 
 export const Accordion: React.FC<AccordionProps> = ({

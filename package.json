@@ -60,7 +60,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-puppeteer": "^10.0.1",
     "json5": "^2.2.3",
-    "lint-staged": "^14.0.0",
+    "lint-staged": "^15.2.7",
     "next-bundle-analyzer": "^0.6.7",
     "prettier": "^3.0.3",
     "puppeteer": "^22.8.0",
