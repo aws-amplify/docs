@@ -4823,7 +4823,7 @@ cspell-trie-lib@8.9.0:
     "@cspell/cspell-types" "8.9.0"
     gensequence "^7.0.0"
 
-cspell@^8.8.4:
+cspell@^8.9.0:
   version "8.9.0"
   resolved "https://registry.yarnpkg.com/cspell/-/cspell-8.9.0.tgz#f8a1faa99cc266b94b38744708417ea58e136ffd"
   integrity sha512-lDYu5p/XU3rqiNjMV46s92yJ7SfVyzAy03OtCJ94fopegZwFLjqZvqoy509ccP/0sHmiv83oTed8LP6Fm3kjpw==
