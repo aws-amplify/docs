@@ -121,6 +121,8 @@ export const handler: Schema["sayHello"]["functionHandler"] = async (event) => {
 
 Finally, use the data client to invoke your Function by calling its associated query.
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
 ```ts title="src/main.ts"
 import type { Schema } from "./amplify/data/resource"
 import { Amplify } from "aws-amplify"
@@ -137,6 +139,146 @@ client.queries.sayHello({
 })
 // highlight-end
 ```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+```kt
+data class SayHelloDetails(
+    val name: String,
+)
+
+data class SayHelloResponse(
+    val sayHello: SayHelloDetails
+)
+
+val document = """
+    query SayHelloQuery(${'$'}name: String!) {
+        sayHello(name: ${'$'}name) {
+            name
+            executionDuration
+        }
+    }
+""".trimIndent()
+val sayHelloQuery = SimpleGraphQLRequest<String>(
+    document,
+    mapOf("name" to "Amplify"),
+    String::class.java,
+    GsonVariablesSerializer())
+
+Amplify.API.query(
+    sayHelloQuery,
+    {
+        var gson = Gson()
+        val response = gson.fromJson(it.data, SayHelloResponse::class.java)
+        Log.i("MyAmplifyApp", "${response.sayHello.name}")
+    },
+    { Log.e("MyAmplifyApp", "$it")}
+)
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+First define a class that matches your response shape:
+
+```dart
+class SayHelloResponse {
+  final SayHello sayHello;
+
+  SayHelloResponse({required this.sayHello});
+
+  factory SayHelloResponse.fromJson(Map<String, dynamic> json) {
+    return SayHelloResponse(
+      sayHello: SayHello.fromJson(json['sayHello']),
+    );
+  }
+}
+
+class SayHello {
+  final String name;
+  final double executionDuration;
+
+  SayHello({required this.name, required this.executionDuration});
+
+  factory SayHello.fromJson(Map<String, dynamic> json) {
+    return SayHello(
+      name: json['name'],
+      executionDuration: json['executionDuration'],
+    );
+  }
+}
+```
+
+Next, make the request and map the response to the classes defined above:
+
+```dart
+// highlight-next-line
+import 'dart:convert';
+
+// highlight-start
+const graphQLDocument = '''
+  query SayHello(\$name: String!) {
+    sayHello(name: \$name) {
+      name
+      executionDuration
+    }
+  }
+''';
+
+final echoRequest = GraphQLRequest<String>(
+  document: graphQLDocument,
+  variables: <String, String>{"name": "Amplify"},
+);
+
+final response =
+    await Amplify.API.query(request: echoRequest).response;
+safePrint(response);
+
+Map<String, dynamic> jsonMap = json.decode(response.data!);
+SayHelloResponse SayHelloResponse = SayHelloResponse.fromJson(jsonMap);
+safePrint(SayHelloResponse.sayHello.name);
+// highlight-end
+```
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+```swift
+struct SayHelloResponse: Codable {
+    public let sayHello: SayHello
+    
+    struct SayHello: Codable {
+        public let name: String
+        public let executionDuration: Float
+    }
+}
+
+let document = """
+    query EchoQuery($name: String!) {
+        sayHello(name: $name) {
+            name
+            executionDuration
+        }
+    }
+    """
+
+let result = try await Amplify.API.query(request: GraphQLRequest<SayHelloResponse>(
+    document: document,
+    variables: [
+        "name": "Amplify"
+    ],
+    responseType: SayHelloResponse.self
+))
+switch result {
+case .success(let response):
+    print(response.sayHello)
+case .failure(let error):
+    print(error)
+}
+```
+
+</InlineFilter>
 
 ## Next steps
 
