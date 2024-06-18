@@ -27,6 +27,8 @@ jest.mock('next/router', () => routerMock);
 
 describe('GetStartedPopover', () => {
   const getStartedHref = '/[platform]/start/quickstart/';
+  const testId = 'getStartedTestId';
+  const popoverTestId = `${testId}-popoverList`;
   const getStartedLinks = [
     {
       title: 'React',
@@ -112,7 +114,11 @@ describe('GetStartedPopover', () => {
   ];
 
   const component = (
-    <GetStartedPopover platform={'react'} getStartedLinks={getStartedLinks} />
+    <GetStartedPopover
+      testId={testId}
+      platform={'react'}
+      getStartedLinks={getStartedLinks}
+    />
   );
 
   const componentWithGeneratedLinks = (
@@ -149,9 +155,7 @@ describe('GetStartedPopover', () => {
     const button = await screen.findByRole('button', {
       name: 'Toggle getting started guides navigation'
     });
-    const dropdown = await screen.findByRole('navigation', {
-      name: 'Getting started guides for other platforms'
-    });
+    const dropdown = screen.getByTestId(popoverTestId);
 
     expect(dropdown.classList).not.toContain('popover--expanded');
     userEvent.click(button);
@@ -180,9 +184,7 @@ describe('GetStartedPopover', () => {
     const button = await screen.findByRole('button', {
       name: 'Toggle getting started guides navigation'
     });
-    const dropdown = await screen.findByRole('navigation', {
-      name: 'Getting started guides for other platforms'
-    });
+    const dropdown = screen.getByTestId(popoverTestId);
 
     userEvent.click(button);
     expect(dropdown.classList).toContain('popover--expanded');
@@ -195,9 +197,7 @@ describe('GetStartedPopover', () => {
     const button = await screen.findByRole('button', {
       name: 'Toggle getting started guides navigation'
     });
-    const dropdown = await screen.findByRole('navigation', {
-      name: 'Getting started guides for other platforms'
-    });
+    const dropdown = screen.getByTestId(popoverTestId);
     const platformOptions =
       document.getElementsByClassName('popover-list__link');
 
