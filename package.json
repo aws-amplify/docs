@@ -96,7 +96,9 @@
     "@adobe/css-tools": "4.3.2",
     "follow-redirects": "^1.15.6",
     "sharp": "0.32.6",
-    "ejs": "3.1.10"
+    "ejs": "3.1.10",
+    "braces": "^3.0.3",
+    "ws": "^8.17.1"
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
