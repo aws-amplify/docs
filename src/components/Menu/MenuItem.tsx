@@ -66,9 +66,6 @@ export function MenuItem({
     }
   };
 
-  // const events = router.events;
-  // events.on('routeChangeComplete', focusContent);
-
   const handleFocus = () => {
     if (parentSetOpen) {
       parentSetOpen(true);
