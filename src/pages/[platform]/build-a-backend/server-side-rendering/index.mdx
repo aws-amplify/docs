@@ -230,6 +230,30 @@ For the **GraphQL API** category, review [Connect to data from Server-side Runti
 
 </Callout>
 
+<Callout>
+
+**NOTE:** If you used the Amplify server-side APIs in server action and encounter the error running `next build`:
+
+> ./node_modules/@aws-amplify/core/node_modules/@aws-crypto/sha256-js/build/module/index.js + 12 modules
+
+> Cannot get final name for export 'fromUtf8' of ./node_modules/@smithy/util-utf8/dist-es/index.js
+
+You can add the following to your `next.config.js`:
+
+```ts title="next.config.js"
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // highlight-start
+  experimental: {
+    serverComponentsExternalPackages: ['@aws-crypto'],
+  },
+  // highlight-end
+};
+```
+
+See Next.js documentation on [`serverComponentsExternalPackages`](https://nextjs.org/docs/app/api-reference/next-config-js/serverComponentsExternalPackages) fro more details.
+</Callout>
+
 ### With Next.js App Router
 
 #### Dynamic rendering in React server component
