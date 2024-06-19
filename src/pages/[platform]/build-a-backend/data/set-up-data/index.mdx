@@ -341,7 +341,7 @@ Future<void> main() async {
   try {
     final api = AmplifyAPI(modelProvider: ModelProvider.instance);
     await Amplify.addPlugins([api]);
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
 
     safePrint('Successfully configured Amplify');
   } on Exception catch (e) {
