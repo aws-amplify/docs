@@ -285,13 +285,13 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
 
 The `signUp` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "flutter", "android"]}>
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "android"]}>
 - `CONFIRM_SIGN_UP` - The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp`.
 - `DONE` - The sign up process has been fully completed.
 - `COMPLETE_AUTO_SIGN_IN` - The sign up process needs to complete by invoking the `autoSignIn` API.
 </InlineFilter>
 
-<InlineFilter filters={["swift"]}>
+<InlineFilter filters={["swift", "flutter"]}>
 - `confirmUser` - The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp` API.
 - `done` - The sign up process has been fully completed.
 </InlineFilter>
