@@ -1,4 +1,4 @@
-import { Children } from 'react';
+import { Children, useId } from 'react';
 import { View, Tabs } from '@aws-amplify/ui-react';
 import { BlockProps } from './Block';
 
@@ -10,6 +10,8 @@ export const BlockSwitcherErrorMessage =
   'BlockSwitcher requires more than one block element';
 
 export const BlockSwitcher = ({ children }: BlockSwitcherProps) => {
+  const uniqueId = useId();
+
   if (!children.length || children.length <= 1) {
     throw new Error(BlockSwitcherErrorMessage);
   }
@@ -18,7 +20,7 @@ export const BlockSwitcher = ({ children }: BlockSwitcherProps) => {
    * convert names with spaces to valid aria-controls values
    */
   const convertNameToValue = (name: string) => {
-    return name.split(' ').join('-').toLowerCase();
+    return `${name.split(' ').join('-').toLowerCase()}-${uniqueId}`;
   };
 
   return (
