@@ -66,3 +66,16 @@ android {
 <Callout info>
 If you would like to use a higher version of Gradle or Android Gradle plugin see the compatibility matrix [here](https://developer.android.com/build/releases/gradle-plugin#updating-gradle).
 </Callout>
+
+### Network Permissions for Release Builds
+
+Flutter apps have access to make network requests by default in debug mode. This permission needs to be added when building in release mode. To do this, open `android/app/src/main/AndroidManifest.xml` and make the following addition.
+
+```xml title="android/app/src/main/AndroidManifest.xml"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+// highlight-start
+   <uses-permission android:name="android.permission.INTERNET"/>
+// highlight-end
+...
+</manifest>
+```
