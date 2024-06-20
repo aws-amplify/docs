@@ -22,7 +22,7 @@ export function getStaticProps(context) {
 }
 
 
-### iOS
+## iOS
 
 Amplify requires a minimum deployment target of 13.0 and Xcode 13.2 or higher when targeting iOS.
 
@@ -40,7 +40,7 @@ Select Runner, Project -> Runner and then the "Info" tab. Update "iOS Deployment
 
 ![Setting the iOS version to 13.0 or higher in the deployment targets section of the Runner info window.](/images/project-setup/flutter/ios/project-min-deployment-version.png)
 
-### Android
+## Android
 
 Amplify Flutter supports API level 24+ (Android 7.0+), and requires Gradle 8+, Kotlin 1.9+, and Java 17+ when targeting Android. Follow the steps below to apply these changes in your app. 
 
@@ -111,7 +111,7 @@ android {
 If you would like to use a higher version of Gradle or Android Gradle plugin see the compatibility matrix [here](https://developer.android.com/build/releases/gradle-plugin#updating-gradle).
 </Callout>
 
-#### Network Permissions for Release Builds
+### Network Permissions for Release Builds
 
 Flutter apps have access to make network requests by default in debug mode. This permission needs to be added when building in release mode. To do this, open `android/app/src/main/AndroidManifest.xml` and make the following addition.
 
@@ -124,18 +124,18 @@ Flutter apps have access to make network requests by default in debug mode. This
 </manifest>
 ```
 
-### Web
+## Web
 
 There are no Amplify specific requirements or setup instructions when targeting web. You will need to use a browser supported by Flutter. See the following Flutter docs for more info:
 
 - [Supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms)
 - [FAQ: Which web browsers are supported by Flutter?](https://docs.flutter.dev/development/platform-integration/web/faq#which-web-browsers-are-supported-by-flutter)
 
-### macOS
+## macOS
 
 Amplify requires a minimum deployment target of 10.15 and Xcode 13.2 or higher when targeting macOS. Additionally, you will need to enable networking, keychain entitlements, and code signing.
 
-#### Update Minimum Version
+### Update Minimum Version
 
 From your project root, navigate to the `macos/` directory and open the `Podfile` in a text editor of your choice. Update the target macOS platform to 10.15 or higher.
 
@@ -151,7 +151,7 @@ Select Runner, Project -> Runner and then the "Info" tab. Update "macOS Deployme
 
 ![Setting the macOS version to 10.15 or higher in the macOS Deployment Target tab of the Runner info section.](/images/project-setup/flutter/mac/project-min-deployment-version.png)
 
-#### Enable Network Calls
+### Enable Network Calls
 
 Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab. Under "App Sandbox" select "Outgoing Connections (Client)".
 
@@ -159,7 +159,7 @@ Open your project in Xcode and select Runner, Targets -> Runner and then the "Si
 
 For more info on the Networking entitlement, see Apple's documentation on [com.apple.security.network.client](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client).
 
-#### Enable Keychain Sharing
+### Enable Keychain Sharing
 
 <Callout info>
 
@@ -188,17 +188,17 @@ Open your project in Xcode and select Runner, Targets -> Runner and then the "Si
 ![Team selector and Enable Development Signing button highlighted in the signing and capabilities section of the runner tab.](/images/project-setup/flutter/mac/enable-signing.png)
 
 
-### Windows
+## Windows
 
 There are no Amplify specific requirements or setup instructions when targeting Windows. You will need to use a Windows version supported by Flutter. See the following Flutter docs for more info:
 
 - [Supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms)
 
-### Linux
+## Linux
 
 Amplify Flutter depends on the [libsecret](https://wiki.gnome.org/Projects/Libsecret) library when targeting Linux.
 
-#### Local Development
+### Local Development
 
 To run and debug an app that depends on Amplify Flutter, you must install `libsecret-1-dev`. Run the following commands to install `libsecret-1-dev`. this will also install dependencies of `libsecret-1-dev`, such as `libglib2.0-dev`.
 
@@ -215,7 +215,7 @@ sudo apt-get install -y libsecret-1-dev
 
 {/* cSpell:enable */}
 
-#### Packaging Your App
+### Packaging Your App
 
 To include the required dependencies when packaging your app with Snapcraft, include them in your `snapcraft.yaml` file. For more info, see [Flutter's documentation on releasing to the Snap Store](https://docs.flutter.dev/deployment/linux).
 
