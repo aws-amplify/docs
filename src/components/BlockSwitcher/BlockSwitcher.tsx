@@ -17,7 +17,7 @@ export const BlockSwitcher = ({ children }: BlockSwitcherProps) => {
   }
 
   /**
-   * convert names with spaces to valid aria-controls and ID attribute values
+   * convert names with spaces to valid ID attribute values
    */
   const convertNameToValue = (name: string) => {
     return `${name.split(' ').join('-').toLowerCase()}-${uniqueId}`;
