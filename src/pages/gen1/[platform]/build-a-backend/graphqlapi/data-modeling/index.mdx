@@ -292,6 +292,18 @@ Create "has one", "has many", "belongs to", and "many to many" relationships bet
 | `@belongsTo` | Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. For example, a Project has one Team and a Team belongs to a Project. This allows you to query the team from the project record and vice versa. |
 | `@manyToMany` | Configures a "join table" between two models to facilitate a many-to-many relationship. For example, a Blog has many Tags and a Tag has many Blogs. |
 
+<Callout warning>
+With versions of Amplify CLI `@aws-amplify/cli@12.12.2` and API Category `@aws-amplify/amplify-category-api@5.11.5`, an improvement was made to how relational field data is handled in subscriptions when different authorization rules apply to related models in a schema. The improvement redacts the values for the relational fields, displaying them as null or empty, to prevent unauthorized access to relational data.
+
+This redaction occurs whenever it cannot be determined that the child model will be protected by the same permissions as the parent model.
+
+Because subscriptions are tied to mutations and the selection set provided in the result of a mutation is then passed through to the subscription, relational fields in the result of mutations must be redacted.
+
+If an authorized end-user needs access to the redacted relational fields, they should perform a query to read the relational data.
+
+Additionally, subscriptions will inherit related authentication when relational fields are set as required. To better protect relational data, consider modifying the schema to use optional relational fields.
+</Callout>
+
 ### Has One relationship
 
 import gqlv2callout from '/src/fragments/cli/gqlv2callout.mdx';
@@ -794,11 +806,11 @@ You can use the `@default` directive to specify a default value for optional [sc
 ```graphql
 type Todo @model {
   content: String @default(value: "My new Todo")
-  # Note: all "value" parameters must be passed as a string value. 
+  # Note: all "value" parameters must be passed as a string value.
   # Under the hood, Amplify will parse the string values into respective types.
-  # For example, to set a default value for an integer field, 
+  # For example, to set a default value for an integer field,
   # you must pass in `"0"` instead of `0` without the double-quotes.
-  likes: Int @default(value: "0") # 
+  likes: Int @default(value: "0") #
 }
 ```
 
