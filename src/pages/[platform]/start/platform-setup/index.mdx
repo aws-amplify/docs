@@ -24,12 +24,18 @@ export function getStaticProps(context) {
 
 ## iOS
 
-Amplify requires a minimum deployment target of 13.0 and Xcode 15.0 or higher when targeting iOS.
+Amplify requires a minimum deployment target of 13.0 and Xcode 15.0 or higher when targeting iOS. Follow the steps below to update the minimum deployment target.
 
-From your project root, navigate to the `ios/` directory and open the `Podfile` in a text editor of your choice. At the top of the file, update the target iOS platform to 13.0 or higher.
+Open `ios/Podfile` and update the target iOS platform to 13.0 or higher.
 
-```bash
-platform :ios, '13.0'
+<Callout info>
+If there is no file located at `ios/Podfile`, add `amplify_flutter` to your `pubspec.yaml` and run `pub get`. This will automatically create the file.
+</Callout>
+
+```diff title="ios/Podfile"
+- # Uncomment this line to define a global platform for your project
+- # platform :ios, '12.0'
++ platform :ios, '13.0'
 ```
 
 Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the iOS version to 13.0 or higher.
@@ -137,10 +143,15 @@ Amplify requires a minimum deployment target of 10.15 and Xcode 15.0 or higher w
 
 ### Update Minimum Version
 
-From your project root, navigate to the `macos/` directory and open the `Podfile` in a text editor of your choice. Update the target macOS platform to 10.15 or higher.
+Open `macos/Podfile` and update the target macOS platform to 10.15 or higher.
 
-```bash
-platform :osx, '10.15'
+<Callout info>
+If there is no file located at `macos/Podfile`, add `amplify_flutter` to your `pubspec.yaml` and run `pub get`. This will automatically create the file.
+</Callout>
+
+```diff title="ios/Podfile"
+- platform :osx, '10.14'
++ platform :osx, '10.15'
 ```
 
 Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the macOS version to 10.15 or higher.
