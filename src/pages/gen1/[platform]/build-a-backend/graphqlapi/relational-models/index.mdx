@@ -41,7 +41,7 @@ If an authorized end-user needs access to the redacted relational fields, they s
 
 Additionally, subscriptions will inherit related authorization when relational fields are set as required. To better protect relational data, consider modifying the schema to use optional relational fields.
 
-- **Lazy and Eager Loading**: Lazy and eager loading for has-one and belongs-to relationships is no longer supported for Mutations and Subscriptions. However, you can continue to perform eager or lazy loading for Query requests and for has-many relationships.
+- **Lazy and Eager Loading**: Lazy and eager loading relationships is no longer supported for Mutations and Subscriptions. However, you can continue to perform eager or lazy loading for Queries.
 
 - **Subscriptions and Related Models**: When performing a subscription and you need to retrieve the related model, perform a lazy or eager loaded query using the model identifier from the subscription event to continue to retrieve the related data.
 
