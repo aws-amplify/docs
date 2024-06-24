@@ -1,0 +1,39 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Prompting",
+  description:
+    "Amplify AI Concepts: Prompting",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+    },
+  };
+}
+
+
+
+## Generation routes
+
+### How to customize generation route prompts
+
+
+## Conversation routes
+
+### How to customize conversation route prompts

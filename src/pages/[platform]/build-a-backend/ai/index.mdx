@@ -1,0 +1,41 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "AI",
+  hasTOC: false,
+  description:
+    "Learn how to use Amazon AI",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      hasTOC: false,
+      showBreadcrumbs: false,
+      useCustomTitle: true,
+    },
+  };
+}
+
+Generative UI
+
+Build conversational interfaces with custom UI so
+
+Auth 
+
+Built-in authentication and authorization features provide secure access control, making it easy to protect your users and data from the start.
+
