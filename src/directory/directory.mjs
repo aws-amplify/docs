@@ -315,6 +315,56 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/build-a-backend/ai/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/ai/set-up-ai/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/ai/concepts/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/ai/concepts/prompting/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/ai/concepts/routes/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/ai/concepts/tools/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/ai/connect-your-frontend/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/ai/connect-your-frontend/hooks/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/ai/connect-your-frontend/components/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/ai/conversation/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/ai/conversation/RAG/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/ai/conversation/tool-use/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/ai/conversation/UI-responses/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/ai/generation/index.mdx'
+                }
+              ]
+            },
+            {
               path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
               children: [
                 {
