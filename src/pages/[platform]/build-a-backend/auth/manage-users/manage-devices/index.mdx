@@ -334,9 +334,9 @@ You can fetch the current device by using the following:
 <InlineFilter filters={["flutter"]}>
 
 ```dart
-Future<void> getCurrentUserDevice() async {
+Future<void> fetchCurrentUserDevice() async {
   try {
-    final device = await Amplify.Auth.getCurrentDevice();
+    final device = await Amplify.Auth.fetchCurrentDevice();
     safePrint('Device: $device');
   } on AuthException catch (e) {
     safePrint('Get current device failed with error: $e');
