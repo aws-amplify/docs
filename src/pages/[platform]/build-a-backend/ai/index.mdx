@@ -1,10 +1,11 @@
-import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: "AI",
   hasTOC: false,
-  description:
-    "Learn how to use Amazon AI",
+  description: 'Learn about the generative AI capabilities of AWS Amplify.',
+  route: '/[platform]/build-a-backend/ai',
   platforms: [
     "javascript",
     "react-native",
@@ -20,22 +21,20 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
-  return {
+  const childPageNodes = getChildPageNodes(meta.route);
+    return {
     props: {
-      platform: context.params.platform,
       meta,
-      hasTOC: false,
-      showBreadcrumbs: false,
-      useCustomTitle: true,
-    },
+      childPageNodes
+    }
   };
 }
 
-Generative UI
 
-Build conversational interfaces with custom UI so
+<Callout warning>
 
-Auth 
+Amplify AI sections are under construction
 
-Built-in authentication and authorization features provide secure access control, making it easy to protect your users and data from the start.
+</Callout>
 
+<Overview childPageNodes={props.childPageNodes} />
