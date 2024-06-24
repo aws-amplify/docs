@@ -45,6 +45,12 @@ Additionally, subscriptions will inherit related authorization when relational f
 
 - **Subscriptions and Related Models**: When performing a subscription and you need to retrieve the related model, perform a lazy or eager loaded query using the model identifier from the subscription event to continue to retrieve the related data.
 
+Based on the security posture of your application, you can choose to revert to the subscription behavior before this improvement was made.
+To do so, use the `subscriptionsInheritPrimaryAuth` feature flag under `graphqltransformer` in the `amplify/backend/cli.json` file.
+
+- If enabled, subscriptions will inherit the primary model authorization rules for the relational fields.
+- If disabled, relational fields will be redacted in mutation response when there is a difference between auth rules between primary and related models.
+
 </Callout>
 
 ## Prerequisites
