@@ -82,7 +82,13 @@ These files work together to maintain the overall state of the Amplify project s
 
 > Add to version control: YES
 
-The `backend-config.json` in the `backend` directory contains configuration about your project's backend, such as how connects to AWS resources (eg. Cognito for auth or AppSync for an API backend). Typically, this file is updated by the CLI commands like `amplify add auth` or `amplify add api`. It can also be [extended manually](/gen1/[platform]/tools/cli/custom/cloudformation/) to configure your backend beyond Amplify CLI's features. Both the `amplify/backend` and `amplify/#current-cloud-backend` directories contain a `backend-config.json` file.
+The `backend-config.json` in the `backend` directory contains configuration about your project's backend, such as how connects to AWS resources (e.g. Cognito for auth or AppSync for an API backend). Typically, this file is updated by the CLI commands like `amplify add auth` or `amplify add api`. It can also be [extended manually](/gen1/[platform]/tools/cli/custom/cloudformation/) to configure your backend beyond Amplify CLI's features. Both the `amplify/backend` and `amplify/#current-cloud-backend` directories contain a `backend-config.json` file.
+
+<Callout warning>
+
+**Warning:** this file contains the resource structure of your Amplify backend. Edits to this file can yield unexpected results and have a negative impact on the integrity of your backend.
+
+</Callout>
 
 ### amplify-meta.json
 
