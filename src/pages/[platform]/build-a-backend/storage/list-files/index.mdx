@@ -1,0 +1,432 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'List file properties',
+  description: 'Get list of files or file properties using Amplify Storage',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+You can list files without having to download all the files. You can do this by using the listFile API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
+
+## List Files
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+```javascript
+import { list } from 'aws-amplify/storage';
+
+try {
+  const result = await list({
+    path: 'photos/',
+    // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
+  });
+} catch (error) {
+  console.log(error);
+}
+```
+
+Note the trailing slash `/` - if you had requested `list({ path :  'photos' })` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
+
+The format of the response will look similar to the below example:
+
+```js
+{
+  items: [
+    {
+      path: "photos/123.jpg",
+      eTag: "30074401292215403a42b0739f3b5262",
+      lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
+      size: 138256
+    },
+    // ...
+  ],
+}
+```
+{/* in other files we're referring to paths instead of folders, can we be consistent on terminology? */}
+Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name. If you need to list all the folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
+
+```js
+function processStorageList(response) {
+  let files = [];
+  let folders = new Set();
+  response.items.forEach((res) => {
+    if (res.size) {
+      files.push(res);
+      // sometimes files declare a folder with a / within then
+      let possibleFolder = res.path.split('/').slice(0, -1).join('/');
+      if (possibleFolder) folders.add(possibleFolder);
+    } else {
+      folders.add(res.path);
+    }
+  });
+  return { files, folders };
+}
+```
+
+If you need the files and folders in terms of a nested object instead (for example, to build an explorer UI), you could parse it recursively:
+
+```js
+function processStorageList(response) {
+  const filesystem = {};
+  // https://stackoverflow.com/questions/44759750/how-can-i-create-a-nested-object-representation-of-a-folder-structure
+  const add = (source, target, item) => {
+    const elements = source.split('/');
+    const element = elements.shift();
+    if (!element) return; // blank
+    target[element] = target[element] || { __data: item }; // element;
+    if (elements.length) {
+      target[element] =
+        typeof target[element] === 'object' ? target[element] : {};
+      add(elements.join('/'), target[element], item);
+    }
+  };
+  response.items.forEach((item) => add(item.path, filesystem, item));
+  return filesystem;
+}
+```
+
+This places each item's data inside a special `__data` key.
+
+### More `list` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| listAll | boolean | Set to true to list all files within the specified `path` |
+| pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
+| nextToken | string | Indicates whether the list is being continued on this bucket with a token |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+
+If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
+
+```javascript
+import { list } from 'aws-amplify/storage';
+
+const PAGE_SIZE = 20;
+let nextToken = undefined;
+//...
+const loadNextPage = async () => {
+  let response = await list({
+    path: 'photos/',
+    // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
+    pageSize: PAGE_SIZE,
+    nextToken: nextToken
+    }
+  });
+  if (response.nextToken) {
+    nextToken = response.nextToken;
+  } else {
+    nextToken = undefined;
+  }
+  // render list items from response.items
+};
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+StoragePagedListOptions options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build();
+
+Amplify.Storage.list(
+    StoragePath.fromString("public/"),
+    options,
+    result -> {
+        for (StorageItem item : result.getItems()) {
+            Log.i("MyAmplifyApp", "Item: " + item.getPath());
+        }
+        Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+    },
+    error -> Log.e("MyAmplifyApp", "List failure", error);
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build()
+
+Amplify.Storage.list(StoragePath.fromString("public/"), options,
+    { result ->
+        result.items.forEach { item ->
+            Log.i("MyAmplifyApp", "Item: ${item.path}")
+        }
+        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}")
+    },
+    { Log.e("MyAmplifyApp", "List failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build()
+
+try {
+    val result = Amplify.Storage.list(StoragePath.fromString("public/"), options)
+    result.items.forEach {
+        Log.i("MyAmplifyApp", "Item: $it")
+    }
+    Log.i("MyAmplifyApp", "next token: ${result.nextToken}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "List failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+StoragePagedListOptions options = StoragePagedListOptions.builder()
+        .setPageSize(1000)
+        .build();
+
+RxAmplify.Storage.list(StoragePath.fromString("public/"), options)
+        .subscribe(
+            result -> {
+                for (StorageItem item : result.getItems()) {
+                    Log.i("MyAmplifyApp", "Item: " + item.getPath());
+                }
+                Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+            },
+            error -> Log.e("MyAmplifyApp", "List failure", error);
+        );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+You can list all of the objects uploaded under a given path by setting the `pageSize`. If the `pageSize` is set lower than the total file size available, A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the `nextToken` from the previous call response.
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let options = StorageListRequest.Options(pageSize: 1000)
+let listResult = try await Amplify.Storage.list(
+    path: .fromString("public/example/path"), 
+    options: options
+)
+listResult.items.forEach { item in
+    print("Path: \(item.path)")
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    let options = StorageListRequest.Options(pageSize: 1000)
+    try await Amplify.Storage.list(
+        path: .fromString("public/example/path"), 
+        options: options
+    )
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { listResult in
+    print("Completed")
+    listResult.items.forEach { item in
+        print("Path: \(item.path)")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+### More `list` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| pageSize | UInt | Number between 1 and 1,000 that indicates the limit of how many entries to fetch when retrieving file lists from the server |
+| nextToken | String | String indicating the page offset at which to resume a listing. |
+ 
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+This will list all files located under path `album` that:
+* have `private` access level
+* are in the root of `album/` (the result doesn't include files under any sub path)
+
+```dart
+Future<void> listAlbum() async {
+  try {
+    String? nextToken;
+    bool hasNextPage;
+    do {
+      final result = await Amplify.Storage.list(
+        path: const StoragePath.fromString('public/album/'),
+        options: StorageListOptions(
+          pageSize: 50,
+          nextToken: nextToken,
+          pluginOptions: const S3ListPluginOptions(
+            excludeSubPaths: true,
+          ),
+        ),
+      ).result;
+      safePrint('Listed items: ${result.items}');
+      nextToken = result.nextToken;
+      hasNextPage = result.hasNextPage;
+    } while (hasNextPage);
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+Pagination is enabled by default. The default `pageSize` is `1000` if it is not set in the `StorageListOptions`.
+
+### List all files without pagination
+
+You can also list all files under a given path without pagination by using the `pluginOptions` and `S3ListPluginOptions.listAll()` constructor.
+
+This will list all public files (i.e. those with `guest` access level):
+
+```dart
+
+Future<void> listAllUnderPublicPath() async {
+  try {
+    final result = await Amplify.Storage.list(
+      path: const StoragePath.fromString('public/'),
+      options: const StorageListOptions(
+        pluginOptions: S3ListPluginOptions.listAll(),
+      ),
+    ).result;
+    safePrint('Listed items: ${result.items}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+
+```
+
+### More `list` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| excludeSubPaths | boolean | Whether to exclude objects under the sub paths of the path to list. Defaults to false. |
+| delimiter | String | The delimiter to use when evaluating sub paths. If excludeSubPaths is false, this value has no impact on behavior. |
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+## Get File Properties
+
+You can also view the properties of an individual file.
+
+```javascript
+import { getProperties } from 'aws-amplify/storage';
+
+try {
+  const result = await getProperties({
+    path: "album/2024/1.jpg",
+    // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
+  });
+  console.log('File Properties ', result);
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+The properties and metadata will look similar to the below example
+
+```js
+{
+  path: "album/2024/1.jpg",
+  contentType: "image/jpeg",
+  contentLength: 6873,
+  eTag: "\"56b32cf4779ff6ca3ba3f2d455fa56a7\"",
+  lastModified: Wed Apr 19 2023 14:20:55 GMT-0700 (Pacific Daylight Time) {},
+  metadata: { owner: 'aws' }
+}
+```
+
+### More `getProperties` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+
+<Callout>
+
+To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
+
+Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Get File Properties
+
+You can also view properties of an individual file.
+
+```dart
+Future<void> getFileProperties() async {
+  try {
+    final result = await Amplify.Storage.getProperties(
+      path: const StoragePath.fromString('example.txt'),
+    ).result;
+    safePrint('File size: ${result.storageItem.size}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+<Callout>
+
+To get the metadata in result for all APIs when building against a web target, you have to configure user defined metadata in CORS.
+
+Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
+
+</Callout>
+
+</InlineFilter>

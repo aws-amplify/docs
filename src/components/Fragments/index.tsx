@@ -1,10 +1,6 @@
 import { Fragment } from 'react';
 import FilterChildren from '../FilterChildren';
 
-type MdxFrontmatterType = {
-  lastUpdated: string;
-};
-
 export default function Fragments({ fragments }) {
   const children: React.ReactNode[] = [];
 

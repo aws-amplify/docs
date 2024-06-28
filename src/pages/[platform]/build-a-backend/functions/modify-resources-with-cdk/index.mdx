@@ -1,0 +1,56 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Modify Amplify-generated Lambda resources with CDK',
+  description:
+    'Learn how to extend the underlying Function resources',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amplify Functions utilize the [`NodejsFunction`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda_nodejs.NodejsFunction.html) construct from the [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). The underlying resources can be modified, overridden, or extended using CDK after setting the resource on your backend.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { myFunction } from './functions/my-function';
+
+const backend = defineBackend({
+  myFunction
+})
+
+// CDK constructs can be accessed via
+backend.myFunction.resources
+
+// where the Lambda function can be found on
+backend.myFunction.resources.lambda
+```
+
+The Lambda resource available is a representation of [`IFunction`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.IFunction.html). 
+
+## Adding IAM Policies
+
+To learn how to add IAM policies to a Function's execution role, visit the [documentation for granting access to other resources](/[platform]/build-a-backend/functions/grant-access-to-other-resources#using-cdk).
+
+{/* ## Lambda Layers */}

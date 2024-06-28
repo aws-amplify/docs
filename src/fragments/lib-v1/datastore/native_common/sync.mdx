@@ -32,7 +32,7 @@ import flutter2 from '/src/fragments/lib-v1/datastore/flutter/sync/10-installPlu
 
 ### Push the backend to the cloud
 
-By now you should have a backend created with conflict detection enabled, as described in the [Getting started](/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/) guide.
+By now you should have a backend created with conflict detection enabled, as described in the [Getting started](/gen1/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/) guide.
 
 **Check the status of the backend** to verify if it is already provisioned in the cloud.
 
@@ -62,15 +62,15 @@ amplify push
 
 <Callout warning>
 
-**AWS credentials needed.** At this point an AWS account is required. If you have never run `amplify configure` before, do it so and follow the steps to configure Amplify with your AWS account. Details can be found in the [Configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/#configure-the-amplify-cli) guide.
+**AWS credentials needed.** At this point an AWS account is required. If you have never run `amplify configure` before, do it so and follow the steps to configure Amplify with your AWS account. Details can be found in the [Configure the Amplify CLI](/gen1/[platform]/tools/cli/start/set-up-cli/#configure-the-amplify-cli) guide.
 
 </Callout>
 
 ## Existing backend
 
-DataStore can connect to an existing AWS AppSync backend that has been deployed from another project, no matter the platform it was originally created in. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models afterwards, using the process described in the [Getting started](/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/#idiomatic-persistence-models) guide.
+DataStore can connect to an existing AWS AppSync backend that has been deployed from another project, no matter the platform it was originally created in. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models afterwards, using the process described in the [Getting started](/gen1/[platform]/prev/build-a-backend/more-features/datastore/set-up-datastore/#idiomatic-persistence-models) guide.
 
-For more information on this workflow please see the [Multiple Frontends documentation](/[platform]/tools/cli/teams/multi-frontend/).
+For more information on this workflow please see the [Multiple Frontends documentation](/gen1/[platform]/tools/cli/teams/multi-frontend/).
 
 import distributedDataFragment from '/src/fragments/lib-v1/datastore/native_common/sync-distributed-data.mdx';
 
@@ -84,7 +84,7 @@ One common use for `clear()` is to manage different users sharing the same devic
 
 <Callout warning>
 
-**Note:** In case multiple users share the same device and your schema defines user-specific data, make sure you call `Amplify.DataStore.clear()` when switching users. Visit [Auth events](/[platform]/prev/build-a-backend/auth/auth-events/) for all authentication related events.
+**Note:** In case multiple users share the same device and your schema defines user-specific data, make sure you call `Amplify.DataStore.clear()` when switching users. Visit [Auth events](/gen1/[platform]/prev/build-a-backend/auth/auth-events/) for all authentication related events.
 
 </Callout>
 

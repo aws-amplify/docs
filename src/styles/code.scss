@@ -12,74 +12,264 @@ code:not([class]) {
   h3 & {
     font-size: 0.75em;
   }
+  .amplify-message & {
+    background-color: var(--amplify-colors-overlay-5);
+    @include darkMode {
+      background-color: var(--amplify-colors-overlay-10);
+    }
+  }
 }
 
-.pre-header {
-  align-items: center;
-  padding: var(--amplify-space-xs) 0;
-  border-bottom: 1px solid var(--amplify-colors-neutral-90);
-}
-.pre-filename {
-  color: var(--amplify-colors-font-inverse);
-  font-size: var(--amplify-font-sizes-medium);
-  line-height: var(--amplify-line-heights-small);
-}
-
-.pre-wrapper {
-  padding: 1px;
+.pre-container {
+  --pre-container-background-color: var(--amplify-colors-neutral-100);
   border-radius: var(--amplify-radii-small);
-  background: var(--amplify-colors-neutral-100);
+  background-color: var(--pre-container-background-color);
   overflow: hidden;
   /* There are some instances of code blocks in ol/ul and 
    * this is to add some spacing so they look better */
   li & {
     margin-block: var(--amplify-space-small);
   }
+  @include darkMode {
+    --pre-container-background-color: hsl(210, 50%, 13%);
+    box-shadow: 0 0 0 2px var(--amplify-colors-neutral-20);
+  }
 }
-.pre-wrapper__inner {
-  font-size: var(--amplify-font-sizes-small);
-  background: var(--amplify-colors-neutral-100);
-  position: relative;
-  border-radius: var(--amplify-radii-small);
-  padding: 0 var(--amplify-space-large);
+
+.pre-wrapper {
+  padding: 0 var(--amplify-space-xs);
+}
+
+.pre-header {
+  --pre-header-border-color: var(--amplify-colors-neutral-90);
+  align-items: center;
+  padding: var(--amplify-space-xs) 0;
+  margin-inline: var(--amplify-space-medium);
+  border-bottom: 1px solid var(--pre-header-border-color);
+  @include darkMode {
+    --pre-header-border-color: var(--amplify-colors-neutral-20);
+  }
+}
+.pre-title {
+  color: var(--amplify-colors-white);
+  font-size: var(--amplify-font-sizes-medium);
+  line-height: var(--amplify-line-heights-small);
 }
 
 .pre {
-  margin: 0;
   overflow: auto;
-  padding-block-start: var(--amplify-space-medium);
-  padding-block-end: var(--amplify-space-large);
+  display: flex;
+  margin: var(--amplify-space-xs) 0;
+  padding-block: var(--amplify-space-xs);
   font-size: var(--amplify-font-sizes-medium);
-  &--header {
-    padding-block: var(--amplify-space-large);
+  /* 
+   Safari on iOS requires the webkit prefix for text-size-adjust. 
+   text-size-adjust fixes some fonts from showing larger than normal in some browsers.
+  */
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
   }
+}
+
+.pre-code {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  --highlight-code-hover-background-color: hsl(211, 22%, 19%);
 }
 
 .token-line {
   display: block;
-  line-height: var(--amplify-line-heights-medium);
+  position: relative;
+  padding-inline: var(--amplify-space-small);
+  line-height: 1.6;
 }
-.line-number {
+
+.token {
+  z-index: 1;
+  position: relative;
+}
+
+.line-highlight {
+  &:first-child {
+    padding-top: var(--amplify-space-xxs);
+  }
+  &:last-child {
+    padding-bottom: var(--amplify-space-xxs);
+  }
+  &:before {
+    transition: background-color
+      var(--amplify-components-button-transition-duration) ease;
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--amplify-colors-neutral-90);
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    width: 6px;
+    background-color: var(--amplify-colors-primary-40);
+    z-index: 1;
+    height: 100%;
+    top: 0;
+  }
+  @include darkMode {
+    &:before {
+      background: var(--amplify-colors-neutral-20);
+    }
+    &:after {
+      background-color: var(--amplify-colors-primary-60);
+    }
+  }
+}
+
+.code-block {
+  counter-reset: code-block;
+}
+
+.show-line-numbers:before {
+  counter-increment: code-block;
+  content: counter(code-block);
+  z-index: 1;
+  position: relative;
   color: var(--code-theme-comment);
   margin-inline-end: var(--amplify-space-medium);
   text-align: end;
   user-select: none;
   display: inline-block;
-  width: var(--amplify-space-medium);
+  width: 1.8rem;
+}
+
+.highlight-copy-button {
+  background-color: var(--amplify-colors-neutral-90);
+  margin-top: var(--amplify-space-xxs);
+  border-color: transparent;
+  color: #fff;
+  align-self: flex-start;
+  border-end-end-radius: 0;
+  border-end-start-radius: 0;
+  margin-inline-start: var(--amplify-space-xxl);
+  position: relative;
+  user-select: none;
+  gap: var(--amplify-space-xxs);
+  &:focus {
+    box-shadow: none;
+  }
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+    &:after {
+      content: '';
+      position: absolute;
+      height: 2px;
+      left: 1px;
+      right: 1px;
+      bottom: -1px;
+      background-color: var(--amplify-colors-neutral-90);
+      z-index: 2;
+    }
+    & + .highlight-code {
+      outline: 2px solid #fff;
+      .line-highlight:after {
+        background-color: #fff;
+      }
+    }
+  }
+  &:hover {
+    background-color: var(--highlight-code-hover-background-color);
+    &:after {
+      background-color: var(--highlight-code-hover-background-color);
+    }
+    & + .highlight-code {
+      .line-highlight:before {
+        background-color: var(--highlight-code-hover-background-color);
+      }
+    }
+  }
+  @include darkMode {
+    background-color: var(--amplify-colors-neutral-20);
+    &:focus-visible {
+      &:after {
+        background-color: var(--amplify-colors-neutral-20);
+      }
+    }
+    &:hover {
+      background-color: var(--highlight-code-hover-background-color);
+      &:after {
+        background-color: var(--highlight-code-hover-background-color);
+      }
+      & + .highlight-code {
+        .line-highlight:before {
+          background-color: var(--highlight-code-hover-background-color);
+        }
+      }
+    }
+  }
+}
+
+/* This :has selector allows us to style the .highlight-copy-button
+that is preceding the .highlight-code block so that interaction between
+them looks "connected", i.e. the hover style on one triggers the 
+hover style on the other */
+.highlight-copy-button:has(+ .highlight-code:hover) {
+  background-color: var(--highlight-code-hover-background-color);
+  &:focus-visible {
+    &:after {
+      height: 4px;
+      bottom: -3px;
+      background-color: var(--highlight-code-hover-background-color);
+    }
+  }
+  &:hover {
+    &:after {
+      background-color: var(--highlight-code-hover-background-color);
+    }
+  }
+}
+
+.highlight-code {
+  position: relative;
+  margin-bottom: var(--amplify-space-xxs);
+  &:hover {
+    cursor: pointer;
+    .line-highlight:before {
+      background-color: var(--highlight-code-hover-background-color);
+    }
+  }
 }
 
 .code-copy {
+  --code-copy-hover-background-color: var(--amplify-colors-neutral-90);
+  --code-copy-focus-background-color: var(--amplify-colors-neutral-90);
+  --code-copy-focus-outline-color: var(--amplify-colors-white);
   margin-inline-start: auto;
   padding-block: var(--amplify-space-xxxs);
-  color: var(--amplify-colors-font-inverse);
+  color: var(--amplify-colors-white);
   border-radius: var(--amplify-radii-small);
+  gap: var(--amplify-space-xxs);
   &:hover {
-    color: var(--amplify-colors-font-inverse);
-    background-color: var(--amplify-colors-neutral-90);
+    color: var(--amplify-colors-white);
+    background-color: var(--code-copy-hover-background-color);
   }
-  &:focus {
-    color: var(--amplify-colors-font-inverse);
-    background-color: var(--amplify-colors-neutral-90);
-    box-shadow: 0 0 0 2px var(--amplify-colors-neutral-10);
+  &:focus,
+  &:active {
+    color: var(--amplify-colors-white);
+    background-color: var(--code-copy-focus-background-color);
+  }
+  &:focus-visible {
+    outline-color: var(--code-copy-focus-outline-color);
+  }
+  @include darkMode {
+    --code-copy-hover-background-color: var(--amplify-colors-neutral-20);
+    --code-copy-focus-background-color: var(--amplify-colors-neutral-20);
   }
 }

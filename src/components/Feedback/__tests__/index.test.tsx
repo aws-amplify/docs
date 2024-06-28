@@ -1,9 +1,9 @@
 import Feedback from '../index';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as trackModule from '../../../utils/track';
 
-jest.mock('next/router', () => ({
+const router = jest.mock('next/router', () => ({
   useRouter() {
     return {
       route: '/',
@@ -19,6 +19,8 @@ jest.mock('../../../utils/track', () => ({
 }));
 
 describe('Feedback', () => {
+  const component = <Feedback router={router} />;
+
   it('should render component with thumbs up and thumbs down button', () => {
     const component = <Feedback />;
 
@@ -32,27 +34,22 @@ describe('Feedback', () => {
   });
 
   it('should show response text when No is clicked', async () => {
-    const component = <Feedback />;
-
     render(component);
 
-    const thumbsDownButton = screen.getByText('No');
-    const feedbackComponent = screen.getByText('Was this page helpful?');
-    const feedbackText = screen.getByText('Can you provide more details?');
+    const thumbsDownButton = screen.getByRole('button', { name: 'No' });
 
     expect(thumbsDownButton).toBeInTheDocument();
 
-    userEvent.click(feedbackComponent);
+    userEvent.click(thumbsDownButton);
+    const response = screen.getByRole('link');
 
     await waitFor(() => {
-      expect(feedbackText).toBeVisible();
+      expect(response.textContent).toBe('File an issue on GitHub');
     });
   });
 
   it('should call trackFeedbackSubmission request when either button is clicked', async () => {
     jest.spyOn(trackModule, 'trackFeedbackSubmission');
-    const component = <Feedback />;
-
     render(component);
     const thumbsDownButton = screen.getByText('No');
     userEvent.click(thumbsDownButton);

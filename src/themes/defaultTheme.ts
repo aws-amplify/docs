@@ -5,27 +5,15 @@ export const defaultTheme = createTheme(
   {
     name: 'default-theme',
     tokens: {
-      components: {
-        button: {
-          primary: {
-            color: { value: '{colors.font.primary}' },
-            backgroundColor: { value: '{colors.brand.primary.40}' },
-            _active: {
-              backgroundColor: { value: '{colors.brand.primary.10}' },
-              color: { value: '{colors.font.primary}' }
-            },
-            _focus: {
-              backgroundColor: { value: '{colors.brand.primary.20}' },
-              color: { value: '{colors.font.primary}' },
-              boxShadow: {
-                value: '0 0 0 2px var(--amplify-colors-border-focus)'
-              }
-            },
-            _hover: {
-              backgroundColor: { value: '{colors.brand.primary.20}' },
-              color: { value: '{colors.font.primary}' }
-            }
-          }
+      colors: {
+        primary: {
+          10: { value: '{colors.purple.10}' },
+          20: { value: '{colors.purple.20}' },
+          40: { value: '{colors.purple.40}' },
+          60: { value: '{colors.purple.60}' },
+          80: { value: '{colors.purple.80}' },
+          90: { value: '{colors.purple.90}' },
+          100: { value: '{colors.purple.100}' }
         }
       }
     }

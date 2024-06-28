@@ -1,14 +1,11 @@
 import {
-  Heading,
   Table,
   TableCell,
   TableBody,
   TableHead,
   TableRow,
-  Text,
   View
 } from '@aws-amplify/ui-react';
-import Link from 'next/link';
 
 export type FeatureFlags = Record<string, Section>;
 

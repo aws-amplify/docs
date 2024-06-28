@@ -12,20 +12,30 @@ type BreadcrumbItem = {
 
 type Props = {
   route: string;
-  platform: string;
+  platform?: string;
 };
 
 const overrides = {
   '/': 'Home',
-  '/javascript/prev': 'V5',
-  '/swift/prev': 'V1',
-  '/android/prev': 'V1',
-  '/flutter/prev': 'V0',
-  '/react/prev': 'V5',
-  '/react-native/prev': 'V5',
-  '/angular/prev': 'V5',
-  '/nextjs/prev': 'V5',
-  '/vue/prev': 'V5',
+  '/gen1': 'Gen 1',
+  '/gen1/javascript/prev': 'V5',
+  '/gen1/swift/prev': 'V1',
+  '/gen1/android/prev': 'V1',
+  '/gen1/flutter/prev': 'V1',
+  '/gen1/react/prev': 'V5',
+  '/gen1/react-native/prev': 'V5',
+  '/gen1/angular/prev': 'V5',
+  '/gen1/nextjs/prev': 'V5',
+  '/gen1/vue/prev': 'V5',
+  '/gen1/javascript': PLATFORM_DISPLAY_NAMES['javascript'],
+  '/gen1/react': PLATFORM_DISPLAY_NAMES['react'],
+  '/gen1/flutter': PLATFORM_DISPLAY_NAMES['flutter'],
+  '/gen1/swift': PLATFORM_DISPLAY_NAMES['swift'],
+  '/gen1/android': PLATFORM_DISPLAY_NAMES['android'],
+  '/gen1/react-native': PLATFORM_DISPLAY_NAMES['react-native'],
+  '/gen1/angular': PLATFORM_DISPLAY_NAMES['angular'],
+  '/gen1/nextjs': PLATFORM_DISPLAY_NAMES['nextjs'],
+  '/gen1/vue': PLATFORM_DISPLAY_NAMES['vue'],
   '/javascript': PLATFORM_DISPLAY_NAMES['javascript'],
   '/react': PLATFORM_DISPLAY_NAMES['react'],
   '/flutter': PLATFORM_DISPLAY_NAMES['flutter'],
@@ -39,28 +49,29 @@ const overrides = {
 
 function generateBreadcrumbs(
   route: string,
-  platform: string
+  platform?: string
 ): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
 
   const pieces = route.split('/').filter((str) => str);
-  let urls: string[] = [];
+  const urls: string[] = [];
   for (let i = 1; i <= pieces.length; i++) {
     urls.push(`/${pieces.slice(0, i).join('/')}`);
   }
 
   urls.forEach((url) => {
     const directoryEntry = findNode(url);
-    let href = {
+    const href = {
       pathname: url
     };
     if (url.includes('[platform]')) {
       href['query'] = { platform };
     }
     let label = directoryEntry ? directoryEntry.title : url;
+
     const override = overrides[url]
       ? overrides[url]
-      : overrides[url.replace('[platform]', platform)];
+      : overrides[url.replace('[platform]', platform!)];
 
     if (override) {
       label = override;
@@ -75,8 +86,8 @@ function generateBreadcrumbs(
   return breadcrumbs;
 }
 
-function BreadcrumbsComponent({ route, platform, isGen2 }: Props) {
-  const items = generateBreadcrumbs(route, platform, isGen2);
+function BreadcrumbsComponent({ route, platform }: Props) {
+  const items = generateBreadcrumbs(route, platform);
   return items.length > 1 ? (
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>

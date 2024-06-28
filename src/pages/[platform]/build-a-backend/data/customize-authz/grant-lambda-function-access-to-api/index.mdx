@@ -1,0 +1,175 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Grant Lambda function access to API and Data',
+  description: "Amplify Data uses a 'deny-by-default' authorization model. Function access must be explicitly defined in the schema.",
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Function access to `defineData` can be configured using an authorization rule on the schema object.
+
+```ts title="amplify/data/resource.ts"
+import {
+  a,
+  defineData,
+  defineFunction,
+  type ClientSchema
+} from '@aws-amplify/backend';
+
+const functionWithDataAccess = defineFunction({
+  entry: '../functions/data-access.ts'
+});
+
+const schema = a
+  .schema({
+    Todo: a.model({
+      name: a.string(),
+      description: a.string()
+    })
+  })
+  // highlight-next-line
+  .authorization(allow => [allow.resource(functionWithDataAccess)]);
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema
+});
+```
+
+The object returned from `defineFunction` can be passed directly to `allow.resource()` in the schema authorization rules. This will grant the function the ability to execute Query, Mutation, and Subscription operations against the GraphQL API. Use the `.to()` method to narrow down access to one or more operations.
+
+```ts
+const schema = a
+  .schema({
+    Todo: a.model({
+      name: a.string(),
+      description: a.string()
+    })
+  })
+  // highlight-start
+  .authorization(allow => [
+    allow.resource(functionWithDataAccess).to(['query', 'listen'])
+  ]); // allow query and subscription operations but not mutations
+// highlight-end
+```
+
+When configuring function access, the function will be provided the API endpoint as an environment variable named `<defineDataName>_GRAPHQL_ENDPOINT`. The default name is `amplifyData_GRAPHQL_ENDPOINT` unless you have specified a different name in `defineData`.
+
+<Callout info>
+
+Function access can only be configured on the schema object. It cannot be configured on individual models or fields.
+
+</Callout>
+
+## Access the API using `aws-amplify`
+
+In the handler file for your function, configure the Amplify data client
+
+```ts title="amplify/functions/data-access.ts"
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/data';
+import { Schema } from '../data/resource';
+import { env } from '$amplify/env/<function-name>'; // replace with your function name
+
+
+Amplify.configure(
+  {
+    API: {
+      GraphQL: {
+        endpoint: env.<amplifyData>_GRAPHQL_ENDPOINT, // replace with your defineData name
+        region: env.AWS_REGION,
+        defaultAuthMode: 'identityPool'
+      }
+    }
+  },
+  {
+    Auth: {
+      credentialsProvider: {
+        getCredentialsAndIdentityId: async () => ({
+          credentials: {
+            accessKeyId: env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+            sessionToken: env.AWS_SESSION_TOKEN,
+          },
+        }),
+        clearCredentialsAndIdentityId: () => {
+          /* noop */
+        },
+      },
+    },
+  }
+);
+
+const dataClient = generateClient<Schema>();
+
+export const handler = async (event) => {
+  // your function code goes here
+}
+```
+
+Use the command below to generate GraphQL client code to call your data backend.
+<Callout info>
+
+**Note**: We are working on bringing the end-to-end typed experience to connect to your data from within function resources without needing this step. If you'd like to provide feedback the experience or have early access, join our [Discord community](https://discord.gg/amplify).
+
+</Callout>
+
+```sh title="Terminal" showLineNumbers={false}
+npx ampx generate graphql-client-code --out <path-function-handler-dir>/graphql
+```
+
+
+<Callout warning>
+
+**Note:** Whenever you update your data model, you will need to run the command above again.
+
+</Callout>
+
+Once you have generated the client code, update the function to access the data. The following code creates a todo and then lists all todos.
+
+```ts title="amplify/functions/data-access.ts"
+const client = generateClient<Schema>();
+
+export const handler = async (event) => {
+  await client.graphql({
+    query: createTodo,
+    variables: {
+      input: {
+        name: "My first todo",
+        description: "This is my first todo",
+      },
+    },
+  });
+
+
+  await client.graphql({
+    query: listTodos,
+  });
+
+  return event;
+};
+```

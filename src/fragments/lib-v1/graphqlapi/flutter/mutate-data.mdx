@@ -14,7 +14,7 @@ Future<void> updateTodo(Todo originalTodo) async {
 
   final request = ModelMutations.update(todoWithNewName);
   final response = await Amplify.API.mutate(request: request).response;
-  print('Response: $response');
+  safePrint('Response: $response');
 }
 ```
 
@@ -24,7 +24,7 @@ To delete the `Todo`:
 Future<void> deleteTodo(Todo todoToDelete) async {
   final request = ModelMutations.delete(todoToDelete);
   final response = await Amplify.API.mutate(request: request).response;
-  print('Response: $response');
+  safePrint('Response: $response');
 }
 ```
 
@@ -33,6 +33,6 @@ Future<void> deleteTodo(Todo todoToDelete) async {
 Future<void> deleteTodoById(Todo todoToDelete) async {
   final request = ModelMutations.deleteById(Todo.classType, '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775');
   final response = await Amplify.API.mutate(request: request).response;
-  print('Response: $response');
+  safePrint('Response: $response');
 }
 ```

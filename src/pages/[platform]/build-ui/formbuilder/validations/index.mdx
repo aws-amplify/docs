@@ -2,18 +2,11 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Validate form data',
-  description:
-    "Sanitize user input by adding validation rules to your form. By default, Amplify Studio infers a range of validation rules based on the data model. For example, given a data model with an 'AWSEmail' field, the generated form input will automatically run an email validation rule.",
+  description: "Sanitize user input by adding validation rules to your form. By default, Amplify Studio infers a range of validation rules based on the data model. For example, given a data model with an 'AWSEmail' field, the generated form input will automatically run an email validation rule.",
   platforms: [
-    'android',
-    'angular',
-    'flutter',
     'javascript',
-    'nextjs',
     'react',
-    'react-native',
-    'swift',
-    'vue'
+    'nextjs'
   ]
 };
 
@@ -34,23 +27,6 @@ Sanitize user input by adding validation rules to your form. By default, Amplify
 
 ## Add validation rules
 
-In [Amplify Studio](/[platform]/tools/console/adminui/start/#logging-in-and-creating-an-app), you can visually add validation rules to inputs. If a form input has multiple validation rules, then all rules must be met for the input to be valid.
-
-1. Select a form input
-2. Go to **Validation rules** > **Add rule**
-3. Select a **validation type**
-4. Enter values for the validation
-5. _Optional:_ Customize the error message presented to the end user. Note: Studio automatically generates an error message based on the validation type and its values.
-6. Click out of the validation rule popover
-
-To test the validation rules, select **View as end user**.
-
-<video autoPlay={true} muted={true} loop={true} width="100%">
-  <source src="/images/console/formbuilder/validations-visual.mp4" />
-</video>
-
-### Available validation rules within Amplify Studio
-
 By default, the following validation rules are available for you to configure:
 
 | Input type | Configurable validation rule |
@@ -61,7 +37,7 @@ By default, the following validation rules are available for you to configure:
 
 ### Automatically configured validation rules
 
-For the types below, Amplify Studio automatically applies validation rules on form inputs:
+For the types below, we automatically apply validation rules on form inputs:
 
 - `AWSIPAddress`: input value must be a valid IPv4 or IPv6 address.
 - `AWSURL`: input value must consist of a schema (`http`, `mailto`) and a path part. Path part can't contain two forward slashes (//).
@@ -69,11 +45,9 @@ For the types below, Amplify Studio automatically applies validation rules on fo
 - `AWSJSON`: input value must be a valid JSON.
 - `AWSPhone`: input value must be a phone number that can contain either spaces or hyphens to separate digit groups.
 
-## Extend validation rules with code
+## Add validation rules
 
-Every form provides an `onValidate` event handler to provide additional validation rules via code. These validation rules are run after the rules you configured in the Studio console.
-
-Return an object with validation functions for the fields you want to validate. In the example below, `address` must start with a number, otherwise return any existing auto-generated validation responses.
+Every form provides an `onValidate` event handler to provide additional validation rules via code. Return an object with validation functions for the fields you want to validate. In the example below, `address` must start with a number, otherwise return any existing auto-generated validation responses.
 
 ```jsx
 <HomeCreateForm

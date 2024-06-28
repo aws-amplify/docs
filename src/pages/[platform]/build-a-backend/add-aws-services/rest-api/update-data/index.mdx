@@ -1,0 +1,52 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Update data',
+  description: 'Using Post, Put, etc. in Amplify',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## PUT requests
+
+To create or update a item via the API endpoint:
+
+```ts
+import { put } from 'aws-amplify/api';
+
+async function updateItems() {
+  try {
+    const Item = { name: 'My first Item', message: 'Hello world!' };
+    const restOperation = put({
+      apiName: 'myRestApi',
+      path: 'items/1',
+      options: {
+        body: Item
+      }
+    });
+    const response = await restOperation.response;
+    console.log('PUT call succeeded: ', response);
+  } catch (error) {
+    console.log('PUT call failed: ', JSON.parse(error.response.body));
+  }
+}
+```

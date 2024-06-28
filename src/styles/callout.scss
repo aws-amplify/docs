@@ -1,7 +1,5 @@
 /* Callout uses Amplify UI Message component */
 .amplify-message {
-  /* Style markdown links so they have enough contrast against different
-  colored message backgrounds */
   &__icon {
     align-self: flex-start;
   }
@@ -20,8 +18,11 @@
     min-width: 0;
   }
 
-  .pre-wrapper {
+  .pre-container {
     /* Class for code block */
     margin: var(--amplify-space-large) 0;
   }
+}
+.amplify-message__content p:not(:last-child) {
+  margin-bottom: var(--amplify-space-medium);
 }

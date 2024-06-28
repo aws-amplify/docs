@@ -1,9 +1,10 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Build & connect backend',
-  description: 'Learn more about how you can build the backend for your app or connect with existing resources.',
+  description: 'Configure and customize authentication, data, storage, and functions to build a backend for your application.',
+  route: '/[platform]/build-a-backend',
   platforms: [
     'android',
     'angular',
@@ -14,8 +15,7 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ],
-  route: '/[platform]/build-a-backend'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -26,7 +26,6 @@ export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      platform: context.params.platform,
       meta,
       childPageNodes
     }

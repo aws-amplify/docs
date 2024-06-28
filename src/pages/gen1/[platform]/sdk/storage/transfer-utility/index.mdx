@@ -1,0 +1,33 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Using TransferUtility',
+  description:
+    'To make it easy to upload and download objects from Amazon S3, AWS Mobile SDK provides a TransferUtility component with built-in support for background transfers, progress tracking, and MultiPart uploads. ',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import all0 from '/src/fragments/sdk/library-callout.mdx';
+
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/storage/ios/transfer-utility.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/sdk/storage/android/transfer-utility.mdx';
+
+<Fragments fragments={{ android: android2 }} />

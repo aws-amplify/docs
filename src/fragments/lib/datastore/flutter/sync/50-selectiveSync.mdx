@@ -1,6 +1,6 @@
 ## Selectively syncing a subset of your data
 
-By default, DataStore fetches all the records that you’re authorized to access from your cloud data source to your local device. The maximum number of records that will be stored locally is configurable [here](/[platform]/build-a-backend/more-features/datastore/conflict-resolution/).
+By default, DataStore fetches all the records that you’re authorized to access from your cloud data source to your local device. The maximum number of records that will be stored locally is configurable [here](/gen1/[platform]/build-a-backend/more-features/datastore/conflict-resolution/).
 
 You can utilize selective sync to persist a subset of your data instead.
 
@@ -8,7 +8,7 @@ Selective sync works by applying predicates to the base and delta sync queries, 
 
 <Callout>
 
-Note that selective sync is applied on top of authorization rules you’ve defined on your schema with the `@auth` directive. For more information see the [Setup authorization rules](/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/) section.
+Note that selective sync is applied on top of authorization rules you’ve defined on your schema with the `@auth` directive. For more information see the [Setup authorization rules](/gen1/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/) section.
 
 </Callout>
 
@@ -17,13 +17,15 @@ void _configureAmplify() async {
   // Update AmplifyDataStore instance like below
   final datastorePlugin = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(Post.classType, () => Post.RATING.gt(5)),
-      DataStoreSyncExpression(
-        Comment.classType,
-        () => Comment.POST.beginsWith('This'),
-      )
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(Post.classType, () => Post.RATING.gt(5)),
+        DataStoreSyncExpression(
+          Comment.classType,
+          () => Comment.POST.beginsWith('This'),
+        ),
+      ],
+    ),
   );
   ...
 }
@@ -49,12 +51,14 @@ int rating = 5;
 Future<void> initialize() async {
   final dataStorePlugin = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(
-        Post.classType,
-        () => Post.RATING.gt(rating),
-      ),
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(
+          Post.classType,
+          () => Post.RATING.gt(rating),
+        ),
+      ],
+    ),
   );
 
   await Amplify.addPlugin(dataStorePlugin);
@@ -113,20 +117,21 @@ You can also have your sync expression return `QueryPredicateConstant.all` in or
 int rating = 5;
 
 Future<void> initialize() async {
-  var dataStorePlugin = AmplifyDataStore(
+  final dataStorePlugin = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(
-        Post.classType,
-        () {
-          if (rating > 0) {
-            return QueryPredicate.all;
-          }
-
-          return Post.RATING.gt(rating);
-        },
-      ),
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(
+          Post.classType,
+          () {
+            if (rating > 0) {
+              return QueryPredicate.all;
+            }
+            return Post.RATING.gt(rating);
+          },
+        ),
+      ],
+    ),
   );
 
   await Amplify.addPlugin(dataStorePlugin);
@@ -145,7 +150,7 @@ By default, Datastore sync performs a [Scan](https://docs.aws.amazon.com/amazond
 
 You can enable Query during the sync by following the below steps:
 
-1. Create a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) for your schema, e.g. in the below schema a GSI will be created using field `lastName` as the GSI primary key, and `createdAt` as the GSI sort key. Learn about creating GSIs with the `@index` directive [here](/[platform]/build-a-backend/graphqlapi/data-modeling/).
+1. Create a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) for your schema, e.g. in the below schema a GSI will be created using field `lastName` as the GSI primary key, and `createdAt` as the GSI sort key. Learn about creating GSIs with the `@index` directive [here](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/).
 
 ```graphql
 type User @model {
@@ -173,12 +178,14 @@ Future<void> initializeSingleEquals() async {
   // Using eq operator with the primary key of the GSI
   final singleEqualsStore = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(
-        User.classType,
-        () => User.LASTNAME.eq("Doe"),
-      ),
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(
+          User.classType,
+          () => User.LASTNAME.eq("Doe"),
+        ),
+      ],
+    ),
   );
 
   await Amplify.addPlugin(singleEqualsStore);
@@ -189,12 +196,14 @@ Future<void> initializeChainedEquals() async {
   // chaining the gt operator with the sort key
   final chainedEqualGtStore = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
-    syncExpressions: [
-      DataStoreSyncExpression(
-        User.classType,
-        () => User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10")),
-      ),
-    ],
+    options: DataStorePluginOptions(
+      syncExpressions: [
+        DataStoreSyncExpression(
+          User.classType,
+          () => User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10")),
+        ),
+      ],
+    ),
   );
 
   await Amplify.addPlugin(chainedEqualGtStore);

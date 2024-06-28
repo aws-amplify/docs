@@ -1,0 +1,31 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Enable rich notifications',
+  description: 'Enable rich notifications for you app.',
+  platforms: [
+    'react-native',
+    'flutter'
+    ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import enableRichNotifications from '/src/fragments/lib-v1/push-notifications/common/enable-rich-notifications.mdx';
+
+<Fragments fragments={{ 'react-native': enableRichNotifications, flutter: enableRichNotifications }} />

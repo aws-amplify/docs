@@ -5,11 +5,11 @@ export interface ParsedURL {
 }
 
 export const parseURL = (url: string): ParsedURL => {
-  const {pathname, hash} = new URL(url, location.origin);
-  const pieces = pathname.split("/q/");
+  const { pathname, hash } = new URL(url, location.origin);
+  const pieces = pathname.split('/q/');
 
-  let search = "";
-  let path = "";
+  let search = '';
+  let path = '';
   const params = {};
 
   if (pieces.length == 2) {
@@ -19,7 +19,7 @@ export const parseURL = (url: string): ParsedURL => {
   path = pieces.pop() as string;
 
   if (search) {
-    const searchPiecesSplit = search.split("/");
+    const searchPiecesSplit = search.split('/');
     for (let i = 0; i < searchPiecesSplit.length / 2; i += 2) {
       params[searchPiecesSplit[i]] = searchPiecesSplit[i + 1];
     }
@@ -28,7 +28,7 @@ export const parseURL = (url: string): ParsedURL => {
   const parsed = {
     path,
     hash,
-    params,
+    params
   };
 
   return parsed;
@@ -42,7 +42,7 @@ export const serializeURL = (pieces: ParsedURL): string => {
   if (paramEntries.length) {
     serialized += `/q/${paramEntries
       .map(([paramKey, paramValue]) => `${paramKey}/${paramValue}`)
-      .join("/")}`;
+      .join('/')}`;
   }
 
   if (pieces.hash) {

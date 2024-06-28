@@ -1,24 +1,27 @@
 import * as React from 'react';
 import type { MDXComponents } from 'mdx/types';
 import ExportedImage from 'next-image-export-optimizer';
-import { Banner } from './src/components/Banner';
 import InlineFilter from './src/components/InlineFilter';
 import { YoutubeEmbed } from './src/components/YoutubeEmbed';
 import { Accordion } from './src/components/Accordion';
 import { Block, BlockSwitcher } from './src/components/BlockSwitcher';
 import { Callout } from './src/components/Callout';
 import Fragments from './src/components/Fragments';
-import { MDXCode, MDXHeading, MDXLink } from './src/components/MDXComponents';
+import {
+  MDXCode,
+  MDXHeading,
+  MDXLink,
+  MDXTable
+} from './src/components/MDXComponents';
 import { MigrationAlert } from './src/components/MigrationAlert';
 import preToCodeBlock from './src/utils/pre-to-code-block';
 import { Overview } from './src/components/Overview';
 import ExternalLink from './src/components/ExternalLink';
 import { ExternalLinkButton } from './src/components/ExternalLinkButton';
-import InternalLink from './src/components/InternalLink';
 import { InternalLinkButton } from './src/components/InternalLinkButton';
-import FilterContent from './src/components/FilterContent';
 import { Grid, View } from '@aws-amplify/ui-react';
 import { Columns } from './src/components/Columns';
+import { Video } from './src/components/Video';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -49,6 +52,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return <pre {...preProps} />;
     },
     img: ResponsiveImage,
+    table: MDXTable,
 
     // Make common custom components available to content authors
     Accordion,
@@ -59,15 +63,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     InlineFilter,
     MigrationAlert,
     YoutubeEmbed,
-    Banner,
     Overview,
     ExternalLink,
     ExternalLinkButton,
-    InternalLink,
     InternalLinkButton,
-    FilterContent,
     Grid,
     Columns,
+    Video,
     View,
     ...components
   };

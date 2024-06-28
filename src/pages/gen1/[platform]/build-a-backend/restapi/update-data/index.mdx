@@ -1,0 +1,49 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Update data',
+  description: 'Using Post, Put, etc. in Amplify',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import android_update from '/src/fragments/lib/restapi/android/update.mdx';
+import flutter_update from '/src/fragments/lib/restapi/flutter/update.mdx';
+import ios_update from '/src/fragments/lib/restapi/ios/update.mdx';
+import js_fetch from '/src/fragments/lib/restapi/js/update.mdx';
+
+<Fragments
+  fragments={{
+    android: android_update,
+    flutter: flutter_update,
+    swift: ios_update,
+    javascript: js_fetch,
+    angular: js_fetch,
+    nextjs: js_fetch,
+    react: js_fetch,
+    vue: js_fetch,
+    'react-native': js_fetch
+  }}
+/>

@@ -1,5 +1,5 @@
 import { CliCommand, CliCommandFlag } from '@/data/cli-commands';
-import { Heading, Text, Flex, View } from '@aws-amplify/ui-react';
+import { Text, Flex } from '@aws-amplify/ui-react';
 import { MDXCode } from '../MDXComponents';
 import { CommandHeading, SubCommandHeading } from './CommandHeading';
 import { Fragment } from 'react';

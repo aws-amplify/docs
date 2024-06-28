@@ -1,0 +1,59 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use existing AWS resources',
+  description: 'Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Existing Amazon API Gateway resources can be used with the Amplify Libraries by calling `Amplify.configure()` with the API Gateway API name and options. Note, you will need to supply the full resource configuration and library options objects when calling `Amplify.configure()`. The following example shows how to configure additional API Gateway resources to an existing Amplify application:
+
+```ts
+import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs):
+
+const existingConfig = Amplify.getConfig();
+
+// Add existing resource to the existing configuration.
+Amplify.configure({
+  ...existingConfig,
+  API: {
+    ...existingConfig.API,
+    REST: {
+      ...existingConfig.API?.REST,
+      YourAPIName: {
+        endpoint:
+          'https://abcdefghij1234567890.execute-api.us-east-1.amazonaws.com/stageName',
+        region: 'us-east-1' // Optional
+      }
+    }
+  }
+});
+```
+
+- **YourAPIName**: Friendly name for the API
+  - **endpoint**: The HTTPS endpoint of the API
+  - **region**: AWS Region where the resources are provisioned. If not specified, the region will be inferred from the endpoint.
+
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/#install-amplify-libraries).

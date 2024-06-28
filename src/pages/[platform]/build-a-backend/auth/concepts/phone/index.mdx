@@ -1,0 +1,52 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Phone',
+  description: 'Learn more about what Amplify Auth provisions and supports',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+By default Amplify Auth is scaffolded with `email` as the default method for user sign-in, however this can be changed or extended to also allow your users to sign in using their phone number.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+export const auth = defineAuth({
+  loginWith: {
+    // highlight-next-line
+    phone: true,
+  },
+})
+```
+
+This will configure the `phone_number` attribute that is required for sign-up and cannot be changed.
+
+{/* how to use client-side */}
+{/* callout for customizing SMS messages */}
+
+## Next steps
+
+- [Learn how to use the `signIn` API](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/)
+- [Learn how to configure your account for production SMS workloads](/[platform]/build-a-backend/auth/moving-to-production/)

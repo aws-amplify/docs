@@ -71,11 +71,11 @@ struct MyAppCode {
 }
 ```
 
-## Installation
+### Installation
 
 There is no additional work needed to enable Combine support. Projects that declare a deployment target of iOS 13.0 or higher will automatically see the appropriate method signatures and properties, depending on the Category and API you are calling.
 
-## API Comparison
+### API comparison
 
 Amplify strives to provide an intuitive interface for APIs that expose Combine functionality by overloading the no-Combine API signature, minus the result callbacks. Thus, `Amplify.DataStore.save(_:where:completion:)` has an equivalent Combine-supporting API of `Amplify.DataStore.save(_:where:)`. In most cases, the Result callback `Success` and `Failure` types in standard Amplify APIs translate exactly to the `Output` and `Failure` types of publishers returned from Combine-supporting APIs.
 
@@ -95,25 +95,25 @@ The way to get to a Combine publisher for a given API varies depending on whethe
       .resultPublisher
   ```
 
-### Special cases
+#### Special cases
 
 Not all APIs map neatly to the `resultPublisher` pattern. While this asymmetry increases the mental overhead of learning to use Amplify with Combine, the ease of use at the call site should make up for the additional learning curve. In addition, Xcode will show the available publisher properties, making it easier to discover which publisher you need:
 
 ![image](/images/combine-xcode.png)
 
-#### `API.subscribe()`
+##### `API.subscribe()`
 
 The `API.subscribe()` method exposes a `subscriptionDataPublisher` for the stream of subscription data, and a `connectionStatePublisher` for the status of the underlying connection. Many apps will only need to use the `subscriptionDataPublisher`, since a closed GraphQL subscription will be reported as a completion on that publisher. The `connectionStatePublisher` exists for apps that need to inspect when the connection initially begins, even if data has not yet been received by that subscription.
 
-#### `Hub.publisher(for:)`
+##### `Hub.publisher(for:)`
 
 The Amplify Hub category exposes only one Combine-related API: `Hub.publisher(for:)`, which returns a publisher for all events on a given channel. You can then apply the standard Combine [`filter`](<https://developer.apple.com/documentation/combine/anypublisher/filter(_:)>) operator to inspect only those events you care about.
 
-#### `Storage` upload & download operations
+##### `Storage` upload & download operations
 
 Storage upload and download APIs report both completion and overall operation progress. In addition to the typical `resultPublisher` that reports the overall status of the operation, Storage upload and download APIs also have a `progressPublisher` that reports incremental progress when available.
 
-## Cancelling operations
+### Cancelling operations
 
 Most Amplify APIs return a use-case specific Operation that you may use to cancel an in-process operation. On iOS 13 and above, those Operations contain publishers to report values back to the app.
 

@@ -24,7 +24,7 @@ type Restaurant @model @auth(rules: [{ allow: public }]) {
 }
 ```
 
-The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more. In the example schema above, the `@model` directive is part of Amplify's [GraphQL transformer](/[platform]/build-a-backend/graphqlapi/data-modeling/) functionality and the `@auth` directive determines what [authorization rules](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) to apply.
+The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more. In the example schema above, the `@model` directive is part of Amplify's [GraphQL transformer](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/) functionality and the `@auth` directive determines what [authorization rules](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) to apply.
 
 A type decorated with the `@model` directive will scaffold out the database table for the type (Restaurant table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 

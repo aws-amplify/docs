@@ -1,10 +1,10 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Functions',
   description:
-    'Build and deploy serverless functions to perform various tasks, such as handling API requests, executing backend logic, or integrating with other AWS services.',
+    'Use AWS Lambda functions to perform tasks and customize workflows.',
   platforms: [
     'android',
     'angular',
@@ -19,15 +19,14 @@ export const meta = {
   route: '/[platform]/build-a-backend/functions'
 };
 
-export const getStaticPaths = async () => {
+export function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      platform: context.params.platform,
       meta,
       childPageNodes
     }

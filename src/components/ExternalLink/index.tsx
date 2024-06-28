@@ -21,7 +21,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
       className={className}
       rel="noopener noreferrer"
       target="_blank"
-      onClick={(e) => {
+      onClick={() => {
         trackLink(href);
       }}
     >

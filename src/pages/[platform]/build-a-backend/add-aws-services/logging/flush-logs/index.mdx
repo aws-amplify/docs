@@ -1,0 +1,239 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Flush logs',
+  description: 'Learn how to force flush logs',
+  platforms: [
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+When using the Amplify Logger, all logged messages are saved locally on the user's device first and then flushed at a set interval that you can [customize](#change-automatic-log-flush-interval). You can also choose to flush events manually if needed by following the steps outlined in this section.
+
+## Change automatic log flush interval
+
+You can customize the time interval for when logs are automatically flushed and sent to CloudWatch.
+
+Below is an example of setting the time interval to 120 seconds:
+
+
+<InlineFilter filters={['android']}>
+
+<BlockSwitcher>
+  <Block name="With Configuration File">
+Update the `flushIntervalInSeconds` field in the logging configuration file.
+
+```json
+{
+    "awsCloudWatchLoggingPlugin": {
+        "enable": true,
+        "logGroupName": "<log-group-name>",
+        "region": "<region>",
+        "localStoreMaxSizeInMB": 1,
+        "flushIntervalInSeconds": 120,
+        "loggingConstraints": {
+            "defaultLogLevel": "ERROR"
+        }
+    }
+}
+```
+
+  </Block>
+  <Block name="With Code">
+Provide a `flushIntervalInSeconds` parameter initialization and configuration of the `AWSCloudWatchLoggingPlugin`.
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>, <region>, 120);
+Amplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val config = AWSCloudWatchLoggingPluginConfiguration(logGroupName = <log-group-name>, region = <region>, flushIntervalInSeconds = 120)
+Amplify.addPlugin(AWSCloudWatchLoggingPlugin(config))
+```
+</Block>
+<Block name="RxJava">
+
+```java
+AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>,<region>, 120);
+Amplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
+```
+
+</Block>
+</BlockSwitcher>
+
+
+
+  </Block>
+</BlockSwitcher>
+
+
+
+
+</InlineFilter>
+
+
+<InlineFilter filters={['swift']}>
+
+<BlockSwitcher>
+  <Block name="With Configuration File">
+Update the `flushIntervalInSeconds` field in the logging configuration file.
+
+```json
+{
+    "awsCloudWatchLoggingPlugin": {
+        "enable": true,
+        "logGroupName": "<log-group-name>",
+        "region": "<region>",
+        "localStoreMaxSizeInMB": 1,
+        "flushIntervalInSeconds": 120,
+        "loggingConstraints": {
+            "defaultLogLevel": "ERROR"
+        }
+    }
+}
+```
+
+
+  </Block>
+  <Block name="With Code">
+Provide a `flushIntervalInSeconds` parameter initialization and configuration of the `AWSCloudWatchLoggingPlugin`.
+
+```swift
+do {
+    let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "<log-group-name>", region: "<region>", flushIntervalInSeconds: 120)
+    let loggingPlugin = AWSCloudWatchLoggingPlugin(loggingPluginConfiguration: loggingConfiguration)
+    try Amplify.add(plugin: loggingPlugin)
+    try Amplify.configure(with: .amplifyOutputs)
+} catch {
+    assert(false, "Error initializing Amplify: \(error)")
+}
+```
+
+
+
+  </Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+
+## Manually flush logs
+
+You can choose at anytime to flush the log messages that are saved locally on the user's device, to then send them immediately to Amazon CloudWatch.
+
+
+
+
+
+
+
+
+<InlineFilter filters={['android']}>
+
+<BlockSwitcher>
+<Block name="Java">
+Add import statement to the `AWSCloudWatchLoggingPlugin`
+```java
+import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin;
+```
+
+Execute the flush log function from the plugin.
+
+```java
+AWSCloudWatchLoggingPlugin plugin = (AWSCloudWatchLoggingPlugin)Amplify.Logging.getPlugin("awsCloudWatchLoggingPlugin");
+plugin.flushLogs(
+    () -> {
+        // logs flushed successfully
+    }, error -> {
+        // failed to flush logs
+    }
+);
+```
+</Block>
+<Block name="Kotlin">
+
+Add import statement to the `AWSCloudWatchLoggingPlugin`
+```kotlin
+import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin
+```
+
+Execute the flush log function from the plugin.
+
+```kotlin
+val plugin = Amplify.Logging.getPlugin("awsCloudWatchLoggingPlugin") as? AWSCloudWatchLoggingPlugin
+plugin?.flushLogs(
+    {
+        // logs flushed successfully
+    },{  error ->
+        // failed to flush logs
+    }
+);
+```
+
+</Block>
+<Block name="RxJava">
+
+Add import statement to the `AWSCloudWatchLoggingPlugin`
+```java
+import com.amplifyframework.logging.cloudwatch.AWSCloudWatchLoggingPlugin;
+```
+
+Execute the flush log function from the plugin.
+
+```java
+AWSCloudWatchLoggingPlugin plugin = (AWSCloudWatchLoggingPlugin)Amplify.Logging.getPlugin("awsCloudWatchLoggingPlugin");
+plugin.flushLogs(
+    () -> {
+        // logs flushed successfully
+    }, error -> {
+        // failed to flush logs
+    }
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+
+</InlineFilter>
+
+
+<InlineFilter filters={['swift']}>
+
+Add import statement to the `AWSCloudWatchLoggingPlugin`
+```swift
+import AWSCloudWatchLoggingPlugin
+```
+
+Execute the flush log function from the plugin.
+
+```swift
+let cloudWatchPlugin = try Amplify.Logging.getPlugin(for: "awsCloudWatchLoggingPlugin") as? AWSCloudWatchLoggingPlugin
+try await cloudWatchPlugin?.flushLogs()
+```
+
+</InlineFilter>
+
+
+
+

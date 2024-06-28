@@ -1,0 +1,33 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Endpoints',
+  description:
+    'When a user starts a session (for example, by launching your mobile app), your mobile or web application can automatically register (or update) an endpoint with Amazon Pinpoint. The endpoint represents the device that the user starts the session with.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import all0 from '/src/fragments/sdk/library-callout.mdx';
+
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/analytics/ios/endpoints.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/sdk/analytics/android/endpoints.mdx';
+
+<Fragments fragments={{ android: android2 }} />

@@ -1,200 +1,68 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import classNames from 'classnames';
-import { Button, Flex, VisuallyHidden, View } from '@aws-amplify/ui-react';
-import Link from 'next/link';
+import { Flex, VisuallyHidden } from '@aws-amplify/ui-react';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
-import {
-  IconChevron,
-  IconAndroid,
-  IconAngular,
-  IconFlutter,
-  IconJS,
-  IconNext,
-  IconReact,
-  IconSwift,
-  IconVue
-} from '@/components/Icons';
-import { useClickOutside } from '@/utils/useClickOutside';
-import { DEFAULT_PLATFORM } from '@/data/platforms';
-import { useTabKeyDetection } from '@/utils/useTabKeyDetection';
+import { Popover } from '@/components/Popover';
+import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
+import { useIsGen1Page } from '@/utils/useIsGen1Page';
+import { UrlObject } from 'url';
+import { gen1GetStartedHref, gen2GetStartedHref } from '@/data/index-page-data';
 
-const getStartedHref = '/[platform]/start/getting-started/introduction/';
+export type GetStartedLinksType = {
+  title: string;
+  href: UrlObject;
+  icon: JSX.Element;
+  platform: Platform;
+};
 
-const getStartedLinks = [
-  {
-    title: 'React',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'react' }
-    },
-    icon: <IconReact />
-  },
-  {
-    title: 'JavaScript',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'javascript' }
-    },
-    icon: <IconJS />
-  },
-  {
-    title: 'Flutter',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'flutter' }
-    },
-    icon: <IconFlutter />
-  },
-  {
-    title: 'Swift',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'swift' }
-    },
-    icon: <IconSwift />
-  },
-  {
-    title: 'Android',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'android' }
-    },
-    icon: <IconAndroid />
-  },
-  {
-    title: 'React Native',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'react-native' }
-    },
-    icon: <IconReact />
-  },
-  {
-    title: 'Angular',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'angular' }
-    },
-    icon: <IconAngular />
-  },
-  {
-    title: 'Next.js',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'nextjs' }
-    },
-    icon: <IconNext />
-  },
-  {
-    title: 'Vue',
-    href: {
-      pathname: getStartedHref,
-      query: { platform: 'vue' }
-    },
-    icon: <IconVue />
-  }
-];
+type GetStartedPopoverType = {
+  platform: Platform | typeof DEFAULT_PLATFORM;
+  getStartedLinks: GetStartedLinksType[];
+  testId?: string;
+};
 
-export const GetStartedPopover = (platform) => {
-  const [expanded, setExpanded] = useState<boolean>(false);
-
-  const triggerRef = useRef<HTMLButtonElement>(null);
-
-  const contentRef = useClickOutside((e) => {
-    if (triggerRef.current && !triggerRef.current.contains(e.target)) {
-      if (expanded) {
-        setExpanded(false);
-      }
-    }
-  });
-
-  const { isTabKeyPressed, setIsTabKeyPressed } =
-    useTabKeyDetection(contentRef);
-
-  useEffect(() => {
-    if (expanded) {
-      contentRef?.current?.focus();
-    }
-  }, [expanded]);
-
-  const handleBlur = (e) => {
-    // Use relatedTarget to see if the target receiving focus is outside of the popover
-    if (
-      contentRef.current &&
-      !contentRef.current.contains(e.relatedTarget) &&
-      isTabKeyPressed
-    ) {
-      if (expanded) {
-        setExpanded(false);
-
-        // Since the custom hook is only listening to the keydown and keyup
-        // event on the ref we pass in, the keyup event doesn't get registered
-        // when we lose focus and so the state isn't reset. Reset it here
-        setIsTabKeyPressed(false);
-      }
-    }
-  };
-
-  platform = platform.platform;
+export const GetStartedPopover = ({
+  platform,
+  getStartedLinks,
+  testId
+}: GetStartedPopoverType) => {
+  const isGen1Page = useIsGen1Page();
 
   return (
     <Flex className="split-button">
       <InternalLinkButton
+        variation="primary"
         size="large"
         className="split-button__start"
         href={{
-          pathname: '/[platform]/start/getting-started/introduction/',
+          pathname: isGen1Page ? gen1GetStartedHref : gen2GetStartedHref,
           query: { platform: platform }
         }}
       >
         Get started
       </InternalLinkButton>
-
-      <View className="popover-wrapper">
-        <Button
-          onClick={() => setExpanded(!expanded)}
-          ref={triggerRef}
+      <Popover>
+        <Popover.Trigger
+          variation="primary"
           size="large"
           className="split-button__end"
         >
-          <IconChevron
-            aria-hidden="true"
-            className={classNames('split-button__end-icon', {
-              'icon-rotate-180-reverse': expanded
-            })}
-          />
           <VisuallyHidden>
             Toggle getting started guides navigation
           </VisuallyHidden>
-        </Button>
-
-        <View
-          className={classNames('popover', {
-            'popover--expanded': expanded
+        </Popover.Trigger>
+        <Popover.List testId={testId ? `${testId}-popoverList` : ''}>
+          {getStartedLinks.map((link, index) => {
+            return (
+              <Popover.ListItem
+                href={link.href}
+                key={`getStartedLink-${index}`}
+              >
+                {link.icon}
+                {link.title}
+              </Popover.ListItem>
+            );
           })}
-          as="nav"
-          tabIndex={0}
-          ref={contentRef}
-          onBlur={handleBlur}
-          aria-label="Getting started guides for other platforms"
-        >
-          <ul className="popover-list">
-            {getStartedLinks.map((link, index) => {
-              return (
-                <li
-                  className="popover-list__item"
-                  key={`getStartedLink-${index}`}
-                >
-                  <Link className="popover-list__link" href={link.href}>
-                    {link.icon}
-                    {link.title}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </View>
-      </View>
+        </Popover.List>
+      </Popover>
     </Flex>
   );
 };

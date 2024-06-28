@@ -1,19 +1,24 @@
-### Switching authentication flow at runtime 
+### Switching authentication flow at runtime
 
-By default, the [`authenticationFlowType`](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html) value specified in your `amplifyconfiguration.dart` will be used when authenticating with Cognito. You can change the default behavior at runtime with `CognitoSignInOptions`:
+By default, the [`authenticationFlowType`](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html) value specified in your `amplifyconfiguration.dart` will be used when authenticating with Cognito. You can change the default behavior at runtime with `CognitoSignInPluginOptions`:
 
 ```dart
-Future<void> signInUser(String username, String password) async {
+Future<void> signInCustom(String username, String password) async {
   try {
     final result = await Amplify.Auth.signIn(
       username: username,
       password: password,
-      options: CognitoSignInOptions(authFlowType: AuthenticationFlowType.customAuth),
+      options: const SignInOptions(
+        pluginOptions: CognitoSignInPluginOptions(
+          authFlowType: AuthenticationFlowType.customAuthWithSrp,
+        ),
+      ),
     );
+    await _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```
 
-The two available options are `userSrpAuth` and `customAuth`. You can learn more about the custom auth flow [here](/[platform]/prev/build-a-backend/auth/sign-in-custom-flow/).
+The two available options are `userSrpAuth` and `customAuth`. You can learn more about the custom auth flow [here](/gen1/[platform]/prev/build-a-backend/auth/sign-in-custom-flow/).

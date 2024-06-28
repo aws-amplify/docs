@@ -1,0 +1,166 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Identify entities from images',
+  description: 'Learn how to identify entities from an image using Amplify.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue',
+  ]
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout informational>
+
+**Note:** Make sure to complete the [getting started](../set-up-predictions) section first, where you will set up the IAM roles with the right policy actions
+
+</Callout>
+
+
+## Working with the API
+
+`Predictions.identify({entities: {...}}) => Promise<>`
+Detects entities from an image and potentially related information such as position, faces, and landmarks. Can also identify celebrities and entities that were previously added. This function returns a Promise that returns an object with the entities that was identified.  
+
+Input can be sent directly from the browser (using File object or ArrayBuffer object) or an Amazon S3 key from project bucket.
+
+Detect entities directly from image uploaded from the browser. (File object)
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
+  entities: {
+    source: {
+      file,
+    },
+  }
+});
+```
+
+Detect entities directly from image binary from the browser. (ArrayBuffer object)
+This technique is useful when you have base64 encoded binary image data, for example, from a webcam source.
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
+  entities: {
+    source: {
+      bytes: imageArrayBuffer,
+    },
+  }
+});
+```
+
+From Amazon S3 key
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
+  entities: {
+    source: {
+      key: pathToPhoto,
+      level: 'guest' | 'private' | 'protected', //optional, default is the configured on Storage category
+    },
+  }
+});
+```
+
+The following options are independent of which `source` is specified. For demonstration purposes it will be used `file` but it can be used S3 Key as well. 
+
+Detecting bounding box of faces from an image with its landmarks (eyes, mouth, nose).
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const { entities } = await Predictions.identify({
+  entities: {
+    source: {
+      file,
+    },
+  }
+})
+for (const { boundingBox, landmarks } of entities) {
+  const { 
+    width, // ratio of overall image width
+    height, // ratio of overall image height
+    left, // left coordinate as a ratio of overall image width
+    top // top coordinate as a ratio of overall image height
+  } = boundingBox;
+  
+  for (const landmark of landmarks) {
+    const {
+      type, // string "eyeLeft", "eyeRight", "mouthLeft", "mouthRight", "nose"
+      x, // ratio of overall image width
+      y // ratio of overall image height
+    } = landmark;
+  }
+}
+```
+
+Detecting celebrities on an image. It will return only celebrities the name and urls with related information.
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const { entities } = await Predictions.identify({
+  entities: {
+    source: {
+      file,
+    },
+    celebrityDetection: true // boolean. It will only show detected celebrities 
+  }
+})
+
+for (const { boundingBox, landmarks, metadata } of entities) {
+  const { 
+    name,
+    urls 
+  } = metadata; // celebrity info
+  
+  // ...
+}
+.catch(err => console.log({ err }));
+```
+
+Detecting entities from previously uploaded images (e.g. Advanced Configuration for Identify Entities)
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const { entities } = await Predictions.identify({
+  entities: {
+    source: {
+      file,
+    },
+    collection: true
+  }
+})
+
+for (const { boundingBox, metadata } of entities) {
+  const {
+    width, // ratio of overall image width
+    height, // ratio of overall image height
+    left, // left coordinate as a ratio of overall image width
+    top // top coordinate as a ratio of overall image height
+  } = boundingBox;
+  const { externalImageId } = metadata; // this is the object key on S3 from the original image
+}
+```

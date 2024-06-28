@@ -189,24 +189,20 @@ const Feedback = function Feedback(router) {
 
   return (
     <Flex className="feedback" key={router?.router?.asPath}>
-      <div id="start-state" aria-label={c.feedbackQuestion} role="group">
-        <Text className="feedback-text">{c.feedbackQuestion}</Text>
+      <div id="start-state" aria-labelledby="feedbackGroupTitle" role="group">
+        <Text className="feedback-text" id="feedbackGroupTitle">
+          {c.feedbackQuestion}
+        </Text>
         <Flex className="vote-buttons-container">
           <Button
             className="vote-button"
             onClick={onYesVote}
-            aria-label="Yes"
             ref={yesButtonRef}
           >
             <IconThumbsUp />
             <Text ref={yesTextRef}>Yes</Text>
           </Button>
-          <Button
-            className="vote-button"
-            onClick={onNoVote}
-            aria-label="No"
-            ref={noButtonRef}
-          >
+          <Button className="vote-button" onClick={onNoVote} ref={noButtonRef}>
             <IconThumbsDown />
             <Text ref={noTextRef}>No</Text>
           </Button>

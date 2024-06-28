@@ -1,0 +1,210 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Automatically track sessions',
+  description: 'The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from your local computer’s terminal or the AWS Console for Pinpoint.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
+Analytics auto tracking helps you to automatically track user behaviors like sessions' start/stop, page view change and web events like clicking or mouseover.
+
+## Session Tracking
+
+You can track the session both in a web app or a React Native app by using Analytics. A web session can be defined in different ways. To keep it simple, we define a web session as being active when the page is not hidden and inactive when the page is hidden. A session in a React Native app is active when the app is in the foreground and inactive when the app is in the background.
+
+For example:
+
+```javascript title="src/index.js"
+import { configureAutoTrack } from 'aws-amplify/analytics';
+
+configureAutoTrack({
+  // REQUIRED, turn on/off the auto tracking
+  enable: true,
+  // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
+  type: 'session',
+  // OPTIONAL, additional options for the tracked event.
+  options: {
+    // OPTIONAL, the attributes of the event
+    attributes: {
+      customizableField: 'attr'
+    }
+  }
+});
+```
+
+By default, when the page/app transitions to the foreground, the Analytics module will send an event to the Amazon Pinpoint Service.
+
+```json
+{
+  "eventType": "_session_start",
+  "attributes": {
+    "customizableField": "attr"
+  }
+}
+```
+
+This behavior can be disabled by calling `configureAutoTrack`:
+
+```javascript title="src/index.js"
+import { configureAutoTrack } from 'aws-amplify/analytics';
+
+configureAutoTrack({
+  enable: false,
+  type: 'session'
+});
+```
+
+## Page View Tracking
+
+Use this feature to track the most frequently viewed page/url in your webapp. It automatically sends events containing url information when a page is visited.
+
+This behavior can be enabled by calling `configureAutoTrack`:
+```javascript title="src/index.js"
+import { configureAutoTrack } from 'aws-amplify/analytics';
+
+configureAutoTrack({
+  // REQUIRED, turn on/off the auto tracking
+  enable: true,
+  // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
+  type: 'pageView',
+  // OPTIONAL, additional options for the tracked event.
+  options: {
+    // OPTIONAL, the attributes of the event
+    attributes: {
+      customizableField: 'attr'
+    },
+
+    // OPTIONAL, the event name. By default, this is 'pageView'
+    eventName: 'pageView',
+
+    // OPTIONAL, the type of app under tracking. By default, this is 'multiPageApp'.
+    // You will need to change it to 'singlePage' if your app is a single-page app like React
+    appType: 'multiPageApp',
+
+    // OPTIONAL, provide the URL for the event.
+    urlProvider:  () => {
+      // the default function
+      return window.location.origin + window.location.pathname;
+    }
+  }
+});
+```
+
+This behavior can be disabled by calling `configureAutoTrack`:
+```javascript title="src/index.js"
+import { configureAutoTrack } from 'aws-amplify/analytics';
+
+configureAutoTrack({
+  enable: false,
+  type: 'pageView'
+});
+```
+
+## Page Event Tracking
+
+Use page event tracking to track user interactions with specific elements on a page. Attach the specified selectors to your DOM element and turn on the auto tracking.
+
+This behavior can be enabled by calling `configureAutoTrack`:
+```javascript title="src/index.js"
+import { configureAutoTrack } from 'aws-amplify/analytics';
+
+configureAutoTrack({
+  // REQUIRED, turn on/off the auto tracking
+  enable: true,
+  // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
+  type: 'event',
+  // OPTIONAL, additional options for the tracked event.
+  options: {
+    // OPTIONAL, the attributes of the event
+    attributes: {
+      customizableField: 'attr'
+    },
+    // OPTIONAL, events you want to track. By default, this is 'click'
+    events: ['click'],
+
+    // OPTIONAL, the prefix of the selectors. By default, this is 'data-amplify-analytics-'
+    // Per https://www.w3schools.com/tags/att_global_data.asp, always start
+    // the prefix with 'data' to avoid collisions with the user agent
+    selectorPrefix: 'data-amplify-analytics-'
+  }
+});
+```
+
+For example:
+
+```html
+<!-- you want to track this button and send an event when it is clicked -->
+<button
+  data-amplify-analytics-on="click"
+  data-amplify-analytics-name="click"
+  data-amplify-analytics-attrs="attr1:attr1_value,attr2:attr2_value"
+/>
+```
+
+When the button above is clicked, an event will be sent automatically. This is equivalent to doing:
+
+```html
+<script>
+  import { record } from 'aws-amplify/analytics';
+  var sendEvent = function() {
+    record({
+      name: 'click',
+      attributes: {
+        attr: 'attr', // the default ones
+        attr1: attr1_value, // defined in the button component
+        attr2: attr2_value // defined in the button component
+      }
+    });
+  };
+</script>
+<button onclick="sendEvent()" />
+```
+
+This behavior can be disabled by calling `configureAutoTrack`:
+```javascript title="src/index.js"
+import { configureAutoTrack } from 'aws-amplify/analytics';
+
+configureAutoTrack({
+  enable: false,
+  type: 'event'
+});
+```
+
+<Callout>
+
+**Note:** Amplify doesn't capture location automatically. Instead, you can add the location information in the default config when you [configure Analytics](/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/#set-up-existing-analytics-backend) or while [updating the end point](/[platform]/build-a-backend/add-aws-services/analytics/existing-resources).
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["swift", "android", "flutter"]}>
+The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from the AWS Console for Amazon Pinpoint.
+
+1. In the Amazon Pinpoint Console under **Analytics**, choose **Events**. 
+2. Enable filters, you can select `Session Start` and `Session Stop` events to filter on session events.
+</InlineFilter>

@@ -1,0 +1,85 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Email domain filtering',
+  description:
+    'Use an Auth Pre Signup trigger to allow or deny sign-ups based on email domains',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+You can use `defineAuth` and `defineFunction` to create a [Cognito pre sign-up Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) that performs filtering based on the user's email address. This can allow or deny user signups based on their email address.
+
+To get started, install the `aws-lambda` package, which is used to define the handler type.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add --save-dev @types/aws-lambda
+```
+
+Next, create a new directory and a resource file, `amplify/auth/pre-sign-up/resource.ts`. Then, define the Function with `defineFunction`:
+
+```ts title="amplify/auth/pre-sign-up/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+
+export const preSignUp = defineFunction({
+  name: 'pre-sign-up',
+  // optionally define an environment variable for your filter
+  environment: {
+    ALLOW_DOMAIN: 'amazon.com'
+  }
+});
+```
+
+Next, create the corresponding handler file, `amplify/auth/pre-sign-up/handler.ts`, file with the following contents:
+
+```ts title="amplify/auth/pre-sign-up/handler.ts"
+import type { PreSignUpTriggerHandler } from 'aws-lambda';
+import { env } from '$amplify/env/pre-sign-up';
+
+export const handler: PreSignUpTriggerHandler = async (event) => {
+  const email = event.request.userAttributes['email'];
+
+  if (!email.endsWith(env.ALLOW_DOMAIN)) {
+    throw new Error('Invalid email domain');
+  }
+
+  return event;
+};
+```
+
+Lastly, set the newly created Function resource on your auth resource:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+import { preSignUp } from './pre-sign-up/resource';
+
+export const auth = defineAuth({
+  // ...
+  triggers: {
+    preSignUp
+  }
+});
+```
+
+After deploying the changes, whenever a user attempts to sign up without an `amazon.com` email address they will receive an error.

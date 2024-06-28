@@ -1,0 +1,45 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Setting up push notification services',
+  description:
+    'Learn how to set up the various push notification services for your mobile app.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import all0 from '/src/fragments/sdk/library-callout.mdx';
+
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/push-notifications/ios/setup-apns.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/sdk/push-notifications/android/setup-fcm.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+import android3 from '/src/fragments/sdk/push-notifications/android/handle-fcm.mdx';
+
+<Fragments fragments={{ android: android3 }} />
+
+import android4 from '/src/fragments/sdk/push-notifications/android/handle-adm.mdx';
+
+<Fragments fragments={{ android: android4 }} />
+
+import android5 from '/src/fragments/sdk/push-notifications/android/handle-baidu.mdx';
+
+<Fragments fragments={{ android: android5 }} />

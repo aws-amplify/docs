@@ -1,0 +1,510 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Add custom queries and mutations',
+  description:
+    'Customize your business logic for queries and mutations.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+The `a.model()` data model provides a solid foundation for querying, mutating, and fetching data. However, you may need additional customizations to meet specific requirements around custom API requests, response formatting, and/or fetching from external data sources.
+
+In the following sections, we walk through the three steps to create a custom query or mutation:
+
+1. Define a custom query or mutation
+2. Configure custom business logic handler code
+3. Invoke the custom query or mutation
+
+## Step 1 - Define a custom query or mutation
+
+| Type | When to choose |
+| --- | --- |
+| Query | When the request only needs to read data and will not modify any backend data |
+| Mutation | When the request will modify backend data |
+
+For every custom query or mutation, you need to set a return type and, optionally, arguments. Use `a.query()` or `a.mutation()` to define your custom query or mutation in your **amplify/data/resource.ts** file:
+
+<BlockSwitcher>
+
+<Block name="Custom query">
+
+```ts
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  // 1. Define your return type as a custom type
+  EchoResponse: a.customType({
+    content: a.string(),
+    executionDuration: a.float()
+  }),
+
+  // 2. Define your query with the return type and, optionally, arguments
+  echo: a
+    .query()
+    // arguments that this query accepts
+    .arguments({
+      content: a.string()
+    })
+    // return type of the query
+    .returns(a.ref('EchoResponse'))
+    // only allow signed-in users to call this API
+    .authorization(allow => [allow.authenticated()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema
+});
+```
+
+</Block>
+
+<Block name="Custom mutation">
+
+```ts
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  // 1. Define your return type as a custom type or model
+  Post: a.model({
+    id: a.id(),
+    content: a.string(),
+    likes: a.integer()
+  }),
+
+  // 2. Define your mutation with the return type and, optionally, arguments
+  likePost: a
+    .mutation()
+    // arguments that this query accepts
+    .arguments({
+      postId: a.string()
+    })
+    // return type of the query
+    .returns(a.ref('Post'))
+    // only allow signed-in users to call this API
+    .authorization(allow => [allow.authenticated()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema
+});
+```
+
+</Block>
+
+</BlockSwitcher>
+
+## Step 2 - Configure custom business logic handler code
+
+After your query or mutation is defined, you need to author your custom business logic. You can either define it in a [function](/[platform]/build-a-backend/functions/) or using a [custom resolver powered by AppSync JavaScript resolver](https://docs.aws.amazon.com/appsync/latest/devguide/tutorials-js.html).
+
+<BlockSwitcher>
+
+<Block name="Function">
+
+In your `amplify/data/echo-handler/` folder, create a `handler.ts` file. You can import a utility type for your function handler via the `Schema` type from your backend resource. This gives you type-safe handler parameters and return values.
+
+```ts title="amplify/data/echo-handler/handler.ts"
+import type { Schema } from '../resource'
+
+export const handler: Schema["echo"]["functionHandler"] = async (event, context) => {
+  const start = performance.now();
+  return {
+    content: `Echoing content: ${event.arguments.content}`,
+    executionDuration: performance.now() - start
+  };
+};
+```
+
+In your `amplify/data/resource.ts` file, define the function using `defineFunction` and then reference the function with your query or mutation using `a.handler.function()` as a handler.
+
+```ts title="amplify/data/resource.ts"
+import {
+  type ClientSchema,
+  a,
+  defineData,
+  defineFunction // 1.Import "defineFunction" to create new functions
+} from '@aws-amplify/backend';
+
+// 2. define a function
+const echoHandler = defineFunction({
+  entry: './echo-handler/handler.ts'
+})
+
+const schema = a.schema({
+  EchoResponse: a.customType({
+    content: a.string(),
+    executionDuration: a.float()
+  }),
+
+  echo: a
+    .query()
+    .arguments({ content: a.string() })
+    .returns(a.ref('EchoResponse'))
+    .authorization(allow => [allow.publicApiKey()])
+    // 3. set the function has the handler
+    .handler(a.handler.function(echoHandler))
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30
+    },
+  },
+});
+```
+
+</Block>
+<Block name="Custom resolver powered by AppSync JavaScript resolvers">
+
+Custom resolvers work on a "request/response" basis. You choose a data source, map your request to the data source's input parameters, and then map the data source's response back to the query/mutation's return type. Custom resolvers provide the benefit of no cold starts, less infrastructure to manage, and no additional charge for Lambda function invocations. Review [Choosing between custom resolver and function](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-reference-overview-js.html#choosing-data-source).
+
+In your `amplify/data/resource.ts` file, define a custom handler using `a.handler.custom`.
+
+```ts title="amplify/data/resource.ts"
+import {
+  type ClientSchema,
+  a,
+  defineData,
+} from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Post: a.model({
+    content: a.string(),
+    likes: a.integer()
+      .authorization(allow => [allow.authenticated().to(['read'])])
+  }).authorization(allow => [
+    allow.owner(),
+    allow.authenticated().to(['read'])
+  ]),
+
+  likePost: a
+    .mutation()
+    .arguments({ postId: a.id() })
+    .returns(a.ref('Post'))
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.custom({
+      dataSource: a.ref('Post'),
+      entry: './increment-like.js'
+    }))
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30
+    }
+  },
+});
+```
+
+```ts title="amplify/data/increment-like.js"
+import { util } from '@aws-appsync/utils';
+
+export function request(ctx) {
+  return {
+    operation: 'UpdateItem',
+    key: util.dynamodb.toMapValues({ id: ctx.args.postId}),
+    update: {
+      expression: 'ADD likes :plusOne',
+      expressionValues: { ':plusOne': { N: 1 } },
+    }
+  }
+}
+
+export function response(ctx) {
+  return ctx.result
+}
+```
+
+By default, you'll be able to access any existing database tables (powered by Amazon DynamoDB) using `a.ref('MODEL_NAME')`. But you can also reference any other external data source from within your AWS account, by adding them to your backend definition.
+
+The supported data sources are:
+- Amazon DynamoDB
+- AWS Lambda
+- Amazon RDS databases with Data API
+- Amazon EventBridge
+- OpenSearch
+- HTTP endpoints
+
+You can add these additional data sources via our `amplify/backend.ts` file:
+
+```ts title="amplify/backend.ts"
+import * as dynamoDb from 'aws-cdk-lib/aws-dynamodb'
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+export const backend = defineBackend({
+  auth,
+  data,
+});
+
+const externalDataSourcesStack = backend.createStack("MyExternalDataSources")
+
+const externalTable = dynamoDb.Table.fromTableName(externalDataSourcesStack, "MyTable", "MyExternalTable")
+
+backend.data.addDynamoDbDataSource(
+  // highlight-next-line
+  "ExternalTableDataSource",
+  externalTable)
+```
+
+In your schema you can then reference these additional data sources based on their name:
+
+```ts title="amplify/data/resource.ts"
+import {
+  type ClientSchema,
+  a,
+  defineData,
+} from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Post: a.model({
+    content: a.string(),
+    likes: a.integer()
+      .authorization(allow => [allow.authenticated().to(['read'])])
+  }).authorization(allow => [
+    allow.owner(),
+    allow.authenticated().to(['read'])
+  ]),
+
+  likePost: a
+    .mutation()
+    .arguments({ postId: a.id() })
+    .returns(a.ref('Post'))
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.custom({
+      // highlight-next-line
+      dataSource: "ExternalTableDataSource",
+      entry: './increment-like.js'
+    }))
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30
+    }
+  },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+
+<Callout warning>
+
+All handlers must be of the same type. For example, you can't mix and match `a.handler.function` with `a.handler.custom` within a single `.handler()` modifier.
+
+</Callout>
+
+## Step 3 - Invoke the custom query or mutation
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+From your generated Data client, you can find all your custom queries and mutations under the `client.queries.` and `client.mutations.` APIs respectively.
+
+<BlockSwitcher>
+<Block name="Custom query">
+
+```ts
+const { data, errors } = await client.queries.echo({
+  content: 'hello world!!!'
+});
+```
+
+</Block>
+<Block name="Custom mutation">
+
+```ts
+const { data, errors } = await client.mutations.likePost({
+  postId: 'hello'
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+struct EchoResponse: Codable {
+    public let echo: Echo
+    
+    struct Echo: Codable {
+        public let content: String
+        public let executionDuration: Float
+    }
+}
+
+let document = """
+    query EchoQuery($content: String!) {
+        echo(content: $content) {
+            content
+            executionDuration
+        }
+    }
+    """
+
+let result = try await Amplify.API.query(request: GraphQLRequest<EchoResponse>(
+    document: document,
+    variables: [
+        "content": "hello world!!!"
+    ],
+    responseType: EchoResponse.self
+))
+switch result {
+case .success(let response):
+    print(response.echo)
+case .failure(let error):
+    print(error)
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kt
+data class EchoDetails(
+    val content: String,
+    val executionDuration: Float
+)
+
+data class EchoResponse(
+    val echo: EchoDetails
+)
+
+val document = """
+    query EchoQuery(${'$'}content: String!) {
+        echo(content: ${'$'}content) {
+            content
+            executionDuration
+        }
+    }
+""".trimIndent()
+val echoQuery = SimpleGraphQLRequest<String>(
+    document,
+    mapOf("content" to "hello world!!!"),
+    String::class.java,
+    GsonVariablesSerializer())
+
+Amplify.API.query(
+    echoQuery,
+    {
+        var gson = Gson()
+        val response = gson.fromJson(it.data, EchoResponse::class.java)
+        Log.i("MyAmplifyApp", "${response.echo.content}")
+    },
+    { Log.e("MyAmplifyApp", "$it")}
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+First define a class that matches your response shape:
+
+```dart
+class EchoResponse {
+  final Echo echo;
+
+  EchoResponse({required this.echo});
+
+  factory EchoResponse.fromJson(Map<String, dynamic> json) {
+    return EchoResponse(
+      echo: Echo.fromJson(json['echo']),
+    );
+  }
+}
+
+class Echo {
+  final String content;
+  final double executionDuration;
+
+  Echo({required this.content, required this.executionDuration});
+
+  factory Echo.fromJson(Map<String, dynamic> json) {
+    return Echo(
+      content: json['content'],
+      executionDuration: json['executionDuration'],
+    );
+  }
+}
+```
+
+Next, make the request and map the response to the classes defined above:
+
+```dart
+// highlight-next-line
+import 'dart:convert';
+
+// highlight-start
+const graphQLDocument = '''
+  query Echo(\$content: String!) {
+    echo(content: \$content) {
+      content
+      executionDuration
+    }
+  }
+''';
+
+final echoRequest = GraphQLRequest<String>(
+  document: graphQLDocument,
+  variables: <String, String>{"content": "Hello world!!!"},
+);
+
+final response =
+    await Amplify.API.query(request: echoRequest).response;
+safePrint(response);
+
+Map<String, dynamic> jsonMap = json.decode(response.data!);
+EchoResponse echoResponse = EchoResponse.fromJson(jsonMap);
+safePrint(echoResponse.echo.content);
+// highlight-end
+```
+
+</InlineFilter>

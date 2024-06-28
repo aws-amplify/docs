@@ -1,20 +1,21 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Troubleshooting',
-  description:
-    'Recommendations on how to resolve some of the common issues and problems that you might face when using Amplify',
+  description: 'Debugging guides for frequent customer errors',
+  route: '/[platform]/build-a-backend/troubleshooting',
   platforms: [
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'vue'
-  ],
-  route: '/[platform]/build-a-backend/troubleshooting'
+    'vue',
+    'swift',
+    'android',
+    'flutter'
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -25,7 +26,6 @@ export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      platform: context.params.platform,
       meta,
       childPageNodes
     }

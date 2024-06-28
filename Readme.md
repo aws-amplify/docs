@@ -6,7 +6,7 @@
 
 ### Prerequisites
 
-- [Node.js 16.14.0 or later](https://nodejs.org/en/)
+- [Node.js 18.17.0 or later, but below 22.0.0](https://nodejs.org/en/)
 - [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 
 ## Set up the docs repo
@@ -20,7 +20,7 @@
 
 We welcome contributions to the documentation site! Here's how to do it:
 
-1. Follow our [styleguide](https://github.com/aws-amplify/docs/blob/main/STYLEGUIDE.md), especially if writing longer pieces.
+1. Follow our [style guide](https://github.com/aws-amplify/docs/blob/main/STYLEGUIDE.md), especially if writing longer pieces.
 2. Verify your changes locally.
 3. Make a PR to our `main` branch.
    1. Please include any [issues](https://github.com/aws-amplify/docs/issues) your PR addresses.
@@ -33,44 +33,86 @@ We welcome contributions to the documentation site! Here's how to do it:
 ### Branches
 
 - **main** - at parity with our production site [docs.amplify.aws](https://docs.amplify.aws/)
-- **gh-pages** - DO NOT DELETE! Handle redirects from v1 of the documentation site.
+- **gh-pages** - DO NOT DELETE!
 
 ## Authoring pages
 
 Our docs are generated using [Next.js](https://nextjs.org/). Refer to their docs on [how to create pages](https://nextjs.org/docs/basic-features/pages) as a primer.
 
-The pages' source are in **src**. This folder is the only directory you need to touch to edit or create pages.
+The source for each page is in **src**. This folder is the only directory you need to touch to edit or create pages.
 
-Within this folder exists a **pages/index.tsx** file. This will be rendered as a page at the route **/**. Within the **pages/lib/q/platform/** folder is a **[platform].mdx** file, which will be rendered as a page at the route **/lib**.
+The **pages/index.tsx** file located inside this folder will be rendered as a page at the route **/**. The **pages/**/index.mdx** file will be rendered as a page at the route **/[platform]\*\*.
 
-To have the page render properly and display in the sidebar, place your page and its route in **src/directory/directory.js**.
+To have the page render properly and display in the sidebar, place your page and its route in **src/directory/directory.mjs**.
 
-IMPORTANT: Every page has to have a `title` and `description` meta field.
+IMPORTANT: Every page has to have a `title`, `description`, and `platforms` meta field and must import the `getCustomStaticPaths` util and export `getStaticPaths` and `getStaticProps` as shown in the example below:
+
+```
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Add social provider sign-in',
+  description:
+    'Learn how to set up social sign-in providers like Facebook, Google, Amazon, or Sign in with Apple.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+```
 
 The markdown body is parsed as [MDX](https://mdxjs.com/) and can include any valid HTML or JSX.
+
+### Internal links
+
+When linking to other pages within the docs.amplify.aws site, do not use relative links. For example, instead of `[here is my link](../manage-mfa/)`, use `[here is my link](/[platform]/build-a-backend/auth/manage-mfa/)`. Please note that when linking to a page with a pathname beginning with a platform—[platform] in the link—the URL will render conditionally based off the user's selected platform as a condition of the MDXLink component.
 
 ### Fragments
 
 To incorporate new platform-specific content within a page, please use [Inline Filters](https://github.com/aws-amplify/docs/blob/main/Readme.md#inline-filters).
 
-When editing content that hasn't been migrated, you may see the following pattern:
+Please note: we do allow fragments in some cases where content is intended to be reused and cannot be via InlineFilters
+
+When editing content that hasn't been migrated to InlineFilters, you may see the following pattern:
 
 ```jsx
 import js from '/src/fragments/lib/datastore/js/conflict.mdx';
 
-<Fragments fragments={{ javascript: js }} />;
+<Fragments
+  fragments={{ javascript: js, angular: js, nextjs: js, react: js, vue: js }}
+/>;
 ```
 
 This pattern incorporates fragment files into a page and conditionally renders content based off selected platform added as a condition to the `Fragments` tag.
 
-This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx`
+This fragment would exist in: `src/fragments/lib/datastore/js/conflict.mdx`
 
 ### Inline Filters
 
 We are incorporating the use of `<InlineFilters>` to add platform-specific content within the context of one page rather than in fragments. These filters allow you to still specify content by platform and they reference platforms using the same naming convention as our fragments. You can enclose your platform-specific content by updating the opening tag:
 
 ```md
-<InlineFilter filters={["javascript", "react-native", "android", "swift", "flutter"]}>
+<InlineFilter filters={["javascript", "react-native", "angular", "nextjs", "react", "vue", "android", "swift", "flutter"]}>
 
 </InlineFilter>
 ```
@@ -79,7 +121,7 @@ If you are updating content on a page, please note any inline filter tags which 
 
 ### Accordion
 
-`Accordion` This single-use accordion hides peripheral content until the reader selects to expand the section. This helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter.
+`Accordion` – This single-use accordion hides peripheral content until the reader selects to expand the section. This helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter.
 
 Here is an example of its usage:
 
@@ -88,9 +130,9 @@ Here is an example of its usage:
 
 - Title – Make your title descriptive to help readers know what the accordion contains before they click.
 - Eyebrow – Update this text to reflect the purpose of the accordion. We recommend:
-  - Learn more – used to add additional context that is not needed upfront but is useful for users to review when they choose.
-  - Troubleshooting – used when adding details to troubleshoot specific errors within context.
-  - Walkthrough – used when adding a step-by-step example for those who need more direct guidance.
+  - Learn more – Used to add additional context that is not needed upfront but is useful for users to review when they choose.
+  - Troubleshooting – Used when adding details to troubleshoot specific errors within context.
+  - Walkthrough – Used when adding a step-by-step example for those who need more direct guidance.
 
 </Accordion>
 ```
@@ -129,6 +171,28 @@ let mut a = String::from("a");
 </BlockSwitcher>
 ````
 
+### Video 
+Videos can be added using the `<Video />` component and referencing a path to the video file. The video should be an `.mp4` file and should exist in the `/public` directory
+
+```jsx
+<Video src="/path/to/video.mp4" />
+```
+
+## Accessibility testing
+
+We run automated accessibility testing on pages affected by a pull request in both light and dark mode. Some common violations and their solutions are listed here:
+
+```
+Element has insufficient color contrast
+```
+[Text colors must have a contrast ratio of 4.5:1 against their background](https://www.w3.org/TR/WCAG22/#contrast-minimum). Avoid adding custom styling to text; our design system should ensure that accessible color combinations are in use.
+
+```
+Heading order invalid
+```
+Headings should be properly nested. This means, for example, an `<h3>` element must be nested beneath an `<h2>` element on the page, an `<h4>` must be nested beneath an `<h3>` and so on. Use [markdown syntax to create your headings](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#headings).
+
+
 ## Debug client-side code with browser developer tools
 
 ### Prerequisites
@@ -143,15 +207,15 @@ let mut a = String::from("a");
 2. On your localhost page, go to the page with the React component you want to debug and open up the developer tools.
 3. To know which source file to breakpoint on, we need to find the name of the component first.
 
-   - Open up the dev tools and use the react dev tools to find the component. Do this by using the "Select an element on the page to inspect it" tool under the "Components" tab.
+   - Open up the dev tools and use the React dev tools to find the component. Do this by using the "Select an element on the page to inspect it" tool under the "Components" tab.
 
    - Search for the variable/component name inside the source code to find the file you want to debug.
 
    - Place the breakpoint inside the file under the "Sources" tab in the browser's dev tools.
-     - Note that since the Amplify Docs site is built with nextjs, file paths will start with "`webpack://_N_E/./`"
+     - Note that since the Amplify Docs site is built with Next.js, file paths will start with "`webpack://_N_E/./`"
 
 4. Refresh your localhost site and the breakpoint should hit in the browser's dev tools. You should be able to debug the code.
 
-Another way to find which file you want to debug is to search for strings/paragraphs seen in Amplify docs site. Search for the strings in your code editor and you'll find that they will be in a `.mdx` file. You should see the components that are being rendered and be able to find the file name you want to debug.
+Another way to find which file you want to debug is to search for strings/paragraphs seen in the Amplify docs site. Search for the strings in your code editor and you'll find that they will be in a `.mdx` file. You should see the components that are being rendered and be able to find the file name you want to debug.
 
 More info on debugging can be found here: https://nextjs.org/docs/advanced-features/debugging

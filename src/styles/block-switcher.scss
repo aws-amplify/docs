@@ -29,11 +29,11 @@
       content: '';
     }
   }
-  .amplify-tabs-item {
+  .amplify-tabs__item {
     flex: 0 0 auto;
     position: relative;
     border: none;
-    &[data-state='active'] {
+    &--active {
       &:after {
         height: 4px;
         position: absolute;
@@ -42,12 +42,16 @@
         right: 0;
         content: '';
         border-radius: 2px;
-        background: var(--amplify-colors-brand-primary-60);
+        background: var(--amplify-colors-primary-60);
       }
     }
     &:focus-visible {
       outline: none;
       box-shadow: 0 0 0 2px var(--amplify-colors-border-focus) inset;
     }
+  }
+  .amplify-tabs__list {
+    overflow: hidden;
+    overflow-x: scroll;
   }
 }

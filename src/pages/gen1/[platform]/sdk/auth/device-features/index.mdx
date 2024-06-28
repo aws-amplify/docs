@@ -1,0 +1,33 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Device features',
+  description:
+    'You can use the device-related features of Amazon Cognito User Pools by enabling the Devices features.',
+  platforms: ['swift', 'android']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import all0 from '/src/fragments/sdk/library-callout.mdx';
+
+<Fragments fragments={{ all: all0 }} />
+
+import ios1 from '/src/fragments/sdk/auth/ios/device-features.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/sdk/auth/android/device-features.mdx';
+
+<Fragments fragments={{ android: android2 }} />

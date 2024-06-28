@@ -1,0 +1,35 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect to data from Server-side Runtimes',
+  description:
+    'Connect to Amplify Data from Next.js and Nuxt.js Server-side Runtimes (SSR).',
+  route: '/[platform]/build-a-backend/data/connect-from-server-runtime',
+  platforms: [
+    'android',
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

@@ -1,3 +1,4 @@
+@import './mixins.scss';
 @import './variables.scss';
 @import './font-faces.scss';
 @import './base.scss';
@@ -8,22 +9,27 @@
 @import './accordion.scss';
 @import './block-switcher.scss';
 @import './breadcrumbs.scss';
-@import './banner.scss';
 @import './callout.scss';
 @import './code.scss';
+@import './color-switcher.scss';
 @import './columns.scss';
 @import './commands.scss';
 @import './feature-links.scss';
 @import './feedback.scss';
 @import './footer.scss';
 @import './framework-grid.scss';
+@import './gen-switcher.scss';
+@import './global-nav.scss';
 @import './home.scss';
 @import './icons.scss';
 @import './layout.scss';
-@import './platform-navigator.scss';
 @import './link-card.scss';
 @import './menu.scss';
+@import './modal.scss';
+@import './next-previous.scss';
+@import './overview';
 @import './page-last-updated.scss';
+@import './platform-navigator.scss';
 @import './popover.scss';
 @import './repo-actions.scss';
 @import './search.scss';
@@ -31,12 +37,6 @@
 @import './split-button.scss';
 @import './toc.scss';
 @import './table.scss';
-@import './youtube-embed';
-@import './overview';
 @import './version-switcher.scss';
-@import './next-previous.scss';
-
-/* Temp */
-[id*='lastupdated-'] {
-  display: none;
-}
+@import './video.scss';
+@import './youtube-embed';

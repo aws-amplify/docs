@@ -12,14 +12,15 @@ export function getStaticProps() {
   return {
     props: {
       meta,
-      showBreadcrumbs: false
+      showBreadcrumbs: false,
+      useCustomTitle: true
     }
   };
 }
 
 export default function Custom404() {
   const basePath = 'https://docs.amplify.aws';
-  let [href, setHref] = useState(basePath);
+  const [href, setHref] = useState(basePath);
   const path = useRouter().asPath;
   useEffect(() => {
     setHref(basePath + path);
@@ -28,8 +29,9 @@ export default function Custom404() {
     <Flex className="four-oh-four">
       <Heading level={1}>404</Heading>
       <Text>
-        Apologies––we can't seem to find the page for which you're looking. If
-        this is a mistake, please file an issue and we'll fix it ASAP.
+        Apologies &#8212; we can&apos;t seem to find the page for which
+        you&apos;re looking. If this is a mistake, please file an issue and
+        we&apos;ll fix it ASAP.
       </Text>
       <Flex className="four-oh-four__cta">
         <Button as="a" href="/" variation="primary">

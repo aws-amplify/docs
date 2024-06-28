@@ -1,23 +1,24 @@
-export type Platform = 
-  'android' | 
-  'angular' | 
-  'flutter' | 
-  'javascript' | 
-  'nextjs' | 
-  'react' | 
-  'react-native' | 
-  'swift' | 
-  'vue';
-export type Platforms = Platform[];
+export type Platform = 'android' | 'flutter' | 'swift' | JSPlatform;
 
-export const JS_PLATFORMS = [
+export type JSPlatform =
+  | 'angular'
+  | 'javascript'
+  | 'nextjs'
+  | 'react'
+  | 'react-native'
+  | 'vue';
+
+export type Platforms = Platform[];
+export type JSPlatforms = JSPlatform[];
+
+export const JS_PLATFORMS: JSPlatforms = [
   'angular',
   'javascript',
   'nextjs',
   'react',
   'react-native',
   'vue'
-] as const;
+];
 
 export const PLATFORMS: Platforms = [
   'android',
@@ -39,19 +40,19 @@ export const PLATFORM_DISPLAY_NAMES: Record<Platform, string> = {
 };
 
 export const PLATFORM_VERSIONS = {
-  'android': {
+  android: {
     prev: 'v1',
     current: 'v2'
   },
-  'swift': {
+  swift: {
     prev: 'v1',
     current: 'v2'
   },
-  'flutter': {
-    prev: 'v0',
-    current: 'v1'
+  flutter: {
+    prev: 'v1',
+    current: 'v2'
   },
-  'javascript': {
+  javascript: {
     prev: 'v5',
     current: 'v6'
   },
@@ -59,22 +60,22 @@ export const PLATFORM_VERSIONS = {
     prev: 'v5',
     current: 'v6'
   },
-  'react': {
+  react: {
     prev: 'v5',
     current: 'v6'
   },
-  'angular': {
+  angular: {
     prev: 'v5',
     current: 'v6'
   },
-  'vue': {
+  vue: {
     prev: 'v5',
     current: 'v6'
   },
-  'nextjs': {
+  nextjs: {
     prev: 'v5',
     current: 'v6'
-  },
-}
+  }
+};
 
 export const DEFAULT_PLATFORM: Platform = 'react';

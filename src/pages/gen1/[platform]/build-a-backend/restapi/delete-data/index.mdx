@@ -1,0 +1,49 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Delete data',
+  description: 'Using the Delete API REST in Amplify',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import android_delete from '/src/fragments/lib/restapi/android/delete.mdx';
+import flutter_delete from '/src/fragments/lib/restapi/flutter/delete.mdx';
+import ios_delete from '/src/fragments/lib/restapi/ios/delete.mdx';
+import js_delete from '/src/fragments/lib/restapi/js/delete.mdx';
+
+<Fragments
+  fragments={{
+    android: android_delete,
+    flutter: flutter_delete,
+    swift: ios_delete,
+    javascript: js_delete,
+    angular: js_delete,
+    nextjs: js_delete,
+    react: js_delete,
+    vue: js_delete,
+    'react-native': js_delete
+  }}
+/>

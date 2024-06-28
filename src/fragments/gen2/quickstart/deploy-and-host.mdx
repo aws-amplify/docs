@@ -1,0 +1,22 @@
+## Deploy and host a fullstack branch
+
+Now that your app is working, let's deploy it to a shared fullstack branch so you can share the project with your team. Amplify offers a fully managed hosting service with CI/CD built in, making it easy to set up production and staging environments with Git branches. In Gen 2, every Git branch in your repository maps 1:1 to a fullstack branch in Amplify.
+
+### Create remote Git repository
+
+If you already have your project remotely hosted in a Git repository, you can skip this step. Otherwise, navigate to your preferred Git provider, and add your project to a new repository. Amplify supports [GitHub](https://docs.github.com/en/get-started/quickstart/create-a-repo), [AWS CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-create-repository.html), [GitLab](https://docs.gitlab.com/ee/user/project/index.html), and [Bitbucket](https://support.atlassian.com/bitbucket-cloud/docs/create-a-git-repository/).
+
+### Connect branch in the Amplify console
+
+1. To get started with Gen 2, log in to the [Amplify console](https://console.aws.amazon.com/amplify/home) and navigate to your preferred AWS Region. (The Amplify console is available in [19 AWS Regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
+2. From the **Public Preview** banner, choose **Try Amplify Gen 2**.
+
+![Amplify console showing the "Public Preview" banner with "Try Amplify Gen 2" button](/images/gen2/getting-started/console1.png)
+
+3. In the Git provider screen, choose **Option 2: Start with an existing app**. Connect the repository you just deployed and pick a branch.
+
+4. Review all of your settings to ensure everything is set up correctly. Choose **Save and deploy** to deploy your web app.
+
+### Manage fullstack branch
+
+The new Amplify console gives you a central place to manage your branches, hosting settings, CI/CD builds, and backend resources. Even though you can access backend resources directly from AWS service consoles, the Amplify console offers built-in user and data administration.

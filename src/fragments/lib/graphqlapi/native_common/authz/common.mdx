@@ -8,7 +8,7 @@ API Key is the easiest way to setup and prototype your application with AWS AppS
 
 ### Amazon Cognito User Pools
 
-Amazon Cognito User Pools is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as Amazon S3, you will need to use AWS IAM credentials with Amazon Cognito Identity Pools. Amplify CLI can automatically configure this for you and will also automatically use the authenticated user from User Pools to federate with the Identity Pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both User Pools' credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](/[platform]/build-a-backend/auth/accessing-credentials/).
+Amazon Cognito User Pools is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as Amazon S3, you will need to use AWS IAM credentials with Amazon Cognito Identity Pools. Amplify CLI can automatically configure this for you and will also automatically use the authenticated user from User Pools to federate with the Identity Pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both User Pools' credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](/gen1/[platform]/build-a-backend/auth/accessing-credentials/).
 
 ### IAM
 
@@ -263,7 +263,7 @@ import flutter14 from '/src/fragments/lib/graphqlapi/flutter/advanced-workflows/
 
 There is currently [a known issue](https://github.com/aws-amplify/amplify-flutter/issues/1867) where enabling multi-auth modes for the API plugin may break DataStore functionality if the DataStore plugin is also used in the same App.
 
-If you are planning to enable multi-auth for _only_ the DataStore plugin, please refer to the [configure multiple authorization types](/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/#configure-multiple-authorization-types) section in DataStore documentation.
+If you are planning to enable multi-auth for _only_ the DataStore plugin, please refer to the [configure multiple authorization types](/gen1/[platform]/build-a-backend/more-features/datastore/authz-rules-setup/#configure-multiple-authorization-types) section in DataStore documentation.
 
 If you are planning to enable multi-auth for both the API and DataStore plugins, please monitor the aforementioned issue for the latest progress and updates.
 

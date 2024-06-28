@@ -1,4 +1,4 @@
-This section covers the client-side development experience for password and user management. To learn more about exposing administration actions to your application, click [here](/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/).
+This section covers the client-side development experience for password and user management. To learn more about exposing administration actions to your application, click [here](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/).
 
 ## Password operations
 
@@ -272,7 +272,7 @@ async function currentAuthenticatedUser() {
 </Block>
 </BlockSwitcher>
 
-This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in. This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](/[platform]/build-a-backend/utilities/hub/#authentication-events)
+This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in. This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](/gen1/[platform]/build-a-backend/utilities/hub/#authentication-events)
 
 ### Retrieve attributes for current authenticated user
 
@@ -368,7 +368,7 @@ Hub.listen('auth', ({ payload }) => {
 });
 ```
 
-You can learn more about how to listen to Hub events [here](/[platform]/build-a-backend/utilities/hub/).
+You can learn more about how to listen to Hub events [here](/gen1/[platform]/build-a-backend/utilities/hub/).
 
 Example of the dispatched `resultObject`:
 

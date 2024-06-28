@@ -1,0 +1,174 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Remove files',
+  description: 'Remove files using Amplify Storage',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Files can be removed from a storage bucket using the 'remove' API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ 
+    path: 'album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+  });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Storage.remove(
+    StoragePath.fromString("public/myUploadedFileName.txt"),
+    result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getPath()),
+    error -> Log.e("MyAmplifyApp", "Remove failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"),
+    { Log.i("MyAmplifyApp", "Successfully removed: ${it.path}") },
+    { Log.e("MyAmplifyApp", "Remove failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"))
+    Log.i("MyAmplifyApp", "Successfully removed: ${result.path}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Remove failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"))
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getPath()),
+            error -> Log.e("MyAmplifyApp", "Remove failure", error)
+        );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let removedObject = try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+print("Deleted \(removedObject)")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { removedObject in
+    print("Deleted \(removedObject)")
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Remove single file
+
+You can remove a single file using `Amplify.Storage.remove` with the `key` and its associated access level:
+
+```dart
+
+Future<void> removeFile() async {
+  try {
+    final result = await Amplify.Storage.remove(
+      path: const StoragePath.fromString('public/file.txt'),
+    ).result;
+    safePrint('Removed file: ${result.removedItem.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+
+```
+
+## Remove multiple Files
+
+You can remove multiple files using `Amplify.Storage.removeMany` with the `keys`, the files to be removed in a batch should have the same access level:
+
+```dart
+Future<void> remove() async {
+  try {
+    final result = await Amplify.Storage.removeMany(
+      paths: [
+        const StoragePath.fromString('public/file-1.txt'),
+        const StoragePath.fromString('public/file-2.txt'),
+      ],
+    ).result;
+    safePrint('Removed files: ${result.removedItems}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</InlineFilter>

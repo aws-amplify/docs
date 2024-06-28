@@ -90,6 +90,54 @@ import flutter3 from '/src/fragments/lib/graphqlapi/flutter/advanced-workflows/2
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
+<InlineFilter filters={['swift']}>
+
+## Custom Request Inputs
+
+The `GraphQLRequest`'s `variables` property takes in a JSON object. You can define this as an **Encodable** type and serialize it to a JSON object for the request.
+
+Define the type that matches the expected input type from your GraphQL service.
+
+```swift
+struct CreateTodoInput: Encodable {
+  let id: String
+  let name: String
+  let description: String?
+}
+```
+
+Then create the `GraphQLRequest`
+```swift
+import Foundation
+
+extension GraphQLRequest {
+    static func createTodo(input: CreateTodoInput) throws -> GraphQLRequest<Todo> {
+      let operationName = "createTodo"
+      let document = """
+      query createTodo($input: CreateTodoInput!) {
+        \(operationName)(input: $input) {
+          id
+          name
+          description
+        }
+      }
+      """
+
+      let data = try JSONEncoder().encode(input)
+      let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+
+      return GraphQLRequest<Todo>(
+          document: document,
+          variables: ["input": jsonObject],
+          responseType: Todo.self,
+          decodePath: operationName
+      )
+    }
+}
+```
+The `input` object is encoded as a data object and then serialized into the JSON object.
+</InlineFilter>
+
 ## Nested Data
 
 If you have a relational model, you can retrieve the nested object by creating a `GraphQLRequest` with a selection set containing the nested object's fields. For example, in this schema, the Post can contain multiple comments and notes.
@@ -156,13 +204,19 @@ import flutter7 from '/src/fragments/lib/graphqlapi/flutter/advanced-workflows/4
 
 <Callout>
 
-Combining multiple GraphQL requests on the client-side is different than server-side transaction support. To run multiple transactions as a batch operation refer to the [Batch Put Custom Resolver](/[platform]/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/) example.
+Combining multiple GraphQL requests on the client-side is different than server-side transaction support. To run multiple transactions as a batch operation refer to the [Batch Put Custom Resolver](/gen1/[platform]/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/) example.
 
 </Callout>
 
 ## Adding Headers to Outgoing Requests
 
 By default, the API plugin includes appropriate authorization headers on your outgoing requests. However, you may have an advanced use case where you wish to send additional request headers to AppSync.
+
+<Callout>
+
+If your API does not require any authorization or if you would like manipulate the request yourself, please refer to the [Set authorization mode to NONE](/gen1/[platform]/build-a-backend/graphqlapi/customize-authz-modes/#none)
+
+</Callout>
 
 import ios8 from '/src/fragments/lib/graphqlapi/ios/advanced-workflows/50_interceptor.mdx';
 

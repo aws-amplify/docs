@@ -1,0 +1,136 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Listen to log events',
+  description: 'Learn how to listen to Hub events for logging',
+  platforms: [
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The Amplify Logger sends errors that occur when using it through Amplify Hub. To ensure that errors do not occur when logging, log messages should be validated and follow the best security practices. Additionally, you should ensure that log messages do not exceed the [Amazon CloudWatch log event size of 256 KB](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html).
+
+You can get logging error events by listening/subscribing to the logging events from the Amplify Hub.
+
+
+    <InlineFilter filters={['android']}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Hub.subscribe(HubChannel.LOGGING,
+            hubEvent -> {
+                if (hubEvent.getName().equals(LoggingEventName.WRITE_LOG_FAILURE.toString())) {
+                    Log.i("LOGGING", "Failed to write logs");
+                } else if (hubEvent.getName().equals(LoggingEventName.FLUSH_LOG_FAILURE.toString())){
+                    Log.i("LOGGING", "Failed to flush logs");
+                }
+            }
+        );
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Hub.subscribe(
+    HubChannel.LOGGING
+) { hubEvent: HubEvent<*> ->
+    if (hubEvent.name == LoggingEventName.WRITE_LOG_FAILURE.toString()) {
+        Log.i("LOGGING", "Failed to write logs")
+    } else if (hubEvent.name == LoggingEventName.FLUSH_LOG_FAILURE.toString()) {
+        Log.i("LOGGING", "Failed to flush logs")
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Hub.on(HubChannel.LOGGING)
+.map(HubEvent::getName)
+.subscribe(name -> {
+    if (name.equals(LoggingEventName.WRITE_LOG_FAILURE.toString())) {
+        Log.i("LOGGING", "Failed to write logs");
+        return;
+    } else if (name.equals(LoggingEventName.FLUSH_LOG_FAILURE.toString())) {
+        Log.i("LOGGING", "Failed to flush logs");
+        return;
+    }
+});
+```
+</Block>
+</BlockSwitcher>
+
+    </InlineFilter>
+
+    <InlineFilter filters={['swift']}>
+<BlockSwitcher>
+
+<Block name="Listener">
+
+```swift
+import Amplify
+```
+
+```swift
+// Assumes `unsubscribeToken` is declared as an instance variable in your view
+unsubscribeToken = Amplify.Hub.listen(to: .logging) { payload in
+    switch payload.eventName {
+    case HubPayload.EventName.Logging.writeLogFailure:
+        print("Error writing to local log")
+    case HubPayload.EventName.Logging.flushLogFailure:
+        print("Error sending log events to CloudWatch")
+    default:
+        break
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+import Amplify
+```
+
+```swift
+// Assumes `sink` is declared as an instance variable in your code
+sink = Amplify.Hub
+    .publisher(for: .logging)
+    .sink { payload in
+        switch payload.eventName {
+        case HubPayload.EventName.Logging.writeLogFailure:
+            print("Error writing to local log")
+        case HubPayload.EventName.Logging.flushLogFailure:
+            print("Error sending log events to CloudWatch")
+        default:
+            break
+        }
+    }
+```
+
+</Block>
+
+</BlockSwitcher>    
+</InlineFilter>
+
+
+
+

@@ -18,7 +18,7 @@ When using Amplify CLI to set up backend resources, the following options are on
 <Callout>
 Note: If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
 
-Refer to [SMS sandbox](/[platform]/build-a-backend/auth/add-sms-flows/#sandbox-mode).
+Refer to [SMS sandbox](/gen1/[platform]/build-a-backend/auth/add-sms-flows/#sandbox-mode).
 
 For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
 
@@ -117,6 +117,27 @@ async function handleSignUp(username, password, phone_number, email) {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> signUpWithPhoneVerification(
+  String username,
+  String password,
+) async {
+  await Amplify.Auth.signUp(
+    username: username,
+    password: password,
+    options: SignUpOptions(
+      userAttributes: <AuthUserAttributeKey, String>{
+        // ... if required
+        AuthUserAttributeKey.email: 'test@example.com',
+        AuthUserAttributeKey.phoneNumber: '+18885551234',
+      },
+    ),
+  );
+}
+```
+</InlineFilter>
+
 By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email, depending on your Amazon Cognito configuration.
 
 <InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
@@ -157,6 +178,20 @@ async function handleSignUpConfirmation(username, confirmationCode) {
 </Block>
 </BlockSwitcher>
 
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> confirmSignUpPhoneVerification(
+  String username,
+  String otpCode,
+) async {
+  await Amplify.Auth.confirmSignUp(
+    username: username,
+    confirmationCode: otpCode,
+  );
+}
+```
 </InlineFilter>
 
 ### Handling SMS MFA challenge during Sign In
@@ -200,6 +235,20 @@ async function handleSignIn(username, password) {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> signInWithPhoneVerification(
+  String username,
+  String password,
+) async {
+  await Amplify.Auth.signIn(
+    username: username,
+    password: password,
+  );
+}
+```
+</InlineFilter>
+
 If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their phone.
 
 <InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
@@ -240,6 +289,16 @@ async function handleSignInConfirmation(otpCode) {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> confirmSignInPhoneVerification(String otpCode) async {
+  await Amplify.Auth.confirmSignIn(
+    confirmationValue: otpCode,
+  );
+}
+```
+</InlineFilter>
+
 After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
 <InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
@@ -256,6 +315,18 @@ async function handleUpdateMFAPreference() {
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> updateMfaPreferences() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  await cognitoPlugin.updateMfaPreference(
+    sms: MfaPreference.enabled, // or .preferred
+  );
+}
+```
 </InlineFilter>
 
 ## Multi-factor authentication with TOTP
@@ -350,6 +421,33 @@ function handleSignInNextSteps(output) {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> signInUser(String username, String password) async {
+  try {
+    final result = await Amplify.Auth.signIn(
+      username: username,
+      password: password,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
+  }
+}
+
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithTotpSetup:
+      final totpSetupDetails = result.nextStep.totpSetupDetails!;
+      final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+      safePrint('Open URI to complete setup: $setupUri');
+    // ···
+  }
+}
+```
+</InlineFilter>
+
 The TOTP code can be obtained from the user via a text field or any other means. Once the user provides the TOTP code, call `confirmSignIn` with the TOTP code as the `challengeResponse` parameter.
 
 <InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
@@ -390,9 +488,25 @@ async function handleSignInConfirmation(totpCode) {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> confirmTotpUser(String totpCode) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: totpCode,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming TOTP code: ${e.message}');
+  }
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
 After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -440,6 +554,20 @@ async function handleTOTPSetup() {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> setUpTotp() async {
+  try {
+    final totpSetupDetails = await Amplify.Auth.setUpTotp();
+    final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+    safePrint('Open URI to complete setup: $setupUri');
+  } on AuthException catch (e) {
+    safePrint('An error occurred setting up TOTP: $e');
+  }
+}
+```
+</InlineFilter>
+
 Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTOTPSetup` to complete the TOTP setup process.
 
 <InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
@@ -480,9 +608,21 @@ async function handleTOTPVerification(totpCode) {
 
 </InlineFilter>
 
-After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> verifyTotpSetup(String totpCode) async {
+  try {
+    await Amplify.Auth.verifyTotpSetup(totpCode);
+  } on AuthException catch (e) {
+    safePrint('An error occurred verifying TOTP: $e');
+  }
+}
+```
+</InlineFilter>
 
 <InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+
+After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
@@ -532,6 +672,18 @@ async function handleFetchMFAPreference() {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> getCurrentMfaPreference() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  final currentPreference = await cognitoPlugin.fetchMfaPreference();
+  safePrint('Enabled MFA types for user: ${currentPreference.enabled}');
+  safePrint('Preferred MFA type for user: ${currentPreference.preferred}');
+}
+```
+</InlineFilter>
+
 ### Update the current user's MFA preferences
 
 Invoke the following API to update the MFA preference for the current user.
@@ -558,7 +710,31 @@ async function handleUpdateMFAPreference() {
 
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> updateMfaPreferences() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  await cognitoPlugin.updateMfaPreference(
+    sms: MfaPreference.enabled,
+    totp: MfaPreference.preferred,
+  );
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+If multiple MFA methods are enabled for the user, the signIn API will return continueSignInWithMFASelection as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to confirmSignIn.
+
+The MFA types which are currently supported by Amplify Auth are:
+
+- `MfaType.sms`
+- `MfaType.totp`
+</InlineFilter>
 
 <InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
 
@@ -644,4 +820,34 @@ async function handleMFASelection(mfaType) {
 </Block>
 </BlockSwitcher>
 
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithMfaSelection:
+      final allowedMfaTypes = result.nextStep.allowedMfaTypes!;
+      final selection = await _promptUserPreference(allowedMfaTypes);
+      return _handleMfaSelection(selection);
+    // ···
+  }
+}
+
+Future<MfaType> _promptUserPreference(Set<MfaType> allowedTypes) async {
+  // ···
+}
+
+Future<void> _handleMfaSelection(MfaType selection) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: selection.confirmationValue,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error resending code: ${e.message}');
+  }
+}
+```
 </InlineFilter>

@@ -4,10 +4,10 @@ In addition to the underlying SDK changes, the following are the API changes you
 
 ## Auth
 
-- [signIn](/[platform]/build-a-backend/auth/enable-sign-in/#sign-in-a-user) now returns result with `isSignedIn` instead of `isSignInComplete`
-- [confirmResetPassword](/[platform]/build-a-backend/auth/manage-passwords/#reset-password) API takes additional `username` parameter.
-- [signOut](/[platform]/build-a-backend/auth/sign-out/) now takes single `onComplete` parameter instead of `onSuccess` and `onError`.
-- [fetchAuthSession](/[platform]/build-a-backend/auth/accessing-credentials/) now returns `identityIdResult` instead of `identityId`.
+- [signIn](/gen1/[platform]/build-a-backend/auth/enable-sign-in/#sign-in-a-user) now returns result with `isSignedIn` instead of `isSignInComplete`
+- [confirmResetPassword](/gen1/[platform]/build-a-backend/auth/manage-passwords/#reset-password) API takes additional `username` parameter.
+- [signOut](/gen1/[platform]/build-a-backend/auth/sign-out/) now takes single `onComplete` parameter instead of `onSuccess` and `onError`.
+- [fetchAuthSession](/gen1/[platform]/build-a-backend/auth/accessing-credentials/) now returns `identityIdResult` instead of `identityId`.
 - `getCurrentUser` API is now asynchronous and requires `onSuccess` and `onError` parameters. `AuthUser` is returned in `onSuccess`
 
 ```kotlin
@@ -18,7 +18,7 @@ Amplify.Auth.getCurrentUser({ authUser ->
 })
 ```
 
-- The escape hatch now provides access to the underlying `CognitoIdentityProviderClient` and `CognitoIdentityClient` instance. Read more [here](/[platform]/sdk/auth/).
+- The escape hatch now provides access to the underlying `CognitoIdentityProviderClient` and `CognitoIdentityClient` instance. Read more [here](/gen1/[platform]/sdk/auth/).
 - Parameters `signInQueryParameters`, `signOutQueryParameters`, and `tokenQueryParameters` are dropped from `AuthWebUISignInOptions`.
 - `federationProviderName` has been dropped from `AWSCognitoAuthWebUISignInOptions`.
 - `signIn` will now return an error if you attempt to call sign in, while already signed in.
@@ -27,10 +27,10 @@ Amplify.Auth.getCurrentUser({ authUser ->
 
 With the latest version of Amplify Library for Android, you now have access to the AWS SDK for Kotlin. Please follow the guidelines under the respective categories to access its escape hatch:
 
-- [Analytics](/[platform]/build-a-backend/more-features/analytics/sdk/)
-- [Auth](/[platform]/sdk/auth/)
-- [Geo](/[platform]/build-a-backend/more-features/geo/amazon-location-sdk/)
-- [Predictions](/[platform]/build-a-backend/more-features/predictions/sdk/)
+- [Analytics](/gen1/[platform]/build-a-backend/more-features/analytics/sdk/)
+- [Auth](/gen1/[platform]/sdk/auth/)
+- [Geo](/gen1/[platform]/build-a-backend/more-features/geo/amazon-location-sdk/)
+- [Predictions](/gen1/[platform]/build-a-backend/more-features/predictions/sdk/)
   <InlineFilter filters={['android', 'swift']}>
-    - [Storage](/[platform]/build-a-backend/storage/sdk/)
+    - [Storage](/gen1/[platform]/build-a-backend/storage/sdk/)
   </InlineFilter>

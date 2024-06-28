@@ -1,4 +1,4 @@
-import directory from '../directory/directory.json';
+import directory from '@/directory/directory.json';
 import { PageNode } from 'src/directory/directory';
 
 /**

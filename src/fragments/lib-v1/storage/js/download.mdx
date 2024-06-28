@@ -1,6 +1,6 @@
 ## Get
 
-Get a presigned URL of a stored file. You can specify some options: mainly [file access `level`](/[platform]/build-a-backend/storage/configure-access/) and whether to `download` the file:
+Get a presigned URL of a stored file. You can specify some options: mainly [file access `level`](/gen1/[platform]/build-a-backend/storage/configure-access/) and whether to `download` the file:
 
 ```typescript
 await Storage.get(key: string, config: {
@@ -125,7 +125,7 @@ const result = await Storage.get('welcome.png'); // Gets the welcome.png belongi
 const result = await Storage.get('welcome.png', { level: 'private' }); // same effect
 ```
 
-Here is a quick guide to the access levels - [see the docs](/[platform]/build-a-backend/storage/configure-access/) for more detail:
+Here is a quick guide to the access levels - [see the docs](/gen1/[platform]/build-a-backend/storage/configure-access/) for more detail:
 
 - `public`: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
 - `protected`: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.

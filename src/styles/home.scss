@@ -6,6 +6,11 @@
   z-index: 1;
   &__heading {
     font-family: var(--font-code);
+    font-size: var(--amplify-font-sizes-xxxl);
+    text-wrap: pretty;
+    @media (min-width: $mq-mobile) {
+      font-size: var(--amplify-components-heading-1-font-size);
+    }
   }
   &__text {
     max-width: 580px;

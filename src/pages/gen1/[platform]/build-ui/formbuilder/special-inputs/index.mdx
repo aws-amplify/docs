@@ -1,0 +1,161 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Configure special inputs',
+  description: 'Special input fields in Amplify Studio form builder allow the user to interact with unique Amplify features',
+  platforms: [
+    'javascript',
+    'react',
+    'nextjs'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Autocomplete fields with relationships
+
+If you have a [Connected Form](/gen1/[platform]/build-ui/formbuilder/data-binding/#connected-forms) bound to a data model with [relationships](/gen1/[platform]/tools/console/data/relationships/), Form Builder uses a special field to handle submission. The **Autocomplete** field will allow your form submitters to select one or more records from a related data model. These connected autocomplete fields have some special configuration settings.
+
+Form builder now supports data binding to **GraphQL APIs without Conflict Resolution**. [Learn more about GraphQL and Conflict Resolution here](/gen1/[platform]/tools/console/data/data-model/#datastore-and-graphql).
+
+### Activate relationship fields in forms
+
+If you have relationships in your data models, but your connected forms are missing related fields, Relationship fields may not be activated. To turn on relationships support...
+
+1. [Log into your Studio application](/gen1/[platform]/tools/console/adminui/start/#logging-in-and-creating-an-app)
+1. On the left-hand bar, select **UI Library**
+1. In the upper right-hand corner, select **UI Library settings**
+1. Select **Relationship fields** to activate
+
+### Customize record labels
+
+When a form submitter selects an autocomplete field in your form, it will be populated with a list of related records. By default, these records will be labeled with the first field in the data model, a hyphen, and the record's ID.
+
+![Input settings bar showing the default labeling of a relationship](/images/console/formbuilder/autocomplete1.png)
+
+In this example, the form creates a new author, and lets the user look up the related book. The first field in the `Book` model is `ISBN`, so the label displays as:
+
+![Screenshot of a label with the ISBN and ID of the book, which is challenging for the user to read](/images/console/formbuilder/autocomplete2.png)
+
+To make this more useful for the form submitter, you can customize the label with any fields in the model, and string concatenation. In this example, the book's `name` field, a comma, and the `year` field makes more sense.
+
+![Screenshot of a label with the book name and year, which is easier for the user to read](/images/console/formbuilder/autocomplete3.png)
+
+### Using forms with relationships in code
+
+When you are satisfied with your form configuration and style, [your forms can be generated in your local project](/gen1/[platform]/build-ui/formbuilder/#render-react-form-in-your-app).
+
+**If your GraphQL API is not using DataStore, forms with relationships require a query codegen depth of 4**, and will not work as expected otherwise. To update your query depth:
+
+1. Open your terminal and navigate to the root directory of your Amplify project
+1. Run `amplify configure codegen`
+1. When prompted for Query Depth, change to 4. All other options can be set as you prefer
+1. After confirming all settings, run `amplify codegen` to update query generation in your project
+
+## Storage Manager
+
+[**Storage Manager**](https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager) fields allow your forms to accept file uploads, which are stored in an Amazon S3 bucket connected to your Amplify app. After uploading, that file's S3 key is stored in your data model, allowing for systematic retrieval using the [Amplify JS library](/gen1/[platform]/build-a-backend/storage/download/).
+
+<Video src="/images/console/formbuilder/storagemanager.mp4" />
+
+### Prerequisites
+
+In order to use the Storage Manager field, your Amplify app must meet some prerequisites:
+
+- You must have an [Amplify app with Studio enabled](/gen1/[platform]/tools/console/adminui/start/)
+- You must have Amplify Authentication, [either through Studio](/gen1/[platform]/tools/console/auth/) or [through the CLI](/gen1/[platform]/tools/cli/commands/#auth/)
+- You must have added Amplify Storage to your app, either [through Studio](/gen1/[platform]/tools/console/storage/file-storage/) or [through the CLI](/gen1/[platform]/build-a-backend/storage/configure-storage/)
+
+### How it works
+
+The Storage Manager input in Form Builder will allow the form submitter to select from files on their local device and upload them to an S3 bucket. Storage Manager automatically connects to your S3 bucket added as part of Amplify Storage, and uses the same [File level access concepts](#file-level-access), defaulting to `private`.
+
+Files are uploaded immediately upon selection, and an S3 key is generated. By default, Storage Manager will generate a [unique S3 key](#unique-s3-keys) based on the file uploaded. On form submission, Storage Manager will return the S3 key of the uploaded file as a `String`.
+
+If your Storage Manager field is connected to a field in your data model, the S3 key will be written to your database via your GraphQL API. If the field is not connected to a data model, you can [handle the S3 key manually with the `onSubmit` hook](/gen1/[platform]/build-ui/formbuilder/lifecycle/#handle-form-data-submissions---onsubmit).
+
+### Storage Manager with connected forms
+
+If a Storage Manager field is bound to a data model as part of a [connected form](/gen1/[platform]/build-ui/formbuilder/data-binding/#connected-forms), a record is created or updated in the bound data model when the form is submitted.
+
+When a Storage Manager input field is added to a connected form, the S3 key of the uploaded file is written to a `String` field in the connected data model.
+
+_Prerequisites:_
+
+- You must have a GraphQL API, deployed either [through Studio](/gen1/[platform]/tools/console/data/data-model/) or [through the CLI](/gen1/[platform]/build-a-backend/graphqlapi/).
+- You must have at least one field in your data model with a type of `String`
+- You must have a connected form. This can be a [default form](/gen1/[platform]/build-ui/formbuilder/#getting-started), or a [custom connected form](/gen1/[platform]/build-ui/formbuilder/data-binding/#connected-forms)
+
+_Add Storage Manager to a connected form..._
+
+1. [Log into your Studio app](/gen1/[platform]/tools/console/adminui/start/) and select the UI Library
+2. Select a connected form and select **Configure** in the upper right-hand corner
+3. Select the `string` field you would like to convert to a Storage Manager field
+4. In the **Display** section of the **Input settings** sidebar, select the **Type** dropdown and choose `StorageField`
+
+![screenshot of a text field being converted to a storage manager field](/images/console/formbuilder/storage1.png)
+
+<Callout info>
+
+Only `String` type fields can be converted to a `StorageField` type. If the **Type** dropdown is missing `StorageField`, [check your data model](/gen1/[platform]/tools/console/data/data-model/)
+
+</Callout>
+
+### Storage Manager with unconnected forms
+
+_Add a Storage Manager field to an unconnected form..._
+
+1. [Log into your Studio app](/gen1/[platform]/tools/console/adminui/start/) and select the UI Library
+2. Navigate to an unconnected form, or [create a new blank form](/gen1/[platform]/build-ui/formbuilder/#getting-started)
+3. Click the blue plus sign to add a new field to your form
+4. Select a `StorageField` input element
+
+![screenshot of a storage field being added to an unconnected form](/images/console/formbuilder/storage3.png)
+
+With all unconnected forms, the form submission must be configured manually. Use the `onSubmit` hook and the `fields` object to [handle submission in code](/gen1/[platform]/build-ui/formbuilder/lifecycle/#handle-form-data-submissions---onsubmit).
+
+### Configuring Storage Manager
+
+Storage Manager has several unique configurations that can be applied in the right-hand toolbar.
+
+- **File level access**: determines which users can access the uploaded file. Storage Manager will default to Private.
+  - _Private_: only accessible to the uploader
+  - _Protected_: accessible to any authenticated user
+  - _Public_: accessible to anyone
+- **Accepted file types**: limits which file types can be uploaded
+- **Advanced settings**
+  - **Maximum number of files**: max number of files that can be added to the form before submission. If your bound data model field is not an array, this will always be 1
+  - **Maximum file size**: max size for each file uploaded
+  - **Is pausable**: allows the user to pause and resume the upload
+  - **Preview image**: if the uploaded file is an image, a preview of the image will be rendered in your form
+
+### File level access
+
+Storage Manager uses the same [File level access concepts](/gen1/[platform]/build-a-backend/storage/configure-access/) as the Storage category, defaulting to `private`. If you select `private` or `protected` file level access, all files uploaded will have `{user_identity_id}` in the file path. This restricts Read and Write access, and ensures identical files uploaded by different users have unique paths.
+
+### Unique S3 keys
+
+If files with identical S3 keys are uploaded to the same path, S3 will overwrite those files. To prevent accidental overwriting of files, Storage Manager generates a unique S3 key by hashing the _file contents_. Uploading different files with the same name will not overwrite the original file.
+
+However, if a form submitter uploads two identical files to the same path - even with different file names - Storage Manager will prevent file duplication in your S3 bucket.
+
+<Callout warning>
+
+File overwriting only occurs for identical S3 keys _in the same path_. If the **File level access** for your Storage Manager is set to `private` or `protected`, identical files uploaded by separate users will be saved separately.
+
+<br />
+If your **File level access** is set to `public`, identical files will overwrite
+each other.
+
+</Callout>

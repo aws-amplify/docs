@@ -1,0 +1,36 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Test push notifications',
+  description: 'Overview of testing your push notifications',
+  platforms: [
+    'flutter',
+    'swift',
+    'android',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import commonRoute from '/src/fragments/lib/push-notifications/common/testing.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    flutter: commonRoute,
+    swift: commonRoute,
+    'react-native': commonRoute
+  }}
+/>

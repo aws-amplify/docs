@@ -1,4 +1,6 @@
 .menu {
+  padding-bottom: var(--amplify-space-large);
+
   &__list {
     list-style-type: none;
     margin: 0;
@@ -23,7 +25,7 @@
     }
 
     &__link {
-      color: inherit;
+      color: var(--amplify-colors-font-primary);
       text-decoration: none;
 
       &:focus {
@@ -73,7 +75,17 @@
       }
 
       &--current {
-        color: var(--amplify-colors-brand-primary-80);
+        color: var(--amplify-colors-primary-80);
+        position: relative;
+        &:before {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          background-color: var(--amplify-colors-primary-80);
+          content: '';
+        }
       }
     }
   }

@@ -1,0 +1,49 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Fetch data',
+  description: 'Using the GET API REST in Amplify',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import android_fetch from '/src/fragments/lib/restapi/android/fetch.mdx';
+import flutter_fetch from '/src/fragments/lib/restapi/flutter/fetch.mdx';
+import ios_fetch from '/src/fragments/lib/restapi/ios/fetch.mdx';
+import js_fetch from '/src/fragments/lib/restapi/js/fetch.mdx';
+
+<Fragments
+  fragments={{
+    android: android_fetch,
+    flutter: flutter_fetch,
+    swift: ios_fetch,
+    javascript: js_fetch,
+    angular: js_fetch,
+    nextjs: js_fetch,
+    react: js_fetch,
+    vue: js_fetch,
+    'react-native': js_fetch
+  }}
+/>

@@ -4,7 +4,7 @@ In the following example, we'll create a list view that optimistically renders n
 
 <Callout>
 
-For more on the Amplify GraphQL API, see the [API documentation](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/).
+For more on the Amplify GraphQL API, see the [API documentation](/gen1/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/).
 
 </Callout>
 
@@ -66,9 +66,6 @@ By providing these methods through an actor object, the underlying list will be 
 
 To create an actor object that allows optimistic UI updates, create a new file and add the following code. 
 
-<BlockSwitcher>
-<Block name="Swift">
-
 ```swift
 import Amplify
 import SwiftUI
@@ -98,13 +95,7 @@ actor RealEstatePropertyList {
 }
 ``` 
 
-</Block>
-</BlockSwitcher>
-
 Calling the `listProperties()` method will perform a query with GraphQL API and store the results in the `properties` property. When this property is set, the list is sent back to the subscribers. In your UI, create a view model and subscribe to updates:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 class RealEstatePropertyContainerViewModel: ObservableObject {
@@ -140,15 +131,9 @@ struct RealEstatePropertyContainerView: View {
 }
 ``` 
 
-</Block>
-</BlockSwitcher>
-
 ## Optimistically rendering a newly created record
 
 To optimistically render a newly created record returned from the GraphQL API, add a method to the `actor RealEstatePropertyList`:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 func createProperty(name: String, address: String? = nil) {
@@ -179,15 +164,9 @@ func createProperty(name: String, address: String? = nil) {
 }
 ``` 
 
-</Block>
-</BlockSwitcher>
-
 ## Optimistically rendering a record update
 
 To optimistically render updates on a single item, use the code snippet like below:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 func updateProperty(_ property: RealEstateProperty) async {
@@ -215,16 +194,9 @@ func updateProperty(_ property: RealEstateProperty) async {
 }
 ``` 
 
-</Block>
-
-</BlockSwitcher>
-
 ## Optimistically render deleting a record
 
 To optimistically render a GraphQL API delete, use the code snippet like below:
-
-<BlockSwitcher>
-<Block name="Swift">
 
 ```swift
 func deleteProperty(_ property: RealEstateProperty) async {
@@ -257,10 +229,6 @@ func deleteProperty(_ property: RealEstateProperty) async {
   }
 }
 ``` 
-
-</Block>
-
-</BlockSwitcher>
 
 ## Complete example
 

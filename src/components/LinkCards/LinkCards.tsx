@@ -38,7 +38,7 @@ const LinkCards: React.FC<LinkCardsProps> = ({ platform }) => {
           href={linkCardPlatformData.roadmap}
           icon={() => <IconAmplify fontSize="2rem" />}
         >
-          What's next for Amplify
+          What&apos;s next for Amplify
         </LinkCard>
       ) : null}
       <LinkCard

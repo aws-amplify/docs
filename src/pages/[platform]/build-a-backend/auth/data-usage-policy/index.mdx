@@ -1,0 +1,126 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Data usage policy information',
+  description: "Review the data types gathered by the Amplify library that Apple requires you to disclose in your app's data usage policy when submitting the app to the App Store.",
+  platforms: ['swift'],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={['swift']}>
+Apple requires app developers to provide the data usage policy of the app when they submit their app to the App Store. See Apple's [User privacy and data use](https://developer.apple.com/app-store/user-privacy-and-data-use/) for more details. The Amplify Library is used to interact with AWS resources under the developer’s ownership and management. The library cannot predict the usage of its APIs and it is up to the developer to provide the privacy manifest that accurately reflects the data collected by the app. Below are the different categories identified by Apple and the corresponding data type used by the Amplify Library.
+
+By utilizing the library, Amplify gathers API usage metrics from the AWS services accessed. This process involves adding a user agent to the request made to your AWS service. The user-agent header is included with information about the Amplify Library version, operating system name, and version. AWS collects this data to generate metrics related to our library usage. This information is not linked to the user’s identity and not used for tracking purposes as described in Apple's privacy and data use guidelines.
+
+Should you have any specific concerns or require additional information for the enhancement of your privacy manifest, please don't hesitate to reach out.
+
+## Contact info
+
+| Data Type                        | Amplify Category   | Purpose             | Linked To Identity   | Tracking   | Provided by developer   |
+| ------------------------------   | ------------------ | ------------------- | :------------------: | :--------: | :---------------------: |
+| **Name**                         |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ✅                      |
+| **Email Address**                |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ✅                      |
+| **Phone Number**                 |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ✅                      |
+
+## User Content
+
+| Data Type                        | Amplify Category   | Purpose             | Linked To Identity   | Tracking   | Provided by developer   |
+| ------------------------------   | ------------------ | ------------------- | :------------------: | :--------: | :---------------------: |
+| **Photos or Videos**             |                    |                     |                      |            |                         |
+|                                  | Storage            | App Functionality   | ❌                   | ❌        | ✅                      |
+|                                  | Predictions        | App Functionality   | ❌                   | ❌        | ✅                      |
+| **Audio Data**                   |                    |                     |                      |            |                         |
+|                                  | Predictions        | App Functionality   | ❌                   | ❌        | ✅                      |
+
+## Identifiers
+
+| Data Type                        | Amplify Category   | Purpose             | Linked To Identity   | Tracking   | Provided by developer   |
+| ------------------------------   | ------------------ | ------------------- | :------------------: | :--------: | :---------------------: |
+| **User ID**                      |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+|                                  | Analytics          | Analytics           | ✅                   | ❌        | ❌                      |
+| **Device ID**                    |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+|                                  | Analytics          | Analytics           | ✅                   | ❌        | ❌                      |
+
+## Other Data
+
+| Data Type                        | Amplify Category   | Purpose             | Linked To Identity   | Tracking   | Provided by developer   |
+| ------------------------------   | ------------------ | ------------------- | :------------------: | :--------: | :---------------------: |
+| **OS Version**                   |                    |                     |                      |            |                         |
+|                                  | All categories     | Analytics           | ❌                   | ❌        | ❌                      |
+| **OS Name**                      |                    |                     |                      |            |                         |
+|                                  | All categories     | Analytics           | ❌                   | ❌        | ❌                      |
+| **Locale Info**                  |                    |                     |                      |            |                         |
+|                                  | All categories     | Analytics           | ❌                   | ❌        | ❌                      |
+| **App Version**                  |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Min OS target of the app**     |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Timezone information**         |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Network information**          |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Has SIM card**                 |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Cellular Carrier Name**        |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Device Model**                 |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Device Name**                  |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Device OS Version**            |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Device Height and Width**      |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **Device Language**              |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+| **identifierForVendor**          |                    |                     |                      |            |                         |
+|                                  | Auth               | App Functionality   | ✅                   | ❌        | ❌                      |
+
+
+## Health and Fitness	
+No data is collected
+
+## Financial Info
+No data is collected
+
+## Location							
+No data is collected
+
+## Sensitive Info							
+No data is collected
+
+## Contacts							
+No data is collected
+
+## Browsing History
+No data is collected
+
+## Search History
+No data is collected
+
+## Diagnostics
+No data is collected
+</InlineFilter>
+
+Some Amplify categories such as Analytics and Auth persist data to the local device. Some of that data is automatically removed when a user uninstalls the app from the device.
+
+Amplify stores Auth information in the local [system keychain](https://developer.apple.com/documentation/security/keychain_services), which does not guarantee any particular behavior around whether data is removed when an app is uninstalled.
+
+Deciding on when to clear this auth information is not something that the SDK can do in a generic way, so App developers should decide when to clear the data by signing out. One strategy for accomplishing this would be to use [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) to detect whether or not the app is launching for the first time, and invoking [`Auth.signOut()`](/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/) if the app has not been launched before.

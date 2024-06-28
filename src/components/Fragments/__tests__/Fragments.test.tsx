@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import Fragments from '../index';
 
-let routerMock = {
+const routerMock = {
   __esModule: true,
   useRouter: () => {
     return {

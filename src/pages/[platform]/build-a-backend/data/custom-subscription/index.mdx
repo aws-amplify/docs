@@ -1,0 +1,256 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Add custom real-time subscriptions',
+  description:
+    'Customize your business logic to create custom real-time subscriptions.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Create a custom real-time subscription for any mutation to enable PubSub use cases. 
+
+## Define a custom subscription
+
+For every custom subscription, you need to set:
+1. the mutation(s) that should trigger a subscription event,
+2. a return type that matches the subscribed mutations' return type,
+3. authorization rules.
+
+Optionally, you can set filter arguments to customize the server-side subscription filter rules.
+
+Use `a.subscription()` to define your custom subscription in your **amplify/data/resource.ts** file:
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  // Message type that's used for this PubSub sample
+  Message: a.customType({
+    content: a.string().required(),
+    channelName: a.string().required()
+  }),
+
+  // Message publish mutation
+  publish: a.mutation()
+    .arguments({
+      channelName: a.string().required(),
+      content: a.string().required()
+    })
+    .returns(a.ref('Message'))
+    .handler(a.handler.custom({ entry: './publish.js' }))
+    .authorization(allow => [allow.publicApiKey()]),
+
+  // highlight-start
+  // Subscribe to incoming messages
+  receive: a.subscription()
+    // subscribes to the 'publish' mutation
+    .for(a.ref('publish')) 
+    // subscription handler to set custom filters
+    .handler(a.handler.custom({entry: './receive.js'})) 
+    // authorization rules as to who can subscribe to the data
+    .authorization(allow => [allow.publicApiKey()]),
+  // highlight-end
+
+  // A data model to manage channels
+  Channel: a.model({
+    name: a.string(),
+  }).authorization(allow => [allow.publicApiKey()]),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema
+});
+```
+
+For this example, we're building a generic PubSub capability. This requires us to convert the arguments for `publish` into the `Channel`'s format. Create a new `publish.js` file in your **amplify/data/** folder with the following contents:
+
+```js title="amplify/data/publish.js"
+// This handler simply passes through the arguments of the mutation through as the result
+export function request() {
+  return {}
+}
+
+/**
+ * @param {import('@aws-appsync/utils').Context} ctx
+ */
+export function response(ctx) {
+  return ctx.args
+}
+```
+
+Next, create a new `receive.js` file in your **amplify/data/** folder to define handlers for your subscription. In this case, it'll just be a simple passthrough. In the next section, we'll explore how to use this handler to construct more advanced subscription filters.
+
+<Callout info>
+
+**Note:** We're planning a developer experience enhancement in the near future that'll create this passthrough under the hood.
+
+</Callout>
+
+```ts title="amplify/data/receive.js"
+export function request() {
+  return {};
+}
+
+export const response = (ctx) => {
+  return ctx.result;
+};
+```
+
+## Subscribe to custom subscriptions client-side
+
+From your generated Data client, you can find all your custom subscriptions under `client.subscriptions`. Subscribe using the `.subscribe()` function and then use the `next` function to handle incoming events.
+
+```ts
+import { generateClient } from 'aws-amplify/data'
+import type { Schema } from '../amplify/data/resource'
+
+const client = generateClient<Schema>()
+
+const sub = client.subscriptions.receive()
+  .subscribe({
+    next: event => {
+      console.log(event)
+    }
+  }
+)
+```
+
+You can try publishing an event using the custom mutation to test the real-time subscription.
+
+```ts
+client.mutations.publish({
+  channelName: "world",
+  content: "My first message!"
+})
+```
+
+Your subscription event should be received and logs the payload into your app's developer console. Unsubscribe your subscription to disconnect using the `unsubscribe()` function.
+
+```ts
+sub.unsubscribe()
+```
+
+## (Optionally) Add server-side subscription filters
+
+You can add subscription filters by adding arguments to the custom subscriptions. 
+
+{/* ### Basic subscription filters based on exact match
+By default, every argument specified will be exact-matched to the subscription event's output. In the following example, we can introduce a required `name` argument, which allows your users to filter events based on a specific channel name:
+```ts
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+const schema = a.schema({
+  Channel: a.customType({
+    name: a.string(),
+    data: a.json()
+  }),
+  // Define a mutation to publish events to
+  publish: a.mutation()
+    .arguments({
+      name: a.string(),
+      data: a.json()
+    })
+    .returns(a.ref('Channel'))
+    .handler(a.handler.custom({
+      entry: "./publish.js"
+    }))
+    .authorization(allow => [allow.authenticated()]),
+  
+  // Subscribe to all events from the "publish" mutation
+  receive: a.subscription(['publish'])
+    // highlight-next-line
+    .arguments({ name: a.string() })
+    .authorization(allow => [allow.publicApiKey()])
+});
+export type Schema = ClientSchema<typeof schema>;
+export const data = defineData({
+  schema
+});
+```
+### Enhanced subscription filters for custom filtering logic */}
+
+If you want to customize the filters, modify the subscription handler. For this example, we'll allow a customer to pass in a `namePrefix` parameter that allows the end users to only receive channel events in channels that start with the `namePrefix`.
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Channel: a.model({
+    name: a.string(),
+  }).authorization(allow => [allow.publicApiKey()]),
+
+  Message: a.customType({
+    content: a.string().required(),
+    channelName: a.string().required()
+  }),
+
+  publish: a.mutation()
+    .arguments({
+      channelName: a.string().required(),
+      content: a.string().required()
+    })
+    .returns(a.ref('Message'))
+    .handler(a.handler.custom({ entry: './publish.js' }))
+    .authorization(allow => [allow.publicApiKey()]),
+
+  receive: a.subscription()
+    .for(a.ref('publish'))
+    // highlight-next-line
+    .arguments({ namePrefix: a.string() })
+    .handler(a.handler.custom({entry: './receive.js'}))
+    .authorization(allow => [allow.publicApiKey()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema
+});
+```
+
+In your handler, you can set custom subscription filters based on arguments passed into the custom subscription. For this example, create a new **receive.js** file alongside the **amplify/data/resource.ts** file:
+
+```js
+import { util, extensions } from "@aws-appsync/utils"
+
+// Subscription handlers must return a `null` payload on the request
+export function request() { return { payload: null } }
+
+/**
+ * @param {import('@aws-appsync/utils').Context} ctx
+ */
+export function response(ctx) {
+  const filter = {
+    channelName: {
+      beginsWith: ctx.args.namePrefix
+    }
+  }
+
+  extensions.setSubscriptionFilter(util.transform.toSubscriptionFilter(filter))
+
+  return null
+}
+```

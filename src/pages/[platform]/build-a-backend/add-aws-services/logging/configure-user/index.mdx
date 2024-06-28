@@ -1,0 +1,192 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Configure user allow list',
+  description: 'Learn how to configure log levels by user',
+  platforms: [
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Each Amplify authenticated user can be configured to have their own unique logging configuration. This is helpful in enabling you debug issues more granularly for your users.
+
+## Retrieve userIDs with Amplify Auth.
+
+You can use the Amplify Auth category to retrieve the userId for a specific user if needed. You can also retrieve the userId by visiting the Amazon Cognito console and inspecting the `User ID` in User pools.
+
+
+
+<InlineFilter filters={['android']}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.getCurrentUser(
+   user.userId,
+   error -> // failed to fetch user
+);
+```
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Auth.getCurrentUser({ user ->
+    user.userId,{
+    // failed to get user
+})
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.getCurrentUser().subscribe(
+        result -> result.userId,
+        error -> // failed to get user
+ );
+```
+
+</Block>
+</BlockSwitcher>
+
+
+</InlineFilter>
+
+
+<InlineFilter filters={['swift']}>
+
+```swift
+Amplify.Auth.getCurrentUser().userId
+```
+
+</InlineFilter>
+
+## Configure user allow list
+
+Below is an example of setting different default and category log level for an authenticated user.
+
+<BlockSwitcher>
+  <Block name="With Configuration File">
+    Add a `userLogLevel` section and for each user identifier add a `defaultLogLevel` and `categoryLogLevel`.
+
+```json
+{
+    "awsCloudWatchLoggingPlugin": {
+        "enable": true,
+        "logGroupName": "<log-group-name>",
+        "region": "<region>",
+        "localStoreMaxSizeInMB": 1,
+        "flushIntervalInSeconds": 60,
+        "loggingConstraints": {
+            "defaultLogLevel": "ERROR",
+            "userLogLevel": {
+                "xyz-123": {
+                    "defaultLogLevel": "DEBUG",
+                    "categoryLogLevel": {
+                        "Storage": "VERBOSE",
+                        "Api": "VERBOSE"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+  </Block>
+  <Block name="With Code">
+
+<InlineFilter filters={['android']}>
+Provide a map of `UserLogLevel` at initialization and configuration of the `AWSCloudWatchLoggingPlugin`.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Map<CategoryType, LogLevel> categoryOverrides = new HashMap<>();
+categoryOverrides.put(CategoryType.AUTH, LogLevel.VERBOSE);
+categoryOverrides.put(CategoryType.STORAGE, LogLevel.DEBUG);
+
+UserLogLevel userLogLevel = new UserLogLevel(LogLevel.WARN, categoryOverrides);
+
+Map<String, UserLogLevel> userOverrides = new HashMap<>();
+userOverrides.put("USER_ID", userLogLevel);
+
+LoggingConstraints loggingConstraints = new LoggingConstraints(LogLevel.WARN, categoryOverrides, userOverrides);
+
+AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>, <region>, loggingConstraints);
+Amplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val categoryOverrides = mapOf(CategoryType.AUTH to LogLevel.VERBOSE, CategoryType.STORAGE to LogLevel.DEBUG)
+val userOverrides = mapOf("USER_ID" to UserLogLevel(LogLevel.WARN, categoryOverrides))
+
+val loggingConstraints = LoggingConstraints(defaultLogLevel = LogLevel.WARN, userLogLevel = userOverrides)
+
+val config = AWSCloudWatchLoggingPluginConfiguration(logGroupName = <log-group-name>, region = <region>, loggingConstraints = loggingConstraints)
+Amplify.addPlugin(AWSCloudWatchLoggingPlugin(config))
+```
+</Block>
+<Block name="RxJava">
+
+```java
+Map<CategoryType, LogLevel> categoryOverrides = new HashMap<>();
+categoryOverrides.put(CategoryType.AUTH, LogLevel.VERBOSE);
+categoryOverrides.put(CategoryType.STORAGE, LogLevel.DEBUG);
+
+UserLogLevel userLogLevel = new UserLogLevel(LogLevel.WARN, categoryOverrides);
+
+Map<String, UserLogLevel> userOverrides = new HashMap<>();
+userOverrides.put("USER_ID", userLogLevel);
+
+LoggingConstraints loggingConstraints = new LoggingConstraints(LogLevel.WARN, categoryOverrides, userOverrides);
+
+AWSCloudWatchLoggingPluginConfiguration config = new AWSCloudWatchLoggingPluginConfiguration (<log-group-name>, <region>, loggingConstraints);
+Amplify.addPlugin(new AWSCloudWatchLoggingPlugin(config));
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+Provide a dictionary of `UserLogLevel` at initialization and configuration of the `AWSCloudWatchLoggingPlugin`.
+
+
+```swift
+do {
+    let categoryLogLevels: [String: LogLevel] = ["Storage": .verbose, "API": .verbose]
+    let userLogLevel = UserLogLevel(defaultLogLevel: .debug, categoryLogLevel: categoryLogLevels)
+    let userLogLevels: [String: UserLogLevel] = ["xyz-123": userLogLevel]
+    let loggingConstraints = LoggingConstraints(defaultLogLevel: .warn, userLogLevel: userLogLevels)
+    let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "<log-group-name>", region: "<region>", loggingConstraints: loggingConstraints)
+    let loggingPlugin = AWSCloudWatchLoggingPlugin(loggingPluginConfiguration: loggingConfiguration)
+    try Amplify.add(plugin: loggingPlugin)
+} catch {
+    assert(false, "Error initializing Amplify: \(error)")
+}
+```
+</InlineFilter>
+
+  </Block>
+</BlockSwitcher>
+

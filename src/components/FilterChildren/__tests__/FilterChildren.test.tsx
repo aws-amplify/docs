@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { render, screen } from '@testing-library/react';
-import FilterChildren from '../index';
+// import * as React from 'react';
+// import { render, screen } from '@testing-library/react';
+// import FilterChildren from '../index';
 
-let routerMock = {
+const routerMock = {
   __esModule: true
 };
 

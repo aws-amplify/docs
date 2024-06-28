@@ -6,7 +6,7 @@
 
 ## Add location search functionality on a map
 
-First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/[platform]/build-a-backend/more-features/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/build-a-backend/more-features/geo/maps) in your application.
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/gen1/[platform]/build-a-backend/more-features/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/gen1/[platform]/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/gen1/[platform]/build-a-backend/more-features/geo/maps) in your application.
 
 <Callout>
 
@@ -24,7 +24,7 @@ npm install @maplibre/maplibre-gl-geocoder maplibre-gl@1 maplibre-gl-js-amplify
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `4.0.0` or above is installed.
 
-First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](/[platform]/build-a-backend/more-features/geo/maps).
+First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](/gen1/[platform]/build-a-backend/more-features/geo/maps).
 
 Then, use `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
 
@@ -71,7 +71,7 @@ document.getElementById("search").appendChild(geocoder.onAdd());
 
 ### Customize Search Icons
 
-You can customize the search icons used by the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to use any image of your choosing. [MapLibre markers](https://maplibre.org/maplibre-gl-js-docs/api/markers/) require an [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) when passing in custom images.
+You can customize the search icons used by the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to use any image of your choosing. [MapLibre markers](https://maplibre.org/maplibre-gl-js/docs/API/#markers-and-controls) require an [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) when passing in custom images.
 
 The following example puts an existing SVG icon into an HTMLElement before being passed to `createAmplifyGeocoder` which creates a [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder).
 

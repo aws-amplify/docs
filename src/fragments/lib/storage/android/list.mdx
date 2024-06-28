@@ -1,6 +1,92 @@
 You can list all of the objects uploaded under a given prefix by setting the pageSize. If the pageSize is set lower than the total file size available,
 A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the nextToken from the previous call response.
 
+#### With StoragePath
+This will list all public files in the path:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+StoragePagedListOptions options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build();
+
+Amplify.Storage.list(
+    StoragePath.fromString("public/"),
+    options,
+    result -> {
+        for (StorageItem item : result.getItems()) {
+            Log.i("MyAmplifyApp", "Item: " + item.getPath());
+        }
+        Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+    },
+    error -> Log.e("MyAmplifyApp", "List failure", error);
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build()
+
+Amplify.Storage.list(StoragePath.fromString("public/"), options,
+    { result ->
+        result.items.forEach { item ->
+            Log.i("MyAmplifyApp", "Item: ${item.path}")
+        }
+        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}")
+    },
+    { Log.e("MyAmplifyApp", "List failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = StoragePagedListOptions.builder()
+    .setPageSize(1000)
+    .build()
+
+try {
+    val result = Amplify.Storage.list(StoragePath.fromString("public/"), options)
+    result.items.forEach {
+        Log.i("MyAmplifyApp", "Item: $it")
+    }
+    Log.i("MyAmplifyApp", "next token: ${result.nextToken}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "List failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+StoragePagedListOptions options = StoragePagedListOptions.builder()
+        .setPageSize(1000)
+        .build();
+
+RxAmplify.Storage.list(StoragePath.fromString("public/"), options)
+        .subscribe(
+            result -> {
+                for (StorageItem item : result.getItems()) {
+                    Log.i("MyAmplifyApp", "Item: " + item.getPath());
+                }
+                Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+            },
+            error -> Log.e("MyAmplifyApp", "List failure", error);
+        );
+```
+
+</Block>
+</BlockSwitcher>
+
+#### With Key (Deprecated)
 This will list all public files:
 
 <BlockSwitcher>
@@ -87,7 +173,7 @@ RxAmplify.Storage.list("", options)
 
 <Callout>Note: The range of pageSize can be from 1 - 1000.</Callout>
 
-You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID`:
+You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID` (This behavior is deprecated):
 
 <BlockSwitcher>
 <Block name="Java">

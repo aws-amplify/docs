@@ -14,11 +14,11 @@ If you had previously enabled user sign-in by running `amplify add auth` in your
 - Protected: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 - Private: Only accessible for the individual user. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
-See [Authentication](/[platform]/sdk/auth/getting-started/) for more information on how to get the `user_identity_id` for a signed in user.
+See [Authentication](/gen1/[platform]/sdk/auth/getting-started/) for more information on how to get the `user_identity_id` for a signed in user.
 
 ## Set Up Your Backend
 
-1. Complete the [Get Started](/[platform]/start/getting-started/introduction/) steps before you proceed.
+1. Complete the [Get Started](/gen1/[platform]/start/getting-started/introduction/) steps before you proceed.
 
 2. Use the CLI to add storage to your cloud-enabled backend and app.
 
@@ -59,7 +59,7 @@ See [Authentication](/[platform]/sdk/auth/getting-started/) for more information
 
 ### Lambda Triggers
 
-If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More](/[platform]/tools/cli/usage/lambda-triggers/#s3-lambda-triggers)
+If you want to enable triggers for the storage category with Amazon S3 & Amazon DynamoDB as providers, the CLI supports associating Lambda triggers with S3 and DynamoDB events. For example, this can be useful for a use case where you want to invoke a Lambda function after a create or update operation on a DynamoDB table managed by the Amplify CLI. [Read More](/gen1/[platform]/tools/cli/usage/lambda-triggers/#s3-lambda-triggers)
 
 ## Connect to Your Backend
 
@@ -94,15 +94,11 @@ Use the following steps to connect add file storage backend services to your app
    </manifest>
    ```
 
-## Mocking and Local Testing
-
-Amplify supports running a local mock server for testing your application with S3. Please see the [CLI Toolchain documentation](/[platform]/tools/cli/usage/mock/) for more details.
-
 ## Note on Transfer Utility and Amazon Cognito
 
 Transfer Utility generates Amazon S3 pre-signed URLs and uses them to enable background transferring. Using Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. It is not possible to generate S3 pre-signed URLs that last longer than 60 minutes. Due to this limitation, the Transfer Utility enforces 50-minute transfer timeouts (10-minute buffer for reducing AWS temporary credential regenerations). After 50 minutes, you receive a transfer failure.
 
-If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](/[platform]/sdk/storage/transfer-utility/).
+If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](/gen1/[platform]/sdk/storage/transfer-utility/).
 
 ## Additional Resources
 

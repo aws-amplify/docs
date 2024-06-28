@@ -8,8 +8,8 @@
 // Example index.js
 import {
   initializePushNotifications,
-  onNotificationReceivedInForeground,
-  OnNotificationReceivedInForegroundInput
+  onNotificationReceivedInBackground,
+  OnNotificationReceivedInBackgroundInput
 } from 'aws-amplify/push-notifications';
 
 // ...
@@ -18,7 +18,7 @@ Amplify.configure(config);
 initializePushNotifications();
 
 // Note: This handler does not *need* to be async, but it can be!
-const myAsyncNotificationReceivedHandler: OnNotificationReceivedInForegroundInput = async (
+const myAsyncNotificationReceivedHandler: OnNotificationReceivedInBackgroundInput = async (
   notification
 ) => {
   // Process the received push notification message in the background
@@ -40,7 +40,7 @@ AppRegistry.registerComponent(appName, () => App);
 // Example index.js
 import {
   initializePushNotifications,
-  onNotificationReceivedInForeground
+  onNotificationReceivedInBackground
 } from 'aws-amplify/push-notifications';
 
 // ...

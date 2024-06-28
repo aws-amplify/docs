@@ -18,8 +18,10 @@
       "@/constants/*": ["src/constants/*"],
       "@/data/*": ["src/data/*"],
       "@/plugins/*": ["src/plugins/*"],
+      "@/protected/*": ["src/protected/*"],
       "@/themes/*": ["src/themes/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/directory/*": ["src/directory/*"]
     }
   },
   "extends": "./tsconfig.base.json",
@@ -28,6 +30,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "tasks",
-    "adobe.d.ts"
+    "adobe.d.ts",
+    "jest.setup.ts"
   ]
 }

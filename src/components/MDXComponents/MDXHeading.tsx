@@ -1,31 +1,14 @@
 import Link from 'next/link';
 import { Heading } from '@aws-amplify/ui-react';
-import slug from '@/utils/slug';
 
 export const MDXHeading = (props) => {
-  const { level, children } = props;
-
-  let href = '';
-
-  if (children && typeof children != 'string') {
-    let newChildren = '';
-    for (let i = 0; i < children.length; i++) {
-      if (typeof children[i] == 'string') {
-        newChildren = newChildren + children[i];
-      } else if (typeof children[i] != 'string') {
-        newChildren = newChildren + children[i].props.children;
-      }
-    }
-    href = `${slug(newChildren)}`;
-  } else {
-    href = `${slug(children)}`;
-  }
+  const { level, children, id } = props;
 
   return (
-    <Heading level={level} id={href}>
+    <Heading level={level} id={id}>
       {/* Only output heading links for h2 and h3 \ */}
       {level == 2 || level == 3 ? (
-        <Link href={`#${href}`}>{children}</Link>
+        <Link href={`#${id}`}>{children}</Link>
       ) : (
         children
       )}
