@@ -38,17 +38,11 @@ Before you begin, you will need:
 - An [application connected to the API](/[platform]/build-a-backend/data/connect-to-API/)
 - Data already created to modify
 
-<Callout warning>
-With versions of Amplify CLI `@aws-amplify/cli@12.12.2` and API Category `@aws-amplify/amplify-category-api@5.11.5`, an improvement was made to how relational field data is handled in subscriptions when different authorization rules apply to related models in a schema. The improvement redacts the values for the relational fields, displaying them as null or empty, to prevent unauthorized access to relational data.
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
 
-This redaction occurs whenever it cannot be determined that the child model will be protected by the same permissions as the parent model.
+import { ProtectedRedactionGen2Message } from "@/protected/ProtectedRedactionMessage"
 
-Because subscriptions are tied to mutations and the selection set provided in the result of a mutation is then passed through to the subscription, relational fields in the result of mutations must be redacted.
-
-If an authorized end-user needs access to the redacted relational fields, they should perform a query to read the relational data.
-
-Additionally, subscriptions will inherit related authorization when relational fields are set as required. To better protect relational data, consider modifying the schema to use optional relational fields.
-</Callout>
+<ProtectedRedactionGen2Message />
 
 ## Set up a real-time list query
 
