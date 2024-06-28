@@ -666,17 +666,11 @@ The `autoSignIn` API will automatically sign-in a user when it was previously en
 - User confirmed their account with a verification code sent to their phone or email (default option).
 - User confirmed their account with a verification link sent to their phone or email. In order to enable this option you need to go to the [Amazon Cognito console](https://aws.amazon.com/pm/cognito), look for your userpool, then go to the `Messaging` tab and enable `link` mode inside the `Verification message` option. Finally you need to define the `signUpVerificationMethod` to `link` inside the `Cognito` option of your `Auth` config.
 
-```ts
+```ts title="amplify/auth/resource.ts"
 import { autoSignIn } from 'aws-amplify/auth';
 
-async function handleAutoSignIn() {
-  try {
-    const signInOutput = await autoSignIn();
-    // handle sign-in steps
-  } catch (error) {
-    console.log(error);
-  }
-}
+await autoSignIn();
+
 ```
 
 </InlineFilter>
