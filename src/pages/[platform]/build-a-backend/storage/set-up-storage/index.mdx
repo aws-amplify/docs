@@ -446,7 +446,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> _configureAmplify() async {
   try {
@@ -455,7 +455,7 @@ Future<void> _configureAmplify() async {
     await Amplify.addPlugins([auth, storage]);
 
     // call Amplify.configure to use the initialized categories in your app
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
   } on Exception catch (e) {
     safePrint('An error occurred configuring Amplify: $e');
   }
