@@ -376,7 +376,7 @@
         "description": "Toggles whether subscriptions will inherit related authorization when relational fields are set as required",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "12.12.2",
+        "versionAdded": "12.12.4",
         "values": [
           {
             "value": "true",
