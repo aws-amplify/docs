@@ -70,18 +70,12 @@ describe('Protected Redaction Messages', () => {
   it('should render the protected redaction message for Gen 1', async () => {
     const { container } = render(<ProtectedRedactionGen1Message />);
 
-    // const protectedNode = await screen.findByText(
-    //   PROTECTED_REDACTION_GEN1_MESSAGE
-    // );
     expect(container.firstChild).toMatchSnapshot();
   });
 
   it('should render the protected redaction message for Gen 2', async () => {
     const { container } = render(<ProtectedRedactionGen2Message />);
 
-    // const protectedNode = await screen.findByText(
-    //   PROTECTED_REDACTION_GEN1_MESSAGE
-    // );
     expect(container.firstChild).toMatchSnapshot();
   });
 });
