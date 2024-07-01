@@ -53,7 +53,7 @@ export const sayHello = defineFunction({
 Next, create the corresponding handler file at `amplify/functions/say-hello/handler.ts`. This is where your function code will go.
 
 ```ts title="amplify/functions/say-hello/handler.ts"
-import { Handler } from 'aws-lambda';
+import type { Handler } from 'aws-lambda';
 
 export const handler: Handler = async (event, context) => {
   // your function code goes here
@@ -76,7 +76,209 @@ defineBackend({
 });
 ```
 
-Now when you run `npx ampx sandbox` or deploy your app on Amplify, it will include your backend function. See the [examples](../examples/) below for connecting your functions to event sources.
+Now when you run `npx ampx sandbox` or deploy your app on Amplify, it will include your Function.
+
+To invoke your Function, we recommend adding your [Function as a handler for a custom query with your Amplify Data resource](/[platform]/build-a-backend/data/custom-business-logic/). This will enable you to strongly type Function arguments and the return statement, and use this to author your Function's business logic. To get started, open your `amplify/data/resource.ts` file and specify a new query in your schema:
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend"
+import { sayHello } from "../functions/say-hello/resource"
+
+const schema = a.schema({
+  // highlight-start
+  sayHello: a
+    .query()
+    .arguments({
+      name: a.string().default("World"),
+    })
+    .returns(a.string())
+    .handler(a.handler.function(sayHello)),
+  // highlight-end
+})
+
+export type Schema = ClientSchema<typeof schema>
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "iam",
+  },
+})
+```
+
+Now you can use this query from the `Schema` export to strongly type your Function handler:
+
+```ts title="amplify/functions/say-hello/handler.ts"
+import type { Schema } from "../../data/resource"
+
+export const handler: Schema["sayHello"]["functionHandler"] = async (event) => {
+  // arguments typed from `.arguments()`
+  const { name } = event.arguments
+  // return typed from `.returns()`
+  return `Hello, ${name}!`
+}
+```
+
+Finally, use the data client to invoke your Function by calling its associated query.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts title="src/main.ts"
+import type { Schema } from "./amplify/data/resource"
+import { Amplify } from "aws-amplify"
+import { generateClient } from "aws-amplify/api"
+import outputs from "./amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+const client = generateClient<Schema>()
+
+// highlight-start
+client.queries.sayHello({
+  name: "Amplify",
+})
+// highlight-end
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+```kt
+data class SayHelloDetails(
+    val name: String,
+)
+
+data class SayHelloResponse(
+    val sayHello: SayHelloDetails
+)
+
+val document = """
+    query SayHelloQuery(${'$'}name: String!) {
+        sayHello(name: ${'$'}name) {
+            name
+            executionDuration
+        }
+    }
+""".trimIndent()
+val sayHelloQuery = SimpleGraphQLRequest<String>(
+    document,
+    mapOf("name" to "Amplify"),
+    String::class.java,
+    GsonVariablesSerializer())
+
+Amplify.API.query(
+    sayHelloQuery,
+    {
+        var gson = Gson()
+        val response = gson.fromJson(it.data, SayHelloResponse::class.java)
+        Log.i("MyAmplifyApp", "${response.sayHello.name}")
+    },
+    { Log.e("MyAmplifyApp", "$it")}
+)
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+First define a class that matches your response shape:
+
+```dart
+class SayHelloResponse {
+  final SayHello sayHello;
+
+  SayHelloResponse({required this.sayHello});
+
+  factory SayHelloResponse.fromJson(Map<String, dynamic> json) {
+    return SayHelloResponse(
+      sayHello: SayHello.fromJson(json['sayHello']),
+    );
+  }
+}
+
+class SayHello {
+  final String name;
+  final double executionDuration;
+
+  SayHello({required this.name, required this.executionDuration});
+
+  factory SayHello.fromJson(Map<String, dynamic> json) {
+    return SayHello(
+      name: json['name'],
+      executionDuration: json['executionDuration'],
+    );
+  }
+}
+```
+
+Next, make the request and map the response to the classes defined above:
+
+```dart
+// highlight-next-line
+import 'dart:convert';
+
+// highlight-start
+const graphQLDocument = '''
+  query SayHello(\$name: String!) {
+    sayHello(name: \$name) {
+      name
+      executionDuration
+    }
+  }
+''';
+
+final echoRequest = GraphQLRequest<String>(
+  document: graphQLDocument,
+  variables: <String, String>{"name": "Amplify"},
+);
+
+final response =
+    await Amplify.API.query(request: echoRequest).response;
+safePrint(response);
+
+Map<String, dynamic> jsonMap = json.decode(response.data!);
+SayHelloResponse SayHelloResponse = SayHelloResponse.fromJson(jsonMap);
+safePrint(SayHelloResponse.sayHello.name);
+// highlight-end
+```
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+```swift
+struct SayHelloResponse: Codable {
+    public let sayHello: SayHello
+    
+    struct SayHello: Codable {
+        public let name: String
+        public let executionDuration: Float
+    }
+}
+
+let document = """
+    query EchoQuery($name: String!) {
+        sayHello(name: $name) {
+            name
+            executionDuration
+        }
+    }
+    """
+
+let result = try await Amplify.API.query(request: GraphQLRequest<SayHelloResponse>(
+    document: document,
+    variables: [
+        "name": "Amplify"
+    ],
+    responseType: SayHelloResponse.self
+))
+switch result {
+case .success(let response):
+    print(response.sayHello)
+case .failure(let error):
+    print(error)
+}
+```
+
+</InlineFilter>
 
 ## Next steps
 
