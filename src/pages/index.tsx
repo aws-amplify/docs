@@ -5,8 +5,8 @@ import {
   generateGetStartedLinks
 } from '@/components/GetStartedPopover';
 import { IconChevron } from '@/components/Icons';
+import { DEFAULT_PLATFORM } from '@/constants/platforms';
 import { Video } from '@/components/Video';
-import { DEFAULT_PLATFORM } from '@/data/platforms';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { FeatureItem, FeatureList } from '@/components/FeatureLists';
 import { MDXCode } from '@/components/MDXComponents';

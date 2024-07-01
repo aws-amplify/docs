@@ -1,3 +1,4 @@
+import type { Platform } from '@/constants/platforms';
 import {
   IconAndroid,
   IconAngular,
@@ -9,7 +10,7 @@ import {
   IconVue
 } from '@/components/Icons';
 import { GetStartedLinksType } from './GetStartedPopover';
-import { PLATFORM_DISPLAY_NAMES, Platforms } from '@/data/platforms';
+import { PLATFORMS } from '@/constants/platforms';
 
 /**
  * Generates get started links for all platforms with the same get started url
@@ -19,7 +20,7 @@ import { PLATFORM_DISPLAY_NAMES, Platforms } from '@/data/platforms';
 export function generateGetStartedLinks(
   getStartedPathname
 ): GetStartedLinksType[] {
-  const platformOrder: Platforms = [
+  const platformOrder: Platform[] = [
     'react',
     'nextjs',
     'angular',
@@ -33,7 +34,7 @@ export function generateGetStartedLinks(
 
   const getStartedItems: Partial<GetStartedLinksType>[] = platformOrder.map(
     (platform) => ({
-      title: PLATFORM_DISPLAY_NAMES[platform],
+      title: PLATFORMS[platform],
       platform: platform
     })
   );

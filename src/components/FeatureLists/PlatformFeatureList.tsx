@@ -7,9 +7,9 @@ import {
 
 import { Flex } from '@aws-amplify/ui-react';
 import featureListData from '@/constants/feature-lists-data';
-import { DEFAULT_PLATFORM } from '@/data/platforms';
-import type { Platform } from '@/data/platforms';
-import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { DEFAULT_PLATFORM } from '@/constants/platforms';
+import type { Platform } from '@/constants/platforms';
+import { PLATFORMS } from '@/constants/platforms';
 import { useIsGen1Page } from '@/utils/useIsGen1Page';
 
 interface PlatformFeatureListProps {
@@ -23,7 +23,7 @@ const PlatformFeatureList: React.FC<PlatformFeatureListProps> = ({
 
   return categories.length > 0 ? (
     <Flex direction="column" alignItems="flex-start">
-      <FeatureLists title={`Features for ${PLATFORM_DISPLAY_NAMES[platform]}`}>
+      <FeatureLists title={`Features for ${PLATFORMS[platform]}`}>
         {categories.map((category, index) => (
           <FeatureList heading={category.heading} key={index}>
             {category.items.map((categoryItem, index) => (

@@ -1,5 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import { PLATFORMS } from '@/constants/platforms';
 import { FrameworkGrid } from '@/components/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import {
@@ -54,7 +54,7 @@ const PlatformOverview = ({ platform }) => {
     <Flex className="home-content">
       <Flex className="home-intro">
         <Heading level={1} className="home-intro__heading">
-          Amplify Documentation for {PLATFORM_DISPLAY_NAMES[platform]}
+          Amplify Documentation for {PLATFORMS[platform]}
         </Heading>
         <Text className="home-intro__text">
           AWS Amplify streamlines full-stack app development. With its

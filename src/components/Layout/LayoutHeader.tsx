@@ -2,7 +2,7 @@ import { useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
-import { Platform } from '@/data/platforms';
+import { Platform } from '@/constants/platforms';
 import {
   ALGOLIA_API_KEY,
   ALGOLIA_INDEX_NAME,

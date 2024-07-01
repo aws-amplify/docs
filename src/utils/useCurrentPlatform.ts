@@ -1,4 +1,4 @@
-import { Platform } from '@/data/platforms';
+import { Platform } from '@/constants/platforms';
 import { useRouter } from 'next/router';
 
 // Custom hook to return the current platform

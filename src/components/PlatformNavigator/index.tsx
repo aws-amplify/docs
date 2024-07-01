@@ -1,15 +1,12 @@
+import type { Platform } from '@/constants/platforms';
 import { Flex, Text, View } from '@aws-amplify/ui-react';
+import { FRAMEWORKS } from '@/constants/frameworks';
+import { PLATFORM_VERSIONS, PLATFORMS } from '@/constants/platforms';
 import { useRouter } from 'next/router';
 import type { LinkProps } from 'next/link';
-import { frameworks } from '@/constants/frameworks';
 import { VersionSwitcher } from '../VersionSwitcher';
 import flatDirectory from '@/directory/flatDirectory.json';
 import { Popover } from '../Popover';
-import {
-  PLATFORM_VERSIONS,
-  PLATFORM_DISPLAY_NAMES,
-  Platform
-} from '@/data/platforms';
 
 type PlatformNavigatorProps = {
   currentPlatform: Platform;
@@ -23,7 +20,7 @@ export function PlatformNavigator({
   testId
 }: PlatformNavigatorProps) {
   const { pathname } = useRouter();
-
+  
   /**
    * Get the allowed platforms associated with this pathname
    * from flatDirectory.json */
@@ -31,10 +28,10 @@ export function PlatformNavigator({
   if (flatDirectory[pathname]?.platforms) {
     allowedPlatforms = flatDirectory[pathname].platforms;
   }
+  
+  const platformTitle = PLATFORMS[currentPlatform];
 
-  const platformTitle = PLATFORM_DISPLAY_NAMES[currentPlatform];
-
-  const platformItem = frameworks.filter((platform) => {
+  const platformItem = FRAMEWORKS.filter((platform) => {
     return platform.title === platformTitle;
   })[0];
 
@@ -63,7 +60,7 @@ export function PlatformNavigator({
               anchor="left"
               fullWidth={true}
             >
-              {frameworks.map((platform, index) => {
+              {FRAMEWORKS.map((platform, index) => {
                 const title = platform.title;
                 const current = title === platformTitle;
                 let href: LinkProps['href'];

@@ -1,9 +1,10 @@
+import type { Platform } from '@/constants/platforms';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import { ReactElement, useContext, useEffect, useState, useMemo } from 'react';
 import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
-import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
+import { JS_PLATFORMS } from '@/constants/platforms';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from '@/directory/directory';
 
@@ -104,7 +105,7 @@ export function MenuItem({
 
   if (
     currentPlatform &&
-    JS_PLATFORMS.includes(currentPlatform as JSPlatform) &&
+    Object.keys(JS_PLATFORMS).includes(currentPlatform) &&
     asPathWithoutHash.includes('/prev/') &&
     pageNode.route == 'https://aws-amplify.github.io/amplify-js/api/'
   ) {

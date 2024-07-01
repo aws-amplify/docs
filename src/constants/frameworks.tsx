@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import {
   IconAndroid,
   IconAngular,
@@ -8,11 +9,21 @@ import {
   IconSwift,
   IconVue
 } from '@/components/Icons';
+import { PLATFORMS } from './platforms';
 
-export const frameworks = [
+export type Framework = {
+  [K in keyof typeof PLATFORMS]: {
+    key: K;
+    title: (typeof PLATFORMS)[K];
+    href: `/${K}`;
+    icon: ReactNode;
+  };
+}[keyof typeof PLATFORMS];
+
+export const FRAMEWORKS: Framework[] = [
   {
-    title: 'React',
     key: 'react',
+    title: 'React',
     href: '/react',
     icon: <IconReact />
   },
@@ -64,4 +75,4 @@ export const frameworks = [
     href: '/swift',
     icon: <IconSwift />
   }
-];
+] as const;

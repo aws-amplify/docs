@@ -1,7 +1,7 @@
 import { Flex, VisuallyHidden } from '@aws-amplify/ui-react';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { Popover } from '@/components/Popover';
-import { DEFAULT_PLATFORM, Platform } from '@/data/platforms';
+import { DEFAULT_PLATFORM, Platform } from '@/constants/platforms';
 import { useIsGen1Page } from '@/utils/useIsGen1Page';
 import { UrlObject } from 'url';
 import { gen1GetStartedHref, gen2GetStartedHref } from '@/data/index-page-data';
