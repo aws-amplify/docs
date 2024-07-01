@@ -77,7 +77,7 @@ const { cfnUserPool } = backend.auth.resources.cfnResources;
 if (Array.isArray(cfnUserPool.schema)) {
   cfnUserPool.schema.push({
     name: 'policyName',
-    attributeDataType: 'Boolean',
+    attributeDataType: 'String',
     developerOnlyAttribute: true,
   });
 }
