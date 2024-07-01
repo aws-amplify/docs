@@ -105,29 +105,26 @@ You will need to create a log group in Amazon CloudWatch to send logs to. You ca
 
 Below is a sample CDK construct to create the Amazon CloudWatch log group as well as creating and assigning the permission policies to Amplify roles.
 
-The `<log-group-name>` and `<region>` configured in the CDK construct will be used later to initialize the Amplify Logger plugin.
+Create the `RemoteLoggingConstraintsConstruct` custom CDK construct as the following:
 
-### Replace the placeholder values with your own values:
-
-- `<log-group-name>` is the log group that logs will be sent to. Note that this CDK construct sample includes logic to create the CloudWatch log group that you may have already created in previous steps.
-- `<amplify-authenticated-role-name>` and `<amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.
-
-```ts
+```ts title="amplify/custom/RemoteLoggingConstraints/resource.ts"
 import * as cdk from "aws-cdk-lib"
 import { Construct } from "constructs"
 import * as logs from "aws-cdk-lib/aws-logs"
-import * as path from "path"
 import * as iam from "aws-cdk-lib/aws-iam"
 
-export class RemoteLoggingConstraintsConstruct extends Construct {
+type RemoteLoggingConstraintProps = {
+    authRoleName: string; 
+    unAuthRoleName: string; 
+    logGroupName: string;
+};
+
+export class RemoteLoggingConstraints extends Construct {
   constructor(scope: Construct, id: string, props: RemoteLoggingConstraintProps) {
     super(scope, id)
 
     const region = cdk.Stack.of(this).region
     const account = cdk.Stack.of(this).account
-    const logGroupName = <log-group-name>
-    const authRoleName = <amplify-authenticated-role-name>
-    const unAuthRoleName = <amplify-unauthenticated-role-name>
 
     new logs.LogGroup(this, 'Log Group', {
       logGroupName: logGroupName,
@@ -152,7 +149,34 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
 }
 ```
 
-The `<log-group-name>` and `<region>` will be printed out in the in the terminal. You can use this information to setup the Amplify library in the next section.
+Then, update `backend.ts` and replace the `<log-group-name>` with your own value. 
+
+`<log-group-name>` is the log group that logs will be sent to.
+
+```ts file="backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+// highlight-next-line
+import { RemoteLoggingConstraintsConstruct } from './custom/RemoteLoggingConstraintsConstruct/resource';
+
+const backend = defineBackend({
+  auth
+});
+
+// highlight-start
+const loggingConstruct = new RemoteLoggingConstraintsConstruct(
+  backend.createStack('logging-stack'),
+  'logging-stack',
+  { 
+    authRoleName: backend.auth.resources.authenticatedUserIamRole.roleName,
+    unAuthRoleName: backend.auth.resources.unauthenticatedUserIamRole.roleName,
+    logGroupName: "<log-group-name>"
+  }
+);
+// highlight-end
+```
+
+The `<log-group-name>` and region will be printed out in the terminal. You can use this information to setup the Amplify library in the next section.
 
 ## Initialize Amplify Logging
 
