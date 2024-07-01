@@ -83,4 +83,38 @@ export const data = defineData({
 });
 ```
 
+GraphQL Schema Definition Language (SDL) may also be used to define your schema.
+Doing so will not result in the same level of type safety offered by the data schema builder.
+The data schema builder is the recommended method for defining your schema.
+
+<Callout>
+
+**Note:** Some features available in Gen 1 GraphQL SDL are not available in Gen 2.
+
+* Use of `@manyToMany`.
+* Use of `fields` argument on `@hasOne`, `@hasMany`, and `@belongsTo`.
+* Use of `@hasOne`, `@hasMany`, and `@belongsTo` on required fields.
+
+</Callout>
+
+```ts
+import { defineData } from '@aws-amplify/backend';
+
+const schema = `
+  type Todo @model @auth(rules: [{ allow: owner }]) {
+    content: String
+    isDone: Boolean
+  }
+`;
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "apiKey",
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+```
+
 <Overview childPageNodes={props.childPageNodes} />
