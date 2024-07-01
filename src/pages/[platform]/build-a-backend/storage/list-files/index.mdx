@@ -109,17 +109,17 @@ function processStorageList(response) {
 
 This places each item's data inside a special `__data` key.
 
-### Subpath Strategies
+### Exclude Subpaths
 
 When objects are organized using a prefix you can return only those objects within the `path` you've provided, and not those within nested subpaths.
 
 For example, given the following keys in your `path` you may want to return only the jpg objects, and not the "vacation" subpath:
 
-```
-"photos/photo1.jpg",
-"photos/photo2.jpg",
-"photos/vacation/"
-```
+
+** `photos/photo1.jpg`
+** `photos/photo2.jpg`
+** `photos/vacation/`
+
 
 This can be accomplished with the `subpathStrategy` option:
 
