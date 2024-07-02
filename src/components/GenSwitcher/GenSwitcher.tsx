@@ -24,11 +24,7 @@ export const GenSwitcher = ({ isGen1, testId }: GenSwitcherProps) => {
           {isGen1 ? 'Gen 1' : 'Gen 2'}
           <VisuallyHidden>Open Amplify generation navigation</VisuallyHidden>
         </Popover.Trigger>
-        <Popover.List
-          ariaLabel="Amplify generation navigation"
-          anchor="left"
-          className="gen-switcher__list"
-        >
+        <Popover.List anchor="left" className="gen-switcher__list">
           <Popover.ListItem href={`/${currentPlatform}`} current={!isGen1}>
             Gen 2 {isGen1 ? '' : <IconCheck className="gen-switcher__check" />}
           </Popover.ListItem>

@@ -300,7 +300,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> _configureAmplify() async {
   // Add Pinpoint and Cognito Plugins, and any other plugins you want to use
@@ -316,7 +316,7 @@ When running your app on macOS you will need to enable keychain sharing in Xcode
 
 </Callout>
 
-Make sure that the amplifyconfiguration.dart file generated in the project setup is included and sent to Amplify.configure:
+Make sure that the amplify_outputs.dart file generated in the project setup is included and sent to Amplify.configure:
 
 ```dart
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
@@ -324,7 +324,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> _configureAmplify() async {
   // ...
@@ -333,7 +333,7 @@ Future<void> _configureAmplify() async {
   // Once Plugins are added, configure Amplify
   // Note: Amplify can only be configured once.
   try {
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
   } on AmplifyAlreadyConfiguredException {
     safePrint(
       'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',
@@ -350,7 +350,7 @@ import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> _configureAmplify() async {
   // Add any Amplify plugins you want to use
@@ -361,7 +361,7 @@ Future<void> _configureAmplify() async {
   // Once Plugins are added, configure Amplify
   // Note: Amplify can only be configured once.
   try {
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
   } on AmplifyAlreadyConfiguredException {
     safePrint(
       'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',

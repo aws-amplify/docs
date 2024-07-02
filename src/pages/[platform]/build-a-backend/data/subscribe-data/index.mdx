@@ -38,6 +38,12 @@ Before you begin, you will need:
 - An [application connected to the API](/[platform]/build-a-backend/data/connect-to-API/)
 - Data already created to modify
 
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
+
+import { ProtectedRedactionGen2Message } from "@/protected/ProtectedRedactionMessage"
+
+<ProtectedRedactionGen2Message />
+
 ## Set up a real-time list query
 
 The recommended way to fetch a list of data is to use `observeQuery` to get a real-time list of your app data at all times. You can integrate `observeQuery` with React's `useState` and `useEffect` hooks in the following way:
@@ -340,9 +346,9 @@ func createSubscription() {
 
 </BlockSwitcher>
 
-### Unsubscribing from updates
+## Unsubscribing from updates
 
-#### Async/Await
+### Async/Await
 
 To unsubscribe from updates, you can call `cancel()` on the subscription.
 
@@ -353,7 +359,7 @@ func cancelSubscription() {
 }
 ```
 
-#### Combine
+### Combine
 
 Calling `cancel()` on the sequence will disconnect the subscription from the backend. Any downstream subscribers will also be cancelled.
 
@@ -537,7 +543,7 @@ Amplify.Hub.listen(
 );
 ```
 
-#### SubscriptionStatus
+### SubscriptionStatus
 
 - **`connected`** - Connected and working with no issues
 - **`connecting`** - Attempting to connect (both initial connection and reconnection)
@@ -554,11 +560,13 @@ Likewise, when disconnected from the internet unexpectedly, the subscription wil
 ```dart
 Future<void> _configureAmplify() async {
   final apiPlugin = AmplifyAPI(
-    modelProvider: ModelProvider.instance,
-    // Optional config
-    subscriptionOptions: const GraphQLSubscriptionOptions(
-      retryOptions: RetryOptions(maxAttempts: 10),
-    ),
+    options: APIPluginOptions(
+      modelProvider: ModelProvider.instance,
+      // Optional config
+      subscriptionOptions: const GraphQLSubscriptionOptions(
+        retryOptions: RetryOptions(maxAttempts: 10),
+      ),
+    )
   );
   await Amplify.addPlugin(apiPlugin);
 

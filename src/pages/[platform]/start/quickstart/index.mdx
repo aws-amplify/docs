@@ -1313,14 +1313,9 @@ npx ampx sandbox
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
-<Callout info>
-
-**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
-
-</Callout>
 </InlineFilter>
 
 ## Adding Authentication
@@ -1358,7 +1353,7 @@ import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> main() async {
   try {
@@ -1680,7 +1675,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 
@@ -2128,7 +2123,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ## Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 
@@ -2925,7 +2920,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#publishing-changes-to-cloud).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 

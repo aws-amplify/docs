@@ -292,6 +292,12 @@ Create "has one", "has many", "belongs to", and "many to many" relationships bet
 | `@belongsTo` | Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. For example, a Project has one Team and a Team belongs to a Project. This allows you to query the team from the project record and vice versa. |
 | `@manyToMany` | Configures a "join table" between two models to facilitate a many-to-many relationship. For example, a Blog has many Tags and a Tag has many Blogs. |
 
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
+
+import { ProtectedRedactionGen1Message } from "@/protected/ProtectedRedactionMessage"
+
+<ProtectedRedactionGen1Message />
+
 ### Has One relationship
 
 import gqlv2callout from '/src/fragments/cli/gqlv2callout.mdx';
@@ -794,11 +800,11 @@ You can use the `@default` directive to specify a default value for optional [sc
 ```graphql
 type Todo @model {
   content: String @default(value: "My new Todo")
-  # Note: all "value" parameters must be passed as a string value. 
+  # Note: all "value" parameters must be passed as a string value.
   # Under the hood, Amplify will parse the string values into respective types.
-  # For example, to set a default value for an integer field, 
+  # For example, to set a default value for an integer field,
   # you must pass in `"0"` instead of `0` without the double-quotes.
-  likes: Int @default(value: "0") # 
+  likes: Int @default(value: "0") #
 }
 ```
 

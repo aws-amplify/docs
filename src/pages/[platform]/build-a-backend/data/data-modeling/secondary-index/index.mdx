@@ -106,7 +106,7 @@ let queriedCustomers = try await Amplify.API.query(
 </InlineFilter>
 <Accordion title="Review how this works under the hood with Amazon DynamoDB">
 
-Amplify uses Amazon DynamoDB tables as the default data source for `a.model()`. For key-value databases, it is critical to model your access patterns with "secondary indexes". Use the `.index()` modifier to configure a secondary index.
+Amplify uses Amazon DynamoDB tables as the default data source for `a.model()`. For key-value databases, it is critical to model your access patterns with "secondary indexes". Use the `.secondaryIndexes()` modifier to configure a secondary index.
 
 **Amazon DynamoDB** is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 

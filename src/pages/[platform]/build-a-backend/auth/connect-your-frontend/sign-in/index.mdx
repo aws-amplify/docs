@@ -253,7 +253,7 @@ func signIn(username: String, password: String) -> AnyCancellable {
 
 The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "flutter", "android"]}>
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "android"]}>
 - `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_TOTP_CODE` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
@@ -265,7 +265,7 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 - `DONE` - The sign in process has been completed.
 </InlineFilter>
 
-<InlineFilter filters={["swift"]}>
+<InlineFilter filters={["swift", "flutter"]}>
 - `confirmSignInWithNewPassword` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
 - `confirmSignInWithCustomChallenge` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
 - `confirmSignInWithTOTPCode` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
