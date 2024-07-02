@@ -7,7 +7,8 @@ import type { PrismTheme } from 'prism-react-renderer';
  */
 export const theme: PrismTheme = {
   plain: {
-    color: '#d6deeb'
+    color: '#d6deeb',
+    backgroundColor: '#od1a26'
   },
   styles: [
     {
