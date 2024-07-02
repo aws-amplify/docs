@@ -71,7 +71,7 @@ You can explore the contents and subpaths of each "folder" by either requesting 
 
 ### Explore entire contents of a path
 
-If you need to list all the contents folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
+This retrieves all files and folders under a given path. You may need to parse the result to get only the files within the specified path.
 
 ```js
 function processStorageList(response) {
