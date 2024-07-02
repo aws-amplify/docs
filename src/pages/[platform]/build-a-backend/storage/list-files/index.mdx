@@ -29,7 +29,7 @@ export function getStaticProps(context) {
   };
 }
 
-You can list files without having to download all the files. You can do this by using the listFile API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
+You can list files without having to download all the files. You can do this by using the `list` API from the Amplify Library for Storage. You can also get properties individually for a file using the getProperties API.
 
 ## List Files
 
@@ -65,7 +65,13 @@ The format of the response will look similar to the below example:
 }
 ```
 {/* in other files we're referring to paths instead of folders, can we be consistent on terminology? */}
-Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name. If you need to list all the folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
+Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name. 
+
+You can explore the contents and subpaths of each "folder" by either requesting the contents of the entire path and parsing it, or by using the `subpathStrategy` option to limit your query to the path's file contents only.
+
+### Explore entire contents of a path
+
+If you need to list all the contents folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
 
 ```js
 function processStorageList(response) {
@@ -109,9 +115,9 @@ function processStorageList(response) {
 
 This places each item's data inside a special `__data` key.
 
-### Exclude Subpaths
+### Excluding subpaths
 
-When objects are organized using a prefix you can return only those objects within the `path` you've provided, and not those within nested subpaths.
+In addition to using the `list` API to explore the complete contents of a path, you can also use it to explore the immediate contents of a path while excluding additional subpaths.
 
 For example, given the following keys in your `path` you may want to return only the jpg object, and not the "vacation" subpath and its contents:
 
