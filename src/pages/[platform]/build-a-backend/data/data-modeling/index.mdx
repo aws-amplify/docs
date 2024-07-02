@@ -95,15 +95,16 @@ GraphQL Schema Definition Language (SDL) may also be used to define your schema.
 
 </Callout>
 
-```ts
+```ts title="amplify/data/resource.ts"
 import { defineData } from '@aws-amplify/backend';
 
-const schema = `
+const schema = /* GraphQL */`
   type Todo @model @auth(rules: [{ allow: owner }]) {
     content: String
     isDone: Boolean
   }
 `;
+
 export const data = defineData({
   schema,
   authorizationModes: {
