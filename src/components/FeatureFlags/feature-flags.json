@@ -382,13 +382,13 @@
             "value": "true",
             "description": "Subscriptions will inherit the primary model authorization rules for the relational fields",
             "defaultNewProject": false,
-            "defaultExistingProject": true
+            "defaultExistingProject": false
           },
           {
             "value": "false",
             "description": "Relational fields will be redacted in mutation response when there is a difference between auth rules between primary and related models.",
             "defaultNewProject": true,
-            "defaultExistingProject": false
+            "defaultExistingProject": true
           }
         ]
       }
