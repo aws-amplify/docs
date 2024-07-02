@@ -26,7 +26,7 @@ val subscription = Amplify.API.subscribe(
     { Log.i("ApiQuickStart", "Todo create subscription received: ${(it.data as Todo).name}") },
     { Log.e("ApiQuickStart", "Subscription failed", it) },
     { Log.i("ApiQuickStart", "Subscription completed") } 
-)
+) //changes here
 
 // Cancel the subscription listener when you're finished with it
 subscription.cancel();
