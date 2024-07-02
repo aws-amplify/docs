@@ -67,7 +67,10 @@ The format of the response will look similar to the below example:
 {/* in other files we're referring to paths instead of folders, can we be consistent on terminology? */}
 Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name. 
 
-You can explore the contents and subpaths of each "folder" by either requesting the contents of the entire path and parsing it, or by using the `subpathStrategy` option to limit your query to the path's file contents only.
+To access the contents and subpaths of a "folder", you have two options:
+
+1. Request the entire path and parse the contents.
+2. Use the subpathStrategy option to retrieve only the files within the specified path (i.e. exclude files under subpaths).
 
 ### Explore entire contents of a path
 
