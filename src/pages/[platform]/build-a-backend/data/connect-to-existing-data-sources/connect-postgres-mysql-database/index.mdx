@@ -119,7 +119,7 @@ However, there is a tradeoff of increased latency - queries may take slightly lo
 
 Amplify creates an [AWS Lambda](https://aws.amazon.com/lambda) function using a Node.js runtime to connect your AppSync API to your SQL database. The Lambda function connects to the database using Secure Socket Layer (SSL) or Transport Layer Security (TLS) to protect data in transit. Amplify automatically uses the correct root certificate authority (CA) certificates for Amazon RDS databases, and the Node.js runtime includes root CAs from [well-known certificate providers](https://github.com/nodejs/node/issues/4175) to connect to non-RDS databases.
 
-However, if your database uses a custom or self-signed SSL certificate, you can upload the PEM-encoded public CA certificate to your Amplify project as an Amplify Secret when you generate the database configuration, and specify that secret when generating the schema from your database:
+However, if your database uses a custom or self-signed SSL certificate, you can upload the PEM-encoded public CA certificate to your Amplify project as a secret when you generate the database configuration, and specify that secret when generating the schema from your database:
 
 ```
 npx ampx sandbox secret set CUSTOM_SSL_CERT < /path/to/custom/ssl/public-ca-cert.pem
