@@ -127,10 +127,10 @@ For client side authentication there are three different flows:
 
 The Auth flow can be customized when calling `signIn`, for example:
 
-```ts 
-signIn({
-  username,
-  password,
+```ts title="src/main.ts"
+await signIn({
+	username: "hello@mycompany.com",
+  password: "hunter2",
   options: {
       authFlowType: 'USER_PASSWORD_AUTH'
   }
