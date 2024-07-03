@@ -32,6 +32,7 @@ export function getStaticProps(context) {
   };
 }
 
+## Data modeling capabilities
 
 Every data model is defined as part of a data schema (`a.schema()`). You can enhance your data model with various fields, customize their identifiers, apply authorization rules, or model relationships. Every data model (`a.model()`) automatically provides create, read, update, and delete API operations as well as real-time subscription events. Below is a quick tour of the many functionalities you can add to your data model:
 
@@ -83,7 +84,11 @@ export const data = defineData({
 });
 ```
 
-GraphQL Schema Definition Language (SDL) may also be used to define your schema for DynamoDB based data sources. Doing so will not result in the same level of type safety offered by the data schema builder. The data schema builder is the recommended method for defining your schema.
+<Overview childPageNodes={props.childPageNodes} />
+
+## Gen 1 schema support 
+
+If you are coming from Gen 1, you can continue to use the GraphQL Schema Definition Language (SDL) for defining your schema. However, we strongly recommend you use the TypeScript-first schema builder experience in your project as it provides type safety and is the recommended way of working with Amplify going forward.
 
 <Callout>
 
@@ -111,5 +116,3 @@ export const data = defineData({
   },
 });
 ```
-
-<Overview childPageNodes={props.childPageNodes} />
