@@ -933,7 +933,7 @@ We've created a starter "To-do" application to help get started faster. First, y
 
 ### 1. Create the repository
 
-Use our starter template to create a repository in your GitHub account. This template scaffolds `create-vite-app` with Amplify backend capabilities.
+Use our starter template to create a repository in your GitHub account. This template scaffolds a starter Angular application with Amplify backend capabilities.
 
 <ExternalLinkButton
   size="medium"
@@ -1313,14 +1313,9 @@ npx ampx sandbox
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
-<Callout info>
-
-**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
-
-</Callout>
 </InlineFilter>
 
 ## Adding Authentication
@@ -1358,7 +1353,7 @@ import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> main() async {
   try {
