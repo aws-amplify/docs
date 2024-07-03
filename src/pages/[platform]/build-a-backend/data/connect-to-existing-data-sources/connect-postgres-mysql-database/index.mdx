@@ -119,7 +119,7 @@ However, there is a tradeoff of increased latency - queries may take slightly lo
 
 Amplify creates an [AWS Lambda](https://aws.amazon.com/lambda) function using a Node.js runtime to connect your AppSync API to your SQL database. The Lambda function connects to the database using Secure Socket Layer (SSL) or Transport Layer Security (TLS) to protect data in transit. Amplify automatically uses the correct root certificate authority (CA) certificates for Amazon RDS databases, and the Node.js runtime includes root CAs from [well-known certificate providers](https://github.com/nodejs/node/issues/4175) to connect to non-RDS databases.
 
-However, if your database uses a custom or self-signed SSL certificate, you can upload the PEM-encoded public CA certificate to your Amplify project as a secret when you generate the database configuration, and specify that secret when generating the schema from your database:
+However, if your database uses a custom or self-signed SSL certificate, you can upload the PEM-encoded public CA certificate of 4 KB or less to your Amplify project as a secret when you generate the database configuration, and specify that secret when generating the schema from your database:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox secret set CUSTOM_SSL_CERT < /path/to/custom/ssl/public-ca-cert.pem
@@ -127,6 +127,8 @@ npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_ST
 ```
 
 The Lambda function will then use the specified root CA to validate connections to the database.
+
+When deploying your app to production, you need to [add the PEM-encoded public CA certificate as a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). Make sure to add the certificate with the same secret name you used in the sandbox environment. For example, we used `CUSTOM_SSL_CERT` above. Make sure to preserve the newlines and the `------BEGIN CERTIFICATE------` and `------END CERTIFICATE------` delimiters in the value.
 
 </Accordion>
 
