@@ -172,32 +172,22 @@ For more information about working with Lambda Triggers for custom authenticatio
 
 To initiate a custom authentication flow in your app, call `signIn` without a password. A custom challenge needs to be answered using the `confirmSignIn` API:
 
-```ts title="amplify/auth/handler.ts"
+```ts title="src/main.ts"
 import { signIn, confirmSignIn } from 'aws-amplify/auth';
 
-export async function handleSignIn(username: string) {
-  const challengeResponse = 'the answer for the challenge';
-  try {
-    const { nextStep } = await signIn({
-      username,
-      options: {
-        authFlowType: 'CUSTOM_WITHOUT_SRP',
-      },
-    });
-    if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
-      try {
-        // to send the answer of the custom challenge
-        const output = await confirmSignIn({ challengeResponse });
-        console.log(output);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  } catch (err) {
-    console.log(err);
-  }
-}
+const challengeResponse = 'the answer for the challenge';
 
+const { nextStep } = await signIn({
+  username,
+  options: {
+    authFlowType: 'CUSTOM_WITHOUT_SRP',
+  },
+});
+
+if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
+  // to send the answer of the custom challenge
+  await confirmSignIn({ challengeResponse });
+}
 ```
 
 ### CAPTCHA authentication
