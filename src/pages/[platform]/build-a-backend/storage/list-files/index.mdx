@@ -131,7 +131,8 @@ photos/vacation/
 
 This can be accomplished with the `subpathStrategy` option:
 
-```js
+```ts title="src/main.ts"
+import { list } from "aws-amplify/storage";
 const result = await list({ 
   path: "photos/",
   options:{
