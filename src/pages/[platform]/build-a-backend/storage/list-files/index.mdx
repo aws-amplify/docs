@@ -37,9 +37,11 @@ You can list files without having to download all the files. You can do this by 
 ```javascript
 import { list } from 'aws-amplify/storage';
 
-try { const result = await list({ path: 'photos/', // Alternatively, path: ({identityId}) => `album/{identityId}/photos/` }); } catch (error) { console.log(error); }
-
-````
+const result = await list({
+	path: 'photos/',
+  // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
+});
+```
 
 Note the trailing slash `/` - if you had requested `list({ path :  'photos' })` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
 
