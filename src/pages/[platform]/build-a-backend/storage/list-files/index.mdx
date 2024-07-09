@@ -37,15 +37,9 @@ You can list files without having to download all the files. You can do this by 
 ```javascript
 import { list } from 'aws-amplify/storage';
 
-try {
-  const result = await list({
-    path: 'photos/',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
-  });
-} catch (error) {
-  console.log(error);
-}
-```
+try { const result = await list({ path: 'photos/', // Alternatively, path: ({identityId}) => `album/{identityId}/photos/` }); } catch (error) { console.log(error); }
+
+````
 
 Note the trailing slash `/` - if you had requested `list({ path :  'photos' })` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
 
@@ -63,9 +57,9 @@ The format of the response will look similar to the below example:
     // ...
   ],
 }
-```
-{/* in other files we're referring to paths instead of folders, can we be consistent on terminology? */}
-Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name. 
+````
+
+{/* in other files we're referring to paths instead of folders, can we be consistent on terminology? */} Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name.
 
 To access the contents and subpaths of a "folder", you have two options:
 
@@ -161,13 +155,13 @@ The response will include only the objects within the `photos/` path and will al
 
 The default delimiter character is '/', but this can be changed by supplying a custom delimiter:
 
-```js
-const result = await list({ 
+```ts title="src/main.ts"
+const result = await list({
   // Path uses '-' character to organize files rather than '/'
-  path: "photos-",
-  options:{
-    subpathStrategy: { 
-      strategy:'exclude',
+  path: 'photos-',
+  options: {
+    subpathStrategy: {
+      strategy: 'exclude',
       delimiter: '-'
     }
   }
@@ -176,8 +170,8 @@ const result = await list({
 
 ### More `list` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
+| Option | Type | Description |
+| --- | --- | --- |
 | listAll | boolean | Set to true to list all files within the specified `path` |
 | pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
 | nextToken | string | Indicates whether the list is being continued on this bucket with a token |
@@ -307,7 +301,7 @@ You can list all of the objects uploaded under a given path by setting the `page
 ```swift
 let options = StorageListRequest.Options(pageSize: 1000)
 let listResult = try await Amplify.Storage.list(
-    path: .fromString("public/example/path"), 
+    path: .fromString("public/example/path"),
     options: options
 )
 listResult.items.forEach { item in
@@ -323,7 +317,7 @@ listResult.items.forEach { item in
 let sink = Amplify.Publisher.create {
     let options = StorageListRequest.Options(pageSize: 1000)
     try await Amplify.Storage.list(
-        path: .fromString("public/example/path"), 
+        path: .fromString("public/example/path"),
         options: options
     )
 }.sink {
@@ -345,18 +339,19 @@ receiveValue: { listResult in
 
 ### More `list` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
+| Option | Type | Description |
+| --- | --- | --- |
 | pageSize | UInt | Number between 1 and 1,000 that indicates the limit of how many entries to fetch when retrieving file lists from the server |
 | nextToken | String | String indicating the page offset at which to resume a listing. |
- 
+
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
 
 This will list all files located under path `album` that:
-* have `private` access level
-* are in the root of `album/` (the result doesn't include files under any sub path)
+
+- have `private` access level
+- are in the root of `album/` (the result doesn't include files under any sub path)
 
 ```dart
 Future<void> listAlbum() async {
@@ -412,8 +407,8 @@ Future<void> listAllUnderPublicPath() async {
 
 ### More `list` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
+| Option | Type | Description |
+| --- | --- | --- |
 | excludeSubPaths | boolean | Whether to exclude objects under the sub paths of the path to list. Defaults to false. |
 | delimiter | String | The delimiter to use when evaluating sub paths. If excludeSubPaths is false, this value has no impact on behavior. |
 
@@ -430,7 +425,7 @@ import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
-    path: "album/2024/1.jpg",
+    path: 'album/2024/1.jpg'
     // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
   });
   console.log('File Properties ', result);
@@ -438,6 +433,7 @@ try {
   console.log('Error ', error);
 }
 ```
+
 The properties and metadata will look similar to the below example
 
 ```js
@@ -453,8 +449,8 @@ The properties and metadata will look similar to the below example
 
 ### More `getProperties` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
+| Option                | Type    | Description                         |
+| --------------------- | ------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>
