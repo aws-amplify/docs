@@ -129,7 +129,7 @@ This can be accomplished with the `subpathStrategy` option:
 
 ```ts title="src/main.ts"
 import { list } from "aws-amplify/storage";
-const result = await list({ 
+const result = await list({
   path: "photos/",
   options:{
     subpathStrategy: { strategy:'exclude' }
@@ -366,9 +366,7 @@ Future<void> listAlbum() async {
         options: StorageListOptions(
           pageSize: 50,
           nextToken: nextToken,
-          pluginOptions: const S3ListPluginOptions(
-            excludeSubPaths: true,
-          ),
+          subpathStrategy: const SubpathStrategy.exclude(),
         ),
       ).result;
       safePrint('Listed items: ${result.items}');
@@ -397,6 +395,7 @@ Future<void> listAllUnderPublicPath() async {
       path: const StoragePath.fromString('public/'),
       options: const StorageListOptions(
         pluginOptions: S3ListPluginOptions.listAll(),
+        subpathStrategy: SubpathStrategy.include(),
       ),
     ).result;
     safePrint('Listed items: ${result.items}');
