@@ -26,8 +26,15 @@ const flatDirectoryMock = {
 jest.mock('@/directory/flatDirectory.json', () => flatDirectoryMock);
 
 describe('PlatformNavigator', () => {
+  const testId = 'platformNavTestId';
+  const popoverTestId = `${testId}-popoverList`;
+
   const component = (
-    <PlatformNavigator currentPlatform={'react'} isGen1={false} />
+    <PlatformNavigator
+      testId={testId}
+      currentPlatform={'react'}
+      isGen1={false}
+    />
   );
 
   it('should render the PlatformNavigator component', async () => {
@@ -71,7 +78,7 @@ describe('PlatformNavigator', () => {
     render(component);
 
     const platformButton = await screen.getByRole('button');
-    const popover = await screen.getByRole('navigation');
+    const popover = screen.getByTestId(popoverTestId);
     const popoverFirstItem = popover.children[0].children[1];
     userEvent.click(platformButton);
     userEvent.tab();
@@ -84,9 +91,15 @@ describe('PlatformNavigator', () => {
   });
 
   it('should use current pathname when platform exists for that path', async () => {
-    render(<PlatformNavigator currentPlatform={'react'} isGen1={false} />);
+    render(
+      <PlatformNavigator
+        testId={testId}
+        currentPlatform={'react'}
+        isGen1={false}
+      />
+    );
 
-    const popover = await screen.getByRole('navigation');
+    const popover = screen.getByTestId(popoverTestId);
     const popoverFirstItem = popover.children[0].children[0];
     expect(popoverFirstItem.children[0].getAttribute('href')).toBe(
       '/react/build-ui/figma-to-code'
@@ -94,9 +107,15 @@ describe('PlatformNavigator', () => {
   });
 
   it('should use platform root url when platform does not exist for current pathname', async () => {
-    render(<PlatformNavigator currentPlatform={'react'} isGen1={false} />);
+    render(
+      <PlatformNavigator
+        testId={testId}
+        currentPlatform={'react'}
+        isGen1={false}
+      />
+    );
 
-    const popover = await screen.getByRole('navigation');
+    const popover = screen.getByTestId(popoverTestId);
 
     // Flutter
     const popoverFirstItem = popover.children[0].children[6];

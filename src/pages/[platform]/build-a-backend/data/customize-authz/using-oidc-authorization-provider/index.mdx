@@ -68,6 +68,8 @@ export const data = defineData({
 });
 ```
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "swift"]}>
+
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` by specifying the `oidc` auth mode.
 
 ```ts
@@ -82,3 +84,30 @@ const { errors, data: todos } = await client.models.Todo.list({
   // highlight-end
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+In your application, you can perform CRUD operations against the model with the `oidc` auth mode.
+
+```dart
+try {
+  final todo = Todo(content: 'My new todo');
+  final request = ModelMutations.create(
+    todo,  
+    authorizationMode: APIAuthorizationType.oidc,
+  );
+  final createdTodo = await Amplify.API.mutations(request: request).response;
+
+  if (createdTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+  safePrint('Mutation result: ${createdTodo.name}');
+
+} on APIException catch (e) {
+  safePrint('Failed to create todo', e);
+}
+```
+
+</InlineFilter>

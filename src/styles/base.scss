@@ -116,7 +116,8 @@ kbd {
 
 .main {
   & > h2,
-  & > h3 {
+  & > h3,
+  & > h4 {
     scroll-margin-block: 9rem;
   }
 }
