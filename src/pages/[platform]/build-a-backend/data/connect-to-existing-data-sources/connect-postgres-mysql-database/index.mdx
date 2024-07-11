@@ -327,6 +327,34 @@ VALUES (:name, :address, ST_SetSRID(ST_MakePoint(:long, :lat), 4326))
 </Block>
 </BlockSwitcher>
 
+<Callout info>
+The return type for custom queries and mutations expecting to return row data from SQL statements must
+be an array of the corresponding model. This is true even for custom `get` queries, where a single row is expected.
+
+**Example**
+
+```ts
+sqlSchema.addToSchema({
+  getPostBySlug: a
+    .query()
+    .arguments({
+      slug: a.string().required(),
+    })
+    // highlight-start
+    .returns(a.ref("Post").array())
+    // highlight-end
+    .handler(
+      a.handler.inlineSql(`
+      SELECT id, title, slug, content, created_at, updated_at
+      FROM posts
+      WHERE slug = :slug;
+      `)
+    )
+    .authorization((allow) => [allow.guest()]),
+});
+```
+</Callout>
+
 ## How does it work?
 
 The Amplify uses AWS Lambda functions to enable features like querying data from your database. To work properly, these Lambda functions need access to common logic and dependencies.
@@ -418,4 +446,5 @@ To return the actual SQL error instead of a generic error from underlying API re
 
 ### My SQL table doesn't get generated when running `npx ampx generate schema-from-database`
 
-This is likely because the table doesn't have a designated primary key. A primary key is required for `npx ampx generate schema-from-database` to infer the table structure and create a create, read, update, and delete API.
+This is likely because the table doesn't have a designated primary key. A primary key is required for `npx ampx generate schema-from-database` to infer the table structure and create a create, read, update, and delete API.import ts from 'typescript';
+
