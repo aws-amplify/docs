@@ -29,6 +29,30 @@ API (GraphQL) has the capability to handle relationships between Models, such as
 
 By default, GraphQL APIs requests generate a selection set with a depth of 0. Connected relationship models are not returned in the initial request, but can be lazily loaded as needed with an additional API request. We provide mechanisms to customize the selection set, which allows connected relationships to be eagerly loaded on the initial request.
 
+<Callout warning>
+
+With versions of Amplify CLI `@aws-amplify/cli@12.12.2` and API Category `@aws-amplify/amplify-category-api@5.11.5`, an improvement was made to how relational field data is handled in subscriptions when different authorization rules apply to related models in a schema. The improvement redacts the values for the relational fields, displaying them as null or empty, to prevent unauthorized access to relational data.
+
+This redaction occurs whenever it cannot be determined that the child model will be protected by the same permissions as the parent model.
+
+Because subscriptions are tied to mutations and the selection set provided in the result of a mutation is then passed through to the subscription, relational fields in the result of mutations must be redacted.
+
+If an authorized end-user needs access to the redacted relational fields, they should perform a query to read the relational data.
+
+Additionally, subscriptions will inherit related authorization when relational fields are set as required. To better protect relational data, consider modifying the schema to use optional relational fields.
+
+- **Lazy and Eager Loading**: Lazy and eager loading relationships is no longer supported for Mutations and Subscriptions. However, you can continue to perform eager or lazy loading for Queries.
+
+- **Subscriptions and Related Models**: When performing a subscription and you need to retrieve the related model, perform a lazy or eager loaded query using the model identifier from the subscription event to continue to retrieve the related data.
+
+Based on the security posture of your application, you can choose to revert to the subscription behavior before this improvement was made.
+To do so, use the `subscriptionsInheritPrimaryAuth` feature flag under `graphqltransformer` in the `amplify/backend/cli.json` file.
+
+- If enabled, subscriptions will inherit the primary model authorization rules for the relational fields.
+- If disabled, relational fields will be redacted in mutation response when there is a difference between auth rules between primary and related models.
+
+</Callout>
+
 ## Prerequisites
 
 The following examples have a minimum version requirement of the following:
