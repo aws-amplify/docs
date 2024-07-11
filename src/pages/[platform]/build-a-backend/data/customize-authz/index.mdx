@@ -162,14 +162,14 @@ listCustomType: a
     })
   )
   .authorization((allow) => [
-    // Supported
+    // Static auth rules - Supported
     allow.guest(),
     allow.publicApiKey(),
     allow.authenticated(),
     allow.group("Admin"),
     allow.groups(["Teacher", "Student"]),
 
-    // Not supported
+    // Dynamic auth rules - Not supported
     allow.owner(),
     allow.ownerDefinedIn("owner"),
     allow.ownersDefinedIn("otherOwners"),
