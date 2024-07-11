@@ -138,7 +138,7 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-users-console/index.mdx'
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-amplify-console/index.mdx'
                     }
                   ]
                 },
@@ -316,7 +316,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/manage-data-console/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/data/with-amplify-console/index.mdx'
                 }
               ]
             },
@@ -360,7 +360,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/manage-files-console/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/with-amplify-console/index.mdx'
                 }
               ]
             },
