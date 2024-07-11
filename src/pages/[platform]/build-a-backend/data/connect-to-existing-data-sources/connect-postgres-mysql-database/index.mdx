@@ -316,8 +316,7 @@ VALUES (:name, :address, ST_SetSRID(ST_MakePoint(:long, :lat), 4326))
 </BlockSwitcher>
 
 <Callout info>
-The return type for custom queries and mutations expecting to return row data from SQL statements must
-be an array of the corresponding model. This is true even for custom `get` queries, where a single row is expected.
+The return type for custom queries and mutations expecting to return row data from SQL statements must be an array of the corresponding model. This is true even for custom `get` queries, where a single row is expected.
 
 **Example**
 
