@@ -322,24 +322,21 @@ be an array of the corresponding model. This is true even for custom `get` queri
 **Example**
 
 ```ts
-sqlSchema.addToSchema({
-  getPostBySlug: a
-    .query()
-    .arguments({
-      slug: a.string().required(),
-    })
-    // highlight-start
-    .returns(a.ref("Post").array())
-    // highlight-end
-    .handler(
-      a.handler.inlineSql(`
-      SELECT id, title, slug, content, created_at, updated_at
-      FROM posts
-      WHERE slug = :slug;
-      `)
-    )
-    .authorization((allow) => [allow.guest()]),
-});
+getPostBySlug: a
+  .query()
+  .arguments({
+    slug: a.string().required(),
+  })
+  // highlight-start
+  .returns(a.ref("Post").array())
+  // highlight-end
+  .handler(
+    a.handler.inlineSql(`
+    SELECT id, title, slug, content, created_at, updated_at
+    FROM posts
+    WHERE slug = :slug;
+    `)
+  )
 ```
 </Callout>
 
