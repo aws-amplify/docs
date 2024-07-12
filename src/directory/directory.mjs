@@ -316,7 +316,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/with-amplify-console/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/data/manage-with-amplify-console/index.mdx'
                 }
               ]
             },
@@ -360,7 +360,7 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/storage/with-amplify-console/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/storage/manage-with-amplify-console/index.mdx'
                 }
               ]
             },
