@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { View, Flex } from '@aws-amplify/ui-react';
-import directory from 'src/directory/directory.json';
+import directory from '@/directory/directory.json';
 import { useRouter } from 'next/router';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { IconChevron } from '@/components/Icons';

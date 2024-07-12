@@ -2,9 +2,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Transcribe audio to text',
-  description:
-    'Learn more about how to transcribe audio to text (also known as speech-to-text) for your application using Amplify',
-  platforms: ['javascript', 'swift', 'angular', 'nextjs', 'react', 'vue']
+  description: 'Learn more about how to transcribe audio to text (also known as speech-to-text) for your application using Amplify',
+  platforms: [
+    'javascript',
+    'swift',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'angular',
+        'vue',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/predictions/transcribe-audio/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -3,7 +3,26 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Integrate your application',
   description: 'Learn how to integrate your application with In-app Messaging.',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'nextjs',
+        'react',
+        'angular',
+        'vue'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/in-app-messaging/integrate-application/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

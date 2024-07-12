@@ -13,6 +13,24 @@ export const meta = {
     'react',
     'react-native',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'swift',
+        'android',
+        'javascript',
+        'vue'
+      ],
+      canonicalPath: '/javascript/start/getting-started/installation/'
+    },
+    {
+      platforms: [
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/react/start/getting-started/installation/'
+    }
   ]
 };
 
@@ -121,7 +139,11 @@ curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd &&
 
 To set up the Amplify CLI on your local machine, you have to configure it to connect to your AWS account.
 
-> If you already have an AWS profile with credentials on your machine, you can skip this step.
+<Callout info>
+
+**Note**: If you already have an AWS profile with credentials on your machine, you can skip this step.
+
+</Callout>
 
 Configure Amplify by running the following command:
 
@@ -129,11 +151,15 @@ Configure Amplify by running the following command:
 amplify configure
 ```
 
+<Callout info>
+
+The `configure` command only supports creating AWS profiles that use permanent credentials. If you are using an IAM role or IAM Identity Center (previously AWS SSO), [learn how to configure Amplify CLI manually](#manually-configure-the-amplify-cli)
+
+</Callout>
+
 `amplify configure` will ask you to sign into the AWS Console.
 
-Once you're signed in, Amplify CLI will ask you to create an IAM user.
-
-> Amazon IAM (Identity and Access Management) enables you to manage users and user permissions in AWS. You can learn more about Amazon IAM [here](https://aws.amazon.com/iam/).
+Once you're signed in, Amplify CLI will ask you to use the [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/) to create an IAM user. 
 
 ```console
 Specify the AWS Region
@@ -171,7 +197,7 @@ On the next page, select **Command Line Interface**, acknowledge the warning, an
 
 ![Command Line Interface option selected on the options list.](/images/cli/user-creation/ack-page.png)
 
-On the next page select **Create access key**. You’ll then see a page with the access keys for the user. Use the copy icon to copy these values to your clipboard, then return to the Amplify CLI.
+On the next page select **Create access key**. You'll then see a page with the access keys for the user. Use the copy icon to copy these values to your clipboard, then return to the Amplify CLI.
 
 ![Retrieve access keys page with access key and secret access key copy buttons circled.](/images/cli/user-creation/access-keys-done.png)
 
@@ -187,4 +213,62 @@ This would update/create the AWS Profile in your local machine
 Successfully set up the new user.
 ```
 
-In the next section, you'll set up the app and initialize Amplify.
+On the next page, you'll set up the app and initialize Amplify.
+
+## Manually configure the Amplify CLI
+
+If you are using an IAM role or IAM Identity Center (previously AWS SSO), you can configure your local machine for use with Amplify CLI by creating [AWS profile entries](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-format-profile) manually rather than the `amplify configure` wizard.
+
+To create an AWS profile locally using IAM Identity Center, you can use the AWS CLI wizard, [`aws configure sso`](https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-token.html#sso-configure-profile-token-auto-sso), or write to `~/.aws/config` directly:
+
+<Callout info>
+
+[Learn how to install the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+</Callout>
+
+```toml title="~/.aws/config"
+[profile my-sso-profile]
+sso_session = my-sso
+sso_account_id = 123456789011
+sso_role_name = AdministratorAccess-Amplify
+region = us-west-2
+output = json
+
+[sso-session my-sso]
+sso_region = us-east-1
+sso_start_url = https://my-sso-portal.awsapps.com/start
+sso_registration_scopes = sso:account:access
+```
+
+Currently, the Amplify CLI requires a workaround for use with IAM Identity Center due to [an issue in how it resolves credentials](https://github.com/aws-amplify/amplify-cli/issues/4488).
+
+```diff title="~/.aws/config"
+[profile my-sso-profile]
+sso_session = my-sso
+sso_account_id = 123456789011
+sso_role_name = AdministratorAccess-Amplify
+region = us-west-2
+output = json
++ credential_process = aws configure export-credentials --profile my-sso-profile
+
+[sso-session my-sso]
+sso_region = us-east-1
+sso_start_url = https://my-sso-portal.awsapps.com/start
+sso_registration_scopes = sso:account:access
+```
+
+Using the example above, when creating a new app or pulling an existing app, specify `my-sso-profile` as the AWS profile you'd like to use with the Amplify app.
+
+To create [an AWS profile locally using an IAM role](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html), assign the `AdministratorAccess-Amplify` permissions set to the role and set the role in your `~/.aws/config` file:
+
+```toml title="~/.aws/config"
+[profile amplify-admin]
+role_arn = arn:aws:iam::123456789012:role/amplify-admin
+source_profile = amplify-user
+
+[profile amplify-user]
+region=us-east-1
+```
+
+Using the example above, when creating a new app or pulling an existing app, specify `amplify-admin` as the AWS profile you'd like to use with the Amplify app

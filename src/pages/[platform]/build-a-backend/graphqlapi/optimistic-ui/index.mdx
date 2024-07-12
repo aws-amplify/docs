@@ -2,9 +2,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Optimistic UI',
-  description:
-    'Learn more about implementing optimistic UI with Amplify GraphQL API.',
-  platforms: ['javascript', 'swift', 'angular', 'nextjs', 'react', 'vue']
+  description: 'Learn more about implementing optimistic UI with Amplify GraphQL API.',
+  platforms: [
+    'javascript',
+    'swift',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript',
+        'angular',
+        'nextjs',
+        'vue'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/optimistic-ui/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

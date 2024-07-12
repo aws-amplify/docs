@@ -4,16 +4,32 @@ export const meta = {
   title: 'Sandbox environments',
   description: 'Learn how to enable sandbox environments for your Amplify project.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'react-native',
+        'nextjs',
+        'javascript',
+        'angular',
+        'flutter',
+        'swift',
+        'vue',
+        'react'
+      ],
+      canonicalPath: '/javascript/tools/cli/teams/sandbox/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

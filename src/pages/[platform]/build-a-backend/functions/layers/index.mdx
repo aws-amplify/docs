@@ -4,16 +4,32 @@ export const meta = {
   title: 'Reuse code and assets using layers',
   description: "Use Amplify CLI's Lambda layer capability to reuse code & assets across functions.",
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'swift',
+        'nextjs',
+        'javascript',
+        'angular',
+        'flutter',
+        'vue',
+        'react',
+        'android'
+      ],
+      canonicalPath: '/javascript/build-a-backend/functions/layers/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -11,7 +11,19 @@ export const meta = {
     'react',
     'vue'
   ],
-  route: '/[platform]/deploy-and-host/custom-configuration'
+  route: '/[platform]/deploy-and-host/custom-configuration',
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'javascript',
+        'react',
+        'vue',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/custom-configuration/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

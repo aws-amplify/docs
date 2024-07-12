@@ -37,9 +37,37 @@ const handleSignIn = async ({
 };
 ```
 
+<InlineFilter filters={["react-native"]}>
+
+## Changes to React Native
+
+As part of the updates to Amplify JavaScript v6, we also re-evaluated our strategy for how we can best support React Native going forward. This has been an ongoing effort ever since we introduced our updated Push Notification experience in v5 and is something we will continue to evolve along with the ever-changing React Native ecosystem.
+
+### @aws-amplify/react-native
+
+We have introduced a new package - `@aws-amplify/react-native` - to encompass the core requirements for using Amplify JavaScript v6 in a React Native environment. This package is a new requirement which allows us to:
+
+- Remove the dependency on the `amazon-cognito-identity-js` package by moving core native Amplify functionality previously vended by this package into `@aws-amplify/react-native`.
+- Automatically install JavaScript-only (i.e. non-native module dependencies) polyfills required by Amplify as transitive dependencies, no longer requiring extra steps from you.
+- Automatically import all required polyfills, no longer requiring you to take extra steps to include import statements at the top of your application entry point.
+
+> Native modules required by Amplify such as `@react-native-async-storage/async-storage` or `react-native-get-random-values` still need to be installed separately as they need to be linked with React Native
+
+### Dropping support for Expo Go
+
+With the goal of providing more idiomatic native functionality to your React Native application, Expo Go will no longer be supported in v6.
+
+Per the [Expo docs](https://docs.expo.dev/workflow/customizing/):
+
+> The Expo Go app is a great tool to get started. It exists to help developers quickly get projects off the ground, experiment with ideas (such as on Snack), and share their work with minimal friction. Expo Go makes this possible by including a feature-rich native runtime made up of every module in the Expo SDK, so all you need to do to use a module is install the package and reload your app. <br/><br/> The tradeoff is that Expo Go does not allow you to add custom native code. You can only use native modules built into the Expo SDK. Many great libraries are available outside of the Expo SDK, and you may even want to build your native library. You can leverage these libraries with development builds or using prebuild to generate native projects, or both. You can also continue using EAS Build to release your app as no changes are required.
+
+A key part of Amplify's React Native strategy going forward is to reduce our reliance on third-party native modules. While third-party native modules are a mainstay of the React Native ecosystem, we believe the flexibility of building more native modules tailored to the specific needs of our customers will allow us to most quickly deliver value to them in the long run. As a result of now requiring native modules not available through the Expo SDK, Expo Go is not supported in v6 but you should be able to use Expo.
+
+</InlineFilter>
+
 ## Step 1: Upgrade your dev environment
 
-In order to use Amplify JavaScript V6, you will need to make sure you are using the following versions in your development environment:
+In order to use Amplify JavaScript v6, you will need to make sure you are using the following versions in your development environment:
 
 - [Node.js](https://nodejs.org/) v16.x or later
 - [npm](https://www.npmjs.com/) v9.7.1 or later
@@ -181,7 +209,7 @@ If you have previously configured Amplify by passing the configuration object li
 
 </InlineFilter>
 
-**Running Amplify on the server with NextJS**
+### Running Amplify on the server with NextJS
 
 To enable the use of the Amplify JavaScript library on the server, you need to set the `ssr` configuration to true in the `Amplify.configure` function.
 
@@ -190,6 +218,20 @@ Amplify.configure(amplifyConfig, {
   ssr: true
 });
 ```
+
+<InlineFilter filters={["react-native"]}>
+
+### Remove polyfill imports
+
+For React Native applications, polyfill imports should no longer need to be added to your application's entry point file as they are imported by the `@aws-amplify/react-native` package.
+
+```diff
+// Example index.js
+- import 'react-native-get-random-values';
+- import 'react-native-url-polyfill/auto';
+```
+
+</InlineFilter>
 
 ## Step 4: Update category usage
 
@@ -749,6 +791,8 @@ For a deeper look at PubSub functionality in V6, check out our [PubSub category 
 
 ### Storage
 
+<Callout>Find a comprehensive summary of changes to Storage in the [Storage migration guide](/[platform]/build-a-backend/storage/storage-v5-to-v6-migration-guide/)</Callout>
+
 As of v6 of Amplify, you will now import the functional API’s directly from the `aws-amplify/storage` path as shown below. Use the switcher below to see the differences between v5 and v6:
 
 <BlockSwitcher>
@@ -771,7 +815,7 @@ As of v6 of Amplify, you will now import the functional API’s directly from th
   </Block>
   <Block name="V6">
   ```
-  import { uploadData, downloadData } from 'aws-amplify/storage';
+  import { getUrl, uploadData } from 'aws-amplify/storage';
 
   // Upload a file with access level `guest` as  the equivalent of `public` in v5
   const result = await uploadData({
@@ -896,7 +940,7 @@ For a deeper look at v6 Utilities, check out our [Utilities documentation](/[pla
 
 ### Server-side Rendering
 
-<Callout>Find a comprehensive summary of changes to Server-Side Rendering in the [NextJS migration guide](/[platform]/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/)</Callout>
+<Callout>Find a comprehensive summary of changes to Server-Side Rendering in the [NextJS migration guide](/nextjs/build-a-backend/server-side-rendering/nextjs-v5-to-v6-migration-guide/)</Callout>
 
 The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify JS v6. You will need to use the `runWithAmplifyServerContext` function exported from `@aws-amplify/adapter-nextjs` to use Amplify categories on the server side of your Next.js app. 
 

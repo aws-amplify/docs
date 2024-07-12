@@ -2,9 +2,30 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Text-to-speech',
-  description:
-    'Learn how to integrate text-to-speech capabilities into your application using Amplify.',
-  platforms: ['swift', 'android', 'javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  description: 'Learn how to integrate text-to-speech capabilities into your application using Amplify.',
+  platforms: [
+    'swift',
+    'android',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'react',
+        'vue',
+        'angular',
+        'nextjs',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/more-features/predictions/text-to-speech/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

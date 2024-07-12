@@ -60,7 +60,7 @@ const getCspContent = (context) => {
 
   // Dev environment
   if (process.env.BUILD_ENV !== 'production') {
-    return `upgrade-insecure-requests;
+    return `
       default-src 'none';
       style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
       font-src 'self' data:;
@@ -83,7 +83,7 @@ const getCspContent = (context) => {
 
   // Prod environment
   // Have to keep track of CSP inside customHttp.yml as well
-  return `upgrade-insecure-requests;
+  return `
     default-src 'none';
     style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
     font-src 'self';

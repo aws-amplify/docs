@@ -4,16 +4,32 @@ export const meta = {
   title: 'Use an existing Cognito User Pool and Identity Pool',
   description: 'Configure the Amplify CLI to use existing Amazon Cognito User Pool and Identity Pool resources as an authentication and authorization mechanism for other Amplify categories (API, Storage, and more).',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+        'vue',
+        'swift',
+        'android',
+        'javascript',
+        'nextjs',
+        'react',
+        'angular',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/import-existing-resources/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

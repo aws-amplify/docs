@@ -4,7 +4,7 @@ import { post } from 'aws-amplify/api';
 async function postTodo() {
   try {
     const restOperation = post({
-      apiName: 'todo-api',
+      apiName: 'todoApi',
       path: '/todo',
       options: {
         body: {
@@ -12,7 +12,10 @@ async function postTodo() {
         }
       }
     });
-    await restOperation.response;
+
+    const { body } = await restOperation.response;
+    const response = await body.json();
+
     console.log('POST call succeeded');
     console.log(response);
   } catch (e) {

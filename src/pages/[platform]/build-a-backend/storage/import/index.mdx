@@ -4,16 +4,32 @@ export const meta = {
   title: 'Import an S3 bucket or DynamoDB table',
   description: 'Learn how you can import existing S3 bucket or DynamoDB table resources as a storage resource for other Amplify categories (API, Function, and more) using the Amplify CLI.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'swift',
+        'flutter',
+        'react',
+        'vue',
+        'angular',
+        'react-native',
+        'android',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/import/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

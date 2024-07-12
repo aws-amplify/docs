@@ -15,7 +15,19 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/prev/build-a-backend'
+  route: '/[platform]/prev/build-a-backend',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript',
+        'nextjs',
+        'angular',
+        'vue'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -32,6 +44,12 @@ export function getStaticProps(context) {
     }
   };
 }
+
+<Callout info>
+
+We recommend using the [latest version](/[platform]/start/project-setup/) of supported languages and platforms when setting up new projects with Amplify. However, if you need to use the previous version, follow the [project setup instructions](/[platform]/prev/start/project-setup/).
+
+</Callout>
 
 <Overview childPageNodes={props.childPageNodes} />
 

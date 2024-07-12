@@ -33,10 +33,7 @@ export const auth = defineAuth({
   },
 + multifactor: {
 +   mode: 'optional',
-+   totp: true,
-+   sms: {
-+     message: (code) => `your MFA code is ${code}`
-+   }
++   totp: true
 + }
 });
 ```
@@ -63,7 +60,10 @@ When enabling MFA you will have two key decisions to make:
 ## Multi-factor authentication with SMS
 
 <Callout info>
-If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) with Amplify (Gen 2), this feature works without any additional code. The guide below is for writing your own implementation.
+  If you are using the [Authenticator
+  component](https://ui.docs.amplify.aws/react/connected-components/authenticator)
+  with Amplify (Gen 2), this feature works without any additional code. The
+  guide below is for writing your own implementation.
 </Callout>
 
 Once you have setup SMS as your second layer of authentication with MFA as shown above, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password.
@@ -257,8 +257,12 @@ async function handleUpdateMFAPreference() {
 ```
 
 ## Multi-factor authentication with TOTP
+
 <Callout info>
-If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) with Amplify (Gen 2), this feature works without any additional code. The guide below is for writing your own implementation.
+  If you are using the [Authenticator
+  component](https://ui.docs.amplify.aws/react/connected-components/authenticator)
+  with Amplify (Gen 2), this feature works without any additional code. The
+  guide below is for writing your own implementation.
 </Callout>
 
 You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes support for TOTP setup and verification using authenticator apps, offering an integrated solution and enhanced security for your users. These apps, such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to generate short-lived, six digit passwords.
@@ -639,7 +643,7 @@ const backend = defineBackend({
   data
 });
 
-const { cfnUserPool } = backend.resources.auth.resources.cfnResources;
+const { cfnUserPool } = backend.auth.resources.cfnResources;
 
 cfnUserPool.addPropertyOverride('DeviceConfiguration', {
   ChallengeRequiredOnNewDevice: true,

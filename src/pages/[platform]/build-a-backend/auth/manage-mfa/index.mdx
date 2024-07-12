@@ -3,7 +3,29 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Manage MFA settings',
   description: 'Learn how to enable multi-factor authentication with Amplify.',
-  platforms: ['javascript', 'react-native', 'flutter', 'swift', 'android','angular','nextjs','react','vue'] 
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'nextjs',
+        'vue',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/manage-mfa/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -333,8 +355,6 @@ async function handleSignIn(username, password) {
 
 </Block>
 </BlockSwitcher>
-
-</InlineFilter>
 
 If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their phone.
 
@@ -912,6 +932,8 @@ Congratulations! You finished the **Manage MFA settings** guide. In this guide, 
 ## Next steps
 
 Now that you completed setting up multi-factor authentication you may also want to add additional customization. We recommend you learn more about:
+
+</InlineFilter>
 
 <InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 

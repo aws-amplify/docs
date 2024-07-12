@@ -40,7 +40,8 @@ export function GlobalNav({
   socialLinks
 }: NavProps) {
   const themeableSites: any = {
-    'UI Library': true
+    'UI Library': true,
+    Docs: true
   };
 
   // This class will be added onto the sites that aren't using an Amplify UI theme provider, this will let those using a ThemeProvider use the variables

@@ -2,9 +2,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Copy files',
-  description:
-    "Learn more about how to copy files using Amplify's storage category.",
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  description: "Learn more about how to copy files using Amplify's storage category.",
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'nextjs',
+        'javascript',
+        'vue',
+        'react'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/storage/copy/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

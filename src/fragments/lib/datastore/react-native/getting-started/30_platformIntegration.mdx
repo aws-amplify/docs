@@ -6,7 +6,7 @@ Start with the [React Native CLI](https://reactnative.dev/docs/getting-started):
 ```sh
 npx react-native init AmplifyDataStoreRN
 cd AmplifyDataStoreRN
-npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values
+npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values @azure/core-asynciterator-polyfill
 ```
 
 `@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, open the _Podfile_ located in the _ios_ directory and update the `target` value:
@@ -31,7 +31,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 ```sh
 npx react-native init AmplifyDataStoreRN
 cd AmplifyDataStoreRN
-npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-async-storage/async-storage react-native-get-random-values
+npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-async-storage/async-storage react-native-get-random-values @azure/core-asynciterator-polyfill
 npx pod-install
 ```
 
@@ -59,7 +59,7 @@ Start with the [Expo CLI](https://docs.expo.dev/):
 ```sh
 npx create-expo-app AmplifyDataStoreExpo
 cd AmplifyDataStoreExpo
-expo install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-async-storage/async-storage react-native-get-random-values
+expo install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-async-storage/async-storage react-native-get-random-values @azure/core-asynciterator-polyfill
 ```
 
 **Use SQLite for enhanced performance (optional)**
@@ -71,7 +71,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 ```sh
 npx create-expo-app AmplifyDataStoreExpo
 cd AmplifyDataStoreExpo
-expo install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-async-storage/async-storage react-native-get-random-values
+expo install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-async-storage/async-storage react-native-get-random-values @azure/core-asynciterator-polyfill
 ```
 
 Then configure the SQLite storage adapter with DataStore in your app:

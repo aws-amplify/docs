@@ -15,7 +15,23 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/tools/cli/reference'
+  route: '/[platform]/tools/cli/reference',
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+        'angular',
+        'android',
+        'nextjs',
+        'javascript',
+        'react',
+        'swift',
+        'vue',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/tools/cli/reference/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

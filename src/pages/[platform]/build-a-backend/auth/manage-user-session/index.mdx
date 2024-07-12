@@ -3,7 +3,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Manage user session and credentials',
   description: 'Learn how to manage user sessions and credentials.',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'nextjs',
+        'react',
+        'vue',
+        'react-native',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/manage-user-session/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -97,14 +117,6 @@ Amazon Cognito tokens work by generating temporary access and ID tokens with an 
 
 </Accordion>
 
-<br />
-
-<Callout>
-
-**Note:** The `fetchAuthSession` method will automatically refresh the `accessToken` and `idToken` if tokens are expired and a valid `refreshToken` presented. So you can use this method to refresh the session if needed.
-
-</Callout>
-
 <BlockSwitcher>
 <Block name="TypeScript">
 
@@ -137,6 +149,49 @@ async function currentSession() {
 
 </Block>
 </BlockSwitcher>
+
+### Refreshing sessions
+
+The `fetchAuthSession` API automatically refreshes the user's session when the authentication tokens have expired and a valid `refreshToken` is present. Additionally, you can also refresh the session explicitly by calling the `fetchAuthSession` API with the `forceRefresh` flag enabled. 
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+async function currentSession() {
+  try {
+    const { tokens } = await fetchAuthSession({ forceRefresh: true });
+    console.log(tokens);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+### Refreshing sessions with social providers
+
+To refresh the user's session when authenticating with a social provider, you need to use the `code grant` OAuth flow in your Amplify configuration.
+
+```TypeScript
+Amplify.configure({
+   Auth: {
+    Cognito: {
+      ...cognitoConfig,
+      loginWith: {
+        oauth: {
+          ...oauthConfig,
+          responseType: "code",
+        },
+      },
+    },
+  },
+})
+```
+
+<Callout>
+
+**Note:** refreshing sessions with social providers will not work when the user has authenticated with a `token` OAuth flow, e.g `{ responseType: 'token' }`.
+
+</Callout>
 
 ## Understand token management options
 

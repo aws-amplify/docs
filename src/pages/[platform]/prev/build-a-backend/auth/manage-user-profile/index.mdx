@@ -2,9 +2,28 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Manage user profiles',
-  description:
-    'Learn more about how to enable customers to personalize their profile and verify their contact information with attributes.',
-  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
+  description: 'Learn more about how to enable customers to personalize their profile and verify their contact information with attributes.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'nextjs',
+        'javascript',
+        'vue',
+        'angular',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/auth/manage-user-profile/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

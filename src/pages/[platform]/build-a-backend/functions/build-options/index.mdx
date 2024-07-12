@@ -4,16 +4,32 @@ export const meta = {
   title: 'Build options',
   description: "Use build options for the function category in Amplify to execute a script before a function is deployed, for example, to transpile Typescript or ES6 with Babel into a format that is supported by the AWS Lambda's node runtime.",
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'flutter',
+        'nextjs',
+        'react-native',
+        'javascript',
+        'react',
+        'angular',
+        'vue',
+        'swift'
+      ],
+      canonicalPath: '/javascript/build-a-backend/functions/build-options/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -2,9 +2,28 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Advanced workflows',
-  description:
-    'Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers, and working with AWS service objects.',
-  platforms: ['javascript', 'react-native','angular','nextjs','react','vue'] 
+  description: 'Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers, and working with AWS service objects.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react',
+        'angular',
+        'javascript',
+        'react-native',
+        'vue'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/auth/advanced-workflows/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

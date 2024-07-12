@@ -13,6 +13,22 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'swift',
+        'android',
+        'react',
+        'angular',
+        'vue',
+        'javascript',
+        'flutter',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/tools/cli/project/troubleshooting/'
+    }
   ]
 };
 
@@ -241,6 +257,21 @@ export UI_BUILDER_CODEGENJOB_TIMEOUT=300000
 amplify pull
 ```
 
+## Troubleshooting "Failed to get profile credentials"
+
+If you receive the following error and are using AWS IAM Identity Center (previously AWS SSO), you may be missing the [`credential_process` workaround](/[platform]/start/getting-started/installation/#manually-configure-the-amplify-cli)
+
+```console
+🛑 Failed to get profile credentials
+Cannot read properties of undefined (reading 'accessKeyId')
+
+Learn more at: https://docs.amplify.aws/cli/project/troubleshooting/
+```
+
+### "Unexpected token A in JSON at position 0"
+
+If you receive this error and are using AWS IAM Identity Center (previously AWS SSO), this error can be caused by selecting the `sso-session` entry when prompted for an AWS profile in Amplify CLI workflows. If this occurs, re-run the previous command and select the associated SSO profile.
+
 ## Deployment Best Practices
 
 This section describes the various best practices which help developers avoid deployment errors and scaling problems in their Amplify projects.
@@ -295,7 +326,6 @@ Search for similar issues or open new issues on Github
 
 - [amplify-cli issues](https://github.com/aws-amplify/amplify-cli/issues)
 - [amplify-codegen issues](https://github.com/aws-amplify/amplify-codegen/issues)
-- [amplify-console issues](https://github.com/aws-amplify/amplify-console)
 
 Connect with [AWS Enterprise support](https://aws.amazon.com/premiumsupport/)
 

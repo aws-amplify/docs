@@ -2,18 +2,34 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
   title: 'Override Amplify-generated Cognito resources',
-  description: 'The "amplify override auth" command generates a developer-configurable "overrides" TypeScript file that provides Amplify-generated Cognito resources as CDK constructs. For example, developers can set auth settings that are not directly available in the Amplify CLI workflow, such as the number of valid days for a temporary password.',
+  description: "The 'amplify override auth' command generates a developer-configurable 'overrides' TypeScript file that provides Amplify-generated Cognito resources as CDK constructs. For example, developers can set auth settings that are not directly available in the Amplify CLI workflow, such as the number of valid days for a temporary password.",
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'android',
+        'flutter',
+        'react-native',
+        'angular',
+        'vue',
+        'javascript',
+        'swift',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/override-cognito/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

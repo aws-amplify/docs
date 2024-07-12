@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'DataStore',
-  description:
-    'Seamlessly synchronize and persist online & offline data to the cloud as well as across devices',
+  description: 'Seamlessly synchronize and persist online & offline data to the cloud as well as across devices',
   platforms: [
     'android',
     'angular',
@@ -16,7 +15,21 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/prev/build-a-backend/more-features/datastore'
+  route: '/[platform]/prev/build-a-backend/more-features/datastore',
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'react-native',
+        'javascript',
+        'flutter',
+        'react',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/more-features/datastore/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

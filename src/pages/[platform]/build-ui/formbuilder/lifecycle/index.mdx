@@ -4,10 +4,19 @@ export const meta = {
   title: 'Manage form lifecycle',
   description: "Hook into the form's lifecycle events to customize user input before submission, run validations, handle errors, or self-manage user input events.",
   platforms: [
-                'javascript',
-                'react'
-              ]
-}
+    'javascript',
+    'react'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-ui/formbuilder/lifecycle/'
+    }
+  ]
+};
 
 export const getStaticPaths = async () => {
   return getCustomStaticPath(meta.platforms);

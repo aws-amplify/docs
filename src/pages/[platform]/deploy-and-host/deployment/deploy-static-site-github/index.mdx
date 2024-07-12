@@ -2,9 +2,26 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Deploy a static site from GitHub',
-  description:
-    'How to deploy a static site to Amplify Hosting using a Git repo.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue']
+  description: 'How to deploy a static site to Amplify Hosting using a Git repo.',
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript',
+        'nextjs',
+        'vue',
+        'angular'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/deployment/deploy-static-site-github/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -92,13 +92,11 @@ When the button above is clicked, an event will be sent automatically. This is e
   import { record } from 'aws-amplify/analytics';
   var sendEvent = function() {
     record({
-      event: {
-        name: 'click',
-        attributes: {
-          attr: 'attr', // the default ones
-          attr1: attr1_value, // defined in the button component
-          attr2: attr2_value // defined in the button component
-        }
+      name: 'click',
+      attributes: {
+        attr: 'attr', // the default ones
+        attr1: attr1_value, // defined in the button component
+        attr2: attr2_value // defined in the button component
       }
     });
   };

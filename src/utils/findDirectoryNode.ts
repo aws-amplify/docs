@@ -1,6 +1,9 @@
-import directory from '../directory/directory.json';
+import directory from '@/directory/directory.json';
+import { PageNode } from '@/directory/directory';
 
-export const findDirectoryNode = (route, dir = directory) => {
+const directoryCast = directory as PageNode;
+
+export const findDirectoryNode = (route: string, dir = directoryCast) => {
   if (dir.route === route) {
     return dir;
   } else if (dir.children && dir.children.length) {

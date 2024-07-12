@@ -2,18 +2,34 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
   title: 'Override Amplify-generated project-level IAM resources',
-  description: 'The "amplify override project" command generates a developer-configurable "overrides" TypeScript file that provides Amplify-generated IAM roles for authenticated and unauthenticated as CDK constructs. For example, developers can run "amplify override project" to change the authenticated and unauthenticated IAM role names to comply with organization-specific naming conventions.',
+  description: "The 'amplify override project' command generates a developer-configurable 'overrides' TypeScript file that provides Amplify-generated IAM roles for authenticated and unauthenticated as CDK constructs. For example, developers can run 'amplify override project' to change the authenticated and unauthenticated IAM role names to comply with organization-specific naming conventions.",
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript',
+        'swift',
+        'angular',
+        'flutter',
+        'nextjs',
+        'android',
+        'vue',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/tools/cli/project/override-iam/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

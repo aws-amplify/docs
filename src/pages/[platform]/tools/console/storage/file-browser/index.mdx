@@ -4,16 +4,32 @@ export const meta = {
   title: 'File browser',
   description: 'Get started with Amplify Studio',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react-native',
+        'angular',
+        'react',
+        'javascript',
+        'swift',
+        'vue',
+        'android',
+        'flutter'
+      ],
+      canonicalPath: '/javascript/tools/console/storage/file-browser/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

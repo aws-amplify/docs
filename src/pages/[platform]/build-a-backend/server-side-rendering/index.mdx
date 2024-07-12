@@ -12,7 +12,19 @@ export const meta = {
     'react-native',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/server-side-rendering'
+  route: '/[platform]/build-a-backend/server-side-rendering',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'angular',
+        'vue',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/server-side-rendering/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -76,9 +88,18 @@ The callback function that contains your business logic will be called by the fu
 
 <Callout warning>
 
-You must **not** hoist any variables, object references created within the callback function (e.g., the `contextSpec` parameter), or your business logic to an outer scope, as it may lead to cross-request pollution.
+You must **not** hoist any variables, object references created within the callback function (e.g., the `contextSpec` parameter), or your business logic to an outer scope, as it may lead to cross-request state pollution.
 
 </Callout>
+
+`runWithAmplifyServerContext` and Amplify APIs are stateless on the server side. Each call of `runWithAmplifyServerContext` may cause requesting credentials from Cognito service. Therefore, you should avoid calling `runWithAmplifyServerContext` in a loop or calling it multiple times in a single request.
+
+<Callout>
+
+**NOTE:** If you anticipate a large number of concurrent requests to your server that require calls to `runWithAmplifyServerContext`, which may cause the rate limit exceptions thrown by the Cognito service, you can request to adjust the limit. See [Quotas in Amazon Cognito document](https://docs.aws.amazon.com/cognito/latest/developerguide/limits.html) for details.
+
+</Callout>
+
 
 Once you prepare the three required parameters you can perform calls of Amplify categories APIs on the server side. For example:
 

@@ -12,7 +12,20 @@ export const meta = {
     'angular',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/server-side-rendering/nextjs'
+  route: '/[platform]/build-a-backend/server-side-rendering/nextjs',
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'react-native',
+        'javascript',
+        'nextjs',
+        'vue',
+        'react'
+      ],
+      canonicalPath: '/javascript/build-a-backend/server-side-rendering/nextjs/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -30,9 +43,12 @@ export function getStaticProps(context) {
 
 This guide walks through how to use Amplify Auth, GraphQL API, REST API, and Storage category APIs from Next.js server-side runtimes.
 
-import versionRangeCallout from '/src/fragments/lib/ssr/nextjs/version-range-callout.mdx';
+<Callout warning>
 
-<Fragments fragments={{ js: versionRangeCallout }} />
+**NOTE:** Amplify JS v6 supports Next.js with the version range: `>=13.5.0 <15.0.0`.
+Ensure you have the correct version to integrate with Amplify.
+
+</Callout>
 
 Before you begin, you will need:
 
@@ -230,7 +246,7 @@ Dynamic rendering is based on a user session extracted from an incoming request.
 
 ```jsx
 import { cookies } from 'next/headers';
-import { getCurrentUser } from '@aws-amplify/auth/server';
+import { getCurrentUser } from 'aws-amplify/auth/server';
 import { runWithAmplifyServerContext } from '@/utils/amplifyServerUtils';
 
 // This page always dynamically renders per request

@@ -4,16 +4,32 @@ export const meta = {
   title: 'Lambda layer behavior updates',
   description: 'Amplify has updated the way Lambda layer versions are managed with Amplify CLI version 5.0.0.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'swift',
+        'android',
+        'vue',
+        'react',
+        'nextjs',
+        'angular',
+        'react-native',
+        'flutter',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/tools/cli/migration/lambda-layers-update/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

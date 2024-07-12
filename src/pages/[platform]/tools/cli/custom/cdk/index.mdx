@@ -2,18 +2,34 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
                   
 export const meta = {
   title: 'Use CDK to add custom AWS resources',
-  description: 'The Amplify CLI provides the ability to add custom AWS resources with AWS Cloud Development Kit (CDK). Running the "amplify add custom" command in your Amplify project provides CDK starter stacks along with mechanisms to reference other Amplify-generated resources.',
+  description: "The Amplify CLI provides the ability to add custom AWS resources with AWS Cloud Development Kit (CDK). Running the 'amplify add custom' command in your Amplify project provides CDK starter stacks along with mechanisms to reference other Amplify-generated resources.",
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'react',
+        'javascript',
+        'flutter',
+        'vue',
+        'angular',
+        'nextjs',
+        'react-native',
+        'swift'
+      ],
+      canonicalPath: '/javascript/tools/cli/custom/cdk/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

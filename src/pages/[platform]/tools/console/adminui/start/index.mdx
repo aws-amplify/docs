@@ -1,4 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { ProtectedAccountMessage } from '@/protected/ProtectedAccountMessage';
 
 export const meta = {
   title: 'Getting started',
@@ -13,6 +14,22 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'react-native',
+        'javascript',
+        'nextjs',
+        'android',
+        'flutter',
+        'vue',
+        'angular',
+        'swift'
+      ],
+      canonicalPath: '/javascript/tools/console/adminui/start/'
+    }
   ]
 };
 
@@ -33,11 +50,9 @@ AWS Amplify Studio is a visual development environment for building fullstack we
 
 Amplify Studio is available in the following regions: [Amplify Studio service endpoints](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplifyadmin_region).
 
-<Callout warning>
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
 
-Amplify provisions AWS resources directly in your account. Changes to resources can lead to unexpected behavior, so we recommend using a dedicated AWS account for building with Amplify.
-
-</Callout>
+<ProtectedAccountMessage />
 
 ## Quick start guide
 
@@ -74,7 +89,9 @@ Next, follow these steps to deploy and launch Amplify Studio:
 ## Logging in and creating an app
 
 ### Log in to the Amplify Console
+
 The Amplify Console is where you build, manage, and host your Amplify applications. To log in, take the following steps:
+
 1. [Log in to the AWS console](https://console.aws.amazon.com/console/home)
 1. Search for **AWS Amplify** in the console
 1. Select **AWS Amplify** to open the Amplify Console

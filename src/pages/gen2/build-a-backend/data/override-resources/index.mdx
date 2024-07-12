@@ -15,62 +15,55 @@ export function getStaticProps(context) {
 
 Amplify GraphQL API uses a variety of auto-generated, underlying AWS services and resources. You can customize these underlying resources to optimize the deployed stack for your specific use case.
 
-
 In your Amplify app, you can access every underlying resource using CDK ["L2"](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_using) or ["L1"](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_l1_using) constructs. Access the generated resources as L2 constructs via the `.resources` property on the returned stack or access the generated resources as L1 constructs using the `.resources.cfnResources` property.
 
 ```ts
-import { defineBackend } from "@aws-amplify/backend";
-import { data } from "./data/resource.js";
+import { defineBackend } from '@aws-amplify/backend';
+import { data } from './data/resource.js';
 
 const backend = defineBackend({
-  data,
+  data
 });
 
-const dataResources = backend.resources.data.resources;
+const dataResources = backend.data.resources;
 
-// Access L2 resources under `.resources`
-dataResources.tables["Todo"].tableArn;
+dataResources.cfnResources.cfnGraphqlApi.name;
 
-// Access L1 resources under `.resources.cfnResources`
-Object.values(dataResources.cfnResources.cfnTables).forEach((table) => {
-  table.pointInTimeRecoverySpecification = {
-    pointInTimeRecoveryEnabled: false,
-  };
+Object.values(dataResources.amplifyDynamoDbTables).forEach((table) => {
+  table.pointInTimeRecoveryEnabled = true;
 });
 ```
 
 ## Customize Amplify-generated AppSync GraphQL API resources
 
-
-Apply all the customizations on `backend.resources.data.resources.graphqlApi` or `backend.resources.data.resources.cfnResources.cfnGraphqlApi`. For example, to enable X-Ray tracing for the AppSync GraphQL API:
+Apply all the customizations on `backend.data.resources.graphqlApi` or `backend.data.resources.cfnResources.cfnGraphqlApi`. For example, to enable X-Ray tracing for the AppSync GraphQL API:
 
 ```ts
-import { defineBackend } from "@aws-amplify/backend";
-import { data } from "./data/resource.js";
+import { defineBackend } from '@aws-amplify/backend';
+import { data } from './data/resource.js';
 
 const backend = defineBackend({
-  data,
+  data
 });
 
-backend.resources.data.resources.cfnResources.cfnGraphqlApi.xrayEnabled = true;
+backend.data.resources.cfnResources.cfnGraphqlApi.xrayEnabled = true;
 ```
 
 ## Customize Amplify-generated resources for data models
 
-
-Apply all the customizations on `backend.resources.data.resources.tables["MODEL_NAME"]` or `backend.resources.data.resources.cfnResources.cfnTables["MODEL_NAME"]`. Pass in the model type name into `backend.resources.data.resources.cfnResources.cfnTables["MODEL_NAME"]` to modify the resources generated for that particular model type. For example, to enable time-to-live on the Todo `@model` type's DynamoDB table:
+Pass in the model type name into `backend.data.resources.amplifyDynamoDbTables["MODEL_NAME"]` to modify the resources generated for that particular model type. For example, to enable time-to-live on the Todo `@model` type's DynamoDB table:
 
 ```ts
-import { defineBackend } from "@aws-amplify/backend";
-import { data } from "./data/resource.js";
+import { defineBackend } from '@aws-amplify/backend';
+import { data } from './data/resource.js';
 
 const backend = defineBackend({
-  data,
+  data
 });
 
-backend.resources.data.resources.cfnResources.cfnTables['Todo'].timeToLiveSpecification = {
-  attributeName: 'ttl',
-  enabled: true
+backend.data.resources.amplifyDynamoDbTables["Todo"].timeToLiveAttribute = {
+  attributeName: "ttl",
+  enabled: true,
 };
 ```
 
@@ -78,16 +71,16 @@ backend.resources.data.resources.cfnResources.cfnTables['Todo'].timeToLiveSpecif
 
 Set the [DynamoDB billing mode](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-billingmode) for the DynamoDB table as either "PROVISIONED" or "PAY_PER_REQUEST".
 
-
 ```ts
-import { defineBackend } from "@aws-amplify/backend";
-import { data } from "./data/resource.js";
+import { defineBackend } from '@aws-amplify/backend';
+import { data } from './data/resource.js';
+import { BillingMode } from "aws-cdk-lib/aws-dynamodb";
 
 const backend = defineBackend({
-  data,
+  data
 });
 
-backend.resources.data.resources.cfnResources.cfnTables['Todo'].billingMode = 'PAY_PER_REQUEST';
+backend.data.resources.amplifyDynamoDbTables['Todo'].billingMode = BillingMode.PAY_PER_REQUEST;
 ```
 
 ### Example - Configure provisioned throughput for a DynamoDB table
@@ -95,14 +88,14 @@ backend.resources.data.resources.cfnResources.cfnTables['Todo'].billingMode = 'P
 Override the default [ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-provisionedthroughput) provisioned for each model table and its Global Secondary Indexes (GSI). This override is only valid if the "DynamoDBBillingMode" is set to "PROVISIONED".
 
 ```ts
-import { defineBackend } from "@aws-amplify/backend";
-import { data } from "./data/resource.js";
+import { defineBackend } from '@aws-amplify/backend';
+import { data } from './data/resource.js';
 
 const backend = defineBackend({
-  data,
+  data
 });
 
-backend.resources.data.resources.cfnResources.cfnTables["Todo"].provisionedThroughput = {
+backend.data.resources.amplifyDynamoDbTables["Todo"].provisionedThroughput = {
   readCapacityUnits: 5,
   writeCapacityUnits: 5,
 };
@@ -112,16 +105,13 @@ backend.resources.data.resources.cfnResources.cfnTables["Todo"].provisionedThrou
 
 Enable/disable [DynamoDB point-in-time recovery](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-table-pointintimerecoveryspecification.html) for each model table.
 
-
 ```ts
-import { defineBackend } from "@aws-amplify/backend";
-import { data } from "./data/resource.js";
+import { defineBackend } from '@aws-amplify/backend';
+import { data } from './data/resource.js';
 
 const backend = defineBackend({
-  data,
+  data
 });
 
-backend.resources.data.resources.cfnResources.cfnTables["Todo"].pointInTimeRecoverySpecification = {
-  pointInTimeRecoveryEnabled: true,
-};
+backend.data.resources.amplifyDynamoDbTables['Todo'].pointInTimeRecoveryEnabled: true;
 ```

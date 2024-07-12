@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Analytics',
-  description:
-    'Make informed decisions with drop-in analytics to track user sessions, custom user attributes and in-app metrics',
+  description: 'Make informed decisions with drop-in analytics to track user sessions, custom user attributes and in-app metrics',
   platforms: [
     'android',
     'angular',
@@ -16,7 +15,19 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/more-features/analytics'
+  route: '/[platform]/build-a-backend/more-features/analytics',
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'javascript',
+        'react',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/analytics/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

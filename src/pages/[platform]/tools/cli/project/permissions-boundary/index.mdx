@@ -4,16 +4,32 @@ export const meta = {
   title: 'IAM Permissions Boundary for Amplify-generated roles',
   description: 'Apply a Permissions Boundary to all IAM Roles created by Amplify CLI.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'angular',
+        'nextjs',
+        'react',
+        'javascript',
+        'react-native',
+        'flutter',
+        'swift',
+        'vue',
+        'android'
+      ],
+      canonicalPath: '/javascript/tools/cli/project/permissions-boundary/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Geo',
-  description:
-    'Modern, interactive maps with location markers and location search.',
+  description: 'Modern, interactive maps with location markers and location search.',
   platforms: [
     'android',
     'angular',
@@ -14,7 +13,26 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/prev/build-a-backend/more-features/geo'
+  route: '/[platform]/prev/build-a-backend/more-features/geo',
+  canonicalObjects: [
+    {
+      platforms: [
+        'swift',
+        'android'
+      ],
+      canonicalPath: '/swift/prev/build-a-backend/more-features/geo/'
+    },
+    {
+      platforms: [
+        'react',
+        'nextjs',
+        'javascript',
+        'angular',
+        'vue'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/more-features/geo/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

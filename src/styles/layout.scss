@@ -1,6 +1,9 @@
 .layout-wrapper {
   min-height: 100vh;
+  color: var(--amplify-colors-font-primary);
   background-color: var(--amplify-colors-background-primary);
+  line-height: var(--amplify-line-heights-medium);
+  font-size: var(--amplify-font-sizes-medium);
   &--home {
     background-image: radial-gradient(
       hsla(176, 68%, 41%, 0.21) 0,
@@ -10,6 +13,13 @@
     background-size: 900px 900px;
     background-repeat: no-repeat;
     background-position: top -200px right -200px;
+    @include darkMode {
+      background-image: radial-gradient(
+        hsla(176, 68%, 41%, 0.11) 0,
+        var(--amplify-colors-background-primary) 70%,
+        var(--amplify-colors-background-primary) 100%
+      );
+    }
   }
 }
 
@@ -65,7 +75,7 @@
   inset-inline-start: var(--layout-sidebar-width);
   top: var(--amplify-space-medium);
   border-width: 2px;
-  background-color: #fff;
+  background-color: var(--amplify-colors-background-primary);
   border-color: transparent;
   border-radius: 0 var(--amplify-radii-medium) var(--amplify-radii-medium) 0;
   gap: var(--amplify-space-small);
@@ -103,7 +113,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--amplify-colors-overlay-20);
   opacity: 0;
   &--expanded {
     animation: menuFade 0.2s ease-out forwards;

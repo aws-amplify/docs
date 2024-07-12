@@ -9,20 +9,20 @@ export const defaultTheme = createTheme(
         button: {
           primary: {
             color: { value: '{colors.font.primary}' },
-            backgroundColor: { value: '{colors.brand.primary.40}' },
+            backgroundColor: { value: '{colors.primary.40}' },
             _active: {
-              backgroundColor: { value: '{colors.brand.primary.10}' },
+              backgroundColor: { value: '{colors.primary.10}' },
               color: { value: '{colors.font.primary}' }
             },
             _focus: {
-              backgroundColor: { value: '{colors.brand.primary.20}' },
+              backgroundColor: { value: '{colors.primary.20}' },
               color: { value: '{colors.font.primary}' },
               boxShadow: {
                 value: '0 0 0 2px var(--amplify-colors-border-focus)'
               }
             },
             _hover: {
-              backgroundColor: { value: '{colors.brand.primary.20}' },
+              backgroundColor: { value: '{colors.primary.20}' },
               color: { value: '{colors.font.primary}' }
             }
           }

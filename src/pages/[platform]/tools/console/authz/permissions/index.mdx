@@ -4,16 +4,32 @@ export const meta = {
   title: 'Access control',
   description: 'Set up authorization rules',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'swift',
+        'flutter',
+        'react',
+        'react-native',
+        'angular',
+        'android',
+        'vue',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/tools/console/authz/permissions/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

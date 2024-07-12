@@ -2,9 +2,30 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Label objects in an image',
-  description:
-    'Learn more about how to detect labels in an image using Amplify. For example, you can detect if an image has objects such as chairs or desks.',
-  platforms: ['swift', 'android', 'javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  description: 'Learn more about how to detect labels in an image using Amplify. For example, you can detect if an image has objects such as chairs or desks.',
+  platforms: [
+    'swift',
+    'android',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react',
+        'react-native',
+        'javascript',
+        'vue',
+        'angular'
+      ],
+      canonicalPath: '/javascript/prev/build-a-backend/more-features/predictions/label-image/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

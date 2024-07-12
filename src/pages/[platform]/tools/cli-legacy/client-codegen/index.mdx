@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Client code generation',
-  description:
-    "Amplify's codegen capabilities generate native code for iOS and Android, as well as types for Flow and TypeScript. It can also generate GraphQL statements (queries, mutations, and subscriptions).",
+  description: "Amplify's codegen capabilities generate native code for iOS and Android, as well as types for Flow and TypeScript. It can also generate GraphQL statements (queries, mutations, and subscriptions).",
   platforms: [
     'android',
     'angular',
@@ -14,6 +13,22 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react-native',
+        'vue',
+        'react',
+        'swift',
+        'android',
+        'javascript',
+        'angular',
+        'flutter'
+      ],
+      canonicalPath: '/javascript/tools/cli-legacy/client-codegen/'
+    }
   ]
 };
 

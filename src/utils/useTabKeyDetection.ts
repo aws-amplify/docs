@@ -3,9 +3,10 @@ import { useState, useEffect, RefObject } from 'react';
 // Custom hook to help detect if the "Tab" key was pressed in an element
 export function useTabKeyDetection(ref: RefObject<HTMLElement>) {
   const [isTabKeyPressed, setIsTabKeyPressed] = useState<boolean>(false);
-  const element = ref.current;
 
   useEffect(() => {
+    const element = ref.current;
+
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key && e.key === 'Tab') {
         setIsTabKeyPressed(true);
@@ -27,7 +28,7 @@ export function useTabKeyDetection(ref: RefObject<HTMLElement>) {
         element.removeEventListener('keyup', onKeyUp);
       }
     };
-  }, [element]);
+  }, [ref]);
 
   return { isTabKeyPressed, setIsTabKeyPressed };
 }

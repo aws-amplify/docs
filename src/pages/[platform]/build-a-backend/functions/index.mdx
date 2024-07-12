@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Functions',
-  description:
-    'Build and deploy serverless functions to perform various tasks, such as handling API requests, executing backend logic, or integrating with other AWS services.',
+  description: 'Build and deploy serverless functions to perform various tasks, such as handling API requests, executing backend logic, or integrating with other AWS services.',
   platforms: [
     'android',
     'angular',
@@ -16,7 +15,23 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/functions'
+  route: '/[platform]/build-a-backend/functions',
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react-native',
+        'react',
+        'flutter',
+        'android',
+        'angular',
+        'javascript',
+        'swift',
+        'vue'
+      ],
+      canonicalPath: '/javascript/build-a-backend/functions/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

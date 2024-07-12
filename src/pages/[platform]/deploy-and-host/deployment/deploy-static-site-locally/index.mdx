@@ -2,9 +2,26 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Deploy a static site locally',
-  description:
-    'How to deploy a static site to Amplify Hosting using a local project.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue']
+  description: 'How to deploy a static site to Amplify Hosting using a local project.',
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript',
+        'vue',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/deployment/deploy-static-site-locally/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

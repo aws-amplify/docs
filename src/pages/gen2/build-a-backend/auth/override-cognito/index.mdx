@@ -39,7 +39,7 @@ const backend = defineBackend({
   auth,
 });
 // extract L1 CfnUserPool resources
-const { cfnUserPool } = backend.resources.auth.resources.cfnResources;
+const { cfnUserPool } = backend.auth.resources.cfnResources;
 // use CDK's `addPropertyOverride` to modify properties directly
 cfnUserPool.addPropertyOverride(
   "Policies",
@@ -72,7 +72,7 @@ const backend = defineBackend({
 });
 
 // extract L1 CfnUserPool resources
-const { cfnUserPool } = backend.resources.auth.resources.cfnResources;
+const { cfnUserPool } = backend.auth.resources.cfnResources;
 // use CDK's `addPropertyOverride` to modify properties directly
 cfnUserPool.addPropertyOverride("Schema", [
   {

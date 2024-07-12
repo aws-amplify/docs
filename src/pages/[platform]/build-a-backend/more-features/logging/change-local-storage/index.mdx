@@ -3,7 +3,19 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Change local storage',
   description: 'Change log local storage on a device',
-  platforms: ['swift', 'android']
+  platforms: [
+    'swift',
+    'android'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'swift'
+      ],
+      canonicalPath: '/swift/build-a-backend/more-features/logging/change-local-storage/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -2,8 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Add social provider sign-in',
-  description:
-    'Learn how to setup social sign-in providers like Facebook, Google, Amazon, or Sign in with Apple.',
+  description: 'Learn how to setup social sign-in providers like Facebook, Google, Amazon, or Sign in with Apple.',
   platforms: [
     'javascript',
     'react-native',
@@ -14,6 +13,23 @@ export const meta = {
     'nextjs',
     'react',
     'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'angular',
+        'javascript'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/add-social-provider/'
+    },
+    {
+      platforms: [
+        'react',
+        'nextjs'
+      ],
+      canonicalPath: '/react/build-a-backend/auth/add-social-provider/'
+    }
   ]
 };
 
@@ -942,6 +958,26 @@ function App() {
 </Block>
 </BlockSwitcher>
 
+</Accordion>
+
+### (Required for Multi-Page Applications) Complete Social Sign In after Redirect
+
+If you are developing a multi-page application, and the redirected page is not the same page that initiated the sign in, you will need to add the following code to the redirected page to ensure the sign in gets completed:
+
+```ts
+import 'aws-amplify/auth/enable-oauth-listener';
+```
+
+<Callout>
+
+**NOTE:** The listener only works on the client side in the context of a SSR-enabled project, so ensure to import the listener on the client side only. For example, in a Next.js project, you should add the above import statement to a component that renders on the client side only by `'use client'`.
+
+</Callout>
+
+<Accordion eyebrow="Under the hood" headingLevel="4" title="Why Social Sign In needs to be explicitly handled for Multi-Page Applications">
+	
+When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the social sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
+	
 </Accordion>
 
 </InlineFilter>

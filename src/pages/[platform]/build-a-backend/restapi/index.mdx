@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'API (REST)',
-  description:
-    'A straightforward and secure solution for making HTTP requests using REST APIs',
+  description: 'A straightforward and secure solution for making HTTP requests using REST APIs',
   platforms: [
     'android',
     'angular',
@@ -16,7 +15,23 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/restapi'
+  route: '/[platform]/build-a-backend/restapi',
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'swift',
+        'flutter',
+        'vue',
+        'nextjs',
+        'android',
+        'angular',
+        'javascript',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/restapi/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -4,8 +4,20 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 export const meta = {
   title: 'API',
   description: 'API',
-  platforms: ['android', 'swift'],
-  route: '/[platform]/sdk/api'
+  platforms: [
+    'android',
+    'swift'
+  ],
+  route: '/[platform]/sdk/api',
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'swift'
+      ],
+      canonicalPath: '/swift/sdk/api/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

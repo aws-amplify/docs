@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'API (GraphQL)',
-  description:
-    'Add a GraphQL API and database to your Amplify app using the Amplify CLI.',
+  description: 'Add a GraphQL API and database to your Amplify app using the Amplify CLI.',
   platforms: [
     'android',
     'angular',
@@ -16,7 +15,23 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/tools/cli/graphqlapi'
+  route: '/[platform]/tools/cli/graphqlapi',
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'vue',
+        'android',
+        'angular',
+        'react-native',
+        'swift',
+        'flutter',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/tools/cli/graphqlapi/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

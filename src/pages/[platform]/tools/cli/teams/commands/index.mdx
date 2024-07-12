@@ -4,16 +4,32 @@ export const meta = {
   title: 'Commands',
   description: 'Use these Amplify CLI commands to manage a team workflow with multiple environments.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'react',
+        'flutter',
+        'android',
+        'swift',
+        'angular',
+        'javascript',
+        'vue',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/tools/cli/teams/commands/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Heading } from '@aws-amplify/ui-react';
-import slug from '@/utils/slug';
+import slug from './utils/slug';
 
 export const MDXHeading = (props) => {
   const { level, children } = props;

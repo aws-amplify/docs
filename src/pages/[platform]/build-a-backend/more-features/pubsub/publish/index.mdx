@@ -2,9 +2,27 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Publish',
-  description:
-    'Learn more about how to publish a message using the PubSub category in Amplify',
-  platforms: ['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']
+  description: 'Learn more about how to publish a message using the PubSub category in Amplify',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'nextjs',
+        'javascript',
+        'vue',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/pubsub/publish/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

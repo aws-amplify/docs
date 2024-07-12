@@ -71,6 +71,10 @@ If you are using the Amplify In-App Messaging UI, interaction events notificatio
 ```ts
 import { notifyMessageInteraction } from 'aws-amplify/in-app-messaging';
 
+const message = {
+  // In-app message that you want to record an interaction on
+}
+
 /**
  * Interaction events that can be notified correspond to their respective listeners:
  *    'messageReceived'
@@ -78,5 +82,5 @@ import { notifyMessageInteraction } from 'aws-amplify/in-app-messaging';
  *    'messageDismissed'
  *    'messageActionTaken'
  */
-notifyMessageInteraction({ type: 'messageDisplayed', message });
+notifyMessageInteraction({ message, type: 'messageDisplayed' });
 ```

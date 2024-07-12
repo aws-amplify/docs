@@ -2,10 +2,34 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Connect API to existing MySQL or PostgreSQL database',
-  description:
-    'Learn how to connect your API to an existing MySQL or PostgreSQL database.',
-    platforms: ['javascript', 'react', 'nextjs', 'angular', 'vue', 'react-native', 'flutter', 'swift', 'android']
-
+  description: 'Learn how to connect your API to an existing MySQL or PostgreSQL database.',
+  platforms: [
+    'javascript',
+    'react',
+    'nextjs',
+    'angular',
+    'vue',
+    'react-native',
+    'flutter',
+    'swift',
+    'android'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'flutter',
+        'javascript',
+        'react-native',
+        'vue',
+        'swift',
+        'react',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/graphqlapi/connect-api-to-existing-database/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {
@@ -179,6 +203,15 @@ In addition, the target security group(s) must have two outbound rules set up:
 </Accordion>
 
 </Block>
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
+
+</Block>
 </BlockSwitcher>
 
 <Accordion title="RDS Proxy for improved connectivity" headingLevel="3" eyebrow="Learn more">
@@ -300,6 +333,16 @@ const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyApi', {
 ```
 
 The SQL statements defined in the `.sql` files will be executed as if they were defined inline in the schema. The same rules apply in terms of using parameters, ensuring valid SQL syntax, and matching the return type to row data.
+
+</Block>
+
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
 
 </Block>
 
@@ -437,6 +480,15 @@ To deploy the API, you can use the `cdk deploy` command:
 ```sh
 cdk deploy
 ```
+
+</Block>
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
 
 </Block>
 </BlockSwitcher>
@@ -624,6 +676,15 @@ cdk deploy
 ```
 
 </Block>
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
+
+</Block>
 </BlockSwitcher>
 
 Now the API has been deployed and you can start using it!
@@ -739,6 +800,15 @@ npx @aws-amplify/cli api generate-schema --engine-type mysql --sql-schema schema
 ```sh
 cdk deploy
 ```
+
+</Block>
+<Block name="Amplify CLI">
+
+<Callout warning>
+
+This feature is currently not supported on Amplify CLI. It requires you to deploy the Amplify GraphQL APIs via AWS Cloud Development Kit (CDK). If you have not yet deployed an Amplify GraphQL API with AWS CDK yet, review [Set up GraphQL API](/[platform]/build-a-backend/graphqlapi/set-up-graphql-api).
+
+</Callout>
 
 </Block>
 </BlockSwitcher>

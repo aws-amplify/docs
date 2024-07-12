@@ -4,16 +4,32 @@ export const meta = {
   title: 'Continuous deployment',
   description: 'Use the multi-environments feature with the Amplify Console for a fully managed web application hosting and continuous deployment solution.',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'flutter',
+        'angular',
+        'vue',
+        'nextjs',
+        'react',
+        'react-native',
+        'swift',
+        'javascript',
+        'android'
+      ],
+      canonicalPath: '/javascript/tools/cli/teams/cicd/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -3,7 +3,19 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Remotely change log levels',
   description: 'Setup logging to fetch remote log levels',
-  platforms: ['swift', 'android']
+  platforms: [
+    'swift',
+    'android'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'android',
+        'swift'
+      ],
+      canonicalPath: '/swift/build-a-backend/more-features/logging/remote-configuration/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

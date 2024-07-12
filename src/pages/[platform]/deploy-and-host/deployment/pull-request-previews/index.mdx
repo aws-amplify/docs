@@ -3,7 +3,25 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Enable pull-request previews',
   description: 'How to enable pull-request previews with Amplify Hosting.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue']
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'javascript',
+        'react',
+        'angular',
+        'vue',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/deploy-and-host/deployment/pull-request-previews/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

@@ -2,9 +2,28 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Set up Amplify Geo',
-  description:
-    'AWS Amplify Geo module provides a simple way to get map data, search for places, and reverse geocoding.',
-  platforms: ['javascript', 'swift', 'android','angular','nextjs','react','vue'] 
+  description: 'AWS Amplify Geo module provides a simple way to get map data, search for places, and reverse geocoding.',
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'javascript',
+        'react',
+        'nextjs',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/more-features/geo/set-up-geo/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

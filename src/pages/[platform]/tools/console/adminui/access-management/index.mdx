@@ -4,16 +4,32 @@ export const meta = {
   title: 'Manage team access',
   description: 'Manage team access to a project',
   platforms: [
-                'android',
-                'angular',
-                'flutter',
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'swift',
-                'vue'
-              ]
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react-native',
+        'flutter',
+        'nextjs',
+        'vue',
+        'android',
+        'swift',
+        'angular',
+        'javascript',
+        'react'
+      ],
+      canonicalPath: '/javascript/tools/console/adminui/access-management/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

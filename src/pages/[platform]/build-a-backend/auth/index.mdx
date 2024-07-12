@@ -3,8 +3,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Authentication',
-  description:
-    'Enable sign-in, sign-up and sign-out within minutes with pre-built UI components and powerful authentication APIs',
+  description: 'Enable sign-in, sign-up and sign-out within minutes with pre-built UI components and powerful authentication APIs',
   platforms: [
     'android',
     'angular',
@@ -16,7 +15,20 @@ export const meta = {
     'swift',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/auth'
+  route: '/[platform]/build-a-backend/auth',
+  canonicalObjects: [
+    {
+      platforms: [
+        'nextjs',
+        'vue',
+        'javascript',
+        'react',
+        'angular',
+        'react-native'
+      ],
+      canonicalPath: '/javascript/build-a-backend/auth/'
+    }
+  ]
 };
 
 export const getStaticPaths = async () => {

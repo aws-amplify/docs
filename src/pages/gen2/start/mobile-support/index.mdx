@@ -92,7 +92,7 @@ Amplify gen2 provides a new way to develop applications. Now you are able to run
 </Callout>
 
 ```bash
-amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
+npx amplify sandbox --config-format=json-mobile --config-out-dir=app/src/main/res/raw
 ```
 
 ### Adding Authentication
@@ -241,7 +241,7 @@ export const data = defineData({
 To generate the model classes out of GraphQL schema, you can run the following command:
 
 ```bash
-amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
+npx amplify generate graphql-client-code --format=modelgen --model-target=java --out=app/src/main/java
 ```
 
 Now you can see that the model classes are generated under app/src/main/java/com/amplifyframework/datastore/generated/model folder.
@@ -524,7 +524,7 @@ Running this command will scaffold a lightweight Amplify project in your current
 Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
 
 ```bash
-amplify sandbox --config-format=dart --config-out-dir=lib
+npx amplify sandbox --config-format=dart --config-out-dir=lib
 ```
 
 ### Adding Authentication
@@ -654,7 +654,7 @@ export const data = defineData({
 To generate the model classes out of GraphQL schema, you can run the following command:
 
 ```bash
-amplify generate graphql-client-code --format=modelgen --model-target=dart --out=lib/models
+npx amplify generate graphql-client-code --format=modelgen --model-target=dart --out=lib/models
 ```
 
 This will generate dart models under lib/models folder.
@@ -906,7 +906,7 @@ Running this command will scaffold a lightweight Amplify project in your current
 Amplify gen2 provides a new way to develop applications. Now you are able to run your application with a sandbox environment and generate the configuration files for your application. To run your application with a sandbox environment, you can run the following command:
 
 ```bash
-amplify sandbox --config-format=json-mobile
+npx amplify sandbox --config-format=json-mobile
 ```
 
 Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
@@ -1034,7 +1034,7 @@ export const data = defineData({
 To generate the model classes out of GraphQL schema, you can run the following command:
 
 ```bash
-amplify generate graphql-client-code --format=modelgen
+npx amplify generate graphql-client-code --format=modelgen
 ```
 
 Move the generated files to your project. You can do this by dragging and dropping the files to your project.
