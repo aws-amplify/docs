@@ -152,6 +152,7 @@ Dynamic authorization rules such as `allow.owner()`, `allow.ownerDefinedIn()`, `
 
 ```ts
 const schema = a.schema({
+  // ...
   listCustomType: a
     .query()
     .returns(a.ref("CustomType").array())
