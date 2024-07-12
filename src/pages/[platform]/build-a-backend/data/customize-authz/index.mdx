@@ -151,30 +151,31 @@ const schema = a.schema({
 Dynamic authorization rules such as `allow.owner()`, `allow.ownerDefinedIn()`, `allow.groupDefinedIn()` are not supported for **non-model** types.
 
 ```ts
-// Custom Query
-listCustomType: a
-  .query()
-  .returns(a.ref("CustomType").array())
-  .handler(
-    a.handler.custom({
-      entry: "./handler.js",
-    })
-  )
-  .authorization((allow) => [
-    // Static auth rules - Supported
-    allow.guest(),
-    allow.publicApiKey(),
-    allow.authenticated(),
-    allow.group("Admin"),
-    allow.groups(["Teacher", "Student"]),
+const schema = a.schema({
+  listCustomType: a
+    .query()
+    .returns(a.ref("CustomType").array())
+    .handler(
+      a.handler.custom({
+        entry: "./handler.js",
+      })
+    )
+    .authorization((allow) => [
+      // Static auth rules - Supported
+      allow.guest(),
+      allow.publicApiKey(),
+      allow.authenticated(),
+      allow.group("Admin"),
+      allow.groups(["Teacher", "Student"]),
 
-    // Dynamic auth rules - Not supported
-    allow.owner(),
-    allow.ownerDefinedIn("owner"),
-    allow.ownersDefinedIn("otherOwners"),
-    allow.groupDefinedIn("group"),
-    allow.groupsDefinedIn("otherGroups"),
-  ]),
+      // Dynamic auth rules - Not supported
+      allow.owner(),
+      allow.ownerDefinedIn("owner"),
+      allow.ownersDefinedIn("otherOwners"),
+      allow.groupDefinedIn("group"),
+      allow.groupsDefinedIn("otherGroups"),
+    ]),
+});
 ```
 
 There are TS warnings and validation checks in place that will cause a sandbox deployment to fail if unsupported auth rules are defined on custom queries and mutations.
