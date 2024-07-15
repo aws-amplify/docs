@@ -56,15 +56,15 @@ backend:
                           ;;
                       dev)
                           echo "Deploying dev branch..."
-                          npx amplify pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+                          npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
                           ;;
                       pr-*)
                           echo "Deploying pull request branch..."
-                          npx ampx generate outputs --branch previews --app-id $AWS_APP_ID 
+                          npx ampx generate outputs --branch previews --app-id $AWS_APP_ID
                           ;;
                       *)
                           echo "Deploying to staging branch..."
-                          npx ampx generate outputs --branch dev --app-id $AWS_APP_ID 
+                          npx ampx generate outputs --branch dev --app-id $AWS_APP_ID
                           ;;
                   esac
 frontend:
