@@ -481,19 +481,18 @@ To delete your external DynamoDB table, you can navigate to the AppSync console 
 [Reference](https://docs.aws.amazon.com/appsync/latest/devguide/js-resolver-reference-dynamodb.html#js-aws-appsync-resolver-reference-dynamodb-getitem) - The `GetItem` request lets you tell the AWS AppSync DynamoDB function to make a `GetItem` request to DynamoDB, and enables you to specify:
 
 - The key of the item in DynamoDB
-
 - Whether to use a consistent read or not
 
 **Example:**
 
 ```js
 export function request(ctx) {
-  const {foo, bar} = ctx.args
+  const { foo, bar } = ctx.args;
   return {
-    operation : "GetItem",
-    key : util.dynamodb.toMapValues({foo, bar}),
-    consistentRead : true
-  }
+    operation: 'GetItem',
+    key: util.dynamodb.toMapValues({ foo, bar }),
+    consistentRead: true
+  };
 }
 ```
 
@@ -502,21 +501,20 @@ export function request(ctx) {
 [PutItem](https://docs.aws.amazon.com/appsync/latest/devguide/js-resolver-reference-dynamodb.html#js-aws-appsync-resolver-reference-dynamodb-putitem) - The `PutItem` request mapping document lets you tell the AWS AppSync DynamoDB function to make a `PutItem` request to DynamoDB, and enables you to specify the following:
 
 - The key of the item in DynamoDB
-
 - The full contents of the item (composed of key and attributeValues)
-
 - Conditions for the operation to succeed
 
 **Example:**
 
 ```js
 import { util } from '@aws-appsync/utils';
+
 export function request(ctx) {
-  const { foo, bar, ...values} = ctx.args
+  const { foo, bar, ...values } = ctx.args;
   return {
     operation: 'PutItem',
-    key: util.dynamodb.toMapValues({foo, bar}),
-    attributeValues: util.dynamodb.toMapValues(values),
+    key: util.dynamodb.toMapValues({ foo, bar }),
+    attributeValues: util.dynamodb.toMapValues(values)
   };
 }
 ```
@@ -526,15 +524,14 @@ export function request(ctx) {
 [UpdateItem](https://docs.aws.amazon.com/appsync/latest/devguide/js-resolver-reference-dynamodb.html#js-aws-appsync-resolver-reference-dynamodb-updateitem) - The `UpdateItem` request enables you to tell the AWS AppSync DynamoDB function to make a `UpdateItem` request to DynamoDB and allows you to specify the following:
 
 - The key of the item in DynamoDB
-
 - An update expression describing how to update the item in DynamoDB
-
 - Conditions for the operation to succeed
 
 **Example:**
 
 ```js
 import { util } from '@aws-appsync/utils';
+
 export function request(ctx) {
   const { id } = ctx.args;
   return {
@@ -543,8 +540,8 @@ export function request(ctx) {
     update: {
       expression: 'ADD #voteField :plusOne, version :plusOne',
       expressionNames: { '#voteField': 'upvotes' },
-      expressionValues: { ':plusOne': { N: 1 } },
-    },
+      expressionValues: { ':plusOne': { N: 1 } }
+    }
   };
 }
 ```
@@ -554,17 +551,17 @@ export function request(ctx) {
 [DeleteItem](https://docs.aws.amazon.com/appsync/latest/devguide/js-resolver-reference-dynamodb.html#js-aws-appsync-resolver-reference-dynamodb-deleteitem) - The `DeleteItem` request lets you tell the AWS AppSync DynamoDB function to make a `DeleteItem` request to DynamoDB, and enables you to specify the following:
 
 - The key of the item in DynamoDB
-
 - Conditions for the operation to succeed
 
 **Example:**
 
 ```js
 import { util } from '@aws-appsync/utils';
+
 export function request(ctx) {
   return {
     operation: 'DeleteItem',
-    key: util.dynamodb.toMapValues({ id: ctx.args.id }),
+    key: util.dynamodb.toMapValues({ id: ctx.args.id })
   };
 }
 ```
@@ -574,17 +571,11 @@ export function request(ctx) {
 [Query](https://docs.aws.amazon.com/appsync/latest/devguide/js-resolver-reference-dynamodb.html#js-aws-appsync-resolver-reference-dynamodb-query) - The Query request object lets you tell the AWS AppSync DynamoDB resolver to make a Query request to DynamoDB, and enables you to specify the following:
 
 - Key expression
-
 - Which index to use
-
 - Any additional filter
-
 - How many items to return
-
 - Whether to use consistent reads
-
 - query direction (forward or backward)
-
 - Pagination token
 
 **Example:**
@@ -598,9 +589,9 @@ export function request(ctx) {
     operation: 'Query',
     query: {
       expression: 'ownerId = :ownerId',
-      expressionValues: util.dynamodb.toMapValues({ ':ownerId': owner }),
+      expressionValues: util.dynamodb.toMapValues({ ':ownerId': owner })
     },
-    index: 'owner-index',
+    index: 'owner-index'
   };
 }
 ```
@@ -609,15 +600,10 @@ export function request(ctx) {
 [Scan](https://docs.aws.amazon.com/appsync/latest/devguide/js-resolver-reference-dynamodb.html#js-aws-appsync-resolver-reference-dynamodb-scan) - The `Scan` request lets you tell the AWS AppSync DynamoDB function to make a `Scan` request to DynamoDB, and enables you to specify the following:
 
 - A filter to exclude results
-
 - Which index to use
-
 - How many items to return
-
 - Whether to use consistent reads
-
 - Pagination token
-
 - Parallel scans
 
 **Example:**
