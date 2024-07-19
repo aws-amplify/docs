@@ -35,6 +35,7 @@ import {
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
+import { Gen1Banner } from '@/components/Gen1Banner';
 
 export const Layout = ({
   children,
@@ -126,6 +127,9 @@ export const Layout = ({
       document.body.classList.remove('scrolled');
     }
   }, 20);
+
+  const gen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//;
+  const isGen1GettingStarted = gen1GettingStarted.test(asPathWithNoHash);
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -253,6 +257,9 @@ export const Layout = ({
                   ) : null}
                   {useCustomTitle ? null : (
                     <Heading level={1}>{pageTitle}</Heading>
+                  )}
+                  {isGen1GettingStarted && (
+                    <Gen1Banner currentPlatform={currentPlatform} />
                   )}
                   {children}
                   {showNextPrev && <NextPrevious />}
