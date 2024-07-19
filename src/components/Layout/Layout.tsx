@@ -128,8 +128,12 @@ export const Layout = ({
     }
   }, 20);
 
-  const gen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//;
-  const isGen1GettingStarted = gen1GettingStarted.test(asPathWithNoHash);
+  const isGen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//.test(
+    asPathWithNoHash
+  );
+  const isGen1HowAmplifyWorks = /\/gen1\/\w+\/how-amplify-works\//.test(
+    asPathWithNoHash
+  );
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -258,7 +262,7 @@ export const Layout = ({
                   {useCustomTitle ? null : (
                     <Heading level={1}>{pageTitle}</Heading>
                   )}
-                  {isGen1GettingStarted && (
+                  {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
                     <Gen1Banner currentPlatform={currentPlatform} />
                   )}
                   {children}
