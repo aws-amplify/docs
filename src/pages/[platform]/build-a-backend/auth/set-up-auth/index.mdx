@@ -108,6 +108,42 @@ First, install the `@aws-amplify/ui-react` library:
 npm add @aws-amplify/ui-react
 ```
 
+Next, open **src/App.js** and add the `Authenticator` component.
+
+```js title="App.js"
+import { Authenticator, Amplify } from '@aws-amplify/ui-react';
+import outputs from '@/amplify_outputs.json';
+import '@aws-amplify/ui-react/styles.css';
+
+Amplify.configure(outputs);
+
+export default function App({ Component, pageProps }) {
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <h1>Hello {user?.username}</h1>
+          <button onClick={signOut}>Sign out</button>
+           <Component {...pageProps} />
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={['nextjs']}>
+
+First, install the `@aws-amplify/ui-react` library:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/ui-react
+```
+
 Next, open **pages/\_app.tsx** and add the `Authenticator` component.
 
 ```ts title="pages/_app.tsx"
