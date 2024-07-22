@@ -81,33 +81,6 @@ File written: amplify_outputs.json
 [auth-post-authentication] 3:38:42 PM REPORT RequestId: 60c1d680-ea24-4a8b-93de-02d085859140	Duration: 4.61 ms	Billed Duration: 5 ms	Memory Size: 512 MB	Max Memory Used: 68 MB	Init Duration: 172.66 ms
 ```
 
-Log output also supports printing multi-line strings
-
-```console title="Terminal"
-[auth-pre-sign-up] 3:36:34 PM 2024-07-19T22:36:34.783Z	685be2bd-5df1-4dd5-9eb1-24f5f6337f91	INFO	event {
-  "version": "1",
-  "region": "<your-aws-region>",
-  "userPoolId": "<your-user-pool-id>",
-  "userName": "e4f844d8-c0e1-7064-37a4-78d4236bff68",
-  "callerContext": {
-    "awsSdkVersion": "aws-sdk-unknown-unknown",
-    "clientId": "<your-user-pool-client-id>"
-  },
-  "triggerSource": "PreSignUp_SignUp",
-  "request": {
-    "userAttributes": {
-      "email": "user@example.com"
-    },
-    "validationData": null
-  },
-  "response": {
-    "autoConfirmUser": false,
-    "autoVerifyEmail": false,
-    "autoVerifyPhone": false
-  }
-}
-```
-
 ## Writing to a file
 
 By default, Amplify will print logs to the terminal where sandbox is running, however you can alternatively write logs to a file by specifying `--logs-out-file`:
@@ -121,3 +94,5 @@ This can be combined with `--logs-filter` to create a log file of just your Auth
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox --stream-function-logs --logs-filter auth --logs-out-file sandbox-auth.log
 ```
+
+However it cannot be combined multiple times to write logs to multiple files.
