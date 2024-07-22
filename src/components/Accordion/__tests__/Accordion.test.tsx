@@ -70,10 +70,9 @@ describe('Accordion', () => {
     const accordionHeading = screen.getByText('Accordion component example');
     userEvent.click(accordionHeading);
     const detailsEl = await screen.getByRole('group');
+    const summaryEl = detailsEl.firstChild;
 
     expect(detailsEl).toHaveAttribute('open');
-
-    const summaryEl = detailsEl.firstChild;
 
     const text = await screen.getByText(content);
     const closeButton = screen.getByRole('button');
