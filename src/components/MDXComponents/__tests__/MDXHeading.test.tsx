@@ -56,7 +56,7 @@ describe('MDXHeading', () => {
     expect(link).not.toBeInTheDocument();
   });
 
-  it('should shift focus to in-content heading on click', async () => {
+  it('should shift focus to in-content heading on TOC click', async () => {
     const props = {
       level: 2,
       children: 'Test heading',
