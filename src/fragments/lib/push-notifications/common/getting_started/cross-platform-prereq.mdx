@@ -33,6 +33,7 @@ import fcmPreReq from '/src/fragments/lib/push-notifications/android/getting_sta
 
 ### Applying the Google services plugin
 
+<InlineFilter filters={['react-native']}>
 The Firebase documentation directs you to add the Google services plugin to your app `build.gradle` using the [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block). However, we recommend you continue to use the [Legacy Plugin Application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application) instead:
 
 ```groovy
@@ -40,6 +41,19 @@ apply plugin: 'com.google.gms.google-services'
 ```
 
 If you prefer using the plugins DSL, you should add the `plugins` block to the very top of the file or you may experience issues when building your app for Android.
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+{/* Add this to your `android/settings.gradle` in the plugins section: */}
+The Firebase documentation directs you to add the Google services plugin to your app `settings.gradle` using the [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block). However, we recommend you continue to use the [Legacy Plugin Application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application) instead:
+
+```groovy
+id "com.google.gms:google-services" version "4.3.14" apply false
+```
+
+</InlineFilter>
 
 </Block>
 </BlockSwitcher>
