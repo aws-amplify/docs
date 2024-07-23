@@ -417,7 +417,7 @@ StoragePagedListOptions options = StoragePagedListOptions.builder()
     .build();
 
 Amplify.Storage.list(
-    StoragePath.fromString("public/photos-"),
+    StoragePath.fromString("public/photos/"),
     options,
     result -> {
         for (StorageItem item : result.getItems()) {
@@ -438,7 +438,7 @@ val options = StoragePagedListOptions.builder()
     .setSubpathStrategy(SubpathStrategy.Exclude("-"))
     .build()
 
-Amplify.Storage.list(StoragePath.fromString("public/photos-"), options,
+Amplify.Storage.list(StoragePath.fromString("public/photos/"), options,
     { result ->
         result.items.forEach { item ->
             Log.i("MyAmplifyApp", "Item: ${item.path}")
@@ -459,7 +459,7 @@ val options = StoragePagedListOptions.builder()
     .build()
 
 try {
-    val result = Amplify.Storage.list(StoragePath.fromString("public/photos-"), options)
+    val result = Amplify.Storage.list(StoragePath.fromString("public/photos/"), options)
     result.items.forEach {
         Log.i("MyAmplifyApp", "Item: $it")
     }
@@ -478,7 +478,7 @@ StoragePagedListOptions options = StoragePagedListOptions.builder()
         .setSubpathStrategy(SubpathStrategy.Exclude("-"))
         .build();
 
-RxAmplify.Storage.list(StoragePath.fromString("public/photos-"), options)
+RxAmplify.Storage.list(StoragePath.fromString("public/photos/"), options)
         .subscribe(
             result -> {
                 for (StorageItem item : result.getItems()) {
@@ -493,11 +493,12 @@ RxAmplify.Storage.list(StoragePath.fromString("public/photos-"), options)
 </Block>
 </BlockSwitcher>
 
-The response will only include objects within the `public/photos-` path.
+The response will only include objects within the `public/photos/` path not grouped by the delimiter `-`.
 
 ```bash
-Path: public/photos-/photos01.jpg
-Path: public/photos-/vacation/photos02.jpg
+Path: public/photos/2023/photos01.jpg
+Path: public/photos/2024/photos02.jpg
+Subpath: public/photos/202-/photos03.jpg
 ```
 
 ### More `list` options
