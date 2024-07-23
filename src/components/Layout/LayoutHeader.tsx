@@ -19,23 +19,29 @@ import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import { TableOfContents } from '../TableOfContents';
 
 export const LayoutHeader = ({
   currentPlatform,
   isGen1,
   pageType = 'inner',
   showLastUpdatedDate = true,
-  showTOC
+  showTOC,
+  tocHeadings
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
+  tocHeadings;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
+  const { tocOpen, toggleTocOpen } = useContext(LayoutContext);
+  const tocButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarTocButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
 
@@ -48,6 +54,18 @@ export const LayoutHeader = ({
       toggleMenuOpen(false);
       // For keyboard navigators, move focus back to menu button in header
       menuButtonRef?.current?.focus();
+    }
+  };
+
+  const handleTocToggle = () => {
+    if (!tocOpen) {
+      toggleTocOpen(true);
+      // For keyboard navigators, move focus to the close menu button in the nav
+      setTimeout(() => sidebarTocButtonRef?.current?.focus(), 0);
+    } else {
+      toggleTocOpen(false);
+      // For keyboard navigators, move focus back to menu button in header
+      tocButtonRef?.current?.focus();
     }
   };
 
@@ -76,6 +94,16 @@ export const LayoutHeader = ({
         >
           <IconMenu aria-hidden="true" />
           Menu
+        </Button>
+
+        <Button
+          onClick={() => handleTocToggle()}
+          size="small"
+          ref={tocButtonRef}
+          className="search-menu-toggle mobile-toggle"
+        >
+          <IconMenu aria-hidden="true" />
+          On this page
         </Button>
 
         <View
@@ -146,6 +174,41 @@ export const LayoutHeader = ({
             {showLastUpdatedDate && (
               <PageLastUpdated directoryData={flatDirectory[router.pathname]} />
             )}
+          </div>
+        </View>
+      </View>
+
+      {/* toc */}
+      <View
+        className={classNames('layout-sidebar', {
+          'layout-sidebar--expanded': tocOpen
+        })}
+      >
+        <Button
+          size="small"
+          colorTheme="overlay"
+          className={classNames('layout-sidebar__mobile-toggle', 'right-menu', {
+            'layout-sidebar__mobile-toggle--open': tocOpen
+          })}
+          ref={sidebarTocButtonRef}
+          onClick={() => handleTocToggle()}
+        >
+          <IconDoubleChevron />
+          <VisuallyHidden>Close table of contents</VisuallyHidden>
+        </Button>
+        <View
+          className={classNames('layout-sidebar__backdrop', {
+            'layout-sidebar__backdrop--expanded': tocOpen
+          })}
+          onClick={() => toggleTocOpen(false)}
+        ></View>
+        <View
+          className={classNames('layout-sidebar__inner', 'right-menu', {
+            'layout-sidebar__inner--expanded': tocOpen
+          })}
+        >
+          <div className="layout-sidebar-menu">
+            <TableOfContents headers={tocHeadings} />
           </div>
         </View>
       </View>

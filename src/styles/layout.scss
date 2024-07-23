@@ -64,6 +64,9 @@
   gap: var(--amplify-space-small);
   padding: var(--amplify-space-medium);
   opacity: 0;
+  &.right-menu {
+    transform: rotate(180deg);
+  }
   &:focus {
     box-shadow: none;
   }
@@ -86,6 +89,15 @@
   display: grid;
   grid-template-rows: auto 1fr;
   overflow: visible;
+
+  &.right-menu {
+    position: fixed;
+    right: 0;
+    transform: translate(100%, 0);
+    border-right: none;
+    border-left: 1px solid var(--amplify-colors-neutral-20);
+  }
+
   &--expanded {
     animation: menu 0.2s ease-out forwards;
     animation-delay: 0.1s;

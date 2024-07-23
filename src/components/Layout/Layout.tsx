@@ -61,6 +61,7 @@ export const Layout = ({
   useCustomTitle?: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
+  const [tocOpen, toggleTocOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const mainId = 'pageMain';
@@ -213,7 +214,9 @@ export const Layout = ({
         value={{
           colorMode,
           menuOpen,
+          tocOpen,
           toggleMenuOpen,
+          toggleTocOpen,
           handleColorModeChange
         }}
       >
@@ -247,6 +250,7 @@ export const Layout = ({
                 currentPlatform={currentPlatform}
                 pageType={pageType}
                 showLastUpdatedDate={showLastUpdatedDate}
+                tocHeadings={tocHeadings}
               ></LayoutHeader>
               <View key={asPathWithNoHash} className="layout-main">
                 <Flex
