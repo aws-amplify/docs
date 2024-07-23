@@ -493,7 +493,12 @@ RxAmplify.Storage.list(StoragePath.fromString("public/photos-"), options)
 </Block>
 </BlockSwitcher>
 
-The response will only include objects within the `public/photos-` path.  All other paths will be in the excluded subpaths list.
+The response will only include objects within the `public/photos-` path.
+
+```bash
+Path: public/photos-/photos01.jpg
+Path: public/photos-/vacation/photos02.jpg
+```
 
 ### More `list` options
 
