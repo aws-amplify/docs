@@ -66,6 +66,8 @@
   opacity: 0;
   &.right-menu {
     transform: rotate(180deg);
+    inset-inline-start: unset;
+    inset-inline-end: var(--layout-sidebar-width);
   }
   &:focus {
     box-shadow: none;
@@ -99,7 +101,12 @@
   }
 
   &--expanded {
-    animation: menu 0.2s ease-out forwards;
+    animation: menuLeft 0.2s ease-out forwards;
+    animation-delay: 0.1s;
+  }
+
+  &--expanded-right {
+    animation: menuRight 0.2s ease-out forwards;
     animation-delay: 0.1s;
   }
 }
@@ -151,7 +158,7 @@
   z-index: 1;
 }
 
-@keyframes menu {
+@keyframes menuLeft {
   0% {
     transform: translate(-100%, 0);
   }
@@ -166,6 +173,15 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes menuRight {
+  0% {
+    transform: translate(100%, 0);
+  }
+  100% {
+    transform: translate(0, 0);
   }
 }
 

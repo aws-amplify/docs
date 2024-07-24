@@ -95,16 +95,17 @@ export const LayoutHeader = ({
           <IconMenu aria-hidden="true" />
           Menu
         </Button>
-
-        <Button
-          onClick={() => handleTocToggle()}
-          size="small"
-          ref={tocButtonRef}
-          className="search-menu-toggle mobile-toggle"
-        >
-          <IconMenu aria-hidden="true" />
-          On this page
-        </Button>
+        {showTOC ? (
+          <Button
+            onClick={() => handleTocToggle()}
+            size="small"
+            ref={tocButtonRef}
+            className="search-menu-toggle mobile-toggle"
+          >
+            <IconMenu aria-hidden="true" />
+            On this page
+          </Button>
+        ) : null}
 
         <View
           className={classNames(
@@ -176,42 +177,50 @@ export const LayoutHeader = ({
             )}
           </div>
         </View>
+        <div className="">
+          {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+        </div>
       </View>
 
-      {/* toc */}
-      <View
-        className={classNames('layout-sidebar', {
-          'layout-sidebar--expanded': tocOpen
-        })}
-      >
-        <Button
-          size="small"
-          colorTheme="overlay"
-          className={classNames('layout-sidebar__mobile-toggle', 'right-menu', {
-            'layout-sidebar__mobile-toggle--open': tocOpen
-          })}
-          ref={sidebarTocButtonRef}
-          onClick={() => handleTocToggle()}
-        >
-          <IconDoubleChevron />
-          <VisuallyHidden>Close table of contents</VisuallyHidden>
-        </Button>
+      {showTOC ? (
         <View
-          className={classNames('layout-sidebar__backdrop', {
-            'layout-sidebar__backdrop--expanded': tocOpen
-          })}
-          onClick={() => toggleTocOpen(false)}
-        ></View>
-        <View
-          className={classNames('layout-sidebar__inner', 'right-menu', {
-            'layout-sidebar__inner--expanded': tocOpen
+          className={classNames('layout-sidebar', 'right-menu', {
+            'layout-sidebar--expanded': tocOpen
           })}
         >
-          <div className="layout-sidebar-menu">
-            <TableOfContents headers={tocHeadings} />
-          </div>
+          <View
+            className={classNames('layout-sidebar__backdrop', {
+              'layout-sidebar__backdrop--expanded': tocOpen
+            })}
+            onClick={() => toggleTocOpen(false)}
+          ></View>
+          <View
+            className={classNames('layout-sidebar__inner', 'right-menu', {
+              'layout-sidebar__inner--expanded-right': tocOpen
+            })}
+          >
+            <Button
+              size="small"
+              colorTheme="overlay"
+              className={classNames(
+                'layout-sidebar__mobile-toggle',
+                'right-menu',
+                {
+                  'layout-sidebar__mobile-toggle--open': tocOpen
+                }
+              )}
+              ref={sidebarTocButtonRef}
+              onClick={() => handleTocToggle()}
+            >
+              <IconDoubleChevron />
+              <VisuallyHidden>Close table of contents</VisuallyHidden>
+            </Button>
+            <div className="layout-sidebar-menu">
+              <TableOfContents headers={tocHeadings} />
+            </div>
+          </View>
         </View>
-      </View>
+      ) : null}
     </View>
   );
 };
