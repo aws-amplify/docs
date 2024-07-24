@@ -1,5 +1,7 @@
 import { Flex, View, Link, Heading } from '@aws-amplify/ui-react';
 import { IconTOC } from '@/components/Icons';
+import { useContext } from 'react';
+import { LayoutContext } from '../Layout';
 export interface HeadingInterface {
   linkText: string;
   hash: string;
@@ -10,6 +12,15 @@ interface TableOfContents {
 }
 
 export const TableOfContents = ({ headers }) => {
+  const { tocOpen, toggleTocOpen } = useContext(LayoutContext);
+
+  const onLinkClick = () => {
+    if (tocOpen) {
+      // Close the menu after clicking a link (applies to the mobile menu)
+      toggleTocOpen(false);
+    }
+  };
+
   return (
     <Flex as="nav" className="toc" aria-labelledby="tocHeader">
       {headers ? (
@@ -30,6 +41,7 @@ export const TableOfContents = ({ headers }) => {
               <Link
                 href={`#${hash}`}
                 className={`toc-item__link toc-item__link--${level}`}
+                onClick={onLinkClick}
               >
                 {linkText}
               </Link>
