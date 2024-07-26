@@ -81,7 +81,13 @@ Use the following steps to connect add file storage backend services to your app
 
    ```xml
    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-   <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
+   <!-- For apps targeting API Level 28 and above: -->
+   <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+   <!-- For apps targeting API Level 34 and above: -->
+   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+
+
+   <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:foregroundServiceType="dataSync" />
    ```
 
 3. **For Android Q (API 29)**: API 29 enforces scoped storage access for Android apps. To gain access to legacy external storage, enable the following application property inside `AndroidManifest.xml`:
