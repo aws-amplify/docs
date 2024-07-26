@@ -24,13 +24,19 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
-      
+
       meta
     }
   };
 }
 
 When modeling application data, you often need to establish relationships between different data models. In Amplify Data, you can create one-to-many, one-to-one, and many-to-many relationships in your Data schema. On the client-side, Amplify Data allows you to lazy or eager load of related data.
+
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
+
+import { ProtectedRedactionGen2Message } from "@/protected/ProtectedRedactionMessage"
+
+<ProtectedRedactionGen2Message />
 
  ## Types of relationships
 

@@ -116,7 +116,8 @@ kbd {
 
 .main {
   & > h2,
-  & > h3 {
+  & > h3,
+  & > h4 {
     scroll-margin-block: 9rem;
   }
 }
@@ -186,6 +187,12 @@ ol:not([class]) {
   .amplify-heading--2,
   .amplify-heading--3 {
     scroll-margin-top: 9rem;
+
+    &:focus-visible {
+      transition: none;
+      outline: 2px solid var(--amplify-colors-border-focus);
+      outline-offset: 2px;
+    }
   }
 }
 

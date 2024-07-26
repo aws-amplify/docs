@@ -11,11 +11,13 @@ import { Popover } from '../Popover';
 type PlatformNavigatorProps = {
   currentPlatform: Platform;
   isGen1: boolean;
+  testId?: string;
 };
 
 export function PlatformNavigator({
   currentPlatform,
-  isGen1
+  isGen1,
+  testId
 }: PlatformNavigatorProps) {
   const { pathname } = useRouter();
   
@@ -54,7 +56,7 @@ export function PlatformNavigator({
               {platformTitle}
             </Popover.Trigger>
             <Popover.List
-              ariaLabel="Supported frameworks and languages"
+              testId={testId ? `${testId}-popoverList` : ''}
               anchor="left"
               fullWidth={true}
             >
