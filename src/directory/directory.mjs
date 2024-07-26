@@ -39,6 +39,9 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/start/connect-existing-aws-resources/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/start/kotlin-coroutines/index.mdx'
             },
             {
@@ -363,6 +366,12 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/configure-functions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/scheduling-functions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/streaming-logs/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/grant-access-to-other-resources/index.mdx'

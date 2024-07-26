@@ -6,7 +6,7 @@
 
 ### Prerequisites
 
-- [Node.js 16.14.0 or later](https://nodejs.org/en/)
+- [Node.js 18.17.0 or later, but below 22.0.0](https://nodejs.org/en/)
 - [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 
 ## Set up the docs repo
@@ -91,7 +91,9 @@ When linking to other pages within the docs.amplify.aws site, do not use relativ
 
 To incorporate new platform-specific content within a page, please use [Inline Filters](https://github.com/aws-amplify/docs/blob/main/Readme.md#inline-filters).
 
-When editing content that hasn't been migrated, you may see the following pattern:
+Please note: we do allow fragments in some cases where content is intended to be reused and cannot be via InlineFilters
+
+When editing content that hasn't been migrated to InlineFilters, you may see the following pattern:
 
 ```jsx
 import js from '/src/fragments/lib/datastore/js/conflict.mdx';

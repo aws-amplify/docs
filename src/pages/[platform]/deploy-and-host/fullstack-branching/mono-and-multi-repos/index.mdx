@@ -164,3 +164,39 @@ frontend:
     paths:
       - node_modules/**/*
 ```
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+## Sharing schema type definitions
+
+If you're using Amplify Data, we recommend adding a `paths` entry in the `tsconfig.json` of your frontend app that points to the `amplify/data/resource.ts` file in your backend app to easily access your schema type definitions from your frontend apps.
+
+First, cone your backend repo into the same parent directory as your frontend app, then add the following entry:
+
+```json title="tsconfig.json" showLineNumbers={false}
+{
+  "compilerOptions": {
+    "paths": {
+      "@/data-schema": ["../backend-app/amplify/data/resource"]
+    }
+  }
+}
+```
+
+You can then import the `Schema` type from this path in your frontend code to get code completion and strong typing for your API calls:
+
+```ts title="apps/admin-dashboard/page.tsx"
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "@/data-schema";
+
+const client = generateClient<Schema>();
+
+const createTodo = async () => {
+  await client.models.Todo.create({
+    content: window.prompt("Todo content?"),
+    isDone: false,
+  });
+}
+
+```
+
+</InlineFilter>

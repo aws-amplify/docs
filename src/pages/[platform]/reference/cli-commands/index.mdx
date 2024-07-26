@@ -17,8 +17,8 @@ export const meta = {
   /**
    * Notes for documentation:
    * - only document 2 command levels deep. document further levels in the top-level command as usage examples but without additional subheading
-   *   - (good) amplify sandbox secret
-   *   - (bad) amplify sandbox secret set
+   *   - (good) ampx sandbox secret
+   *   - (bad) ampx sandbox secret set
    * - all commands should describe:
    *   - what the command is and when it is used
    *   - unordered list of options
@@ -56,6 +56,9 @@ Sandbox enables you to develop your backend alongside your frontend's developmen
 - `--outputs-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
 - `--outputs-version` (_string_) - Version of the configuration. Version 0 represents classic amplify-cli config file amplify-configuration and 1 represents newer config file amplify_outputs (choices: `0`, `1`).
 - `--profile` (_string_) - An AWS profile name.
+- `--stream-function-logs` (_boolean_) - Whether to stream function execution logs. (default: false)
+- `--logs-filter` (_string[]_) - Regex pattern to filter logs from only matched functions. E.g. to stream logs for a function, specify it's name, and to stream logs from all functions starting with auth specify 'auth' (default: Stream all logs)
+- `--logs-out-file` (_string_) - File to append the streaming logs. The file is created if it does not exist. (default: stdout)
 
 ### Usage
 
@@ -101,7 +104,7 @@ npx ampx sandbox
 
 ```bash title="Terminal" showLineNumbers={false}
 # for Flutter
-npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 ## npx ampx sandbox delete
@@ -336,7 +339,7 @@ Generate React form components derived from your backend data models for your fr
 ### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate forms --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID --out-dir ./src
+npx ampx generate forms --branch $BRANCH_NAME --app-id $AWS_APP_ID --out-dir ./src
 ```
 
 ## npx ampx info
@@ -389,5 +392,5 @@ Deploys the Amplify project in a CI/CD pipeline for a specified Amplify app and 
 ### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
+npx ampx pipeline-deploy --branch $BRANCH_NAME --app-id $AWS_APP_ID
 ```

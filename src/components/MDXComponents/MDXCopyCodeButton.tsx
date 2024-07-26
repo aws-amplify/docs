@@ -33,10 +33,9 @@ export const MDXCopyCodeButton = ({
       <Button
         size="small"
         variation="link"
-        disabled={copied}
         className="code-copy"
         testId={testId}
-        aria-describedby={title ? undefined : codeId}
+        aria-describedby={codeId}
       >
         <IconClipboard /> {copied ? 'Copied!' : 'Copy'}
         <VisuallyHidden>

@@ -362,7 +362,7 @@ Now let's set up our local development environment to add features to the fronte
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
 
-![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 Clone the repository locally.
 
@@ -686,7 +686,7 @@ Now let's set up our local development environment to add features to the fronte
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
 
-![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 Clone the repository locally.
 
@@ -933,7 +933,7 @@ We've created a starter "To-do" application to help get started faster. First, y
 
 ### 1. Create the repository
 
-Use our starter template to create a repository in your GitHub account. This template scaffolds `create-vite-app` with Amplify backend capabilities.
+Use our starter template to create a repository in your GitHub account. This template scaffolds a starter Angular application with Amplify backend capabilities.
 
 <ExternalLinkButton
   size="medium"
@@ -1005,7 +1005,7 @@ Now let's set up our local development environment to add features to the fronte
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button.
 
-![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 Clone the repository locally.
 
@@ -1313,14 +1313,9 @@ npx ampx sandbox
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
-<Callout info>
-
-**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
-
-</Callout>
 </InlineFilter>
 
 ## Adding Authentication
@@ -1358,7 +1353,7 @@ import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> main() async {
   try {
@@ -1680,7 +1675,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 
@@ -1889,7 +1884,15 @@ Once you are done, add the API dependencies to your project. Select **File > Add
 
 ![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
 
-After adding the dependencies, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+After adding the dependencies, update the `import` part of your `MyAmplifyAppApp.swift` file with the following code:
+
+```swift title="MyAmplifyAppApp.swift"
+import Amplify
+import AWSCognitoAuthPlugin
+import AWSAPIPlugin
+```
+
+Then, update the `init()` part of your `MyAmplifyAppApp.swift` file with the following code:
 
 ```swift title="MyAmplifyAppApp.swift"
 init() {
@@ -1907,31 +1910,31 @@ Create a new file called `TodoViewModel.swift` and the `createTodo` function wit
 
 ```swift title="TodoViewModel.swift"
 import Amplify
+import SwiftUI
 
 @MainActor
 class TodoViewModel: ObservableObject {
-    func createTodo() {
+    func createTodo() async {
         let creationTime = Temporal.DateTime.now()
         let todo = Todo(
-            content: "Random Todo \(creationTime)",
+            content: "Random Todo \(creationTime.iso8601String)",
             isDone: false,
             createdAt: creationTime,
             updatedAt: creationTime
         )
-        Task {
-            do {
-                let result = try await Amplify.API.mutate(request: .create(todo))
-                switch result {
-                case .success(let todo):
-                    print("Successfully created todo: \(todo)")
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
-            } catch let error as APIError {
-                print("Failed to create todo: ", error)
-            } catch {
-                print("Unexpected error: \(error)")
+        do {
+            let result = try await Amplify.API.mutate(request: .create(todo))
+            switch result {
+            case .success(let todo):
+                print("Successfully created todo: \(todo)")
+                todos.append(todo)
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
             }
+        } catch let error as APIError {
+            print("Failed to create todo: ", error)
+        } catch {
+            print("Unexpected error: \(error)")
         }
     }
 }
@@ -1951,23 +1954,21 @@ class TodoViewModel: ObservableObject {
         /// ...
     }
 
-    func listTodos() {
+    func listTodos() async {
         let request = GraphQLRequest<Todo>.list(Todo.self)
-        Task {
-            do {
-                let result = try await Amplify.API.query(request: request)
-                switch result {
-                case .success(let todos):
-                    print("Successfully retrieved list of todos: \(todos)")
-                    self.todos = todos.elements
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
-            } catch let error as APIError {
-                print("Failed to query list of todos: ", error)
-            } catch {
-                print("Unexpected error: \(error)")
+        do {
+            let result = try await Amplify.API.query(request: request)
+            switch result {
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
+                self.todos = todos.elements
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
             }
+        } catch let error as APIError {
+            print("Failed to query list of todos: ", error)
+        } catch {
+            print("Unexpected error: \(error)")
         }
     }
 }
@@ -1992,8 +1993,7 @@ struct ContentView: View {
                     }
                 }
                 Button(action: {
-                    vm.createTodo()
-                    vm.listTodos()
+                    Task { await vm.createTodo() }
                 }) {
                     HStack {
                         Text("Add a New Todo")
@@ -2031,49 +2031,46 @@ class TodoViewModel: ObservableObject {
         // ...
     }
 
-    func deleteTodos(indexSet: IndexSet) {
+    func deleteTodos(indexSet: IndexSet) async {
         for index in indexSet {
-            let todo = todos[index]
-            Task {
-                do {
-                    let result = try await Amplify.API.mutate(request: .delete(todo))
-                    switch result {
-                    case .success(let todo):
-                        print("Successfully deleted todo: \(todo)")
-                    case .failure(let error):
-                        print("Got failed result with \(error.errorDescription)")
-                    }
-                } catch let error as APIError {
-                    print("Failed to deleted todo: ", error)
-                } catch {
-                    print("Unexpected error: \(error)")
-                }
-            }
-        }
-    }
-
-    func updateTodo(todo: Todo) {
-        Task {
             do {
-                let result = try await Amplify.API.mutate(request: .update(todo))
+                let todo = todos[index]
+                let result = try await Amplify.API.mutate(request: .delete(todo))
                 switch result {
                 case .success(let todo):
-                    print("Successfully updated todo: \(todo)")
+                    print("Successfully deleted todo: \(todo)")
+                    todos.remove(at: index)
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
                 }
             } catch let error as APIError {
-                print("Failed to updated todo: ", error)
+                print("Failed to deleted todo: ", error)
             } catch {
                 print("Unexpected error: \(error)")
             }
+        }
+    }
+    
+    func updateTodo(todo: Todo) async {
+        do {
+            let result = try await Amplify.API.mutate(request: .update(todo))
+            switch result {
+            case .success(let todo):
+                print("Successfully updated todo: \(todo)")
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
+            }
+        } catch let error as APIError {
+            print("Failed to updated todo: ", error)
+        } catch {
+            print("Unexpected error: \(error)")
         }
     }
 }
 
 ```
 
-Update the `List` in the `ContentView.swift` file with the following code:
+Update the `List` in the `ContentView.swift` file with code to fetch the todos when the View is displayed and to call `deleteTodos(indexSet:)` when the user left-swipe a todo.
 
 ```swift title="ContentView.swift"
 struct ContentView: View {
@@ -2086,10 +2083,13 @@ struct ContentView: View {
                 List {
                     ForEach($vm.todos, id: \.id) { todo in
                         TodoRow(vm: vm, todo: todo)
-                    }.onDelete { indexSet in
-                        vm.deleteTodos(indexSet: indexSet)
-                        vm.listTodos()
                     }
+                    .onDelete { indexSet in
+                        Task { await vm.deleteTodos(indexSet: indexSet) }
+                    }
+                }
+                .task {
+                    await vm.listTodos()
                 }
                 // ... Add new Todo button
             }
@@ -2101,6 +2101,8 @@ struct ContentView: View {
 Lastly, create a new file called `TodoRow.swift` with the following code:
 
 ```swift title="TodoRow.swift"
+import SwiftUI
+
 struct TodoRow: View {
     @ObservedObject var vm: TodoViewModel
     @Binding var todo: Todo
@@ -2109,14 +2111,18 @@ struct TodoRow: View {
         Toggle(isOn: $todo.isDone) {
             Text(todo.content ?? "")
         }
-        .toggleStyle(SwitchToggleStyle())
+        .toggleStyle(.switch)
         .onChange(of: todo.isDone) { _, newValue in
             var updatedTodo = todo
             updatedTodo.isDone = newValue
-            vm.updateTodo(todo: updatedTodo)
-            vm.listTodos()
+            Task { await vm.updateTodo(todo: updatedTodo) }
         }
     }
+}
+
+#Preview {
+    @State var todo = Todo(content: "Hello Todo World 20240706T15:23:42.256Z", isDone: false)
+    return TodoRow(vm: TodoViewModel(), todo: $todo)
 }
 ```
 
@@ -2128,7 +2134,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ## Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 
@@ -2222,7 +2228,7 @@ In **Select a Project Template**, select **Empty Activity** or **Empty Compose A
 
 On the **Deployed backend resources**, choose **Download outputs file** to download the `amplify_outputs.json` file that contains identifiers for all the deployed backend resources.
 
-![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 
 Now move the `amplify_outputs.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
@@ -2925,7 +2931,7 @@ You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#publishing-changes-to-cloud).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 
