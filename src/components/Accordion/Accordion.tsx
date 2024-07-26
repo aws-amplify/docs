@@ -69,10 +69,12 @@ export const Accordion: React.FC<AccordionProps> = ({
 
   const closeAccordion = () => {
     const details = detailsRef.current;
+    const summary = summaryRef.current;
     if (details) {
       const scrollToLoc = details.offsetTop - 48 - 70 - 10; // account for nav heights and 10px buffer
       setDetailsOpen(false);
       details.animate(collapse, animationTiming);
+      summary?.focus();
       window.scrollTo({
         left: 0,
         top: scrollToLoc,
