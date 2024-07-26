@@ -412,7 +412,6 @@ export default function TodoList() {
 <InlineFilter filters={["vue"]}>
 
 ```html title="src/TodoList.vue"
-
 <script setup lang="ts">
 import type { Schema } from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
@@ -432,7 +431,6 @@ async function createTodo() {
     <button @click="createTodo">Add new todo</button>
   </div>
 </template>
-
 ```
 
 </InlineFilter>
@@ -688,7 +686,6 @@ export default function TodoList() {
 <InlineFilter filters={["vue"]}>
 
 ```html title="src/TodoList.vue"
-
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource'
@@ -697,7 +694,7 @@ import { generateClient } from 'aws-amplify/data'
 const client = generateClient<Schema>()
 
 // create a reactive reference to the array of todos
-const todos = ref<Array<Schema['Todo']["type"]>>([]);
+const todos = ref<Array<Schema['Todo']['type']>>([]);
 
 function fetchTodos() {
   const { data: items, errors } = await client.models.Todo.list();
@@ -730,7 +727,6 @@ async function createTodo() {
     </ul>
   </div>
 </template>
-
 ```
 
 </InlineFilter>
@@ -994,7 +990,6 @@ export default function TodoList() {
 
 <InlineFilter filters={["vue"]}>
 ```html title="src/TodoList.vue"
-
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource'
@@ -1040,7 +1035,6 @@ async function createTodo() {
     </ul>
   </div>
 </template>
-
 ```
 
 </InlineFilter>
