@@ -5,12 +5,12 @@ import userEvent from '@testing-library/user-event';
 
 describe('Popover', () => {
   const popoverTestId = 'popoverTestId';
+  const popoverListTestId = 'popoverListTestId';
   const triggerLabel = 'Popover trigger';
-  const navLabel = 'Test list';
   const popover = (
     <Popover testId={popoverTestId}>
       <Popover.Trigger>{triggerLabel}</Popover.Trigger>
-      <Popover.List ariaLabel={navLabel}>
+      <Popover.List testId={popoverListTestId}>
         <Popover.ListItem href="">List item 1</Popover.ListItem>
         <Popover.ListItem href="">List item 2</Popover.ListItem>
         <Popover.ListItem href="">List item 3</Popover.ListItem>
@@ -25,7 +25,7 @@ describe('Popover', () => {
     const popoverTrigger = screen.getByRole('button', {
       name: triggerLabel
     });
-    const popoverList = screen.getByRole('navigation', { name: navLabel });
+    const popoverList = screen.getByTestId(popoverListTestId);
 
     expect(popoverWrapper).toBeInTheDocument();
     expect(popoverTrigger).toBeInTheDocument();
@@ -37,9 +37,7 @@ describe('Popover', () => {
     const button = await screen.findByRole('button', {
       name: triggerLabel
     });
-    const dropdown = await screen.findByRole('navigation', {
-      name: navLabel
-    });
+    const dropdown = screen.getByTestId(popoverListTestId);
 
     userEvent.click(button);
     expect(dropdown.classList).toContain('popover--expanded');
@@ -54,9 +52,7 @@ describe('Popover', () => {
     const button = await screen.findByRole('button', {
       name: triggerLabel
     });
-    const dropdown = await screen.findByRole('navigation', {
-      name: navLabel
-    });
+    const dropdown = screen.getByTestId(popoverListTestId);
 
     userEvent.click(document.body);
     expect(dropdown.classList).not.toContain('popover--expanded');
@@ -73,9 +69,7 @@ describe('Popover', () => {
     const button = await screen.findByRole('button', {
       name: triggerLabel
     });
-    const dropdown = await screen.findByRole('navigation', {
-      name: navLabel
-    });
+    const dropdown = screen.getByTestId(popoverListTestId);
     const externalButton = await screen.findByRole('button', {
       name: 'External button'
     });
@@ -106,9 +100,7 @@ describe('Popover', () => {
     const button = await screen.findByRole('button', {
       name: triggerLabel
     });
-    const dropdown = await screen.findByRole('navigation', {
-      name: navLabel
-    });
+    const dropdown = screen.getByTestId(popoverListTestId);
     const externalButton = await screen.findByRole('button', {
       name: 'External button'
     });

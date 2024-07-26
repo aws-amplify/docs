@@ -144,6 +144,44 @@ const schema = a.schema({
 });
 ```
 
+### Non-model authorization rules
+
+**Non-model** types are any types added to the schema without using `a.model()`. These consist of modifiers such as `a.customType()`, `a.enum()`,`a.query()`, `a.mutation()`, or `a.subscription()`.
+
+Dynamic authorization rules such as `allow.owner()`, `allow.ownerDefinedIn()`, `allow.groupDefinedIn()` are not supported for **non-model** types.
+
+```ts
+const schema = a.schema({
+  // ...
+  listCustomType: a
+    .query()
+    .returns(a.ref("CustomType").array())
+    .handler(
+      a.handler.custom({
+        entry: "./handler.js",
+      })
+    )
+    .authorization((allow) => [
+      // Static auth rules - Supported
+      allow.guest(),
+      allow.publicApiKey(),
+      allow.authenticated(),
+      allow.group("Admin"),
+      allow.groups(["Teacher", "Student"]),
+
+      // Dynamic auth rules - Not supported
+      allow.owner(),
+      allow.ownerDefinedIn("owner"),
+      allow.ownersDefinedIn("otherOwners"),
+      allow.groupDefinedIn("group"),
+      allow.groupsDefinedIn("otherGroups"),
+    ]),
+});
+```
+
+There are TS warnings and validation checks in place that will cause a sandbox deployment to fail if unsupported auth rules are defined on custom queries and mutations.
+
+
 ### Configure multiple authorization rules
 
 When combining multiple authorization rules, they are "logically OR"-ed. In the following example:

@@ -152,4 +152,4 @@ console.log('REACT_APP_TEST_VARIABLE', process.env.REACT_APP_TEST_VARIABLE);
 
 ### Local environment
 
-The same workflow applies when you're working on your local machine. First, add the environment variable in your `.env.local` file, and then reference the environment variable with `process.env`.
+When working on your local machine, you must manually load the sandbox's environment variables. First, add the environment variable in your `.env.local` file. Then, a library such as [`@dotenvx/dotenvx`](https://www.npmjs.com/package/@dotenvx/dotenvx) can load the environment variables, which you can then reference with `process.env`.

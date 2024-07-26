@@ -65,11 +65,13 @@ describe('Accordion', () => {
     });
   });
 
-  it('should collapse Accordion when close button is clicked', async () => {
+  it('should collapse Accordion and refocus on Accordion element when close button is clicked', async () => {
     render(component);
     const accordionHeading = screen.getByText('Accordion component example');
     userEvent.click(accordionHeading);
     const detailsEl = await screen.getByRole('group');
+    const summaryEl = detailsEl.firstChild;
+
     expect(detailsEl).toHaveAttribute('open');
 
     const text = await screen.getByText(content);
@@ -79,6 +81,7 @@ describe('Accordion', () => {
     await waitFor(() => {
       expect(text).not.toBeVisible();
       expect(detailsEl).not.toHaveAttribute('open');
+      expect(summaryEl).toHaveFocus();
     });
   });
 

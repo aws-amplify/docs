@@ -151,6 +151,84 @@ RxAmplify.Storage.getUrl(StoragePath.fromString("public/example")).subscribe(
 
 </Block>
 </BlockSwitcher>
+
+### Check the existence of a file
+
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `AWSS3StorageGetPresignedUrlOptions`. If the file is inaccessible or does not exist, a `StorageException` is thrown.
+This allows you to check if an object exists when generating the presigned URL, which you can then use to download
+that object.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSS3StorageGetPresignedUrlOptions options = AWSS3StorageGetPresignedUrlOptions
+  .builder()
+  .setValidateObjectExistence(true)
+  .build();
+
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/example"),
+    options,
+    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+```kotlin
+val options = AWSS3StorageGetPresignedUrlOptions
+  .builder()
+  .setValidateObjectExistence(true)
+  .build()
+  
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/example"),
+    options,
+    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") },
+    { Log.e("MyAmplifyApp", "URL generation failure", it) }
+)
+```
+</Block>
+<Block name="Kotlin - Coroutines">
+```kotlin
+try {
+    val options = AWSS3StorageGetPresignedUrlOptions
+      .builder()
+      .setValidateObjectExistence(true)
+      .build()
+
+    val url = Amplify.Storage.getUrl(StoragePath.fromString("public/example"), options).url
+    Log.i("MyAmplifyApp", "Successfully generated: $url")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "URL generation failure", error)
+}
+```
+</Block>
+<Block name="RxJava">
+```java
+AWSS3StorageGetPresignedUrlOptions options = AWSS3StorageGetPresignedUrlOptions
+  .builder()
+  .setValidateObjectExistence(true)
+  .build();
+
+RxAmplify.Storage.getUrl(StoragePath.fromString("public/example"), options).subscribe(
+    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+);
+```
+</Block>
+</BlockSwitcher>
+
+### More `getURL` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| expires | Integer | Number of seconds before the URL expires |
+| useAccelerateEndpoint | Boolean | Flag to configure use of acceleration mode |
+
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>

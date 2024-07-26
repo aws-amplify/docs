@@ -6,7 +6,7 @@ Push notifications for Android apps are sent using Firebase Cloud Messaging (FCM
 - [Register your app with Firebase](https://firebase.google.com/docs/cloud-messaging/android/first-message#register_your_app_with_firebase)
 - [Add a Firebase configuration file](https://firebase.google.com/docs/cloud-messaging/android/first-message#add_a_firebase_configuration_file)
 
-Next, you will need to access your **ServerKey** (Referred to as **ApiKey** in the CLI setup):
+Next, you will need to create your service account key (json file):
 
 - Open the [Firebase console](https://console.firebase.google.com/).
 - Choose your Firebase project.
@@ -14,15 +14,9 @@ Next, you will need to access your **ServerKey** (Referred to as **ApiKey** in t
 
 ![image](/images/push-notifications/setup-fcm/project-settings.png)
 
-- Select the **Cloud Messaging** tab.
-- Select the three vertical dots next to **Cloud Messaging API (Legacy)**, then select **Manage API in Google Cloud Console**. ![The three dot menu button is circled in the cloud messaging tab.](/images/push-notifications/firebaseconsole.png)
-
-![image](/images/push-notifications/setup-fcm/manage-api.png)
-
-- In the new tab, select the **Enable** button.
-- Return to the previous page and refresh it.
-- Copy the **Server key** token
-
-![image](/images/push-notifications/setup-fcm/server-id.png)
+- Select the **Service accounts** tab.
+- Select **Firebase Admin SDK** in the sidebar
+- Click **Generate new private key**
+- Keep the downloaded service account key (json file) safe. You will need to provide the path to the CLI.
 
 Return to [Provisioning resources through CLI](/gen1/[platform]/prev/build-a-backend/push-notifications/set-up-push-notifications/#provisioning-resources-through-cli) with the copied **Token**

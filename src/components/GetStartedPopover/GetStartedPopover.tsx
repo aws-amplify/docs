@@ -16,11 +16,13 @@ export type GetStartedLinksType = {
 type GetStartedPopoverType = {
   platform: Platform | typeof DEFAULT_PLATFORM;
   getStartedLinks: GetStartedLinksType[];
+  testId?: string;
 };
 
 export const GetStartedPopover = ({
   platform,
-  getStartedLinks
+  getStartedLinks,
+  testId
 }: GetStartedPopoverType) => {
   const isGen1Page = useIsGen1Page();
 
@@ -47,7 +49,7 @@ export const GetStartedPopover = ({
             Toggle getting started guides navigation
           </VisuallyHidden>
         </Popover.Trigger>
-        <Popover.List ariaLabel="Getting started guides for other platforms">
+        <Popover.List testId={testId ? `${testId}-popoverList` : ''}>
           {getStartedLinks.map((link, index) => {
             return (
               <Popover.ListItem
