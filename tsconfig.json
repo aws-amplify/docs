@@ -36,6 +36,7 @@
     "jest.setup.ts"
   ],
   "mdx": {
-    "checkMdx": true
+    "checkMdx": true,
+    "plugins": ["remark-gfm"]
   }
 }
