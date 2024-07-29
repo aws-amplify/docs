@@ -155,7 +155,7 @@ await Storage.get('filename.txt', { expires: 60 });
 
 Users can run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please vote for what you need, to help the team prioritize.
 
-- `Storage.get` is cached; if you have recently modified a file you may not get the latest version right away. You can pass in `cacheControl: 'no-cache'` to get the latest version.
+- `Storage.get` is cached; if you have recently modified a file you may not get the latest version right away.
 - `Storage.get` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
 - [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
 - There is no API for [Cognito Group-based access to files](https://github.com/aws-amplify/amplify-js/issues/3388).
