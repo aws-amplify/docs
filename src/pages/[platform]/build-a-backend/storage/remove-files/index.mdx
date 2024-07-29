@@ -176,7 +176,9 @@ Future<void> remove() async {
 
 ### Specify a bucket
 
-If the object is located in a different bucket than the one assigned `isDefault` in your backend it can be removed by specifying the bucket with it's user defined alias or an object with `bucketName` and `region` included as strings.
+We also have the ability to target a specific bucket by passing in the bucket option to the `remove` request. The bucket option can either be a string representing the target bucket's assigned name or an object specifying the `bucketName` and `region` as strings. 
+
+See [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) for more information.
 
 ```javascript
 import { remove } from 'aws-amplify/storage';
@@ -194,6 +196,8 @@ try {
 }
 ```
 
+
+
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
@@ -202,5 +206,5 @@ try {
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's user defined alias or an object specifying the bucket name and region as strings. |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name or an object specifying the bucket name and region as strings. |
 </InlineFilter>

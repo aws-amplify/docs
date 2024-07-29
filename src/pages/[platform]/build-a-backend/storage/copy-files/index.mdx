@@ -66,7 +66,9 @@ Cross identity ID copying is only allowed if the destination path has the the ri
 
 </Callout>
 
-Alternatively, specify a non-default bucket target by including `bucket` in both the source and destination objects. See [Multi-Bucket](/[platform]/build-a-backend/storage/multi-bucket) for more information.
+Alternatively, specify a non-default bucket target by including `bucket` in both the source and destination objects. 
+
+See [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) for more information.
 
 ```javascript
 import { copy } from 'aws-amplify/storage';
@@ -77,13 +79,13 @@ const copyFile = async () => {
       source: {
         path: 'album/2024/1.jpg',
         // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-        bucket: "userDefinedFriendlyBucketAlias"
+        bucket: "userDefinedFriendlyBucketName"
       },
       destination: {
         path: 'shared/2024/1.jpg',
         // Alternatively, path: ({identityId}) => `shared/{identityId}/1.jpg`
         bucket: {
-          bucketName: "generated-bucket-name",
+          bucketName: "generated-secondary-bucket-name",
           region: "us-east-2"
         }
       },
