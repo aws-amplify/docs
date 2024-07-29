@@ -1204,7 +1204,7 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 
 ### Specify a bucket
 
-We have the ability to target a specific bucket by passing in the bucket option to the `uploadData` request. The bucket option can either be a string representing the target bucket's assigned alias or an object specifying the bucket name and region as strings. See [Multi-Bucket Support](/[platform]/build-a-backend/storage/multi-bucket) for more information.
+We have the ability to target a specific bucket by passing in the bucket option to the `uploadData` request. The bucket option can either be a string representing the target bucket's assigned alias or an object specifying the bucket name and region as strings. See [Multi-Bucket](/[platform]/build-a-backend/storage/multi-bucket) for more information.
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -1232,7 +1232,7 @@ try {
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's user defined alias or an object specifying the bucket name and region as strings.<br/><br/> Read more at [Multi-Bucket Support](/[platform]/build-a-backend/storage/multi-bucket) |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's user defined alias or an object specifying the bucket name and region as strings.<br/><br/> Read more at [Multi-Bucket](/[platform]/build-a-backend/storage/multi-bucket) |
 | contentType | String | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
 | contentEncoding | String | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
 | contentDisposition | String | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
