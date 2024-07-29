@@ -172,3 +172,35 @@ Future<void> remove() async {
 ```
 
 </InlineFilter>
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+### Specify a bucket
+
+If the object is located in a different bucket than the one assigned `isDefault` in your backend it can be removed by specifying the bucket with it's user defined alias or an object with `bucketName` and `region` included as strings.
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  const result = remove({
+    path: "album/2024/1.jpg",
+    options: {
+      bucket: "userDefinedFriendlyBucketName"
+      // or { bucketName: "generated-bucket-name", region: "us-east-2" }
+    }
+  });
+} catch (error) {
+  console.log(`Error: ${error}`)
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+### More `remove` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's customer assigned alias or an object specifying the bucket name and region as strings. |
+</InlineFilter>

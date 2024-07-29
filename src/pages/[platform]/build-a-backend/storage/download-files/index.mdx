@@ -74,6 +74,7 @@ const linkToStorageFile = await getUrl({
     validateObjectExistence?: false,  // defaults to false
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
     useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
+    bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using user defined alias
   },
 });
 console.log('signed URL: ', linkToStorageFile.url);
@@ -98,6 +99,7 @@ This function does not check if the file exists by default. As result, the signe
 
 Option | Type | Description |
 | -- | -- | ----------- |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's customer assigned alias or an object specifying the bucket name and region as strings. | [Multi-Bucket Support](/[platform]/build-a-backend/storage/multi-bucket) |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |  |
 | validateObjectExistence | boolean | Whether to head object to make sure the object existence before downloading. Defaults to false |
 | expiresIn | number | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
@@ -904,10 +906,33 @@ Download tasks are run using `URLSessionTask` instances internally. You can lear
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
+### Specify a bucket
+
+We have the ability to target a specific bucket by passing in the bucket option to the `downloadData` request. The bucket option can either be a string representing the target bucket's assigned alias or an object specifying the bucket name and region as strings. See [Multi-Bucket Support](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) for more information.
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+try {
+  const result = downloadData({
+    path: "album/2024/1.jpg",
+    options: {
+      bucket: "userDefinedFriendlyBucketName"
+      // or { bucketName: "generated-bucket-name", region: "us-east-2" }
+    }
+  }).result;
+} catch (error) {
+  console.log(`Error: ${error}`)
+}
+```
+</InlineFilter>
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
 ### More download options
 
 Option | Type | Description | Reference Links |
 | -- | -- | ----------- | -- |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's customer assigned alias or an object specifying the bucket name and region as strings. | [Multi-Bucket Support](/[platform]/build-a-backend/storage/multi-bucket) |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 | bytesRange |  \{ start: number; end:number; \} | bytes range parameter to download a part of the file. |  |
 | onProgress | callback | Callback function tracking the upload/download progress. |  |

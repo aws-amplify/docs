@@ -40,7 +40,7 @@ Upload files from your app in minutes by using the cloud-connected Storage Manag
 ```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-react-storage aws-amplify
 ```
-Then, use the component in your app. 
+Then, use the component in your app.
 {/* Let's add explanations for the props - which are mandatory now? I know before it was maxFileCount and accessLevel */}
 
 ```tsx
@@ -127,8 +127,8 @@ upload.addEventListener("click", () => {
     console.log("Complete File read successfully!", event.target.result);
     try {
       await uploadData({
-                data: event.target.result, 
-                path: file.files[0].name 
+                data: event.target.result,
+                path: file.files[0].name
             });
     } catch (e) {
       console.log("error", e);
@@ -1202,10 +1202,37 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
+### Specify a bucket
+
+We have the ability to target a specific bucket by passing in the bucket option to the `uploadData` request. The bucket option can either be a string representing the target bucket's assigned alias or an object specifying the bucket name and region as strings. See [Multi-Bucket Support](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) for more information.
+
+```javascript
+import { uploadData } from 'aws-amplify/storage';
+
+try {
+  const result = uploadData({
+    path: "album/2024/1.jpg",
+    data: file,
+    options: {
+      bucket: "userDefinedFriendlyBucketName"
+      // or { bucketName: "generated-bucket-name", region: "us-east-2" }
+    }
+  }).result;
+} catch (error) {
+  console.log(`Error: ${error}`)
+}
+
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
 ### More upload options
 
 Option | Type | Description |
 | -- | -- | ----------- |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's customer assigned alias or an object specifying the bucket name and region as strings.<br/><br/> Read more at [Multi-Bucket Support](/[platform]/build-a-backend/storage/multi-bucket) |
 | contentType | String | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
 | contentEncoding | String | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
 | contentDisposition | String | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
