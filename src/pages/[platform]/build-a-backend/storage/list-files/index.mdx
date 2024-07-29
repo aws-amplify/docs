@@ -169,11 +169,27 @@ const result = await list({
   }
 });
 ```
+### Specify a bucket
+
+We have the ability to target a specific bucket by passing in the bucket option to the `list` request. The bucket option can either be a string representing the target bucket's user defined alias or an object specifying the bucket name and region as strings. See [Multi-Bucket Support](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) for more information.
+
+```javascript
+import { list } from 'aws-amplify/storage';
+
+const result = await list({
+  path: 'photos/',
+  options: {
+    bucket: "userDefinedFriendlyName",
+    // Alternatively, { bucketName: "generated-bucket-name", region: "us-east-2" }
+  }
+});
+```
 
 ### More `list` options
 
 | Option | Type | Description |
 | --- | --- | --- |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's user defined alias or an object specifying the bucket name and region as strings. |
 | listAll | boolean | Set to true to list all files within the specified `path` |
 | pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
 | nextToken | string | Indicates whether the list is being continued on this bucket with a token |
@@ -528,7 +544,7 @@ Future<void> listAllUnderPublicPath() async {
 
 | Option | Type | Description |
 | --- | --- | --- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's customer assigned alias or an object specifying the bucket name and region as strings. |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's user defined alias or an object specifying the bucket name and region as strings. |
 | excludeSubPaths | boolean | Whether to exclude objects under the sub paths of the path to list. Defaults to false. |
 | delimiter | String | The delimiter to use when evaluating sub paths. If excludeSubPaths is false, this value has no impact on behavior. |
 
@@ -571,7 +587,7 @@ The properties and metadata will look similar to the below example
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's customer assigned alias or an object specifying the bucket name and region as strings. |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's user defined alias or an object specifying the bucket name and region as strings. |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>
