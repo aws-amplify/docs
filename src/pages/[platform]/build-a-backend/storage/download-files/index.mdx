@@ -910,7 +910,7 @@ Download tasks are run using `URLSessionTask` instances internally. You can lear
 
 ### Specify a bucket
 
-We also have the ability to target a specific bucket by passing in the bucket option to the `downloadData` request. The bucket option can either be a string representing the target bucket's assigned name or an object specifying the bucket name and region as strings. 
+We also have the ability to target a specific bucket by passing in the bucket option to the `downloadData` request. The bucket option can either be A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console. 
 
 See [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) for more information.
 
@@ -936,7 +936,7 @@ try {
 
 Option | Type | Description | Reference Links |
 | -- | -- | ----------- | -- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name or an object specifying the bucket name and region as strings. | [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console. | [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 | bytesRange |  \{ start: number; end:number; \} | bytes range parameter to download a part of the file. |  |
 | onProgress | callback | Callback function tracking the upload/download progress. |  |
