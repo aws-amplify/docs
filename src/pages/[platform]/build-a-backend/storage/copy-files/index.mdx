@@ -66,6 +66,8 @@ Cross identity ID copying is only allowed if the destination path has the the ri
 
 </Callout>
 
+## Copy across buckets / regions
+
 Alternatively, specify a non-default bucket target by including `bucket` in both the source and destination objects. 
 
 See [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) for more information.
@@ -80,7 +82,7 @@ const copyFile = async () => {
         path: 'album/2024/1.jpg',
         // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
         bucket: "userDefinedFriendlyBucketName"
-        // Alternatively, bucket: { bucketName: 'generated-primary-bucket-name', region: 'us-east-2' }
+        // Alternatively, bucket: { bucketName: 'generated-primary-bucket-name', region: 'us-east-1' }
       },
       destination: {
         path: 'shared/2024/1.jpg',
