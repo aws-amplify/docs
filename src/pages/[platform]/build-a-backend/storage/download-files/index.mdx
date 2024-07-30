@@ -75,7 +75,8 @@ const linkToStorageFile = await getUrl({
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
     useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
     bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using assigned name or full bucket name and region
-    // Alternatively, bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
+    // Alternatively provide actual bucket name from console and associated region
+    // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
   },
 });
 console.log('signed URL: ', linkToStorageFile.url);
