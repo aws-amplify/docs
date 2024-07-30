@@ -195,7 +195,7 @@ const result = await list({
 | listAll | boolean | Set to true to list all files within the specified `path` |
 | pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
 | nextToken | string | Indicates whether the list is being continued on this bucket with a token |
-| subpathStrategy | \{ strategy: 'include' \| 'exclude',<br />delimiter?: string \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths]([platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
+| subpathStrategy | \{ strategy: 'include' \| 'exclude',<br />delimiter?: string \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
