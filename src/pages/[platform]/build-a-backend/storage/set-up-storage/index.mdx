@@ -157,9 +157,6 @@ After running `npx ampx sandbox` or deploying your app on Amplify, the generated
   }
 }
 ```
-<Callout>
-If you are developing without the Amplify Backend CLI, you will need to configure the outputs manually. You can use the reference above as a guide.
-</Callout>
 Additional storage buckets can easily be referenced from your application code in all Amplify Storage APIs by passing the bucket option.
 ```ts
 type StorageBucket = string | { bucketName: string; region: string }
@@ -183,6 +180,39 @@ try {
 ```
 See each Amplify Storage API page for additional examples.
 
+### Manually overriding `amplify_outputs.json`
+
+While using the Amplify Backend CLI is the easiest way to get started, existing AWS S3 resources can also easily be used with Amplify Storage. In order to configure the client side library without the CLI, you must manually create an `amplify_outputs.json` file and identify your storage resources using the template below. This client configuration file allows the Amplify Storage library to seamlessly connect to your backend resources.
+
+```ts title="amplify_outputs.json"
+{
+  // ...
+  "storage": {
+    // default bucket region
+    "aws_region": "us-east-2", 
+    // default bucket name should match the AWS console
+    "bucket_name": "generated-default-primary-bucket-name",
+    // required to integrate with multiple backend storage resources
+    "buckets": [
+      {
+        // friendly name can be referenced from your application code
+        "name": "primaryStorage", 
+        // bucket name should match the AWS console
+        "bucket_name": "generated-default-primary-bucket-name", 
+        // bucket region
+        "aws_region": "us-east-2" 
+      },
+      {
+        "name": "secondaryStorage",
+        "bucket_name": "generated-secondary-bucket-name",
+        "aws_region": "us-east-2"
+      }
+    ]
+  }
+}
+```
+
+Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
 
 ## Connect your app code to the storage backend
 
