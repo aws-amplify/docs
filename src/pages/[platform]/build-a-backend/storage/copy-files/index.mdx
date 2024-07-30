@@ -80,6 +80,7 @@ const copyFile = async () => {
         path: 'album/2024/1.jpg',
         // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
         bucket: "userDefinedFriendlyBucketName"
+        // Alternatively, bucket: { bucketName: 'generated-primary-bucket-name', region: 'us-east-2' }
       },
       destination: {
         path: 'shared/2024/1.jpg',
@@ -88,6 +89,7 @@ const copyFile = async () => {
           bucketName: "generated-secondary-bucket-name",
           region: "us-east-2"
         }
+         // Alternatively, bucket: 'secondaryStorage'
       },
     });
   } catch (error) {
