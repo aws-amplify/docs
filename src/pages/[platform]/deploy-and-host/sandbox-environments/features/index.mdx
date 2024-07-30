@@ -166,6 +166,10 @@ When working with multiple sandboxes, secrets must be configured for each one. A
 npx ampx sandbox --identifier feature1sandbox secret set baz
 ```
 
+## Stream function logs
+
+Amplify offers the ability to stream function logs directly to your terminal or a file. [Learn more about streaming function logs](/[platform]/build-a-backend/functions/streaming-logs/).
+
 ## Generate client config
 
 The client config, or `amplify_outputs.json` file, contains the configuration strings for interacting with AWS resources specific to an environment. The Amplify client libraries need the client config in order to use the library APIs to connect to backend resources. By default, the cloud sandbox generates the client configuration file at the root of the project (such as `@/amplify_outputs.json`). If you want to place the file at a different path (such as for a monorepo or Android app), run the following command in the terminal:

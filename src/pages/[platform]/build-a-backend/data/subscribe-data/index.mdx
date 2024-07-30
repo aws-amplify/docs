@@ -38,6 +38,12 @@ Before you begin, you will need:
 - An [application connected to the API](/[platform]/build-a-backend/data/connect-to-API/)
 - Data already created to modify
 
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
+
+import { ProtectedRedactionGen2Message } from "@/protected/ProtectedRedactionMessage"
+
+<ProtectedRedactionGen2Message />
+
 ## Set up a real-time list query
 
 The recommended way to fetch a list of data is to use `observeQuery` to get a real-time list of your app data at all times. You can integrate `observeQuery` with React's `useState` and `useEffect` hooks in the following way:

@@ -19,4 +19,17 @@ describe('Callout', () => {
 
     consoleErrorFn.mockRestore();
   });
+
+  it('should pass the backgroundColor through to the Message component', async () => {
+    const child = <div>Callout Child</div>;
+    const ele = render(
+      <Callout info={true} backgroundColor={'red'}>
+        {child}
+      </Callout>
+    );
+
+    const styles = getComputedStyle(ele.container.children[0]);
+    console.log(styles);
+    expect(styles.backgroundColor).toBe('red');
+  });
 });

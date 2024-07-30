@@ -332,7 +332,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
 // highlight-start
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 import 'models/ModelProvider.dart';
 // highlight-end
 
@@ -345,7 +345,7 @@ Future<void> main() async {
         )
       );
     await Amplify.addPlugins([api]);
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
 
     safePrint('Successfully configured Amplify');
   } on Exception catch (e) {

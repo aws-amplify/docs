@@ -49,6 +49,12 @@ Before you begin, you will need:
 
 </InlineFilter>
 
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
+
+import { ProtectedRedactionGen1Message } from "@/protected/ProtectedRedactionMessage"
+
+<ProtectedRedactionGen1Message />
+
 ## Set up a real-time subscription
 
 Subscriptions is a GraphQL feature that allows the server to send data to its clients when a specific event happens. For example, you can subscribe to an event when a new record is created, updated, or deleted through the API. You can enable real-time data integration in your app with a subscription.
