@@ -101,7 +101,7 @@ This function does not check if the file exists by default. As result, the signe
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console. | [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.. | [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |  |
 | validateObjectExistence | boolean | Whether to head object to make sure the object existence before downloading. Defaults to false |
 | expiresIn | number | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
@@ -916,7 +916,7 @@ Download tasks are run using `URLSessionTask` instances internally. You can lear
 
 Option | Type | Description | Reference Links |
 | -- | -- | ----------- | -- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console. | [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.. | [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 | bytesRange |  \{ start: number; end:number; \} | bytes range parameter to download a part of the file. |  |
 | onProgress | callback | Callback function tracking the upload/download progress. |  |

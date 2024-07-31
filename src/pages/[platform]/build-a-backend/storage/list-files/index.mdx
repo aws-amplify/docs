@@ -180,7 +180,7 @@ const result = await list({
 
 | Option | Type | Description |
 | --- | --- | --- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console. |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.. |
 | listAll | boolean | Set to true to list all files within the specified `path` |
 | pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
 | nextToken | string | Indicates whether the list is being continued on this bucket with a token |
@@ -584,7 +584,7 @@ The properties and metadata will look similar to the below example
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console. |
+| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.. |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>
