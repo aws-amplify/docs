@@ -30,7 +30,13 @@ const playSpy = jest
 
 describe('Video', () => {
   const testId = 'videoTest';
-  const component = <Video src="test-video.mp4" testId={testId}></Video>;
+  const component = (
+    <Video
+      src="test-video.mp4"
+      ariaDescription="Video - Test"
+      testId={testId}
+    ></Video>
+  );
 
   beforeEach(() => {
     mockMatchMedia('');

@@ -175,7 +175,7 @@ let mut a = String::from("a");
 Videos can be added using the `<Video />` component and referencing a path to the video file. The video should be an `.mp4` file and should exist in the `/public` directory
 
 ```jsx
-<Video src="/path/to/video.mp4" />
+<Video src="/path/to/video.mp4" ariaDescription="Video - [video description]" />
 ```
 
 ## Accessibility testing

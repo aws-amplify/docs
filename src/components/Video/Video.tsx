@@ -7,6 +7,7 @@ interface VideoProps {
   loop?: true;
   src: string;
   testId?: string;
+  ariaDescription: string;
 }
 
 export const reducedMotionMediaQuery =
@@ -23,6 +24,7 @@ export const Video = ({
   loop = true,
   src,
   testId,
+  ariaDescription,
   ...rest
 }: VideoProps) => {
   /**
@@ -70,7 +72,7 @@ export const Video = ({
       width="100%"
       playsInline={true}
       controls={true}
-      aria-hidden="true"
+      aria-label={ariaDescription}
       testId={testId}
       {...rest}
     >
