@@ -45,8 +45,8 @@ export const LayoutHeader = ({
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
 
-  const handleMenuToggle = () => {
-    if (!menuOpen) {
+  const handleMenuToggle = (menu) => {
+    if (menu === 'menu' && !menuOpen) {
       toggleMenuOpen(true);
       // For keyboard navigators, move focus to the close menu button in the nav
       setTimeout(() => sidebarMenuButtonRef?.current?.focus(), 0);
@@ -55,10 +55,8 @@ export const LayoutHeader = ({
       // For keyboard navigators, move focus back to menu button in header
       menuButtonRef?.current?.focus();
     }
-  };
 
-  const handleTocToggle = () => {
-    if (!tocOpen) {
+    if (menu === 'toc' && !tocOpen) {
       toggleTocOpen(true);
       // For keyboard navigators, move focus to the close menu button in the nav
       setTimeout(() => sidebarTocButtonRef?.current?.focus(), 0);
@@ -87,7 +85,7 @@ export const LayoutHeader = ({
     <View as="header" className="layout-header">
       <Flex className={`layout-search layout-search--${pageType}`}>
         <Button
-          onClick={() => handleMenuToggle()}
+          onClick={() => handleMenuToggle('menu')}
           size="small"
           ref={menuButtonRef}
           className="search-menu-toggle mobile-toggle"
@@ -97,7 +95,7 @@ export const LayoutHeader = ({
         </Button>
         {showTOC ? (
           <Button
-            onClick={() => handleTocToggle()}
+            onClick={() => handleMenuToggle('toc')}
             size="small"
             ref={tocButtonRef}
             className="search-menu-toggle mobile-toggle"
@@ -153,7 +151,7 @@ export const LayoutHeader = ({
               'layout-sidebar__mobile-toggle--open': menuOpen
             })}
             ref={sidebarMenuButtonRef}
-            onClick={() => handleMenuToggle()}
+            onClick={() => handleMenuToggle('menu')}
           >
             <IconDoubleChevron />
             <VisuallyHidden>Close menu</VisuallyHidden>
@@ -210,7 +208,7 @@ export const LayoutHeader = ({
                 }
               )}
               ref={sidebarTocButtonRef}
-              onClick={() => handleTocToggle()}
+              onClick={() => handleMenuToggle('toc')}
             >
               <IconDoubleChevron />
               <VisuallyHidden>Close table of contents</VisuallyHidden>
