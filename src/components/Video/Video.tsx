@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { View } from '@aws-amplify/ui-react';
 
 interface VideoProps {
-  src: string;
   ariaDescription: string;
   autoPlay?: boolean;
   muted?: boolean;
   loop?: true;
+  src: string;
   testId?: string;
 }
 
