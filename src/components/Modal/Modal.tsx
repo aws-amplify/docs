@@ -113,7 +113,8 @@ export const Modal = ({ isGen1 }: ModalProps) => {
           variation="primary"
           className="modal-action modal-action--primary"
         >
-          Learn more <IconChevron className="icon-rotate-270" />
+          Learn more about Gen 2 Docs{' '}
+          <IconChevron className="icon-rotate-270" />
         </InternalLinkButton>
       </Flex>
     </Flex>
