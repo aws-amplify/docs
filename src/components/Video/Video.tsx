@@ -26,7 +26,9 @@ export const Video = ({
   ...rest
 }: VideoProps) => {
   if (!ariaDescription) {
-    throw new Error(`<Video src="${src}"> missing ariaDescription prop`);
+    throw new Error(
+      `<Video src="${src}"> is missing required ariaDescription prop`
+    );
   }
   /**
    * Assume user prefers reduced motion until we can check
