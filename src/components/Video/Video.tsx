@@ -17,12 +17,12 @@ export const reducedMotionMediaQuery =
  * @description The Video component defaults to a muted, auto play video.
  */
 export const Video = ({
+  ariaDescription,
   autoPlay = true,
   muted = true,
   loop = true,
   src,
   testId,
-  ariaDescription,
   ...rest
 }: VideoProps) => {
   if (!ariaDescription) {
