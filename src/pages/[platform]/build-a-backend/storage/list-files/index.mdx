@@ -40,6 +40,12 @@ import { list } from 'aws-amplify/storage';
 const result = await list({
 	path: 'photos/',
   // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
+  // optional options parameter
+  options: {
+      bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+      // Alternatively, provide bucket name from console and associated region
+      // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
+  }
 });
 ```
 
@@ -166,23 +172,6 @@ const result = await list({
       strategy: 'exclude',
       delimiter: '-'
     }
-  }
-});
-```
-### Specify a bucket
-
-We also have the ability to target a specific bucket by passing in the bucket option to the `list` request. The bucket option can either be A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console. 
-
-See [Configure additional storage buckets](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) for more information.
-
-```javascript
-import { list } from 'aws-amplify/storage';
-
-const result = await list({
-  path: 'photos/',
-  options: {
-    bucket: "userDefinedFriendlyName",
-    // Alternatively, { bucketName: "generated-bucket-name", region: "us-east-2" }
   }
 });
 ```
@@ -565,6 +554,12 @@ try {
   const result = await getProperties({
     path: 'album/2024/1.jpg'
     // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
+    // optional options parameter
+    options: {
+      bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+      // Alternatively, provide bucket name from console and associated region
+      // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
+    }
   });
   console.log('File Properties ', result);
 } catch (error) {
