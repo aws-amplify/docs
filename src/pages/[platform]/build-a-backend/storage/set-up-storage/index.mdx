@@ -134,29 +134,7 @@ defineBackend({
   secondaryStorage
 });
 ```
-After running `npx ampx sandbox` or deploying your app on Amplify, the generated `amplify_outputs.json` file will contain additional Amplify Storage metadata necessary for the client libraries to interact with your backend storage resources. 
 
-```json title="amplify_outputs.json"
-{
-  // ...
-  "storage": {
-    "aws_region": "us-east-2",
-    "bucket_name": "generated-default-primary-bucket-name",
-    "buckets": [
-      {
-        "name": "primaryStorage",
-        "bucket_name": "generated-default-primary-bucket-name",
-        "aws_region": "us-east-2"
-      },
-      {
-        "name": "secondaryStorage",
-        "bucket_name": "generated-secondary-bucket-name",
-        "aws_region": "us-east-2"
-      }
-    ]
-  }
-}
-```
 Additional storage buckets can easily be referenced from your application code in all Amplify Storage APIs by passing the bucket option. The `bucket` option can either be a string representing the target bucket's user defined name or an object specifying the generated bucket name and region as strings.
 
 ```ts
