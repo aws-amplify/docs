@@ -18,6 +18,14 @@
     margin: 0;
     padding: 0;
 
+    &__inner {
+      gap: 0;
+
+      &:hover {
+        background-color: var(--amplify-colors-overlay-5);
+      }
+    }
+
     &--category {
       &:not(:first-child) {
         margin-top: 25px;
@@ -27,6 +35,7 @@
     &__link {
       color: var(--amplify-colors-font-primary);
       text-decoration: none;
+      width: 100%;
 
       &:focus {
         outline: 2px auto var(--amplify-colors-border-focus);
@@ -47,10 +56,6 @@
         padding: var(--amplify-space-xs) var(--amplify-space-large);
         justify-content: space-between;
         align-items: center;
-
-        &:hover {
-          background-color: var(--amplify-colors-overlay-5);
-        }
 
         &--subpage {
           padding-left: calc(
@@ -86,6 +91,17 @@
           background-color: var(--amplify-colors-primary-80);
           content: '';
         }
+      }
+    }
+
+    .expand-button {
+      border: none;
+      margin-right: 8px;
+      background-color: transparent;
+      border-radius: 0;
+
+      &:hover {
+        background-color: var(--amplify-colors-overlay-5);
       }
     }
   }

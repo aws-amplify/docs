@@ -1,6 +1,6 @@
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import { ReactElement, useContext, useEffect, useState, useMemo } from 'react';
-import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
+import { Link as AmplifyUILink, Button, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
 import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
@@ -59,6 +59,19 @@ export function MenuItem({
     if (menuOpen) {
       // Close the menu after clicking a link (applies to the mobile menu)
       toggleMenuOpen(false);
+    }
+  };
+
+  const onCheveronClick = () => {
+    console.log('clicked');
+
+    setOpen((prevOpen) => !prevOpen);
+
+    if (menuOpen) {
+      // Close the menu after clicking a link (applies to the mobile menu)
+      toggleMenuOpen(false);
+    } else {
+      toggleMenuOpen(true);
     }
   };
 
@@ -188,22 +201,29 @@ export function MenuItem({
         key={pageNode.route}
         className={`menu__list-item ${listItemStyle}`}
       >
-        <Link
-          className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
-          aria-current={current ? 'page' : null}
-          href={href}
-          onClick={onLinkClick}
-          passHref
-        >
-          <Flex
-            className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
+        <Flex className={`menu__list-item__inner ${currentStyle}`}>
+          <Link
+            className={`menu__list-item__link ${listItemLinkStyle}`}
+            aria-current={current ? 'page' : null}
+            href={href}
+            onClick={onLinkClick}
+            passHref
           >
-            {pageNode.title}
-            {children && hasVisibleChildren && level !== Levels.Category && (
+            <Flex
+              className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
+            >
+              {pageNode.title}
+            </Flex>
+          </Link>
+          {children && hasVisibleChildren && level !== Levels.Category && (
+            <Button
+              className={`${listItemLinkStyle} expand-button`}
+              onClick={onCheveronClick}
+            >
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
-            )}
-          </Flex>
-        </Link>
+            </Button>
+          )}
+        </Flex>
         {children && (
           <ul
             className={`menu__list ${
