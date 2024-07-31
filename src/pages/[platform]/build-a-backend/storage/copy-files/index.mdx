@@ -66,9 +66,9 @@ Cross identity ID copying is only allowed if the destination path has the the ri
 
 </Callout>
 
-## Copy across buckets / regions
+## Specify a bucket or copy across buckets / regions
 
-Alternatively, specify a non-default bucket target by including `bucket` in both the source and destination objects. 
+Alternatively, choose a specific target by including `bucket` in both the source and destination objects. 
 
 See [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) for more information.
 
@@ -81,17 +81,20 @@ const copyFile = async () => {
       source: {
         path: 'album/2024/1.jpg',
         // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-        bucket: "userDefinedFriendlyBucketName"
-        // Alternatively, bucket: { bucketName: 'generated-primary-bucket-name', region: 'us-east-1' }
+        bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+        // Alternatively, provide bucket name from console and associated region
+        // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
       },
       destination: {
         path: 'shared/2024/1.jpg',
         // Alternatively, path: ({identityId}) => `shared/{identityId}/1.jpg`
+        // Specify a target using bucket name from console and associated region
         bucket: {
           bucketName: "generated-secondary-bucket-name",
           region: "us-east-2"
         }
-         // Alternatively, bucket: 'secondaryStorage'
+         // Alternatively, use name assigned in Amplify Backend
+         // bucket?: 'secondaryStorage'
       },
     });
   } catch (error) {
@@ -101,14 +104,15 @@ const copyFile = async () => {
 ```
 
 <Callout>
-In order to copy to or from non-default buckets, both source and destination must have `bucket` explicitly defined.
+In order to copy to or from a bucket other than your default, both source and destination must have `bucket` explicitly defined.
 </Callout>
 
-## More `copy` options
+## Copy `source` and `destination` options
 
-Option | Type | Description | Reference Links |
-| -- | -- | ----------- | -- |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+Option | Type | Description |
+| --- | --- | --- |
+| path | string \| <br/>(\{ identityId \}) => string | A string or string returning function that represents the path in source and destination bucket to copy the object to or from |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets). |
 
 </InlineFilter>
 
