@@ -159,7 +159,9 @@ try {
 
 ### Use existing storage resources without Amplify Backend
 
-While using the Amplify Backend is the easiest way to get started, existing storage resources can also easily be used with Amplify Storage. Pass your existing storage resource metadata to `Amplify.configure` to integrate Amplify Storage with your existing storage resource metadata.
+While using the Amplify Backend is the easiest way to get started, existing storage resources can be integrated with Amplify Storage. 
+
+You can accomplish this by passing your existing storage resource metadata to `Amplify.configure`. This will configure the Amplify Storage client library to interact with your existing storage resources. It's recommended to add the Amplify configuration step to your app's root entry point.
 
 
 ```ts
@@ -185,7 +187,9 @@ Amplify.configure({
 	}
 });
 ```
-Another option for integrating with existing storage resources is to create or modify the `amplify_outputs.json` file directly. Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
+Alternatively, you can use existing storage resources in your app by creating or modifying the `amplify_outputs.json` file directly. Import the file into your application and pass it the `Amplify.configure` function to configure the Amplify Storage client library.  
+
+Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
 
 ```ts title="amplify_outputs.json"
 {
