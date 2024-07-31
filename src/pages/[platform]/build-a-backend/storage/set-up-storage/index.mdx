@@ -137,6 +137,8 @@ defineBackend({
 
 Additional storage buckets can easily be referenced from your application code in all Amplify Storage APIs by passing the bucket option. The `bucket` option can either be a string representing the target bucket's user defined name or an object specifying the generated bucket name and region as strings.
 
+See each Amplify Storage API page for additional examples.
+
 ```ts
 import { downloadData } from 'aws-amplify/storage';
 
@@ -152,11 +154,37 @@ try {
   console.log(`Error: ${error}`)
 }
 ```
-See each Amplify Storage API page for additional examples.
 
-### Manually overriding `amplify_outputs.json`
 
-While using the Amplify Backend CLI is the easiest way to get started, existing AWS S3 resources can also easily be used with Amplify Storage. In order to configure the client side library without the CLI, you must manually create an `amplify_outputs.json` file and identify your storage resources using the template below. This client configuration file allows the Amplify Storage library to seamlessly connect to your backend resources.
+### Use existing storage resources without Amplify Backend
+
+While using the Amplify Backend is the easiest way to get started, existing storage resources can also easily be used with Amplify Storage. Pass your existing storage resource metadata to `Amplify.configure` to integrate Amplify Storage with your existing storage resource metadata.
+
+
+```ts
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+	storage: {
+		bucket_name: "<your-primary-bucket-name>",
+		aws_region: "<your-primary-bucket-region>",
+    	// your primary bucket should be duplicated here
+		buckets: [
+			{
+				name: "<your-primary-bucket-friendly-name>",
+				bucket_name: "<your-primary-bucket-name>",
+				aws_region: "<your-primary-bucket-region>",
+			},
+			{
+				name: "<your-additional-bucket-friendly-name>",
+				bucket_name: "<your-additional-bucket-name>",
+				aws_region: "<your-additional-bucket-region>",
+			},
+		]
+	}
+});
+```
+Another option for integrating with existing storage resources is to create or modify the `amplify_outputs.json` file directly. Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
 
 ```ts title="amplify_outputs.json"
 {
@@ -167,6 +195,7 @@ While using the Amplify Backend CLI is the easiest way to get started, existing 
     // default bucket name should match the AWS console
     "bucket_name": "generated-default-primary-bucket-name",
     // required to integrate with multiple backend storage resources
+    // your default bucket metadata should be duplicated below
     "buckets": [
       {
         // friendly name can be referenced from your application code
@@ -186,7 +215,25 @@ While using the Amplify Backend CLI is the easiest way to get started, existing 
 }
 ```
 
-Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
+```ts
+import { defineBackend } from '@aws-amplify/backend';
+import { Bucket } from 'aws-cdk-lib/aws_s3';
+
+/**
+ * @see https://docs.amplify.aws/react/build-a-backend/ to add auth, functions, and more
+ */
+const backend = defineBackend({})
+
+const storageStack = backend.createStack("ExistingStorage");
+
+const bucket = Bucket.fromBucketAttributes(this, 'ImportedBucket', { 
+  bucketArn: '<your-bucket-arn>'
+})
+
+// example showing how to add to outputs using cdk and amplify backend
+// modify roles / bucket permissions
+
+```
 
 ## Connect your app code to the storage backend
 
