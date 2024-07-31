@@ -219,6 +219,8 @@ export function MenuItem({
             <Button
               className={`${listItemLinkStyle} expand-button`}
               onClick={onCheveronClick}
+              aria-expanded="true"
+              aria-labelledby="li"
             >
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
             </Button>
