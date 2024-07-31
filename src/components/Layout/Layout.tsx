@@ -247,6 +247,7 @@ export const Layout = ({
                 currentPlatform={currentPlatform}
                 pageType={pageType}
                 showLastUpdatedDate={showLastUpdatedDate}
+                mainId={mainId}
               ></LayoutHeader>
               <View key={asPathWithNoHash} className="layout-main">
                 <Flex

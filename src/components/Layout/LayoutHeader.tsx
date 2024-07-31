@@ -25,13 +25,15 @@ export const LayoutHeader = ({
   isGen1,
   pageType = 'inner',
   showLastUpdatedDate = true,
-  showTOC
+  showTOC,
+  mainId
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
+  mainId: string;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -138,7 +140,11 @@ export const LayoutHeader = ({
           </div>
 
           <div className="layout-sidebar-menu">
-            <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
+            <Menu
+              currentPlatform={currentPlatform}
+              path={asPathWithNoHash}
+              mainId={mainId}
+            />
             <div className="layout-sidebar-feedback">
               <RepoActions router={router}></RepoActions>
               <Feedback router={router}></Feedback>

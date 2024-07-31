@@ -7,6 +7,7 @@ import { findDirectoryNode } from '@/utils/findDirectoryNode';
 type MenuProps = {
   currentPlatform?: Platform;
   path: string;
+  mainId: string;
 };
 
 const invalidChildren = [
@@ -15,7 +16,11 @@ const invalidChildren = [
   '/gen1/[platform]/sdk'
 ];
 
-export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
+export function Menu({
+  currentPlatform,
+  path,
+  mainId
+}: MenuProps): ReactElement {
   // Depending on the the page we're on, we could have the following keywords at these subpaths
   // Split them out so we can figure out what kind of page it is
   const pathSplit = path.split('/');
@@ -71,6 +76,7 @@ export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
                 pageNode={child as PageNode}
                 parentSetOpen={null}
                 level={1}
+                mainId={mainId}
                 hideChildren={child.hideChildrenOnBase && baseMenu}
                 {...(currentPlatform
                   ? { currentPlatform: currentPlatform }
