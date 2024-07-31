@@ -157,11 +157,7 @@ After running `npx ampx sandbox` or deploying your app on Amplify, the generated
   }
 }
 ```
-Additional storage buckets can easily be referenced from your application code in all Amplify Storage APIs by passing the bucket option.
-```ts
-type StorageBucket = string | { bucketName: string; region: string }
-```
-The `bucket` option can either be a string representing the target bucket's user defined name or an object specifying the generated bucket name and region as strings.
+Additional storage buckets can easily be referenced from your application code in all Amplify Storage APIs by passing the bucket option. The `bucket` option can either be a string representing the target bucket's user defined name or an object specifying the generated bucket name and region as strings.
 
 ```ts
 import { downloadData } from 'aws-amplify/storage';
