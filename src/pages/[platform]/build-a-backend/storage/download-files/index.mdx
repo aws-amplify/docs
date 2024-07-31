@@ -74,8 +74,8 @@ const linkToStorageFile = await getUrl({
     validateObjectExistence?: false,  // defaults to false
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
     useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
-    bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using assigned name or full bucket name and region
-    // Alternatively, provide actual bucket name from console and associated region
+    bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+    // Alternatively, provide bucket name from console and associated region
     // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
   },
 });
@@ -310,7 +310,11 @@ const { body, eTag } = await downloadData({
     bytesRange: {
       start: 1024,
       end: 2048
-    }
+    },
+    // optional bucket parameter to target a specific storage resource
+    bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+    // Alternatively, provide bucket name from console and associated region
+    // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
   }
 }).result;
 ```
@@ -906,30 +910,6 @@ Download tasks are run using `URLSessionTask` instances internally. You can lear
 
 </InlineFilter>
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
-
-### Specify a bucket
-
-We also have the ability to target a specific bucket by passing in the bucket option to the `downloadData` request. The bucket option can either be A string representing the target bucket's friendly name provided in Amplify backend or an object specifying the actual bucket name and region from the console. 
-
-See [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) for more information.
-
-```javascript
-import { downloadData } from 'aws-amplify/storage';
-
-try {
-  const result = downloadData({
-    path: "album/2024/1.jpg",
-    options: {
-      bucket: "userDefinedFriendlyBucketName"
-      // or { bucketName: "generated-bucket-name", region: "us-east-2" }
-    }
-  }).result;
-} catch (error) {
-  console.log(`Error: ${error}`)
-}
-```
-</InlineFilter>
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ### More download options
