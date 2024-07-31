@@ -42,9 +42,9 @@ const result = await list({
   // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
   // optional options parameter
   options: {
-      bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+      bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
       // Alternatively, provide bucket name from console and associated region
-      // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
+      // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
   }
 });
 ```
@@ -556,9 +556,9 @@ try {
     // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
     // optional options parameter
     options: {
-      bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+      bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
       // Alternatively, provide bucket name from console and associated region
-      // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
+      // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
     }
   });
   console.log('File Properties ', result);

@@ -101,9 +101,9 @@ export const storage = defineStorage({
 ```
 
 ### Configure additional storage buckets
-Amplify Storage allows you to optionally configure your backend to automatically create and manage multiple storage buckets. 
+Amplify Storage allows you to optionally configure your backend to automatically create and manage multiple storage resources. 
 
-Start by creating additional storage resources in your backend. The `name` attribute is required and we recommend using a developer friendly value for each storage bucket to allow you to easily reference them from your application code later. You can define any custom access controls here as well.
+Start by creating additional storage resources in your backend using the `defineStorage` function and providing a `name` for your storage bucket. The `name` attribute is required and we recommend assigning a developer friendly value for each storage bucket to allow you to easily reference them from your application code later. You can define any custom access controls here as well.
 
 Note that if you define additional storage buckets one of them must be marked with `isDefault: true`.
 
@@ -135,9 +135,9 @@ defineBackend({
 });
 ```
 
-Additional storage buckets can easily be referenced from your application code in all Amplify Storage APIs by passing the bucket option. The `bucket` option can either be a string representing the target bucket's user defined name or an object specifying the generated bucket name and region as strings.
+Additional storage buckets can easily be referenced from your application code in Amplify Storage by passing the bucket option. The `bucket` option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console as strings.
 
-See each Amplify Storage API page for additional examples.
+See each Amplify Storage API page for additional usage examples.
 
 ```ts
 import { downloadData } from 'aws-amplify/storage';
@@ -146,8 +146,9 @@ try {
   const result = downloadData({
     path: "album/2024/1.jpg",
     options: {
-      bucket: "secondaryStorage"
-      // or { bucketName: "generated-secondary-bucket-name", region: "us-east-2" }
+    bucket?: "secondaryStorage" // Specify a target bucket using name assigned in Amplify Backend
+    // Alternatively, provide bucket name from console and associated region
+    // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
     }
   }).result;
 } catch (error) {
@@ -168,7 +169,7 @@ Amplify.configure({
 	storage: {
 		bucket_name: "<your-primary-bucket-name>",
 		aws_region: "<your-primary-bucket-region>",
-    	// your primary bucket should be duplicated here
+    	// your default bucket metadata should be duplicated below
 		buckets: [
 			{
 				name: "<your-primary-bucket-friendly-name>",
@@ -214,27 +215,6 @@ Another option for integrating with existing storage resources is to create or m
   }
 }
 ```
-
-```ts
-import { defineBackend } from '@aws-amplify/backend';
-import { Bucket } from 'aws-cdk-lib/aws_s3';
-
-/**
- * @see https://docs.amplify.aws/react/build-a-backend/ to add auth, functions, and more
- */
-const backend = defineBackend({})
-
-const storageStack = backend.createStack("ExistingStorage");
-
-const bucket = Bucket.fromBucketAttributes(this, 'ImportedBucket', { 
-  bucketArn: '<your-bucket-arn>'
-})
-
-// example showing how to add to outputs using cdk and amplify backend
-// modify roles / bucket permissions
-
-```
-
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.

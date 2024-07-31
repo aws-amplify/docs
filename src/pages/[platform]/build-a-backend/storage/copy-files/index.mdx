@@ -81,9 +81,9 @@ const copyFile = async () => {
       source: {
         path: 'album/2024/1.jpg',
         // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-        bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+        bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
         // Alternatively, provide bucket name from console and associated region
-        // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
+        // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
       },
       destination: {
         path: 'shared/2024/1.jpg',

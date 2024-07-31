@@ -74,9 +74,9 @@ const linkToStorageFile = await getUrl({
     validateObjectExistence?: false,  // defaults to false
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
     useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
-    bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+    bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
     // Alternatively, provide bucket name from console and associated region
-    // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
+    // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
   },
 });
 console.log('signed URL: ', linkToStorageFile.url);
@@ -312,9 +312,9 @@ const { body, eTag } = await downloadData({
       end: 2048
     },
     // optional bucket parameter to target a specific storage resource
-    bucket?: "userDefinedFriendlyBucketName" // Specify a target bucket using name assigned in Amplify Backend
+    bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
     // Alternatively, provide bucket name from console and associated region
-    // bucket?: { bucketName: "generated-bucket-name", region: "us-east-2" }
+    // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
   }
 }).result;
 ```
