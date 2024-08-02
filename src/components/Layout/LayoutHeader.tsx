@@ -20,6 +20,7 @@ import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import { TableOfContents } from '../TableOfContents';
+import { HeadingInterface } from '../TableOfContents/TableOfContents';
 
 export const LayoutHeader = ({
   currentPlatform,
@@ -34,7 +35,7 @@ export const LayoutHeader = ({
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
-  tocHeadings;
+  tocHeadings: HeadingInterface[];
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -175,9 +176,8 @@ export const LayoutHeader = ({
             )}
           </div>
         </View>
-        <div className="">
-          {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
-        </div>
+        {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+        <div className=""></div>
       </View>
 
       {showTOC ? (
