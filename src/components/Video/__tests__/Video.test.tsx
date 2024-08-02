@@ -33,7 +33,7 @@ describe('Video', () => {
   const component = (
     <Video
       src="test-video.mp4"
-      ariaDescription="Video - Test"
+      description="Video - Test"
       testId={testId}
     ></Video>
   );

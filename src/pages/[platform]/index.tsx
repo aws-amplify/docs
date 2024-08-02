@@ -176,10 +176,7 @@ const Gen2Overview = () => {
       <Flex className="home-section">
         <Heading level={2}>Develop</Heading>
         {!isMobilePlatform && (
-          <Video
-            src="/videos/typed-api.mp4"
-            ariaDescription="Video - Develop"
-          />
+          <Video src="/videos/typed-api.mp4" description="Video - Develop" />
         )}
 
         <Columns columns={2} as="ul">

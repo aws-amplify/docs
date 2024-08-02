@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { View } from '@aws-amplify/ui-react';
 
 interface VideoProps {
-  ariaDescription: string;
+  description: string;
   autoPlay?: boolean;
   muted?: boolean;
   loop?: true;
@@ -17,7 +17,7 @@ export const reducedMotionMediaQuery =
  * @description The Video component defaults to a muted, auto play video.
  */
 export const Video = ({
-  ariaDescription,
+  description,
   autoPlay = true,
   muted = true,
   loop = true,
@@ -25,9 +25,9 @@ export const Video = ({
   testId,
   ...rest
 }: VideoProps) => {
-  if (!ariaDescription) {
+  if (!description) {
     throw new Error(
-      `<Video src="${src}"> is missing required ariaDescription prop`
+      `<Video src="${src}"> is missing required description prop`
     );
   }
   /**
@@ -75,7 +75,7 @@ export const Video = ({
       width="100%"
       playsInline={true}
       controls={true}
-      aria-label={ariaDescription}
+      aria-label={description}
       testId={testId}
       {...rest}
     >
