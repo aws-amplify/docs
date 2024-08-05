@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MDXHeading } from '../MDXHeading';
+import { TableOfContents } from '../../TableOfContents/index';
+import userEvent from '@testing-library/user-event';
 
 describe('MDXHeading', () => {
   it('should render H2 with string and anchor link', () => {
@@ -52,5 +54,29 @@ describe('MDXHeading', () => {
     expect(heading).toBeInTheDocument();
     expect(heading).toHaveTextContent(props.children);
     expect(link).not.toBeInTheDocument();
+  });
+
+  it('should shift focus to in-content heading on TOC click', async () => {
+    const props = {
+      level: 2,
+      children: 'Test heading',
+      id: 'test-heading'
+    };
+    render(<MDXHeading {...props} />);
+
+    const heading = screen.queryByRole('heading', { level: 2 });
+    const tocHeadings = [
+      { linkText: 'Test heading', hash: 'test-heading', level: 'h2' }
+    ];
+
+    const tableOfContents = <TableOfContents headers={tocHeadings} />;
+    render(tableOfContents);
+
+    const tocEntry = await screen.findByRole('heading', {
+      name: 'Test heading'
+    });
+
+    userEvent.click(tocEntry);
+    expect(heading).toHaveFocus();
   });
 });

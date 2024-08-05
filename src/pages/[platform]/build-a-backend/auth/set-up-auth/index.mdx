@@ -69,14 +69,8 @@ npx ampx sandbox
 <InlineFilter filters={['flutter']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-format dart --outputs-out-dir lib --outputs-version 0
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
-
-<Callout info>
-
-**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
-
-</Callout>
 
 </InlineFilter>
 <InlineFilter filters={['android']}>
@@ -394,7 +388,7 @@ import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> main() async {
   try {

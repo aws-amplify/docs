@@ -57,32 +57,6 @@ cfnUserPool.policies = {
 };
 ```
 
-## Custom Attributes
-
-The following code will allow you to add custom attributes using the [Userpool schema](https://docs.aws.amazon.com/cdk/api/v1/docs/@aws-cdk_aws-cognito.CfnUserPool.html#schema) property with the L1 `cfnUserPool` construct.
-
-```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource';
-import { data } from './data/resource';
-
-const backend = defineBackend({
-  auth,
-  data
-});
-
-// extract L1 CfnUserPool resources
-const { cfnUserPool } = backend.auth.resources.cfnResources;
-// update the schema property to add custom attributes
-if (Array.isArray(cfnUserPool.schema)) {
-  cfnUserPool.schema.push({
-    name: 'policyName',
-    attributeDataType: 'Boolean',
-    developerOnlyAttribute: true,
-  });
-}
-```
-
 {/* token validity */}
 {/* BYO custom idp construct */}
 {/* extend auth/unauth roles */}

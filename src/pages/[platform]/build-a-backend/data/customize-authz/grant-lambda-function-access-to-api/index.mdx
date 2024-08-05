@@ -77,7 +77,7 @@ const schema = a
 // highlight-end
 ```
 
-When configuring function access, the function will be provided the API endpoint as an environment variable named `<defineDataName>_GRAPHQL_ENDPOINT`. The default name is `amplifyData_GRAPHQL_ENDPOINT` unless you have specified a different name in `defineData`.
+When configuring function access, the function will be provided the API endpoint as an environment variable named `<defineDataName>_GRAPHQL_ENDPOINT`, where `defineDataName` is transformed to SCREAMING_SNAKE_CASE. The default name is `AMPLIFY_DATA_GRAPHQL_ENDPOINT` unless you have specified a different name in `defineData`.
 
 <Callout info>
 

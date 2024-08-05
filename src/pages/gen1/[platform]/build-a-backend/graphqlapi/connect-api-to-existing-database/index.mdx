@@ -498,8 +498,17 @@ type Mutation {
 </BlockSwitcher>
 
 <Callout info>
-  The return type for custom queries and mutations expecting row data must
-  be an array of the corresponding model.
+The return type for custom queries and mutations expecting to return row data from SQL statements must be an array of the corresponding model. This is true even for custom `get` queries, where a single row is expected.
+
+**Example**
+
+```graphql title="schema.graphql"
+type Query {
+  getPostBySlug(slug: String!): [Post]
+    @sql(statement: "SELECT * FROM posts WHERE slug = :slug LIMIT 1;")
+    @auth(rules: [{ allow: public }])
+}
+```
 </Callout>
 
 

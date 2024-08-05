@@ -41,7 +41,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 ### Auth
 
 | Feature | Gen 1 | Gen 2 |
-|---|---|---| 
+|---|---|---|
 | Configure username | Yes | Yes with CDK |
 | Configure email | Yes | Yes |
 | Configure phone number | Yes | Yes |
@@ -92,7 +92,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | hasOne | Yes | Yes |
 | hasMany | Yes | Yes |
 | belongsTo | Yes | Yes |
-| manyToMany | Yes | Yes |
+| manyToMany | Yes | No |
 | default | Yes | Yes |
 | **auth - model level** |   |   |
 | auth - public - apiKey | Yes | Yes |
@@ -143,6 +143,8 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Custom GraphQL Transformer plugins | Yes | No |
 | MySQL and PostgreSQL support | No | Yes |
 | In-IDE end-to-end type safety | No | Yes |
+| @hasOne, @hasMany, and @belongsTo on required fields | Yes | No |
+| fields argument on @hasOne, @hasMany, and @belongsTo | Yes | No |
 
 ### Storage
 
@@ -185,8 +187,8 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Function templates: Hello World | Yes | Yes |
 | Function templates: Lambda trigger | Yes | Yes |
 | Function logs in console | Yes | Yes |
-| Function resource access permissions: ◯ geo | Yes | Yes with CDK |
-| Function resource access permissions: ◯ analytics | Yes | Yes with CDK |
+| Function resource access permissions: geo | Yes | Yes with CDK |
+| Function resource access permissions: analytics | Yes | Yes with CDK |
 | Function runtime: .NET 6 | Yes | Yes with CDK |
 | Function runtime: Go | Yes | Yes with CDK |
 | Function runtime: Java | Yes | Yes with CDK |
@@ -200,7 +202,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 <InlineFilter filters={['android', 'swift']}>
 
 | Feature | Gen 1 | Gen 2 |
-|---|---|---| 
+|---|---|---|
 | REST API| Yes|	No
 | Analytics| Yes|	Yes with custom CDK
 | Geo| Yes|	Yes with custom CDK
@@ -212,7 +214,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 <InlineFilter filters={['flutter']}>
 
 | Feature | Gen 1 | Gen 2 |
-|---|---|---| 
+|---|---|---|
 | REST API| Yes|	Yes with custom CDK
 | Analytics| Yes|	Yes with custom CDK
 | Geo| No|	No
@@ -224,7 +226,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 <InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
 
 | Feature | Gen 1 | Gen 2 |
-|---|---|---| 
+|---|---|---|
 | REST API| Yes|	Yes with custom CDK
 | Analytics| Yes|	Yes with custom CDK
 | Geo| Yes|	Yes with custom CDK
