@@ -28,7 +28,7 @@ export function getStaticProps() {
   };
 }
 
-User attributes such as email address, phone number help you identify individual users. Defining the user attributes you include for your user profiles makes user data easy to manage at scale. This information will help you personalize user journeys, tailor content, provide intuitive account control, and more. You can capture information upfront during sign-up or enable customers to update their profile after sign-up. In this section we take a closer look at working with user attributes, how to set them up and manage them.
+User attributes such as email, address, and phone number help you identify individual users. Defining the user attributes you include for your user profiles makes user data easy to manage at scale. This information will help you personalize user journeys, tailor content, provide intuitive account control, and more. You can capture information upfront during sign-up or enable customers to update their profile after sign-up. In this section we take a closer look at working with user attributes, how to set them up and manage them.
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
 ## Pass user attributes during sign-up
@@ -131,7 +131,615 @@ func signUp(username: String, password: String, email: String) async {
 </InlineFilter>
 </InlineFilter>
 
-## Retrieve user attributes
+<InlineFilter filters={['react', 'react-native']}>
+## useUserAttributes Hook
+
+The Amplify-UI `useUserAttributes` hook can be used for attribute management in React and React Native applications. It relies on the same APIs utilized in other platforms, and provides a helpful abstraction that takes the management out of your hands. 
+
+The `state` object contains `data`, `isLoading`, `hasError`, and `message`, all of which provide UI-usable information. The `data` contains `attributes` and `pendingVerification`, which provide the latest user attributes and information about verifiable attributes.
+
+Meanwhile, the hook also returns a `handleAttributes` function which accepts 5 types of inputs: `CONFIRM`, `DELETE`, `FETCH`, `SEND_CODE`, and `UPDATE`. When a type is passed as an input to `handleAttributes`, the function will also expect an additional object to be passed to the underlying API.
+
+<InlineFilter filters={['react']}>
+### Initializing Hook and Retrieving Attributes
+```ts
+import React, { useEffect } from 'react';
+import { useUserAttributes } from '@aws-amplify/ui-react-core';
+import { Loader, View, Text } from '@aws-amplify/ui-react';
+
+export const UserAttributes = () => {
+  const [{ data, isLoading, hasError, message }, handleAttributes] = useUserAttributes();
+
+  useEffect(() => {
+    handleAttributes({ type: 'FETCH' });
+  }, [handleAttributes]);
+
+  if (hasError) {
+    return <Text>{message}</Text>;
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <View>
+      {Object.entries(data.attributes).map(
+        ([key, value]) => value && <Text key={key}>{`${key}: ${value}`}</Text>
+      )}
+    </View>
+  );
+};
+```
+The `state.data.attributes` is automatically kept up-to-date with `fetchUserAttributes` calls behind the scenes. The initial fetch action is required since no other action has been called, but any additional actions impacting the current user attributes will refresh the attributes to their newest state.
+
+### Updating User Attributes
+
+```ts
+import { UserAttributeKey } from "aws-amplify/auth";
+import { useUserAttributes } from "@aws-amplify/ui-react-core";
+import React from "react";
+import { View, TextField, Button, Loader } from "@aws-amplify/ui-react";
+
+export const UpdateUserAttributesForm = () => {
+  const [{ isLoading }, handleAttributes] = useUserAttributes();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userAttributes = Object.fromEntries(formData.entries());
+    handleAttributes({ type: "UPDATE", userAttributes });
+    e.currentTarget.reset();
+  };
+
+  return (
+    <View as="form" onSubmit={handleSubmit}>
+      <TextField name="name" label="Name" />
+      <Button type="submit" isLoading={isLoading}>
+        Update Attributes
+      </Button>
+    </View>
+  );
+};
+```
+This example demonstrates how a developer may configure a form for the `name` attribute, and the structure can be expanded to accept simultaneous inputs for multiple attributes. It is important to note that only attributes configured as 'mutable' may be updated.
+
+### Delete User Attributes
+```ts
+import React, { useEffect } from "react";
+import { UserAttributeKey } from "aws-amplify/auth";
+import { useUserAttributes } from "@aws-amplify/ui-react-core";
+import { View, Heading, Checkbox, Button, Loader, Text } from "@aws-amplify/ui-react";
+
+export const UserAttributeDeletionForm = () => {
+  const [{ isLoading, data }, handleAttributes] = useUserAttributes();
+
+  useEffect(() => {
+    handleAttributes({ type: "FETCH" });
+  }, [handleAttributes]);
+
+  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userAttributeKeys = Array.from(formData.keys());
+    handleAttributes({ type: "DELETE", userAttributeKeys });
+  };
+
+  return (
+    <View>
+      {isLoading ? <Loader /> : null}
+      <Heading level={2}>Delete User Attributes</Heading>
+      <View as="form" onSubmit={handleDeleteSubmit}>
+        {Object.entries(data.attributes ?? {}).map(([key, value]) => (
+          <View key={key} flexDirection="row" alignItems="center">
+            <Checkbox name={key} />
+            <Text>{key}</Text>
+            <Text>{value || "unspecified"}</Text>
+          </View>
+        ))}
+        <Button type="submit" isLoading={isLoading}>
+          Delete Selected
+        </Button>
+      </View>
+    </View>
+  );
+};
+```
+As with updating, it is important to not that only attributes configured as 'mutable' may be deleted. Furthermore, 'required' attributes may not be deleted because they may not be undefined.
+
+### Verifying Attributes
+```ts
+Sure, here's an updated version of the code using components from the Amplify UI library:
+
+import { UserAttributeKey } from "aws-amplify/auth";
+import { useUserAttributes } from "@aws-amplify/ui-react-core";
+import { View, TextField, Button, Loader, Text } from "@aws-amplify/ui-react";
+
+export const UpdateAndVerifyUserAttribute = () => {
+  const [{ isLoading, data }, handleAttributes] = useUserAttributes();
+
+  const handleUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userAttributes = Object.fromEntries(formData.entries());
+    handleAttributes({ type: "UPDATE", userAttributes });
+  };
+
+  const handleVerifySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const confirmationCode = formData.get("confirmationCode");
+    handleAttributes({
+      type: "CONFIRM",
+      userAttributeKey: "email",
+      confirmationCode,
+    });
+  };
+
+  return (
+    <View>
+      <View as="form" onSubmit={handleUpdateSubmit}>
+        <TextField type="email" name="email" label="Email" />
+        <Button type="submit" isLoading={isLoading}>
+          Update Email
+        </Button>
+      </View>
+
+      {data.pendingVerification.name?.codeDeliveryDetails && (
+        <View as="form" onSubmit={handleVerifySubmit}>
+          <Text>
+            Verification Code for{" "}
+            {data.pendingVerification[0].codeDeliveryDetails.destination}:
+          </Text>
+          <TextField type="text" name="confirmationCode" />
+          <Button type="submit" isLoading={isLoading}>
+            Verify {data.pendingVerification.name}
+          </Button>
+        </View>
+      )}
+    </View>
+  );
+};
+```
+
+### Sending Verification Code
+```ts
+import { useUserAttributes } from "@aws-amplify/ui-react-core";
+import { Button } from "@aws-amplify/ui-react";
+
+export const ResendVerificationCodeButton = () => {
+  const [{ isLoading }, handleAttributes] = useUserAttributes();
+
+  const handleResendCode = () => {
+    handleAttributes({ type: "SEND_CODE", userAttributeKey: "email" });
+  };
+
+  return (
+    <Button isLoading={isLoading} onClick={handleResendCode}>
+      Resend Verification Code
+    </Button>
+  );
+};
+```
+With this `handleAttributes` configuration, `userAttributeKey` must be a verifiable attribute, so only `email` and `phone_number` are valid inputs.
+
+### Full Profile Page
+Using the various inputs to `handleAttributes`, a simple profile page can easily be configured to accept updates and deletions of attributes.
+```ts
+import React, { useEffect, useState, useRef } from "react";
+import { UserAttributeKey } from "aws-amplify/auth";
+import { useUserAttributes } from "@aws-amplify/ui-react-core";
+import {
+  View,
+  Heading,
+  Button,
+  TextField,
+  Flex,
+  Loader,
+  Text,
+} from "@aws-amplify/ui-react";
+
+export const SimpleProfilePage = () => {
+  const [{ isLoading, data, hasError }, handleAttributes] = useUserAttributes();
+  const [isEditMode, setIsEditMode] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const editableAttributes: UserAttributeKey[] = [
+    // Array of mutable attributes (declared in amplify/auth/resource.ts)
+  ];
+
+  const handleAttributeDelete = (key: UserAttributeKey) => {
+    handleAttributes({
+      type: "DELETE",
+      userAttributeKeys: [key],
+    });
+    const input = formRef.current?.querySelector(
+      `input[name="${key}"]`
+    ) as HTMLInputElement;
+    if (input) {
+      input.value = "";
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userAttributes = Object.fromEntries(formData.entries());
+
+    handleAttributes({ type: "UPDATE", userAttributes });
+  };
+
+  useEffect(() => {
+    handleAttributes({ type: "FETCH" });
+  }, [handleAttributes]);
+
+  if (isLoading && data.attributes) {
+    return <Loader />;
+  }
+
+  if (hasError) {
+    return <Text>Oh no, an error occurred.</Text>;
+  }
+
+  return (
+    <View as="form" onSubmit={handleSubmit}>
+      <Heading level={1}>Profile</Heading>
+
+      <Button onClick={() => setIsEditMode((prev) => !prev)}>
+        {isEditMode ? "Turn off Edit mode" : "Turn on Edit mode"}
+      </Button>
+
+      {Object.entries(data.attributes ?? {}).map(([key, value]) =>
+        !isEditMode ? (
+          <Text key={key}>{`${key}: ${value}`}</Text>
+        ) : (
+          <Flex key={key} alignItems="center">
+            <TextField
+              label={key}
+              name={key}
+              defaultValue={data.attributes?.[key] || ""}
+            />
+            <Button
+              isLoading={isLoading}
+              type="button"
+              onClick={() => handleAttributeDelete(key)}
+            >
+              Delete
+            </Button>
+          </Flex>
+        )
+      )}
+
+      {isEditMode ? (
+        <Button isLoading={isLoading} type="submit">
+          Save
+        </Button>
+      ) : null}
+    </View>
+  );
+};
+```
+
+</InlineFilter>
+<InlineFilter filters={['react-native']}>
+### Initializing Hook and Retrieving Attributes
+```ts
+import React, { useEffect } from 'react';
+import { useUserAttributes } from '@aws-amplify/ui-react-core';
+import { ActivityIndicator, View, Text } from 'react-native';
+
+export const UserAttributes = () => {
+  const [{ data, isLoading, hasError, message }, handleAttributes] = useUserAttributes();
+
+  useEffect(() => {
+    handleAttributes({ type: 'FETCH' });
+  }, [handleAttributes]);
+
+  if (hasError) {
+    return <Text>{message}</Text>;
+  }
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  return (
+    <View>
+      {Object.entries(data.attributes).map(
+        ([key, value]) => value && <Text key={key}>{`${key}: ${value}`}</Text>
+      )}
+    </View>
+  );
+};
+```
+
+### Updating User Attributes
+```ts
+import React from 'react';
+import { View, TextInput, Button } from 'react-native';
+import { useUserAttributes } from '@aws-amplify/ui-react-core';
+
+export const UpdateUserAttributesForm = () => {
+  const [{ isLoading }, handleAttributes] = useUserAttributes();
+
+  const handleSubmit = () => {
+    const userAttributes = {
+      name: nameInput.current?.value,
+      // Add other attributes as needed
+    };
+    handleAttributes({ type: 'UPDATE', userAttributes });
+  };
+
+  const nameInput = React.useRef(null);
+
+  return (
+    <View>
+      <TextInput
+        ref={nameInput}
+        placeholder="Name"
+      />
+      <Button
+        title="Update Attributes"
+        onPress={handleSubmit}
+        disabled={isLoading}
+      />
+    </View>
+  );
+};
+```
+
+### Deleting User Attributes
+```ts
+import React from 'react';
+import { View, Text, ScrollView, CheckBox, Button } from 'react-native';
+import { UserAttributeKey } from 'aws-amplify/auth';
+import { useUserAttributes } from '@aws-amplify/ui-react-core';
+
+export const UserAttributeDeletionForm = () => {
+  const [{ isLoading, data }, handleAttributes] = useUserAttributes();
+  const [selectedAttributes, setSelectedAttributes] = React.useState([]);
+
+  React.useEffect(() => {
+    handleAttributes({ type: 'FETCH' });
+  }, [handleAttributes]);
+
+  const handleDeleteSubmit = () => {
+    handleAttributes({ type: 'DELETE', userAttributeKeys: selectedAttributes });
+  };
+
+  const toggleAttribute = (key) => {
+    setSelectedAttributes((prevSelected) =>
+      prevSelected.includes(key)
+        ? prevSelected.filter((attr) => attr !== key)
+        : [...prevSelected, key]
+    );
+  };
+
+  return (
+    <View>
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <View>
+          <Text>
+            Delete User Attributes
+          </Text>
+          <ScrollView>
+            {Object.entries(data.attributes ?? {}).map(([key, value]) => (
+              <View key={key}>
+                <CheckBox
+                  value={selectedAttributes.includes(key)}
+                  onValueChange={() => toggleAttribute(key)}
+                />
+                <Text>{key}</Text>
+                <Text>{value || 'unspecified'}</Text>
+              </View>
+            ))}
+          </ScrollView>
+          <Button
+            title="Delete Selected"
+            onPress={handleDeleteSubmit}
+            disabled={isLoading || selectedAttributes.length === 0}
+          />
+        </View>
+      )}
+    </View>
+  );
+};
+```
+
+### Verifying Attributes
+```ts
+import React from 'react';
+import { View, TextInput, Button, Text } from 'react-native';
+import { UserAttributeKey } from 'aws-amplify/auth';
+import { useUserAttributes } from '@aws-amplify/ui-react-core';
+
+export const UpdateAndVerifyUserAttribute = () => {
+  const [{ isLoading, data }, handleAttributes] = useUserAttributes();
+  const [email, setEmail] = React.useState('');
+  const [confirmationCode, setConfirmationCode] = React.useState('');
+
+  const handleUpdateSubmit = () => {
+    const userAttributes = { email };
+    handleAttributes({ type: 'UPDATE', userAttributes });
+  };
+
+  const handleVerifySubmit = () => {
+    handleAttributes({
+      type: 'CONFIRM',
+      userAttributeKey: 'email',
+      confirmationCode,
+    });
+  };
+
+  return (
+    <View>
+      <TextInput
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
+      />
+      <Button
+        title="Update Email"
+        onPress={handleUpdateSubmit}
+        disabled={isLoading}
+      />
+
+      {data.pendingVerification.name?.codeDeliveryDetails && (
+        <View>
+          <Text>
+            Verification Code for{' '}
+            {data.pendingVerification[0].codeDeliveryDetails.destination}:
+          </Text>
+          <TextInput
+            value={confirmationCode}
+            onChangeText={setConfirmationCode}
+            placeholder="Confirmation Code"
+          />
+          <Button
+            title={`Verify ${data.pendingVerification.name}`}
+            onPress={handleVerifySubmit}
+            disabled={isLoading}
+          />
+        </View>
+      )}
+    </View>
+  );
+};
+```
+
+### Sending Verification Code
+```ts
+import React from 'react';
+import { Button } from 'react-native';
+import { useUserAttributes } from '@aws-amplify/ui-react-core';
+
+export const ResendVerificationCodeButton = () => {
+  const [{ isLoading }, handleAttributes] = useUserAttributes();
+
+  const handleResendCode = () => {
+    handleAttributes({ type: 'SEND_CODE', userAttributeKey: 'email' });
+  };
+
+  return (
+    <Button
+      title="Resend Verification Code"
+      onPress={handleResendCode}
+      disabled={isLoading}
+    />
+  );
+};
+```
+
+### Full Profile Page
+```ts
+import React, { useEffect, useState, useRef } from "react";
+import { UserAttributeKey } from "aws-amplify/auth";
+import { useUserAttributes } from "@aws-amplify/ui-react-core";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
+
+export const SimpleProfilePage = () => {
+  const [{ isLoading, data, hasError }, handleAttributes] = useUserAttributes();
+  const [isEditMode, setIsEditMode] = useState(false);
+  const formRef = useRef(null);
+
+  const editableAttributes: UserAttributeKey[] = [
+    // Array of mutable attributes (declared in amplify/auth/resource.ts)
+  ];
+
+  const handleAttributeDelete = (key: UserAttributeKey) => {
+    handleAttributes({
+      type: "DELETE",
+      userAttributeKeys: [key],
+    });
+    const input = formRef.current?.findNode(`input[name="${key}"]`);
+    if (input) {
+      input.clear();
+    }
+  };
+
+  const handleSubmit = () => {
+    const formData = new FormData();
+    Object.entries(data.attributes ?? {}).forEach(([key, value]) => {
+      const input = formRef.current?.findNode(`input[name="${key}"]`);
+      if (input) {
+        formData.append(key, input.value);
+      }
+    });
+    const userAttributes = Object.fromEntries(formData.entries());
+    handleAttributes({ type: "UPDATE", userAttributes });
+  };
+
+  useEffect(() => {
+    handleAttributes({ type: "FETCH" });
+  }, [handleAttributes]);
+
+  if (isLoading && data.attributes) {
+    return <ActivityIndicator />;
+  }
+
+  if (hasError) {
+    return <Text>Oh no, an error occurred.</Text>;
+  }
+
+  return (
+    <View>
+      <Text>Profile</Text>
+
+      <TouchableOpacity onPress={() => setIsEditMode((prev) => !prev)}>
+        <Text>{isEditMode ? "Turn off Edit mode" : "Turn on Edit mode"}</Text>
+      </TouchableOpacity>
+
+      {Object.entries(data.attributes ?? {}).map(([key, value]) =>
+        !isEditMode ? (
+          <Text key={key}>{`${key}: ${value}`}</Text>
+        ) : (
+          <View key={key} style={{ flexDirection: "row", alignItems: "center" }}>
+            <TextInput
+              defaultValue={data.attributes?.[key] || ""}
+              name={key}
+              ref={(ref) => {
+                if (ref) {
+                  formRef.current = ref;
+                }
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => handleAttributeDelete(key)}
+              disabled={isLoading}
+            >
+              <Text>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      )}
+
+      {isEditMode ? (
+        <TouchableOpacity
+          style={{ marginTop: 16 }}
+          onPress={handleSubmit}
+          disabled={isLoading}
+        >
+          <Text>Save</Text>
+        </TouchableOpacity>
+      ) : null}
+    </View>
+  );
+};
+```
+</InlineFilter>
+</InlineFilter>
+
+
+## Amplify JS Attribute Management APIs
+### Retrieve user attributes
 
 You can retrieve user attributes for your users to read in their profile using the `fetchUserAttributes` API. This helps you personalize their frontend experience as well as control what they will see.
 
@@ -252,7 +860,7 @@ Future<void> fetchCurrentUserAttributes() async {
 
 </InlineFilter>
 
-## Update user attribute
+### Update user attribute
 
 You can use the `updateUserAttribute` API to create or update existing user attributes.
 
@@ -539,7 +1147,7 @@ Future<void> updateUserAttributes() async {
 </InlineFilter>
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs', 'android']}>
-## Update user attributes
+### Update user attributes
 
 You can use the `updateUserAttributes` API to create or update multiple existing user attributes.
 
@@ -609,7 +1217,7 @@ RxAmplify.Auth.updateUserAttributes(attributes)
 </InlineFilter>
 </InlineFilter>
 
-## Verify user attribute
+### Verify user attribute
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs', 'flutter', 'android']}>
 Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, part of the result of the `updateUserAttribute` or `updateUserAttributes` APIs will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
@@ -745,7 +1353,7 @@ Future<void> verifyAttributeUpdate() async {
 </InlineFilter>
 
 
-## Send user attribute verification code
+### Send user attribute verification code
 
 If an attribute needs to be verified while the user is authenticated, invoke the `sendUserAttributeVerificationCode` API as shown below:
 
@@ -878,7 +1486,7 @@ Future<void> resendVerificationCode() async {
 </InlineFilter>
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
-## Delete user attributes
+### Delete user attributes
 
 The `deleteUserAttributes` API allows to delete one or more user attributes.
 
