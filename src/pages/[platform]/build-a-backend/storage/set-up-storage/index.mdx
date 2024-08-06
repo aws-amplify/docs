@@ -168,23 +168,23 @@ You can accomplish this by passing your existing storage resource metadata to `A
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
-	storage: {
-		bucket_name: "<your-primary-bucket-name>",
-		aws_region: "<your-primary-bucket-region>",
+  Storage: {
+    S3: {
+      bucket: "<your-primary-bucket-name>",
+      region: "<your-primary-bucket-region>",
     	// your default bucket metadata should be duplicated below
-		buckets: [
-			{
-				name: "<your-primary-bucket-friendly-name>",
-				bucket_name: "<your-primary-bucket-name>",
-				aws_region: "<your-primary-bucket-region>",
+      buckets: {
+        "<your-primary-bucket-friendly-name>": {
+          bucketName: "<your-primary-bucket-name>",
+          region: "<your-primary-bucket-region>",
 			},
-			{
-				name: "<your-additional-bucket-friendly-name>",
-				bucket_name: "<your-additional-bucket-name>",
-				aws_region: "<your-additional-bucket-region>",
+        "<your-additional-bucket-friendly-name>": {
+          bucketName: "<your-additional-bucket-name>",
+          region: "<your-additional-bucket-region>",
 			},
-		]
-	}
+      },
+    },
+  },
 });
 ```
 Alternatively, you can use existing storage resources in your app by creating or modifying the `amplify_outputs.json` file directly. Import the file into your application and pass it the `Amplify.configure` function to configure the Amplify Storage client library.  
