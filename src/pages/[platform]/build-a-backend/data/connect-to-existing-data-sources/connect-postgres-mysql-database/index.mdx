@@ -34,23 +34,11 @@ Amplify's native integration supports any MySQL or Postgres database, no matter 
 
 You must create a connection string using the following database information to get started:
 
-<ul>
-<li>
-<input type="checkbox"/> Database **hostname**
-</li>
-<li>
-<input type="checkbox"/> Database **port**
-</li>
-<li>
-<input type="checkbox"/> Database **username**
-</li>
-<li>
-<input type="checkbox"/> Database **user password**
-</li>
-<li>
-<input type="checkbox"/> Database **name**
-</li>
-</ul>
+- Database **hostname**
+- Database **port**
+- Database **username**
+- Database **user password**
+- Database **name**
 
 <Callout info>
 
@@ -207,9 +195,9 @@ const { data: events } = await client.models.event.list()
 
 When deploying your app to production, you need to [add the database connection string as a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). Make sure to add the appropriate database connection string with the same secret name you used in the sandbox environment. For example, we used `SQL_CONNECTION_STRING` above.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+<Video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true} description="Video - Configuring database connection for production">
   <source src="/images/gen2/secrets-and-vars/secrets.mp4" />
-</video>
+</Video>
 
 ## Rename generated models and fields
 
@@ -327,6 +315,30 @@ VALUES (:name, :address, ST_SetSRID(ST_MakePoint(:long, :lat), 4326))
 </Block>
 </BlockSwitcher>
 
+<Callout info>
+The return type for custom queries and mutations expecting to return row data from SQL statements must be an array of the corresponding model. This is true even for custom `get` queries, where a single row is expected.
+
+**Example**
+
+```ts
+getPostBySlug: a
+  .query()
+  .arguments({
+    slug: a.string().required(),
+  })
+  // highlight-start
+  .returns(a.ref("Post").array())
+  // highlight-end
+  .handler(
+    a.handler.inlineSql(`
+    SELECT id, title, slug, content, created_at, updated_at
+    FROM posts
+    WHERE slug = :slug;
+    `)
+  )
+```
+</Callout>
+
 ## How does it work?
 
 The Amplify uses AWS Lambda functions to enable features like querying data from your database. To work properly, these Lambda functions need access to common logic and dependencies.
@@ -419,3 +431,4 @@ To return the actual SQL error instead of a generic error from underlying API re
 ### My SQL table doesn't get generated when running `npx ampx generate schema-from-database`
 
 This is likely because the table doesn't have a designated primary key. A primary key is required for `npx ampx generate schema-from-database` to infer the table structure and create a create, read, update, and delete API.
+

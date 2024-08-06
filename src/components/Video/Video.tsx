@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { View } from '@aws-amplify/ui-react';
 
 interface VideoProps {
+  description: string;
   autoPlay?: boolean;
   muted?: boolean;
   loop?: true;
@@ -14,10 +15,9 @@ export const reducedMotionMediaQuery =
 
 /**
  * @description The Video component defaults to a muted, auto play video.
- * Currently, we also assume the surrounding content will adequately describe
- * the video so we default to aria-hidden="true".
  */
 export const Video = ({
+  description,
   autoPlay = true,
   muted = true,
   loop = true,
@@ -25,6 +25,11 @@ export const Video = ({
   testId,
   ...rest
 }: VideoProps) => {
+  if (!description) {
+    throw new Error(
+      `<Video src="${src}"> is missing required description prop`
+    );
+  }
   /**
    * Assume user prefers reduced motion until we can check
    * in the useEffect for the media query match, otherwise Next SSG
@@ -70,7 +75,7 @@ export const Video = ({
       width="100%"
       playsInline={true}
       controls={true}
-      aria-hidden="true"
+      aria-label={description}
       testId={testId}
       {...rest}
     >
