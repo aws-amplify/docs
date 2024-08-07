@@ -187,7 +187,10 @@ export const UpdateUserAttributesForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const userAttributes = Object.fromEntries(formData.entries());
+    const userAttributes = Object.fromEntries(formData.entries()) as Record<
+      UserAttributeKey,
+      string
+    >;
     handleAttributes({ type: "UPDATE", userAttributes });
     e.currentTarget.reset();
   };
@@ -209,7 +212,7 @@ This example demonstrates how a developer may configure a form for the `name` at
 import React, { useEffect } from "react";
 import { UserAttributeKey } from "aws-amplify/auth";
 import { useUserAttributes } from "@aws-amplify/ui-react-core";
-import { View, Heading, Checkbox, Button, Loader, Text } from "@aws-amplify/ui-react";
+import { View, Heading, CheckboxField, Button, Loader, Text } from "@aws-amplify/ui-react";
 
 export const UserAttributeDeletionForm = () => {
   const [{ isLoading, data }, handleAttributes] = useUserAttributes();
@@ -231,8 +234,8 @@ export const UserAttributeDeletionForm = () => {
       <Heading level={2}>Delete User Attributes</Heading>
       <View as="form" onSubmit={handleDeleteSubmit}>
         {Object.entries(data.attributes ?? {}).map(([key, value]) => (
-          <View key={key} flexDirection="row" alignItems="center">
-            <Checkbox name={key} />
+          <View key={key}>
+            <CheckboxField label={key} name={key} />
             <Text>{key}</Text>
             <Text>{value || "unspecified"}</Text>
           </View>
@@ -245,15 +248,13 @@ export const UserAttributeDeletionForm = () => {
   );
 };
 ```
-As with updating, it is important to not that only attributes configured as 'mutable' may be deleted. Furthermore, 'required' attributes may not be deleted because they may not be undefined.
+As with updating, it is important to note that only attributes configured as 'mutable' may be deleted. Furthermore, 'required' attributes may not be deleted because they may not be undefined.
 
 ### Verifying Attributes
 ```ts
-Sure, here's an updated version of the code using components from the Amplify UI library:
-
 import { UserAttributeKey } from "aws-amplify/auth";
 import { useUserAttributes } from "@aws-amplify/ui-react-core";
-import { View, TextField, Button, Loader, Text } from "@aws-amplify/ui-react";
+import { View, TextField, Button, Text } from "@aws-amplify/ui-react";
 
 export const UpdateAndVerifyUserAttribute = () => {
   const [{ isLoading, data }, handleAttributes] = useUserAttributes();
@@ -261,23 +262,28 @@ export const UpdateAndVerifyUserAttribute = () => {
   const handleUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const userAttributes = Object.fromEntries(formData.entries());
-    handleAttributes({ type: "UPDATE", userAttributes });
+    const userAttributes = Object.fromEntries(formData.entries()) as Record<
+      UserAttributeKey,
+      string
+    >;
+    handleAttributes({ type: 'UPDATE', userAttributes });
   };
 
   const handleVerifySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const confirmationCode = formData.get("confirmationCode");
+    const confirmationCode = formData.get('Confirmation Code') as string;
     handleAttributes({
-      type: "CONFIRM",
-      userAttributeKey: "email",
+      type: 'CONFIRM',
+      userAttributeKey: 'email',
       confirmationCode,
     });
+    e.currentTarget.reset();
   };
 
   return (
     <View>
+      <Text>Current Email: {data.attributes.email}</Text>
       <View as="form" onSubmit={handleUpdateSubmit}>
         <TextField type="email" name="email" label="Email" />
         <Button type="submit" isLoading={isLoading}>
@@ -285,15 +291,15 @@ export const UpdateAndVerifyUserAttribute = () => {
         </Button>
       </View>
 
-      {data.pendingVerification.name?.codeDeliveryDetails && (
+      {data.pendingVerification && (
         <View as="form" onSubmit={handleVerifySubmit}>
           <Text>
-            Verification Code for{" "}
+            Verification Code for{' '}
             {data.pendingVerification[0].codeDeliveryDetails.destination}:
           </Text>
-          <TextField type="text" name="confirmationCode" />
-          <Button type="submit" isLoading={isLoading}>
-            Verify {data.pendingVerification.name}
+          <TextField label="Confirmation Code" name={'Confirmation Code'} />
+          <Button type="submit" disabled={isLoading}>
+            Verify {data.pendingVerification[0].name}
           </Button>
         </View>
       )}
@@ -326,98 +332,234 @@ With this `handleAttributes` configuration, `userAttributeKey` must be a verifia
 ### Full Profile Page
 Using the various inputs to `handleAttributes`, a simple profile page can easily be configured to accept updates and deletions of attributes.
 ```ts
-import React, { useEffect, useState, useRef } from "react";
-import { UserAttributeKey } from "aws-amplify/auth";
-import { useUserAttributes } from "@aws-amplify/ui-react-core";
+import React from 'react';
+import { useUserAttributes } from '@aws-amplify/ui-react-core';
 import {
-  View,
-  Heading,
   Button,
-  TextField,
+  View,
   Flex,
-  Loader,
-  Text,
-} from "@aws-amplify/ui-react";
+  Heading,
+  TextField,
+  Divider,
+} from '@aws-amplify/ui-react';
+import { UserAttributeKey } from 'aws-amplify/auth';
 
 export const SimpleProfilePage = () => {
-  const [{ isLoading, data, hasError }, handleAttributes] = useUserAttributes();
-  const [isEditMode, setIsEditMode] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [state, handleAttributes] = useUserAttributes();
+  const [isEditMode, setIsEditMode] = React.useState(false);
+  const [isConfirmMode, setIsConfirmMode] = React.useState(false);
+  const formRef = React.useRef<HTMLFormElement>(null);
 
   const editableAttributes: UserAttributeKey[] = [
-    // Array of mutable attributes (declared in amplify/auth/resource.ts)
+    'family_name',
+    'given_name',
+    'locale',
+    'name',
+    'nickname',
+    'birthdate',
+    'middle_name',
+    'gender',
+    'preferred_username',
+    'website',
   ];
 
   const handleAttributeDelete = (key: UserAttributeKey) => {
     handleAttributes({
-      type: "DELETE",
+      type: 'DELETE',
       userAttributeKeys: [key],
     });
     const input = formRef.current?.querySelector(
       `input[name="${key}"]`
     ) as HTMLInputElement;
-    if (input) {
-      input.value = "";
-    }
+    input.value = '';
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdateEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const userAttributes = Object.fromEntries(formData.entries());
-
-    handleAttributes({ type: "UPDATE", userAttributes });
+    const userAttributes = Object.fromEntries(formData.entries()) as Record<
+      UserAttributeKey,
+      string
+    >;
+    handleAttributes({ type: 'UPDATE', userAttributes });
+    setIsConfirmMode(true);
+    e.currentTarget.reset();
   };
 
-  useEffect(() => {
-    handleAttributes({ type: "FETCH" });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userAttributes = Object.fromEntries(formData.entries()) as Record<
+      UserAttributeKey,
+      string
+    >;
+    handleAttributes({ type: 'UPDATE', userAttributes });
+  };
+
+  const handleVerifySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const confirmationCode = formData.get('confirmationCode') as string;
+    handleAttributes({
+      type: 'CONFIRM',
+      userAttributeKey: 'email',
+      confirmationCode,
+    });
+    setIsConfirmMode(false);
+    e.currentTarget.reset();
+  };
+
+  React.useEffect(() => {
+    handleAttributes({ type: 'FETCH' });
   }, [handleAttributes]);
 
-  if (isLoading && data.attributes) {
-    return <Loader />;
+  if (state.isLoading && !state.data.attributes) {
+    return <div>Loading...</div>;
   }
 
-  if (hasError) {
-    return <Text>Oh no, an error occurred.</Text>;
+  if (state.message) {
+    return <div>Error: {state.message}</div>;
+  }
+
+  if (!state.data.attributes) {
+    return <div>No data</div>;
   }
 
   return (
-    <View as="form" onSubmit={handleSubmit}>
+    <Flex direction="column" alignItems="center">
       <Heading level={1}>Profile</Heading>
-
-      <Button onClick={() => setIsEditMode((prev) => !prev)}>
-        {isEditMode ? "Turn off Edit mode" : "Turn on Edit mode"}
-      </Button>
-
-      {Object.entries(data.attributes ?? {}).map(([key, value]) =>
-        !isEditMode ? (
-          <Text key={key}>{`${key}: ${value}`}</Text>
-        ) : (
-          <Flex key={key} alignItems="center">
-            <TextField
-              label={key}
-              name={key}
-              defaultValue={data.attributes?.[key] || ""}
-            />
+      <View>
+        <Heading level={5} textAlign={'center'} marginBottom="10px">
+          User Attributes
+        </Heading>
+        <Divider orientation="horizontal" marginBottom="5px" />
+        {!isEditMode ? (
+          <>
+            {Object.entries(state.data.attributes)
+              .filter(
+                ([key]) =>
+                  key !== 'phone_number_verified' &&
+                  key !== 'sub' &&
+                  key !== 'email_verified' &&
+                  key !== 'phone_number'
+              )
+              .map(([key, value]) => (
+                <Flex key={key} alignItems="center" marginBottom="0.5rem">
+                  <View
+                    width="200px"
+                    textAlign="right"
+                  >
+                    {key
+                      .replace(/_/g, ' ')
+                      .replace(/(^|\s)\S/g, (match) => match.toUpperCase())}
+                    :
+                  </View>
+                  <View textAlign="right">{value as string}</View>
+                </Flex>
+              ))}
             <Button
-              isLoading={isLoading}
-              type="button"
-              onClick={() => handleAttributeDelete(key)}
+              onClick={() => setIsEditMode(true)}
             >
-              Delete
+              Edit
             </Button>
-          </Flex>
-        )
-      )}
-
-      {isEditMode ? (
-        <Button isLoading={isLoading} type="submit">
-          Save
-        </Button>
-      ) : null}
-    </View>
+          </>
+        ) : (
+          <View>
+            <Flex
+              as="form"
+              direction="column"
+              alignItems="left"
+              ref={formRef}
+              onSubmit={handleSubmit}
+            >
+              <Flex justifyContent="space-between" marginTop="1rem">
+                <Button
+                  isLoading={state.isLoading}
+                  type="submit"
+                >
+                  Submit Updates
+                </Button>
+                <Divider orientation="vertical" />
+                <Button
+                  isLoading={state.isLoading}
+                  type="button"
+                  onClick={() => setIsEditMode(false)}
+                >
+                  Done Editing
+                </Button>
+              </Flex>
+              {editableAttributes.map((key) => (
+                <Flex
+                  key={key}
+                  alignItems="center"
+                >
+                  <Flex alignItems="end">
+                    <TextField
+                      label={key
+                        .replace(/_/g, ' ')
+                        .replace(/(^|\s)\S/g, (match) => match.toUpperCase())}
+                      name={key}
+                      defaultValue={state.data.attributes[key] || ''}
+                    />
+                    <Button
+                      isLoading={state.isLoading}
+                      type="button"
+                      onClick={() => {
+                        handleAttributeDelete(key);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Flex>
+                </Flex>
+              ))}
+              <Divider orientation="horizontal" />
+            </Flex>
+            <Flex
+              as="form"
+              direction="column"
+              onSubmit={handleUpdateEmailSubmit}
+            >
+              <TextField
+                type="email"
+                name="email"
+                label="Email:"
+                descriptiveText="Enter your new email address:"
+              />
+              <Button
+                isLoading={state.isLoading}
+                type="submit"
+              >
+                Update Email
+              </Button>
+            </Flex>
+            {isConfirmMode && state.data.pendingVerification && (
+              <Flex
+                as="form"
+                direction="column"
+                onSubmit={handleVerifySubmit}
+              >
+                <TextField
+                  type="text"
+                  name="confirmationCode"
+                  label={`Verification Code for ${state.data.pendingVerification[0].codeDeliveryDetails?.destination}`}
+                  descriptiveText="Enter the verification code sent to your email"
+                />
+                <Button
+                  isLoading={state.isLoading}
+                  type="submit"
+                >
+                  Verify Email
+                </Button>
+              </Flex>
+            )}
+          </View>
+        )}
+      </View>
+    </Flex>
   );
 };
+
 ```
 
 </InlineFilter>
@@ -452,32 +594,30 @@ export const UserAttributes = () => {
   );
 };
 ```
+The `state.data.attributes` is automatically kept up-to-date with `fetchUserAttributes` calls behind the scenes. The initial fetch action is required since no other action has been called, but any additional actions impacting the current user attributes will refresh the attributes to their newest state.
 
 ### Updating User Attributes
 ```ts
-import React from 'react';
-import { View, TextInput, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Button, Text } from 'react-native';
 import { useUserAttributes } from '@aws-amplify/ui-react-core';
 
-export const UpdateUserAttributesForm = () => {
-  const [{ isLoading }, handleAttributes] = useUserAttributes();
+export const UpdateUserAttributes = () => {
+  const [{ data, isLoading }, handleAttributes] = useUserAttributes();
+  const [name, setName] = useState('');
 
   const handleSubmit = () => {
     const userAttributes = {
-      name: nameInput.current?.value,
+      name,
       // Add other attributes as needed
     };
     handleAttributes({ type: 'UPDATE', userAttributes });
   };
 
-  const nameInput = React.useRef(null);
-
   return (
     <View>
-      <TextInput
-        ref={nameInput}
-        placeholder="Name"
-      />
+      <Text>Current Name: {data.attributes.name}</Text>
+      <TextInput value={name} onChangeText={setName} placeholder="Name" />
       <Button
         title="Update Attributes"
         onPress={handleSubmit}
@@ -487,17 +627,27 @@ export const UpdateUserAttributesForm = () => {
   );
 };
 ```
+This example demonstrates how a developer may configure a form for the `name` attribute, and the structure can be expanded to accept simultaneous inputs for multiple attributes. It is important to note that only attributes configured as 'mutable' may be updated.
 
 ### Deleting User Attributes
 ```ts
 import React from 'react';
-import { View, Text, ScrollView, CheckBox, Button } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Button,
+  StyleSheet,
+} from 'react-native';
 import { UserAttributeKey } from 'aws-amplify/auth';
 import { useUserAttributes } from '@aws-amplify/ui-react-core';
 
-export const UserAttributeDeletionForm = () => {
+export const DeleteUserAttributes = () => {
   const [{ isLoading, data }, handleAttributes] = useUserAttributes();
-  const [selectedAttributes, setSelectedAttributes] = React.useState([]);
+  const [selectedAttributes, setSelectedAttributes] = React.useState<
+    UserAttributeKey[]
+  >([]);
 
   React.useEffect(() => {
     handleAttributes({ type: 'FETCH' });
@@ -507,7 +657,7 @@ export const UserAttributeDeletionForm = () => {
     handleAttributes({ type: 'DELETE', userAttributeKeys: selectedAttributes });
   };
 
-  const toggleAttribute = (key) => {
+  const toggleAttribute = (key: UserAttributeKey) => {
     setSelectedAttributes((prevSelected) =>
       prevSelected.includes(key)
         ? prevSelected.filter((attr) => attr !== key)
@@ -521,17 +671,19 @@ export const UserAttributeDeletionForm = () => {
         <Text>Loading...</Text>
       ) : (
         <View>
-          <Text>
-            Delete User Attributes
-          </Text>
+          <Text>Delete User Attributes</Text>
           <ScrollView>
             {Object.entries(data.attributes ?? {}).map(([key, value]) => (
-              <View key={key}>
-                <CheckBox
-                  value={selectedAttributes.includes(key)}
-                  onValueChange={() => toggleAttribute(key)}
-                />
-                <Text>{key}</Text>
+              <View key={key} style={styles.row}>
+                <TouchableOpacity
+                  style={styles.checkbox}
+                  onPress={() => toggleAttribute(key)}
+                >
+                  {selectedAttributes.includes(key) && (
+                    <View style={styles.checkboxInner} />
+                  )}
+                </TouchableOpacity>
+                <Text>{key}: </Text>
                 <Text>{value || 'unspecified'}</Text>
               </View>
             ))}
@@ -546,16 +698,40 @@ export const UserAttributeDeletionForm = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxInner: {
+    width: 12,
+    height: 12,
+    backgroundColor: 'black',
+    borderRadius: 2,
+  },
+});
 ```
+As with updating, it is important to note that only attributes configured as 'mutable' may be deleted. Furthermore, 'required' attributes may not be deleted because they may not be undefined.
 
 ### Verifying Attributes
 ```ts
 import React from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
-import { UserAttributeKey } from 'aws-amplify/auth';
 import { useUserAttributes } from '@aws-amplify/ui-react-core';
 
-export const UpdateAndVerifyUserAttribute = () => {
+export const UpdateEmailForm = () => {
   const [{ isLoading, data }, handleAttributes] = useUserAttributes();
   const [email, setEmail] = React.useState('');
   const [confirmationCode, setConfirmationCode] = React.useState('');
@@ -573,20 +749,21 @@ export const UpdateAndVerifyUserAttribute = () => {
     });
   };
 
+  React.useEffect(() => {
+    handleAttributes({ type: 'FETCH' });
+  }, [handleAttributes]);
+
   return (
     <View>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-      />
+      <Text>Current Email: {data.attributes.email}</Text>
+      <TextInput value={email} onChangeText={setEmail} placeholder="Email" />
       <Button
         title="Update Email"
         onPress={handleUpdateSubmit}
         disabled={isLoading}
       />
 
-      {data.pendingVerification.name?.codeDeliveryDetails && (
+      {data.pendingVerification && (
         <View>
           <Text>
             Verification Code for{' '}
@@ -598,7 +775,7 @@ export const UpdateAndVerifyUserAttribute = () => {
             placeholder="Confirmation Code"
           />
           <Button
-            title={`Verify ${data.pendingVerification.name}`}
+            title={`Verify ${data.pendingVerification[0].name}`}
             onPress={handleVerifySubmit}
             disabled={isLoading}
           />
@@ -631,106 +808,209 @@ export const ResendVerificationCodeButton = () => {
   );
 };
 ```
+With this `handleAttributes` configuration, `userAttributeKey` must be a verifiable attribute, so only `email` and `phone_number` are valid inputs.
 
 ### Full Profile Page
+Using the various inputs to `handleAttributes`, a simple profile page can easily be configured to accept updates and deletions of attributes.
 ```ts
-import React, { useEffect, useState, useRef } from "react";
-import { UserAttributeKey } from "aws-amplify/auth";
-import { useUserAttributes } from "@aws-amplify/ui-react-core";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ActivityIndicator,
-} from "react-native";
+import React from 'react';
+import { useUserAttributes } from '@aws-amplify/ui-react-core';
+import { View, Text, TextInput, ScrollView, Pressable } from 'react-native';
+import { UserAttributeKey } from 'aws-amplify/auth';
 
 export const SimpleProfilePage = () => {
-  const [{ isLoading, data, hasError }, handleAttributes] = useUserAttributes();
-  const [isEditMode, setIsEditMode] = useState(false);
-  const formRef = useRef(null);
+  const [state, handleAttributes] = useUserAttributes();
+  const [isEditMode, setIsEditMode] = React.useState(false);
+  const [formData, setFormData] = React.useState<
+    Partial<Record<UserAttributeKey, string>>
+  >({});
+  const [emailData, setEmailData] = React.useState<string>('');
+  const [confirmData, setConfirmData] = React.useState<string>('');
+  const [isConfirmMode, setIsConfirmMode] = React.useState(false);
 
   const editableAttributes: UserAttributeKey[] = [
-    // Array of mutable attributes (declared in amplify/auth/resource.ts)
+    'family_name',
+    'given_name',
+    'locale',
+    'name',
+    'nickname',
+    'birthdate',
+    'middle_name',
+    'gender',
+    'preferred_username',
+    'website',
   ];
 
   const handleAttributeDelete = (key: UserAttributeKey) => {
     handleAttributes({
-      type: "DELETE",
+      type: 'DELETE',
       userAttributeKeys: [key],
     });
-    const input = formRef.current?.findNode(`input[name="${key}"]`);
-    if (input) {
-      input.clear();
-    }
+    setFormData((prevForm) => ({ ...prevForm, [key]: '' }));
   };
 
+  const handleUpdateInputChange = (key: UserAttributeKey, value: string) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [key]: value,
+    }));
+  };
+
+  const handleEmailInputChange = (value: string) => {
+    setEmailData(value);
+  };
+
+  const handleConfirmInputChange = (value: string) => {
+    setConfirmData(value);
+  };
   const handleSubmit = () => {
-    const formData = new FormData();
-    Object.entries(data.attributes ?? {}).forEach(([key, value]) => {
-      const input = formRef.current?.findNode(`input[name="${key}"]`);
-      if (input) {
-        formData.append(key, input.value);
-      }
-    });
-    const userAttributes = Object.fromEntries(formData.entries());
-    handleAttributes({ type: "UPDATE", userAttributes });
+    handleAttributes({ type: 'UPDATE', userAttributes: formData });
   };
 
-  useEffect(() => {
-    handleAttributes({ type: "FETCH" });
+  const handleUpdateSubmit = () => {
+    handleAttributes({ type: 'UPDATE', userAttributes: { email: emailData } });
+    setIsConfirmMode(true);
+  };
+
+  const handleVerifySubmit = () => {
+    handleAttributes({
+      type: 'CONFIRM',
+      userAttributeKey: 'email',
+      confirmationCode: confirmData,
+    });
+    setIsConfirmMode(false);
+    setEmailData('');
+  };
+
+  React.useEffect(() => {
+    handleAttributes({ type: 'FETCH' });
   }, [handleAttributes]);
 
-  if (isLoading && data.attributes) {
-    return <ActivityIndicator />;
+  if (state.isLoading && !state.data.attributes) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
-  if (hasError) {
-    return <Text>Oh no, an error occurred.</Text>;
+  if (state.message) {
+    return (
+      <View>
+        <Text>Error: {state.message}</Text>
+      </View>
+    );
+  }
+
+  if (!state.data.attributes) {
+    return (
+      <View>
+        <Text>No data</Text>
+      </View>
+    );
   }
 
   return (
-    <View>
-      <Text>Profile</Text>
-
-      <TouchableOpacity onPress={() => setIsEditMode((prev) => !prev)}>
-        <Text>{isEditMode ? "Turn off Edit mode" : "Turn on Edit mode"}</Text>
-      </TouchableOpacity>
-
-      {Object.entries(data.attributes ?? {}).map(([key, value]) =>
-        !isEditMode ? (
-          <Text key={key}>{`${key}: ${value}`}</Text>
-        ) : (
-          <View key={key} style={{ flexDirection: "row", alignItems: "center" }}>
-            <TextInput
-              defaultValue={data.attributes?.[key] || ""}
-              name={key}
-              ref={(ref) => {
-                if (ref) {
-                  formRef.current = ref;
-                }
-              }}
-            />
-            <TouchableOpacity
-              onPress={() => handleAttributeDelete(key)}
-              disabled={isLoading}
+    <ScrollView>
+      <View>
+        <Text>Profile Information</Text>
+        {!isEditMode ? (
+          <>
+            {Object.entries(state.data.attributes)
+              .filter(
+                ([key]) =>
+                  key !== 'phone_number_verified' &&
+                  key !== 'sub' &&
+                  key !== 'email_verified' &&
+                  key !== 'phone_number'
+              )
+              .map(([key, value]) => (
+                <View key={key}>
+                  <Text>
+                    {key
+                      .replace(/_/g, ' ')
+                      .replace(/(^|\s)\S/g, (match) => match.toUpperCase())}
+                    :
+                  </Text>
+                  <Text>{value as string}</Text>
+                </View>
+              ))}
+            <Pressable
+              disabled={state.isLoading}
+              onPress={() => setIsEditMode(true)}
             >
-              <Text>Delete</Text>
-            </TouchableOpacity>
+              <Text>Edit</Text>
+            </Pressable>
+          </>
+        ) : (
+          <View>
+            <View>
+              <Pressable onPress={handleSubmit} disabled={state.isLoading}>
+                <Text>Submit Updates</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => setIsEditMode(false)}
+                disabled={state.isLoading}
+              >
+                <Text>Done Editing</Text>
+              </Pressable>
+            </View>
+            {editableAttributes.map((key) => (
+              <View key={key}>
+                <Text>
+                  {key
+                    .replace(/_/g, ' ')
+                    .replace(/(^|\s)\S/g, (match) => match.toUpperCase())}
+                  :
+                </Text>
+                <TextInput
+                  defaultValue={state.data.attributes[key] || ''}
+                  value={formData[key]}
+                  onChangeText={(value) => handleUpdateInputChange(key, value)}
+                />
+                <Pressable
+                  disabled={state.isLoading}
+                  onPress={() => handleAttributeDelete(key)}
+                >
+                  <Text>Delete</Text>
+                </Pressable>
+              </View>
+            ))}
+            <View>
+              <Text>Email:</Text>
+              <TextInput
+                keyboardType="email-address"
+                autoCapitalize="none"
+                value={emailData}
+                onChangeText={(value) => handleEmailInputChange(value)}
+              />
+              <Pressable
+                onPress={handleUpdateSubmit}
+                disabled={state.isLoading}
+              >
+                <Text>Update Email</Text>
+              </Pressable>
+            </View>
+            {isConfirmMode && (
+              <View>
+                <Text>Verification Code:</Text>
+                <TextInput
+                  keyboardType="numeric"
+                  value={confirmData}
+                  onChangeText={(value) => handleConfirmInputChange(value)}
+                />
+                <Pressable
+                  onPress={handleVerifySubmit}
+                  disabled={state.isLoading}
+                >
+                  <Text>Verify Email</Text>
+                </Pressable>
+              </View>
+            )}
           </View>
-        )
-      )}
-
-      {isEditMode ? (
-        <TouchableOpacity
-          style={{ marginTop: 16 }}
-          onPress={handleSubmit}
-          disabled={isLoading}
-        >
-          <Text>Save</Text>
-        </TouchableOpacity>
-      ) : null}
-    </View>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 ```
