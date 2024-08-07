@@ -3011,7 +3011,7 @@
 	},
 	{
 		"source": "/lib/client-configuration/configuring-amplify-categories/q/platform/react-native/",
-		"target": "react-native/tools/libraries/configure-categories/",
+		"target": "/react-native/tools/libraries/configure-categories/",
 		"status": "301"
 	},
 	{
