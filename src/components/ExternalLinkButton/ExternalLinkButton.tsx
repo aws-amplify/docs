@@ -35,10 +35,9 @@ export const ExternalLinkButton = ({
     });
 
     for (const externalButton of externalButtons) {
-      if (externalButton.href == href) setLabel(externalButton.innerText);
+      if (externalButton.href == href) setLabel(externalButton.innerText || '');
     }
-    console.log(links);
-  }, [href]);
+  }, [href, label]);
 
   return (
     <Button

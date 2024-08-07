@@ -19,7 +19,6 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
 
   useEffect(() => {
     const links = document.getElementsByTagName('a');
-
     const externalButtons = Array.from(links).filter((link) => {
       return (
         !link.classList.contains('amplify-button') &&
@@ -28,7 +27,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
     });
 
     for (const externalButton of externalButtons) {
-      if (externalButton.href == href) setLabel(externalButton.innerText);
+      if (externalButton.href === href) setLabel(externalButton.innerText);
     }
   }, [href]);
 
