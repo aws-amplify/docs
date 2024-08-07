@@ -140,7 +140,7 @@ upload.addEventListener("click", () => {
 
 ### Upload from data
 
-You can following this example if you have data saved in memory and would like to upload this data to the cloud.
+You can follow this example if you have data saved in memory and would like to upload this data to the cloud.
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -1204,7 +1204,7 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 
 ### Specify a bucket
 
-We also have the ability to target a specific bucket by passing the bucket option to the `uploadData` request. The bucket option can either be A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.. 
+You can also perform an upload operation to a specific bucket by providing the `bucket` option. This option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.
 
 See [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) for more information.
 
@@ -1234,7 +1234,7 @@ try {
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console..<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | contentType | String | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
 | contentEncoding | String | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
 | contentDisposition | String | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |

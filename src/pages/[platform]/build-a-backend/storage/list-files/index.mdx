@@ -40,7 +40,6 @@ import { list } from 'aws-amplify/storage';
 const result = await list({
 	path: 'photos/',
   // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
-  // optional options parameter
   options: {
       bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
       // Alternatively, provide bucket name from console and associated region
@@ -180,7 +179,7 @@ const result = await list({
 
 | Option | Type | Description |
 | --- | --- | --- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.. |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
 | listAll | boolean | Set to true to list all files within the specified `path` |
 | pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
 | nextToken | string | Indicates whether the list is being continued on this bucket with a token |
@@ -554,7 +553,6 @@ try {
   const result = await getProperties({
     path: 'album/2024/1.jpg'
     // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
-    // optional options parameter
     options: {
       bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
       // Alternatively, provide bucket name from console and associated region
@@ -584,7 +582,7 @@ The properties and metadata will look similar to the below example
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.. |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>

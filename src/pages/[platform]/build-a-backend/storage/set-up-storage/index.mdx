@@ -101,11 +101,12 @@ export const storage = defineStorage({
 ```
 
 ### Configure additional storage buckets
-Amplify Storage allows you to optionally configure your backend to automatically create and manage multiple storage resources. 
 
-Start by creating additional storage resources in your backend using the `defineStorage` function and providing a `name` for your storage bucket. The `name` attribute is required and we recommend assigning a developer friendly value for each storage bucket to allow you to easily reference them from your application code later. You can define any custom access controls here as well.
+Amplify Storage gives you the flexibility to configure your backend to automatically provision and manage multiple storage resources. 
 
-Note that if you define additional storage buckets one of them must be marked with `isDefault: true`.
+To take advantage of this feature, start by creating additional storage resources in your backend using the `defineStorage` function and providing a `name` for each storage bucket. When creating new storage resources, a unique `name` attribute is required and it is recommended to assign a developer friendly value for each storage bucket to allow straightforward referencing from application code.
+
+It's important to note that if additional storage buckets are defined one of them must be marked as default with the `isDefault` flag.
 
 ```ts title="amplify/storage/resource.ts"
 export const primaryStorage = defineStorage({
@@ -121,7 +122,7 @@ export const secondaryStorage = defineStorage({
 })
 ```
 
-Add your additional storage resources to your backend definition.
+Add additional storage resources to the backend definition.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -135,7 +136,7 @@ defineBackend({
 });
 ```
 
-Additional storage buckets can easily be referenced from your application code in Amplify Storage by passing the bucket option. The `bucket` option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console as strings.
+Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. This can either be the target bucket's name assigned in Amplify Backend or the actual bucket name and region from the console.
 
 See each Amplify Storage API page for additional usage examples.
 
@@ -146,9 +147,9 @@ try {
   const result = downloadData({
     path: "album/2024/1.jpg",
     options: {
-    bucket?: "secondaryStorage" // Specify a target bucket using name assigned in Amplify Backend
-    // Alternatively, provide bucket name from console and associated region
-    // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
+      bucket?: "secondaryStorage" // Specify a target bucket using name assigned in Amplify Backend
+      // Alternatively, provide bucket name from console and associated region
+      // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
     }
   }).result;
 } catch (error) {
@@ -159,9 +160,9 @@ try {
 
 ### Use existing storage resources without Amplify Backend
 
-While using the Amplify Backend is the easiest way to get started, existing storage resources can be integrated with Amplify Storage. 
+While using the Amplify Backend is the easiest way to get started, existing storage resources can also be integrated with Amplify Storage. 
 
-You can accomplish this by passing your existing storage resource metadata to `Amplify.configure`. This will configure the Amplify Storage client library to interact with your existing storage resources. It's recommended to add the Amplify configuration step to your app's root entry point.
+This can be accomplished by passing existing storage resource metadata to `Amplify.configure`. This will configure the Amplify Storage client library to interact with the additional resources. It's recommended to add the Amplify configuration step as early as possible in the application lifecycle, ideally at the root entry point.
 
 
 ```ts
@@ -170,26 +171,26 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure({
   Storage: {
     S3: {
-      bucket: "<your-primary-bucket-name>",
-      region: "<your-primary-bucket-region>",
-    	// your default bucket metadata should be duplicated below
+      // default bucket name
+      bucket: '<your-primary-bucket-name>',
+      region: '<your-primary-bucket-region>',
+      // your default bucket metadata should be duplicated below
       buckets: {
-        "<your-primary-bucket-friendly-name>": {
-          bucketName: "<your-primary-bucket-name>",
-          region: "<your-primary-bucket-region>",
-			},
-        "<your-additional-bucket-friendly-name>": {
-          bucketName: "<your-additional-bucket-name>",
-          region: "<your-additional-bucket-region>",
-			},
-      },
-    },
-  },
+        '<your-primary-bucket-friendly-name>': {
+          bucketName: '<your-primary-bucket-name>',
+          region: '<your-primary-bucket-region>'
+        },
+        '<your-additional-bucket-friendly-name>': {
+          bucketName: '<your-additional-bucket-name>',
+          region: '<your-additional-bucket-region>'
+        }
+      }
+    }
+  }
 });
-```
-Alternatively, you can use existing storage resources in your app by creating or modifying the `amplify_outputs.json` file directly. Import the file into your application and pass it the `Amplify.configure` function to configure the Amplify Storage client library.  
 
-Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
+```
+Alternatively, existing storage resources can be used by creating or modifying the `amplify_outputs.json` file directly. Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
 
 ```ts title="amplify_outputs.json"
 {
@@ -197,7 +198,7 @@ Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
   "storage": {
     // default bucket region
     "aws_region": "us-east-2", 
-    // default bucket name should match the AWS console
+    // default bucket name
     "bucket_name": "generated-default-primary-bucket-name",
     // required to integrate with multiple backend storage resources
     // your default bucket metadata should be duplicated below
@@ -205,7 +206,7 @@ Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
       {
         // friendly name can be referenced from your application code
         "name": "primaryStorage", 
-        // bucket name should match the AWS console
+        // bucket name
         "bucket_name": "generated-default-primary-bucket-name", 
         // bucket region
         "aws_region": "us-east-2" 
@@ -219,6 +220,7 @@ Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
   }
 }
 ```
+
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.

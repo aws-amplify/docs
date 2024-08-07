@@ -40,7 +40,6 @@ try {
   await remove({ 
     path: 'album/2024/1.jpg',
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-    // optional options parameter
     options: {
       bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
       // Alternatively, provide bucket name from console and associated region
@@ -185,5 +184,5 @@ Future<void> remove() async {
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | String \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.. |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
 </InlineFilter>
