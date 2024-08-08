@@ -86,7 +86,7 @@ import { StartingPosition } from "aws-cdk-lib/aws-lambda";
 import { DynamoEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
-import { myDynamoDBFunction } from "./functions/kinesis-function/resource";
+import { myDynamoDBFunction } from "./functions/dynamoDB-function/resource";
 
 const backend = defineBackend({
   auth,
