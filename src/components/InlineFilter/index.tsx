@@ -1,9 +1,10 @@
+import type { Platform } from '@/data/platforms';
 import { Fragment } from 'react';
 import FilterChildren from '../FilterChildren';
 
 type InlineFilterProps = {
   children: React.ReactNode;
-  filters: string[];
+  filters: Platform[];
 };
 
 export default function InlineFilter({ filters, children }: InlineFilterProps) {
