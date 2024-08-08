@@ -281,6 +281,29 @@ For more information on handling the TOTP and MFA steps that may be returned, se
 
 ### Confirm sign-in
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts title="src/main.ts"
+import { confirmSignIn, signIn } from 'aws-amplify/auth'
+
+const { nextStep } = await signIn({
+  username: "hello@mycompany.com",
+  password: "hunter2",
+})
+
+if (nextStep === "CONFIRM_SIGN_IN_WITH_SMS_CODE") {
+  await confirmSignIn({
+    challengeResponse: "12345"
+  })
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/* @todo */}
+
+</InlineFilter>
 <InlineFilter filters={["swift"]}>
 
 <BlockSwitcher>
@@ -320,6 +343,10 @@ func confirmSignIn() -> AnyCancellable {
 
 </Block>
 </BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/* @todo */}
 
 </InlineFilter>
 
