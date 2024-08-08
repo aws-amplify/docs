@@ -1,5 +1,12 @@
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
-import { ReactElement, useContext, useEffect, useState, useMemo } from 'react';
+import {
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useRef
+} from 'react';
 import { Link as AmplifyUILink, Button, Flex } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
@@ -19,6 +26,7 @@ type MenuItemProps = {
   level: number;
   currentPlatform?: Platform;
   hideChildren?: boolean;
+  tabIndex?: number;
 };
 
 function getPathname(route, currentPlatform: Platform | undefined) {
@@ -43,11 +51,37 @@ export function MenuItem({
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
+  const ref = useRef(null);
   const children = useMemo(
     () => (hideChildren ? [] : pageNode.children),
     [hideChildren, pageNode.children]
   );
+
+  const setSelectability = () => {
+    const current = ref.current;
+    const items = current?.parentElement.nextSibling.children;
+
+    for (const item of items) {
+      const links = item.getElementsByTagName('a');
+      const buttons = item.getElementsByTagName('button');
+      if (links[0].getAttribute('tabIndex') == 0) {
+        for (const link of links) {
+          link.setAttribute('tabIndex', -1);
+        }
+        for (const button of buttons) {
+          button.setAttribute('tabIndex', -1);
+        }
+      } else if (-links[0].getAttribute('tabIndex')) {
+        links[0]?.setAttribute('tabIndex', 0);
+        buttons[0]?.setAttribute('tabIndex', 0);
+      }
+    }
+    current?.focus();
+  };
+
   const onLinkClick = () => {
+    setSelectability();
+
     // Category shouldn't be collapsible
     if (
       level > Levels.Category &&
@@ -63,8 +97,7 @@ export function MenuItem({
   };
 
   const onCheveronClick = () => {
-    console.log('clicked');
-
+    setSelectability();
     setOpen((prevOpen) => !prevOpen);
 
     if (menuOpen) {
@@ -170,6 +203,7 @@ export function MenuItem({
           href={pageNode.route}
           isExternal={true}
           onClick={onLinkClick}
+          tabIndex={level > Levels.Subcategory ? -1 : 0}
         >
           <Flex
             className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
@@ -207,6 +241,8 @@ export function MenuItem({
             aria-current={current ? 'page' : null}
             href={href}
             onClick={onLinkClick}
+            ref={ref}
+            tabIndex={level > Levels.Subcategory ? -1 : 0}
             passHref
           >
             <Flex
@@ -219,8 +255,10 @@ export function MenuItem({
             <Button
               className={`${listItemLinkStyle} expand-button`}
               onClick={onCheveronClick}
+              ref={ref}
               aria-expanded="true"
               aria-labelledby="li"
+              tabIndex={level > Levels.Subcategory ? -1 : 0}
             >
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
             </Button>
@@ -239,6 +277,7 @@ export function MenuItem({
                 parentSetOpen={setOpen}
                 level={level + 1}
                 currentPlatform={currentPlatform}
+                tabIndex={level > Levels.Subcategory ? -1 : 0}
               />
             ))}
           </ul>
