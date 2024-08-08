@@ -80,21 +80,18 @@ const copyFile = async () => {
     const response = await copy({
       source: {
         path: 'album/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-        bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
-        // Alternatively, provide bucket name from console and associated region
-        // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
+        // Specify a target bucket using name assigned in Amplify Backend 
+        // or bucket name from console and associated region
+        bucket: "assignedNameInAmplifyBackend"
       },
       destination: {
         path: 'shared/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `shared/{identityId}/1.jpg`
-        // Specify a target using bucket name from console and associated region
+        // Specify a target bucket using name assigned in Amplify Backend 
+        // or bucket name from console and associated region
         bucket: {
-          bucketName: "generated-secondary-bucket-name",
+          bucketName: "generated-second-bucket-name",
           region: "us-east-2"
         }
-         // Alternatively, use name assigned in Amplify Backend
-         // bucket?: 'secondaryStorage'
       },
     });
   } catch (error) {
@@ -109,10 +106,10 @@ In order to copy to or from a bucket other than your default, both source and de
 
 ## Copy `source` and `destination` options
 
-Option | Type | Description |
-| --- | --- | --- |
-| path | string \| <br/>(\{ identityId \}) => string | A string or callback that represents the path in source and destination bucket to copy the object to or from |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets). |
+Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| path | string \| <br/>(\{ identityId \}) => string | Required | A string or callback that represents the path in source and destination bucket to copy the object to or from |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets). |
 
 </InlineFilter>
 

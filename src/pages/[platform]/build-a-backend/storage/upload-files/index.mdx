@@ -1202,11 +1202,11 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
-### Specify a bucket
+### Upload to a specified bucket
 
 You can also perform an upload operation to a specific bucket by providing the `bucket` option. This option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.
 
-```javascript
+```ts title="Provide bucket as a string"
 import { uploadData } from 'aws-amplify/storage';
 
 try {
@@ -1215,13 +1215,19 @@ try {
     data: file,
     options: {
       bucket: "assignedNameInAmplifyBackend"
-      // or { bucketName: "bucket-name-from-console", region: "us-east-2" }
     }
   }).result;
 } catch (error) {
   console.log(`Error: ${error}`)
 }
-
+```
+```ts title="Provide bucket as an object"
+options: {
+  bucket: { 
+    bucketName: "bucket-name-from-console", 
+    region: "us-east-2" 
+  }
+}
 ```
 
 </InlineFilter>
@@ -1230,14 +1236,14 @@ try {
 
 ### More upload options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
-| contentType | String | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
-| contentEncoding | String | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
-| contentDisposition | String | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
-| metadata | map\<String\> | A map of metadata to store with the object in S3. <br/><br/> Read more at [S3 metadata documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingMetadata.html#UserMetadata) |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
+Option | Type | Default | Description |
+| -- | -- | -- | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| contentType | string | undefined | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
+| contentEncoding | string | undefined | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
+| contentDisposition | string | undefined | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
+| metadata | map\<string\> | undefined | A map of metadata to store with the object in S3. <br/><br/> Read more at [S3 metadata documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingMetadata.html#UserMetadata) |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
 
 <Callout>
 

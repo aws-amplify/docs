@@ -40,14 +40,33 @@ try {
   await remove({ 
     path: 'album/2024/1.jpg',
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-    options: {
-      bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
-      // Alternatively, provide bucket name from console and associated region
-      // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
-    }
   });
 } catch (error) {
   console.log('Error ', error);
+}
+```
+
+## Remove file from specified bucket
+
+See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
+
+```ts title="Provide bucket as a string"
+import { remove } from 'aws-amplify/storage';
+
+const result = await remove({
+  path: '/album/2024/1.jpg',
+  options: {
+    bucket: "assignedNameInAmplifyBackend"
+  }
+});
+
+```
+```ts title="Provide bucket as an object"
+options: {
+  bucket: { 
+    bucketName: "bucket-name-from-console",
+    region: "us-east-2" 
+  }
 }
 ```
 </InlineFilter>
@@ -182,7 +201,7 @@ Future<void> remove() async {
 
 ## More `remove` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
+Option | Type | Default | Description |
+| -- | -- | -- | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 </InlineFilter>

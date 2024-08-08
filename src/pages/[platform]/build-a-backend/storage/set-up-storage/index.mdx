@@ -104,18 +104,18 @@ export const storage = defineStorage({
 
 Amplify Storage gives you the flexibility to configure your backend to automatically provision and manage multiple storage resources. 
 
-To take advantage of this feature, start by creating additional storage resources in your backend using the `defineStorage` function and providing a `name` for each storage bucket. When creating new storage resources, a unique `name` attribute is required and it is recommended to assign a developer friendly value for each storage bucket to allow straightforward referencing from application code.
+You can define additional storage buckets by using the same `defineStorage` function and providing a unique, descriptive `name` to identify the storage bucket. You can pass this `name` to the storage APIs to specify the bucket you want to perform the action to. Ensure that this `name` attribute is unique across the defined storage buckets in order to reliably identify the correct bucket and prevent conflicts.
 
 It's important to note that if additional storage buckets are defined one of them must be marked as default with the `isDefault` flag.
 
 ```ts title="amplify/storage/resource.ts"
-export const primaryStorage = defineStorage({
-  name: 'primaryStorage',
+export const firstBucket = defineStorage({
+  name: 'firstBucket',
   isDefault: true, // identify your default storage bucket (required)
 });
 
-export const secondaryStorage = defineStorage({
-  name: 'secondaryStorage',
+export const secondBucket = defineStorage({
+  name: 'secondBucket',
   access: (allow) => ({
     'private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
   })
@@ -127,14 +127,15 @@ Add additional storage resources to the backend definition.
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
-import { primaryStorage, secondaryStorage } from './storage/resource';
+import { firstBucket, secondBucket } from './storage/resource';
 
 defineBackend({
   auth,
-  primaryStorage,
-  secondaryStorage
+  firstBucket,
+  secondBucket
 });
 ```
+#### Additional storage bucket usage
 
 Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. This can either be the target bucket's name assigned in Amplify Backend or the actual bucket name and region from the console.
 
@@ -147,7 +148,8 @@ try {
   const result = downloadData({
     path: "album/2024/1.jpg",
     options: {
-      bucket?: "secondaryStorage" // Specify a target bucket using name assigned in Amplify Backend
+      // Specify a target bucket using name assigned in Amplify Backend
+      bucket: "secondBucket"
       // Alternatively, provide bucket name from console and associated region
       // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
     }

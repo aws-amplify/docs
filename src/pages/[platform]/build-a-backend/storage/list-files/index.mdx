@@ -40,11 +40,6 @@ import { list } from 'aws-amplify/storage';
 const result = await list({
 	path: 'photos/',
   // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
-  options: {
-      bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
-      // Alternatively, provide bucket name from console and associated region
-      // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
-  }
 });
 ```
 
@@ -175,16 +170,37 @@ const result = await list({
 });
 ```
 
+### List files from a specified bucket
+See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
+
+```ts title="Provide bucket as a string"
+import { list } from 'aws-amplify/storage';
+
+const result = await list({
+  path: 'photos/',
+  options: {
+    bucket: "assignedNameInAmplifyBackend"
+  }
+})
+```
+```ts title="Provide bucket as an object"
+options: {
+  bucket: {
+    bucketName: "generated-secondary-bucket-name",
+    region: "us-east-2"
+  }
+}
+```
 ### More `list` options
 
-| Option | Type | Description |
-| --- | --- | --- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
-| listAll | boolean | Set to true to list all files within the specified `path` |
-| pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
-| nextToken | string | Indicates whether the list is being continued on this bucket with a token |
-| subpathStrategy | \{ strategy: 'include' \| 'exclude',<br />delimiter?: string \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| listAll | boolean | false | Set to true to list all files within the specified `path` |
+| pageSize | number | 1000 | Sets the maximum number of files to be return. The range is 0 - 1000 |
+| nextToken | string | undefined | Indicates whether the list is being continued on this bucket with a token |
+| subpathStrategy | \{ strategy: 'include' \| 'exclude',<br />delimiter?: string \} | \{ strategy: 'include' \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
 
@@ -553,11 +569,6 @@ try {
   const result = await getProperties({
     path: 'album/2024/1.jpg'
     // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
-    options: {
-      bucket?: "assignedNameInAmplifyBackend" // Specify a target bucket using name assigned in Amplify Backend
-      // Alternatively, provide bucket name from console and associated region
-      // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
-    }
   });
   console.log('File Properties ', result);
 } catch (error) {
@@ -578,12 +589,34 @@ The properties and metadata will look similar to the below example
 }
 ```
 
+### Get file properties from a specified bucket
+See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
+
+```ts title="Provide bucket as a string"
+import { list } from 'aws-amplify/storage';
+
+const result = await getProperties({
+  path: 'album/2024/1.jpg',
+  options: {
+    bucket: "assignedNameInAmplifyBackend"
+  }
+})
+```
+```ts title="Provide bucket as an object"
+options: {
+  bucket: {
+    bucketName: "generated-secondary-bucket-name",
+    region: "us-east-2"
+  }
+}
+```
+
 ### More `getProperties` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+Option | Type | Default | Description |
+| -- | -- | -- | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>
 
