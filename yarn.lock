@@ -294,10 +294,11 @@
     uuid "^9.0.0"
 
 "@aws-amplify/data-schema-types@^0.7.1":
-  version "0.7.3"
-  resolved "https://registry.npmjs.org/@aws-amplify/data-schema-types/-/data-schema-types-0.7.3.tgz"
-  integrity sha512-C9RKp83oEgvHMRaWhToBhMeK3Ij7XfwGgf1wH5O/xSClrrKzOyO9Cccq8JyFRlJZdnzgBMSBeNa3bGwbjsOYlg==
+  version "0.7.17"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/data-schema-types/-/data-schema-types-0.7.17.tgz#025a05adb4950997b635ae94fffc490c1c050881"
+  integrity sha512-/J8ubs23aKTx1OYJ5Pqn8bAWHT6CsmdZNxPzaZiT+TFLoy4B0eSzBKFKUlYQ84Qeujk1NhVeZ20J8bqdMN5MUw==
   dependencies:
+    "@aws-amplify/plugin-types" "^0.9.0-beta.1"
     rxjs "^7.8.1"
 
 "@aws-amplify/datastore@5.0.16":
@@ -326,6 +327,11 @@
   dependencies:
     lodash "^4.17.21"
     tslib "^2.5.0"
+
+"@aws-amplify/plugin-types@^0.9.0-beta.1":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/plugin-types/-/plugin-types-0.9.0.tgz#45a3361bac7fcb74d0ceecabe84f0627d0812a89"
+  integrity sha512-dOwuyjRWKHvKSxcCwycdBTb6clRr2/soW1hL+HaXyTN69+dQanQegpS6ylmVwbPPiy9q2LCbqaw+5Np7bacLgw==
 
 "@aws-amplify/storage@6.0.16":
   version "6.0.16"
