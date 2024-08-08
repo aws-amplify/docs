@@ -72,7 +72,7 @@ const s3Client = new S3Client();
 
 export const handler = async () => {
   const command = new PutObjectCommand({
-    Bucket: env.myReports_BUCKET_NAME,
+    Bucket: env.MY_REPORTS_BUCKET_NAME,
     Key: `reports/${new Date().toISOString()}.csv`,
     Body: new Blob([''], { type: 'text/csv;charset=utf-8;' })
   });
