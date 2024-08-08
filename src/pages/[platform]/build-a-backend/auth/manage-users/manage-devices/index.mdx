@@ -270,7 +270,7 @@ func forgetDevice() async {
         print("Forget device failed with error \(error)")
     } catch {
         print("Unexpected error: \(error)")
-    }  
+    }
 }
 ```
 
@@ -326,6 +326,8 @@ Future<void> fetchAllDevices() async {
 ```
 
 </InlineFilter>
+
+
 <InlineFilter filters={["android"]}>
 
 <BlockSwitcher>
@@ -423,6 +425,25 @@ func fetchDevices() -> AnyCancellable {
 
 </Block>
 </BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Fetch the current device
+
+You can fetch the current device by using the following:
+
+```dart
+Future<void> fetchCurrentUserDevice() async {
+  try {
+    final device = await Amplify.Auth.fetchCurrentDevice();
+    safePrint('Device: $device');
+  } on AuthException catch (e) {
+    safePrint('Get current device failed with error: $e');
+  }
+}
+```
 
 </InlineFilter>
 
