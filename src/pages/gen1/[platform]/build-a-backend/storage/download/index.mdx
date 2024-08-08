@@ -32,7 +32,7 @@ export function getStaticProps(context) {
 <InlineFilter filters={["android", "swift"]}>
 
 <Callout info>
-The latest version of Amplify Storage supports specifying S3 objects as a paths.  
+The latest version of Amplify Storage supports specifying S3 objects as a paths.
 We recommend using `path` instead of `key` to specify S3 objects.
 
 Note: `key` parameter is deprecated and may be removed in next major version.
@@ -104,7 +104,7 @@ Inside your template or JSX code, you can use the `url` property to create a lin
 
 ```html
 <a href="{signedURL.url.toString()}" target="_blank" rel="noreferrer">
-  {fileName} 
+  {fileName}
 </a>
 ```
 
@@ -156,10 +156,10 @@ You can use `expiresIn` option to limit the availability of your URLs. This conf
 ```javascript
 import { getUrl } from 'aws-amplify/storage';
 
-await getUrl({ 
+await getUrl({
   path: 'public/album/2024/1.jpg',
   // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
-  options: { expiresIn: 60 } 
+  options: { expiresIn: 60 }
 });
 
 ```
@@ -168,9 +168,9 @@ await getUrl({
 ```javascript
 import { getUrl } from 'aws-amplify/storage';
 
-await getUrl({ 
-  key: 'album/2024/1.jpg', 
-  options: { expiresIn: 60 } 
+await getUrl({
+  key: 'album/2024/1.jpg',
+  options: { expiresIn: 60 }
 });
 
 ```
@@ -241,7 +241,7 @@ You can consume the value of file in any of the three formats: `blob`, `json`, o
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult = await downloadData({ 
+  const downloadResult = await downloadData({
     path: 'public/album/2024/1.jpg',
     // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
   }).result;
@@ -259,8 +259,8 @@ try {
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-  const downloadResult = await downloadData({ 
-    key: 'album/2024/1.jpg' 
+  const downloadResult = await downloadData({
+    key: 'album/2024/1.jpg'
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
@@ -323,9 +323,9 @@ const { body, eTag } = await downloadData(
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
-const downloadTask = downloadData({ 
+const downloadTask = downloadData({
   path: 'public/album/2024/1.jpg',
-  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg` 
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
 });
 downloadTask.cancel();
 try {
@@ -366,7 +366,7 @@ Learn more about how to setup an appropriate [CORS Policy](/gen1/[platform]/prev
 
 Users can run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please vote for what you need, to help the team prioritize.
 
-- `downloadData` is cached; if you have recently modified a file you may not get the latest version right away. You can pass in `cacheControl: 'no-cache'` to get the latest version.
+- `downloadData` is cached; if you have recently modified a file you may not get the latest version right away.
 - `downloadData` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
 - [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
 - There is no API for [Cognito Group-based access to files](https://github.com/aws-amplify/amplify-js/issues/3388).

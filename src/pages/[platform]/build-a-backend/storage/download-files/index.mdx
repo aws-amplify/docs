@@ -84,14 +84,14 @@ Inside your template or JSX code, you can use the `url` property to create a lin
 
 ```tsx
 <a href={linkToStorageFile.url.toString()} target="_blank" rel="noreferrer">
-  {fileName} 
+  {fileName}
 </a>
 ```
 
 <Callout>
 
 This function does not check if the file exists by default. As result, the signed URL may fail if the file to be downloaded does not exist.
-  
+
 </Callout>
 
 ### More `getUrl` options
@@ -183,7 +183,7 @@ val options = AWSS3StorageGetPresignedUrlOptions
   .builder()
   .setValidateObjectExistence(true)
   .build()
-  
+
 Amplify.Storage.getUrl(
     StoragePath.fromString("public/example"),
     options,
@@ -914,7 +914,7 @@ Option | Type | Description | Reference Links |
 
 ## Frequently Asked Questions
 
-- `downloadData` is cached; if you have recently modified a file you may not get the latest version right away. You can pass in `cacheControl: 'no-cache'` to get the latest version.
+- `downloadData` is cached; if you have recently modified a file you may not get the latest version right away.
 - `downloadData` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
 - [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
 - There is no API for [Cognito Group-based access to files](https://github.com/aws-amplify/amplify-js/issues/3388).
