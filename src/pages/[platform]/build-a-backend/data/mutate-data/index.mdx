@@ -41,7 +41,7 @@ Before you begin, you will need:
 
 You can create an item by first generating the Data client with your backend Data schema. Then you can add an item:
 
-```js
+```ts
 import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '../amplify/data/resource'
 
@@ -238,7 +238,7 @@ Future<void> createTodo() async {
 
 To update the item, use the `update` function:
 
-```js
+```ts
 import { generateClient } from 'aws-amplify/data';
 import { type Schema } from '../amplify/data/resource';
 
@@ -395,7 +395,7 @@ Future<void> deleteTodoById(Todo todoToDelete) async {
 You can cancel any mutation API request by calling `.cancel` on the mutation request promise that's returned by `.create(...)`, `.update(...)`, or `.delete(...)`.
 
 ```ts
-const promise = client.models.Todo.create({ content: 'New Todo ' });
+const promise = client.models.Todo.create({ content: 'New Todo' });
 //  ^ Note: we're not awaiting the request, we're returning the promise
 
 try {
