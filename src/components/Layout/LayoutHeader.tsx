@@ -19,28 +19,35 @@ import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import { TableOfContents } from '../TableOfContents';
+import { HeadingInterface } from '../TableOfContents/TableOfContents';
 
 export const LayoutHeader = ({
   currentPlatform,
   isGen1,
   pageType = 'inner',
   showLastUpdatedDate = true,
-  showTOC
+  showTOC,
+  tocHeadings
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
+  tocHeadings: HeadingInterface[];
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
+  const { tocOpen, toggleTocOpen } = useContext(LayoutContext);
+  const tocButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarTocButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
 
-  const handleMenuToggle = () => {
-    if (!menuOpen) {
+  const handleMenuToggle = (menu) => {
+    if (menu === 'menu' && !menuOpen) {
       toggleMenuOpen(true);
       // For keyboard navigators, move focus to the close menu button in the nav
       setTimeout(() => sidebarMenuButtonRef?.current?.focus(), 0);
@@ -48,6 +55,16 @@ export const LayoutHeader = ({
       toggleMenuOpen(false);
       // For keyboard navigators, move focus back to menu button in header
       menuButtonRef?.current?.focus();
+    }
+
+    if (menu === 'toc' && !tocOpen) {
+      toggleTocOpen(true);
+      // For keyboard navigators, move focus to the close menu button in the nav
+      setTimeout(() => sidebarTocButtonRef?.current?.focus(), 0);
+    } else {
+      toggleTocOpen(false);
+      // For keyboard navigators, move focus back to menu button in header
+      tocButtonRef?.current?.focus();
     }
   };
 
@@ -69,7 +86,7 @@ export const LayoutHeader = ({
     <View as="header" className="layout-header">
       <Flex className={`layout-search layout-search--${pageType}`}>
         <Button
-          onClick={() => handleMenuToggle()}
+          onClick={() => handleMenuToggle('menu')}
           size="small"
           ref={menuButtonRef}
           className="search-menu-toggle mobile-toggle"
@@ -77,6 +94,17 @@ export const LayoutHeader = ({
           <IconMenu aria-hidden="true" />
           Menu
         </Button>
+        {showTOC ? (
+          <Button
+            onClick={() => handleMenuToggle('toc')}
+            size="small"
+            ref={tocButtonRef}
+            className="search-menu-toggle mobile-toggle"
+          >
+            <IconMenu aria-hidden="true" />
+            On this page
+          </Button>
+        ) : null}
 
         <View
           className={classNames(
@@ -124,7 +152,7 @@ export const LayoutHeader = ({
               'layout-sidebar__mobile-toggle--open': menuOpen
             })}
             ref={sidebarMenuButtonRef}
-            onClick={() => handleMenuToggle()}
+            onClick={() => handleMenuToggle('menu')}
           >
             <IconDoubleChevron />
             <VisuallyHidden>Close menu</VisuallyHidden>
@@ -148,7 +176,49 @@ export const LayoutHeader = ({
             )}
           </div>
         </View>
+        {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+        <div className=""></div>
       </View>
+
+      {showTOC ? (
+        <View
+          className={classNames('layout-sidebar', 'right-menu', {
+            'layout-sidebar--expanded': tocOpen
+          })}
+        >
+          <View
+            className={classNames('layout-sidebar__backdrop', {
+              'layout-sidebar__backdrop--expanded': tocOpen
+            })}
+            onClick={() => toggleTocOpen(false)}
+          ></View>
+          <View
+            className={classNames('layout-sidebar__inner', 'right-menu', {
+              'layout-sidebar__inner--expanded-right': tocOpen
+            })}
+          >
+            <Button
+              size="small"
+              colorTheme="overlay"
+              className={classNames(
+                'layout-sidebar__mobile-toggle',
+                'right-menu',
+                {
+                  'layout-sidebar__mobile-toggle--open': tocOpen
+                }
+              )}
+              ref={sidebarTocButtonRef}
+              onClick={() => handleMenuToggle('toc')}
+            >
+              <IconDoubleChevron />
+              <VisuallyHidden>Close table of contents</VisuallyHidden>
+            </Button>
+            <div className="layout-sidebar-menu">
+              <TableOfContents headers={tocHeadings} />
+            </div>
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };
