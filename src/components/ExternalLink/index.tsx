@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { trackExternalLink } from '../../utils/track';
 
 type ExternalLinkProps = {
@@ -16,20 +16,13 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
   className
 }) => {
   const [label, setLabel] = React.useState('');
+  const linkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const links = document.getElementsByTagName('a');
-    const externalButtons = Array.from(links).filter((link) => {
-      return (
-        !link.classList.contains('amplify-button') &&
-        link.hostname != window.location.hostname
-      );
-    });
-
-    for (const externalButton of externalButtons) {
-      if (externalButton.href === href) setLabel(externalButton.innerText);
+    if (linkRef.current) {
+      setLabel(linkRef.current.innerText);
     }
-  }, [href]);
+  }, []);
 
   return (
     <a
@@ -41,6 +34,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
       onClick={() => {
         trackLink(href);
       }}
+      ref={linkRef}
     >
       {children}
     </a>
