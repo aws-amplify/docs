@@ -16,7 +16,12 @@ const LinkCard: React.FC<LinkCardProps> = ({
 }) => {
   return (
     href && (
-      <Link href={href} isExternal={isExternal} className="link-card">
+      <Link
+        href={href}
+        isExternal={isExternal}
+        className="link-card"
+        aria-label={children + ' (opens in new tab)'}
+      >
         <Flex direction="column" justifyContent="space-between" height="100%">
           <View>{icon()}</View>
           <View className="link-card-children">{children}</View>

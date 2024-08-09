@@ -156,6 +156,7 @@ export function MenuItem({
           className={`menu__list-item__link menu__list-item__link--external  ${listItemLinkStyle}`}
           href={pageNode.route}
           isExternal={true}
+          aria-label={pageNode.title + ' (opens in new tab)'}
           onClick={onLinkClick}
         >
           <Flex

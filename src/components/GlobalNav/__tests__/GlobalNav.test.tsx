@@ -29,7 +29,9 @@ describe('GlobalNav', () => {
 
   it('should render the GlobalNav component', async () => {
     render(component);
-    const link = await screen.findByRole('link', { name: 'About AWS Amplify' });
+    const link = await screen.findByRole('link', {
+      name: 'About AWS Amplify (opens in new tab)'
+    });
     expect(link).toBeInTheDocument();
   });
 });
