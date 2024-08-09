@@ -165,7 +165,7 @@ try {
     options: {
       // Alternatively, provide bucket name from console and associated region
       bucket: {
-        bucketName: 'bucket-name-from-console',
+        bucketName: 'second-bucket-name-from-console',
         region: 'us-east-2'
       }
     }
@@ -190,13 +190,13 @@ Amplify.configure({
   Storage: {
     S3: {
       // default bucket name
-      bucket: '<your-primary-bucket-name>',
-      region: '<your-primary-bucket-region>',
+      bucket: '<your-default-bucket-name>',
+      region: '<your-default-bucket-region>',
       // your default bucket metadata should be duplicated below
       buckets: {
-        '<your-primary-bucket-friendly-name>': {
-          bucketName: '<your-primary-bucket-name>',
-          region: '<your-primary-bucket-region>'
+        '<your-default-bucket-friendly-name>': {
+          bucketName: '<your-default-bucket-name>',
+          region: '<your-default-bucket-region>'
         },
         '<your-additional-bucket-friendly-name>': {
           bucketName: '<your-additional-bucket-name>',
@@ -215,24 +215,24 @@ Alternatively, existing storage resources can be used by creating or modifying t
   // ...
   "storage": {
     // default bucket region
-    "aws_region": "us-east-2", 
+    "aws_region": "<your-default-bucket-region>", 
     // default bucket name
-    "bucket_name": "generated-default-primary-bucket-name",
+    "bucket_name": "<your-default-bucket-name>",
     // required to integrate with multiple backend storage resources
     // your default bucket metadata should be duplicated below
     "buckets": [
       {
         // friendly name can be referenced from your application code
-        "name": "primaryStorage", 
+        "name": "<your-default-bucket-friendly-name>", 
         // bucket name
-        "bucket_name": "generated-default-primary-bucket-name", 
+        "bucket_name": "<your-default-bucket-name>", 
         // bucket region
-        "aws_region": "us-east-2" 
+        "aws_region": "<your-default-bucket-region>" 
       },
       {
-        "name": "secondaryStorage",
-        "bucket_name": "generated-secondary-bucket-name",
-        "aws_region": "us-east-2"
+        "name": "<your-additional-bucket-friendly-name>",
+        "bucket_name": "<your-additional-bucket-name>",
+        "aws_region": "<your-additional-bucket-region>"
       }
     ]
   }
