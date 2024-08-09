@@ -11,12 +11,11 @@ exports[`Protected Redaction Messages should render the protected redaction mess
       class="amplify-flex"
     >
       <div
-        aria-label="info"
         class="amplify-message__icon"
-        role="img"
       >
         <svg
-          aria-hidden="true"
+          aria-hidden="false"
+          aria-label="warning icon"
           class="amplify-icon"
           viewBox="0 0 24 24"
         >
@@ -101,12 +100,11 @@ exports[`Protected Redaction Messages should render the protected redaction mess
       class="amplify-flex"
     >
       <div
-        aria-label="info"
         class="amplify-message__icon"
-        role="img"
       >
         <svg
-          aria-hidden="true"
+          aria-hidden="false"
+          aria-label="warning icon"
           class="amplify-icon"
           viewBox="0 0 24 24"
         >
