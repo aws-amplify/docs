@@ -137,9 +137,7 @@ defineBackend({
 ```
 ### Additional storage bucket usage
 
-Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. This can either be the target bucket's name assigned in Amplify Backend or the actual bucket name and region from the console.
-
-See each Amplify Storage API page for additional usage examples.
+Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. You can provide a target bucket's name assigned in Amplify Backend.
 
 ```ts
 import { downloadData } from 'aws-amplify/storage';
@@ -156,6 +154,8 @@ try {
   console.log(`Error: ${error}`)
 }
 ```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console. See each Amplify Storage API page for additional usage examples.
+
 ```ts
 import { downloadData } from 'aws-amplify/storage';
 

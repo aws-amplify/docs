@@ -29,7 +29,7 @@ export function getStaticProps(context) {
   };
 }
 
-You can list files without having to download all the files. You can do this by using the `list` API from the Amplify Library for Storage. <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>You can also get properties individually for a file using the getProperties API.</InlineFilter>
+You can list files without having to download all the files. You can do this by using the `list` API from the Amplify Library for Storage. <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>You can also get properties individually for a file using the `getProperties` API.</InlineFilter>
 
 ## List Files
 
@@ -60,6 +60,45 @@ The format of the response will look similar to the below example:
   ],
 }
 ````
+
+If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
+
+```javascript
+import { list } from 'aws-amplify/storage';
+
+const PAGE_SIZE = 20;
+let nextToken = undefined;
+//...
+const loadNextPage = async () => {
+  let response = await list({
+    path: 'photos/',
+    // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
+    pageSize: PAGE_SIZE,
+    nextToken: nextToken
+    }
+  });
+  if (response.nextToken) {
+    nextToken = response.nextToken;
+  } else {
+    nextToken = undefined;
+  }
+  // render list items from response.items
+};
+```
+
+### List All files
+```javascript
+import { list } from 'aws-amplify/storage';
+
+const result = await list({
+	path: 'album/photos/',
+  // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`,
+  options: {
+    listAll: true,
+  }
+});
+```
+
 
 {/* in other files we're referring to paths instead of folders, can we be consistent on terminology? */} Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name.
 
@@ -201,31 +240,6 @@ const result = await list({
 | nextToken | string | — | Indicates whether the list is being continued on this bucket with a token |
 | subpathStrategy | \{ strategy: 'include' \} \|<br/>\{ 'exclude',<br />delimiter?: string \} | \{ strategy: 'include' \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
-
-If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
-
-```javascript
-import { list } from 'aws-amplify/storage';
-
-const PAGE_SIZE = 20;
-let nextToken = undefined;
-//...
-const loadNextPage = async () => {
-  let response = await list({
-    path: 'photos/',
-    // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
-    pageSize: PAGE_SIZE,
-    nextToken: nextToken
-    }
-  });
-  if (response.nextToken) {
-    nextToken = response.nextToken;
-  } else {
-    nextToken = undefined;
-  }
-  // render list items from response.items
-};
-```
 
 </InlineFilter>
 
