@@ -59,21 +59,22 @@ export function MenuItem({
 
   const setSelectability = () => {
     const current = ref.current;
-    const items = current?.parentElement.nextSibling.children;
-
-    for (const item of items) {
-      const links = item.getElementsByTagName('a');
-      const buttons = item.getElementsByTagName('button');
-      if (links[0].getAttribute('tabIndex') == 0) {
-        for (const link of links) {
-          link.setAttribute('tabIndex', -1);
+    const items = current?.parentElement?.nextSibling?.children;
+    if (items) {
+      for (const item of items) {
+        const links = item.getElementsByTagName('a');
+        const buttons = item.getElementsByTagName('button');
+        if (links[0].getAttribute('tabIndex') == 0) {
+          for (const link of links) {
+            link.setAttribute('tabIndex', -1);
+          }
+          for (const button of buttons) {
+            button.setAttribute('tabIndex', -1);
+          }
+        } else if (-links[0].getAttribute('tabIndex')) {
+          links[0]?.setAttribute('tabIndex', 0);
+          buttons[0]?.setAttribute('tabIndex', 0);
         }
-        for (const button of buttons) {
-          button.setAttribute('tabIndex', -1);
-        }
-      } else if (-links[0].getAttribute('tabIndex')) {
-        links[0]?.setAttribute('tabIndex', 0);
-        buttons[0]?.setAttribute('tabIndex', 0);
       }
     }
     current?.focus();
@@ -235,9 +236,9 @@ export function MenuItem({
         key={pageNode.route}
         className={`menu__list-item ${listItemStyle}`}
       >
-        <Flex className={`menu__list-item__inner ${currentStyle}`}>
+        <Flex className={`menu__list-item__inner`}>
           <Link
-            className={`menu__list-item__link ${listItemLinkStyle}`}
+            className={`menu__list-item__link ${listItemLinkStyle} ${current ? currentStyle : null}`}
             aria-current={current ? 'page' : null}
             href={href}
             onClick={onLinkClick}
