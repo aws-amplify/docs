@@ -80,19 +80,19 @@ const copyFile = async () => {
     const response = await copy({
       source: {
         path: 'album/2024/1.jpg',
-        // Specify a target bucket using name assigned in Amplify Backend 
+        // Specify a target bucket using name assigned in Amplify Backend
         // or bucket name from console and associated region
-        bucket: "assignedNameInAmplifyBackend"
+        bucket: 'assignedNameInAmplifyBackend'
       },
       destination: {
         path: 'shared/2024/1.jpg',
-        // Specify a target bucket using name assigned in Amplify Backend 
+        // Specify a target bucket using name assigned in Amplify Backend
         // or bucket name from console and associated region
         bucket: {
-          bucketName: "generated-second-bucket-name",
-          region: "us-east-2"
+          bucketName: 'generated-second-bucket-name',
+          region: 'us-east-2'
         }
-      },
+      }
     });
   } catch (error) {
     console.error('Error', err);

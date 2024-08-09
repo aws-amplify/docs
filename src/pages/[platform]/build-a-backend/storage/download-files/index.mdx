@@ -104,7 +104,7 @@ const linkToStorageFile = await getUrl({
   }
 });
 ```
-### Get Url from a specified bucket
+### Get url from a specified bucket
 
 See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
 
@@ -112,10 +112,10 @@ See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up
 import { getUrl } from 'aws-amplify/storage';
 
 const linkToStorageFile = await getUrl({
-  path: "album/2024/1.jpg",
+  path: 'album/2024/1.jpg',
   options: {
     // Specify a target bucket using name assigned in Amplify Backend
-    bucket: "assignedNameInAmplifyBackend"
+    bucket: 'assignedNameInAmplifyBackend'
   }
 });
 ```
@@ -126,12 +126,13 @@ const result = await getUrl({
   path: '/album/2024/1.jpg',
   options: {
     // Alternatively, provide bucket name from console and associated region
-    bucket: { 
-      bucketName: "bucket-name-from-console",
-      region: "us-east-2" 
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
     }
   }
 });
+
 
 ```
 
@@ -644,26 +645,28 @@ See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up
 import { downloadData } from 'aws-amplify/storage';
 
 const result = await downloadData({
-  path: "/album/2024/1.jpg",
+  path: '/album/2024/1.jpg',
   options: {
     // Specify a target bucket using name assigned in Amplify Backend
-    bucket: "assignedNameInAmplifyBackend"
+    bucket: 'assignedNameInAmplifyBackend'
   }
 }).result;
+
 ```
 ```ts
 import { downloadData } from 'aws-amplify/storage';
 
 const result = await downloadData({
-  path: "/album/2024/1.jpg",
+  path: '/album/2024/1.jpg',
   options: {
     // Alternatively, provide bucket name from console and associated region
     bucket: {
-      bucketName: "bucket-name-from-console",
-      region: "us-east-2" 
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
     }
   }
 }).result;
+
 ```
 </InlineFilter>
 

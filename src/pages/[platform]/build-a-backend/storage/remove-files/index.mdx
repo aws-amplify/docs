@@ -57,11 +57,11 @@ const result = await remove({
   path: '/album/2024/1.jpg',
   options: {
     // Specify a target bucket using name assigned in Amplify Backend
-    bucket: "assignedNameInAmplifyBackend"
+    bucket: 'assignedNameInAmplifyBackend'
   }
 });
-
 ```
+
 ```ts
 import { remove } from 'aws-amplify/storage';
 
@@ -69,13 +69,12 @@ const result = await remove({
   path: '/album/2024/1.jpg',
   options: {
     // Alternatively, provide bucket name from console and associated region
-    bucket: { 
-      bucketName: "bucket-name-from-console",
-      region: "us-east-2" 
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
     }
   }
 });
-
 ```
 </InlineFilter>
 
