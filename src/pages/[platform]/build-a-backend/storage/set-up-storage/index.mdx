@@ -150,15 +150,31 @@ try {
     options: {
       // Specify a target bucket using name assigned in Amplify Backend
       bucket: "secondBucket"
-      // Alternatively, provide bucket name from console and associated region
-      // bucket?: { bucketName: "bucket-name-from-console", region: "us-east-2" }
     }
   }).result;
 } catch (error) {
   console.log(`Error: ${error}`)
 }
 ```
+```ts
+import { downloadData } from 'aws-amplify/storage';
 
+try {
+  const result = downloadData({
+    path: 'album/2024/1.jpg',
+    options: {
+      // Alternatively, provide bucket name from console and associated region
+      bucket: {
+        bucketName: 'bucket-name-from-console',
+        region: 'us-east-2'
+      }
+    }
+  }).result;
+} catch (error) {
+  console.log(`Error: ${error}`);
+}
+
+```
 
 ### Use existing storage resources without Amplify Backend
 
