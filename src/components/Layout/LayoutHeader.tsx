@@ -176,8 +176,7 @@ export const LayoutHeader = ({
             )}
           </div>
         </View>
-        {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
-        <div className=""></div>
+        {showTOC ? <div className=""></div> : null}
       </View>
 
       {showTOC ? (

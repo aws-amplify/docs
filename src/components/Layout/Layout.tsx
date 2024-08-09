@@ -24,7 +24,10 @@ import {
 import { SpaceShip } from '@/components/SpaceShip';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
-import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
+import {
+  TableOfContents,
+  type HeadingInterface
+} from '@/components/TableOfContents/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
@@ -271,6 +274,7 @@ export const Layout = ({
                   {children}
                   {showNextPrev && <NextPrevious />}
                 </Flex>
+                {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
               </View>
               <Footer hasTOC={showTOC} />
             </View>
