@@ -88,7 +88,10 @@ This function does not check if the file exists by default. As result, the signe
   
 </Callout>
 
-The behavior of the `getUrl` API can be customized by passing an options object.  
+### More getUrl options
+
+The behavior of the `getUrl` API can be customized by passing in options.
+
 ```typescript
 import { getUrl } from 'aws-amplify/storage';
 
@@ -98,46 +101,13 @@ const linkToStorageFile = await getUrl({
     // ensure object exists before getting url
     validateObjectExistence: true, 
     // url expiration time in seconds.
-    expiresIn: 300, // 5 minutes
-    // use accelerate endpoint
+    expiresIn: 300,
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend',
     useAccelerateEndpoint: true,
   }
 });
 ```
-### Get url from a specified bucket
-
-See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
-
-```ts
-import { getUrl } from 'aws-amplify/storage';
-
-const linkToStorageFile = await getUrl({
-  path: 'album/2024/1.jpg',
-  options: {
-    // Specify a target bucket using name assigned in Amplify Backend
-    bucket: 'assignedNameInAmplifyBackend'
-  }
-});
-```
-```ts
-import { getUrl } from 'aws-amplify/storage';
-
-const result = await getUrl({
-  path: '/album/2024/1.jpg',
-  options: {
-    // Alternatively, provide bucket name from console and associated region
-    bucket: {
-      bucketName: 'bucket-name-from-console',
-      region: 'us-east-2'
-    }
-  }
-});
-
-
-```
-
-
-### More `getUrl` options
 
 Option | Type | Default | Description |
 | :--: | :--: | :--: | ----------- |
@@ -340,9 +310,8 @@ import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  path: "/album/2024/1.jpg",
+  path: "album/2024/1.jpg"
 }).result;
-
 ```
 </InlineFilter>
 
@@ -539,7 +508,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 try {
   const downloadResult = await downloadData({
-    path: "/album/2024/1.jpg"
+    path: "album/2024/1.jpg"
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
@@ -611,7 +580,7 @@ import { downloadData } from 'aws-amplify/storage';
 // Download a file from S3 bucket
 const { body, eTag } = await downloadData(
   {
-    path: "/album/2024/1.jpg",
+    path: 'album/2024/1.jpg',
     options: {
       onProgress: (progress) {
         console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
@@ -626,7 +595,7 @@ const { body, eTag } = await downloadData(
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
-const downloadTask = downloadData({ path: "/album/2024/1.jpg" });
+const downloadTask = downloadData({ path: 'album/2024/1.jpg' });
 downloadTask.cancel();
 try {
   await downloadTask.result;
@@ -639,13 +608,13 @@ try {
 
 ### Download from a specified bucket
 
-See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
+You can also perform an upload operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
 
 ```ts
 import { downloadData } from 'aws-amplify/storage';
 
 const result = await downloadData({
-  path: '/album/2024/1.jpg',
+  path: 'album/2024/1.jpg',
   options: {
     // Specify a target bucket using name assigned in Amplify Backend
     bucket: 'assignedNameInAmplifyBackend'
@@ -653,11 +622,13 @@ const result = await downloadData({
 }).result;
 
 ```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
 ```ts
 import { downloadData } from 'aws-amplify/storage';
 
 const result = await downloadData({
-  path: '/album/2024/1.jpg',
+  path: 'album/2024/1.jpg',
   options: {
     // Alternatively, provide bucket name from console and associated region
     bucket: {
@@ -971,6 +942,25 @@ Download tasks are run using `URLSessionTask` instances internally. You can lear
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ### More download options
+The behavior of the `downloadData` API can be customized by passing in options.
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Downloads file content to memory
+const { body, eTag } = await downloadData({
+  path: "album/2024/1.jpg",
+  options: {
+    // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
+    bytesRange: {
+      start: 1024,
+      end: 2048
+    },
+    useAccelerateEndpoint: true,
+  }
+}).result;
+
+```
 
 Option | Type | Default | Description |
 | :--: | :--: | :--: | ----------- |

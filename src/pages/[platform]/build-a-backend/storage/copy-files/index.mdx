@@ -68,9 +68,7 @@ Cross identity ID copying is only allowed if the destination path has the the ri
 
 ## Specify a bucket or copy across buckets / regions
 
-Alternatively, choose a specific target by including `bucket` in both the source and destination objects. 
-
-See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
+You can also perform an `copy` operation to a specific bucket by providing the `bucket` option. This option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.
 
 ```javascript
 import { copy } from 'aws-amplify/storage';

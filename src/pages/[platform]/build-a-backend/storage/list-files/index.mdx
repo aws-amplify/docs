@@ -38,12 +38,12 @@ You can list files without having to download all the files. You can do this by 
 import { list } from 'aws-amplify/storage';
 
 const result = await list({
-	path: 'photos/',
+	path: 'album/photos/',
   // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
 });
 ```
 
-Note the trailing slash `/` - if you had requested `list({ path :  'photos' })` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
+Note the trailing slash `/` - if you had requested `list({ path :  'album/photos' })` it would also match against files like `album/photos123.jpg` alongside `album/photos/123.jpg`.
 
 The format of the response will look similar to the below example:
 
@@ -51,7 +51,7 @@ The format of the response will look similar to the below example:
 {
   items: [
     {
-      path: "photos/123.jpg",
+      path: "album/photos/123.jpg",
       eTag: "30074401292215403a42b0739f3b5262",
       lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
       size: 138256
@@ -171,7 +171,8 @@ const result = await list({
 ```
 
 ### List files from a specified bucket
-See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
+
+You can also perform an `copy` operation to a specific bucket by providing the `bucket` option. This option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.
 
 ```ts
 import { list } from 'aws-amplify/storage';
@@ -180,24 +181,16 @@ const result = await list({
   path: 'photos/',
   options: {
     // Specify a target bucket using name assigned in Amplify Backend
-    bucket: 'assignedNameInAmplifyBackend'
-  }
-});
-```
-```ts
-import { list } from 'aws-amplify/storage';
-
-const result = await list({
-  path: 'photos/',
-  options: {
+    bucket: 'assignedNameInAmplifyBackend',
     // Alternatively, provide bucket name from console and associated region
-    bucket: {
-      bucketName: 'generated-secondary-bucket-name',
-      region: 'us-east-2'
-    }
+    // bucket: {
+    //   bucketName: 'generated-secondary-bucket-name',
+    //   region: 'us-east-2'
+    // }
   }
 });
 ```
+
 ### More `list` options
 
 | Option | Type | Default | Description |
@@ -574,8 +567,12 @@ import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
-    path: 'album/2024/1.jpg'
+    path: 'album/2024/1.jpg',
     // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
+    options: {
+      // Specify a target bucket using name assigned in Amplify Backend
+      bucket: 'assignedNameInAmplifyBackend'
+    }
   });
   console.log('File Properties ', result);
 } catch (error) {
@@ -596,40 +593,11 @@ The properties and metadata will look similar to the below example
 }
 ```
 
-### Get file properties from a specified bucket
-See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
-
-```ts
-import { getProperties } from 'aws-amplify/storage';
-
-const result = await getProperties({
-  path: 'album/2024/1.jpg',
-  options: {
-    // Specify a target bucket using name assigned in Amplify Backend
-    bucket: 'assignedNameInAmplifyBackend'
-  }
-});
-```
-```ts
-import { getProperties } from 'aws-amplify/storage';
-
-const result = await getProperties({
-  path: 'album/2024/1.jpg',
-  options: {
-    // Alternatively, provide bucket name from console and associated region
-    bucket: {
-      bucketName: 'generated-secondary-bucket-name',
-      region: 'us-east-2'
-    }
-  }
-});
-```
-
 ### More `getProperties` options
 
 Option | Type | Default | Description |
-| -- | :--: | :--: | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Bucket assigned `isDefault` | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
+| -- | -- | -- | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>
