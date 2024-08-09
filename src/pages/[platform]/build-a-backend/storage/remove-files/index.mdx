@@ -50,24 +50,32 @@ try {
 
 See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
 
-```ts title="Provide bucket as a string"
+```ts
 import { remove } from 'aws-amplify/storage';
 
 const result = await remove({
   path: '/album/2024/1.jpg',
   options: {
+    // Specify a target bucket using name assigned in Amplify Backend
     bucket: "assignedNameInAmplifyBackend"
   }
 });
 
 ```
-```ts title="Provide bucket as an object"
-options: {
-  bucket: { 
-    bucketName: "bucket-name-from-console",
-    region: "us-east-2" 
+```ts
+import { remove } from 'aws-amplify/storage';
+
+const result = await remove({
+  path: '/album/2024/1.jpg',
+  options: {
+    // Alternatively, provide bucket name from console and associated region
+    bucket: { 
+      bucketName: "bucket-name-from-console",
+      region: "us-east-2" 
+    }
   }
-}
+});
+
 ```
 </InlineFilter>
 

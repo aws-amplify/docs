@@ -173,23 +173,30 @@ const result = await list({
 ### List files from a specified bucket
 See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
 
-```ts title="Provide bucket as a string"
+```ts
 import { list } from 'aws-amplify/storage';
 
 const result = await list({
   path: 'photos/',
   options: {
+    // Specify a target bucket using name assigned in Amplify Backend
     bucket: "assignedNameInAmplifyBackend"
   }
-})
+});
 ```
-```ts title="Provide bucket as an object"
-options: {
-  bucket: {
-    bucketName: "generated-secondary-bucket-name",
-    region: "us-east-2"
+```ts
+import { list } from 'aws-amplify/storage';
+
+const result = await list({
+  path: 'photos/',
+  options: {
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: "generated-secondary-bucket-name",
+      region: "us-east-2"
+    }
   }
-}
+});
 ```
 ### More `list` options
 
@@ -592,23 +599,30 @@ The properties and metadata will look similar to the below example
 ### Get file properties from a specified bucket
 See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
 
-```ts title="Provide bucket as a string"
-import { list } from 'aws-amplify/storage';
+```ts
+import { getProperties } from 'aws-amplify/storage';
 
 const result = await getProperties({
   path: 'album/2024/1.jpg',
   options: {
+    // Specify a target bucket using name assigned in Amplify Backend
     bucket: "assignedNameInAmplifyBackend"
   }
-})
+});
 ```
-```ts title="Provide bucket as an object"
-options: {
-  bucket: {
-    bucketName: "generated-secondary-bucket-name",
-    region: "us-east-2"
+```ts
+import { getProperties } from 'aws-amplify/storage';
+
+const result = await getProperties({
+  path: 'album/2024/1.jpg',
+  options: {
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: "generated-secondary-bucket-name",
+      region: "us-east-2"
+    }
   }
-}
+});
 ```
 
 ### More `getProperties` options

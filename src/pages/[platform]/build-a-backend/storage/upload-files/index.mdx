@@ -1204,11 +1204,7 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 
 ### Upload to a specified bucket
 
-You can also perform an upload operation to a specific bucket by providing the `bucket` option. This option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.
-
-See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
-
-```ts title="Provide bucket as a string"
+```ts
 import { uploadData } from 'aws-amplify/storage';
 
 try {
@@ -1216,6 +1212,7 @@ try {
     path: "album/2024/1.jpg",
     data: file,
     options: {
+      // Specify a target bucket using name assigned in Amplify Backend
       bucket: "assignedNameInAmplifyBackend"
     }
   }).result;
@@ -1223,12 +1220,23 @@ try {
   console.log(`Error: ${error}`)
 }
 ```
-```ts title="Provide bucket as an object"
-options: {
-  bucket: { 
-    bucketName: "bucket-name-from-console", 
-    region: "us-east-2" 
+```ts
+import { uploadData } from 'aws-amplify/storage';
+
+try {
+  const result = uploadData({
+    path: "album/2024/1.jpg",
+    data: file,
+    options: {
+      // Alternatively, provide bucket name from console and associated region
+      bucket: { 
+        bucketName: "bucket-name-from-console", 
+        region: "us-east-2" 
+     } 
   }
+  }).result;
+} catch (error) {
+  console.log(`Error: ${error}`)
 }
 ```
 
