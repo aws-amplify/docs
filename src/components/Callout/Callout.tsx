@@ -1,5 +1,5 @@
 import { Flex, Message } from '@aws-amplify/ui-react';
-import { IconInfo } from '../Icons/IconInfo';
+import { IconWarning, IconInfo } from '../Icons';
 
 interface CalloutProps {
   info?: boolean;
@@ -22,10 +22,11 @@ export const Callout = ({
     >
       <Flex>
         <div className="amplify-message__icon">
-          <IconInfo
-            aria-hidden={false}
-            aria-label={warning ? 'warning icon' : 'info icon'}
-          />
+          {warning ? (
+            <IconWarning aria-hidden={false} aria-label="warning icon" />
+          ) : (
+            <IconInfo aria-hidden={false} aria-label="info icon" />
+          )}
         </div>
         <div>{children}</div>
       </Flex>
