@@ -1236,12 +1236,47 @@ const result = await uploadData({
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+### Transfer with Object Metadata
+
+Custom metadata can be associated with your uploaded object by passing the metadata option.
+
+```ts
+import { uploadData } from 'aws-amplify/storage';
+
+const result = await uploadData({
+  path: 'album/2024/1.jpg',
+  data: file,
+  options: {
+    metadata: {
+      customKey: 'customValue',
+    },
+  },
+});
+```
 
 ### More upload options
 
+The behavior of `uploadData` and properties of the uploaded object can be customized by passing in additional options.
+
+```ts
+import { uploadData } from 'aws-amplify/storage';
+
+const result = await uploadData({
+  path: 'album/2024/1.jpg',
+  data: file,
+  options: {
+    // content-type header to be used when downloading
+    contentType: "image/jpeg",
+    // configure how object is presented
+    contentDisposition: "attachment",
+    // whether to use accelerate endpoint
+    useAccelerateEndpoint: true
+  },
+});
+```
 Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Bucket assigned `isDefault` | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | contentType | string | application/octet-stream | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
 | contentEncoding | string | — | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
 | contentDisposition | string | — | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |

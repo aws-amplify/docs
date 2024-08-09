@@ -234,7 +234,7 @@ const result = await list({
 
 | Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Bucket assigned `isDefault` | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | listAll | boolean | false | Set to true to list all files within the specified `path` |
 | pageSize | number | 1000 | Sets the maximum number of files to be return. The range is 0 - 1000 |
 | nextToken | string | — | Indicates whether the list is being continued on this bucket with a token |
