@@ -150,9 +150,6 @@ try {
     path: "album/2024/1.jpg",
     // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
     data: file,
-    options: {
-      onProgress // Optional progress callback.
-    }
   }).result;
   console.log('Succeeded: ', result);
 } catch (error) {
@@ -695,7 +692,7 @@ final operation = Amplify.Storage.uploadData(
 
 ### Monitor upload progress
 
-Monitor progress of upload by using the `onProgress` options
+Monitor progress of upload by using the `onProgress` option.
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -704,7 +701,6 @@ const monitorUpload = async () => {
   try {
     const result = await uploadData({
       path: "album/2024/1.jpg",
-      // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
       data: file,
       options: {
         onProgress: ({ transferredBytes, totalBytes }) => {
@@ -1207,37 +1203,29 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 ```ts
 import { uploadData } from 'aws-amplify/storage';
 
-try {
-  const result = uploadData({
-    path: 'album/2024/1.jpg',
-    data: file,
-    options: {
-      // Specify a target bucket using name assigned in Amplify Backend
-      bucket: 'assignedNameInAmplifyBackend'
-    }
-  }).result;
-} catch (error) {
-  console.log(`Error: ${error}`);
-}
+const result = await uploadData({
+  path: 'album/2024/1.jpg',
+  data: file,
+  options: {
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend'
+  }
+}).result;
 ```
 ```ts
 import { uploadData } from 'aws-amplify/storage';
 
-try {
-  const result = uploadData({
-    path: 'album/2024/1.jpg',
-    data: file,
-    options: {
-      // Alternatively, provide bucket name from console and associated region
-      bucket: {
-        bucketName: 'bucket-name-from-console',
-        region: 'us-east-2'
-      }
+const result = await uploadData({
+  path: 'album/2024/1.jpg',
+  data: file,
+  options: {
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
     }
-  }).result;
-} catch (error) {
-  console.log(`Error: ${error}`);
-}
+  }
+}).result;
 
 ```
 
