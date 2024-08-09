@@ -51,9 +51,10 @@ export function PlatformNavigator({
         <Flex alignItems="center">
           <Popover flex="1 0 auto">
             <Popover.Trigger
+              id="selectedLabel"
               className={`platform-navigator__button`}
               isFullWidth={true}
-              aria-describedby="platformNavigatorLabel"
+              aria-labelledby="platformNavigatorLabel selectedLabel"
             >
               {platformItem.icon}
               {platformTitle}
