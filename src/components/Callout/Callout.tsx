@@ -1,4 +1,5 @@
-import { Message, View } from '@aws-amplify/ui-react';
+import { Flex, Message } from '@aws-amplify/ui-react';
+import { IconInfo } from '../Icons/IconInfo';
 
 interface CalloutProps {
   info?: boolean;
@@ -17,8 +18,14 @@ export const Callout = ({
       variation="filled"
       colorTheme={warning ? 'warning' : 'info'}
       backgroundColor={backgroundColor}
+      hasIcon={false}
     >
-      <View>{children}</View>
+      <Flex>
+        <div role="img" aria-label="info" className="amplify-message__icon">
+          <IconInfo aria-hidden={true} />
+        </div>
+        <div>{children}</div>
+      </Flex>
     </Message>
   );
 };
