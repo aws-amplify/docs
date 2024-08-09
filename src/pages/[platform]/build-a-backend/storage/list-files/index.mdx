@@ -201,12 +201,12 @@ const result = await list({
 ### More `list` options
 
 | Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| -- | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Bucket assigned `isDefault` | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | listAll | boolean | false | Set to true to list all files within the specified `path` |
 | pageSize | number | 1000 | Sets the maximum number of files to be return. The range is 0 - 1000 |
-| nextToken | string | undefined | Indicates whether the list is being continued on this bucket with a token |
-| subpathStrategy | \{ strategy: 'include' \| 'exclude',<br />delimiter?: string \} | \{ strategy: 'include' \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
+| nextToken | string | — | Indicates whether the list is being continued on this bucket with a token |
+| subpathStrategy | \{ strategy: 'include' \} \|<br/>\{ 'exclude',<br />delimiter?: string \} | \{ strategy: 'include' \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
@@ -628,8 +628,8 @@ const result = await getProperties({
 ### More `getProperties` options
 
 Option | Type | Default | Description |
-| -- | -- | -- | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
+| -- | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Bucket assigned `isDefault` | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console. |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>

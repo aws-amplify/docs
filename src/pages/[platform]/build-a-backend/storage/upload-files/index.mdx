@@ -1236,12 +1236,12 @@ const result = await uploadData({
 ### More upload options
 
 Option | Type | Default | Description |
-| -- | -- | -- | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
-| contentType | string | undefined | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
-| contentEncoding | string | undefined | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
-| contentDisposition | string | undefined | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
-| metadata | map\<string\> | undefined | A map of metadata to store with the object in S3. <br/><br/> Read more at [S3 metadata documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingMetadata.html#UserMetadata) |
+| -- | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Bucket assigned `isDefault` | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| contentType | string | application/octet-stream | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
+| contentEncoding | string | — | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
+| contentDisposition | string | — | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
+| metadata | map\<string\> | — | A map of metadata to store with the object in S3. <br/><br/> Read more at [S3 metadata documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingMetadata.html#UserMetadata) |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
 
 <Callout>
