@@ -21,8 +21,11 @@ export const Callout = ({
       hasIcon={false}
     >
       <Flex>
-        <div role="img" aria-label="info" className="amplify-message__icon">
-          <IconInfo aria-hidden={true} />
+        <div className="amplify-message__icon">
+          <IconInfo
+            aria-hidden={false}
+            aria-label={warning ? 'warning icon' : 'info icon'}
+          />
         </div>
         <div>{children}</div>
       </Flex>
