@@ -20,7 +20,8 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
 
   useEffect(() => {
     if (linkRef.current) {
-      setLabel(linkRef.current.innerText);
+      const text = linkRef.current.innerText;
+      setLabel(text ? text : '');
     }
   }, []);
 

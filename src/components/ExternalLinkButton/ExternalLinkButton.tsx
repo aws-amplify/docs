@@ -1,7 +1,7 @@
 import { Button, ButtonProps } from '@aws-amplify/ui-react';
 import { IconExternalLink } from '../Icons';
 import { trackExternalLink } from '../../utils/track';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import React from 'react';
 
 interface ExternalLinkButtonProps {
@@ -24,20 +24,14 @@ export const ExternalLinkButton = ({
   className
 }: ExternalLinkButtonProps) => {
   const [label, setLabel] = React.useState('');
+  const buttonRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const links = document.getElementsByTagName('a');
-    const externalButtons = Array.from(links).filter((link) => {
-      return (
-        link.classList.contains('amplify-button') &&
-        link.hostname != window.location.hostname
-      );
-    });
-
-    for (const externalButton of externalButtons) {
-      if (externalButton.href == href) setLabel(externalButton.innerText || '');
+    if (buttonRef.current) {
+      const text = buttonRef.current.innerText;
+      setLabel(text ? text : '');
     }
-  }, [href, label]);
+  }, []);
 
   return (
     <Button
@@ -54,6 +48,7 @@ export const ExternalLinkButton = ({
       onClick={() => {
         trackLink(href);
       }}
+      ref={buttonRef}
     >
       {children} <IconExternalLink />
     </Button>
