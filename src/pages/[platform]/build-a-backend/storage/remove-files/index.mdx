@@ -45,6 +45,37 @@ try {
   console.log('Error ', error);
 }
 ```
+
+## Remove file from specified bucket
+
+See [additional storage bucket usage](/[platform]/build-a-backend/storage/set-up-storage/#additional-storage-bucket-usage) for more information.
+
+```ts
+import { remove } from 'aws-amplify/storage';
+
+const result = await remove({
+  path: '/album/2024/1.jpg',
+  options: {
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend'
+  }
+});
+```
+
+```ts
+import { remove } from 'aws-amplify/storage';
+
+const result = await remove({
+  path: '/album/2024/1.jpg',
+  options: {
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
+    }
+  }
+});
+```
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
@@ -171,4 +202,13 @@ Future<void> remove() async {
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+## More `remove` options
+
+Option | Type | Default | Description |
+| -- | -- | -- | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | undefined | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 </InlineFilter>
