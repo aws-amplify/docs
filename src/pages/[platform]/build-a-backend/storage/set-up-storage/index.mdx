@@ -117,7 +117,9 @@ export const firstBucket = defineStorage({
 export const secondBucket = defineStorage({
   name: 'secondBucket',
   access: (allow) => ({
-    'private/{entity_id}/*': [allow.entity('identity').to(['read', 'write', 'delete'])]
+    'private/{entity_id}/*': [
+      allow.entity('identity').to(['read', 'write', 'delete'])
+    ]
   })
 })
 ```
@@ -132,6 +134,7 @@ import { firstBucket, secondBucket } from './storage/resource';
 defineBackend({
   auth,
   firstBucket,
+  // highlight-next-line
   secondBucket
 });
 ```
@@ -148,8 +151,10 @@ try {
   const result = downloadData({
     path: "album/2024/1.jpg",
     options: {
+      // highlight-start
       // Specify a target bucket using name assigned in Amplify Backend
       bucket: "secondBucket"
+      // highlight-end
     }
   }).result;
 } catch (error) {
@@ -165,11 +170,13 @@ try {
   const result = downloadData({
     path: 'album/2024/1.jpg',
     options: {
+      // highlight-start
       // Alternatively, provide bucket name from console and associated region
       bucket: {
         bucketName: 'second-bucket-name-from-console',
         region: 'us-east-2'
       }
+      // highlight-end
     }
   }).result;
 } catch (error) {

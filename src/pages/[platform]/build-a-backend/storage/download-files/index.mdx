@@ -98,12 +98,13 @@ import { getUrl } from 'aws-amplify/storage';
 const linkToStorageFile = await getUrl({
   path: "album/2024/1.jpg",
   options: {
+    // specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend',
     // ensure object exists before getting url
     validateObjectExistence: true, 
     // url expiration time in seconds.
     expiresIn: 300,
-    // Specify a target bucket using name assigned in Amplify Backend
-    bucket: 'assignedNameInAmplifyBackend',
+    // whether to use accelerate endpoint
     useAccelerateEndpoint: true,
   }
 });
@@ -572,6 +573,45 @@ let resultSink = downloadTask
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+### Download from a specified bucket
+
+You can also perform an upload operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
+
+```ts
+import { downloadData } from 'aws-amplify/storage';
+
+const result = await downloadData({
+  path: 'album/2024/1.jpg',
+  options: {
+    // highlight-start
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend'
+    // highlight-end
+  }
+}).result;
+
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+```ts
+import { downloadData } from 'aws-amplify/storage';
+
+const result = await downloadData({
+  path: 'album/2024/1.jpg',
+  options: {
+    // highlight-start
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
+    }
+    // highlight-end
+  }
+}).result;
+
+```
+
 ### Monitor download progress
 
 ```javascript
@@ -606,39 +646,6 @@ try {
 }
 ```
 
-### Download from a specified bucket
-
-You can also perform an upload operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
-
-```ts
-import { downloadData } from 'aws-amplify/storage';
-
-const result = await downloadData({
-  path: 'album/2024/1.jpg',
-  options: {
-    // Specify a target bucket using name assigned in Amplify Backend
-    bucket: 'assignedNameInAmplifyBackend'
-  }
-}).result;
-
-```
-Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
-
-```ts
-import { downloadData } from 'aws-amplify/storage';
-
-const result = await downloadData({
-  path: 'album/2024/1.jpg',
-  options: {
-    // Alternatively, provide bucket name from console and associated region
-    bucket: {
-      bucketName: 'bucket-name-from-console',
-      region: 'us-east-2'
-    }
-  }
-}).result;
-
-```
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
