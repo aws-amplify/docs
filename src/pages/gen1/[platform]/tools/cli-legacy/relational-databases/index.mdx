@@ -141,6 +141,6 @@ SELECT * FROM Customers;
 
 ![SQL Results](/images/sql-results.png)
 
-### How does this work?
+## How does this work?
 
 The `add-graphql-datasource` will add a custom stack to your project that provides a basic set of functionality for working with an existing data source. You can find the new stack in the `stacks/` directory, a set of new resolvers in the `resolvers/` directory, and will also find a few additions to your `schema.graphql`. You may edit details in the custom stack and/or resolver files without worry. You may run `add-graphql-datasource` again to update your project with changes in the database but be careful as these will overwrite any existing templates in the `stacks/` or `resolvers/` directories. When using multiple environment with the Amplify CLI, you will be asked to configure the data source once per environment.
