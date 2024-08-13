@@ -23,7 +23,7 @@ export const Callout = ({
       <Flex>
         <div className="amplify-message__icon">
           {warning ? (
-            <IconWarning aria-hidden={false} aria-label="warning icon" />
+            <IconWarning aria-hidden={false} aria-label="Warning" />
           ) : (
             <IconInfo aria-hidden={false} aria-label="info icon" />
           )}
