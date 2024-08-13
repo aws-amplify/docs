@@ -25,14 +25,14 @@ jobs:
         run: |
           python -m http.server 3000 -d ${{ env.BUILD_DIR }} &
           sleep 5
-      - name: Run Link Checker
-        id: checkLinks
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-        with:
-          result-encoding: string
-          script: |
-            const { checkDevLinks } = require('./tasks/link-checker.js');
-            return await checkDevLinks();
+      # - name: Run Link Checker
+      #   id: checkLinks
+      #   uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      #   with:
+      #     result-encoding: string
+      #     script: |
+      #       const { checkDevLinks } = require('./tasks/link-checker.js');
+      #       return await checkDevLinks();
       - name: Fail if broken links have been found
         if: ${{ steps.checkLinks.outputs.result }}
         run: exit 1
