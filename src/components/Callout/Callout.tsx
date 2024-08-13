@@ -25,7 +25,7 @@ export const Callout = ({
           {warning ? (
             <IconWarning aria-hidden={false} aria-label="Warning" />
           ) : (
-            <IconInfo aria-hidden={false} aria-label="info icon" />
+            <IconInfo aria-hidden={false} aria-label="Important information" />
           )}
         </div>
         <div>{children}</div>
