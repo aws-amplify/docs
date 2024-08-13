@@ -28,7 +28,7 @@ export const Callout = ({
             <IconInfo aria-hidden={false} aria-label="Important information" />
           )}
         </div>
-        <div>{children}</div>
+        <div className="amplify-message__content">{children}</div>
       </Flex>
     </Message>
   );
