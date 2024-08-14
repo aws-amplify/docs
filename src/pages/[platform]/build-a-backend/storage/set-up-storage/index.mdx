@@ -844,65 +844,6 @@ After successfully publishing your storage backend and connecting your project w
 
 ![Showing Amplify console showing Storage tab selected](/images/gen2/storage/amplify-console-storage.png)
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
-
-## Use existing storage resources without Amplify Backend
-
-While using the Amplify Backend is the easiest way to get started, existing storage resources can also be integrated with Amplify Storage. 
-
-This can be accomplished by passing existing storage resource metadata to `Amplify.configure`. This will configure the Amplify Storage client library to interact with the additional resources. It's recommended to add the Amplify configuration step as early as possible in the application lifecycle, ideally at the root entry point.
-
-
-```ts
-import { Amplify } from 'aws-amplify';
-
-Amplify.configure({
-  Storage: {
-    S3: {
-      bucket: '<your-default-bucket-name>',
-      region: '<your-default-bucket-region>',
-      // default bucket metadata should be duplicated below with any additional buckets
-      buckets: {
-        '<your-default-bucket-friendly-name>': {
-          bucketName: '<your-default-bucket-name>',
-          region: '<your-default-bucket-region>'
-        },
-        '<your-additional-bucket-friendly-name>': {
-          bucketName: '<your-additional-bucket-name>',
-          region: '<your-additional-bucket-region>'
-        }
-      }
-    }
-  }
-});
-
-```
-Alternatively, existing storage resources can be used by creating or modifying the `amplify_outputs.json` file directly. Read more about [amplify_outputs.json](/[platform]/reference/amplify_outputs/).
-
-```ts title="amplify_outputs.json"
-{
-  // ...
-  "storage": {
-    "aws_region": "<your-default-bucket-region>", 
-    "bucket_name": "<your-default-bucket-name>",
-    // default bucket metadata should be duplicated below with any additional buckets
-    "buckets": [
-      {
-        "name": "<your-default-bucket-friendly-name>", 
-        "bucket_name": "<your-default-bucket-name>", 
-        "aws_region": "<your-default-bucket-region>" 
-      },
-      {
-        "name": "<your-additional-bucket-friendly-name>",
-        "bucket_name": "<your-additional-bucket-name>",
-        "aws_region": "<your-additional-bucket-region>"
-      }
-    ]
-  }
-}
-```
-</InlineFilter>
-
 ## Conclusion
 
 Congratulations! You finished the Set up Amplify Storage guide. In this guide, you set up and connected to backend resources, customized your file paths and access definitions, and connected your application to the backend to implement features like file uploads and downloads.
