@@ -15,7 +15,7 @@ exports[`Protected Redaction Messages should render the protected redaction mess
       >
         <svg
           aria-hidden="false"
-          aria-label="warning icon"
+          aria-label="Warning"
           class="amplify-icon"
           viewBox="0 0 24 24"
         >
@@ -27,7 +27,9 @@ exports[`Protected Redaction Messages should render the protected redaction mess
           />
         </svg>
       </div>
-      <div>
+      <div
+        class="amplify-message__content"
+      >
         <p>
           With versions of Amplify CLI 
           <code>
@@ -96,7 +98,7 @@ exports[`Protected Redaction Messages should render the protected redaction mess
       >
         <svg
           aria-hidden="false"
-          aria-label="warning icon"
+          aria-label="Warning"
           class="amplify-icon"
           viewBox="0 0 24 24"
         >
@@ -108,7 +110,9 @@ exports[`Protected Redaction Messages should render the protected redaction mess
           />
         </svg>
       </div>
-      <div>
+      <div
+        class="amplify-message__content"
+      >
         <p>
           With Amplify Data Construct 
           <code>
