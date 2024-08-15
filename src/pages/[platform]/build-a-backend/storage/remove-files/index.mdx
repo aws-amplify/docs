@@ -31,6 +31,8 @@ export function getStaticProps(context) {
 
 Files can be removed from a storage bucket using the 'remove' API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
 
+You can also perform an upload operation to a specific bucket by providing the target bucket's assigned name from Amplify Backend in `bucket` option.
+
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ```javascript
@@ -40,12 +42,37 @@ try {
   await remove({ 
     path: 'album/2024/1.jpg',
     // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    bucket: 'assignedNameInAmplifyBackend', // Specify a target bucket using name assigned in Amplify Backend
   });
 } catch (error) {
   console.log('Error ', error);
 }
 ```
 </InlineFilter>
+
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ 
+    path: 'album/2024/1.jpg',
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
+    }
+
+  });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+</InlineFilter>
+
 
 <InlineFilter filters={["android"]}>
 <BlockSwitcher>
@@ -171,4 +198,13 @@ Future<void> remove() async {
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+## More `remove` options
+
+Option | Type | Default | Description |
+| -- | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 </InlineFilter>
