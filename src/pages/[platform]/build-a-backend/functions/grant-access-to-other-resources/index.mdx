@@ -97,7 +97,7 @@ const backend = defineBackend({
   weeklyDigest,
 })
 
-const weeklyDigestLambda = backend.weeklyDigest.resources.lambda
+const weeklyDigestLambda = backend.weeklyDigest.resources.weeklyDigest
 
 const topicStack = backend.createStack("WeeklyDigest")
 const topic = new sns.Topic(topicStack, "Topic", {
@@ -127,7 +127,7 @@ const backend = defineBackend({
   weeklyDigest,
 })
 
-const weeklyDigestLambda = backend.weeklyDigest.resources.lambda
+const weeklyDigestLambda = backend.weeklyDigest.resources.weeklyDigest
 
 const topicStack = backend.createStack("WeeklyDigest")
 const topic = new sns.Topic(topicStack, "Topic", {
