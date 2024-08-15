@@ -1,0 +1,60 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Lambda Layers',
+  description:
+    'Learn how to add layers to your function',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify offers the ability to add layers to your Functions which contain your library dependencies. To get started, specify the `layers` property in `defineFunction`:
+
+```ts title="amplify/functions/my-function/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const myFunction = defineFunction({
+  name: "my-function",
+  layers: {
+   "@aws-lambda-powertools/logger":
+      "arn:aws:lambda:us-east-1:094274105915:layer:AWSLambdaPowertoolsTypeScriptV2:12",
+  },
+});
+```
+
+The key for the layer is a module name hosted on your existing layer and will be externalized ensuring the module is not bundled with your function. The value accepts an Arn that references to a version of your layer that exists in the same region as your function. You can add upto 5 layers in your function.
+
+then use the locally installed module in the function handler:
+```ts title="amplify/functions/my-function/handler.ts"
+import { Logger } from "@aws-lambda-powertools/logger";
+
+const logger = new Logger({ serviceName: "serverlessAirline" });
+
+export const handler = async (): Promise<void> => {
+  logger.info("Hello World");
+};
+```
+
+For further information on creating and managing your layers refer to [AWS documentation for Lambda layers](https://docs.aws.amazon.com/lambda/latest/dg/chapter-layers.html)
+
