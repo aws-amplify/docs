@@ -12,6 +12,10 @@ customHeaders:
         value: '1; mode=block'
       - key: 'X-Content-Type-Options'
         value: 'nosniff'
+      - key: 'Cache-Control'
+        value: 'no-store, no-cache'
+      - key: 'Pragma'
+        value: 'no-cache'
       - key: 'Content-Security-Policy'
         value: 'upgrade-insecure-requests;'
       # CSP also set in _document.tsx meta tag

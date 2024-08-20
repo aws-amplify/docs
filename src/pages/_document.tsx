@@ -102,6 +102,7 @@ const getCspContent = (context) => {
     script-src 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.prod.script.join(
       ' '
     )} ${ANALYTICS_CSP.all.script.join(' ')};
+    require-trusted-types-for 'script';
   `;
 };
 
