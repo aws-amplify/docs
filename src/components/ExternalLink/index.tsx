@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { trackExternalLink } from '../../utils/track';
 
 type ExternalLinkProps = {
@@ -15,15 +15,27 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
   href,
   className
 }) => {
+  const [label, setLabel] = React.useState('');
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (linkRef.current) {
+      const text = linkRef.current.innerText;
+      setLabel(text ? text : '');
+    }
+  }, []);
+
   return (
     <a
       href={href}
       className={className}
+      aria-label={label + ' (opens in new tab)'}
       rel="noopener noreferrer"
       target="_blank"
       onClick={() => {
         trackLink(href);
       }}
+      ref={linkRef}
     >
       {children}
     </a>

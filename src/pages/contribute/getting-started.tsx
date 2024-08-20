@@ -5,6 +5,7 @@ import {
   IconExternalLink
 } from '@/components/Icons';
 import { MDXCode } from '@/components/MDXComponents';
+import ExternalLink from '@/components/ExternalLink';
 
 const meta = {
   title: 'Getting started',
@@ -84,9 +85,9 @@ export default function GettingStarted() {
           <IconCheckCircle />
           <Text>
             A GitHub account. You can create one{' '}
-            <Link isExternal href="https://github.com/join">
+            <ExternalLink href="https://github.com/join">
               here <IconExternalLink />.
-            </Link>
+            </ExternalLink>
           </Text>
         </Flex>
         <Flex as="li" alignItems="center" gap="xs">
@@ -97,12 +98,9 @@ export default function GettingStarted() {
           <IconCheckCircle />
           <Text>
             Amplify JS development environment. Follow the steps{' '}
-            <Link
-              href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#setting-up-for-local-development"
-              isExternal
-            >
+            <ExternalLink href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#setting-up-for-local-development">
               here <IconExternalLink />
-            </Link>{' '}
+            </ExternalLink>{' '}
             to get set up.
           </Text>
         </Flex>
@@ -110,12 +108,9 @@ export default function GettingStarted() {
           <IconCheckCircle />
           <Text>
             Set up the Amplify Docs{' '}
-            <Link
-              isExternal
-              href="https://github.com/aws-amplify/docs#getting-started"
-            >
+            <ExternalLink href="https://github.com/aws-amplify/docs#getting-started">
               development environment <IconExternalLink />
-            </Link>
+            </ExternalLink>
             .<Badge marginLeft="8px">Optional</Badge>
           </Text>
         </Flex>
@@ -127,21 +122,18 @@ export default function GettingStarted() {
         <li>
           <Text>
             Start on the{' '}
-            <Link
-              isExternal
-              href="https://github.com/aws-amplify/amplify-js/contribute"
-            >
+            <ExternalLink href="https://github.com/aws-amplify/amplify-js/contribute">
               contributing page <IconExternalLink />
-            </Link>{' '}
+            </ExternalLink>{' '}
             of the Amplify JS repo and find the right issue for you.
           </Text>
         </li>
         <li>
           <Text>
             Fork the{' '}
-            <Link isExternal href="https://github.com/aws-amplify/amplify-js">
+            <ExternalLink href="https://github.com/aws-amplify/amplify-js">
               Amplify JS <IconExternalLink />
-            </Link>{' '}
+            </ExternalLink>{' '}
             GitHub project.
           </Text>
         </li>
@@ -245,12 +237,9 @@ export default function GettingStarted() {
       </Text>
       <Flex direction="column">
         <Heading level={4}>
-          <Link
-            href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#contributing-guidelines"
-            isExternal
-          >
+          <ExternalLink href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#contributing-guidelines">
             Amplify JS Contributing Guidelines <IconExternalLink />
-          </Link>
+          </ExternalLink>
         </Heading>
         <Text>
           Please read through these guidelines carefully before submitting a PR.
@@ -262,9 +251,9 @@ export default function GettingStarted() {
         <Text>Learn more about the AWS Amplify JS library.</Text>
 
         <Heading level={4}>
-          <Link href="https://discord.com/invite/amplify" isExternal>
+          <ExternalLink href="https://discord.com/invite/amplify">
             Amplify Community Discord server <IconExternalLink />
-          </Link>
+          </ExternalLink>
         </Heading>
         <Text>
           This is a great place to meet other developers using Amplify, ask
@@ -272,18 +261,18 @@ export default function GettingStarted() {
         </Text>
 
         <Heading level={4}>
-          <Link href="https://discord.gg/kfWYHw73eA" isExternal>
+          <ExternalLink href="https://discord.gg/kfWYHw73eA">
             The #contribute-to-javascript Discord channel <IconExternalLink />
-          </Link>
+          </ExternalLink>
         </Heading>
         <Text>
           Meet other contributors and ask questions related to contributing to
           Amplify JS.
         </Text>
         <Heading level={4}>
-          <Link href="https://discord.com/invite/amplify" isExternal>
+          <ExternalLink href="https://discord.com/invite/amplify">
             Amplify Discord Office Hours <IconExternalLink />
-          </Link>
+          </ExternalLink>
         </Heading>
 
         <Text>

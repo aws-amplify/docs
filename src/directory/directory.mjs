@@ -39,7 +39,7 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/start/connect-existing-aws-resources/index.mdx'
+              path: 'src/pages/[platform]/start/connect-to-aws-resources/index.mdx'
             },
             {
               path: 'src/pages/[platform]/start/kotlin-coroutines/index.mdx'
@@ -136,6 +136,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-amplify-console/index.mdx'
                     }
                   ]
                 },
@@ -311,6 +314,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/manage-with-amplify-console/index.mdx'
                 }
               ]
             },
@@ -402,6 +408,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/manage-with-amplify-console/index.mdx'
                 }
               ]
             },

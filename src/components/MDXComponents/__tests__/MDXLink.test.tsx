@@ -16,7 +16,7 @@ const routerMock = {
 jest.mock('next/router', () => routerMock);
 
 describe('MDXLink', () => {
-  it('should render external link', () => {
+  it('should render external link', async () => {
     const externalUrl = 'https://amazon.com';
     const linkText = 'External Site';
 
@@ -26,10 +26,16 @@ describe('MDXLink', () => {
       </MDXLink>
     );
 
-    const linkElement = screen.getByRole('link', { name: linkText });
+    const linkElement = await screen.getByRole('link', {
+      name: '(opens in new tab)'
+    });
+    const linkElementText = await screen.findByText('External Site');
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', externalUrl);
     expect(linkElement).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(linkElementText).toBeInTheDocument();
+    expect(linkElementText).toHaveAttribute('href', externalUrl);
+    expect(linkElementText).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
   it('should render internal link', () => {

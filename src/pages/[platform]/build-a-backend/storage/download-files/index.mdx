@@ -70,16 +70,10 @@ import { getUrl } from 'aws-amplify/storage';
 const linkToStorageFile = await getUrl({
   path: "album/2024/1.jpg",
   // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
-  options: {
-    validateObjectExistence?: false,  // defaults to false
-    expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
-    useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
-  },
 });
 console.log('signed URL: ', linkToStorageFile.url);
 console.log('URL expires at: ', linkToStorageFile.expiresAt);
 ```
-
 Inside your template or JSX code, you can use the `url` property to create a link to the file:
 
 ```tsx
@@ -94,13 +88,34 @@ This function does not check if the file exists by default. As result, the signe
   
 </Callout>
 
-### More `getUrl` options
+### More getUrl options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |  |
-| validateObjectExistence | boolean | Whether to head object to make sure the object existence before downloading. Defaults to false |
-| expiresIn | number | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
+The behavior of the `getUrl` API can be customized by passing in options.
+
+```typescript
+import { getUrl } from 'aws-amplify/storage';
+
+const linkToStorageFile = await getUrl({
+  path: "album/2024/1.jpg",
+  options: {
+    // specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend',
+    // ensure object exists before getting url
+    validateObjectExistence: true, 
+    // url expiration time in seconds.
+    expiresIn: 300,
+    // whether to use accelerate endpoint
+    useAccelerateEndpoint: true,
+  }
+});
+```
+
+Option | Type | Default | Description |
+| :--: | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) 
+| validateObjectExistence | boolean | false | Whether to head object to make sure the object existence before downloading. |
+| expiresIn | number | 900 | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 </InlineFilter>
 
@@ -296,18 +311,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 // Downloads file content to memory
 const { body, eTag } = await downloadData({
-  path: "/album/2024/1.jpg",
-  options: {
-    // optional progress callback
-    onProgress: (event) => {
-      console.log(event.transferredBytes);
-    }
-    // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
-    bytesRange: {
-      start: 1024,
-      end: 2048
-    }
-  }
+  path: "album/2024/1.jpg"
 }).result;
 ```
 </InlineFilter>
@@ -505,7 +509,7 @@ import { downloadData } from 'aws-amplify/storage';
 
 try {
   const downloadResult = await downloadData({
-    path: "/album/2024/1.jpg"
+    path: "album/2024/1.jpg"
   }).result;
   const text = await downloadResult.body.text();
   // Alternatively, you can use `downloadResult.body.blob()`
@@ -569,6 +573,45 @@ let resultSink = downloadTask
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+### Download from a specified bucket
+
+You can also perform an upload operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
+
+```ts
+import { downloadData } from 'aws-amplify/storage';
+
+const result = await downloadData({
+  path: 'album/2024/1.jpg',
+  options: {
+    // highlight-start
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend'
+    // highlight-end
+  }
+}).result;
+
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+```ts
+import { downloadData } from 'aws-amplify/storage';
+
+const result = await downloadData({
+  path: 'album/2024/1.jpg',
+  options: {
+    // highlight-start
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
+    }
+    // highlight-end
+  }
+}).result;
+
+```
+
 ### Monitor download progress
 
 ```javascript
@@ -577,7 +620,7 @@ import { downloadData } from 'aws-amplify/storage';
 // Download a file from S3 bucket
 const { body, eTag } = await downloadData(
   {
-    path: "/album/2024/1.jpg",
+    path: 'album/2024/1.jpg',
     options: {
       onProgress: (progress) {
         console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
@@ -592,7 +635,7 @@ const { body, eTag } = await downloadData(
 ```javascript
 import { downloadData, isCancelError } from 'aws-amplify/storage';
 
-const downloadTask = downloadData({ path: "/album/2024/1.jpg" });
+const downloadTask = downloadData({ path: 'album/2024/1.jpg' });
 downloadTask.cancel();
 try {
   await downloadTask.result;
@@ -602,6 +645,7 @@ try {
   }
 }
 ```
+
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
@@ -905,12 +949,32 @@ Download tasks are run using `URLSessionTask` instances internally. You can lear
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
 ### More download options
+The behavior of the `downloadData` API can be customized by passing in options.
 
-Option | Type | Description | Reference Links |
-| -- | -- | ----------- | -- |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
-| bytesRange |  \{ start: number; end:number; \} | bytes range parameter to download a part of the file. |  |
-| onProgress | callback | Callback function tracking the upload/download progress. |  |
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Downloads file content to memory
+const { body, eTag } = await downloadData({
+  path: "album/2024/1.jpg",
+  options: {
+    // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
+    bytesRange: {
+      start: 1024,
+      end: 2048
+    },
+    useAccelerateEndpoint: true,
+  }
+}).result;
+
+```
+
+Option | Type | Default | Description |
+| :--: | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| onProgress | callback | — | Callback function tracking the upload/download progress. |
+| bytesRange |  \{ start: number; end:number; \} | — | Bytes range parameter to download a part of the file. |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint.<br/><br/>Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 ## Frequently Asked Questions
 
