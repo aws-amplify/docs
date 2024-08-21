@@ -40,10 +40,10 @@ The IAM Policy to be used as a permissions boundary must be configured outside o
 
 
 ```bash title="Terminal" showLineNumbers={false}
-cdk bootstrap --custom-permissions-boundary <iam-policy-arn>
+cdk bootstrap --custom-permissions-boundary <iam-policy-name>
 ```
 
 
 The `cdk bootstrap` command is a one-time operation that configures the AWS account and region for CDK deployments. Once executed, users can continue to utilize Amplify commands (e.g. `sandbox`) without interruption. Any custom IAM permissions boundary set by `cdk bootstrap` will be automatically applied to the roles created by Amplify.
 
-Check this [guide](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html) to learn more about bootstrapping 
+Check this [guide](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html) to learn more about bootstrapping.

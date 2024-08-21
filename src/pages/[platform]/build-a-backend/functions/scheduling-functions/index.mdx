@@ -1,0 +1,151 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Scheduling Functions',
+  description:
+    'Learn how to schedule functions to run at specific intervals',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify offers the ability to schedule Functions to run on specific intervals using natural language or [cron expressions](https://en.wikipedia.org/wiki/Cron). To get started, specify the `schedule` property in `defineFunction`:
+
+```ts title="amplify/jobs/weekly-digest/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const weeklyDigest = defineFunction({
+  name: "weekly-digest",
+  schedule: "every week",
+});
+```
+
+Function schedules are powered by [Amazon EventBridge rules](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html), and can be leveraged to address use cases such as:
+
+- generating a "front page" of top-performing posts
+- generating a weekly digest of top-performing posts
+- generating a monthly report of warehouse inventory
+
+Their handlers can be typed using the `EventBridgeHandler` type:
+
+```ts title="amplify/jobs/weekly-digest/handler.ts"
+import type { EventBridgeHandler } from "aws-lambda";
+
+export const handler: EventBridgeHandler = async (event) => {
+  console.log("event", JSON.stringify(event, null, 2))
+}
+```
+
+<Callout info>
+
+**Note**: AWS Lambda types can be installed with
+
+```bash title="Terminal" showLineNumbers={false}
+npm install --save-dev @types/aws-lambda
+```
+
+</Callout>
+
+Schedules can either be a single interval, or multiple intervals:
+
+```ts title="amplify/jobs/generate-report/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const generateReport = defineFunction({
+  name: "generate-report",
+  schedule: ["every week", "every month", "every year"],
+});
+```
+
+Schedules can also be defined to execute using minutes or hours with a shorthand syntax:
+
+```ts title="amplify/jobs/drink-some-water/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const drinkSomeWater = defineFunction({
+  name: "drink-some-water",
+  schedule: "every 1h"
+})
+```
+
+Or combined to create complex schedules:
+
+```ts title="amplify/jobs/remind-me/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const remindMe = defineFunction({
+  name: "remind-me",
+  schedule: [
+    // every sunday at midnight
+    "every week",
+    // every tuesday at 5pm
+    "0 17 * * 2",
+    // every wednesday at 5pm
+    "0 17 * * 3",
+    // every thursday at 5pm
+    "0 17 * * 4",
+    // every friday at 5pm
+    "0 17 * * 5",
+  ]
+})
+```
+
+## Using natural language
+
+Schedules can be written using natural language, using terms you use every day. Amplify supports the following time periods:
+
+- `day` will always start at midnight
+- `week` will always start on Sunday at midnight
+- `month` will always start on the first of the month at midnight
+- `year` will always start on the first of the year at midnight
+- `m` for minutes
+- `h` for hours
+
+Natural language expressions are prefixed with "every":
+
+```ts title="amplify/jobs/drink-some-water/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const drinkSomeWater = defineFunction({
+  name: "drink-some-water",
+  schedule: "every 1h"
+})
+```
+
+## Using cron expressions
+
+Schedules can be written using cron expressions.
+
+```ts title="amplify/jobs/remind-me/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const remindMe = defineFunction({
+  name: "remind-me-to-take-the-trash-out",
+  schedule: [
+    // every tuesday at 9am
+    "0 9 * * 2",
+    // every friday at 9am
+    "0 9 * * 5",
+  ]
+})
+```

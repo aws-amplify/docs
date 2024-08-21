@@ -100,6 +100,92 @@ export const storage = defineStorage({
 });
 ```
 
+### Configure additional storage buckets
+
+Amplify Storage gives you the flexibility to configure your backend to automatically provision and manage multiple storage resources. 
+
+You can define additional storage buckets by using the same `defineStorage` function and providing a unique, descriptive `name` to identify the storage bucket. You can pass this `name` to the storage APIs to specify the bucket you want to perform the action to. Ensure that this `name` attribute is unique across the defined storage buckets in order to reliably identify the correct bucket and prevent conflicts.
+
+It's important to note that if additional storage buckets are defined one of them must be marked as default with the `isDefault` flag.
+
+```ts title="amplify/storage/resource.ts"
+export const firstBucket = defineStorage({
+  name: 'firstBucket',
+  isDefault: true, // identify your default storage bucket (required)
+});
+
+export const secondBucket = defineStorage({
+  name: 'secondBucket',
+  access: (allow) => ({
+    'private/{entity_id}/*': [
+      allow.entity('identity').to(['read', 'write', 'delete'])
+    ]
+  })
+})
+```
+
+Add additional storage resources to the backend definition.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { firstBucket, secondBucket } from './storage/resource';
+
+defineBackend({
+  auth,
+  firstBucket,
+  // highlight-next-line
+  secondBucket
+});
+```
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+### Storage bucket client usage
+
+Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. You can provide a target bucket's name assigned in Amplify Backend.
+
+```ts
+import { downloadData } from 'aws-amplify/storage';
+
+try {
+  const result = downloadData({
+    path: "album/2024/1.jpg",
+    options: {
+      // highlight-start
+      // Specify a target bucket using name assigned in Amplify Backend
+      bucket: "secondBucket"
+      // highlight-end
+    }
+  }).result;
+} catch (error) {
+  console.log(`Error: ${error}`)
+}
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console. See each Amplify Storage API page for additional usage examples.
+
+```ts
+import { downloadData } from 'aws-amplify/storage';
+
+try {
+  const result = downloadData({
+    path: 'album/2024/1.jpg',
+    options: {
+      // highlight-start
+      // Alternatively, provide bucket name from console and associated region
+      bucket: {
+        bucketName: 'second-bucket-name-from-console',
+        region: 'us-east-2'
+      }
+      // highlight-end
+    }
+  }).result;
+} catch (error) {
+  console.log(`Error: ${error}`);
+}
+
+```
+</InlineFilter>
+
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.
@@ -754,9 +840,7 @@ Future<void> uploadFile(File file) async {
 
 ## Manage files in Amplify console
 
-After successfully publishing your storage backend and connecting your project with client APIs, you can manage files and folders in [the Amplify console](https://console.aws.amazon.com/amplify). You can perform on-demand actions like upload, download, copy, and more under the Storage tab in the console.
-
-![Showing Amplify console showing Storage tab selected](/images/gen2/storage/amplify-console-storage.png)
+After successfully publishing your storage backend and connecting your project with client APIs, you can manage files and folders in [the Amplify console](https://console.aws.amazon.com/amplify). You can perform on-demand actions like upload, download, copy, and more under the Storage tab in the console. Refer to [Manage files in Amplify Console](/[platform]/build-a-backend/storage/manage-with-amplify-console/) guide for additional information.
 
 ## Conclusion
 

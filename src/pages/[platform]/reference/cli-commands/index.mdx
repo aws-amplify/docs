@@ -56,6 +56,9 @@ Sandbox enables you to develop your backend alongside your frontend's developmen
 - `--outputs-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
 - `--outputs-version` (_string_) - Version of the configuration. Version 0 represents classic amplify-cli config file amplify-configuration and 1 represents newer config file amplify_outputs (choices: `0`, `1`).
 - `--profile` (_string_) - An AWS profile name.
+- `--stream-function-logs` (_boolean_) - Whether to stream function execution logs. (default: false)
+- `--logs-filter` (_string[]_) - Regex pattern to filter logs from only matched functions. E.g. to stream logs for a function, specify it's name, and to stream logs from all functions starting with auth specify 'auth' (default: Stream all logs)
+- `--logs-out-file` (_string_) - File to append the streaming logs. The file is created if it does not exist. (default: stdout)
 
 ### Usage
 
