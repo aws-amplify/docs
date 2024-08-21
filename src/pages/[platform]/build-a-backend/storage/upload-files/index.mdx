@@ -40,7 +40,7 @@ Upload files from your app in minutes by using the cloud-connected Storage Manag
 ```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-react-storage aws-amplify
 ```
-Then, use the component in your app. 
+Then, use the component in your app.
 {/* Let's add explanations for the props - which are mandatory now? I know before it was maxFileCount and accessLevel */}
 
 ```tsx
@@ -127,8 +127,8 @@ upload.addEventListener("click", () => {
     console.log("Complete File read successfully!", event.target.result);
     try {
       await uploadData({
-                data: event.target.result, 
-                path: file.files[0].name 
+                data: event.target.result,
+                path: file.files[0].name
             });
     } catch (e) {
       console.log("error", e);
@@ -140,7 +140,7 @@ upload.addEventListener("click", () => {
 
 ### Upload from data
 
-You can following this example if you have data saved in memory and would like to upload this data to the cloud.
+You can follow this example if you have data saved in memory and would like to upload this data to the cloud.
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -150,9 +150,6 @@ try {
     path: "album/2024/1.jpg",
     // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
     data: file,
-    options: {
-      onProgress // Optional progress callback.
-    }
   }).result;
   console.log('Succeeded: ', result);
 } catch (error) {
@@ -690,12 +687,53 @@ final operation = Amplify.Storage.uploadData(
 ```
 
 </InlineFilter>
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+### Upload to a specified bucket
+
+You can also perform an upload operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
+
+```ts
+import { uploadData } from 'aws-amplify/storage';
+
+const result = await uploadData({
+  path: 'album/2024/1.jpg',
+  data: file,
+  options: {
+    // highlight-start
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend'
+    // highlight-end
+  }
+}).result;
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+```ts
+import { uploadData } from 'aws-amplify/storage';
+
+const result = await uploadData({
+  path: 'album/2024/1.jpg',
+  data: file,
+  options: {
+    // highlight-start
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
+    }
+    // highlight-end
+  }
+}).result;
+
+```
+</InlineFilter>
 
 <InlineFilter filters={["angular","javascript","nextjs","react","vue","react-native"]}>
 
 ### Monitor upload progress
 
-Monitor progress of upload by using the `onProgress` options
+Monitor progress of upload by using the `onProgress` option.
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -1201,16 +1239,52 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+### Transfer with Object Metadata
+
+Custom metadata can be associated with your uploaded object by passing the metadata option.
+
+```ts
+import { uploadData } from 'aws-amplify/storage';
+
+const result = await uploadData({
+  path: 'album/2024/1.jpg',
+  data: file,
+  options: {
+    metadata: {
+      customKey: 'customValue',
+    },
+  },
+});
+```
 
 ### More upload options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| contentType | String | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
-| contentEncoding | String | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
-| contentDisposition | String | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
-| metadata | map\<String\> | A map of metadata to store with the object in S3. <br/><br/> Read more at [S3 metadata documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingMetadata.html#UserMetadata) |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
+The behavior of `uploadData` and properties of the uploaded object can be customized by passing in additional options.
+
+```ts
+import { uploadData } from 'aws-amplify/storage';
+
+const result = await uploadData({
+  path: 'album/2024/1.jpg',
+  data: file,
+  options: {
+    // content-type header to be used when downloading
+    contentType: "image/jpeg",
+    // configure how object is presented
+    contentDisposition: "attachment",
+    // whether to use accelerate endpoint
+    useAccelerateEndpoint: true
+  },
+});
+```
+Option | Type | Default | Description |
+| -- | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/> Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| contentType | string | application/octet-stream | The default content-type header value of the file when downloading it. <br/><br/> Read more at [Content-Type documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) |
+| contentEncoding | string | — | The default content-encoding header value of the file when downloading it.<br/><br/> Read more at [Content-Encoding documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) |
+| contentDisposition | string | — | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
+| metadata | map\<string\> | — | A map of metadata to store with the object in S3. <br/><br/> Read more at [S3 metadata documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingMetadata.html#UserMetadata) |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
 
 <Callout>
 

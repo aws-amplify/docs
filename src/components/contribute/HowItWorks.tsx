@@ -1,11 +1,4 @@
-import {
-  Divider,
-  Flex,
-  Heading,
-  Text,
-  Badge,
-  Link
-} from '@aws-amplify/ui-react';
+import { Divider, Flex, Heading, Text, Badge } from '@aws-amplify/ui-react';
 import {
   MdOutlineBadge,
   MdLabelOutline,
@@ -14,6 +7,7 @@ import {
 } from 'react-icons/md';
 import { FiGitPullRequest } from 'react-icons/fi';
 import { IconCheck, IconExternalLink } from '@/components/Icons';
+import ExternalLink from '../ExternalLink';
 
 export default function HowItWorks() {
   return (
@@ -123,9 +117,9 @@ export default function HowItWorks() {
           <Text>
             If this is your first approved pull request, the Amplify team
             designates you as a Contributor in the{' '}
-            <Link href="https://discord.com/invite/amplify" isExternal>
+            <ExternalLink href="https://discord.com/invite/amplify">
               Amplify Community Discord server <IconExternalLink />
-            </Link>
+            </ExternalLink>
             .
           </Text>
         </Flex>
@@ -147,12 +141,9 @@ export default function HowItWorks() {
           </Flex>
           <Text>
             You collect an{' '}
-            <Link
-              href="https://aws.amazon.com/blogs/mobile/new-introducing-the-amplify-badge-program/"
-              isExternal
-            >
+            <ExternalLink href="https://aws.amazon.com/blogs/mobile/new-introducing-the-amplify-badge-program/">
               Amplify badge <IconExternalLink />
-            </Link>{' '}
+            </ExternalLink>{' '}
             for your first contribution or make progress toward the Intermediate
             and Advanced badges!
           </Text>
