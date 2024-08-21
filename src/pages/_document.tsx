@@ -62,6 +62,9 @@ const getCspContent = (context) => {
   if (process.env.BUILD_ENV !== 'production') {
     return `
       default-src 'none';
+      object-src 'none';
+      frame-ancestors 'none';
+      base-uri 'none';
       style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
       font-src 'self' data:;
       frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
@@ -85,6 +88,9 @@ const getCspContent = (context) => {
   // Have to keep track of CSP inside customHttp.yml as well
   return `
     default-src 'none';
+    object-src 'none';
+    frame-ancestors 'none';
+    base-uri 'none';
     style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
     font-src 'self';
     frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
