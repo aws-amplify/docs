@@ -29,7 +29,7 @@ export function getStaticProps(context) {
 If you're encountering an "API Key Not Found" issue in your Amplify project, follow the steps below to troubleshoot and resolve the problem:
 
 ## Step 1: Modify `parameters.json` to Remove API Key
-    1. Navigate to the `api/[name]/parameters.json` file in your project.
+    1. Navigate to the `amplify/backend/api/<apiName>/parameters.json` file in your project.
     2. Add the following line to the file:
 
         ```ts title="parameters.json"
@@ -39,7 +39,7 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
 
 ## Step 2: Remove API Key from Lambda Function Attributes
 
-    1. Open the `backend/backend-config.json` file.
+    1. Open the `amplify/backend/backend-config.json` file.
     2. Locate any JSON attribute arrays that include `GraphQLAPIKeyOutput`.
     3. Modify the arrays by removing the `GraphQLAPIKeyOutput` entry. For example:
         * Change this:
@@ -74,7 +74,7 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
 
 ## Step 4: Restore the API Key
 
-    1. Remove the `CreateAPIKey: 0` entry from `api/[name]/parameters.json`.
+    1. Remove the `CreateAPIKey: 0` entry from `amplify/backend/api/<apiName>/parameters.json`.
     2. Push the changes to restore the API key to the application:
 
       ```sh
