@@ -41,7 +41,8 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
     1. Open the `backend/backend-config.json` file.
     2. Locate any JSON attribute arrays that include `GraphQLAPIKeyOutput`.
     3. Modify the arrays by removing the `GraphQLAPIKeyOutput` entry. For example:
-        - Change this:
+        * Change this:
+
           ```json
           "attributes": [
               "GraphQLAPIIdOutput",
@@ -50,8 +51,9 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
           ]
           ```
 
-        - To this:
-          ```json
+        * To this:
+
+          ```ts
           "attributes": [
               "GraphQLAPIIdOutput",
               "GraphQLAPIEndpointOutput"
@@ -62,16 +64,18 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
 
 ## Step 3: Apply the Changes
 
-    Push the changes to the cloud:
-    ```sh
-    amplify push -y
-    ```
-    Once this process is complete, the API key should be removed from both the application and the associated Lambda functions.
+    1. Push the changes to the cloud:
+
+      ```sh
+      amplify push -y
+      ```
+      Once this process is complete, the API key should be removed from both the application and the associated Lambda functions.
 
 ## Step 4: Restore the API Key
 
-    1. Remove the CreateAPIKey: 0 entry from api/[name]/parameters.json.
+    1. Remove the `CreateAPIKey: 0` entry from `api/[name]/parameters.json`.
     2. Push the changes to restore the API key to the application:
+
       ```sh
       amplify push -y
       ```
@@ -81,16 +85,19 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
 ## Step 5: Update Lambda Function Resources
 
     1. Use the following command to update each Lambda function that was previously associated with the API:
-        ```sh
-        amplify update function
-        ```
+
+      ```sh
+      amplify update function
+      ```
     2. Follow the prompts to remove the API from the Lambda’s resources.
     3. Use the same command to restore the API to each Lambda function:
-        ```sh
-        amplify update function
-        ```
+
+      ```sh
+      amplify update function
+      ```
     4. Finally, push the changes to apply them:
-        ```sh
-        amplify push -y
+
+      ```sh
+      amplify push -y
         ```
-        This should complete the process and resolve the "API Key Not Found" issue.
+      This should complete the process and resolve the "API Key Not Found" issue.
