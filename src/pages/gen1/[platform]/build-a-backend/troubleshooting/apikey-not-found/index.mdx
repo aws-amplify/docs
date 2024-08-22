@@ -32,7 +32,7 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
     1. Navigate to the `amplify/backend/api/<apiName>/parameters.json` file in your project.
     2. Add the following line to the file:
 
-        ```ts title="parameters.json"
+        ```tsx title="parameters.json"
               "CreateAPIKey": 0
         ```      
         Ensure that a comma is placed after the previous line if this is added at the end of the JSON object.  
@@ -44,7 +44,7 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
     3. Modify the arrays by removing the `GraphQLAPIKeyOutput` entry. For example:
         * Change this:
 
-          ```json title="backend-config.json"
+          ```tsx title="backend-config.json"
           "attributes": [
               "GraphQLAPIIdOutput",
               "GraphQLAPIEndpointOutput",
@@ -54,7 +54,7 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
 
         * To this:
 
-          ```json title="backend-config.json"
+          ```tsx title="backend-config.json"
           "attributes": [
               "GraphQLAPIIdOutput",
               "GraphQLAPIEndpointOutput"
