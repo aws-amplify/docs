@@ -63,7 +63,6 @@ const getCspContent = (context) => {
     return `
       default-src 'none';
       object-src 'none';
-      frame-ancestors 'none';
       base-uri 'none';
       style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
       font-src 'self' data:;
