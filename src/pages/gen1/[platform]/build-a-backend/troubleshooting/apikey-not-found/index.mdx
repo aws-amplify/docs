@@ -46,29 +46,29 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
 2. Locate any JSON attribute arrays that include `GraphQLAPIKeyOutput`.
 3. Modify the arrays by removing the `GraphQLAPIKeyOutput` entry. For example:
 
-  * Change this:
+    * Change this:
 
-    ```json title="backend-config.json"
-    {
-      "attributes": [
-          "GraphQLAPIIdOutput",
-          "GraphQLAPIEndpointOutput",
-          "GraphQLAPIKeyOutput"
-      ]
-    }
-    ```
+      ```json title="backend-config.json"
+      {
+        "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+        ]
+      }
+      ```
 
-  * To this:
+    * To this:
 
-    ```json title="backend-config.json"
-    {
-      "attributes": [
-          "GraphQLAPIIdOutput",
-          "GraphQLAPIEndpointOutput"
-      ]
-    }
-    ```
-    Perform this change for each Lambda function that utilizes the API.
+      ```json title="backend-config.json"
+      {
+        "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+        ]
+      }
+      ```
+      Perform this change for each Lambda function that utilizes the API.
 
 
 ## Step 3: Apply the Changes
