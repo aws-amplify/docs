@@ -41,7 +41,7 @@ import { ApiModal } from '../ApiDocs/display';
 export const TypeContext = createContext({
   setModalData: (data) => { },
   modalOpen: () => { },
-  addBreadCrumb: () => { }
+  addBreadCrumb: (data) => { }
 });
 
 export const Layout = ({
