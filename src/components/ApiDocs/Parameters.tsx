@@ -1,6 +1,7 @@
 import { View } from '@aws-amplify/ui-react';
 import { MDXHeading, MDXTable } from '../MDXComponents';
 import { ApiComment } from './ApiComment';
+import { ParameterType } from './display';
 import references from '../../directory/apiReferences.json';
 
 export const Parameters = ({ parameters }) => {
@@ -25,8 +26,7 @@ export const Parameters = ({ parameters }) => {
                                     <code>{option.name}</code>
                                 </td>
                                 <td>{option?.flags?.isOptional ? 'false' : 'true'}</td>
-                                {/* <td onClick={modalOpen}><Type typeData={option.value} /></td> */}
-                                <td>Type</td>
+                                <td><ParameterType typeData={option.type} /></td>
                                 <td>{option?.comment?.summary && <ApiComment apiComment={option.comment.summary} />}</td>
                             </tr>
                         );

@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactElement } from 'react';
+import { useState, useEffect, ReactElement, createContext } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -36,6 +36,13 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { ApiModal } from '../ApiDocs/display';
+
+export const TypeContext = createContext({
+  setModalData: (data) => { },
+  modalOpen: () => { },
+  addBreadCrumb: () => { }
+});
 
 export const Layout = ({
   children,
@@ -60,6 +67,34 @@ export const Layout = ({
   url?: string;
   useCustomTitle?: boolean;
 }) => {
+
+
+  const [modalData, setModalData] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [breadCrumbs, setBreadCrumbs] = useState([]);
+
+  const modalOpen = () => {
+    setShowModal(true);
+  }
+  const closeModal = () => {
+    setShowModal(false);
+  }
+
+  const addBreadCrumb = (bc) => {
+    breadCrumbs.push(bc);
+    setBreadCrumbs(breadCrumbs);
+  }
+
+  const clearBC = () => {
+    setBreadCrumbs([]);
+  }
+
+  const value = {
+    setModalData,
+    modalOpen,
+    addBreadCrumb
+  }
+
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
@@ -188,9 +223,8 @@ export const Layout = ({
         <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
-          content={`https://docs.amplify.aws/assets/${
-            isGen1 ? 'classic' : 'gen2'
-          }-og.png`}
+          content={`https://docs.amplify.aws/assets/${isGen1 ? 'classic' : 'gen2'
+            }-og.png`}
           key="og:image"
         />
         <meta property="description" content={description} key="description" />
@@ -203,9 +237,8 @@ export const Layout = ({
         />
         <meta
           property="twitter:image"
-          content={`https://docs.amplify.aws/assets/${
-            isGen1 ? 'classic' : 'gen2'
-          }-og.png`}
+          content={`https://docs.amplify.aws/assets/${isGen1 ? 'classic' : 'gen2'
+            }-og.png`}
           key="twitter:image"
         />
       </Head>
@@ -222,56 +255,59 @@ export const Layout = ({
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
-            <Modal isGen1={isGen1} />
-            <View
-              className={classNames(
-                'layout-wrapper',
-                `layout-wrapper--${pageType}`,
-                {
-                  'spaceship-layout': isHome,
-                  'spaceship-layout--gen1': isHome && isGen1
-                }
-              )}
-            >
-              {isHome ? <SpaceShip /> : null}
-              <GlobalNav
-                leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-                rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-                currentSite={currentGlobalNavMenuItem}
-                isGen1={isGen1}
-                mainId={mainId}
-              />
-              <LayoutHeader
-                showTOC={showTOC}
-                isGen1={isGen1}
-                currentPlatform={currentPlatform}
-                pageType={pageType}
-                showLastUpdatedDate={showLastUpdatedDate}
-              ></LayoutHeader>
-              <View key={asPathWithNoHash} className="layout-main">
-                <Flex
-                  id={mainId}
-                  as="main"
-                  tabIndex={-1}
-                  aria-label="Main content"
-                  className={`main${showTOC ? ' main--toc' : ''}`}
-                >
-                  {showBreadcrumbs ? (
-                    <Breadcrumbs route={pathname} platform={currentPlatform} />
-                  ) : null}
-                  {useCustomTitle ? null : (
-                    <Heading level={1}>{pageTitle}</Heading>
-                  )}
-                  {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
-                    <Gen1Banner currentPlatform={currentPlatform} />
-                  )}
-                  {children}
-                  {showNextPrev && <NextPrevious />}
-                </Flex>
-                {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+            <TypeContext.Provider value={value}>
+              <ApiModal data={modalData} showModal={showModal} close={closeModal} breadCrumbs={breadCrumbs} clearBC={clearBC} />
+              <Modal isGen1={isGen1} />
+              <View
+                className={classNames(
+                  'layout-wrapper',
+                  `layout-wrapper--${pageType}`,
+                  {
+                    'spaceship-layout': isHome,
+                    'spaceship-layout--gen1': isHome && isGen1
+                  }
+                )}
+              >
+                {isHome ? <SpaceShip /> : null}
+                <GlobalNav
+                  leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+                  rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+                  currentSite={currentGlobalNavMenuItem}
+                  isGen1={isGen1}
+                  mainId={mainId}
+                />
+                <LayoutHeader
+                  showTOC={showTOC}
+                  isGen1={isGen1}
+                  currentPlatform={currentPlatform}
+                  pageType={pageType}
+                  showLastUpdatedDate={showLastUpdatedDate}
+                ></LayoutHeader>
+                <View key={asPathWithNoHash} className="layout-main">
+                  <Flex
+                    id={mainId}
+                    as="main"
+                    tabIndex={-1}
+                    aria-label="Main content"
+                    className={`main${showTOC ? ' main--toc' : ''}`}
+                  >
+                    {showBreadcrumbs ? (
+                      <Breadcrumbs route={pathname} platform={currentPlatform} />
+                    ) : null}
+                    {useCustomTitle ? null : (
+                      <Heading level={1}>{pageTitle}</Heading>
+                    )}
+                    {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
+                      <Gen1Banner currentPlatform={currentPlatform} />
+                    )}
+                    {children}
+                    {showNextPrev && <NextPrevious />}
+                  </Flex>
+                  {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+                </View>
+                <Footer hasTOC={showTOC} />
               </View>
-              <Footer hasTOC={showTOC} />
-            </View>
+            </TypeContext.Provider>
           </IconsProvider>
         </ThemeProvider>
       </LayoutProvider>
