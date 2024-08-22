@@ -31,7 +31,8 @@ If you're encountering an "API Key Not Found" issue in your Amplify project, fol
 ## Step 1: Modify `parameters.json` to Remove API Key
     1. Navigate to the api/[name]/parameters.json file in your project.
     2. Add the following line to the file:
-        ```sh
+
+        ```ts
               "CreateAPIKey": 0
         ```      
         Ensure that a comma is placed after the previous line if this is added at the end of the JSON object.  
