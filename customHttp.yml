@@ -17,5 +17,5 @@ customHeaders:
       - key: 'Pragma'
         value: 'no-cache'
       - key: 'Content-Security-Policy'
-        value: 'upgrade-insecure-requests;frame-ancestors 'none';'
+        value: 'upgrade-insecure-requests; frame-ancestors none;'
       # CSP also set in _document.tsx meta tag
