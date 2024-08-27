@@ -66,7 +66,7 @@ The quickest way to get started with Amplify Auth in your frontend application i
 
 {/* signIn api definition */}
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
 ```ts
 import { signIn } from 'aws-amplify/auth'
@@ -91,50 +91,6 @@ Future<void> signInUser(String username, String password) async {
   } on AuthException catch (e) {
     safePrint('Error signing in: ${e.message}');
   }
-}
-```
-
-Depending on your configuration and how the user signed up, one or more confirmations will be necessary. Use the `SignInResult` returned from `Amplify.Auth.signIn` to check the next step for signing in. When the value is `done`, the user has successfully signed in.
-
-```dart
-Future<void> _handleSignInResult(SignInResult result) async {
-  switch (result.nextStep.signInStep) {
-    case AuthSignInStep.confirmSignInWithSmsMfaCode:
-      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
-      _handleCodeDelivery(codeDeliveryDetails);
-      break;
-    case AuthSignInStep.confirmSignInWithNewPassword:
-      safePrint('Enter a new password to continue signing in');
-      break;
-    case AuthSignInStep.confirmSignInWithCustomChallenge:
-      final parameters = result.nextStep.additionalInfo;
-      final prompt = parameters['prompt']!;
-      safePrint(prompt);
-      break;
-    case AuthSignInStep.resetPassword:
-      final resetResult = await Amplify.Auth.resetPassword(
-        username: username,
-      );
-      await _handleResetPasswordResult(resetResult);
-      break;
-    case AuthSignInStep.confirmSignUp:
-      // Resend the sign up code to the registered device.
-      final resendResult = await Amplify.Auth.resendSignUpCode(
-        username: username,
-      );
-      _handleCodeDelivery(resendResult.codeDeliveryDetails);
-      break;
-    case AuthSignInStep.done:
-      safePrint('Sign in is complete');
-      break;
-  }
-}
-
-void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
-  safePrint(
-    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
-    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
-  );
 }
 ```
 
@@ -253,7 +209,7 @@ func signIn(username: String, password: String) -> AnyCancellable {
 
 The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "react", "react-native", "nextjs", "vue"]}>
 - `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_TOTP_CODE` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
@@ -265,7 +221,7 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 - `DONE` - The sign in process has been completed.
 </InlineFilter>
 
-<InlineFilter filters={["swift", "flutter"]}>
+<InlineFilter filters={["android", "swift", "flutter"]}>
 - `confirmSignInWithNewPassword` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
 - `confirmSignInWithCustomChallenge` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
 - `confirmSignInWithTOTPCode` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
@@ -281,6 +237,77 @@ For more information on handling the TOTP and MFA steps that may be returned, se
 
 ### Confirm sign-in
 
+Depending on your configuration and how the user signed up, one or more confirmations will be necessary. For example, if an MFA code is required or the end user needs to confirm a new password.
+
+<InlineFilter filters={["android", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
+
+const { nextStep } = await signIn({
+  username: 'hello@mycompany.com',
+  password: 'hunter2'
+});
+
+switch (nextStep.signInStep) {
+  case 'CONFIRM_SIGN_IN_WITH_SMS_CODE': {
+    // handle sign in with SMS MFA
+    await confirmSignIn({
+      challengeResponse: '123456'
+    });
+  }
+  // ... handle other cases
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+Use the `SignInResult` returned from `Amplify.Auth.signIn` to check the next step for signing in. When the value is `done`, the user has successfully signed in.
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    case AuthSignInStep.confirmSignInWithSmsMfaCode:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+      break;
+    case AuthSignInStep.confirmSignInWithNewPassword:
+      safePrint('Enter a new password to continue signing in');
+      break;
+    case AuthSignInStep.confirmSignInWithCustomChallenge:
+      final parameters = result.nextStep.additionalInfo;
+      final prompt = parameters['prompt']!;
+      safePrint(prompt);
+      break;
+    case AuthSignInStep.resetPassword:
+      final resetResult = await Amplify.Auth.resetPassword(
+        username: username,
+      );
+      await _handleResetPasswordResult(resetResult);
+      break;
+    case AuthSignInStep.confirmSignUp:
+      // Resend the sign up code to the registered device.
+      final resendResult = await Amplify.Auth.resendSignUpCode(
+        username: username,
+      );
+      _handleCodeDelivery(resendResult.codeDeliveryDetails);
+      break;
+    case AuthSignInStep.done:
+      safePrint('Sign in is complete');
+      break;
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
+}
+```
+
+</InlineFilter>
 <InlineFilter filters={["swift"]}>
 
 <BlockSwitcher>
@@ -300,7 +327,6 @@ func confirmSignIn() async {
 ```
 
 </Block>
-
 <Block name="Combine">
 
 ```swift
@@ -323,214 +349,38 @@ func confirmSignIn() -> AnyCancellable {
 
 </InlineFilter>
 
-{/* double-filter to conditionally display this section for only platforms that have examples */}
-<InlineFilter filters={["javascript", "nextjs", "react"]}>
-
-### Practical Example
-
-<InlineFilter filters={["javascript", "nextjs", "react"]}>
-
-```tsx title="src/App.tsx"
-import type { FormEvent } from "react"
-import { Amplify } from "aws-amplify"
-// highlight-next-line
-import { signIn } from "aws-amplify/auth"
-import outputs from "../amplify_outputs.json"
-
-Amplify.configure(outputs)
-
-interface SignInFormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement
-  password: HTMLInputElement
-}
-
-interface SignInForm extends HTMLFormElement {
-  readonly elements: SignInFormElements
-}
-
-export default function App() {
-  async function handleSubmit(event: FormEvent<SignInForm>) {
-    event.preventDefault()
-    const form = event.currentTarget
-    // ... validate inputs
-    await signIn({
-      username: form.elements.email.value,
-      password: form.elements.password.value,
-    })
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Email:</label>
-      <input type="text" id="email" name="email" />
-      <label htmlFor="password">Password:</label>
-      <input type="password" id="password" name="password" />
-      <input type="submit" />
-    </form>
-  )
-}
-```
-
-</InlineFilter>
-</InlineFilter>
-
 {/* with multi-factor auth */}
 ## With multi-factor auth enabled
 
 When multi-factor authentication (MFA) is **required** with SMS in your backend auth resource, you will need to pass the phone number during sign-up API call. If you are using the `email` or `username` as the primary sign-in mechanism, you will need to pass the `phone_number` attribute as a user attribute. This will change depending on if you enable SMS, TOTP, or both. Visit the [multi-factor authentication documentation](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) to learn more about enabling MFA on your backend auth resource.
 
-<InlineFilter filters={["android"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-<BlockSwitcher>
-<Block name="Java">
+```ts
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
 
-```java
-ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
-attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
-attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
+const { nextStep } = await signIn({
+  username: 'hello@mycompany.com',
+  password: 'hunter2'
+});
 
-Amplify.Auth.signUp(
-    "username",
-    "Password123",
-    AuthSignUpOptions.builder().userAttributes(attributes).build(),
-    result -> Log.i("AuthQuickstart", result.toString()),
-    error -> Log.e("AuthQuickstart", error.toString())
-);
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-val attrs = mapOf(
-    AuthUserAttributeKey.email() to "my@email.com",
-    AuthUserAttributeKey.phoneNumber() to "+15551234567"
-)
-val options = AuthSignUpOptions.builder()
-    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
-    .build()
-Amplify.Auth.signUp("username", "Password123", options,
-    { Log.i("AuthQuickstart", "Sign up result = $it") },
-    { Log.e("AuthQuickstart", "Sign up failed", it) }
-)
-```
-
-</Block>
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-val attrs = mapOf(
-    AuthUserAttributeKey.email() to "my@email.com",
-    AuthUserAttributeKey.phoneNumber() to "+15551234567"
-)
-val options = AuthSignUpOptions.builder()
-    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
-    .build()
-try {
-    val result = Amplify.Auth.signUp("username", "Password123", options)
-    Log.i("AuthQuickstart", "Sign up OK: $result")
-} catch (error: AuthException) {
-    Log.e("AuthQuickstart", "Sign up failed", error)
+switch (nextStep.signInStep) {
+  case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE': {
+    // handle sign in with TOTP MFA
+    await confirmSignIn({
+      challengeResponse: '123456'
+    });
+  }
+  case 'CONFIRM_SIGN_IN_WITH_SMS_CODE': {
+    // handle sign in with SMS MFA
+    await confirmSignIn({
+      challengeResponse: '123456'
+    });
+  }
 }
 ```
 
-</Block>
-<Block name="RxJava">
-
-```java
-ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
-attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
-attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
-
-RxAmplify.Auth.signUp(
-    "username",
-    "Password123",
-    AuthSignUpOptions.builder().userAttributes(attributes).build())
-    .subscribe(
-        result -> Log.i("AuthQuickstart", result.toString()),
-        error -> Log.e("AuthQuickstart", error.toString())
-    );
-```
-
-</Block>
-</BlockSwitcher>
-
 </InlineFilter>
-<InlineFilter filters={["swift"]}>
-
-<BlockSwitcher>
-<Block name="Async/Await">
-
-```swift
-func signUp(username: String, password: String, email: String, phonenumber: String) async {
-    let userAttributes = [AuthUserAttribute(.email, value: email), AuthUserAttribute(.phoneNumber, value: phonenumber)]
-    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
-
-    do {
-        let signUpResult = try await Amplify.Auth.signUp(
-            username: username,
-            password: password,
-            options: options
-        )
-
-        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
-        } else {
-            print("SignUp Complete")
-        }
-    } catch let error as AuthError {
-        print("An error occurred while registering a user \(error)")
-    } catch {
-        print("Unexpected error: \(error)")
-    }
-}
-```
-
-</Block>
-<Block name="Combine">
-
-```swift
-func signUp(username: String, password: String, email: String, phonenumber: String) -> AnyCancellable {
-    let userAttributes = [
-        AuthUserAttribute(.email, value: email),
-        AuthUserAttribute(.phoneNumber, value: phonenumber)
-    ]
-    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
-    Amplify.Publisher.create {
-        try await Amplify.Auth.signUp(
-            username: username,
-            password: password,
-            options: options
-        )
-    }.sink {
-        if case let .failure(authError) = $0 {
-            print("An error occurred while registering a user \(authError)")
-        }
-    }
-    receiveValue: { signUpResult in
-        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
-        } else {
-            print("SignUp Complete")
-        }
-    }
-    return sink
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-</InlineFilter>
-
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "flutter", "android"]}>
-You will then confirm sign-up, sign in, and receive a `nextStep` in the sign-in result of type `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`. A confirmation code will also be texted to the phone number provided above. Pass the code you received to the `confirmSignIn` API:
-</InlineFilter>
-
-<InlineFilter filters={["swift"]}>
-You will then confirm sign-up, sign in, and receive a `nextStep` in the sign-in result of type `confirmSignInWithSMSMFACode`. A confirmation code will also be texted to the phone number provided above. Pass the code you received to the `confirmSignIn` API:
-</InlineFilter>
-
 <InlineFilter filters={["android", "flutter", "react-native", "swift"]}>
 <Callout info>
 
@@ -673,6 +523,7 @@ await autoSignIn();
 ```
 
 </InlineFilter>
+
 <InlineFilter filters={['react-native']}>
 
 ### Install native module
