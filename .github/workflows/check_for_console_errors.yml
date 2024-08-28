@@ -20,7 +20,7 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Run Build
-        run: yarn build:release
+        run: yarn build:actions
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Run Server

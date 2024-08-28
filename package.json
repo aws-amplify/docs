@@ -113,6 +113,7 @@
     "build": "next build",
     "postbuild": "node tasks/postBuildTasks.mjs",
     "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
+    "build:actions": "BUILD_ENV=production yarn build:release",
     "next-build": "next build",
     "next-start": "next start",
     "prepare": "husky install",
