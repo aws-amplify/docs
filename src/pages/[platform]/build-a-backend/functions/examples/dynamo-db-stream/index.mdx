@@ -83,7 +83,6 @@ Lastly, create DynamoDB table as event source in the `amplify/backend.ts` file:
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
 import { StartingPosition } from "aws-cdk-lib/aws-lambda";
-import { DynamoEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { myDynamoDBFunction } from "./functions/dynamoDB-function/resource";
@@ -94,9 +93,36 @@ const backend = defineBackend({
   myDynamoDBFunction,
 });
 
-const eventSource = new DynamoEventSource(backend.data.resources.tables["Todo"], {
-  startingPosition: StartingPosition.LATEST,
-});
+const todoTable = backend.data.resources.tables["Todo"];
+const policy = new Policy(
+  Stack.of(todoTable),
+  "MyDynamoDBFunctionStreamingPolicy",
+  {
+    statements: [
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          "dynamodb:DescribeStream",
+          "dynamodb:GetRecords",
+          "dynamodb:GetShardIterator",
+          "dynamodb:ListStreams",
+        ],
+        resources: ["*"],
+      }),
+    ],
+  }
+);
+backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
 
-backend.myDynamoDBFunction.resources.lambda.addEventSource(eventSource);
+const mapping = new EventSourceMapping(
+  Stack.of(todoTable),
+  "MyDynamoDBFunctionTodoEventStreamMapping",
+  {
+    target: backend.myDynamoDBFunction.resources.lambda,
+    eventSourceArn: todoTable.tableStreamArn,
+    startingPosition: StartingPosition.LATEST,
+  }
+);
+
+mapping.node.addDependency(policy);
 ```
