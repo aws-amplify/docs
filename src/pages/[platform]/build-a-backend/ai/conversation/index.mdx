@@ -32,3 +32,86 @@ export function getStaticProps(context) {
 Amplify AI sections are under construction
 
 </Callout>
+
+
+# Conversation Route Design
+
+The conversation route simplifies the creation of AI-powered conversation interfaces in your application. It automatically sets up the necessary AppSync API components and Lambda functions to handle multi-turn interactions with Amazon Bedrock foundation models..
+
+Conversation routes instances are scoped to a specific application user.
+
+## Key Components
+
+1. **AppSync API**: Gateway to the conversation route.
+    - Create new conversation route instance.
+    - Send messages to conversation route instance.
+    - Retrieve conversation instance history.
+    - Subscribe to real-time updates for assistant responses.
+
+2. **Lambda Function**: Bridge between AppSync and Amazon Bedrock.
+    - Invokes Bedrock's /converse endpoint.
+    - Handles tool use responses by invoking AppSync queries.
+
+3. **DynamoDB**: Stores conversation and message data
+
+## Authentication Flow
+
+1. The user's OIDC access token is passed from the client to AppSync
+2. AppSync forwards this token to the Lambda function
+3. The Lambda function uses the token to authenticate requests back to AppSync
+
+## Usage Scenarios
+
+Each of the following scenarios have safeguards in place to mitigate risks associated with invoking tools on behalf of the user, including:
+  - Amazon CloudWatch log group redacting OIDC access tokens for logs from the Lambda function.
+  - IAM policies that limit the Lambda function's ability to access other resources.
+
+### 1. Default Lambda Function
+
+When no custom function is specified, a default Lambda function is created to handle conversations using Amazon Bedrock.
+
+```ts
+const schema = a.schema({
+  myChat: a.conversation({
+    aiModel: a.aiModel.anthropic.claude3Haiku(),
+    systemPrompt: "You are a helpful assistant",
+  }),
+});
+```
+
+
+### 2. Custom Lambda Function
+
+You can specify a custom Lambda function to handle conversations for advanced use cases.
+
+```ts
+export const myCustomConversationHandler = defineConversationHandlerFunction({
+  name: 'customConversationHandlerFunction',
+  entry: './custom-handler.ts',
+  models: [
+    {
+      modelId: 'anthropic.claude-3-haiku-20240307-v1:0',
+      region: 'us-west-2',
+    },
+  ],
+});
+
+const schema = a.schema({
+  myChat: a.conversation({
+    aiModel: a.aiModel.anthropic.claude3Haiku(),
+    systemPrompt: "You are a helpful assistant",
+    handler: myCustomConversationHandler,
+  }),
+});
+```
+
+## Data Flow
+
+1. User sends a message via the AppSync mutation
+2. AppSync triggers the Lambda function (default or custom)
+3. Lambda processes the message and invokes Bedrock's /converse endpoint
+    3a. If response is a tool use, Lambda function invokes applicable AppSync query.
+4. Lambda sends assistant response back to AppSync
+5. AppSync sends the response to subscribed clients
+
+This design allows for real-time, scalable conversations while ensuring that the Lambda function's data access matches that of the application user.
