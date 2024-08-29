@@ -6,6 +6,7 @@ import JSON5 from 'json5';
 import { directory } from './directory.mjs';
 import { writeFile } from 'fs/promises';
 import { getLastModifiedDate } from 'git-jiggy';
+import { API_CATEGORIES } from '../data/api-categories.mjs';
 
 // Set up the root path so that we can get the correct path from the current working directory
 const rootPath = path.resolve(cwd(), 'src/pages');
@@ -117,10 +118,49 @@ async function traverseDirectoryObject(directoryNode) {
   }
 }
 
+const findDirectoryNode = (route, dir) => {
+  if (dir.route === route) {
+    return dir;
+  } else if (dir.children && dir.children.length) {
+    for (let i = 0; i < dir.children.length; i++) {
+      const child = dir.children[i];
+      const res = findDirectoryNode(route, child);
+      if (res) return res;
+    }
+  }
+
+  return null;
+};
+
 async function generateDirectory() {
   const directoryCopy = { ...directory };
 
   await traverseDirectoryObject(directoryCopy);
+
+  // Add directory entries into the generated directory
+  // file for any api reference categories found
+  const JS_API_PLATFORMS = [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ];
+  const categoryKeys = Object.keys(API_CATEGORIES);
+  categoryKeys.forEach((cat) => {
+    const name = API_CATEGORIES[cat];
+    const route = `/[platform]/build-a-backend/${cat}`;
+    const catNode = findDirectoryNode(route, directoryCopy);
+    if (catNode) {
+      catNode.children.push({
+        title: `API References`,
+        description: `API References - ${name}`,
+        platforms: JS_API_PLATFORMS,
+        route: `${route}/reference`
+      });
+    }
+  });
 
   try {
     const __filename = fileURLToPath(import.meta.url);
