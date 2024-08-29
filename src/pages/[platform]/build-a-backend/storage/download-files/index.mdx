@@ -276,6 +276,7 @@ let url = try await Amplify.Storage.getURL(
 Option | Type | Description |
 | -- | -- | ----------- |
 | expires | Integer | Number of seconds before the URL expires |
+| bucket | StorageBucket | The bucket in which the file is stored |
 
 </InlineFilter>
 
@@ -392,14 +393,14 @@ You can download to a file [URL](https://developer.apple.com/documentation/found
 
 <Block name="Async/Await">
 ```swift
-let downloadToFileName = FileManager.default.urls(
+let downloadToFileUrl = FileManager.default.urls(
     for: .documentDirectory,
     in: .userDomainMask
 )[0].appendingPathComponent("myFile.txt")
 
 let downloadTask = Amplify.Storage.downloadFile(
     path: .fromString("public/example/path"),
-    local: downloadToFileName,
+    local: downloadToFileUrl,
     options: nil
 )
 Task {
@@ -413,14 +414,14 @@ print("Completed")
 </Block>
 <Block name="Combine">
 ```swift
-let downloadToFileName = FileManager.default.urls(
+let downloadToFileUrl = FileManager.default.urls(
     for: .documentDirectory,
     in: .userDomainMask
 )[0].appendingPathComponent("myFile.txt")
 
 let downloadTask = Amplify.Storage.downloadFile(
     path: .fromString("public/example/path"),
-    local: downloadToFileName,
+    local: downloadToFileUrl,
     options: nil
 )
 let progressSink = downloadTask
@@ -442,6 +443,44 @@ let resultSink = downloadTask
 ```
 </Block>
 </BlockSwitcher>
+
+### Download from a specified bucket
+
+You can also perform a download operation from a specific bucket by providing the `bucket` option
+
+<BlockSwitcher>
+<Block name="From Outputs">
+You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
+
+```swift
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileUrl,
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+</Block>
+
+<Block name="From Bucket Info">
+You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
+
+```swift
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileUrl,
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+```
+</Block>
+</BlockSwitcher>
+
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -1072,6 +1111,41 @@ final operation = Amplify.Storage.downloadData(
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
+
+### Download from a specified bucket
+
+You can also perform a download operation from a specific bucket by providing the `bucket` option
+
+<BlockSwitcher>
+<Block name="From Outputs">
+You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+</Block>
+
+<Block name="From Bucket Info">
+You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+```
+</Block>
+</BlockSwitcher>
 
 ### Pause, resume, and cancel downloads
 

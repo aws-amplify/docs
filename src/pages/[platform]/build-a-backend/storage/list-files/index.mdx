@@ -788,6 +788,43 @@ Note the trailing slash `/` in the given path.
 If you had used `public/photos` as path, it would also match against files like `public/photos01.jpg`.
 </Callout>
 
+### List files from a specified bucket
+
+You can perform a list operation from a specific bucket by providing the `bucket` option.
+
+<BlockSwitcher>
+<Block name="From Outputs">
+You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
+
+```swift
+let listResult = try await Amplify.Storage.list(
+    path: .fromString("public/example/path/myFile.txt"),
+    local: fileUrl,
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+</Block>
+
+<Block name="From Bucket Info">
+You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
+
+```swift
+let listResult = try await Amplify.Storage.list(
+    path: .fromString("public/example/path/myFile.txt"),
+    local: fileUrl,
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+```
+</Block>
+</BlockSwitcher>
+
 ### Exclude results from nested subpaths
 
 By default, the `list` API will return all objects contained within the given path, including objects inside nested subpaths.

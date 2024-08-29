@@ -31,9 +31,9 @@ export function getStaticProps(context) {
 
 Files can be removed from a storage bucket using the 'remove' API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
 
-You can also perform an upload operation to a specific bucket by providing the target bucket's assigned name from Amplify Backend in `bucket` option.
-
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+You can also perform a remove operation from a specific bucket by providing the target bucket's assigned name from Amplify Backend in `bucket` option.
 
 ```javascript
 import { remove } from 'aws-amplify/storage';
@@ -50,9 +50,8 @@ try {
 ```
 </InlineFilter>
 
-Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
-
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
 
 ```javascript
 import { remove } from 'aws-amplify/storage';
@@ -276,7 +275,9 @@ RxAmplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt")
 <Block name="Async/Await">
 
 ```swift
-let removedObject = try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+let removedObject = try await Amplify.Storage.remove(
+    path: .fromString("public/example/path")
+)
 print("Deleted \(removedObject)")
 ```
 
@@ -286,7 +287,9 @@ print("Deleted \(removedObject)")
 
 ```swift
 let sink = Amplify.Publisher.create {
-    try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+    try await Amplify.Storage.remove(
+        path: .fromString("public/example/path")
+    )
 }.sink {
     if case let .failure(error) = $0 {
         print("Failed: \(error)")
@@ -299,6 +302,41 @@ receiveValue: { removedObject in
 
 </Block>
 
+</BlockSwitcher>
+
+### Remove files from a specified bucket
+
+You can perform a remove operation from a specific bucket by providing the `bucket` option.
+
+<BlockSwitcher>
+<Block name="From Outputs">
+You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
+
+```swift
+let removedObject = try await Amplify.Storage.remove(
+    path: .fromString("public/example/path/myFile.txt"),
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+</Block>
+
+<Block name="From Bucket Info">
+You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
+
+```swift
+let removedObject = try await Amplify.Storage.remove(
+    path: .fromString("public/example/path/myFile.txt"),
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+```
+</Block>
 </BlockSwitcher>
 
 </InlineFilter>

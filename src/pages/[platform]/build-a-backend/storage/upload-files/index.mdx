@@ -357,7 +357,7 @@ try dataString.write(
 
 let uploadTask = Amplify.Storage.uploadFile(
     path: .fromString("public/example/path/myFile.txt"),
-    local: filename
+    local: fileUrl
 )
 
 ```
@@ -941,6 +941,70 @@ private void uploadFile() {
 
 </Block>
 </BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+### Upload to a specified bucket
+
+You can perform an upload operation to a specific bucket by providing the `bucket` option.
+
+<BlockSwitcher>
+<Block name="From Outputs">
+You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
+
+```swift
+// Upload from file
+let uploadTask = Amplify.Storage.uploadFile(
+    path: .fromString("public/example/path/myFile.txt"),
+    local: fileUrl,
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+
+// Upload from data
+let uploadTask = Amplify.Storage.uploadData(
+    path: .fromString("public/example/path/myFile.txt"),
+    data: data,
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+</Block>
+
+<Block name="From Bucket Info">
+You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
+
+```swift
+// Upload from File
+let uploadTask = Amplify.Storage.uploadFile(
+    path: .fromString("public/example/path/myFile.txt"),
+    local: fileUrl,
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+
+// Upload from Data
+let uploadTask = Amplify.Storage.uploadData(
+    path: .fromString("public/example/path/myFile.txt"),
+    data: data,
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )
+    )
+)
+```
+</Block>
+</BlockSwitcher>
+
 </InlineFilter>
 
 <InlineFilter filters={["angular","javascript","nextjs","react","vue","react-native"]}>

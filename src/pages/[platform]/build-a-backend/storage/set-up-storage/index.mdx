@@ -334,6 +334,35 @@ download
 </BlockSwitcher>
 </InlineFilter>
 
+<InlineFilter filters={["swift"]}>
+### Storage bucket client usage
+
+Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. You can provide a target bucket's name assigned in Amplify Backend.
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+
+Alternatively, you can also directly specify the bucket name and region from the console. See each Amplify Storage API page for additional usage examples.
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+```
+</InlineFilter>
+
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.
