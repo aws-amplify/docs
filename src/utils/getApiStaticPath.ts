@@ -1,4 +1,5 @@
 import { API_CATEGORIES } from '@/data/api-categories';
+import { JS_PLATFORMS } from '@/data/platforms';
 
 export const getApiStaticPath = () => {
   const paths: any = [];
@@ -6,7 +7,7 @@ export const getApiStaticPath = () => {
   Object.keys(API_CATEGORIES).forEach((catKey) => {
     paths.push({
       params: {
-        platform: 'javascript',
+        platform: JS_PLATFORMS,
         category: catKey
       }
     });
