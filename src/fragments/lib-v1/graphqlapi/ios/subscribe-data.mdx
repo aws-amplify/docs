@@ -82,9 +82,9 @@ func createSubscription() {
 
 </BlockSwitcher>
 
-### Unsubscribing from updates
+## Unsubscribing from updates
 
-#### Listener (iOS 11+)
+### Listener (iOS 11+)
 
 To unsubscribe from updates, you can call `cancel()` on the subscription
 
@@ -95,7 +95,7 @@ func cancelSubscription() {
 }
 ```
 
-#### Combine (iOS 13+)
+### Combine (iOS 13+)
 
 With the Combine flavor of the `subscribe()` API, you have the option of canceling just the downstream Combine subscriber, or the entire GraphQL subscription.
 

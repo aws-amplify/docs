@@ -2,7 +2,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Validate form data',
-  description: "Sanitize user input by adding validation rules to your form. By default, Amplify Studio infers a range of validation rules based on the data model. For example, given a data model with an 'AWSEmail' field, the generated form input will automatically run an email validation rule.",
+  description: "Add and customize validation rules on Amplify generated forms",
   platforms: [
     'javascript',
     'react',
@@ -23,9 +23,9 @@ export function getStaticProps(context) {
   };
 }
 
-Sanitize user input by adding validation rules to your form. By default, Amplify Studio infers a range of validation rules based on the data model. For example, given a data model with an `AWSEmail` field, the generated form input will automatically run an email validation rule.
+Sanitize user input by adding validation rules to your form. By default, Amplify generated forms infers a range of validation rules based on the data model. For example, given a data model with an `AWSEmail` field, the generated form input will automatically run an email validation rule.
 
-## Add validation rules
+## Configurable validation rules
 
 By default, the following validation rules are available for you to configure:
 
@@ -78,7 +78,7 @@ type ValidationResponse = {
 
 ### Add validation rules for nested JSON data
 
-Amplify Studio Forms can also produce nested JSON object. For example, you can create a new `ProductForm` component based on the following JSON object:
+Amplify generated forms can also produce nested JSON object. For example, you can create a new `ProductForm` component based on the following JSON object:
 
 ```json
 {

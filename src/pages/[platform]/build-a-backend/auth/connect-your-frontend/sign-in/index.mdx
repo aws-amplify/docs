@@ -253,7 +253,7 @@ func signIn(username: String, password: String) -> AnyCancellable {
 
 The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "flutter", "android"]}>
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "android"]}>
 - `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_TOTP_CODE` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
@@ -265,7 +265,7 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 - `DONE` - The sign in process has been completed.
 </InlineFilter>
 
-<InlineFilter filters={["swift"]}>
+<InlineFilter filters={["swift", "flutter"]}>
 - `confirmSignInWithNewPassword` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
 - `confirmSignInWithCustomChallenge` - The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`.
 - `confirmSignInWithTOTPCode` - The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`.
@@ -281,6 +281,29 @@ For more information on handling the TOTP and MFA steps that may be returned, se
 
 ### Confirm sign-in
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts title="src/main.ts"
+import { confirmSignIn, signIn } from 'aws-amplify/auth'
+
+const { nextStep } = await signIn({
+  username: "hello@mycompany.com",
+  password: "hunter2",
+})
+
+if (nextStep === "CONFIRM_SIGN_IN_WITH_SMS_CODE") {
+  await confirmSignIn({
+    challengeResponse: "12345"
+  })
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/* @todo */}
+
+</InlineFilter>
 <InlineFilter filters={["swift"]}>
 
 <BlockSwitcher>
@@ -320,6 +343,10 @@ func confirmSignIn() -> AnyCancellable {
 
 </Block>
 </BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/* @todo */}
 
 </InlineFilter>
 
@@ -657,6 +684,19 @@ import { signInWithRedirect } from "aws-amplify/auth"
 signInWithRedirect({ provider: {
   custom: "MyOidcProvider"
 }})
+```
+
+### Auto sign-in
+
+The `autoSignIn` API will automatically sign-in a user when it was previously enabled by the `signUp` API and after any of the following cases has completed:
+
+- User confirmed their account with a verification code sent to their phone or email (default option).
+- User confirmed their account with a verification link sent to their phone or email. In order to enable this option you need to go to the [Amazon Cognito console](https://aws.amazon.com/pm/cognito), look for your userpool, then go to the `Messaging` tab and enable `link` mode inside the `Verification message` option. Finally you need to define the `signUpVerificationMethod` to `link` inside the `Cognito` option of your `Auth` config.
+
+```ts title="src/main.ts"
+import { autoSignIn } from 'aws-amplify/auth';
+
+await autoSignIn();
 ```
 
 </InlineFilter>

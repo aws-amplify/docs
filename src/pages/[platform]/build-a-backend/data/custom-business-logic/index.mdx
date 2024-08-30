@@ -233,6 +233,8 @@ export const data = defineData({
 ```
 
 ```ts title="amplify/data/increment-like.js"
+import { util } from '@aws-appsync/utils';
+
 export function request(ctx) {
   return {
     operation: 'UpdateItem',
