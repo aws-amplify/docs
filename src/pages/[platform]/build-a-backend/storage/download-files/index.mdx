@@ -249,7 +249,9 @@ Option | Type | Description |
 
 <InlineFilter filters={["swift"]}>
 ```swift
-let url = try await Amplify.Storage.getURL(path: .fromString("public/example/path"))
+let url = try await Amplify.Storage.getURL(
+    path: .fromString("public/example/path")
+)
 print("Completed: \(url)")
 ```
 
@@ -563,7 +565,7 @@ try {
 
 <InlineFilter filters={["swift"]}>
 
-## API to download data in memory
+## Download to data in memory
 
 You can download to in-memory buffer [Data](https://developer.apple.com/documentation/foundation/data) object with `Amplify.Storage.downloadData`:
 
@@ -572,7 +574,9 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 <Block name="Async/Await">
 
 ```swift
-let downloadTask = Amplify.Storage.downloadData(path: .fromString("public/example/path"))
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path")
+)
 Task {
     for await progress in await downloadTask.progress {
         print("Progress: \(progress)")
@@ -587,7 +591,9 @@ print("Completed: \(data)")
 <Block name="Combine">
 
 ```swift
-let downloadTask = Amplify.Storage.downloadData(path: .fromString("public/example/path"))
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path")
+)
 let progressSink = downloadTask
     .inProcessPublisher
     .sink { progress in
@@ -692,7 +698,7 @@ try {
 
 ### Download from a specified bucket
 
-You can also perform an download operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
+You can also perform a download operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
 
 <BlockSwitcher>
 <Block name="Java">
@@ -1147,7 +1153,7 @@ let downloadTask = Amplify.Storage.downloadData(
 </Block>
 </BlockSwitcher>
 
-### Pause, resume, and cancel downloads
+## Pause, resume, and cancel downloads
 
 Calls to `downloadData` or `downloadFile` return a reference to the task that is actually performing the download.
 

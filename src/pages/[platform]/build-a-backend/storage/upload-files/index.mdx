@@ -370,7 +370,7 @@ To upload a file from a data object, specify the `path` and the `data` object to
 let dataString = "My Data"
 let data = Data(dataString.utf8)
 let uploadTask = Amplify.Storage.uploadData(
-    path: .fromString("public/example/path"),
+    path: .fromString("public/example/path/myFile.txt"),
     data: data
 )
 ```
@@ -954,7 +954,7 @@ You can perform an upload operation to a specific bucket by providing the `bucke
 You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
 
 ```swift
-// Upload from file
+// Upload from File
 let uploadTask = Amplify.Storage.uploadFile(
     path: .fromString("public/example/path/myFile.txt"),
     local: fileUrl,
@@ -963,7 +963,7 @@ let uploadTask = Amplify.Storage.uploadFile(
     )
 )
 
-// Upload from data
+// Upload from Data
 let uploadTask = Amplify.Storage.uploadData(
     path: .fromString("public/example/path/myFile.txt"),
     data: data,

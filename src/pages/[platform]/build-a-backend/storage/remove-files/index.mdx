@@ -29,7 +29,7 @@ export function getStaticProps(context) {
   };
 }
 
-Files can be removed from a storage bucket using the 'remove' API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
+Files can be removed from a storage bucket using the `remove` API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
@@ -48,9 +48,7 @@ try {
   console.log('Error ', error);
 }
 ```
-</InlineFilter>
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
 
 ```javascript
@@ -121,7 +119,7 @@ RxAmplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt")
 </Block>
 </BlockSwitcher>
 
-### Remove files from a specified bucket
+## Remove files from a specified bucket
 
 You can also perform a remove operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
 
@@ -304,7 +302,7 @@ receiveValue: { removedObject in
 
 </BlockSwitcher>
 
-### Remove files from a specified bucket
+## Remove files from a specified bucket
 
 You can perform a remove operation from a specific bucket by providing the `bucket` option.
 
@@ -314,7 +312,7 @@ You can use `.fromOutputs(name:)` to provide a string representing the target bu
 
 ```swift
 let removedObject = try await Amplify.Storage.remove(
-    path: .fromString("public/example/path/myFile.txt"),
+    path: .fromString("public/example/path"),
     options: .init(
         bucket: .fromOutputs(name: "secondBucket")
     )
@@ -327,7 +325,7 @@ You can also use `.fromBucketInfo(_:)` to provide a bucket name and region direc
 
 ```swift
 let removedObject = try await Amplify.Storage.remove(
-    path: .fromString("public/example/path/myFile.txt"),
+    path: .fromString("public/example/path"),
     options: .init(
         bucket: .fromBucketInfo(.init(
             bucketName: "another-bucket-name",
