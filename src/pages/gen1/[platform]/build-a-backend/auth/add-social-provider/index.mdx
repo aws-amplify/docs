@@ -768,7 +768,7 @@ Amplify.configure({
 ```
 
 #### Option to specify a redirect URL upon signOut
-If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match atleast one of the configured redirect urls. If no redirect url is provided to `signOut`, the first item from the the configured redirect urls list that does not contain a http nor https prefix will be picked.
+If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match at least one of the configured redirect urls. If no redirect url is provided to `signOut`, the first item from the the configured redirect urls list that does not contain a http nor https prefix will be picked.
 
 ```ts
 import { Amplify } from 'aws-amplify';
@@ -1012,7 +1012,7 @@ function App() {
 </Accordion>
 
 #### Option to specify a redirect URL upon signOut
-If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match atleast one of the configured redirect urls. If no redirect url is provided to `signOut`, one will be selected based on the current app domain.
+If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match at least one of the configured redirect urls. If no redirect url is provided to `signOut`, one will be selected based on the current app domain.
 
 ```ts
 import { Amplify } from 'aws-amplify';
