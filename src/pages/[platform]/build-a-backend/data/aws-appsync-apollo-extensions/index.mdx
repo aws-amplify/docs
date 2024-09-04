@@ -6,14 +6,7 @@ export const meta = {
     'AWS AppSync Apollo Extensions',
   platforms: [
     'android',
-    'angular',
-    'flutter',
-    'javascript',
-    'nextjs',
-    'react',
-    'react-native',
     'swift',
-    'vue'
   ]
 };
 
@@ -66,7 +59,7 @@ Enter its GitHub URL (`https://github.com/aws-amplify/aws-appsync-apollo-extensi
 
 ### Connecting to AWS AppSync with Apollo client
 
-AWS AppSync supports the following authorization modes (https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html)
+AWS AppSync supports the following [authorization modes](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html)
 
 #### API_KEY
 
@@ -141,7 +134,7 @@ You can provide your own custom `fetchLatestAuthToken` provider for **AWS_LAMBDA
 
 If you are using Amplify Auth, you can use the following method for AWS_IAM auth
 
-```
+```swift
 import AWSCognitoAuthPlugin
 import AWSAppSyncApolloExtensions
 
@@ -156,7 +149,7 @@ let authorizer = IAMAuthorizer(
 
 If you are using Amplify Auth, you can use the following method for AWS_IAM auth
 
-```
+```kotlin
 val authorizer = IamAuthorizer { ApolloAmplifyConnector.signAppSyncRequest(it, "us-east-1") }
 ```
 
@@ -166,7 +159,7 @@ val authorizer = IamAuthorizer { ApolloAmplifyConnector.signAppSyncRequest(it, "
 
 Before you begin, you will need an Amplify Data backend deploy. To get started, see [Set up Data](/[platform]/swift/build-a-backend/data/set-up-data/). 
 
-Once you have deployed your backend and created the `amplify_outputs.json`, you can use Amplify library to read and retrieve your configuration values with the following steps:
+Once you have deployed your backend and created the `amplify_outputs.json` file, you can use Amplify library to read and retrieve your configuration values with the following steps:
 
 <InlineFilter filters={["swift"]}>
 
@@ -221,14 +214,14 @@ If you define multiple authorization strategies on a single model, you will have
 The schema is used by Apollo’s code generation tool to generate API code that helps you execute GraphQL operations. To retrieve your AWS AppSync schema:
 
 <InlineFilter filters={["swift"]}>
-1. Navigate to your API on the AWS AppSync console
+1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
 2. On the left side, select Schema
 3. When viewing your schema, there should a “Export schema” drop down. Select this and download the `schema.json` file.
 4. Add this file to your project as directed by [Apollo Code Generation documentation](https://www.apollographql.com/docs/ios/code-generation/introduction) 
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
-1. Navigate to your API on the AWS AppSync console
+1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
 2. On the left side, select Schema
 3. When viewing your schema, there should a “Export schema” drop down. Select this and download the `schema.json` file.
 4. Add this file to your project as directed by [Apollo Code Generation documentation](https://www.apollographql.com/docs/ios/code-generation/introduction) 
@@ -240,7 +233,7 @@ The following example shows how you can create an Apollo client that allows perf
 
 <InlineFilter filters={["swift"]}>
 
-```
+```swift
 import Apollo
 import ApolloAPI
 import ApolloWebSocket
