@@ -508,3 +508,41 @@ safePrint(echoResponse.echo.content);
 ```
 
 </InlineFilter>
+
+## Pipeline resolver
+
+By default a pipeline resolver is created for the custom query. Update the handler as below to add multiple functions to the pipeline resolver.
+
+```dart
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  generateHaiku: a
+    .query()
+    .arguments({ prompt: a.string().required() })
+    .returns(a.string())
+    .authorization((allow) => [allow.publicApiKey()])
+    .handler([
+      a.handler.custom({
+        dataSource: "BedrockDataSource",
+        entry: "./generateHaiku.js",
+      }),
+      a.handler.custom({
+        dataSource: "None",
+        entry: "./nextResolver.js",
+      })
+    ]),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "apiKey",
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+```
