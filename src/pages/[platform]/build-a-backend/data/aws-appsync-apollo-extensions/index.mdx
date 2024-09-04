@@ -227,7 +227,11 @@ dependencies {
 ```
 
 ```kotlin
-Code Sample
+// Use CUP auth mode, reading configuration from AmplifyOutputs
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val apolloClient = ApolloClient.Builder()
+    .appSync(connector.endpoint, connector.apiKeyAuthorizer())
+    .build()
 ```
 
 </InlineFilter>
