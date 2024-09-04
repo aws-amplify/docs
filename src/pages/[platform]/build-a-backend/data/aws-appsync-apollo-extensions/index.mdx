@@ -121,7 +121,7 @@ let interceptor = AppSyncInterceptor(authorizer)
 Create the AuthTokenAuthorizer with this method.
 
 ```kotlin
-let authorizer = AuthTokenAuthorizer(fetchLatestAuthToken: getLatestTokenFromAmplify)
+val authorizer = AuthTokenAuthorizer { ApolloAmplifyConnector.fetchLatestCognitoAuthToken() }
 ```
 
 </InlineFilter>
@@ -224,7 +224,7 @@ The schema is used by Apollo’s code generation tool to generate API code that 
 1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
 2. On the left side, select Schema
 3. When viewing your schema, there should a “Export schema” drop down. Select this and download the `schema.json` file.
-4. Add this file to your project as directed by [Apollo Code Generation documentation](https://www.apollographql.com/docs/ios/code-generation/introduction) 
+4. Add this file to your project as directed by [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location) 
 </InlineFilter>
 
 ## Connecting to AWS AppSync real-time endpoint
@@ -273,14 +273,11 @@ func createApolloClient() throws -> ApolloClient {
 <InlineFilter filters={["android"]}>
 
 ```kotlin
-// Create the network transport
-val networkTransport = WebSocketNetworkTransport.Builder()
-    .protocol(AppSyncProtocol.Factory(endpoint, authorizer))
-    .build()
+val endpoint = AppSyncEndpoint("<your_appsync_endpoint>")
+val authorizer = /* your Authorizer */
 
-// Use the network transport when creating the Apollo Client
 val apolloClient = ApolloClient.Builder()
-    .subscriptionNetworkTransport(networkTransport)
+    .appSync(endpoint, authorizer)
     .build()
 ```
 
