@@ -211,13 +211,16 @@ If you define multiple authorization strategies on a single model, you will have
 
 ### Downloading the AWS AppSync schema
 
-The schema is used by Apollo’s code generation tool to generate API code that helps you execute GraphQL operations. To retrieve your AWS AppSync schema:
+The schema is used by Apollo’s code generation tool to generate API code that helps you execute GraphQL operations. The following steps integrate your AppSync schema with Apollo's code generation process:
 
 <InlineFilter filters={["swift"]}>
 1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
 2. On the left side, select Schema
 3. When viewing your schema, there should a “Export schema” drop down. Select this and download the `schema.json` file.
 4. Add this file to your project as directed by [Apollo Code Generation documentation](https://www.apollographql.com/docs/ios/code-generation/introduction) 
+
+You can alternatively download the introspection schema using the [`fetch-schema`](https://www.apollographql.com/docs/ios/code-generation/codegen-cli#fetch-schema) command with the `amplify-ios-cli` tool.
+
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
