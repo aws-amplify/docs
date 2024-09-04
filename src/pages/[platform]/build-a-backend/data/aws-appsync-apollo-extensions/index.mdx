@@ -44,6 +44,22 @@ AWS AppSync Apollo Extensions provide AWS AppSync authorizers to be used with th
 
 The Amplify library provides components to facilitate configuring the authorizers with Apollo client by providing configuration values to connect to your Amplify Data backend.
 
+<InlineFilter filters={["android"]}>
+
+### Install the AWS AppSync Apollo library
+
+Add AWS AppSync Apollo Extensions dependency to your app/build.gradle.kts file:
+
+```kotlin title="app/build.gradle.kts"
+dependencies {
+    // highlight-start
+    implementation("com.amplifyframework:aws-appsync-apollo-extensions-android:1.0.0")    
+    // highlight-end
+}
+```
+
+</InlineFilter>
+
 <InlineFilter filters={["swift"]}>
 
 ### Install the AWS AppSync Apollo library
@@ -194,6 +210,27 @@ func createApolloClient() throws -> ApolloClient {
 
     return ApolloClient(networkTransport: transport, store: store)
 }
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+
+Add Amplify AppSync Extensions dependency to your app/build.gradle.kts file:
+
+```kotlin title="app/build.gradle.kts"
+dependencies {
+    // highlight-start
+    implementation("com.amplifyframework:amplify-appsync-apollo:1.0.0")    
+    // highlight-end
+}
+```
+
+</InlineFilter>
+
+```kotlin
+Code Sample
 ```
 
 </InlineFilter>
