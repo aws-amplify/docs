@@ -387,11 +387,11 @@ await signInWithRedirect({
 });
 ```
 
-### Redirect URIs
+### Redirect URLs
 
-For _Sign in Redirect URI(s)_ inputs, you can set one URI for local development and one for production. For example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for _Sign out Redirect URI(s)_.
+For _Sign in Redirect URL(s)_ inputs, you can set one URL for local development and one for production. For example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for _Sign out Redirect URL(s)_.
 
-If you have multiple redirect URIs, you'll need to pass them in your Amplify configuration. For example:
+If you have multiple redirect URLs, you'll need to pass them in your Amplify configuration. For example:
 
 ```javascript
 Amplify.configure({
@@ -416,7 +416,7 @@ Amplify.configure({
 });
 ```
 
-#### Specifying a redirect URI on sign out
+#### Specifying a redirect URL on sign out
 If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match at least one of the configured redirect urls. If no redirect url is provided to `signOut`, one will be selected based on the current app domain.
 
 ```ts
@@ -519,9 +519,9 @@ function handleSignInWithRedirect() {
 
 ```
 
-### Redirect URIs
+### Redirect URLs
 
-If you want to manually configure multiple _Sign in_ & _Sign out_ redirect URI(s), you'll need to pass them in your Amplify configuration. For example:
+If you want to manually configure multiple _Sign in_ & _Sign out_ redirect URL(s), you'll need to pass them in your Amplify configuration. For example:
 
 ```javascript
 Amplify.configure({
@@ -545,7 +545,7 @@ Amplify.configure({
 });
 ```
 
-#### Specifying a redirect URI on sign out
+#### Specifying a redirect URL on sign out
 If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match at least one of the configured redirect urls. If no redirect url is provided to `signOut`, the first item from the the configured redirect urls list that does not contain a http nor https prefix will be picked.
 
 ```ts
