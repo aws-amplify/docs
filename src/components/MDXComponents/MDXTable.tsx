@@ -14,7 +14,7 @@ export const MDXTable: React.FC<MDXTableProps> = ({ children, ...props }) => {
       if (el?.previousElementSibling?.tagName.startsWith('H')) {
         setCaption(el.previousElementSibling.textContent);
       } else {
-        getHeading(ref.current?.previousElementSibling);
+        getHeading(el?.previousElementSibling);
       }
     };
     getHeading(ref.current);
