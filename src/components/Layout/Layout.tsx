@@ -37,11 +37,13 @@ import {
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
 import { ApiModal } from '../ApiDocs/display';
+import { LinkDataType } from '../ApiDocs/display/TypeLink';
 
 export const TypeContext = createContext({
-  setModalData: (data) => { },
-  modalOpen: () => { },
-  addBreadCrumb: (data) => { }
+  setModalData: (data) => data,
+  modalOpen: () => {},
+  addBreadCrumb: (data) => data,
+  setBC: (data) => data
 });
 
 export const Layout = ({
@@ -67,33 +69,36 @@ export const Layout = ({
   url?: string;
   useCustomTitle?: boolean;
 }) => {
-
-
   const [modalData, setModalData] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [breadCrumbs, setBreadCrumbs] = useState([]);
+  const [breadCrumbs, setBreadCrumbs] = useState<LinkDataType[]>([]);
 
   const modalOpen = () => {
     setShowModal(true);
-  }
+  };
   const closeModal = () => {
     setShowModal(false);
-  }
+  };
 
   const addBreadCrumb = (bc) => {
     breadCrumbs.push(bc);
     setBreadCrumbs(breadCrumbs);
-  }
+  };
+
+  const setBC = (bc) => {
+    setBreadCrumbs(bc);
+  };
 
   const clearBC = () => {
     setBreadCrumbs([]);
-  }
+  };
 
   const value = {
     setModalData,
     modalOpen,
-    addBreadCrumb
-  }
+    addBreadCrumb,
+    setBC
+  };
 
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
@@ -223,8 +228,9 @@ export const Layout = ({
         <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
-          content={`https://docs.amplify.aws/assets/${isGen1 ? 'classic' : 'gen2'
-            }-og.png`}
+          content={`https://docs.amplify.aws/assets/${
+            isGen1 ? 'classic' : 'gen2'
+          }-og.png`}
           key="og:image"
         />
         <meta property="description" content={description} key="description" />
@@ -237,8 +243,9 @@ export const Layout = ({
         />
         <meta
           property="twitter:image"
-          content={`https://docs.amplify.aws/assets/${isGen1 ? 'classic' : 'gen2'
-            }-og.png`}
+          content={`https://docs.amplify.aws/assets/${
+            isGen1 ? 'classic' : 'gen2'
+          }-og.png`}
           key="twitter:image"
         />
       </Head>
@@ -256,7 +263,13 @@ export const Layout = ({
         >
           <IconsProvider icons={defaultIcons}>
             <TypeContext.Provider value={value}>
-              <ApiModal data={modalData} showModal={showModal} close={closeModal} breadCrumbs={breadCrumbs} clearBC={clearBC} />
+              <ApiModal
+                data={modalData}
+                showModal={showModal}
+                close={closeModal}
+                breadCrumbs={breadCrumbs}
+                clearBC={clearBC}
+              />
               <Modal isGen1={isGen1} />
               <View
                 className={classNames(
@@ -292,7 +305,10 @@ export const Layout = ({
                     className={`main${showTOC ? ' main--toc' : ''}`}
                   >
                     {showBreadcrumbs ? (
-                      <Breadcrumbs route={pathname} platform={currentPlatform} />
+                      <Breadcrumbs
+                        route={pathname}
+                        platform={currentPlatform}
+                      />
                     ) : null}
                     {useCustomTitle ? null : (
                       <Heading level={1}>{pageTitle}</Heading>

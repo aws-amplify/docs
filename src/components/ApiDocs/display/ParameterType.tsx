@@ -1,134 +1,182 @@
-import { View, Flex } from '@aws-amplify/ui-react'
+import { View } from '@aws-amplify/ui-react';
 import { TypeLink } from './TypeLink';
 import references from '../../../directory/apiReferences.json';
+import { LinkDataType } from './TypeLink';
+import React from 'react';
 
-export const ParameterType = ({ typeData }) => {
-    if (!typeData) return;
-    const typeArgs = typeData.typeArguments;
-    const typeType = typeData.type;
-    switch (typeType) {
-        case 'reference':
-            return <>
-                <ReferenceType data={typeData} /> {typeArgs && <>&lt;{typeArgs.map((tArg) => {
-                    return <TypeLink key={tArg.name} linkData={tArg} />
-                })}&gt;</>}
-            </>
-        case 'intersection':
-            const intersectionArgs = typeData.types;
-            return <>
-                {intersectionArgs.reduce((acc, item, index) => {
-                    const comp = <ParameterType key={index} typeData={item} />;
-                    if (index !== 0) {
-                        acc.push(' & ');
-                    }
-                    acc.push(comp);
-                    return acc;
-                }, [])}
-            </>
-        case 'reflection':
-            const reflectionChildren = typeData.children;
-            return <>
-                {'{'}
-                {/* {reflectionChildren.map((child) => {
-                    return <>{child.name}: <ParameterType key={child.name} typeData={child} /></>
-                })} */}
-                {'}'}
-            </>
-        default:
-            return `${typeType} defaulted`;
-    }
+interface typeDataType {
+  typeArguments?: LinkDataType[];
+  type: string | typeDataType;
+  kind: number;
+  types?: [];
+  declaration?: {
+    children?: [];
+  };
+  value?: string;
+  name: string;
+  elementType?: {
+    type: string;
+    target: number;
+    name: string;
+  };
 }
+interface ParameterComponentType {
+  typeData: typeDataType;
+}
+
+export const ParameterType = ({ typeData }: ParameterComponentType) => {
+  if (!typeData) return;
+  const typeArgs = typeData.typeArguments;
+  let typeType = typeData.type;
+  if (typeData.kind === 256) {
+    typeType = 'declaration';
+  }
+  switch (typeType) {
+    case 'reference':
+      return (
+        <>
+          <ReferenceType data={typeData} />{' '}
+          {typeArgs && (
+            <>
+              &lt;
+              {typeArgs.reduce<(string | React.JSX.Element)[]>(
+                (acc, tArg, index) => {
+                  if (index === 0)
+                    return [<TypeLink key={tArg.name} linkData={tArg} />];
+                  return [
+                    ...acc,
+                    ', ',
+                    <TypeLink key={tArg.name} linkData={tArg} />
+                  ];
+                },
+                []
+              )}
+              &gt;
+            </>
+          )}
+        </>
+      );
+    case 'intersection':
+      const intersectionArgs = typeData.types;
+      return <IntersectionType args={intersectionArgs} />;
+    case 'reflection':
+      const reflectionChildren = typeData?.declaration?.children;
+      return <ReflectionType reflectionChildren={reflectionChildren} />;
+    case 'declaration':
+      return <DeclarationType data={typeData} />;
+    case 'union':
+      const unionArgs = typeData.types;
+      return <UnionType unionArgs={unionArgs} />;
+    case 'literal':
+      return `"${typeData.value}"`;
+    case 'intrinsic':
+      return typeData.name;
+    case 'array':
+      return <ArrayType data={typeData.elementType} />;
+    default:
+      if (typeof typeType === 'object' && typeType !== null) {
+        return <ParameterType typeData={typeType} />;
+      }
+      console.log(typeType);
+      return '';
+  }
+};
+
+const ArrayType = ({ data }) => {
+  return (
+    <>
+      <ParameterType typeData={data} />
+      []
+    </>
+  );
+};
 
 const ReferenceType = ({ data }) => {
-    // should be a link that loads the next type when clicked on
-    const referencedObject = references[data.target];
-    if (!referencedObject) {
-        console.log("EMPTY")
-        console.log(data);
-    }
+  // should be a link that loads the next type when clicked on
+  const referencedObject = references[data.target];
+  if (!referencedObject) {
+    return data?.target?.qualifiedName;
+  }
 
-    return <TypeLink linkData={referencedObject} />
-}
+  return <TypeLink linkData={referencedObject} />;
+};
 
-const IntersectionType = ({ data }) => {
-    // should iterate over types putting & between and rendering each one
-    return (
-        <View>
-            {data.types.map((t, idx) => {
-                return (<View key={idx}><TypeLink linkData={t} /> {idx < data.types.length - 1 && <span>&</span>} </View>)
-            })}
-        </View>
-    )
-}
-
-const UnionType = ({ data }) => {
-    // should iterate over types putting | between and rendering each one
-    return (
-        <View>
-            {data.elements.map((t, idx) => {
-                return (<View key={idx}><TypeLink linkData={t} /> {idx < data.elements.length - 1 && <span>|</span>} </View>)
-            })}
-        </View>
-    )
-}
-
-const AliasType = ({ data }) => {
-    // should render the type object contained in value
-    return (<ParameterType typeData={data.value} />)
-}
-
-export const ApplicationType = ({ data }) => {
-    // example of application SomeType<AnotherType> it should render the "base" and "typeParameters"
-    const params = data.typeParameters.map((param, idx) => {
-        if (param.type === 'reference') {
-            return <><TypeLink linkData={param} />{idx < data.typeParameters.length - 1 ? ', ' : ''}</>
-        } else {
-            return <><code>{param.name || param.type}</code>{idx < data.typeParameters.length - 1 ? ', ' : ''}</>
+const IntersectionType = ({ args }) => {
+  // should iterate over types putting & between and rendering each one
+  return (
+    <>
+      {args.reduce((acc, item, index) => {
+        const comp = <ParameterType key={index} typeData={item} />;
+        if (index !== 0) {
+          acc.push(' & ');
         }
-    });
-    return (
-        <View>
-            <TypeLink linkData={data.base} /> &lt; {params} &gt;
-        </View>
-    )
-}
+        acc.push(comp);
+        return acc;
+      }, [])}
+    </>
+  );
+};
 
-const InterfaceType = ({ data }) => {
-    // should render the "properties" as types
-    return (
-        <View>
-            {Object.keys(data.properties).map((key, idx) => {
-                return (
-                    <Flex key={idx}>
-                        {data.properties[key].name}: <ParameterType typeData={data.properties[key]} />
-                    </Flex>
-                )
-            })}
-        </View>
-    )
-}
-
-const IdentifierType = ({ data }) => {
-    // should render the "typeObject" as a type if no typeObject exists then this is an end node
-    if (!data.typeObject) {
-        return <code>{data.name}</code>
-    } else {
-        return <ParameterType typeData={data.typeObject} />
-    }
-}
-
-const StringType = ({ }) => {
-    return (<code>string</code>)
-}
-
-const PropertyType = ({ data }) => {
-    if (data.value.name) {
-        return <TypeLink linkData={data.value} />
-    } else {
-        return (
-            <View>
-                <ParameterType typeData={data.value} />
+const ReflectionType = ({ reflectionChildren }) => {
+  if (!reflectionChildren) {
+    return <>{'{}'}</>;
+  }
+  return (
+    <>
+      {'{'}
+      <View className={'object-type'}>
+        {reflectionChildren.map((child) => {
+          if (typeof child === 'number') {
+            child = references[child];
+          }
+          return (
+            <View key={child.name}>
+              {child.name}
+              {child?.flags?.isOptional && '?'}:{' '}
+              <ParameterType key={child.name} typeData={child} />
             </View>
-        )
-    }
-}
+          );
+        })}
+      </View>
+      {'}'}
+    </>
+  );
+};
+
+const DeclarationType = ({ data }) => {
+  return (
+    <View>
+      <View>&#123;</View>
+      <View className={'object-type'}>
+        {data?.children?.map((childId) => {
+          const childNode = references[childId];
+          if (childNode) {
+            return (
+              <View key={childId}>
+                <View as="span">{childNode.name}: </View>
+                <ParameterType key={childNode.name} typeData={childNode} />
+              </View>
+            );
+          }
+        })}
+      </View>
+      <View>&#125;</View>
+    </View>
+  );
+};
+
+const UnionType = ({ unionArgs }) => {
+  // should iterate over types putting | between and rendering each one
+  return (
+    <>
+      {unionArgs.reduce((acc, item, index) => {
+        const comp = <ParameterType key={index} typeData={item} />;
+        if (index !== 0) {
+          acc.push(' | ');
+        }
+        acc.push(comp);
+        return acc;
+      }, [])}
+    </>
+  );
+};
