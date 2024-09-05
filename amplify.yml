@@ -14,6 +14,3 @@ frontend:
     baseDirectory: /client/www/next-build
     files:
       - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
