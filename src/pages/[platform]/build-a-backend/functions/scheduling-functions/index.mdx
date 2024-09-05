@@ -51,7 +51,7 @@ Their handlers can be typed using the `EventBridgeHandler` type:
 ```ts title="amplify/jobs/weekly-digest/handler.ts"
 import type { EventBridgeHandler } from "aws-lambda";
 
-export const handler: EventBridgeHandler = async (event) => {
+export const handler: EventBridgeHandler<"Scheduled Event", null, void> = async (event) => {
   console.log("event", JSON.stringify(event, null, 2))
 }
 ```
