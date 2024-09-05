@@ -387,6 +387,72 @@ await signInWithRedirect({
 });
 ```
 
+### Redirect URIs
+
+For _Sign in Redirect URI(s)_ inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for _Sign out Redirect URI(s)_.
+
+If you have multiple redirect URI inputs, you'll need to pass them in your Amplify configuration. For example:
+
+```javascript
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      loginWith: {
+        oauth: {
+          redirectSignIn: [
+            'http://localhost:3000/',
+            'https://www.example.com/'
+          ],
+          redirectSignOut: [
+            'http://localhost:3000/',
+            'https://www.example.com/'
+          ],
+          ...oauthConfig
+        }
+      },
+      ...userPoolConfig
+    }
+  }
+});
+```
+
+#### Specifying a redirect URI on sign out
+If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match at least one of the configured redirect urls. If no redirect url is provided to `signOut`, one will be selected based on the current app domain.
+
+```ts
+import { Amplify } from 'aws-amplify';
+import { signOut } from 'aws-amplify/auth';
+
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      loginWith: {
+        oauth: {
+          redirectSignIn: [
+            'http://localhost:3000/',
+            'https://www.example.com/'
+          ],
+          redirectSignOut: [
+            'http://localhost:3000/',
+            'https://www.example.com/'
+          ],
+          ...oauthConfig
+        }
+      },
+      ...userPoolConfig
+    }
+  }
+});
+
+signOut({
+  global: false,
+  oauth: {
+    redirectUrl: 'https://www.example.com/'
+  }
+});
+
+```
+
 </InlineFilter>
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
@@ -428,6 +494,94 @@ Hub.listen("auth", ({ payload }) => {
 When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the external sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
 
 </Accordion>
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+## Set up your frontend
+
+<Callout info>
+
+If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
+
+</Callout>
+
+Use the `signInWithRedirect` API to initiate sign-in with an external identity provider.
+
+```ts title="src/my-client-side-js.js"
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+await signInWithRedirect({
+  provider: 'Apple'
+});
+```
+
+### Redirect URIs
+
+If you want to manually configure multiple _Sign in_ & _Sign out_ redirect URI(s), you'll need to pass them in your Amplify configuration. For example:
+
+```javascript
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      loginWith: {
+        oauth: {
+          redirectSignIn: [
+            'myDevApp://'
+          ],
+          redirectSignOut: [
+            'myDevApp://',
+            'myProdApp://'
+          ],
+          ...oauthConfig
+        }
+      },
+      ...userPoolConfig
+    }
+  }
+});
+```
+
+#### Specifying a redirect URI on sign out
+If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match at least one of the configured redirect urls. If no redirect url is provided to `signOut`, the first item from the the configured redirect urls list that does not contain a http nor https prefix will be picked.
+
+```ts
+import { Amplify } from 'aws-amplify';
+import { signOut } from 'aws-amplify/auth';
+
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      loginWith: {
+        oauth: {
+          redirectSignIn: [
+            'myDevApp://'
+          ],
+          redirectSignOut: [
+            'myDevApp://',
+            'https://oidcProvider/?logout_uri=myDevApp://'
+          ],
+          ...oauthConfig
+        }
+      },
+      ...userPoolConfig
+    }
+  }
+});
+
+function handleSignOut() {
+  signOut({
+    global: false,
+    oauth: {
+      redirectUrl: 'https://oidcProvider/?logout_uri=myDevApp://'
+    }
+  });
+}
+
+
+```
+<Callout> Irrespective of whether a `redirectUrl` is provided to `signOut`, a URL that does not contain http or https is expected to be present in the configured redirect URL list. This is because iOS requires an appScheme when creating the web session. </Callout>
+
 </InlineFilter>
 
 ## Next steps
