@@ -10,15 +10,9 @@ import { IconX } from '../../Icons';
 import { ParameterType } from './ParameterType';
 import { ApiComment } from '../ApiComment';
 import { TypeLink } from './TypeLink';
+import references from '@/directory/apiReferences.json';
 
-export const ApiModal = ({
-  data,
-  showModal,
-  close,
-  breadCrumbs,
-  clearBC,
-  references
-}) => {
+export const ApiModal = ({ data, showModal, close, breadCrumbs, clearBC }) => {
   let name = data.name;
   if (data.type === 'reference') {
     data = references[data.target];
@@ -111,10 +105,7 @@ export const ApiModal = ({
             <Divider padding="xs" />
             <Flex justifyContent={'center'}>
               <View as={'code'} fontSize="large" className={'parameter'}>
-                <ParameterType
-                  typeData={data.type || data}
-                  references={references}
-                />
+                <ParameterType typeData={data.type || data} />
               </View>
             </Flex>
             <View className={'description-wrapper'}>

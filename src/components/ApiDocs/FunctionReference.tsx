@@ -1,11 +1,11 @@
 import { View } from '@aws-amplify/ui-react';
 import { FunctionSignature } from './FunctionSignature';
 
-export const FunctionReference = ({ func, references }) => {
+export const FunctionReference = ({ func }) => {
   return (
     <View>
       {func.signatures.map((sig) => (
-        <FunctionSignature sig={sig} references={references} key={sig.id} />
+        <FunctionSignature sig={sig} key={sig.id} />
       ))}
     </View>
   );

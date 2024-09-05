@@ -4,8 +4,9 @@ import { ApiComment } from './ApiComment';
 import { Parameters } from './Parameters';
 import { Throws } from './Throws';
 import { FunctionReturn } from './FunctionReturn';
+import references from '@/directory/apiReferences.json';
 
-export const FunctionSignature = ({ sig, references }) => {
+export const FunctionSignature = ({ sig }) => {
   const sigObject = references[sig];
   const description = sigObject?.comment?.summary;
   const parameters = sigObject?.parameters;
@@ -19,15 +20,11 @@ export const FunctionSignature = ({ sig, references }) => {
 
       {description && <ApiComment apiComment={description} />}
 
-      {parameters && (
-        <Parameters parameters={parameters} references={references} />
-      )}
+      {parameters && <Parameters parameters={parameters} />}
 
       {throws && <Throws throws={throws} />}
 
-      {returns && (
-        <FunctionReturn functionReturn={returns} references={references} />
-      )}
+      {returns && <FunctionReturn functionReturn={returns} />}
     </View>
   );
 };

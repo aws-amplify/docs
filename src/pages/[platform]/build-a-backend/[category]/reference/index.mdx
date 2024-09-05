@@ -1,4 +1,3 @@
-import references from '@/directory/apiReferences.json';
 import { getApiStaticPath } from '@/utils/getApiStaticPath';
 
 export const meta = {
@@ -16,10 +15,9 @@ export function getStaticProps(context) {
       platform: context.params.platform,
       category: context.params.category,
       showBreadcrumbs: false,
-      references: references,
       meta
     }
   };
 }
 
-<ReferencePage category={props.category} references={props.references} />
+<ReferencePage category={props.category} />

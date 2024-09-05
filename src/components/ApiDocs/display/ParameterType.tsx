@@ -2,6 +2,7 @@ import { View } from '@aws-amplify/ui-react';
 import { TypeLink } from './TypeLink';
 import { LinkDataType } from './TypeLink';
 import React from 'react';
+import references from '@/directory/apiReferences.json';
 
 interface typeDataType {
   typeArguments?: LinkDataType[];
@@ -21,15 +22,9 @@ interface typeDataType {
 }
 interface ParameterComponentType {
   typeData: typeDataType;
-  references: {
-    T: number;
-  };
 }
 
-export const ParameterType = ({
-  typeData,
-  references
-}: ParameterComponentType) => {
+export const ParameterType = ({ typeData }: ParameterComponentType) => {
   if (!typeData) return;
   const typeArgs = typeData.typeArguments;
   let typeType = typeData.type;
@@ -40,7 +35,7 @@ export const ParameterType = ({
     case 'reference':
       return (
         <>
-          <ReferenceType data={typeData} references={references} />{' '}
+          <ReferenceType data={typeData} />{' '}
           {typeArgs && (
             <>
               &lt;
@@ -63,47 +58,40 @@ export const ParameterType = ({
       );
     case 'intersection':
       const intersectionArgs = typeData.types;
-      return (
-        <IntersectionType args={intersectionArgs} references={references} />
-      );
+      return <IntersectionType args={intersectionArgs} />;
     case 'reflection':
       const reflectionChildren = typeData?.declaration?.children;
-      return (
-        <ReflectionType
-          reflectionChildren={reflectionChildren}
-          references={references}
-        />
-      );
+      return <ReflectionType reflectionChildren={reflectionChildren} />;
     case 'declaration':
-      return <DeclarationType data={typeData} references={references} />;
+      return <DeclarationType data={typeData} />;
     case 'union':
       const unionArgs = typeData.types;
-      return <UnionType unionArgs={unionArgs} references={references} />;
+      return <UnionType unionArgs={unionArgs} />;
     case 'literal':
       return `"${typeData.value}"`;
     case 'intrinsic':
       return typeData.name;
     case 'array':
-      return <ArrayType data={typeData.elementType} references={references} />;
+      return <ArrayType data={typeData.elementType} />;
     default:
       if (typeof typeType === 'object' && typeType !== null) {
-        return <ParameterType typeData={typeType} references={references} />;
+        return <ParameterType typeData={typeType} />;
       }
       console.log(typeType);
       return '';
   }
 };
 
-const ArrayType = ({ data, references }) => {
+const ArrayType = ({ data }) => {
   return (
     <>
-      <ParameterType typeData={data} references={references} />
+      <ParameterType typeData={data} />
       []
     </>
   );
 };
 
-const ReferenceType = ({ data, references }) => {
+const ReferenceType = ({ data }) => {
   // should be a link that loads the next type when clicked on
   const referencedObject = references[data.target];
   if (!referencedObject) {
@@ -113,14 +101,12 @@ const ReferenceType = ({ data, references }) => {
   return <TypeLink linkData={referencedObject} />;
 };
 
-const IntersectionType = ({ args, references }) => {
+const IntersectionType = ({ args }) => {
   // should iterate over types putting & between and rendering each one
   return (
     <>
       {args.reduce((acc, item, index) => {
-        const comp = (
-          <ParameterType key={index} typeData={item} references={references} />
-        );
+        const comp = <ParameterType key={index} typeData={item} />;
         if (index !== 0) {
           acc.push(' & ');
         }
@@ -131,7 +117,7 @@ const IntersectionType = ({ args, references }) => {
   );
 };
 
-const ReflectionType = ({ reflectionChildren, references }) => {
+const ReflectionType = ({ reflectionChildren }) => {
   if (!reflectionChildren) {
     return <>{'{}'}</>;
   }
@@ -147,11 +133,7 @@ const ReflectionType = ({ reflectionChildren, references }) => {
             <View key={child.name}>
               {child.name}
               {child?.flags?.isOptional && '?'}:{' '}
-              <ParameterType
-                key={child.name}
-                typeData={child}
-                references={references}
-              />
+              <ParameterType key={child.name} typeData={child} />
             </View>
           );
         })}
@@ -161,7 +143,7 @@ const ReflectionType = ({ reflectionChildren, references }) => {
   );
 };
 
-const DeclarationType = ({ data, references }) => {
+const DeclarationType = ({ data }) => {
   return (
     <View>
       <View>&#123;</View>
@@ -172,11 +154,7 @@ const DeclarationType = ({ data, references }) => {
             return (
               <View key={childId}>
                 <View as="span">{childNode.name}: </View>
-                <ParameterType
-                  key={childNode.name}
-                  typeData={childNode}
-                  references={references}
-                />
+                <ParameterType key={childNode.name} typeData={childNode} />
               </View>
             );
           }
@@ -187,14 +165,12 @@ const DeclarationType = ({ data, references }) => {
   );
 };
 
-const UnionType = ({ unionArgs, references }) => {
+const UnionType = ({ unionArgs }) => {
   // should iterate over types putting | between and rendering each one
   return (
     <>
       {unionArgs.reduce((acc, item, index) => {
-        const comp = (
-          <ParameterType key={index} typeData={item} references={references} />
-        );
+        const comp = <ParameterType key={index} typeData={item} />;
         if (index !== 0) {
           acc.push(' | ');
         }

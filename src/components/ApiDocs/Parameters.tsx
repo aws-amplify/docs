@@ -2,8 +2,9 @@ import { View } from '@aws-amplify/ui-react';
 import { MDXHeading, MDXTable } from '../MDXComponents';
 import { ApiComment } from './ApiComment';
 import { ParameterType } from './display';
+import references from '@/directory/apiReferences.json';
 
-export const Parameters = ({ parameters, references }) => {
+export const Parameters = ({ parameters }) => {
   const paramObjects = parameters.map((id) => references[id]);
   return (
     <View>
@@ -26,10 +27,7 @@ export const Parameters = ({ parameters, references }) => {
                 </td>
                 <td>{option?.flags?.isOptional ? 'false' : 'true'}</td>
                 <td>
-                  <ParameterType
-                    typeData={option.type}
-                    references={references}
-                  />
+                  <ParameterType typeData={option.type} />
                 </td>
                 <td>
                   {option?.comment?.summary && (

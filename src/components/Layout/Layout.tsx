@@ -56,8 +56,7 @@ export const Layout = ({
   showBreadcrumbs = true,
   showLastUpdatedDate = true,
   url,
-  useCustomTitle = false,
-  references
+  useCustomTitle = false
 }: {
   children: ReactElement;
   hasTOC?: boolean;
@@ -69,7 +68,6 @@ export const Layout = ({
   showLastUpdatedDate: boolean;
   url?: string;
   useCustomTitle?: boolean;
-  references?: { T: number };
 }) => {
   const [modalData, setModalData] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -271,7 +269,6 @@ export const Layout = ({
                 close={closeModal}
                 breadCrumbs={breadCrumbs}
                 clearBC={clearBC}
-                references={references}
               />
               <Modal isGen1={isGen1} />
               <View
