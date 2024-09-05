@@ -14571,5 +14571,231 @@
     "signatures": [
       3920
     ]
-  }
+  },
+  "categories": [
+    {
+      "id": 268,
+      "name": "auth",
+      "variant": "declaration",
+      "kind": 1024,
+      "flags": {
+        "isOptional": true
+      },
+      "type": {
+        "type": "reference",
+        "target": 31,
+        "name": "AmplifyOutputsAuthProperties",
+        "package": "@aws-amplify/core"
+      }
+    },
+    {
+      "id": 272,
+      "name": "storage",
+      "variant": "declaration",
+      "kind": 1024,
+      "flags": {
+        "isOptional": true
+      },
+      "type": {
+        "type": "reference",
+        "target": 88,
+        "name": "AmplifyOutputsStorageProperties",
+        "package": "@aws-amplify/core"
+      }
+    },
+    {
+      "id": 267,
+      "name": "analytics",
+      "variant": "declaration",
+      "kind": 1024,
+      "flags": {
+        "isOptional": true
+      },
+      "type": {
+        "type": "reference",
+        "target": 26,
+        "name": "AmplifyOutputsAnalyticsProperties",
+        "package": "@aws-amplify/core"
+      }
+    },
+    {
+      "id": 423,
+      "name": "api",
+      "variant": "declaration",
+      "kind": 2,
+      "flags": {},
+      "children": [
+        424,
+        1286,
+        1295,
+        1301,
+        1322,
+        1327,
+        1329,
+        1333,
+        1335,
+        1339,
+        1342,
+        1343,
+        1346,
+        1350,
+        1353,
+        1356,
+        1359,
+        1362,
+        1365
+      ],
+      "groups": [
+        {
+          "title": "Modules",
+          "children": [
+            424
+          ]
+        },
+        {
+          "title": "Enumerations",
+          "children": [
+            1286,
+            1295
+          ]
+        },
+        {
+          "title": "Classes",
+          "children": [
+            1301
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "children": [
+            1322
+          ]
+        },
+        {
+          "title": "Type Aliases",
+          "children": [
+            1327,
+            1329,
+            1333,
+            1335,
+            1339
+          ]
+        },
+        {
+          "title": "Variables",
+          "children": [
+            1342
+          ]
+        },
+        {
+          "title": "Functions",
+          "children": [
+            1343,
+            1346,
+            1350,
+            1353,
+            1356,
+            1359,
+            1362,
+            1365
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3820,
+      "name": "in-app-messaging",
+      "variant": "declaration",
+      "kind": 2,
+      "flags": {},
+      "children": [
+        3821,
+        3850,
+        3855,
+        3860,
+        3867,
+        3869,
+        3874,
+        3877,
+        3878,
+        3879,
+        3880,
+        3881,
+        3882,
+        3883,
+        3884,
+        3885,
+        3886,
+        3887,
+        3888,
+        3889,
+        3890,
+        3891,
+        3893,
+        3896,
+        3899,
+        3901,
+        3904,
+        3907,
+        3910,
+        3913,
+        3916,
+        3919
+      ],
+      "groups": [
+        {
+          "title": "Modules",
+          "children": [
+            3821
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "children": [
+            3850,
+            3855,
+            3860,
+            3867,
+            3869,
+            3874
+          ]
+        },
+        {
+          "title": "Type Aliases",
+          "children": [
+            3877,
+            3878,
+            3879,
+            3880,
+            3881,
+            3882,
+            3883,
+            3884,
+            3885,
+            3886,
+            3887,
+            3888,
+            3889,
+            3890
+          ]
+        },
+        {
+          "title": "Functions",
+          "children": [
+            3891,
+            3893,
+            3896,
+            3899,
+            3901,
+            3904,
+            3907,
+            3910,
+            3913,
+            3916,
+            3919
+          ]
+        }
+      ]
+    }
+  ]
 }
