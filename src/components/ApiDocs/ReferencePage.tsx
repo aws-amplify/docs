@@ -8,7 +8,6 @@ export const ReferencePage = ({ category }) => {
   const cat = references['categories'].find(
     (catObject) => catObject.name === category
   );
-  console.log(cat);
   return (
     <View className={'reference-page'}>
       {cat?.children?.map((child, idx) => (
