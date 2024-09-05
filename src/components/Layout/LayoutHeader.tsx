@@ -8,7 +8,7 @@ import {
   ALGOLIA_INDEX_NAME,
   ALGOLIA_APP_ID
 } from '../../constants/algolia';
-import { IconMenu, IconDoubleChevron } from '@/components/Icons';
+import { IconTOC, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
@@ -46,8 +46,8 @@ export const LayoutHeader = ({
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
 
-  const handleMenuToggle = (menu) => {
-    if (menu === 'menu' && !menuOpen) {
+  const handleMenuToggle = () => {
+    if (!menuOpen) {
       toggleMenuOpen(true);
       // For keyboard navigators, move focus to the close menu button in the nav
       setTimeout(() => sidebarMenuButtonRef?.current?.focus(), 0);
@@ -56,8 +56,10 @@ export const LayoutHeader = ({
       // For keyboard navigators, move focus back to menu button in header
       menuButtonRef?.current?.focus();
     }
+  };
 
-    if (menu === 'toc' && !tocOpen) {
+  const handleTocToggle = () => {
+    if (!tocOpen) {
       toggleTocOpen(true);
       // For keyboard navigators, move focus to the close menu button in the nav
       setTimeout(() => sidebarTocButtonRef?.current?.focus(), 0);
@@ -86,22 +88,22 @@ export const LayoutHeader = ({
     <View as="header" className="layout-header">
       <Flex className={`layout-search layout-search--${pageType}`}>
         <Button
-          onClick={() => handleMenuToggle('menu')}
+          onClick={() => handleMenuToggle()}
           size="small"
           ref={menuButtonRef}
           className="search-menu-toggle mobile-toggle"
         >
-          <IconMenu aria-hidden="true" />
+          <IconTOC aria-hidden="true" />
           Menu
         </Button>
         {showTOC ? (
           <Button
-            onClick={() => handleMenuToggle('toc')}
+            onClick={() => handleTocToggle()}
             size="small"
             ref={tocButtonRef}
             className="search-menu-toggle mobile-toggle"
           >
-            <IconMenu aria-hidden="true" />
+            <IconTOC aria-hidden="true" />
             On this page
           </Button>
         ) : null}
@@ -152,7 +154,7 @@ export const LayoutHeader = ({
               'layout-sidebar__mobile-toggle--open': menuOpen
             })}
             ref={sidebarMenuButtonRef}
-            onClick={() => handleMenuToggle('menu')}
+            onClick={() => handleMenuToggle()}
           >
             <IconDoubleChevron />
             <VisuallyHidden>Close menu</VisuallyHidden>
@@ -176,7 +178,6 @@ export const LayoutHeader = ({
             )}
           </div>
         </View>
-        {showTOC ? <div className=""></div> : null}
       </View>
 
       {showTOC ? (
@@ -207,13 +208,13 @@ export const LayoutHeader = ({
                 }
               )}
               ref={sidebarTocButtonRef}
-              onClick={() => handleMenuToggle('toc')}
+              onClick={() => handleTocToggle()}
             >
               <IconDoubleChevron />
               <VisuallyHidden>Close table of contents</VisuallyHidden>
             </Button>
             <div className="layout-sidebar-menu">
-              <TableOfContents headers={tocHeadings} />
+              <TableOfContents headers={tocHeadings} forDesktop={false} />
             </div>
           </View>
         </View>

@@ -228,7 +228,7 @@
   }
 }
 
-@media (min-width: 1360px) {
+@media (min-width: $mq-mobile) {
   .main--toc {
     margin-inline-end: var(--layout-toc-width);
   }

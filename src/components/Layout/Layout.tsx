@@ -274,7 +274,9 @@ export const Layout = ({
                   {children}
                   {showNextPrev && <NextPrevious />}
                 </Flex>
-                {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+                {showTOC ? (
+                  <TableOfContents headers={tocHeadings} forDesktop />
+                ) : null}
               </View>
               <Footer hasTOC={showTOC} />
             </View>
