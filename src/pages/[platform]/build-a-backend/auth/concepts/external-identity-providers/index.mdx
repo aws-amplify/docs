@@ -389,9 +389,9 @@ await signInWithRedirect({
 
 ### Redirect URIs
 
-For _Sign in Redirect URI(s)_ inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for _Sign out Redirect URI(s)_.
+For _Sign in Redirect URI(s)_ inputs, you can set one URI for local development and one for production. For example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for _Sign out Redirect URI(s)_.
 
-If you have multiple redirect URI inputs, you'll need to pass them in your Amplify configuration. For example:
+If you have multiple redirect URIs, you'll need to pass them in your Amplify configuration. For example:
 
 ```javascript
 Amplify.configure({
@@ -511,9 +511,12 @@ Use the `signInWithRedirect` API to initiate sign-in with an external identity p
 ```ts title="src/my-client-side-js.js"
 import { signInWithRedirect } from 'aws-amplify/auth';
 
-await signInWithRedirect({
-  provider: 'Apple'
-});
+function handleSignInWithRedirect() {
+  signInWithRedirect({
+    provider: 'Apple'
+  });
+}
+
 ```
 
 ### Redirect URIs
@@ -577,7 +580,6 @@ function handleSignOut() {
     }
   });
 }
-
 
 ```
 <Callout> Irrespective of whether a `redirectUrl` is provided to `signOut`, a URL that does not contain http or https is expected to be present in the configured redirect URL list. This is because iOS requires an appScheme when creating the web session. </Callout>
