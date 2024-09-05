@@ -101,7 +101,7 @@
 	},
 	{
 		"source": "/ui/storage/s3-image-picker/q/framework/<platform>/",
-		"target": "https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager",
+		"target": "https://ui.docs.amplify.aws/react/connected-components/storage/fileuploader",
 		"status": "302"
 	},
 	{

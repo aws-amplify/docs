@@ -446,7 +446,7 @@ const indexMapping = {
       id: {
         type: "keyword",
       },
-      isDone: {
+      done: {
         type: "boolean",
       },
       content: {
@@ -843,7 +843,7 @@ dynamodb-pipeline:
 // highlight-start
 // Create a CloudWatch log group
 const logGroup = new logs.LogGroup(dataStack, "LogGroup", {
-  logGroupName: "/aws/vended-logs/OpenSearchService/pipelines/1",
+  logGroupName: "/aws/vendedlogs/OpenSearchService/pipelines/1",
   removalPolicy: RemovalPolicy.DESTROY,
 });
 

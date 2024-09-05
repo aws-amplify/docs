@@ -29,7 +29,7 @@ export function getStaticProps(context) {
   };
 }
 
-You can list files without having to download all the files. You can do this by using the `list` API from the Amplify Library for Storage. <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>You can also get properties individually for a file using the getProperties API.</InlineFilter>
+You can list files without having to download all the files. You can do this by using the `list` API from the Amplify Library for Storage. <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>You can also get properties individually for a file using the `getProperties` API.</InlineFilter>
 
 ## List Files
 
@@ -38,12 +38,12 @@ You can list files without having to download all the files. You can do this by 
 import { list } from 'aws-amplify/storage';
 
 const result = await list({
-	path: 'photos/',
+	path: 'album/photos/',
   // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
 });
 ```
 
-Note the trailing slash `/` - if you had requested `list({ path :  'photos' })` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
+Note the trailing slash `/` - if you had requested `list({ path :  'album/photos' })` it would also match against files like `album/photos123.jpg` alongside `album/photos/123.jpg`.
 
 The format of the response will look similar to the below example:
 
@@ -51,7 +51,7 @@ The format of the response will look similar to the below example:
 {
   items: [
     {
-      path: "photos/123.jpg",
+      path: "album/photos/123.jpg",
       eTag: "30074401292215403a42b0739f3b5262",
       lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
       size: 138256
@@ -60,6 +60,45 @@ The format of the response will look similar to the below example:
   ],
 }
 ````
+
+If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
+
+```javascript
+import { list } from 'aws-amplify/storage';
+
+const PAGE_SIZE = 20;
+let nextToken = undefined;
+//...
+const loadNextPage = async () => {
+  let response = await list({
+    path: 'photos/',
+    // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
+    pageSize: PAGE_SIZE,
+    nextToken: nextToken
+    }
+  });
+  if (response.nextToken) {
+    nextToken = response.nextToken;
+  } else {
+    nextToken = undefined;
+  }
+  // render list items from response.items
+};
+```
+
+### List All files
+```javascript
+import { list } from 'aws-amplify/storage';
+
+const result = await list({
+	path: 'album/photos/',
+  // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`,
+  options: {
+    listAll: true,
+  }
+});
+```
+
 
 {/* in other files we're referring to paths instead of folders, can we be consistent on terminology? */} Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files from folders. Since "folders" are a virtual concept in Amazon S3, any file may declare any depth of folder just by having a `/` in its name.
 
@@ -170,39 +209,37 @@ const result = await list({
 });
 ```
 
-### More `list` options
+### List files from a specified bucket
 
-| Option | Type | Description |
-| --- | --- | --- |
-| listAll | boolean | Set to true to list all files within the specified `path` |
-| pageSize | number | Sets the maximum number of files to be return. The range is 0 - 1000 |
-| nextToken | string | Indicates whether the list is being continued on this bucket with a token |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+You can also perform an `copy` operation to a specific bucket by providing the `bucket` option. This option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.
 
-If the `pageSize` is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
-
-```javascript
+```ts
 import { list } from 'aws-amplify/storage';
 
-const PAGE_SIZE = 20;
-let nextToken = undefined;
-//...
-const loadNextPage = async () => {
-  let response = await list({
-    path: 'photos/',
-    // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
-    pageSize: PAGE_SIZE,
-    nextToken: nextToken
-    }
-  });
-  if (response.nextToken) {
-    nextToken = response.nextToken;
-  } else {
-    nextToken = undefined;
+const result = await list({
+  path: 'photos/',
+  options: {
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend',
+    // Alternatively, provide bucket name from console and associated region
+    // bucket: {
+    //   bucketName: 'generated-secondary-bucket-name',
+    //   region: 'us-east-2'
+    // }
   }
-  // render list items from response.items
-};
+});
 ```
+
+### More `list` options
+
+| Option | Type | Default | Description |
+| -- | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| listAll | boolean | false | Set to true to list all files within the specified `path` |
+| pageSize | number | 1000 | Sets the maximum number of files to be return. The range is 0 - 1000 |
+| nextToken | string | — | Indicates whether the list is being continued on this bucket with a token |
+| subpathStrategy | \{ strategy: 'include' \} \|<br/>\{ 'exclude',<br />delimiter?: string \} | \{ strategy: 'include' \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 </InlineFilter>
 
@@ -765,8 +802,12 @@ import { getProperties } from 'aws-amplify/storage';
 
 try {
   const result = await getProperties({
-    path: 'album/2024/1.jpg'
+    path: 'album/2024/1.jpg',
     // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
+    options: {
+      // Specify a target bucket using name assigned in Amplify Backend
+      bucket: 'assignedNameInAmplifyBackend'
+    }
   });
   console.log('File Properties ', result);
 } catch (error) {
@@ -789,9 +830,10 @@ The properties and metadata will look similar to the below example
 
 ### More `getProperties` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+Option | Type | Default | Description |
+| -- | -- | -- | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>
 
