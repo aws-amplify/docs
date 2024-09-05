@@ -6,7 +6,7 @@ import JSON5 from 'json5';
 import { directory } from './directory.mjs';
 import { writeFile } from 'fs/promises';
 import { getLastModifiedDate } from 'git-jiggy';
-import { API_CATEGORIES } from '../data/api-categories.mjs';
+import { API_CATEGORIES, API_SUB_CATEGORIES } from '../data/api-categories.mjs';
 
 // Set up the root path so that we can get the correct path from the current working directory
 const rootPath = path.resolve(cwd(), 'src/pages');
@@ -144,6 +144,20 @@ async function generateDirectory() {
   categoryKeys.forEach((cat) => {
     const name = API_CATEGORIES[cat];
     const route = `/[platform]/build-a-backend/${cat}`;
+    const catNode = findDirectoryNode(route, directoryCopy);
+    if (catNode) {
+      catNode.children.push({
+        title: `API References`,
+        description: `API References - ${name}`,
+        platforms: [platform],
+        route: `${route}/reference`
+      });
+    }
+  });
+
+  categoryKeys.forEach((cat) => {
+    const name = API_SUB_CATEGORIES[cat];
+    const route = `/[platform]/build-a-backend/add-aws-services/${cat}`;
     const catNode = findDirectoryNode(route, directoryCopy);
     if (catNode) {
       catNode.children.push({

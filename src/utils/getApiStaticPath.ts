@@ -1,6 +1,6 @@
 import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories';
 
-export const getApiStaticPath = (sub = false) => {
+export const getApiStaticPath = (sub) => {
   const paths: any = [];
 
   if (sub) {
