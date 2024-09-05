@@ -8,11 +8,17 @@ import {
 } from '@aws-amplify/ui-react';
 import { IconX } from '../../Icons';
 import { ParameterType } from './ParameterType';
-import references from '../../../directory/apiReferences.json';
 import { ApiComment } from '../ApiComment';
 import { TypeLink } from './TypeLink';
 
-export const ApiModal = ({ data, showModal, close, breadCrumbs, clearBC }) => {
+export const ApiModal = ({
+  data,
+  showModal,
+  close,
+  breadCrumbs,
+  clearBC,
+  references
+}) => {
   let name = data.name;
   if (data.type === 'reference') {
     data = references[data.target];
@@ -105,7 +111,10 @@ export const ApiModal = ({ data, showModal, close, breadCrumbs, clearBC }) => {
             <Divider padding="xs" />
             <Flex justifyContent={'center'}>
               <View as={'code'} fontSize="large" className={'parameter'}>
-                <ParameterType typeData={data.type || data} />
+                <ParameterType
+                  typeData={data.type || data}
+                  references={references}
+                />
               </View>
             </Flex>
             <View className={'description-wrapper'}>

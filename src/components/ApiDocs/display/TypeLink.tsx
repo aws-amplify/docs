@@ -6,6 +6,7 @@ export interface LinkDataType {
   name: string;
   kind: number;
   type: string | LinkDataType;
+  target: number;
 }
 
 export interface TypeLinkInterface {
@@ -28,7 +29,10 @@ export const TypeLink = ({ linkData, breadCrumbs }: TypeLinkInterface) => {
     }
     modalOpen();
   };
-  if (linkData.type === 'intrinsic') {
+  if (
+    linkData.type === 'intrinsic' ||
+    (linkData.type === 'reference' && typeof linkData.target !== 'number')
+  ) {
     return <View as="span">{linkData.name}</View>;
   } else {
     return (

@@ -7,7 +7,7 @@ export const meta = {
 };
 
 export const getStaticPaths = async () => {
-  return getApiStaticPath();
+  return getApiStaticPath(true);
 };
 
 export function getStaticProps(context) {

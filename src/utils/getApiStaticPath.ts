@@ -1,19 +1,35 @@
-import { API_CATEGORIES } from '@/data/api-categories';
+import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories';
 
-export const getApiStaticPath = () => {
+export const getApiStaticPath = (sub = false) => {
   const paths: any = [];
 
-  Object.keys(API_CATEGORIES).forEach((catKey) => {
-    paths.push({
-      params: {
-        platform: 'javascript',
-        category: catKey
-      }
+  if (sub) {
+    Object.keys(API_SUB_CATEGORIES).forEach((catKey) => {
+      paths.push({
+        params: {
+          platform: 'javascript',
+          category: catKey
+        }
+      });
     });
-  });
 
-  return {
-    paths: paths,
-    fallback: false
-  };
+    return {
+      paths: paths,
+      fallback: false
+    };
+  } else {
+    Object.keys(API_CATEGORIES).forEach((catKey) => {
+      paths.push({
+        params: {
+          platform: 'javascript',
+          category: catKey
+        }
+      });
+    });
+
+    return {
+      paths: paths,
+      fallback: false
+    };
+  }
 };

@@ -16,7 +16,8 @@ function MyApp({ Component, pageProps }) {
     pageType,
     showBreadcrumbs,
     showLastUpdatedDate,
-    useCustomTitle
+    useCustomTitle,
+    references
   } = pageProps;
 
   const router = useRouter();
@@ -47,6 +48,7 @@ function MyApp({ Component, pageProps }) {
         useCustomTitle={useCustomTitle}
         showBreadcrumbs={showBreadcrumbs}
         showLastUpdatedDate={showLastUpdatedDate}
+        references={references}
       >
         {page}
       </Layout>
