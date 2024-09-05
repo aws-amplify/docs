@@ -739,9 +739,9 @@ function App() {
 </Block>
 </BlockSwitcher>
 
-### Redirect URLs
+### Redirect URIs
 
-You can provide multiple _Sign in Redirect URI(s)_ & _Sign out redirect URI(s)_.
+You can provide multiple _Sign in_ & _Sign out_ redirect URI(s).
 
 If you have multiple redirect URI inputs, you'll need to pass them in your Amplify configuration. For example:
 
@@ -767,7 +767,7 @@ Amplify.configure({
 });
 ```
 
-#### Option to specify a redirect URL upon signOut
+#### Specifying a redirect URI on sign out
 If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match at least one of the configured redirect urls. If no redirect url is provided to `signOut`, the first item from the the configured redirect urls list that does not contain a http nor https prefix will be picked.
 
 ```ts
@@ -784,7 +784,7 @@ Amplify.configure({
           ],
           redirectSignOut: [
             'myDevApp://',
-            'myProdApp://'
+            'https://oidcProvider/?logout_uri=myDevApp://'
           ],
           ...oauthConfig
         }
@@ -798,22 +798,22 @@ function handleSignOut() {
   signOut({
     global: false,
     oauth: {
-      redirectUrl: 'myDevApp://'
+      redirectUrl: 'https://oidcProvider/?logout_uri=myDevApp://'
     }
   });
 }
 
 
 ```
-<Callout> Irrespective of whether a `redirectUrl` is provided to the `signOut`, an item that does not contain a http or https string is expected to be present in the configured redirect urls list. This is because iOS requires we provide an appScheme when creating the web session. </Callout>
+<Callout> Irrespective of whether a `redirectUrl` is provided to `signOut`, a URL that does not contain http or https is expected to be present in the configured redirect URL list. This is because iOS requires an appScheme when creating the web session. </Callout>
 
 </InlineFilter>
 
 <InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
 
-### Redirect URLs
+### Redirect URIs
 
-For _Sign in Redirect URI(s)_ inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for _Sign out redirect URI(s)_.
+For _Sign in Redirect URI(s)_ inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for _Sign out Redirect URI(s)_.
 
 If you have multiple redirect URI inputs, you'll need to pass them in your Amplify configuration. For example:
 
@@ -1011,7 +1011,7 @@ function App() {
 
 </Accordion>
 
-#### Option to specify a redirect URL upon signOut
+#### Specifying a redirect URI on sign out
 If you have multiple redirect urls configured, you may choose to override the default behavior of selecting a redirect url and provide the one of your choosing when calling `signOut`. The provided redirect url should match at least one of the configured redirect urls. If no redirect url is provided to `signOut`, one will be selected based on the current app domain.
 
 ```ts
