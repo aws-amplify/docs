@@ -11,6 +11,8 @@
   "dependencies": {
     "@aws-amplify/amplify-cli-core": "^4.3.9",
     "@aws-amplify/ui-react": "^6.1.12",
+    "@babel/core": "^7.23.2",
+    "@babel/traverse": "^7.23.2",
     "@docsearch/react": "3",
     "ajv": "^8.16.0",
     "aws-amplify": "^6.0.9",
@@ -23,7 +25,8 @@
     "react": "^18.3.1",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.3.1",
-    "react-icons": "^4.7.1"
+    "react-icons": "^4.7.1",
+    "ws": "^8.17.1"
   },
   "devDependencies": {
     "@actions/core": "^1.10.1",
