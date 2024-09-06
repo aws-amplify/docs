@@ -198,6 +198,19 @@
       "name": "void"
     }
   },
+  "368": {
+    "id": 368,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "type": {
+      "type": "reference",
+      "target": 348,
+      "name": "AnalyticsConfigureAutoTrackInput",
+      "package": "@aws-amplify/analytics"
+    }
+  },
   "369": {
     "id": 369,
     "name": "disable",
@@ -442,6 +455,27 @@
       "package": "typescript"
     }
   },
+  "377": {
+    "id": 377,
+    "name": "params",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object used to construct requests sent to Pinpoint's UpdateEndpoint\n API."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 364,
+      "name": "IdentifyUserInput",
+      "package": "@aws-amplify/analytics"
+    }
+  },
   "378": {
     "id": 378,
     "name": "record",
@@ -510,6 +544,19 @@
     "type": {
       "type": "intrinsic",
       "name": "void"
+    }
+  },
+  "380": {
+    "id": 380,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "type": {
+      "type": "reference",
+      "target": 314,
+      "name": "PinpointAnalyticsEvent",
+      "package": "@aws-amplify/core"
     }
   },
   "423": {
@@ -729,6 +776,27 @@
       "package": "@aws-amplify/api-rest"
     }
   },
+  "1345": {
+    "id": 1345,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "Input for DELETE operation"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1389,
+      "name": "DeleteInput",
+      "package": "@aws-amplify/api-rest"
+    }
+  },
   "1346": {
     "id": 1346,
     "name": "generateClient",
@@ -772,6 +840,21 @@
         }
       ],
       "name": "V6Client",
+      "package": "@aws-amplify/api-graphql"
+    }
+  },
+  "1349": {
+    "id": 1349,
+    "name": "options",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {
+      "isOptional": true
+    },
+    "type": {
+      "type": "reference",
+      "target": 816,
+      "name": "CommonPublicClientOptions",
       "package": "@aws-amplify/api-graphql"
     }
   },
@@ -860,6 +943,27 @@
       "package": "@aws-amplify/api-rest"
     }
   },
+  "1352": {
+    "id": 1352,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "Input for GET operation"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1391,
+      "name": "GetInput",
+      "package": "@aws-amplify/api-rest"
+    }
+  },
   "1353": {
     "id": 1353,
     "name": "head",
@@ -929,6 +1033,27 @@
       "type": "reference",
       "target": 1402,
       "name": "HeadOperation",
+      "package": "@aws-amplify/api-rest"
+    }
+  },
+  "1355": {
+    "id": 1355,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "Input for HEAD operation"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1401,
+      "name": "HeadInput",
       "package": "@aws-amplify/api-rest"
     }
   },
@@ -1025,6 +1150,17 @@
       }
     }
   },
+  "1358": {
+    "id": 1358,
+    "name": "error",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "type": {
+      "type": "intrinsic",
+      "name": "unknown"
+    }
+  },
   "1359": {
     "id": 1359,
     "name": "patch",
@@ -1107,6 +1243,27 @@
       "type": "reference",
       "target": 1405,
       "name": "PatchOperation",
+      "package": "@aws-amplify/api-rest"
+    }
+  },
+  "1361": {
+    "id": 1361,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "Input for PATCH operation"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1404,
+      "name": "PatchInput",
       "package": "@aws-amplify/api-rest"
     }
   },
@@ -1195,6 +1352,27 @@
       "package": "@aws-amplify/api-rest"
     }
   },
+  "1364": {
+    "id": 1364,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "Input for POST operation"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1406,
+      "name": "PostInput",
+      "package": "@aws-amplify/api-rest"
+    }
+  },
   "1365": {
     "id": 1365,
     "name": "put",
@@ -1277,6 +1455,27 @@
       "type": "reference",
       "target": 1409,
       "name": "PutOperation",
+      "package": "@aws-amplify/api-rest"
+    }
+  },
+  "1367": {
+    "id": 1367,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "Input for PUT operation"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1408,
+      "name": "PutInput",
       "package": "@aws-amplify/api-rest"
     }
   },
@@ -1880,6 +2079,27 @@
       "package": "typescript"
     }
   },
+  "1809": {
+    "id": 1809,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The ConfirmResetPasswordInput object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1772,
+      "name": "ConfirmResetPasswordInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1810": {
     "id": 1810,
     "name": "confirmSignIn",
@@ -2033,6 +2253,27 @@
       "package": "typescript"
     }
   },
+  "1812": {
+    "id": 1812,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The ConfirmSignInInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1773,
+      "name": "ConfirmSignInInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1813": {
     "id": 1813,
     "name": "confirmSignUp",
@@ -2134,6 +2375,27 @@
       "package": "typescript"
     }
   },
+  "1815": {
+    "id": 1815,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The ConfirmSignUpInput object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1775,
+      "name": "ConfirmSignUpInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1816": {
     "id": 1816,
     "name": "confirmUserAttribute",
@@ -2232,6 +2494,27 @@
       "package": "typescript"
     }
   },
+  "1818": {
+    "id": 1818,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The ConfirmUserAttributeInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1777,
+      "name": "ConfirmUserAttributeInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1819": {
     "id": 1819,
     "name": "decodeJWT",
@@ -2256,6 +2539,17 @@
       "target": 1757,
       "name": "JWT",
       "package": "@aws-amplify/core"
+    }
+  },
+  "1821": {
+    "id": 1821,
+    "name": "token",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "type": {
+      "type": "intrinsic",
+      "name": "string"
     }
   },
   "1822": {
@@ -2395,6 +2689,27 @@
       "package": "typescript"
     }
   },
+  "1826": {
+    "id": 1826,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The DeleteUserAttributesInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1778,
+      "name": "DeleteUserAttributesInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1827": {
     "id": 1827,
     "name": "fetchAuthSession",
@@ -2430,6 +2745,21 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "1829": {
+    "id": 1829,
+    "name": "options",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {
+      "isOptional": true
+    },
+    "type": {
+      "type": "reference",
+      "target": 1752,
+      "name": "FetchAuthSessionOptions",
+      "package": "@aws-amplify/core"
     }
   },
   "1830": {
@@ -2737,6 +3067,29 @@
       "package": "typescript"
     }
   },
+  "1838": {
+    "id": 1838,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {
+      "isOptional": true
+    },
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The ForgetDeviceInput object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1491,
+      "name": "AuthForgetDeviceInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1839": {
     "id": 1839,
     "name": "getCurrentUser",
@@ -2987,6 +3340,27 @@
       "package": "typescript"
     }
   },
+  "1845": {
+    "id": 1845,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The ResendSignUpCodeInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1784,
+      "name": "ResendSignUpCodeInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1846": {
     "id": 1846,
     "name": "resetPassword",
@@ -3088,6 +3462,27 @@
       "package": "typescript"
     }
   },
+  "1848": {
+    "id": 1848,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The ResetPasswordInput object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1786,
+      "name": "ResetPasswordInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1849": {
     "id": 1849,
     "name": "sendUserAttributeVerificationCode",
@@ -3165,6 +3560,27 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "1851": {
+    "id": 1851,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The SendUserAttributeVerificationCodeInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1788,
+      "name": "SendUserAttributeVerificationCodeInput",
+      "package": "@aws-amplify/auth"
     }
   },
   "1852": {
@@ -3357,6 +3773,27 @@
       "package": "typescript"
     }
   },
+  "1856": {
+    "id": 1856,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The SignInInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1791,
+      "name": "SignInInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1857": {
     "id": 1857,
     "name": "signInWithRedirect",
@@ -3420,6 +3857,29 @@
       "package": "typescript"
     }
   },
+  "1859": {
+    "id": 1859,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {
+      "isOptional": true
+    },
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The SignInWithRedirectInput object, if empty it will redirect to Cognito HostedUI"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1528,
+      "name": "AuthSignInWithRedirectInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1860": {
     "id": 1860,
     "name": "signOut",
@@ -3472,6 +3932,29 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "1862": {
+    "id": 1862,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {
+      "isOptional": true
+    },
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The SignOutInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1536,
+      "name": "AuthSignOutInput",
+      "package": "@aws-amplify/auth"
     }
   },
   "1863": {
@@ -3575,6 +4058,27 @@
       "package": "typescript"
     }
   },
+  "1865": {
+    "id": 1865,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The SignUpInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1795,
+      "name": "SignUpInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1866": {
     "id": 1866,
     "name": "updateMFAPreference",
@@ -3645,6 +4149,27 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "1868": {
+    "id": 1868,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The UpdateMFAPreferenceInput object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1767,
+      "name": "UpdateMFAPreferenceInput",
+      "package": "@aws-amplify/auth"
     }
   },
   "1869": {
@@ -3737,6 +4262,27 @@
       "package": "typescript"
     }
   },
+  "1871": {
+    "id": 1871,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The UpdatePasswordInput object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1557,
+      "name": "AuthUpdatePasswordInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1872": {
     "id": 1872,
     "name": "updateUserAttribute",
@@ -3816,6 +4362,27 @@
       "package": "typescript"
     }
   },
+  "1874": {
+    "id": 1874,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The UpdateUserAttributeInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1798,
+      "name": "UpdateUserAttributeInput",
+      "package": "@aws-amplify/auth"
+    }
+  },
   "1875": {
     "id": 1875,
     "name": "updateUserAttributes",
@@ -3893,6 +4460,27 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "1877": {
+    "id": 1877,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The UpdateUserAttributesInput object"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1800,
+      "name": "UpdateUserAttributesInput",
+      "package": "@aws-amplify/auth"
     }
   },
   "1878": {
@@ -3991,6 +4579,27 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "1880": {
+    "id": 1880,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The VerifyTOTPSetupInput"
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 1804,
+      "name": "VerifyTOTPSetupInput",
+      "package": "@aws-amplify/auth"
     }
   },
   "3820": {
@@ -4363,6 +4972,27 @@
       "package": "typescript"
     }
   },
+  "3895": {
+    "id": 3895,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object that holds the event to be dispatched."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 3830,
+      "name": "InAppMessagingEvent",
+      "package": "@aws-amplify/notifications"
+    }
+  },
   "3896": {
     "id": 3896,
     "name": "identifyUser",
@@ -4479,6 +5109,38 @@
       "package": "typescript"
     }
   },
+  "3898": {
+    "id": 3898,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object that conforms to "
+        },
+        {
+          "kind": "inline-tag",
+          "tag": "@link",
+          "text": "IdentifyUserInput",
+          "target": 3878,
+          "tsLinkText": ""
+        },
+        {
+          "kind": "text",
+          "text": " used to construct requests sent to Pinpoint's UpdateEndpoint\n API."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 3878,
+      "name": "IdentifyUserInput",
+      "package": "@aws-amplify/notifications"
+    }
+  },
   "3899": {
     "id": 3899,
     "name": "initializeInAppMessaging",
@@ -4589,6 +5251,27 @@
       "name": "void"
     }
   },
+  "3903": {
+    "id": 3903,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object that holds the type and message."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 3874,
+      "name": "NotifyMessageInteractionInput",
+      "package": "@aws-amplify/notifications"
+    }
+  },
   "3904": {
     "id": 3904,
     "name": "onMessageActionTaken",
@@ -4666,6 +5349,27 @@
       "type": "reference",
       "target": 3883,
       "name": "OnMessageActionTakenOutput",
+      "package": "@aws-amplify/notifications"
+    }
+  },
+  "3906": {
+    "id": 3906,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object that holds the callback handler."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 3846,
+      "name": "OnMessageInteractionEventHandler",
       "package": "@aws-amplify/notifications"
     }
   },
@@ -4749,6 +5453,27 @@
       "package": "@aws-amplify/notifications"
     }
   },
+  "3909": {
+    "id": 3909,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object that holds the callback handler."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 3846,
+      "name": "OnMessageInteractionEventHandler",
+      "package": "@aws-amplify/notifications"
+    }
+  },
   "3910": {
     "id": 3910,
     "name": "onMessageDisplayed",
@@ -4826,6 +5551,27 @@
       "type": "reference",
       "target": 3887,
       "name": "OnMessageDisplayedOutput",
+      "package": "@aws-amplify/notifications"
+    }
+  },
+  "3912": {
+    "id": 3912,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object that holds the callback handler."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 3846,
+      "name": "OnMessageInteractionEventHandler",
       "package": "@aws-amplify/notifications"
     }
   },
@@ -4909,6 +5655,27 @@
       "package": "@aws-amplify/notifications"
     }
   },
+  "3915": {
+    "id": 3915,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object that holds the callback handler."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 3846,
+      "name": "OnMessageInteractionEventHandler",
+      "package": "@aws-amplify/notifications"
+    }
+  },
   "3916": {
     "id": 3916,
     "name": "setConflictHandler",
@@ -4977,6 +5744,27 @@
     "type": {
       "type": "intrinsic",
       "name": "void"
+    }
+  },
+  "3918": {
+    "id": 3918,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The input object that holds the conflict handler to be used."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 3840,
+      "name": "InAppMessageConflictHandler",
+      "package": "@aws-amplify/notifications"
     }
   },
   "3919": {
@@ -5325,6 +6113,35 @@
       "package": "typescript"
     }
   },
+  "4603": {
+    "id": 4603,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`CopyWithPathInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4567,
+      "name": "CopyWithPathInput",
+      "package": "@aws-amplify/storage"
+    }
+  },
   "4604": {
     "id": 4604,
     "name": "copy",
@@ -5435,6 +6252,35 @@
       "package": "typescript"
     }
   },
+  "4605": {
+    "id": 4605,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`CopyInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4565,
+      "name": "CopyInput",
+      "package": "@aws-amplify/storage"
+    }
+  },
   "4606": {
     "id": 4606,
     "name": "downloadData",
@@ -5538,6 +6384,35 @@
       "type": "reference",
       "target": 4572,
       "name": "DownloadDataWithPathOutput",
+      "package": "@aws-amplify/storage"
+    }
+  },
+  "4608": {
+    "id": 4608,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`DownloadDataWithPathInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4571,
+      "name": "DownloadDataWithPathInput",
       "package": "@aws-amplify/storage"
     }
   },
@@ -5666,6 +6541,35 @@
       "package": "@aws-amplify/storage"
     }
   },
+  "4610": {
+    "id": 4610,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`DownloadDataInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4569,
+      "name": "DownloadDataInput",
+      "package": "@aws-amplify/storage"
+    }
+  },
   "4611": {
     "id": 4611,
     "name": "getProperties",
@@ -5755,6 +6659,35 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "4613": {
+    "id": 4613,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`GetPropertiesWithPathInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4575,
+      "name": "GetPropertiesWithPathInput",
+      "package": "@aws-amplify/storage"
     }
   },
   "4614": {
@@ -5865,6 +6798,35 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "4615": {
+    "id": 4615,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`GetPropertiesInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4573,
+      "name": "GetPropertiesInput",
+      "package": "@aws-amplify/storage"
     }
   },
   "4616": {
@@ -5988,6 +6950,35 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "4618": {
+    "id": 4618,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`GetUrlWithPathInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4579,
+      "name": "GetUrlWithPathInput",
+      "package": "@aws-amplify/storage"
     }
   },
   "4619": {
@@ -6132,6 +7123,35 @@
       "package": "typescript"
     }
   },
+  "4620": {
+    "id": 4620,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`GetUrlInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4577,
+      "name": "GetUrlInput",
+      "package": "@aws-amplify/storage"
+    }
+  },
   "4621": {
     "id": 4621,
     "name": "isCancelError",
@@ -6196,6 +7216,17 @@
         "name": "CanceledError",
         "package": "@aws-amplify/storage"
       }
+    }
+  },
+  "4623": {
+    "id": 4623,
+    "name": "error",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "type": {
+      "type": "intrinsic",
+      "name": "unknown"
     }
   },
   "4624": {
@@ -6315,6 +7346,35 @@
       "package": "typescript"
     }
   },
+  "4626": {
+    "id": 4626,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`ListPaginateWithPathInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4589,
+      "name": "ListPaginateWithPathInput",
+      "package": "@aws-amplify/storage"
+    }
+  },
   "4627": {
     "id": 4627,
     "name": "list",
@@ -6417,6 +7477,35 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "4628": {
+    "id": 4628,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`ListAllWithPathInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4583,
+      "name": "ListAllWithPathInput",
+      "package": "@aws-amplify/storage"
     }
   },
   "4629": {
@@ -6553,6 +7642,37 @@
       "package": "typescript"
     }
   },
+  "4630": {
+    "id": 4630,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {
+      "isOptional": true
+    },
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`ListPaginateInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4585,
+      "name": "ListPaginateInput",
+      "package": "@aws-amplify/storage"
+    }
+  },
   "4631": {
     "id": 4631,
     "name": "list",
@@ -6687,6 +7807,37 @@
       "package": "typescript"
     }
   },
+  "4632": {
+    "id": 4632,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {
+      "isOptional": true
+    },
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`ListAllInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4581,
+      "name": "ListAllInput",
+      "package": "@aws-amplify/storage"
+    }
+  },
   "4633": {
     "id": 4633,
     "name": "remove",
@@ -6776,6 +7927,35 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "4635": {
+    "id": 4635,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`RemoveWithPathInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4595,
+      "name": "RemoveWithPathInput",
+      "package": "@aws-amplify/storage"
     }
   },
   "4636": {
@@ -6886,6 +8066,35 @@
       ],
       "name": "Promise",
       "package": "typescript"
+    }
+  },
+  "4637": {
+    "id": 4637,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "The "
+        },
+        {
+          "kind": "code",
+          "text": "`RemoveInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4593,
+      "name": "RemoveInput",
+      "package": "@aws-amplify/storage"
     }
   },
   "4638": {
@@ -7000,6 +8209,35 @@
       "type": "reference",
       "target": 4600,
       "name": "UploadDataWithPathOutput",
+      "package": "@aws-amplify/storage"
+    }
+  },
+  "4640": {
+    "id": 4640,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "A "
+        },
+        {
+          "kind": "code",
+          "text": "`UploadDataWithPathInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4599,
+      "name": "UploadDataWithPathInput",
       "package": "@aws-amplify/storage"
     }
   },
@@ -7139,6 +8377,35 @@
       "type": "reference",
       "target": 4598,
       "name": "UploadDataOutput",
+      "package": "@aws-amplify/storage"
+    }
+  },
+  "4642": {
+    "id": 4642,
+    "name": "input",
+    "variant": "param",
+    "kind": 32768,
+    "flags": {},
+    "comment": {
+      "summary": [
+        {
+          "kind": "text",
+          "text": "A "
+        },
+        {
+          "kind": "code",
+          "text": "`UploadDataInput`"
+        },
+        {
+          "kind": "text",
+          "text": " object."
+        }
+      ]
+    },
+    "type": {
+      "type": "reference",
+      "target": 4597,
+      "name": "UploadDataInput",
       "package": "@aws-amplify/storage"
     }
   },
