@@ -1,0 +1,215 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Custom Auth Challenge',
+  description:
+    'Leverage Custom Auth with and without SRP, Allowing for a series of challenge and response cycles that can be customized to meet different requirements during sign in.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+You can use `defineAuth` and `defineFunction` to create an auth experience that uses `CUSTOM_WITH_SRP` and `CUSTOM_WITHOUT_SRP`. This can be accomplished by leveraging [Amazon Cognito's feature to define a custom auth challenge](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Custom-authentication-flow-and-challenges) and 3 triggers:
+
+1. [Create auth challenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-create-auth-challenge.html)
+2. [Define auth challenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-define-auth-challenge.html)
+3. [Verify auth challenge response](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-verify-auth-challenge-response.html) 
+
+To get started, install the `aws-lambda` package, which is used to define the handler type.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add --save-dev @types/aws-lambda
+```
+
+## Create auth challenge trigger
+
+To get started, create the first of the three triggers, `create-auth-challenge`. This is the trigger responsible for creating the reCAPTCHA challenge after a password is verified.
+
+```ts title="amplify/auth/create-auth-challenge/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const createAuthChallenge = defineFunction({
+  name: "create-auth-challenge",
+})
+```
+
+After creating the resource file, create the handler with the following contents:
+
+```ts title="amplify/auth/create-auth-challenge/handler.ts"
+import type { CreateAuthChallengeTriggerHandler } from "aws-lambda";
+
+export const handler: CreateAuthChallengeTriggerHandler = async (event) => {
+  if (event.request.challengeName === "CUSTOM_CHALLENGE") {
+    // Generate a random code for the custom challenge
+    const challengeCode = "123456";
+
+    event.response.challengeMetadata = "TOKEN_CHECK";
+
+    event.response.publicChallengeParameters = {
+      trigger: "true",
+      code: challengeCode,
+    };
+
+    event.response.privateChallengeParameters = { trigger: "true" };
+    event.response.privateChallengeParameters.answer = challengeCode;
+  }
+  return event;
+};
+```
+
+## Define auth challenge trigger
+
+Next, you will want to create the trigger responsible for _defining_ the auth challenge flow, `define-auth-challenge`.
+
+```ts title="amplify/auth/define-auth-challenge/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const defineAuthChallenge = defineFunction({
+  name: "define-auth-challenge",
+})
+```
+
+After creating the resource file, create the handler with the following contents if you are using `CUSTOM_WITHOUT_SRP`:
+
+```ts title="amplify/auth/define-auth-challenge/handler.ts"
+import type { DefineAuthChallengeTriggerHandler } from "aws-lambda"
+
+export const handler: DefineAuthChallengeTriggerHandler = async (event) => {
+  if (event.request.session.length === 0) {
+    // If it's the first auth stage
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = "CUSTOM_CHALLENGE";
+  } else if (
+    event.request.session.length === 1 &&
+    event.request.session[0].challengeName === "CUSTOM_CHALLENGE" &&
+    event.request.session[0].challengeResult === true
+  ) {
+    // If CUSTOM_CHALLENGE is passed
+    event.response.issueTokens = true;
+    event.response.failAuthentication = false;
+  } else {
+    // Fail auth if we don't have the expected challenge results
+    event.response.issueTokens = false;
+    event.response.failAuthentication = true;
+  }
+
+  return event;
+};
+```
+
+Or if you are using `CUSTOM_WITH_SRP`:
+
+```ts title="amplify/auth/define-auth-challenge/handler.ts"
+import type { DefineAuthChallengeTriggerHandler } from "aws-lambda"
+
+export const handler: DefineAuthChallengeTriggerHandler = async (event) => {
+  if (event.request.session.length === 0) {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = "SRP_A";
+  } else if (
+    event.request.session.length === 1 &&
+    event.request.session[0].challengeName === "SRP_A" &&
+    event.request.session[0].challengeResult === true
+  ) {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = "PASSWORD_VERIFIER";
+  } else if (
+    event.request.session.length === 2 &&
+    event.request.session[1].challengeName === "PASSWORD_VERIFIER" &&
+    event.request.session[1].challengeResult === true
+  ) {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = "CUSTOM_CHALLENGE";
+  } else if (
+    event.request.session.length === 3 &&
+    event.request.session[2].challengeName === "CUSTOM_CHALLENGE" &&
+    event.request.session[2].challengeResult === true
+  ) {
+    event.response.issueTokens = true;
+    event.response.failAuthentication = false;
+  } else {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = true;
+  }
+
+  return event;
+};
+```
+
+## Verify auth challenge response trigger
+
+Lastly, create the trigger responsible for _verifying_ the challenge response. For the purpose of this example, the verification check will always return true.
+
+```ts title="amplify/auth/verify-auth-challenge-response/resource.ts"
+import { defineFunction, secret } from "@aws-amplify/backend"
+
+export const verifyAuthChallengeResponse = defineFunction({
+  name: "verify-auth-challenge-response",
+})
+```
+
+After creating the resource file, create the handler with the following contents:
+
+```ts title="amplify/auth/verify-auth-challenge-response/handler.ts"
+import type { VerifyAuthChallengeResponseTriggerHandler } from "aws-lambda"
+
+export const handler: VerifyAuthChallengeResponseTriggerHandler = async (
+  event
+) => {
+  event.response.answerCorrect = true;
+  return event;
+};
+
+```
+
+## Configure auth resource
+
+Finally, import and set the three triggers on your auth resource:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+import { createAuthChallenge } from "./create-auth-challenge/resource"
+import { defineAuthChallenge } from "./define-auth-challenge/resource"
+import { verifyAuthChallengeResponse } from "./verify-auth-challenge-response/resource"
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  triggers: {
+    createAuthChallenge,
+    defineAuthChallenge,
+    verifyAuthChallengeResponse,
+  },
+})
+```
+
+After deploying the changes, whenever a user attempts to sign in with `CUSTOM_WITH_SRP` or `CUSTOM_WITHOUT_SRP`, the lambda challenges will be triggered.
