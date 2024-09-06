@@ -29,7 +29,7 @@ export const FunctionSignature = ({ sig }) => {
         />
       )}
 
-      {throws && (
+      {throws && throws.length > 0 && (
         <Throws throws={throws} sigName={`${sigObject.name}-${sigObject.id}`} />
       )}
 

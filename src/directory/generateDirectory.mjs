@@ -139,7 +139,14 @@ async function generateDirectory() {
 
   // Add directory entries into the generated directory
   // file for any api reference categories found
-  const platform = 'javascript';
+  const JS_PLATFORMS = [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ];
   const categoryKeys = Object.keys(API_CATEGORIES);
   categoryKeys.forEach((cat) => {
     const name = API_CATEGORIES[cat];
@@ -149,13 +156,13 @@ async function generateDirectory() {
       catNode.children.push({
         title: `API References`,
         description: `API References - ${name}`,
-        platforms: [platform],
+        platforms: JS_PLATFORMS,
         route: `${route}/reference`
       });
     }
   });
 
-  categoryKeys.forEach((cat) => {
+  Object.keys(API_SUB_CATEGORIES).forEach((cat) => {
     const name = API_SUB_CATEGORIES[cat];
     const route = `/[platform]/build-a-backend/add-aws-services/${cat}`;
     const catNode = findDirectoryNode(route, directoryCopy);
@@ -163,7 +170,7 @@ async function generateDirectory() {
       catNode.children.push({
         title: `API References`,
         description: `API References - ${name}`,
-        platforms: [platform],
+        platforms: JS_PLATFORMS,
         route: `${route}/reference`
       });
     }
