@@ -914,20 +914,6 @@ export const directory = {
             },
             {
               isExternal: true,
-              route: 'https://aws-amplify.github.io/amplify-js/api/',
-              title: 'API Documentation',
-              description: 'API references and type definitions.',
-              platforms: [
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'angular',
-                'vue'
-              ]
-            },
-            {
-              isExternal: true,
               route: 'https://aws-amplify.github.io/amplify-swift/docs/',
               title: 'API Documentation',
               description: 'API references and type definitions.',
