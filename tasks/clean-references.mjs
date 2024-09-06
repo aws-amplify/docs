@@ -1,4 +1,4 @@
-import references from '../src/references/apiReferences.json' assert { type: 'json' };
+import references from '../src/references/references.json' assert { type: 'json' };
 import { writeFileSync } from 'fs';
 import {
   API_CATEGORIES,
