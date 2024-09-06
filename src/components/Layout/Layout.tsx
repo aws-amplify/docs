@@ -181,7 +181,8 @@ export const Layout = ({
     const defaultHeadings = '.main > h2, .main > h3';
     const cliCommandHeadings =
       '.commands-list__command > h2, .commands-list__command > .commands-list__command__subcommands > h3';
-    const headingSelectors = [defaultHeadings, cliCommandHeadings];
+    const refHeadings = '.reference-page h2, .reference-page h3';
+    const headingSelectors = [defaultHeadings, cliCommandHeadings, refHeadings];
 
     const pageHeadings = document.querySelectorAll(headingSelectors.join(', '));
 

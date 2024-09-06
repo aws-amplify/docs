@@ -4,7 +4,7 @@ import { Promise } from './display/Promise';
 import { ApiComment } from './ApiComment';
 import references from '@/directory/apiReferences.json';
 
-export const FunctionReturn = ({ functionReturn }) => {
+export const FunctionReturn = ({ functionReturn, sigName }) => {
   const name = functionReturn.name;
   let display, description;
   if (name === 'Promise') {
@@ -22,7 +22,9 @@ export const FunctionReturn = ({ functionReturn }) => {
   }
   return (
     <View>
-      <MDXHeading level={3}>Returns:</MDXHeading>
+      <MDXHeading level={3} id={`${sigName}-Returns`}>
+        Returns:
+      </MDXHeading>
 
       {display}
 

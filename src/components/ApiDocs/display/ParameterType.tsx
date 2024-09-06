@@ -77,7 +77,6 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
       if (typeof typeType === 'object' && typeType !== null) {
         return <ParameterType typeData={typeType} />;
       }
-      console.log(typeType);
       return '';
   }
 };

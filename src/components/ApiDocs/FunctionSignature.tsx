@@ -16,15 +16,29 @@ export const FunctionSignature = ({ sig }) => {
   const returns = sigObject?.type;
   return (
     <View>
-      <MDXHeading level={2}>{sigObject.name}</MDXHeading>
+      <MDXHeading level={2} id={`${sigObject.name}-${sigObject.id}`}>
+        {sigObject.name}
+      </MDXHeading>
 
       {description && <ApiComment apiComment={description} />}
 
-      {parameters && <Parameters parameters={parameters} />}
+      {parameters && (
+        <Parameters
+          parameters={parameters}
+          sigName={`${sigObject.name}-${sigObject.id}`}
+        />
+      )}
 
-      {throws && <Throws throws={throws} />}
+      {throws && (
+        <Throws throws={throws} sigName={`${sigObject.name}-${sigObject.id}`} />
+      )}
 
-      {returns && <FunctionReturn functionReturn={returns} />}
+      {returns && (
+        <FunctionReturn
+          functionReturn={returns}
+          sigName={`${sigObject.name}-${sigObject.id}`}
+        />
+      )}
     </View>
   );
 };

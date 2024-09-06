@@ -4,11 +4,13 @@ import { ApiComment } from './ApiComment';
 import { ParameterType } from './display';
 import references from '@/directory/apiReferences.json';
 
-export const Parameters = ({ parameters }) => {
+export const Parameters = ({ parameters, sigName }) => {
   const paramObjects = parameters.map((id) => references[id]);
   return (
     <View>
-      <MDXHeading level={3}>Parameters:</MDXHeading>
+      <MDXHeading level={3} id={`${sigName}-Parameters`}>
+        Parameters:
+      </MDXHeading>
       <MDXTable>
         <thead>
           <tr>
