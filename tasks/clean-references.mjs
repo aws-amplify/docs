@@ -1,4 +1,4 @@
-import references from '../src/references/references.json' assert { type: 'json' };
+import references from '../src/references/raw-references.json' assert { type: 'json' };
 import { writeFileSync } from 'fs';
 import {
   API_CATEGORIES,
@@ -124,7 +124,7 @@ cleanReferences['categories'] = categoryNodes;
 
 try {
   writeFileSync(
-    'src/references/cleanReferences.json',
+    'src/references/references.json',
     JSON.stringify(cleanReferences, null, 2),
     'utf8'
   );
