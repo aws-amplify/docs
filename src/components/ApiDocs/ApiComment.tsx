@@ -1,7 +1,13 @@
+import { Fragment } from 'react';
 import { View } from '@aws-amplify/ui-react';
 
-export const ApiComment = ({ apiComment, codeBlock }) => {
-  if (apiComment.length === 0) return null;
+interface ApiCommentProps {
+  apiComment?: any[];
+  codeBlock?: boolean | undefined;
+}
+
+export const ApiComment = ({ apiComment, codeBlock }: ApiCommentProps) => {
+  if (!apiComment) return null;
   const firstItem = apiComment[0];
   if (!firstItem.text.replaceAll('-', '').trim()) {
     apiComment.shift();
@@ -14,10 +20,10 @@ export const ApiComment = ({ apiComment, codeBlock }) => {
       if (idx === 0 && codeBlock) {
         const words = text.split(' ');
         return (
-          <>
+          <Fragment key={`snippet-${idx}`}>
             <code>{words[0]}</code>
             {words.slice(1).join(' ')}
-          </>
+          </Fragment>
         );
       } else {
         return text;
