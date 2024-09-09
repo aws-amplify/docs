@@ -95,8 +95,9 @@ After creating the resource file, create the handler with the following contents
 import type { DefineAuthChallengeTriggerHandler } from "aws-lambda"
 
 export const handler: DefineAuthChallengeTriggerHandler = async (event) => {
+  // Check if this is the first authentication attempt
   if (event.request.session.length === 0) {
-    // If it's the first auth stage
+    // For the first attempt, we start with the custom challenge
     event.response.issueTokens = false;
     event.response.failAuthentication = false;
     event.response.challengeName = "CUSTOM_CHALLENGE";
@@ -105,11 +106,15 @@ export const handler: DefineAuthChallengeTriggerHandler = async (event) => {
     event.request.session[0].challengeName === "CUSTOM_CHALLENGE" &&
     event.request.session[0].challengeResult === true
   ) {
-    // If CUSTOM_CHALLENGE is passed
+    // If this is the second attempt (session length 1),
+    // it was a CUSTOM_CHALLENGE, and the result was successful
     event.response.issueTokens = true;
     event.response.failAuthentication = false;
   } else {
-    // Fail auth if we don't have the expected challenge results
+    // If we reach here, it means either:
+    // 1. The custom challenge failed
+    // 2. We've gone through more attempts than expected
+    // In either case, we fail the authentication
     event.response.issueTokens = false;
     event.response.failAuthentication = true;
   }
@@ -124,6 +129,7 @@ Or if you are using `CUSTOM_WITH_SRP`:
 import type { DefineAuthChallengeTriggerHandler } from "aws-lambda"
 
 export const handler: DefineAuthChallengeTriggerHandler = async (event) => {
+  // First attempt: Start with SRP_A (Secure Remote Password protocol, step A)
   if (event.request.session.length === 0) {
     event.response.issueTokens = false;
     event.response.failAuthentication = false;
@@ -133,6 +139,7 @@ export const handler: DefineAuthChallengeTriggerHandler = async (event) => {
     event.request.session[0].challengeName === "SRP_A" &&
     event.request.session[0].challengeResult === true
   ) {
+    // Second attempt: SRP_A was successful, move to PASSWORD_VERIFIER
     event.response.issueTokens = false;
     event.response.failAuthentication = false;
     event.response.challengeName = "PASSWORD_VERIFIER";
@@ -141,6 +148,7 @@ export const handler: DefineAuthChallengeTriggerHandler = async (event) => {
     event.request.session[1].challengeName === "PASSWORD_VERIFIER" &&
     event.request.session[1].challengeResult === true
   ) {
+    // Third attempt: PASSWORD_VERIFIER was successful, move to CUSTOM_CHALLENGE
     event.response.issueTokens = false;
     event.response.failAuthentication = false;
     event.response.challengeName = "CUSTOM_CHALLENGE";
@@ -149,9 +157,12 @@ export const handler: DefineAuthChallengeTriggerHandler = async (event) => {
     event.request.session[2].challengeName === "CUSTOM_CHALLENGE" &&
     event.request.session[2].challengeResult === true
   ) {
+    // Fourth attempt: CUSTOM_CHALLENGE was successful, authentication complete
     event.response.issueTokens = true;
     event.response.failAuthentication = false;
   } else {
+    // If we reach here, it means one of the challenges failed or
+    // we've gone through more attempts than expected
     event.response.issueTokens = false;
     event.response.failAuthentication = true;
   }
@@ -212,4 +223,4 @@ export const auth = defineAuth({
 })
 ```
 
-After deploying the changes, whenever a user attempts to sign in with `CUSTOM_WITH_SRP` or `CUSTOM_WITHOUT_SRP`, the lambda challenges will be triggered.
+After deploying the changes, whenever a user attempts to sign in with `CUSTOM_WITH_SRP` or `CUSTOM_WITHOUT_SRP`, the Lambda challenges will be triggered.
