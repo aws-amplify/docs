@@ -23,7 +23,7 @@ export const FunctionReturn = ({ functionReturn, sigName }) => {
   return (
     <View>
       <MDXHeading level={3} id={`${sigName}-Returns`}>
-        Returns:
+        Returns
       </MDXHeading>
 
       {display}

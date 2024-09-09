@@ -9,7 +9,7 @@ export const Parameters = ({ parameters, sigName }) => {
   return (
     <View>
       <MDXHeading level={3} id={`${sigName}-Parameters`}>
-        Parameters:
+        Parameters
       </MDXHeading>
       <MDXTable>
         <thead>

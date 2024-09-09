@@ -6,13 +6,12 @@ export const Throws = ({ throws, sigName }) => {
   return (
     <View>
       <MDXHeading level={3} id={`${sigName}-Throws`}>
-        Throws:
+        Throws
       </MDXHeading>
 
       <ul>
         {throws.map((error, i) => (
           <li key={i}>
-            {' '}
             <ApiComment apiComment={error.content} codeBlock={true} />{' '}
           </li>
         ))}
