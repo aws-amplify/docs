@@ -107,7 +107,7 @@
     "refresh": "yarn clean && yarn",
     "test:unit": "jest --projects jest.unit.config.js --coverage",
     "test:e2e": "jest --projects e2e/jest.e2e.config.js",
-    "dev": "next dev",
+    "dev": "yarn prebuild && next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
     "build": "next build",
