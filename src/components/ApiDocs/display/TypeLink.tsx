@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { TypeContext } from '@/components/Layout/Layout';
+import { TypeContext } from '@/components/ApiDocs/ApiModalProvider';
 import { View } from '@aws-amplify/ui-react';
 
 export interface LinkDataType {

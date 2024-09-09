@@ -13,7 +13,7 @@ export const Throws = ({ throws, sigName }) => {
         {throws.map((error, i) => (
           <li key={i}>
             {' '}
-            <ApiComment apiComment={error.content} />{' '}
+            <ApiComment apiComment={error.content} codeBlock={true} />{' '}
           </li>
         ))}
       </ul>

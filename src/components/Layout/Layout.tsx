@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactElement, createContext } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -36,15 +36,7 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
-import { ApiModal } from '../ApiDocs/display';
-import { LinkDataType } from '../ApiDocs/display/TypeLink';
-
-export const TypeContext = createContext({
-  setModalData: (data) => data,
-  modalOpen: () => {},
-  addBreadCrumb: (data) => data,
-  setBC: (data) => data
-});
+import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
 
 export const Layout = ({
   children,
@@ -69,37 +61,6 @@ export const Layout = ({
   url?: string;
   useCustomTitle?: boolean;
 }) => {
-  const [modalData, setModalData] = useState({});
-  const [showModal, setShowModal] = useState(false);
-  const [breadCrumbs, setBreadCrumbs] = useState<LinkDataType[]>([]);
-
-  const modalOpen = () => {
-    setShowModal(true);
-  };
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const addBreadCrumb = (bc) => {
-    breadCrumbs.push(bc);
-    setBreadCrumbs(breadCrumbs);
-  };
-
-  const setBC = (bc) => {
-    setBreadCrumbs(bc);
-  };
-
-  const clearBC = () => {
-    setBreadCrumbs([]);
-  };
-
-  const value = {
-    setModalData,
-    modalOpen,
-    addBreadCrumb,
-    setBC
-  };
-
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
@@ -263,14 +224,7 @@ export const Layout = ({
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
-            <TypeContext.Provider value={value}>
-              <ApiModal
-                data={modalData}
-                showModal={showModal}
-                close={closeModal}
-                breadCrumbs={breadCrumbs}
-                clearBC={clearBC}
-              />
+            <ApiModalProvider>
               <Modal isGen1={isGen1} />
               <View
                 className={classNames(
@@ -324,7 +278,7 @@ export const Layout = ({
                 </View>
                 <Footer hasTOC={showTOC} />
               </View>
-            </TypeContext.Provider>
+            </ApiModalProvider>
           </IconsProvider>
         </ThemeProvider>
       </LayoutProvider>
