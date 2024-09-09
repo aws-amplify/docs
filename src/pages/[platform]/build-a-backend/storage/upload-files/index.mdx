@@ -31,11 +31,11 @@ export function getStaticProps(context) {
 
 <InlineFilter filters={["javascript","nextjs","react"]}>
 
-You can implement upload functionality in your app by either using the Storage Manager UI component or further customizing the upload experience using the upload API.
+You can implement upload functionality in your app by either using the File Uploader UI component or further customizing the upload experience using the upload API.
 
-## Storage Manager React UI Component
+## File Uploader React UI Component
 
-Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component.
+Upload files from your app in minutes by using the cloud-connected File Uploader UI Component.
 
 ```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-react-storage aws-amplify
@@ -44,12 +44,12 @@ Then, use the component in your app.
 {/* Let's add explanations for the props - which are mandatory now? I know before it was maxFileCount and accessLevel */}
 
 ```tsx
-import { StorageManager } from '@aws-amplify/ui-react-storage';
+import { FileUploader } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
 
-export const DefaultStorageManagerExample = () => {
+export const DefaultFileUploaderExample = () => {
   return (
-    <StorageManager
+    <FileUploader
       acceptedFileTypes={['image/*']}
       path="public/"
       maxFileCount={1}
@@ -59,9 +59,9 @@ export const DefaultStorageManagerExample = () => {
 };
 ```
 
-![Showing Storage Manager UI component](/images/gen2/storage/upload-ui-component.png)
+![Showing File Uploader UI component](/images/gen2/storage/upload-ui-component.png)
 
-Learn more about how you can further customize the UI component by referring to the [Storage Manager documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager).
+Learn more about how you can further customize the UI component by referring to the [File Uploader documentation](https://ui.docs.amplify.aws/react/connected-components/storage/fileuploader).
 
 </InlineFilter>
 
