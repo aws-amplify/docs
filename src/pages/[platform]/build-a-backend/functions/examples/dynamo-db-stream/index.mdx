@@ -82,7 +82,9 @@ Lastly, create DynamoDB table as event source in the `amplify/backend.ts` file:
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
-import { StartingPosition } from "aws-cdk-lib/aws-lambda";
+import { Stack } from "aws-cdk-lib";
+import { Policy, PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
+import { StartingPosition, EventSourceMapping } from "aws-cdk-lib/aws-lambda";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { myDynamoDBFunction } from "./functions/dynamoDB-function/resource";
