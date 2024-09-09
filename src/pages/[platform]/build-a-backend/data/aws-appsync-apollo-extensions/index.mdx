@@ -23,7 +23,7 @@ export function getStaticProps(context) {
   };
 }
 
-AWS AppSync Apollo Extensions provides a seamless way to connect to your AWS AppSync while using the Apollo client. Apollo client is an open-source GraphQL client. 
+AWS AppSync Apollo Extensions provide a seamless way to connect to your AWS AppSync backend using Apollo client, an open-source GraphQL client. 
 
 <InlineFilter filters={["swift"]}>
 
@@ -40,20 +40,27 @@ To learn more about Apollo, see https://www.apollographql.com/docs/kotlin.
 
 ## Features
 
-AWS AppSync Apollo Extensions provide AWS AppSync authorizers to be used with the Apollo client to make it simple to configure runtime interceptors and apply the correct authorization payloads to your GraphQL operations.
+AWS AppSync Apollo Extensions provide AWS AppSync authorizers to be used with the Apollo client to make it simple to apply the correct authorization payloads to your GraphQL operations.
 
 The Amplify library provides components to facilitate configuring the authorizers with Apollo client by providing configuration values to connect to your Amplify Data backend.
 
+### Install the AWS AppSync Apollo Extensions library
+
 <InlineFilter filters={["android"]}>
 
-### Install the AWS AppSync Apollo library
-
-Add `apollo-appsync` dependency to your app/build.gradle.kts file:
+To connect Apollo to AppSync without using Amplify, add the `apollo-appsync` dependency to your app/build.gradle.kts file. If your
+application is using Amplify Android, add the `apollo-appsync-amplify` dependency instead.
 
 ```kotlin title="app/build.gradle.kts"
 dependencies {
     // highlight-start
+    // Connect Apollo to AppSync without using Amplify
     implementation("com.amplifyframework:apollo-appsync:1.0.0")    
+    // highlight-end
+    // or
+    // highlight-start
+    // Connect Apollo to AppSync, delegating some implementation details to Amplify
+    implementation("com.amplifyframework:apollo-appsync-amplify:1.0.0")    
     // highlight-end
 }
 ```
@@ -61,8 +68,6 @@ dependencies {
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
-
-### Install the AWS AppSync Apollo library
 
 Add AWS AppSync Apollo Extensions into your project using Swift Package Manager.
 
@@ -75,7 +80,7 @@ Enter its GitHub URL (`https://github.com/aws-amplify/aws-appsync-apollo-extensi
 
 ### Connecting to AWS AppSync with Apollo client
 
-AWS AppSync supports the following [authorization modes](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html)
+AWS AppSync supports the following [authorization modes](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html):
 
 #### API_KEY
 
@@ -92,9 +97,25 @@ let interceptor = AppSyncInterceptor(authorizer)
 
 <InlineFilter filters={["android"]}>
 
+An `ApiKeyAuthorizer` can be used with a hardcoded API key, by fetching the key from some source, or reading it from `amplify_outputs.json`:
+
 ```kotlin
+// highlight-start
+// Use a hard-coded API key
 val authorizer = ApiKeyAuthorizer("[API_KEY]")
-val interceptor = AppSyncInterceptor(authorizer)
+//highlight-end
+// or
+// highlight-start
+// Fetch the API key from some source. This function may be called many times,
+// so it should implement appropriate caching internally.
+val authorizer = ApiKeyAuthorizer { fetchApiKey() }
+//highlight-end
+// or
+// highlight-start
+// Using ApolloAmplifyConnector to read API key from amplify_outputs.json
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val authorizer = connector.apiKeyAuthorizer()
+//highlight-end
 ```
 
 </InlineFilter>
@@ -134,10 +155,30 @@ let interceptor = AppSyncInterceptor(authorizer)
 
 <InlineFilter filters={["android"]}>
 
-Create the AuthTokenAuthorizer with this method.
+You can use `AmplifyApolloConnector` to get an `AuthTokenAuthorizer` instance that supplies the token for the current logged-in Amplify user, or implement the token fetching yourself.
 
 ```kotlin
-val authorizer = AuthTokenAuthorizer { ApolloAmplifyConnector.fetchLatestCognitoAuthToken() }
+// highlight-start
+// Using ApolloAmplifyConnector to get the authorizer that connects to your 
+// Amplify instance
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val authorizer = connector.authTokenAuthorizer()
+//highlight-end
+// or
+// highlight-start
+// Using the ApolloAmplifyConnector companion function
+val authorizer = AuthTokenAuthorizer { 
+  ApolloAmplifyConnector.fetchLatestCognitoAuthToken() 
+}
+//highlight-end
+// or
+// highlight-start
+// Use your own token fetching. This function may be called many times,
+// so it should implement appropriate caching internally.
+val authorizer = AuthTokenAuthorizer {
+  fetchLatestAuthToken()
+}
+//highlight-end
 ```
 
 </InlineFilter>
@@ -163,10 +204,23 @@ let authorizer = IAMAuthorizer(
 
 <InlineFilter filters={["android"]}>
 
-If you are using Amplify Auth, you can use the following method for AWS_IAM auth
+If you are using `apollo-appsync-amplify`, you can use the `ApolloAmplifyConnector` to delegate token fetching and request 
+signing to Amplify.
 
 ```kotlin
-val authorizer = IamAuthorizer { ApolloAmplifyConnector.signAppSyncRequest(it, "us-east-1") }
+// highlight-start
+// Using ApolloAmplifyConnector to get the authorizer that connects to your 
+// Amplify instance
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val authorizer = connector.iamAuthorizer()
+//highlight-end
+// or
+// highlight-start
+// Using the ApolloAmplifyConnector companion function
+val authorizer = IamAuthorizer { 
+  ApolloAmplifyConnector.signAppSyncRequest(it, "us-east-1") 
+}
+//highlight-end
 ```
 
 </InlineFilter>
@@ -313,12 +367,24 @@ func createApolloClient() throws -> ApolloClient {
 
 <InlineFilter filters={["android"]}>
 
+When using `apollo-appsync`, you create `AppSyncEndpoint` and `AppSyncAuthorizer` instances, and pass them to the ApolloClient's Builder extension function.
+
 ```kotlin
 val endpoint = AppSyncEndpoint("<your_appsync_endpoint>")
 val authorizer = /* your Authorizer */
 
 val apolloClient = ApolloClient.Builder()
     .appSync(endpoint, authorizer)
+    .build()
+```
+
+When using `apollo-appsync-amplify`, you can get the endpoint and authorizer from an `ApolloAmplifyConnector` to connect to your Amplify backend.
+
+```kotlin
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+
+val apolloClient = ApolloClient.Builder()
+    .appSync(connector.endpoint, connector.apiKeyAuthorizer()) // or .authTokenAuthorizer(), or .iamAuthorizer()
     .build()
 ```
 
