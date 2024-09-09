@@ -36,9 +36,9 @@ export const TypeLink = ({ linkData, breadCrumbs }: TypeLinkInterface) => {
     return <View as="span">{linkData.name}</View>;
   } else {
     return (
-      <a className={className} onClick={onClickHandler}>
+      <button className={className} onClick={onClickHandler}>
         {name}
-      </a>
+      </button>
     );
   }
 };
