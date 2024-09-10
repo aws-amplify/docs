@@ -1,9 +1,21 @@
 import { API_CATEGORIES, API_SUB_CATEGORIES } from '../data/api-categories.mjs';
 import { JS_PLATFORMS } from '@/data/platforms';
 
-export const getApiStaticPath = (sub) => {
+type StaticPathType = {
+  params: {
+    platform: string;
+    category: string;
+  };
+};
+
+type ApiStaticPathType = {
+  paths: StaticPathType[];
+  fallback: boolean;
+};
+
+export const getApiStaticPath = (isSubcategory: boolean): ApiStaticPathType => {
   const paths: any = [];
-  const categories = sub ? API_SUB_CATEGORIES : API_CATEGORIES;
+  const categories = isSubcategory ? API_SUB_CATEGORIES : API_CATEGORIES;
 
   Object.keys(categories).forEach((catKey) => {
     JS_PLATFORMS.forEach((platKey) => {
