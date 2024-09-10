@@ -368,6 +368,7 @@ await signInWithRedirect({
 </InlineFilter>
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+
 {/* @TODO refactor with connect-your-frontend/sign-in */}
 ## Set up your frontend
 
@@ -385,6 +386,29 @@ import { signInWithRedirect } from 'aws-amplify/auth';
 await signInWithRedirect({
   provider: 'Apple'
 });
+```
+
+### Redirect URLs
+
+_Sign in_ & _Sign out_ redirect URL(s) are used to redirect end users after the sign in or sign out operation has occurred. You may want to specify multiple URLs for various use-cases such as having different URLs for development/ production or redirect users to an intermediate URL before returning them to the app. 
+
+#### Specifying a redirect URL on sign out
+If you have multiple sign out redirect URLs configured, you may choose to override the default behavior of selecting a redirect URL and provide the one of your choosing when calling `signOut`. The provided redirect URL should match at least one of the configured redirect URLs. If no redirect URL is provided to `signOut`, one will be selected based on the current app domain.
+
+```ts
+import { Amplify } from 'aws-amplify';
+import { signOut } from 'aws-amplify/auth';
+
+// Assuming the following URLS were provided manually or via the Amplify configuration file,
+// redirectSignOut: 'http://localhost:3000/,https://authProvider/logout?logout_uri=https://mywebsite.com/'
+
+signOut({
+  global: false,
+  oauth: {
+    redirectUrl: 'https://authProvider/logout?logout_uri=https://mywebsite.com/'
+  }
+});
+
 ```
 
 </InlineFilter>
@@ -428,6 +452,53 @@ Hub.listen("auth", ({ payload }) => {
 When you import and use the `signInWithRedirect` function, it will add a listener as a side effect that will complete the external sign in when an end user is redirected back to your app. This works well in a single-page application but in a multi-page application, you might get redirected to a page that doesn't include the listener that was originally added as a side-effect. Hence you must include the specific OAuth listener on your login success page.
 
 </Accordion>
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+## Set up your frontend
+
+<Callout info>
+
+If you are using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers) with Amplify, this feature works without any additional code. The guide below is for writing your own implementation.
+
+</Callout>
+
+Use the `signInWithRedirect` API to initiate sign-in with an external identity provider.
+
+```ts title="src/my-client-side-js.js"
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+signInWithRedirect({
+  provider: 'Apple'
+});
+
+```
+
+### Redirect URLs
+
+_Sign in_ & _Sign out_ redirect URL(s) are used to redirect end users after the sign in or sign out operation has occurred. You may want to specify multiple URLs for various use-cases such as having different URLs for development/ production or redirect users to an intermediate URL before returning them to the app. 
+
+#### Specifying a redirect URL on sign out
+If you have multiple sign out redirect URLs configured, you may choose to override the default behavior of selecting a redirect URL and provide the one of your choosing when calling `signOut`. The provided redirect URL should match at least one of the configured redirect URLs. If no redirect URL is provided to `signOut`, the first item from the the configured redirect URLs list that does not contain a HTTP nor HTTPS prefix will be picked.
+
+```ts
+import { Amplify } from 'aws-amplify';
+import { signOut } from 'aws-amplify/auth';
+
+// Assuming the following URLS were provided manually or via the Amplify configuration file,
+// redirectSignOut: 'myDevApp://,https://authProvider/logout?logout_uri=myDevApp://'
+
+signOut({
+  global: false,
+  oauth: {
+    redirectUrl: 'https://authProvider/logout?logout_uri=myDevApp://'
+  }
+});
+
+```
+<Callout> Irrespective of whether a `redirectUrl` is provided to `signOut`, a URL that does not contain http or https is expected to be present in the configured redirect URL list. This is because iOS requires an appScheme when creating the web session. </Callout>
+
 </InlineFilter>
 
 ## Next steps
