@@ -1,19 +1,27 @@
-import {
-  View,
-  Flex,
-  Heading,
-  Card,
-  Divider,
-  Button
-} from '@aws-amplify/ui-react';
+import { Badge, View, Flex, Grid, Card, Button } from '@aws-amplify/ui-react';
+
+import { ApiModalBreadcrumbs } from './ApiModalBreadcrumbs';
 import { IconX } from '../../Icons';
 import { ParameterType } from './ParameterType';
 import { ApiComment } from '../ApiComment';
-import { TypeLink } from './TypeLink';
+import { LinkDataType, TypeLinkInterface } from './TypeLink';
 import references from '@/directory/apiReferences.json';
 
-export const ApiModal = ({ data, showModal, close, breadCrumbs, clearBC }) => {
-  let name = data.name;
+interface ApiModalInterface {
+  data: any;
+  showModal?: boolean;
+  close: () => void;
+  breadCrumbs: LinkDataType[];
+  clearBC: () => void;
+}
+
+export const ApiModal = ({
+  data,
+  showModal = false,
+  close,
+  breadCrumbs,
+  clearBC
+}: ApiModalInterface) => {
   if (data.type === 'reference') {
     data = references[data.target];
   }
@@ -24,6 +32,7 @@ export const ApiModal = ({ data, showModal, close, breadCrumbs, clearBC }) => {
     close();
   };
 
+  let name = data.name;
   let typeParameters = data.typeArguments;
   if (data?.typeObject?.type == 'alias' && data.typeObject.typeParameters) {
     typeParameters = data.typeObject.typeParameters;
@@ -40,6 +49,7 @@ export const ApiModal = ({ data, showModal, close, breadCrumbs, clearBC }) => {
   if (params && params.length) {
     name += `<${params.join(',')}>`;
   }
+
   const typeData = data.typeObject || data.value;
   // look for objects or interfaces to render additional data
   const displayProperties = {};
@@ -66,60 +76,64 @@ export const ApiModal = ({ data, showModal, close, breadCrumbs, clearBC }) => {
   }
   recursivelyParseType(typeData, displayProperties);
 
+  const breadcrumbItems = breadCrumbs.length
+    ? breadCrumbs.reduce((acc, breadcrumb, index) => {
+        const bcArray = breadCrumbs.slice(0, index + 1);
+        acc.push({ linkData: breadcrumb, breadCrumbs: bcArray });
+        return acc;
+      }, [] as TypeLinkInterface[])
+    : [];
+
   return (
-    <View display={showModal ? 'flex' : 'none'} className="api-modal-container">
-      <View>
-        <Card
-          className="api-modal"
-          borderRadius="medium"
-          variation="outlined"
-          textAlign="center"
-          position="relative"
-        >
-          <View padding="xs" fontSize="large">
-            <Flex className={'bread-crumbs'}>
-              {breadCrumbs.length &&
-                breadCrumbs.reduce((acc, bc, idx) => {
-                  const bcArray = breadCrumbs.slice(0, idx + 1);
-                  const next = <TypeLink linkData={bc} breadCrumbs={bcArray} />;
-                  if (idx > 0) {
-                    acc.push(' > ');
-                  }
-                  acc.push(next);
-                  return acc;
-                }, [])}
-            </Flex>
-            <Button
-              onClick={closeModal}
-              size="small"
-              variation="link"
-              className={'close-button'}
-            >
-              <IconX />
-            </Button>
-            <Flex justifyContent="space-between">
-              <Heading padding="large" level={2}>
-                {name}
-              </Heading>
-            </Flex>
-            <Divider padding="xs" />
-            <Flex justifyContent={'center'}>
-              <View as={'code'} fontSize="large" className={'parameter'}>
-                <ParameterType typeData={data.type || data} />
-              </View>
-            </Flex>
-            <View className={'description-wrapper'}>
-              <View className={'description'}>
-                {description && (
-                  <>
-                    <ApiComment apiComment={description} />
-                  </>
-                )}
-              </View>
+    <View
+      aria-label={`${name} API Reference`}
+      className={`api-modal-container${showModal ? ' api-modal-container--open' : ''}`}
+    >
+      <Card as="dialog" className="api-modal" aria-modal="true">
+        <Flex className="api-model__header">
+          <ApiModalBreadcrumbs items={breadcrumbItems} />
+          <Button
+            onClick={closeModal}
+            size="small"
+            variation="link"
+            className="api-modal__close"
+          >
+            <IconX />
+          </Button>
+        </Flex>
+
+        <Grid as="dl" className="api-modal__content">
+          <dt>Name:</dt>
+          <Flex as="dd" className="api-modal__content__name">
+            <Badge size="small">
+              {data.type?.type ? data.type.type : 'interface'}{' '}
+            </Badge>
+            <span className="api-modal__api-name">{name}</span>
+          </Flex>
+          <dt>Value:</dt>
+          {/** This dd is not scrollable if the value is only a reference, because
+           * then it is a single link to an item (avoids having to tab again). It is
+           * scrollable for others because the code might overflow the container on smaller
+           * viewports.
+           */}
+          <dd
+            className="api-modal__api-value"
+            tabIndex={data.type?.type === 'reference' ? -1 : 0}
+          >
+            <View as="code" className="parameter">
+              <ParameterType typeData={data.type || data} />
             </View>
-          </View>
-        </Card>
-      </View>
+          </dd>
+          {description ? (
+            <>
+              <dt>Description:</dt>
+              <dd>
+                <ApiComment apiComment={description} />
+              </dd>
+            </>
+          ) : null}
+        </Grid>
+      </Card>
     </View>
   );
 };
