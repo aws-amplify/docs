@@ -160,7 +160,11 @@ in addition to a password in order to verify the identity of users. These challe
 or dynamic challenge questions. The `CUSTOM_WITH_SRP` flow requires a password when calling `signIn`. Both of 
 these flows map to the `CUSTOM_AUTH` flow in Cognito.
 
-To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
+<Callout>
+
+To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito. Please visit [AWS Amplify Custom Auth Challenge example](/[platform]/build-a-backend/functions/examples/custom-auth-flows/) for set up instructions. 
+
+</Callout>
 
 <Callout>
 
@@ -189,8 +193,6 @@ if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
   await confirmSignIn({ challengeResponse });
 }
 ```
-
-To create a CUSTOM_AUTH challenge with a Lambda Trigger, please visit [AWS Amplify Custom Auth Challenge example](/[platform]/build-a-backend/functions/examples/custom-auth-flows/) for setup instructions. 
 
 ### CAPTCHA authentication
 
