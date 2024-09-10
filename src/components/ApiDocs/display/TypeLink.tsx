@@ -11,7 +11,7 @@ export interface LinkDataType {
 
 export interface TypeLinkInterface {
   linkData: LinkDataType;
-  breadCrumbs?: [];
+  breadCrumbs?: LinkDataType[];
 }
 
 export const TypeLink = ({ linkData, breadCrumbs }: TypeLinkInterface) => {
