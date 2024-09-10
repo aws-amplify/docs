@@ -86,8 +86,6 @@ export const ApiModal = ({
       }, [] as TypeLinkInterface[])
     : [];
 
-  // Global typescript package objects won't have a value to display
-
   return (
     <View
       className={`api-modal-container${showModal ? ' api-modal-container--open' : ''}`}
@@ -121,7 +119,6 @@ export const ApiModal = ({
             </Badge>
             <span className="api-modal__api-name">{name}</span>
           </Flex>
-
           <dt>Value:</dt>
           {/** This dd is not scrollable if the value is only a reference, because
            * then it is a single link to an item (avoids having to tab again). It is
@@ -136,7 +133,6 @@ export const ApiModal = ({
               <ParameterType typeData={data.type || data} />
             </View>
           </dd>
-
           {description ? (
             <>
               <dt>Description:</dt>
