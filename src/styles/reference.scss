@@ -57,17 +57,6 @@
   align-items: baseline;
   dt {
     color: var(--amplify-colors-font-secondary);
-    /** Visually hide labels on small viewports */
-    // position: absolute;
-    // width: 1px;
-    // height: 1px;
-    // padding: 0;
-    // margin: -1px;
-    // fill: transparent;
-    // overflow: hidden;
-    // clip: rect(0, 0, 0, 0);
-    // white-space: nowrap;
-    // border-width: 0;
   }
   dd {
     padding-inline-start: var(--amplify-space-small);
@@ -99,12 +88,6 @@
     grid-template-columns: auto 1fr;
     gap: var(--amplify-space-small);
     dt {
-      position: relative;
-      white-space: normal;
-      width: auto;
-      height: auto;
-      margin: 0;
-      clip: none;
       text-align: end;
     }
   }
