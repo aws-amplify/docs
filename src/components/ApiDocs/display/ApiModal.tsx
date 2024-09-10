@@ -8,19 +8,21 @@ import { LinkDataType, TypeLinkInterface } from './TypeLink';
 import references from '@/directory/apiReferences.json';
 
 interface ApiModalInterface {
-  data: any;
-  showModal?: boolean;
-  close: () => void;
   breadCrumbs: LinkDataType[];
   clearBC: () => void;
+  close: () => void;
+  data: any;
+  modalRef: React.RefObject<HTMLDialogElement>;
+  showModal?: boolean;
 }
 
 export const ApiModal = ({
-  data,
-  showModal = false,
-  close,
   breadCrumbs,
-  clearBC
+  clearBC,
+  close,
+  data,
+  modalRef,
+  showModal = false
 }: ApiModalInterface) => {
   if (data.type === 'reference') {
     data = references[data.target];
@@ -84,15 +86,24 @@ export const ApiModal = ({
       }, [] as TypeLinkInterface[])
     : [];
 
+  // Global typescript package objects won't have a value to display
+
   return (
     <View
-      aria-label={`${name} API Reference`}
       className={`api-modal-container${showModal ? ' api-modal-container--open' : ''}`}
     >
-      <Card as="dialog" className="api-modal" aria-modal="true">
+      <Card
+        as="dialog"
+        aria-label={`${name} API Reference`}
+        className="api-modal"
+        aria-modal="true"
+        ref={modalRef}
+        tabIndex={-1}
+      >
         <Flex className="api-model__header">
           <ApiModalBreadcrumbs items={breadcrumbItems} />
           <Button
+            aria-label={`Close ${name} API Reference modal`}
             onClick={closeModal}
             size="small"
             variation="link"
@@ -110,6 +121,7 @@ export const ApiModal = ({
             </Badge>
             <span className="api-modal__api-name">{name}</span>
           </Flex>
+
           <dt>Value:</dt>
           {/** This dd is not scrollable if the value is only a reference, because
            * then it is a single link to an item (avoids having to tab again). It is
@@ -124,6 +136,7 @@ export const ApiModal = ({
               <ParameterType typeData={data.type || data} />
             </View>
           </dd>
+
           {description ? (
             <>
               <dt>Description:</dt>

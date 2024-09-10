@@ -31,6 +31,10 @@
   max-width: 90vw;
   max-height: 90vh;
   border-radius: var(--amplify-radii-medium);
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
+  }
 }
 
 .api-model__header {
@@ -44,6 +48,10 @@
   overflow: scroll;
   align-items: baseline;
   gap: 2px;
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
+  }
 }
 
 .api-modal__breadcrumbs__current {

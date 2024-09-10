@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { TypeContext } from '@/components/ApiDocs/ApiModalProvider';
 import { View } from '@aws-amplify/ui-react';
 
@@ -15,19 +15,30 @@ export interface TypeLinkInterface {
 }
 
 export const TypeLink = ({ linkData, breadCrumbs }: TypeLinkInterface) => {
-  const { setModalData, modalOpen, addBreadCrumb, setBC } =
-    useContext(TypeContext);
+  const {
+    setModalData,
+    openModal,
+    addBreadCrumb,
+    setBC,
+    setModalTriggerRef,
+    modalTriggerRef
+  } = useContext(TypeContext);
   const name = linkData.name;
   const className = `type-link kind-${linkData.kind}`;
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   const onClickHandler = () => {
+    /** If the modal trigger button hasn't been set, set it here */
+    if (!modalTriggerRef) {
+      setModalTriggerRef(btnRef);
+    }
     setModalData(linkData);
     if (breadCrumbs) {
       setBC(breadCrumbs);
     } else {
       addBreadCrumb(linkData);
     }
-    modalOpen();
+    openModal();
   };
   if (
     linkData.type === 'intrinsic' ||
@@ -36,7 +47,7 @@ export const TypeLink = ({ linkData, breadCrumbs }: TypeLinkInterface) => {
     return <View as="span">{linkData.name}</View>;
   } else {
     return (
-      <button className={className} onClick={onClickHandler}>
+      <button className={className} ref={btnRef} onClick={onClickHandler}>
         {name}
       </button>
     );
