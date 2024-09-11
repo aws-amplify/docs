@@ -32,3 +32,23 @@ export function getStaticProps(context) {
 Amplify AI sections are under construction
 
 </Callout>
+
+In this guide, you will learn how to set up Amplify AI. This includes building Conversation and Generation routes, and securing access to these routes with authorization rules.
+
+Before you begin, you will need:
+
+- [Node.js](https://nodejs.org/) v18.16.0 or later
+- [npm](https://www.npmjs.com/) v6.14.4 or later
+- [git](https://git-scm.com/) v2.14.1 or later
+
+With Amplify AI, you can define Conversation and Generation routes backed by an AWS AppSync API and Amazon Bedrock.
+
+## Building your AI backend
+If you've run `npm create amplify@latest` already, you should see an `amplify/data/resource/ts` file, which is the central location to configure your AI backend. Within the `schema` object, you define Conversation routes (`a.conversation({})`) and Generation routes (`a.generation({})`), and can integrate them seamlessly with existing Amplify Data schema objects.
+
+```ts title="amplify/data/resources.ts"
+import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
+
+const schema = a.schema({
+});
+```
