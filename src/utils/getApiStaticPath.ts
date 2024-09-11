@@ -13,8 +13,10 @@ type ApiStaticPathType = {
   fallback: boolean;
 };
 
+// This utility function generates static paths for two templates
+// /[platform]/build-a-backend/[category]/references and /[platform]/build-a-backend/add-aws-services/[category]/references
 export const getApiStaticPath = (isSubcategory: boolean): ApiStaticPathType => {
-  const paths: any = [];
+  const paths: StaticPathType[] = [];
   const categories = isSubcategory ? API_SUB_CATEGORIES : API_CATEGORIES;
 
   Object.keys(categories).forEach((catKey) => {
