@@ -33,6 +33,39 @@ export function getStaticProps(context) {
 
 We are actively developing migration tooling to aid in transitioning your project from Gen 1 to Gen 2. Until then, we recommend you continue working with your Gen 1 Amplify project.  We remain committed to supporting both Gen 1 and Gen 2 for the foreseeable future. For new projects, we recommend adopting Gen 2 to take advantage of its [enhanced capabilities](/[platform]/how-amplify-works/concepts/). Meanwhile, customers on Gen 1 will continue to receive support for high-priority bugs and essential security updates.
 
+### Stack Refactor (Work in progress)
+
+The Amplify team has built a suite of tools to assist current Gen 1 customers in their migration to the Gen 2 Developer Experience using a new process called "Stack Refactor".  Behind the scenes, Amplify uses [AWS CloudFormation](https://aws.amazon.com/pm/cloudformation/) to build "stacks" that model and provision AWS resources using code. This allows you to create, configure, or update components of your application that use and connect to AWS Services in an orderly and predictable way, treating infrastructure as code.  Stacks are defined using CloudFormation templates (which are JSON or YAML files) that describe the desired state of your infrastructure. 
+
+We are currently working to support the ability to migrate backend resources for the Authentication, Data, Storage, and Functions libraries and their associated CloudFormation stacks. This will enable developers to migrate to the Gen 2 by simply moving the backend resources from "Stack A" (tied to the Gen 1 App) to a newly made "Stack B" (for your Gen 2 app) within a single operation.  It will also offer transactional guarantees that if one move fails, the whole operation will fail and ensure there are no orphaned resources or stack drift.  
+
+#### Getting started
+
+The first step in the process will be to ensure your current Gen 1 stack has been updated with the most recent local changes.  If you've created an app using Gen 1 before, then the `amplify push` command will be a familiar way to do this.  To ensure your app is ready to begin the migration process, run the the following command to have the Amplify CLI detect if there are any changes that are not synced:
+
+```bash
+amplify status
+```
+
+If there are any backend resources that show a status of "Create" or "Updated" within the `Operation` table within the CLI printout, consider whether you'd like these changes to be pushed before continuing further.  
+
+#### Preparing for migration
+
+Once you've confirmed that the current backend configuration and stack is ready to be migrated, prepare your app by ensuring all changes are synched by pushing one final time via the following CLI command: 
+
+```bash
+amplify push
+```
+
+#### What will happen behind the scenes?
+
+Stack refactoring will provide the tooling needed that will read the Amplify project files within a Gen 1 app and generate the necessary code to provide the same functionality within a Gen 2 app.  The key differences between Gen 1 and Gen 2 apps can be found within our [Gen 2 Concepts](https://docs.amplify.aws/react/how-amplify-works/concepts/) page, but the main concept here is that stack refactoring will take care of the codegen for you.  Once the codegen has been completed, it is recommended that you test the Gen 2 functionality first before proceeding further with the migration of the stacks.
+
+#### Generating Gen 2 code
+
+To start creating the necessary code for Gen 2, you'll need to run the following command: 
+
+(Work in progress, more to come soon!)
 
 ## Gen 1 vs. Gen 2 feature matrix
 
