@@ -273,12 +273,12 @@ let url = try await Amplify.Storage.getURL(
 )
 ```
 
-### More `getURL` options
+### All `getURL` options
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| expires | Integer | Number of seconds before the URL expires |
-| bucket | StorageBucket | The bucket in which the file is stored |
+| expires | Int | Number of seconds before the URL expires |
+| bucket | StorageBucket | The bucket in which the object is stored |
 
 </InlineFilter>
 
@@ -304,9 +304,8 @@ Future<void> getDownloadUrl() async {
 
 </InlineFilter>
 
-## Download to a file
-
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+## Download to a file
 
 Use the `downloadData` API to download the file locally.
 
@@ -321,6 +320,7 @@ const { body, eTag } = await downloadData({
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
+## Download to a file
 
 Use the `downloadFile` API to download the file locally on the client.
 
@@ -386,6 +386,8 @@ download
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
+## Download files
+### Download to a local file
 
 Use the `downloadFile` API to download the file locally on the client.
 
@@ -446,6 +448,57 @@ let resultSink = downloadTask
 </Block>
 </BlockSwitcher>
 
+### Download to data in memory
+
+You can download to in-memory buffer [Data](https://developer.apple.com/documentation/foundation/data) object with `Amplify.Storage.downloadData`:
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path")
+)
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+let data = try await downloadTask.value
+print("Completed: \(data)")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path")
+)
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ### Download from a specified bucket
 
 You can also perform a download operation from a specific bucket by providing the `bucket` option
@@ -455,9 +508,18 @@ You can also perform a download operation from a specific bucket by providing th
 You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
 
 ```swift
+// Download to File
 let downloadTask = Amplify.Storage.downloadFile(
     path: .fromString("public/example/path"),
     local: downloadToFileUrl,
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+
+// Download to Data
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
     options: .init(
         bucket: .fromOutputs(name: "secondBucket")
     )
@@ -469,9 +531,21 @@ let downloadTask = Amplify.Storage.downloadFile(
 You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
 
 ```swift
+// Download to File
 let downloadTask = Amplify.Storage.downloadFile(
     path: .fromString("public/example/path"),
     local: downloadToFileUrl,
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+
+// Download to Data
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
     options: .init(
         bucket: .fromBucketInfo(.init(
             bucketName: "another-bucket-name",
@@ -486,6 +560,7 @@ let downloadTask = Amplify.Storage.downloadFile(
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
+## Download to a file
 
 You can download a file to a local directory using `Amplify.Storage.downloadFile`.
 
@@ -561,61 +636,6 @@ try {
   console.log('Error : ', error);
 }
 ```
-</InlineFilter>
-
-<InlineFilter filters={["swift"]}>
-
-## Download to data in memory
-
-You can download to in-memory buffer [Data](https://developer.apple.com/documentation/foundation/data) object with `Amplify.Storage.downloadData`:
-
-<BlockSwitcher>
-
-<Block name="Async/Await">
-
-```swift
-let downloadTask = Amplify.Storage.downloadData(
-    path: .fromString("public/example/path")
-)
-Task {
-    for await progress in await downloadTask.progress {
-        print("Progress: \(progress)")
-    }
-}
-let data = try await downloadTask.value
-print("Completed: \(data)")
-```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-let downloadTask = Amplify.Storage.downloadData(
-    path: .fromString("public/example/path")
-)
-let progressSink = downloadTask
-    .inProcessPublisher
-    .sink { progress in
-        print("Progress: \(progress)")
-    }
-
-let resultSink = downloadTask
-    .resultPublisher
-    .sink {
-        if case let .failure(storageError) = $0 {
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-        }
-    }
-    receiveValue: { data in
-        print("Completed: \(data)")
-    }
-```
-
-</Block>
-
-</BlockSwitcher>
-
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
@@ -1118,42 +1138,7 @@ final operation = Amplify.Storage.downloadData(
 
 <InlineFilter filters={["swift"]}>
 
-### Download from a specified bucket
-
-You can also perform a download operation from a specific bucket by providing the `bucket` option
-
-<BlockSwitcher>
-<Block name="From Outputs">
-You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
-
-```swift
-let downloadTask = Amplify.Storage.downloadData(
-    path: .fromString("public/example/path"),
-    options: .init(
-        bucket: .fromOutputs(name: "secondBucket")
-    )
-)
-```
-</Block>
-
-<Block name="From Bucket Info">
-You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
-
-```swift
-let downloadTask = Amplify.Storage.downloadData(
-    path: .fromString("public/example/path"),
-    options: .init(
-        bucket: .fromBucketInfo(.init(
-            bucketName: "another-bucket-name",
-            region: "another-bucket-region")
-        )    
-    )
-)
-```
-</Block>
-</BlockSwitcher>
-
-## Pause, resume, and cancel downloads
+### Pause, resume, and cancel downloads
 
 Calls to `downloadData` or `downloadFile` return a reference to the task that is actually performing the download.
 
@@ -1170,6 +1155,12 @@ downloadTask.cancel()
 Download tasks are run using `URLSessionTask` instances internally. You can learn more about them in [Apple's official documentation](https://developer.apple.com/documentation/foundation/urlsessiontask).
 
 </Callout>
+
+### All `download` options
+
+| Option | Type | Description |
+| --- | --- | --- |
+| bucket | StorageBucket | The bucket in which the object should be stored |
 
 </InlineFilter>
 

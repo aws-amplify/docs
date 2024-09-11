@@ -1462,12 +1462,13 @@ Upload tasks are run using `URLSessionTask` instances internally. You can learn 
 
 <InlineFilter filters={["swift"]}>
 
-## More upload options
+### All `upload` options
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| metadata | Dictionary | Metadata for the object to store. |
+| metadata | [String: String] | Metadata for the object to store. |
 | contentType | String | The standard MIME type describing the format of the object to store. |
+| bucket | StorageBucket | The bucket in which the object should be stored |
 
 </InlineFilter>
 

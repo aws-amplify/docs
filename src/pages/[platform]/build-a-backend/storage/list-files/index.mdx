@@ -938,11 +938,13 @@ receiveValue: { listResult in
 
 </BlockSwitcher>
 
-### More `list` options
+### All `list` options
 
 | Option | Type | Description |
 | --- | --- | --- |
+| subpathStrategy | SubpathStrategy | The strategy to use when listing contents from subpaths |
 | pageSize | UInt | Number between 1 and 1,000 that indicates the limit of how many entries to fetch when retrieving file lists from the server |
+| bucket | StorageBucket | The bucket in which the objects are stored |
 | nextToken | String | String indicating the page offset at which to resume a listing. |
 
 
