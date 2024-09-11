@@ -41,9 +41,12 @@ Before you begin, you will need:
 - [npm](https://www.npmjs.com/) v6.14.4 or later
 - [git](https://git-scm.com/) v2.14.1 or later
 
+You will also need an AWS Account with access to the Bedrock Foundation Model(s) you want to use. You can do that by going in to the [Bedrock console and requesting access](https://console.aws.amazon.com/bedrock/home#/modelaccess).
+
 With Amplify AI, you can define Conversation and Generation routes backed by an AWS AppSync API and Amazon Bedrock.
 
 ## Building your AI backend
+
 If you've run `npm create amplify@latest` already, you should see an `amplify/data/resource/ts` file, which is the central location to configure your AI backend. Within the `schema` object, you define Conversation routes (`a.conversation({})`) and Generation routes (`a.generation({})`), and can integrate them seamlessly with existing Amplify Data schema objects.
 
 ```ts title="amplify/data/resources.ts"
@@ -54,7 +57,7 @@ const schema = a.schema({
   chat: a.conversation({
     aiModel: a.ai.model('Claude 3 Haiku'),
     systemPrompt: 'You are a helpful assistant',
-  })
+  }),
 
   // This adds a new generation route to your Amplify Data backend.
   generateRecipe: a.generation({
@@ -63,7 +66,7 @@ const schema = a.schema({
   })
   .arguments({
     description: a.string(),
-  }),
+  })
   // This specifies the return type of the generation route.
   .returns(
     a.customType({
@@ -72,6 +75,7 @@ const schema = a.schema({
       instructions: a.string(),
     })
   )
+  // only logged in users can access this
   .authorization((allow) => allow.authenticated()),
 });
 ```
@@ -105,7 +109,7 @@ npm add aws-amplify @aws-amplify/ui-react @aws-amplify/ui-react-ai
 ### Conversation Route UI
 Then in your React code, import and use the `AIConversation` component to start a conversation with your AI route:
 
-```ts title="src/page.tsx"
+```tsx title="src/page.tsx"
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { createAIHooks, AIConversation } from '@aws-amplify/ui-react-ai';
@@ -125,12 +129,10 @@ export default function Page() {
 
   return (
     <Authenticator>
-       {({ signOut, user }) => (
-        <AIConversation
-            messages={messages}
-            handleSendMessage={sendMessage}
-        />
-      )}
+      <AIConversation
+        messages={messages}
+        handleSendMessage={sendMessage}
+      />
     </Authenticator>
   );
 }
@@ -138,7 +140,7 @@ export default function Page() {
 
 ### Generation Route UI
 
-```ts title="src/page.tsx"
+```tsx title="src/page.tsx"
 import { createAIHooks } from "@aws-amplify/ui-react-ai";
 import { generateClient } from "aws-amplify/api";
 import type { Schema } from "../amplify/data/resource";
