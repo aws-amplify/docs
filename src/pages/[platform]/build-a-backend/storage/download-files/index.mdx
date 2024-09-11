@@ -237,13 +237,14 @@ RxAmplify.Storage.getUrl(StoragePath.fromString("public/example"), options).subs
 </Block>
 </BlockSwitcher>
 
-### More `getURL` options
+### All `getURL` options
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| bucket | StorageBucket | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets)  |
+| bucket | StorageBucket | The bucket in which the object is stored |
 | expires | Integer | Number of seconds before the URL expires |
 | useAccelerateEndpoint | Boolean | Flag to configure use of acceleration mode |
+| validateObjectExistence | Boolean | Flag to check if the file exists |
 
 </InlineFilter>
 
@@ -928,6 +929,12 @@ download
 
 </Block>
 </BlockSwitcher>
+
+### All `download` options
+
+| Option | Type | Description |
+| --- | --- | --- |
+| bucket | StorageBucket | The bucket in which the object is stored |
 
 </InlineFilter>
 
