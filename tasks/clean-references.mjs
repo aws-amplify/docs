@@ -5,22 +5,46 @@ import {
   API_SUB_CATEGORIES
 } from '../src/data/api-categories.mjs';
 
+/**
+ * The purpose of this script is to create generate an object that only contains
+ * the desired category nodes and every node needed to generate the api documentation
+ * for these nodes.  This is done by iterating over the needed category nodes and
+ * then recursively adding every node found into cleanReferences.
+ */
+
 const cleanReferences = {};
 const categoryNodes = [];
 
-const categories = Object.values(API_CATEGORIES).concat(
-  Object.values(API_SUB_CATEGORIES)
-);
-
 function recursivelyPopulateNodes(node) {
+  /**
+   * Ids to look for and populate are
+   * target
+   * type
+   * typeArguments[]
+   * types[]
+   * declaration->children[]
+   * elementType -> target
+   * children[]
+   * signatures[]
+   * parameters[]
+   *
+   * The above list are the ids that are looked for within each node, if any of these ids
+   * are found then the node is added to cleanReferences and the newly found node is traversed.
+   */
   if (!node) return;
+
+  // add the current node to cleanReferences
   if (node.id) {
     if (cleanReferences.hasOwnProperty(node.id)) return;
     cleanReferences[node.id] = node;
   }
+
+  // populate "target"
   if (node.target && typeof node.target === 'number') {
     recursivelyPopulateNodes(references[node.target]);
   }
+
+  // populate "type"
   if (node.type) {
     if (typeof node.type === 'number') {
       const nextNode = references[node.type];
@@ -29,6 +53,8 @@ function recursivelyPopulateNodes(node) {
       recursivelyPopulateNodes(node.type);
     }
   }
+
+  // populate "typeArguments"
   if (node.typeArguments && Array.isArray(node.typeArguments)) {
     node.typeArguments.forEach((arg) => {
       if (typeof arg === 'number') {
@@ -38,6 +64,8 @@ function recursivelyPopulateNodes(node) {
       }
     });
   }
+
+  // populate "types"
   if (node.types && Array.isArray(node.types)) {
     node.types.forEach((arg) => {
       if (typeof arg === 'number') {
@@ -47,6 +75,8 @@ function recursivelyPopulateNodes(node) {
       }
     });
   }
+
+  // populate "declaration.children"
   if (
     node.declaration &&
     node.declaration.children &&
@@ -60,6 +90,8 @@ function recursivelyPopulateNodes(node) {
       }
     });
   }
+
+  // populate "elementType"
   if (node.elementType && node.elementType.target) {
     const elemType = node.elementType.target;
     if (typeof elemType === 'number') {
@@ -68,6 +100,8 @@ function recursivelyPopulateNodes(node) {
       recursivelyPopulateNodes(elemType);
     }
   }
+
+  // populate "children"
   if (node.children && Array.isArray(node.children)) {
     node.children.forEach((arg) => {
       if (typeof arg === 'number') {
@@ -77,6 +111,8 @@ function recursivelyPopulateNodes(node) {
       }
     });
   }
+
+  // populate "signatures"
   if (node.signatures && Array.isArray(node.signatures)) {
     node.signatures.forEach((arg) => {
       if (typeof arg === 'number') {
@@ -86,6 +122,8 @@ function recursivelyPopulateNodes(node) {
       }
     });
   }
+
+  // populate "parameters"
   if (node.parameters && Array.isArray(node.parameters)) {
     node.parameters.forEach((arg) => {
       if (typeof arg === 'number') {
@@ -95,20 +133,13 @@ function recursivelyPopulateNodes(node) {
       }
     });
   }
-
-  /**
-   * Ids to look for and populate are
-   * target
-   * typeArguments[]
-   * types[]
-   * declaration->children[]
-   * elementType -> target
-   * children[]
-   * signatures[]
-   * parameters[]
-   */
 }
 
+const categories = Object.values(API_CATEGORIES).concat(
+  Object.values(API_SUB_CATEGORIES)
+);
+
+// iterate over all categories and populate all nodes
 categories.forEach((catName) => {
   const catNode = references.categories.filter((cat) => {
     return cat.name === catName;
@@ -122,6 +153,8 @@ categories.forEach((catName) => {
 
 cleanReferences['categories'] = categoryNodes;
 
+// write the cleaned references object, this will happen as part of the
+// update_references workflow and will be committed.
 try {
   writeFileSync(
     'src/references/references.json',

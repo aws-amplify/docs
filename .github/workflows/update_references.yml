@@ -30,7 +30,7 @@ jobs:
 
         # Set branch name to be used as environment variable
       - name: Set Branch Name
-        run: echo "BRANCH_NAME=$(echo $(date +%s))" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=$(echo update-ref-$(date +%s))" >> $GITHUB_ENV
 
         # Create new branch, download, and commit changes to the new branch
       - name: Create new branch
