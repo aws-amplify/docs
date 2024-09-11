@@ -29,6 +29,9 @@ export function getStaticProps() {
   };
 }
 
+Secure Remote Password (SRP) is a cryptographic protocol enabling password-based authentication without transmitting the password over the network. In Amazon Cognito custom authentication flows, CUSTOM_WITH_SRP incorporates SRP steps for enhanced security, while CUSTOM_WITHOUT_SRP bypasses these for a simpler process. The choice between them depends on your application's security needs and performance requirements. 
+This guide demonstrates how to implement both types of custom authentication flows using AWS Amplify with Lambda triggers.
+
 You can use `defineAuth` and `defineFunction` to create an auth experience that uses `CUSTOM_WITH_SRP` and `CUSTOM_WITHOUT_SRP`. This can be accomplished by leveraging [Amazon Cognito's feature to define a custom auth challenge](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Custom-authentication-flow-and-challenges) and 3 triggers:
 
 1. [Create auth challenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-create-auth-challenge.html)
