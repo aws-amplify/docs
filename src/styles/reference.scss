@@ -17,20 +17,33 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  z-index: 5;
   &--open {
     display: flex;
   }
 }
 
+.api-modal-backdrop {
+  position: fixed;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+}
+
 .api-modal {
+  z-index: 2;
   width: 800px;
   max-width: 90vw;
   max-height: 90vh;
   border-radius: var(--amplify-radii-medium);
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
+  }
 }
 
 .api-model__header {
@@ -44,6 +57,10 @@
   overflow: scroll;
   align-items: baseline;
   gap: 2px;
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
+  }
 }
 
 .api-modal__breadcrumbs__current {

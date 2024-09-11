@@ -1,3 +1,4 @@
+import { useEffect, useCallback } from 'react';
 import { Badge, View, Flex, Grid, Card, Button } from '@aws-amplify/ui-react';
 
 import { ApiModalBreadcrumbs } from './ApiModalBreadcrumbs';
@@ -8,29 +9,52 @@ import { LinkDataType, TypeLinkInterface } from './TypeLink';
 import references from '@/directory/apiReferences.json';
 
 interface ApiModalInterface {
-  data: any;
-  showModal?: boolean;
-  close: () => void;
   breadCrumbs: LinkDataType[];
   clearBC: () => void;
+  close: () => void;
+  data: any;
+  modalRef: React.RefObject<HTMLDialogElement>;
+  showModal?: boolean;
 }
 
 export const ApiModal = ({
-  data,
-  showModal = false,
-  close,
   breadCrumbs,
-  clearBC
+  clearBC,
+  close,
+  data,
+  modalRef,
+  showModal = false
 }: ApiModalInterface) => {
   if (data.type === 'reference') {
     data = references[data.target];
   }
   const description = data?.comment?.summary;
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     clearBC();
     close();
-  };
+  }, [clearBC, close]);
+
+  const handleEscape = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    },
+    [closeModal]
+  );
+
+  // Use esc key to close modal
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (showModal && modal) {
+      window.addEventListener('keyup', handleEscape);
+
+      return () => {
+        window.removeEventListener('keyup', handleEscape);
+      };
+    }
+  }, [showModal, handleEscape, modalRef]);
 
   let name = data.name;
   let typeParameters = data.typeArguments;
@@ -86,13 +110,21 @@ export const ApiModal = ({
 
   return (
     <View
-      aria-label={`${name} API Reference`}
       className={`api-modal-container${showModal ? ' api-modal-container--open' : ''}`}
     >
-      <Card as="dialog" className="api-modal" aria-modal="true">
+      <View className="api-modal-backdrop" onClick={closeModal}></View>
+      <Card
+        as="dialog"
+        aria-label={`${name} API Reference`}
+        className="api-modal"
+        aria-modal="true"
+        ref={modalRef}
+        tabIndex={-1}
+      >
         <Flex className="api-model__header">
           <ApiModalBreadcrumbs items={breadcrumbItems} />
           <Button
+            aria-label={`Close ${name} API Reference modal`}
             onClick={closeModal}
             size="small"
             variation="link"

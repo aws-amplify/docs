@@ -22,7 +22,7 @@ export const ApiModalBreadcrumbs = ({ items }: ApiModalBreadcrumbs) => {
       ref={navRef}
       aria-label="API Type breadcrumbs"
       className="api-modal__breadcrumbs"
-      tabIndex={0}
+      tabIndex={items && items.length > 1 ? 0 : -1}
     >
       {items
         ? items.map((item, index) => {
