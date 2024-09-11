@@ -33,12 +33,164 @@ Amplify AI sections are under construction
 
 </Callout>
 
-
 ## Tools as AppSync Queries
 
+Tools are functions/APIs that LLMs can choose to invoke to get information about the world. This allows the LLM to answer questions with information now included in their training data -- like the weather, application-specific, and even user-specific data. The default way you can define **tools** for the assistant to use is with data models and custom queries in your data schema.
+
+In your **`amplify/data/resource.ts`** file, add a custom query.
+
+```ts title="amplify/data/resource.ts"
+// highlight-start
+import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/backend";
+// highlight-end
+
+// highlight-start
+export const getWeather = defineFunction({
+  name: 'getWeather',
+  entry: 'getWeather.ts'
+});
+// highlight-end
+
+const schema = a.schema({
+  // highlight-start
+  getWeather: a.query()
+    .arguments({ city: a.string() })
+    .returns(a.customType({ value: a.integer(), unit: a.string() }))
+    .handler(a.handler.function(getWeather))
+    .authorization((allow) => allow.authenticated()),
+  // highlight-end
+
+  chat: a.conversation({
+    aiModel: a.ai.model('Claude 3 Haiku'),
+    systemPrompt: 'You are a helpful assistant',
+    // highlight-start
+    tools: [
+      {
+        query: a.ref('getWeather'),
+        description: 'Provides the weather for a given city'
+      },
+    ]
+    // highlight-end
+  }),
+});
+```
+
+Now create a new **`amplify/data/getWeather.ts`** file.
+
+```ts title="amplify/data/getWeather.ts"
+export const handler = async () => {
+  // This returns a mock value, but you can connect to any API, database, or other service
+  return {
+    value: 42,
+    unit: 'C'
+  };
+}
+```
+
+Lastly, update your **`amplify/backend.ts`** file to include the newly defined `getWeather` function.
+
+```ts title="amplify/backend.ts"
+// highlight-start
+import { getWeather } from "./data/resource";
+// highlight-end
+
+defineBackend({
+  auth,
+  data,
+  // highlight-start
+  getWeather
+  // highlight-end
+});
+```
 
 ## Connecting to AWS services
 
 
-## Connecting to external services
+## Custom Lambda Tools
 
+Conversation routes can also have completely custom tools defined in a Lambda handler.
+
+Create your custom conversation handler function.
+
+```ts title="amplify/custom-conversation-handler.ts"
+import { defineConversationHandlerFunction } from '@aws-amplify/backend-ai/conversation';
+
+export const customConversationHandler = defineConversationHandlerFunction({
+    name: 'customConversationHandlerFunction',
+    entry: './custom_handler.ts',
+    models: [
+        {
+            modelId: 'anthropic.claude-3-haiku-20240307-v1:0',
+        },
+    ],
+});
+```
+
+Define the custom handler function implementation.
+
+```ts title="amplify/custom-conversation-handler/custom_handler.ts"
+
+import {
+    ConversationTurnEvent,
+    ExecutableTool,
+    handleConversationTurnEvent,
+} from '@aws-amplify/ai-constructs/conversation/runtime';
+import { ToolResultContentBlock } from '@aws-sdk/client-bedrock-runtime';
+
+const thermometer: ExecutableTool = {
+    name: 'thermometer',
+    description: 'Returns current temperature in a city',
+    execute: (input): Promise<ToolResultContentBlock> => {
+        if (input && typeof input === 'object' && 'city' in input) {
+            if (input.city === 'Seattle') {
+                return Promise.resolve({
+                    text: `75F`,
+                });
+            }
+        }
+        return Promise.resolve({
+            text: 'unknown'
+        })
+    },
+    inputSchema: {
+        json: {
+            type: 'object',
+            'properties': {
+                'city': {
+                    'type': 'string',
+                    'description': 'The city name'
+                }
+            },
+            required: ['city']
+        }
+    }
+};
+
+/**
+ * Handler with simple tool.
+ */
+export const handler = async (event: ConversationTurnEvent) => {
+    await handleConversationTurnEvent(event, {
+        tools: [thermometer],
+    });
+};
+```
+
+Finally, update your conversation route definition to use the custom handler.
+
+```ts title="amplify/data/resource.ts"
+import { a, defineData } from '@aws-amplify/backend';
+// highlight-start
+import { customConversationHandler } from '../custom-conversation-handler/resource.js';
+// highlight-end
+
+const schema = a.schema({
+  customToolChat: a.conversation({
+    aiModel: a.aiModel.anthropic.claude3Haiku(),
+    systemPrompt: 'You are a helpful chatbot. Respond in 20 words or less.',
+    // highlight-start
+    handler: customConversationHandler,
+    // highlight-end
+  }),
+});
+```
