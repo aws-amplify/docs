@@ -1,3 +1,4 @@
+import { useEffect, useCallback } from 'react';
 import { Badge, View, Flex, Grid, Card, Button } from '@aws-amplify/ui-react';
 
 import { ApiModalBreadcrumbs } from './ApiModalBreadcrumbs';
@@ -29,10 +30,31 @@ export const ApiModal = ({
   }
   const description = data?.comment?.summary;
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     clearBC();
     close();
-  };
+  }, [clearBC, close]);
+
+  const handleEscape = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    },
+    [closeModal]
+  );
+
+  // Use esc key to close modal
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (showModal && modal) {
+      window.addEventListener('keyup', handleEscape);
+
+      return () => {
+        window.removeEventListener('keyup', handleEscape);
+      };
+    }
+  }, [showModal, handleEscape, modalRef]);
 
   let name = data.name;
   let typeParameters = data.typeArguments;
@@ -90,6 +112,7 @@ export const ApiModal = ({
     <View
       className={`api-modal-container${showModal ? ' api-modal-container--open' : ''}`}
     >
+      <View className="api-modal-backdrop" onClick={closeModal}></View>
       <Card
         as="dialog"
         aria-label={`${name} API Reference`}
