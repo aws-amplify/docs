@@ -5,7 +5,7 @@
   border-top: 1px solid var(--amplify-colors-neutral-20);
 
   &.desktop-toc {
-    @media (max-width: $mq-mobile) {
+    @media (max-width > $mq-mobile) {
       display: none;
     }
   }
@@ -59,7 +59,7 @@
   }
 }
 
-@media (min-width: $toc-min) {
+@media (min-width: $mq-mobile) {
   .toc {
     width: var(--layout-toc-width);
     background: var(--amplify-colors-background-primary);
