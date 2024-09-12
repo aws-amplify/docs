@@ -41,9 +41,13 @@ Before you begin, you will need:
 - [npm](https://www.npmjs.com/) v6.14.4 or later
 - [git](https://git-scm.com/) v2.14.1 or later
 
+You will also need an AWS Account with access to the Bedrock Foundation Model(s) you want to use. You can do that by going in to the [Bedrock console and requesting access](https://console.aws.amazon.com/bedrock/home#/modelaccess).
+
 With Amplify AI, you can define Conversation and Generation routes backed by an AWS AppSync API and Amazon Bedrock.
 
 ## Building your AI backend
+
+
 If you've run `npm create amplify@latest` already, you should see an `amplify/data/resource/ts` file, which is the central location to configure your AI backend. Within the `schema` object, you define Conversation routes (`a.conversation({})`) and Generation routes (`a.generation({})`), and can integrate them seamlessly with existing Amplify Data schema objects.
 
 ```ts title="amplify/data/resources.ts"
@@ -52,3 +56,139 @@ import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 const schema = a.schema({
 });
 ```
+  // This will add a new conversation route to your Amplify Data backend.
+  chat: a.conversation({
+    aiModel: a.ai.model('Claude 3 Haiku'),
+    systemPrompt: 'You are a helpful assistant',
+  }),
+
+  // This adds a new generation route to your Amplify Data backend.
+  generateRecipe: a.generation({
+    aiModel: a.ai.model('Claude 3 Haiku'),
+    systemPrompt: 'You are a helpful assistant that generates recipes.',
+  })
+  .arguments({
+    description: a.string(),
+  })
+  // This specifies the return type of the generation route.
+  .returns(
+    a.customType({
+      name: a.string(),
+      ingredients: a.string().array(),
+      instructions: a.string(),
+    })
+  )
+  // only logged in users can access this
+  .authorization((allow) => allow.authenticated()),
+});
+```
+
+To deploy these resources to your cloud sandbox, run the following CLI command in your terminal:
+
+```bash title="Terminal"
+npx ampx sandbox
+```
+
+## Connect your application code the the AI routes
+
+Once the cloud sandbox is up and running, it will also create an `amplify_outputs.json` file, which includes relevant connection information to your AI routes.
+
+To connect your frontend code to your backend, you need to:
+
+1. Configure the Amplify library with the Amplify client configuration file (`amplify_outputs.json`).
+2. Generate a new API client from the Amplify library.
+3. Make an API request with end-to-end type-safety.
+
+## AI Route UI
+
+_NOTE: If you are not using React in your frontend, check out the section for using the Amplify Javascript libraries._
+
+First, install the Amplify client library to your project:
+
+```bash title="Terminal"
+npm add aws-amplify @aws-amplify/ui-react @aws-amplify/ui-react-ai
+```
+
+### Conversation Route UI
+Then in your React code, import and use the `AIConversation` component to start a conversation with your AI route:
+
+```tsx title="src/page.tsx"
+import { generateClient } from "aws-amplify/data";
+import { Authenticator } from "@aws-amplify/ui-react";
+import { createAIHooks, AIConversation } from '@aws-amplify/ui-react-ai';
+import type { Schema } from "../amplify/data/resource";
+
+const client = generateClient<Schema>({ authMode: 'userPool' });
+const { useAIConversation } = createAIHooks(client);
+
+export default function Page() {
+  const [
+    {
+      data: { messages },
+    },
+    sendMessage,
+  ] = useAIConversation('chat');
+  // 'chat' is based on the key for the conversation route in your schema.
+
+  return (
+    <Authenticator>
+      <AIConversation
+        messages={messages}
+        handleSendMessage={sendMessage}
+      />
+    </Authenticator>
+  );
+}
+```
+
+### Generation Route UI
+
+```tsx title="src/page.tsx"
+import { createAIHooks } from "@aws-amplify/ui-react-ai";
+import { generateClient } from "aws-amplify/api";
+import type { Schema } from "../amplify/data/resource";
+
+const client = generateClient<Schema>({ authMode: "userPool" });
+const { useAIGeneration, useAIConversation } = createAIHooks(client);
+
+export default function Page() {
+  const [description, setDescription] = React.useState("");
+  const [{ data, isLoading, hasError }, generateRecipe] =
+    useAIGeneration("generateRecipe");
+
+  const handleClick = async () => {
+    generateRecipe({ description });
+  };
+
+  return (
+    <Flex direction="column">
+      <Flex direction="row">
+        <TextAreaField
+          autoResize
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          label="Description"
+        />
+        <Button onClick={handleClick}>Generate recipe</Button>
+      </Flex>
+      {isLoading ? (
+        <Loader variation="linear" />
+      ) : (
+        <>
+          <Heading level={2}>{data?.name}</Heading>
+          <View as="ul">
+            {data?.ingredients?.map((ingredient) => (
+              <Text as="li" key={ingredient}>
+                {ingredient}
+              </Text>
+            ))}
+          </View>
+          <Text>{data?.instructions}</Text>
+        </>
+      )}
+    </Flex>
+  );
+}
+```
+
+## Next steps
