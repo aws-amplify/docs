@@ -33,9 +33,36 @@ Amplify AI sections are under construction
 
 </Callout>
 
-## Tools as AppSync Queries
+Large language models (LLMs) are stateless text generators, they have no knowledge of the real world and can't access data on their own. For example, if you asked an LLM "what is the weather in San Jose?" it would not be able to tell you because it does not know what the weather is today. Tools (sometimes referred to as function calling) are functions/APIs that LLMs can choose to invoke to get information about the world. This allows the LLM to answer questions with information now included in their training data -- like the weather, application-specific, and even user-specific data. 
 
-Tools are functions/APIs that LLMs can choose to invoke to get information about the world. This allows the LLM to answer questions with information now included in their training data -- like the weather, application-specific, and even user-specific data. The default way you can define **tools** for the assistant to use is with data models and custom queries in your data schema.
+When an LLM is prompted with tools, it can choose to respond to a prompt saying that it wants to call a tool to get some data or take an action on the user's behalf. That data is then added to the conversation history so the LLM can see what data was returned. Here is a simplified flow of what happens:
+
+1. User: "what is the weather in san jose?"
+2. Code: Call LLM with this message: "what is the weather in san jose?", and let it know it has access to a tool called `getWeather` that takes an input like `{ city: string }`
+3. LLM: "I want to call the 'getWeather' tool with the input `{city: 'san jose'}`"
+4. Code: Run `getWeather({city: 'san jose'})` and append the results to the conversation history so far and call the LLM again
+5. LLM: "In san jose it is 72 degrees and sunny"
+
+<Callout>
+
+Note: the LLM itself is not actually executing any function or code. It responds with a special message saying that it wants to call that tool with specific input. That tool then needs to called and the results returned to the LLM in a message history. For more information on tools, see the [Bedrock docs on tool use](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html)
+
+</Callout>
+
+
+
+## Tools in data schema
+
+The default way you can define tools for the LLM to use is with data models and custom queries in your data schema. When you define tools in your data schema, Amplify will take care of all of the heavy lifting required to properly implement such as:
+
+* **Describing the tools to the LLM:** because each tool is a custom query or data model that is defined in the schema, Amplify knows the input shape needed for that tool
+* **Invoking the tool with the right parameters:** after the LLM responds it wants to call a tool, the code that initially called the LLM needs to then run that code.
+* **Maintaining the caller identity and authorization:** we don't want users to have access to more data through the LLM than they normally would, so when the LLM wants to invoke a tool we will call it with the user's identity. For example, if the LLM wanted to invoke a query to list Todos, it would only return the todos of the user and not everyone's todos.
+* **Re-prompting the LLM:** after the tool is executed and returns a response, the LLM needs to be re-prompted with the tool results. This could process could be repeated several times if the LLM needs to invoke several tools to get the necessary data to respond to the user.
+
+
+
+### 1. Add a custom query
 
 In your **`amplify/data/resource.ts`** file, add a custom query.
 
@@ -75,10 +102,16 @@ const schema = a.schema({
 });
 ```
 
+### 2. Implement the custom query
+
 Now create a new **`amplify/data/getWeather.ts`** file.
 
 ```ts title="amplify/data/getWeather.ts"
-export const handler = async () => {
+import type { Schema } from "./resource";
+
+export const handler: Schema["getWeather"]["functionHandler"] = async (
+  event
+) => {
   // This returns a mock value, but you can connect to any API, database, or other service
   return {
     value: 42,
@@ -86,6 +119,8 @@ export const handler = async () => {
   };
 }
 ```
+
+### 3. Add query function to backend
 
 Lastly, update your **`amplify/backend.ts`** file to include the newly defined `getWeather` function.
 
@@ -103,30 +138,96 @@ defineBackend({
 });
 ```
 
-## Connecting to AWS services
+
+## Connecting to external APIs
+
+### 1. Create a secret
+
+Most APIs will have an API key you use to call their API. Get an API key from the service you are using and then store that API key in a [secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/). If you are running code locally you can add a secret with the command:
+
+```
+npx ampx sandbox secret set [name]
+```
+
+where `[name]` is the name of the secret you want to set. 
+
+
+### 2. Add secret to function definition
+
+In the function definition you can add environment variables and pass in secrets using the `secret` function. Make sure the input to the `secret` function is the name you entered above.
+
+```ts title="amplify/backend.ts"
+import {
+  type ClientSchema,
+  a,
+  defineData,
+  defineFunction,
+  // highlight-start
+  secret,
+  // highlight-end
+} from "@aws-amplify/backend";
+
+export const getWeather = defineFunction({
+  name: "getWeather",
+  entry: "./getWeather.ts",
+  // highlight-start
+  environment: {
+    API_KEY: secret("API_KEY"),
+  },
+  // highlight-end
+});
+```
+
+### 3. Use the secret to call the API
+
+```ts title="amplify/data/getWeather.ts"
+// highlight-start
+import { env } from "$amplify/env/getWeather";
+// highlight-end
+import type { Schema } from "./resource";
+
+export const handler: Schema["getWeather"]["functionHandler"] = async (
+  event
+) => {
+  // highlight-start
+  const res = await fetch(
+    `http://api.weatherstack.com/current?access_key=${
+      env.API_KEY
+    }&units=f&query=${encodeURIComponent(event.arguments.city ?? "")}`
+  );
+
+  const weather = await res.json();
+
+  return {
+    value: weather.current.temperature,
+    unit: weather.request.unit,
+  };
+  // highlight-end
+};
+```
 
 
 ## Custom Lambda Tools
 
 Conversation routes can also have completely custom tools defined in a Lambda handler.
 
-Create your custom conversation handler function.
+### 1. Create your custom conversation handler function.
 
-```ts title="amplify/custom-conversation-handler.ts"
+```ts title="amplify/custom-conversation-handler/resource.ts"
 import { defineConversationHandlerFunction } from '@aws-amplify/backend-ai/conversation';
 
 export const customConversationHandler = defineConversationHandlerFunction({
-    name: 'customConversationHandlerFunction',
-    entry: './custom_handler.ts',
-    models: [
-        {
-            modelId: 'anthropic.claude-3-haiku-20240307-v1:0',
-        },
-    ],
+  name: 'customConversationHandlerFunction',
+  entry: './custom_handler.ts',
+  models: [
+    {
+      modelId: 'anthropic.claude-3-haiku-20240307-v1:0',
+    },
+  ],
 });
 ```
 
-Define the custom handler function implementation.
+### 2. Define the custom handler function implementation.
 
 ```ts title="amplify/custom-conversation-handler/custom_handler.ts"
 
@@ -138,43 +239,46 @@ import {
 import { ToolResultContentBlock } from '@aws-sdk/client-bedrock-runtime';
 
 const thermometer: ExecutableTool = {
-    name: 'thermometer',
-    description: 'Returns current temperature in a city',
-    execute: (input): Promise<ToolResultContentBlock> => {
-        if (input && typeof input === 'object' && 'city' in input) {
-            if (input.city === 'Seattle') {
-                return Promise.resolve({
-                    text: `75F`,
-                });
-            }
-        }
+  name: 'thermometer',
+  description: 'Returns current temperature in a city',
+  execute: (input): Promise<ToolResultContentBlock> => {
+    if (input && typeof input === 'object' && 'city' in input) {
+      if (input.city === 'Seattle') {
         return Promise.resolve({
-            text: 'unknown'
-        })
-    },
-    inputSchema: {
-        json: {
-            type: 'object',
-            'properties': {
-                'city': {
-                    'type': 'string',
-                    'description': 'The city name'
-                }
-            },
-            required: ['city']
-        }
+          text: `75F`,
+        });
+      }
     }
+    return Promise.resolve({
+      text: 'unknown'
+    })
+  },
+  inputSchema: {
+    json: {
+      type: 'object',
+      'properties': {
+        'city': {
+          'type': 'string',
+          'description': 'The city name'
+        }
+      },
+      required: ['city']
+    }
+  }
 };
 
 /**
  * Handler with simple tool.
  */
 export const handler = async (event: ConversationTurnEvent) => {
-    await handleConversationTurnEvent(event, {
-        tools: [thermometer],
-    });
+  await handleConversationTurnEvent(event, {
+    tools: [thermometer],
+  });
 };
 ```
+
+
+### 3. Update conversation route
 
 Finally, update your conversation route definition to use the custom handler.
 
