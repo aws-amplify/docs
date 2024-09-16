@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { View } from '@aws-amplify/ui-react';
+import { parseMarkdownLinks } from '@/utils/parseMdxLinks';
 
 interface ApiCommentProps {
   apiComment?: any[];
@@ -26,7 +27,7 @@ export const ApiComment = ({ apiComment, codeBlock }: ApiCommentProps) => {
           </Fragment>
         );
       } else {
-        return text;
+        return parseMarkdownLinks(text);
       }
     }
   });
