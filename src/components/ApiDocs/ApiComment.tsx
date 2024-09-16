@@ -10,7 +10,7 @@ interface ApiCommentProps {
 export const ApiComment = ({ apiComment, codeBlock }: ApiCommentProps) => {
   if (!apiComment) return null;
   const firstItem = apiComment[0];
-  if (!firstItem.text.replaceAll('-', '').trim()) {
+  if (!firstItem?.text?.replaceAll('-', '')?.trim()) {
     apiComment.shift();
   }
   const commentList = apiComment.map((snippet, idx) => {

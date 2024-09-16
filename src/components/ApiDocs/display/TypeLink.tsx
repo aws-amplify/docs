@@ -7,6 +7,7 @@ export interface LinkDataType {
   kind: number;
   type: string | LinkDataType;
   target: number;
+  value: string;
 }
 
 export interface TypeLinkInterface {
@@ -34,6 +35,8 @@ export const TypeLink = ({ linkData, breadCrumbs }: TypeLinkInterface) => {
     (linkData.type === 'reference' && typeof linkData.target !== 'number')
   ) {
     return <View as="span">{linkData.name}</View>;
+  } else if (linkData.type === 'literal') {
+    return <View as="span">{linkData.value}</View>;
   } else {
     return (
       <button className={className} onClick={onClickHandler}>
