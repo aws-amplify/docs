@@ -285,7 +285,7 @@ Finally, update your conversation route definition to use the custom handler.
 ```ts title="amplify/data/resource.ts"
 import { a, defineData } from '@aws-amplify/backend';
 // highlight-start
-import { customConversationHandler } from '../custom-conversation-handler/resource.js';
+import { customConversationHandler } from '../custom-conversation-handler/resource';
 // highlight-end
 
 const schema = a.schema({
