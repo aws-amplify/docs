@@ -26,7 +26,9 @@ export const FunctionReturn = ({ functionReturn, sigName }) => {
       <MDXHeading level={3} id={`${sigName}-Returns`}>
         Returns
       </MDXHeading>
-      <ApiComment apiComment={display} codeBlock={true} /> {display}
+
+      <code>{display}</code>
+
       {description}
     </View>
   );
