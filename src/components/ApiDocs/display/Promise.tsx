@@ -8,7 +8,7 @@ export const Promise = ({ typeObject }) => {
   }, []);
   return (
     <>
-      <View>Promise&lt;{promiseTypes}&gt;</View>
+      <View className="api-promise">Promise&lt;{promiseTypes}&gt;</View>
     </>
   );
 };

@@ -100,6 +100,12 @@
   margin-inline-start: var(--amplify-space-medium);
 }
 
+.api-promise {
+  .type-link {
+    margin: 0;
+  }
+}
+
 .type-link {
   cursor: pointer;
   margin: 4px;
