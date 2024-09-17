@@ -67,6 +67,9 @@
     font-weight: bold;
     align-items: baseline;
   }
+  &__description {
+    color: var(--amplify-colors-neutral-90);
+  }
 }
 
 .api-modal__api-name {

@@ -127,7 +127,7 @@ export const ApiModal = ({
           {description ? (
             <>
               <dt>Description:</dt>
-              <dd>
+              <dd className="api-modal__content__description">
                 <ApiComment apiComment={description} />
               </dd>
             </>
