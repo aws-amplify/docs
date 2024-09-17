@@ -90,6 +90,13 @@ export const ApiModal = ({
     setTimeout(() => {
       ref?.current?.focus();
     }, 0);
+    
+  if (typeof window != 'undefined') {
+    window.onclick = function (event) {
+      if (event.target.className.includes('api-modal-container--open')) {
+        closeModal();
+      }
+    };
   }
 
   return (
@@ -128,7 +135,7 @@ export const ApiModal = ({
            * viewports.
            */}
           <dd
-            className="api-modal__api-value"
+            className="api-modal__api-value api-modal__content__value"
             tabIndex={data.type?.type === 'reference' ? -1 : 0}
           >
             <View as="code" className="parameter">
@@ -138,7 +145,7 @@ export const ApiModal = ({
           {description ? (
             <>
               <dt>Description:</dt>
-              <dd>
+              <dd className="api-modal__content__description">
                 <ApiComment apiComment={description} />
               </dd>
             </>

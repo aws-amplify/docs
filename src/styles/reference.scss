@@ -67,6 +67,9 @@
     font-weight: bold;
     align-items: baseline;
   }
+  &__description, &__value {
+    color: var(--amplify-colors-neutral-90);
+  }
 }
 
 .api-modal__api-name {
@@ -95,6 +98,12 @@
 
 .object-type {
   margin-inline-start: var(--amplify-space-medium);
+}
+
+.api-promise {
+  .type-link {
+    margin: 0;
+  }
 }
 
 .type-link {
