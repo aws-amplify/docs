@@ -6,6 +6,7 @@ import { ParameterType } from './ParameterType';
 import { ApiComment } from '../ApiComment';
 import { LinkDataType, TypeLinkInterface } from './TypeLink';
 import references from '@/directory/apiReferences.json';
+import { useRef } from 'react';
 
 interface ApiModalInterface {
   data: any;
@@ -26,6 +27,7 @@ export const ApiModal = ({
     data = references[data.target];
   }
   const description = data?.comment?.summary;
+  const ref = useRef<HTMLDivElement>(null);
 
   const closeModal = () => {
     clearBC();
@@ -84,6 +86,11 @@ export const ApiModal = ({
       }, [] as TypeLinkInterface[])
     : [];
 
+  if (showModal) {
+    setTimeout(() => {
+      ref?.current?.focus();
+    }, 0);
+    
   if (typeof window != 'undefined') {
     window.onclick = function (event) {
       if (event.target.className.includes('api-modal-container--open')) {
@@ -96,6 +103,8 @@ export const ApiModal = ({
     <View
       aria-label={`${name} API Reference`}
       className={`api-modal-container${showModal ? ' api-modal-container--open' : ''}`}
+      ref={ref}
+      tabIndex={0}
     >
       <Card as="dialog" className="api-modal" aria-modal="true">
         <Flex className="api-model__header">
@@ -105,6 +114,7 @@ export const ApiModal = ({
             size="small"
             variation="link"
             className="api-modal__close"
+            aria-label="Close"
           >
             <IconX />
           </Button>
