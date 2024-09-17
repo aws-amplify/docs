@@ -84,6 +84,14 @@ export const ApiModal = ({
       }, [] as TypeLinkInterface[])
     : [];
 
+  if (typeof window != 'undefined') {
+    window.onclick = function (event) {
+      if (event.target.className.includes('api-modal-container--open')) {
+        closeModal();
+      }
+    };
+  }
+
   return (
     <View
       aria-label={`${name} API Reference`}
