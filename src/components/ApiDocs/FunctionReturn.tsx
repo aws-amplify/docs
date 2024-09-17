@@ -27,7 +27,7 @@ export const FunctionReturn = ({ functionReturn, sigName }) => {
         Returns
       </MDXHeading>
 
-      {display}
+      <code>{display}</code>
 
       {description}
     </View>
