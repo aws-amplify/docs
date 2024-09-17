@@ -67,7 +67,7 @@
     font-weight: bold;
     align-items: baseline;
   }
-  &__description {
+  &__description, &__value {
     color: var(--amplify-colors-neutral-90);
   }
 }

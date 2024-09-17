@@ -3,6 +3,7 @@ import { MDXHeading } from '../MDXComponents';
 import { Promise } from './display/Promise';
 import { ApiComment } from './ApiComment';
 import references from '@/directory/apiReferences.json';
+import { ParameterType } from './display';
 
 export const FunctionReturn = ({ functionReturn, sigName }) => {
   const name = functionReturn.name;
@@ -15,7 +16,7 @@ export const FunctionReturn = ({ functionReturn, sigName }) => {
     }
   } else {
     const returnType = references[functionReturn.target];
-    display = name;
+    display = <ParameterType typeData={functionReturn} />;
     if (returnType?.comment?.summary) {
       description = <ApiComment apiComment={returnType.comment.summary} />;
     }

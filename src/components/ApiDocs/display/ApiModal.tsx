@@ -117,7 +117,7 @@ export const ApiModal = ({
            * viewports.
            */}
           <dd
-            className="api-modal__api-value"
+            className="api-modal__api-value api-modal__content__value"
             tabIndex={data.type?.type === 'reference' ? -1 : 0}
           >
             <View as="code" className="parameter">
