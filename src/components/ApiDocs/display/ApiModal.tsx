@@ -94,7 +94,10 @@ export const ApiModal = ({
 
   if (typeof window != 'undefined') {
     window.onclick = function (event) {
-      if (event.target.className.includes('api-modal-container--open')) {
+      if (
+        event.target.classList &&
+        event.target.classList.contains('api-modal-container--open')
+      ) {
         closeModal();
       }
     };
