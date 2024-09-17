@@ -90,7 +90,8 @@ export const ApiModal = ({
     setTimeout(() => {
       ref?.current?.focus();
     }, 0);
-    
+  }
+
   if (typeof window != 'undefined') {
     window.onclick = function (event) {
       if (event.target.className.includes('api-modal-container--open')) {
