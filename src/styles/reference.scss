@@ -1,0 +1,125 @@
+.reference-page {
+  table {
+    width: 100%;
+  }
+
+  h2,
+  h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+.api-modal-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  &--open {
+    display: flex;
+  }
+}
+
+.api-modal {
+  width: 800px;
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: var(--amplify-radii-medium);
+}
+
+.api-model__header {
+  align-items: flex-start;
+}
+
+.api-modal__breadcrumbs {
+  flex: 1 0 0;
+  padding-bottom: var(--amplify-space-medium);
+  margin-bottom: var(--amplify-space-xs);
+  overflow: scroll;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.api-modal__breadcrumbs__current {
+  font-weight: bold;
+}
+
+.api-modal__content {
+  gap: var(--amplify-space-xxs);
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  align-items: baseline;
+  dt {
+    color: var(--amplify-colors-font-secondary);
+  }
+  dd {
+    padding-inline-start: var(--amplify-space-small);
+  }
+  &__name {
+    text-align: start;
+    color: var(--amplify-colors-neutral-90);
+    font-weight: bold;
+    align-items: baseline;
+  }
+}
+
+.api-modal__api-name {
+  word-break: break-word;
+  flex: 1 0 0;
+}
+
+.api-modal__api-value {
+  overflow: scroll;
+
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+@media (min-width: 600px) {
+  .api-modal__content {
+    grid-template-columns: auto 1fr;
+    gap: var(--amplify-space-small);
+    dt {
+      text-align: end;
+    }
+  }
+}
+
+.object-type {
+  margin-inline-start: var(--amplify-space-medium);
+}
+
+.type-link {
+  cursor: pointer;
+  margin: 4px;
+  border: none;
+  padding: 0;
+  background: none;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+  &:focus-visible {
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
+  }
+  &.kind-2097152 {
+    color: var(--amplify-colors-red-80);
+  }
+
+  &.kind-256 {
+    color: var(--amplify-colors-green-80);
+  }
+
+  &.kind-undefined {
+    color: var(--amplify-colors-blue-80);
+  }
+}
