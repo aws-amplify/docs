@@ -36,6 +36,8 @@ Refer to the following examples to understand how you can further customize auth
 
 ## Access Types
 
+Authentication is required to continue using Amplify Storage, please make sure you set it up if you haven't already - [documentation to set up Auth](/[platform]/build-a-backend/auth/set-up-auth/).
+
 <Callout>
 
 **Note:** Paths in access definitions cannot have a '/' at the beginning of the string.
@@ -44,14 +46,9 @@ By default, all paths are denied to all types of users unless explicitly granted
 
 </Callout>
 
-Authentication is required to continue using Amplify Storage, please make sure you set it up if you haven't already - [documentation to set up Auth](/[platform]/build-a-backend/auth/set-up-auth/).
-
 <BlockSwitcher>
 <Block name="Guest Users">
-{/* it's not actually files that are like /media/*hey right? so instead it should be all files that are under the media/  */}
 To grant all guest (i.e. not signed in) users of your application read access to files under `media/`, use the following `access` values.
-
-{/* I would flip this guide to have the conceptual first so you don't need explanations like the ones in the comments */}
 
 ```ts title="amplify/storage/resource.ts"
 export const storage = defineStorage({
@@ -66,6 +63,14 @@ export const storage = defineStorage({
 
 </Block>
 <Block name="Authenticated Users">
+<Callout>
+
+**Note:** When a user is part of a group, they are assigned the group role, which means permissions defined for the authenticated role will not apply for this user.
+
+To grant access to users within a group, you must explicitly define access permissions for the group against the desired prefix.
+
+</Callout>
+
 To grant all authenticated (i.e. signed in) users of your application read access to files under `media/`, use the following `access` configuration.
 
 ```ts title="amplify/storage/resource.ts"
@@ -78,13 +83,14 @@ export const storage = defineStorage({
   })
 });
 ```
-
 </Block>
 <Block name="User Groups">
 
 <Callout>
 
-**Note:** When a user is part of a group that has access rules defined in the `amplify/storage/resource.ts` file, those group-specific access rules will take priority over any general access rules set for authenticated users.
+**Note:** When a user is part of a group, they are assigned the group role, which means permissions defined for the authenticated role will not apply for this user.
+
+To grant access to users within a group, you must explicitly define access permissions for the group against the desired prefix.
 
 </Callout>
 
