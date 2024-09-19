@@ -19,6 +19,7 @@ interface typeDataType {
     target: number;
     name: string;
   };
+  signatures?: number[];
 }
 interface ParameterComponentType {
   typeData: typeDataType;
@@ -32,6 +33,9 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
   let typeType = typeData.type;
   if (typeData.kind === 256) {
     typeType = 'declaration';
+  }
+  if (typeData.kind === 2048) {
+    typeType = 'function';
   }
 
   // adds type arguments to an array to be rendered
@@ -84,6 +88,12 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
       return typeData.name;
     case 'array':
       return <ArrayType data={typeData.elementType} />;
+    case 'function':
+      let functionSig;
+      if (typeData?.signatures) {
+        functionSig = references[typeData.signatures[0]];
+      }
+      return <FunctionType data={functionSig} />;
     default:
       if (typeof typeType === 'object' && typeType !== null) {
         return <ParameterType typeData={typeType} />;
@@ -93,14 +103,33 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
 };
 
 const ArrayType = ({ data }) => {
-  console.log('ARRAY TYPE');
-  console.log(data);
   return (
     <>
       <ParameterType typeData={data} />
       []
     </>
   );
+};
+
+const FunctionType = ({ data }) => {
+  if (!data) return 'Function';
+  const functionTypeArray: (string | React.JSX.Element)[] = ['('];
+  if (data.parameters) {
+    data.parameters.forEach((paramId, idx) => {
+      if (idx !== 0) {
+        functionTypeArray.push(', ');
+      }
+      const param = references[paramId];
+      functionTypeArray.push(
+        <ParameterType typeData={param} key={param.name} />
+      );
+    });
+  }
+  functionTypeArray.push(') => ');
+  functionTypeArray.push(
+    <ParameterType typeData={data.type} key={data.type.name} />
+  );
+  return functionTypeArray;
 };
 
 const ReferenceType = ({ data }) => {
