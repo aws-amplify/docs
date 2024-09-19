@@ -186,6 +186,183 @@ try {
 ```
 </InlineFilter>
 
+<InlineFilter filters={["android"]}>
+### Storage bucket client usage
+
+Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. You can provide a target bucket's name assigned in Amplify Backend.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+StorageBucket secondBucket = StorageBucket.fromOutputs("secondBucket");
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder().bucket(secondBucket).build();
+Amplify.Storage.downloadFile(
+        StoragePath.fromString("public/example"),
+        new File(getApplicationContext().getFilesDir() + "/download.txt"),
+        options,
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val secondBucket = StorageBucket.fromOutputs("secondBucket")
+val options = StorageDownloadFileOptions.builder().bucket(secondBucket).build()
+val file = File("${applicationContext.filesDir}/download.txt")
+Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, option,
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.e("MyAmplifyApp",  "Download Failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val secondBucket = StorageBucket.fromOutputs("secondBucket")
+val options = StorageDownloadFileOptions.builder().bucket(secondBucket).build()
+val file = File("${applicationContext.filesDir}/download.txt")
+val download = Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, options)
+try {
+    val fileName = download.result().file.name
+    Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Download Failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java      
+StorageBucket secondBucket = StorageBucket.fromOutputs("secondBucket");
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder().bucket(secondBucket).build();
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+        RxAmplify.Storage.downloadFile(
+            StoragePath.fromString("public/example"),
+            new File(getApplicationContext().getFilesDir() + "/download.txt"),
+            options
+        );
+
+download
+    .observeResult()
+    .subscribe(
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console. See each Amplify Storage API page for additional usage examples.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+BucketInfo bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+StorageBucket secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder().bucket(secondBucket).build();
+Amplify.Storage.downloadFile(
+        StoragePath.fromString("public/example"),
+        new File(getApplicationContext().getFilesDir() + "/download.txt"),
+        options,
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val bucketInfo = BucketInfo("second-bucket-name-from-console", "us-east-2")
+val secondBucket = StorageBucket.fromBucketInfo(bucketInfo)
+val options = StorageDownloadFileOptions.builder().bucket(secondBucket).build()
+val file = File("${applicationContext.filesDir}/download.txt")
+Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, options,
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.e("MyAmplifyApp",  "Download Failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val bucketInfo = BucketInfo("second-bucket-name-from-console", "us-east-2")
+val secondBucket = StorageBucket.fromBucketInfo(bucketInfo)
+val options = StorageDownloadFileOptions.builder().bucket(secondBucket).build()
+val file = File("${applicationContext.filesDir}/download.txt")
+val download = Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, options)
+try {
+    val fileName = download.result().file.name
+    Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Download Failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+BucketInfo bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+StorageBucket secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder().bucket(secondBucket).build();
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+        RxAmplify.Storage.downloadFile(
+            StoragePath.fromString("public/example"),
+            new File(getApplicationContext().getFilesDir() + "/download.txt"),
+            options,
+        );
+
+download
+    .observeResult()
+    .subscribe(
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+### Storage bucket client usage
+
+Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. You can provide a target bucket's name assigned in Amplify Backend.
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+
+Alternatively, you can also directly specify the bucket name and region from the console. See each Amplify Storage API page for additional usage examples.
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+```
+</InlineFilter>
+
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.
