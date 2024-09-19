@@ -309,7 +309,7 @@ The schema is used by Apollo’s code generation tool to generate API code that 
 1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
 2. On the left side, select Schema
 3. When viewing your schema, there should a “Export schema” drop down. Select this and download the `schema.json` file.
-4. Add this file to your project as directed by [Apollo Code Generation documentation](https://www.apollographql.com/docs/ios/code-generation/introduction) 
+4. Add this file to your project as directed by [Apollo Code Generation documentation](https://www.apollographql.com/docs/ios/code-generation/introduction). 
 
 You can alternatively download the introspection schema using the [`fetch-schema`](https://www.apollographql.com/docs/ios/code-generation/codegen-cli#fetch-schema) command with the `amplify-ios-cli` tool.
 
@@ -321,6 +321,13 @@ You can alternatively download the introspection schema using the [`fetch-schema
 3. When viewing your schema, there should a “Export schema” drop down. Select this and download the `schema.json` file.
 4. Add this file to your project as directed by [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location) 
 </InlineFilter>
+
+### Performing Queries, Mutations, and Subscriptions with Apollo client
+
+1. Navigate to the **Queries** tab in your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home). Here, you can test queries, mutations, and subscriptions in the GraphQL playground.
+2. Enter your GraphQL operation (query, mutation, or subscription) in the editor and click **Run** to execute it.
+3. Observe the request and response structure in the results. This gives you insight into the exact call patterns and structure that Apollo will use.
+4. Copy the GraphQL operation from the playground and pass it to Apollo's code generation tool to automatically generate the corresponding API code for your project.
 
 ## Connecting to AWS AppSync real-time endpoint
 
