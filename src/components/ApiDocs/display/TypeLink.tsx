@@ -8,6 +8,8 @@ export interface LinkDataType {
   type: string | LinkDataType;
   target: number;
   value: string;
+  typeArguments: LinkDataType[];
+  elementType: LinkDataType;
 }
 
 export interface TypeLinkInterface {
@@ -37,6 +39,15 @@ export const TypeLink = ({ linkData, breadCrumbs }: TypeLinkInterface) => {
     return <View as="span">{linkData.name}</View>;
   } else if (linkData.type === 'literal') {
     return <View as="span">{linkData.value}</View>;
+  } else if (linkData.type === 'array') {
+    return [
+      <TypeLink
+        linkData={linkData.elementType}
+        breadCrumbs={breadCrumbs}
+        key={linkData.elementType.name}
+      />,
+      '[]'
+    ];
   } else {
     return (
       <button className={className} onClick={onClickHandler}>

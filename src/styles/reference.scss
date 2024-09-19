@@ -45,6 +45,9 @@
   overflow: scroll;
   align-items: baseline;
   gap: 2px;
+  &__separator {
+    color: var(--amplify-colors-neutral-90);
+  }
 }
 
 .api-modal__breadcrumbs__current {

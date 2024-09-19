@@ -24,6 +24,8 @@ interface ParameterComponentType {
   typeData: typeDataType;
 }
 
+type TypeArguments = (string | React.JSX.Element)[];
+
 export const ParameterType = ({ typeData }: ParameterComponentType) => {
   if (!typeData) return;
   const typeArgs = typeData.typeArguments;
@@ -31,29 +33,38 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
   if (typeData.kind === 256) {
     typeType = 'declaration';
   }
+
+  // adds type arguments to an array to be rendered
+  const addTypeArgs = (
+    typeArgs: LinkDataType[],
+    displayArray: TypeArguments
+  ): TypeArguments => {
+    const typeArgArray = typeArgs.reduce<TypeArguments>((acc, tArg, index) => {
+      let retValue;
+      if (index === 0) {
+        retValue = [<TypeLink key={tArg.name} linkData={tArg} />];
+      } else {
+        retValue = [...acc, ', ', <TypeLink key={tArg.name} linkData={tArg} />];
+      }
+      if (tArg?.typeArguments?.length) {
+        addTypeArgs(tArg.typeArguments, retValue);
+      }
+      return retValue;
+    }, []);
+    if (typeArgArray.length) {
+      typeArgArray.push('>');
+      typeArgArray.unshift('<');
+      displayArray.push(...typeArgArray);
+    }
+    return displayArray;
+  };
+
   switch (typeType) {
     case 'reference':
       return (
         <>
           <ReferenceType data={typeData} />{' '}
-          {typeArgs && (
-            <>
-              &lt;
-              {typeArgs.reduce<(string | React.JSX.Element)[]>(
-                (acc, tArg, index) => {
-                  if (index === 0)
-                    return [<TypeLink key={tArg.name} linkData={tArg} />];
-                  return [
-                    ...acc,
-                    ', ',
-                    <TypeLink key={tArg.name} linkData={tArg} />
-                  ];
-                },
-                []
-              )}
-              &gt;
-            </>
-          )}
+          {typeArgs && <>{addTypeArgs(typeArgs, [])}</>}
         </>
       );
     case 'intersection':
@@ -82,6 +93,8 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
 };
 
 const ArrayType = ({ data }) => {
+  console.log('ARRAY TYPE');
+  console.log(data);
   return (
     <>
       <ParameterType typeData={data} />
