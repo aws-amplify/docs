@@ -20,6 +20,9 @@ interface typeDataType {
     name: string;
   };
   signatures?: number[];
+  targetType?: {
+    name: string;
+  };
 }
 interface ParameterComponentType {
   typeData: typeDataType;
@@ -86,6 +89,8 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
       return `"${typeData.value}"`;
     case 'intrinsic':
       return typeData.name;
+    case 'predicate':
+      return typeData.targetType?.name;
     case 'array':
       return <ArrayType data={typeData.elementType} />;
     case 'function':
