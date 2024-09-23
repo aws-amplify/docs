@@ -26,7 +26,6 @@ export const ApiModal = ({
   if (data.type === 'reference') {
     data = references[data.target];
   }
-  console.log(data);
   const description = data?.comment?.summary;
   const ref = useRef<HTMLDivElement>(null);
 
