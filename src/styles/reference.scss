@@ -133,16 +133,14 @@
     outline-offset: 2px;
   }
 
-  &.kind-2097152 {
+  color: var(--amplify-colors-blue-80);
+  
+  &.type-reference {
     color: var(--amplify-colors-red-80);
   }
 
-  &.kind-256 {
+  &.type-interface {
     color: var(--amplify-colors-green-80);
-  }
-
-  &.kind-undefined {
-    color: var(--amplify-colors-blue-80);
   }
 }
 

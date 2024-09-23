@@ -29,7 +29,7 @@ export const ReferencePage = ({ category }) => {
         </Flex>
         <Flex>
           <View as="span" className="api-legend union" />
-          Union/Intersection
+          Other
         </Flex>
       </Flex>
     </View>
