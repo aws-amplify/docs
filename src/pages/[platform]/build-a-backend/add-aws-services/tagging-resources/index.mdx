@@ -45,24 +45,24 @@ Amplify applies the following tags by default:
 In your Amplify backend your can use the [`Tags`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Tags.html) class from the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to apply tags at the root level, which cascades tag application to child resources.
 
 ```ts title="amplify/backend.ts"
-import { Tags } from "aws-cdk-lib"
-import { defineBackend } from "@aws-amplify/backend"
-import { auth } from "./auth/resource"
-import { data } from "./data/resource"
+import { Tags } from 'aws-cdk-lib';
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
  */
 const backend = defineBackend({
   auth,
-  data,
-})
+  data
+});
 
-const tags = Tags.of(backend.stack)
+const tags = Tags.of(backend.stack);
 // add a new tag
-tags.add("my-key", "my-value")
+tags.add('my-key', 'my-value');
 // remove tags
-tags.remove("my-key")
+tags.remove('my-key');
 ```
 
 {/* Alternatively you can apply tags to individual resource stacks... */}
