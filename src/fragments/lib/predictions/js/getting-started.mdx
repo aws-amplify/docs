@@ -1,4 +1,4 @@
-> Prerequisite: [Install and configure the Amplify CLI](/[platform]/tools/cli/start/set-up-cli/)
+> Prerequisite: [Install and configure the Amplify CLI](/gen1/[platform]/tools/cli/start/set-up-cli/)
 
 ## Create new backend
 
@@ -72,6 +72,12 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 ```
 
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
+
 ## Import existing backend
 
 The manual setup enables you to use your existing Amazon AI and ML resources in your app.
@@ -86,7 +92,7 @@ Amplify.configure({
     identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx',
     region: 'us-east-1'
   },
-  predictions: {
+  Predictions: {
     convert: {
       translateText: {
         region: 'us-east-1',

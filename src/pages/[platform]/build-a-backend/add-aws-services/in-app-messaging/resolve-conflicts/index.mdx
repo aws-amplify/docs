@@ -1,0 +1,50 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Resolve conflicts',
+  description: 'Learn how to resolve conflicts when an event is sent and meets the criteria set forth by multiple in-app messages.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+In the rare case where an event is sent and meets the criteria set forth by multiple in-app messages, the library needs to decide which message to return. If such a conflict should arise, In-App Messaging will choose a message by:
+
+1. Sorting the messages in order of campaign expiration
+2. Returning the top message sorted (the closest message to expiry)
+
+However, this may not be how you wish to resolve such conflicts so you may want to set your own conflict handler.
+
+```js title="src/index.js"
+import { setConflictHandler } from 'aws-amplify/in-app-messaging';
+
+/**
+ * Regardless of your conflict resolution strategy the handler must always accept
+ * an array of in-app messages and return a single in-app message.
+ */
+const myConflictHandler = (messages) => {
+  // Return a random message
+  const randomIndex = Math.floor(Math.random() * messages.length);
+  return messages[randomIndex];
+};
+
+setConflictHandler(myConflictHandler);
+```

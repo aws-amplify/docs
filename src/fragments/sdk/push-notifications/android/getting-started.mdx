@@ -2,9 +2,15 @@ Enable your users to receive mobile push messages sent from the Apple (APNs) and
 
 ## Set Up Your Backend
 
-1. Complete the [Get Started](/[platform]/start/getting-started/introduction/) steps before you proceed.
+1. Complete the [Get Started](/gen1/[platform]/start/getting-started/introduction/) steps before you proceed.
 
 1. Use the CLI to add storage to your cloud-enabled backend and app.
+
+<Callout warning>
+
+Push Notifications requires version **12.12.3+** of the Amplify CLI. You can check your current version with `amplify -version` and upgrade to the latest version with `amplify upgrade`.
+
+</Callout>
 
    In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
@@ -21,7 +27,7 @@ Enable your users to receive mobile push messages sent from the Apple (APNs) and
      > FCM
      ```
 
-   - Provide your `Server Key`. For information on getting an FCM `Server Key`, see the section [Setting Up FCM/GCM Guide](/[platform]/sdk/push-notifications/setup-push-service/). Use the steps in the next section to connect your app to your backend.
+   - Provide your `service account key (json file) path` (relative or absolute). For information on getting an FCM `service account key`, see the section [Setting Up FCM/GCM Guide](/gen1/[platform]/sdk/push-notifications/setup-push-service/). Use the steps in the next section to connect your app to your backend.
 
 ## Connect to Your Backend
 

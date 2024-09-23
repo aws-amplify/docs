@@ -1,29 +1,19 @@
 ```dart
-// Create a boolean for checking the sign up status
-bool isSignUpComplete = false;
-
-...
-
 Future<void> setUpMFASignUp() async {
   try {
-    final userAttributes = <CognitoUserAttributeKey, String>{
-      CognitoUserAttributeKey.email: 'email@domain.com',
+    final userAttributes = <AuthUserAttributeKey, String>{
+      AuthUserAttributeKey.email: 'email@domain.com',
       // Note: phone_number requires country code
-      CognitoUserAttributeKey.phoneNumber: '+15559101234',
+      AuthUserAttributeKey.phoneNumber: '+15559101234',
     };
     final result = await Amplify.Auth.signUp(
-        username: 'myusername',
-        password: 'mysupersecurepassword',
-        options: CognitoSignUpOptions(
-            userAttributes: userAttributes
-        )
+      username: 'myusername',
+      password: 'mysupersecurepassword',
+      options: SignUpOptions(userAttributes: userAttributes),
     );
-    setState(() {
-      isSignUpComplete = result.isSignUpComplete;
-    });
+    await _handleSignUpResult(result);
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error signing up: ${e.message}');
   }
 }
 ```
-

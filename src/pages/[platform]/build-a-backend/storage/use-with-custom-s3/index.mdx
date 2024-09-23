@@ -1,0 +1,196 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use Amplify Storage with any S3 bucket',
+  description: 'You can use the Amplify Storage APIs against your own S3 bucket in your account.',
+  platforms: [
+    'javascript',
+    'react',
+    'react-native',
+    'angular',
+    'vue',
+    'nextjs',
+    'swift',
+    'android',
+    'flutter'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+With Amplify Storage APIs, you can use your own S3 buckets instead of the Amplify-created ones.
+
+<Callout>
+**Important:** To utilize the storage APIs with an S3 bucket outside of Amplify, you must have Amplify Auth configured in your project.
+</Callout>
+## Use storage resources with an Amplify backend
+
+### Add necessary permissions to the S3 bucket
+
+For the specific Amazon S3 bucket that you want to use with these APIs, you need to make sure that the associated IAM role has the necessary permissions to read and write data to that bucket.
+
+To do this, go to **Amazon S3 console** > **Select the S3 bucket** > **Permissions** > **Edit** Bucket Policy.
+
+![Showing Amplify console showing Storage tab selected](/images/gen2/storage/s3-console-permissions.png)
+
+The policy will look something like this
+
+```json
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement1",
+			"Principal": { "AWS": "arn:aws:iam::<AWS-account-ID>:role/<role-name>" },
+			"Effect": "Allow",
+			"Action": [
+				"s3:PutObject",
+				"s3:GetObject",
+				"s3:DeleteObject",
+				"s3:ListBucket"
+			],
+			"Resource": [
+				"arn:aws:s3:::<bucket-name>/*"
+			]
+		}
+	]
+}
+```
+Replace `<AWS-account-ID>` with your AWS account ID and `<role-name>` with the IAM role associated with your Amplify Auth setup. Replace `<bucket-name>` with the S3 bucket name.
+
+You can refer to [Amazon S3's Policies and Permissions documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html) for more ways to customize access to the bucket.
+
+### Specify S3 bucket in Amplify's backend config
+
+Next, use the `addOutput` method from the backend definition object to define a custom s3 bucket by specifying the name and region of the bucket in your **amplify/backend.ts** file.
+
+<Callout>
+
+**Important**
+
+You cannot use both a storage backend configured through Amplify and a custom S3 bucket at the same time. 
+
+If you specify a custom S3 bucket, no sandbox storage resource will be created. The provided custom S3 bucket will be used, even in the sandbox environment.
+
+</Callout>
+
+```javascript
+
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+const backend = defineBackend({
+  auth,
+  data,
+});
+
+//highlight-start
+backend.addOutput({
+  storage: {
+    aws_region: "<region>",
+    bucket_name: "<bucket-name>"
+  },
+});
+//highlight-end
+
+```
+
+<InlineFilter filters={["javascript", "nextjs", "react", "angular", "vue", "react-native", "android", "swift"]}>
+
+### Import latest amplify_outputs.json file
+
+To ensure the local **amplify_outputs.json** file is up-to-date, you can run [the npx ampx generate outputs command](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs) or download the latest **amplify_outputs.json** from the Amplify console as shown below.
+
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+### Import latest amplify_outputs.dart file
+
+To ensure the local **amplify_outputs.dart** file is up-to-date, you can run [the npx ampx generate outputs command](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs).
+
+</InlineFilter>
+
+Now that you've configured the necessary permissions, you can start using the storage APIs with your chosen S3 bucket.
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+## Use storage resources without an Amplify backend
+
+While using the Amplify Backend is the easiest way to get started, existing storage resources can also be integrated with Amplify Storage. 
+
+In addition to manually configuring your storage options, you will also need to ensure Amplify Auth is properly configured in your project and associated IAM roles have the necessary permissions to interact with your existing bucket. Read more about [using existing auth resources without an Amplify backend](/[platform]/build-a-backend/auth/use-existing-cognito-resources/#use-auth-resources-without-an-amplify-backend).
+
+### Using Amplify configure
+Existing storage resource setup can be accomplished by passing the resource metadata to `Amplify.configure`. This will configure the Amplify Storage client library to interact with the additional resources. It's recommended to add the Amplify configuration step as early as possible in the application lifecycle, ideally at the root entry point.
+
+
+```ts
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    // add your auth configuration
+  },
+  Storage: {
+    S3: {
+      bucket: '<your-default-bucket-name>',
+      region: '<your-default-bucket-region>',
+      // default bucket metadata should be duplicated below with any additional buckets
+      buckets: {
+        '<your-default-bucket-friendly-name>': {
+          bucketName: '<your-default-bucket-name>',
+          region: '<your-default-bucket-region>'
+        },
+        '<your-additional-bucket-friendly-name>': {
+          bucketName: '<your-additional-bucket-name>',
+          region: '<your-additional-bucket-region>'
+        }
+      }
+    }
+  }
+});
+
+```
+### Using Amplify outputs
+
+Alternatively, existing storage resources can be used by creating or modifying the `amplify_outputs.json` file directly.
+
+```ts title="amplify_outputs.json"
+{
+  "auth": {
+    // add your auth configuration
+  },
+  "storage": {
+    "aws_region": "<your-default-bucket-region>", 
+    "bucket_name": "<your-default-bucket-name>",
+    // default bucket metadata should be duplicated below with any additional buckets
+    "buckets": [
+      {
+        "name": "<your-default-bucket-friendly-name>", 
+        "bucket_name": "<your-default-bucket-name>", 
+        "aws_region": "<your-default-bucket-region>" 
+      },
+      {
+        "name": "<your-additional-bucket-friendly-name>",
+        "bucket_name": "<your-additional-bucket-name>",
+        "aws_region": "<your-additional-bucket-region>"
+      }
+    ]
+  }
+}
+```
+</InlineFilter>

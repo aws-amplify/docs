@@ -1,18 +1,13 @@
 ```dart
-import 'dart:typed_data';
-
 Future<void> postTodo() async {
   try {
-    final options = RestOptions(
-        path: '/todo',
-        body: Uint8List.fromList('{\'name\':\'Mow the lawn\'}'.codeUnits)
-    );
     final restOperation = Amplify.API.post(
-        restOptions: options
+      'todo',
+      body: HttpPayload.json({'name': 'Mow the lawn'}),
     );
     final response = await restOperation.response;
     print('POST call succeeded');
-    print(response.body);
+    print(response.decodeBody());
   } on ApiException catch (e) {
     print('POST call failed: $e');
   }

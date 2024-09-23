@@ -1,0 +1,106 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Collections',
+  description: 'Collections',
+  platforms: [
+    'javascript',
+    'react',
+    'nextjs'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+Collections are any list of repeating items. You can visually create a collection from any individual component by selecting the **Create collection** button in the top right corner of the UI component editor. All collections are generated as code with real-time subscriptions automatically set up.
+
+## Data binding
+
+Amplify Studio offers a visual way to bind collections to items in your data model. Collection items can be filtered, sorted, or linked to specific records from the content management view.
+
+### GraphQL and DataStore
+
+Amplify Studio supports data binding to all Amplify GraphQL APIs, **with or without DataStore**. [Learn more about DataStore and Conflict Resolution here](/gen1/[platform]/tools/console/data/data-model/#datastore-and-graphql). 
+
+For APIs without DataStore, there are some minor Collection feature limitations: 
+- Collections cannot be [Sorted](#set-sort-conditions)
+- Collections have limited [Search](#set-search-and-pagination)
+- Collections have limited [Pagination](#set-search-and-pagination)
+
+Additionally, if your data has any relationships, APIs without DataStore require a query depth of 4 or greater. To update your codegen query depth:
+1. Navigate to the root directory of your project in your terminal
+1. Run `amplify configure codegen`
+1. When prompted, set query depth to 4 or greater. All other options can be set to your preference
+1. Run `amplify codegen` to generate queries with your new depth
+
+### Tutorial
+
+1. Launch [Amplify Studio](/gen1/[platform]/tools/console/adminui/start/#logging-in-and-creating-an-app) for an app
+2. Create a [collection](/gen1/[platform]/tools/console/tutorial/collections/) from a component
+3. Link collection to a data model
+4. Set filters to customize what data should be displayed
+5. Set sort conditions to customize how the data should be displayed
+   > **Note:** If your component doesn't have a property backed by a data model, then you need to manually map a component's property to a designated data model field.
+
+![Screenshot showing data binding](/images/console/ui-collections-databind.png)
+
+### Set filters
+
+Filters control what records are displayed in a collection. You can add multiple filters to a single collection.
+
+![Screenshot showing setting filters](/images/console/ui-collections-set-filters.png)
+
+### Set sort conditions
+
+Sort conditions control the direction records are displayed in a collection.
+
+<Callout warning>
+
+Collections bound to an GraphQL API without DataStore cannot be sorted. [Learn more about DataStore and Conflict Resolution](/gen1/[platform]/tools/console/data/data-model/#datastore-and-graphql).
+
+</Callout>
+
+![Screenshot showing setting sort conditions](/images/console/ui-collections-set-sort-conditions.png)
+
+## Edit layout
+
+You can edit some of the Amplify UI [collection properties](https://ui.docs.amplify.aws/react/components/collection) directly in Studio. Changes to the layout properties (e.g. List vs. grid, direction, order, padding) are reflected in the real-time preview.
+
+![Screenshot showing collection layout edit](/images/console/ui-collections-layout.png)
+
+## Set Search and Pagination
+
+### Search
+
+Collections can be configured to automatically include a search bar by selecting the **Include** link on the left-hand bar. You can customize the placeholder for the search bar, and test it in-browser.
+
+<Callout warning>
+
+Collections bound to GraphQL APIs without DataStore have limited Search capabilities. [Learn more about DataStore and Conflict Resolution](/gen1/[platform]/tools/console/data/data-model/#datastore-and-graphql).
+
+</Callout>
+
+
+![Screenshot showing search](/images/console/ui-collections-search.png)
+
+### Pagination
+
+Collections can be configured to automatically paginate, with a specific number of items per page. Select **Include** on the left-hand bar to enable pagination and set the number of items. 
+
+![Screenshot showing pagination](/images/console/ui-collections-pagination.png)
+
+For collections bound to GraphQL APIs without DataStore, pagination has limited support. Users can step forward through pages (e.g. page 1 to page 2), but cannot skip pages (e.g. page 1 to page 3). 
+
+[Learn more about DataStore and Conflict Resolution](/gen1/[platform]/tools/console/data/data-model/#datastore-and-graphql).

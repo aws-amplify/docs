@@ -1,0 +1,288 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect to Amazon Rekognition for Image Analysis APIs',
+  description:
+    'Connect to Amazon Rekognition.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+**Amazon Rekognition** is an advanced machine learning service provided by Amazon Web Services (AWS), allowing developers to incorporate image and video analysis into their applications. It uses state-of-the-art machine learning models to analyze images and videos, providing valuable insights such as object and scene detection, text recognition, face analysis, and more.
+
+Key features of Amazon Rekognition include:
+
+- **Object and Scene Detection**: Amazon Rekognition can identify thousands of objects and scenes in images and videos, providing valuable context for your media content.
+
+- **Text Detection and Recognition**: The service can detect and recognize text within images and videos, making it an invaluable tool for applications requiring text extraction.
+
+- **Facial Analysis**: Amazon Rekognition offers accurate facial analysis, enabling you to detect, analyze, and compare faces in images and videos.
+
+- **Facial Recognition**: You can build applications with the capability to recognize and verify individuals using facial recognition.
+
+- **Content Moderation**: Amazon Rekognition can analyze images and videos to identify inappropriate or objectionable content, helping you maintain safe and compliant content.
+
+In this section, you will learn how to integrate Amazon Rekognition into your application using AWS Amplify, leveraging its powerful image analysis capabilities seamlessly.
+
+## Step 1 - Set up the project
+
+Set up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/).
+
+## Step 2 - Install Rekognition Libraries
+Create a new API endpoint that'll use the the AWS SDK to call the Amazon Rekognition service. To install the Amazon Rekognition SDK, run the following command in your project's root folder:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-sdk/client-rekognition
+```
+
+## Step 3 - Setup Storage
+
+Create a file named `amplify/storage/resource.ts` and add the following content to configure a storage resource:
+
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from '@aws-amplify/backend';
+
+export const storage = defineStorage({
+  name: 'predictions_gen2'
+});
+
+```
+
+## Step 4 - Add your Amazon Rekognition as Datasource
+
+To use the Amazon Rekognition service, you need to add Amazon Rekognition as an HTTP Data Source and configure the proper IAM policy for Lambda to effectively utilize the desired feature and grant permission to access the storage. In this case, you can add the `rekognition:DetectText` and `rekognition:DetectLabels` actions to the policy. Update the `amplify/backend.ts` file as shown below.
+
+ ```ts title= "amplify/backend.ts"
+
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+import { Stack } from 'aws-cdk-lib';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { storage } from './storage/resource';
+
+const backend = defineBackend({
+  auth,
+  data,
+  storage
+});
+
+const dataStack = Stack.of(backend.data)
+
+// Set environment variables for the S3 Bucket name
+backend.data.resources.cfnResources.cfnGraphqlApi.environmentVariables = {
+  S3_BUCKET_NAME: backend.storage.resources.bucket.bucketName,
+};
+
+const rekognitionDataSource = backend.data.addHttpDataSource(
+  "RekognitionDataSource",
+  `https://rekognition.${dataStack.region}.amazonaws.com`,
+  {
+    authorizationConfig: {
+      signingRegion: dataStack.region,
+      signingServiceName: "rekognition",
+    },
+  }
+);
+
+rekognitionDataSource.grantPrincipal.addToPrincipalPolicy(
+  new PolicyStatement({
+    actions: ["rekognition:DetectText", "rekognition:DetectLabels"],
+    resources: ["*"],
+  })
+);
+
+backend.storage.resources.bucket.grantReadWrite(
+  rekognitionDataSource.grantPrincipal
+);
+
+```
+## Step 5 - Configure the function handler
+
+Define the function handler by creating a new file, `amplify/data/identifyText.ts`. This function analyzes the image and extracts text using the Amazon Rekognition DetectText service.
+
+```ts title="amplify/data/identifyText.ts"
+
+export function request(ctx) {
+  return {
+    method: "POST",
+    resourcePath: "/",
+    params: {
+      body: {
+        Image: {
+          S3Object: {
+            Bucket: ctx.env.S3_BUCKET_NAME,
+            Name: ctx.arguments.path,
+          },
+        },
+      },
+      headers: {
+        "Content-Type": "application/x-amz-json-1.1",
+        "X-Amz-Target": "RekognitionService.DetectText",
+      },
+    },
+  };
+}
+
+export function response(ctx) {
+  return JSON.parse(ctx.result.body)
+    .TextDetections.filter((item) => item.Type === "LINE")
+    .map((item) => item.DetectedText)
+    .join("\n")
+    .trim();
+}
+
+```
+
+## Step 6 - Define the custom query
+
+After adding Amazon Rekognition as a data source, you can reference it in custom query using the `a.handler.custom()` modifier, which takes the name of the data source and an entry point for your resolvers. In your `amplify/data/resource.ts` file, specify `RekognitionDataSource` as the data source and `identifyText.js` as the entry point, as shown below.
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  identifyText: a
+    .query()
+    .arguments({
+      path: a.string(),
+    })
+    .returns(a.string())
+    .authorization((allow) => [allow.publicApiKey()])
+    .handler(
+      a.handler.custom({
+        entry: "./identifyText.js",
+        dataSource: "RekognitionDataSource",
+      })
+    ),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "apiKey",
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
+});
+```
+## Step 7 - Update Storage permissions
+
+Customize your storage settings to manage access to various paths within your storage bucket. Modify the file `amplify/storage/resource.ts` as shown below.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend"
+
+export const storage = defineStorage({
+  name: "predictions_gen2",
+  access: allow => ({
+    'public/*': [
+      allow.guest.to(['list', 'write', 'get'])
+    ]
+  })
+})
+```
+
+## Step 8 - Configure the frontend
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point.
+
+``` ts title="main.tsx"
+import { Amplify } from "aws-amplify";
+import outputs from "../amplify_outputs.json";
+
+Amplify.configure(outputs);
+
+```
+### Invoke the Text Recognition API
+
+This code sets up a React app to upload an image to an S3 bucket and then use Amazon Rekognition to recognize the text in the uploaded image.
+
+```ts title="App.tsx"
+import { type ChangeEvent, useState } from "react";
+import { generateClient } from "aws-amplify/api";
+import { uploadData } from "aws-amplify/storage";
+import { Schema } from "@/amplify/data/resource";
+import "./App.css";
+
+// Generating the client
+const client = generateClient<Schema>();
+
+type IdentifyTextReturnType = Schema["identifyText"]["returnType"];
+
+function App() {
+  // State to hold the recognized text
+  const [path, setPath] = useState<string>("");
+  const [textData, setTextData] = useState<IdentifyTextReturnType>();
+
+  // Function to handle file upload to S3 bucket
+  const handleTranslate = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
+
+      const s3Path = "public/" + file.name;
+
+      try {
+        uploadData({
+          path: s3Path,
+          data: file,
+        });
+
+        setPath(s3Path);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  // Function to recognize text from the uploaded image
+  const recognizeText = async () => {
+    // Identifying text in the uploaded image
+    const { data } = await client.queries.identifyText({
+      path, // File name
+    });
+    setTextData(data);
+  };
+
+  return (
+    <div>
+      <h1>Amazon Rekognition Text Recognition</h1>
+      <div>
+        <input type="file" onChange={handleTranslate} />
+        <button onClick={recognizeText}>Recognize Text</button>
+        <div>
+          <h3>Recognized Text:</h3>
+          {textData}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```

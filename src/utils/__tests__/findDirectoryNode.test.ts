@@ -62,6 +62,6 @@ describe('findDirectoryNode', () => {
   it('should return undefined if page not is not found', () => {
     const result = findDirectoryNode('/route1/route2/child4');
 
-    expect(result).toEqual(undefined);
+    expect(result).toEqual(null);
   });
 });

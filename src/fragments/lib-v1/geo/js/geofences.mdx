@@ -6,7 +6,7 @@
 
 ## Provisioning geofence resources
 
-First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Configure a Geofence Collection](/[platform]/prev/build-a-backend/more-features/geo/configure-geofencing) or [Use existing Amazon Location Service resources](/[platform]/prev/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/prev/build-a-backend/more-features/geo/maps) in your application.
+First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Configure a Geofence Collection](/gen1/[platform]/prev/build-a-backend/more-features/geo/configure-geofencing) or [Use existing Amazon Location Service resources](/gen1/[platform]/prev/build-a-backend/more-features/geo/existing-resources/) and you have already setup [displaying a map](/gen1/[platform]/prev/build-a-backend/more-features/geo/maps) in your application.
 
 ## Manage Geofences in Your Application
 
@@ -15,12 +15,12 @@ To add a geofence management component to your map, you can use the [amplify-geo
 Install the necessary dependencies with the following command:
 
 ```bash
-npm install aws-amplify @aws-amplify/ui-react @aws-amplify/ui-react-geo maplibre-gl-js-amplify maplibre-gl
+npm install aws-amplify@^5 @aws-amplify/ui-react@^5 @aws-amplify/ui-react-geo@^1 maplibre-gl-js-amplify@^2 maplibre-gl
 ```
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `2.0.0` or above and `@aws-amplify/geo` version `1.3.0` or above are installed.
 
-First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](/[platform]/prev/build-a-backend/more-features/geo/maps/).
+First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](/gen1/[platform]/prev/build-a-backend/more-features/geo/maps/).
 
 
 Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
@@ -29,7 +29,7 @@ Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl
 
   <Block name="Javascript">
 
-**Note:** When using the existing [maps implementation/](/[platform]/prev/build-a-backend/more-features/geo/maps) you can add the Geofence control to an existing map
+**Note:** When using the existing [maps implementation/](/gen1/[platform]/prev/build-a-backend/more-features/geo/maps) you can add the Geofence control to an existing map
 
 ```diff
 import { useEffect, useRef } from "react";
@@ -61,7 +61,7 @@ function Map() {
   }
   initializeMap();
 
-    // Cleans up and maplibre DOM elements and other resources - https://maplibre.org/maplibre-gl-js-docs/api/map/#map#remove
+    // Cleans up and maplibre DOM elements and other resources - https://maplibre.org/maplibre-gl-js/docs/API/classes/Map/#remove
     return function cleanup() {
       if (map != null) map.remove();
     };
@@ -127,7 +127,7 @@ export default withAuthenticator(App);
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
-> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/react/components/authenticator) but for other use cases check the [Authentication documentation](/[platform]/prev/build-a-backend/auth/under-the-hood).
+> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/react/components/authenticator) but for other use cases check the [Authentication documentation](/gen1/[platform]/prev/build-a-backend/auth/under-the-hood).
 
 ![Geofence Create](/images/geofence-create.png)
 

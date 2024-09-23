@@ -221,7 +221,7 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 
 #### Working with Complex Objects
 
-Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](/[platform]/sdk/storage/graphql-api/).
+Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](/gen1/[platform]/sdk/storage/graphql-api/).
 
 ### Subscribe to Data
 
@@ -251,10 +251,6 @@ do {
 ```
 
 Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
-
-### Mocking and Local Testing
-
-Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](/[platform]/tools/cli/usage/mock/) for more details.
 
 ### Client Architecture
 
@@ -351,7 +347,7 @@ For client authorization AppSync supports API Keys, Amazon IAM credentials (we r
 
 #### API Key
 
-API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](/[platform]/sdk/auth/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](/gen1/[platform]/sdk/auth/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
 ```json
 {
@@ -385,7 +381,7 @@ do {
 
 #### Cognito User Pools
 
-Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/[platform]/sdk/auth/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/gen1/[platform]/sdk/auth/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
 ```json
 {
@@ -444,7 +440,7 @@ class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
 
 #### IAM
 
-When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/[platform]/sdk/auth/) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/gen1/[platform]/sdk/auth/) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
 ```json
 {

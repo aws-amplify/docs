@@ -1,0 +1,18 @@
+You can get file properties and metadata without downloading the file using `Amplify.Storage.getProperties`.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> getFileProperties() async {
+  try {
+    final result = await Amplify.Storage.getProperties(
+      key: 'example.txt',
+    ).result;
+
+    safePrint('File size: ${result.storageItem.size}');
+  } on StorageException catch (e) {
+    safePrint('Could not retrieve properties: ${e.message}');
+    rethrow;
+  }
+}
+```

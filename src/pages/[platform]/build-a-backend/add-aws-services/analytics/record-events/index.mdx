@@ -1,0 +1,542 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Record events',
+  description: 'Learn how to record analytics events using Amplify.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters= {["android"]}>
+## Record event
+
+The Amplify Analytics plugin makes it easy to record custom events within an app. The plugin handles retry logic in the event that the device loses network connectivity, and it automatically batches requests to reduce network bandwidth.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AnalyticsEvent event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
+
+Amplify.Analytics.recordEvent(event);
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build()
+
+Amplify.Analytics.recordEvent(event)
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AnalyticsEvent event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
+
+RxAmplify.Analytics.recordEvent(event);
+```
+
+</Block>
+</BlockSwitcher>
+
+<Callout>
+
+The Amazon Pinpoint event count updates in minutes after recording your event.
+
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint.
+
+</Callout>
+
+## Flush events
+
+Events have a default configuration to flush out to the network every 30 seconds. You can change this value by passing the `autoFlushEventsInterval` option to the `AWSPinpointAnalyticsPlugin`. The option value is measured in milliseconds.
+
+```kotlin
+val options = AWSPinpointAnalyticsPlugin.Options {
+    autoFlushEventsInterval = 60_000
+}
+Amplify.addPlugin(AWSPinpointAnalyticsPlugin(options))
+Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), this)
+```
+
+To manually flush events, call:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Analytics.flushEvents();
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Analytics.flushEvents()
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Analytics.flushEvents();
+```
+
+</Block>
+</BlockSwitcher>
+
+When flushing events, a [Hub event](/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/) is sent containing the events which were successfully sent to the Pinpoint service.  To receive a list of these events, subscribe to the `HubChannel.ANALYTICS` channel and handle an event of the type `AnalyticsChannelEventName.FLUSH_EVENTS`.
+
+## Authentication events
+
+Authentication events indicate how frequently users authenticate with your application.
+
+On the **Analytics** page, the **Users** tab displays charts for **Sign-ins, Sign-ups, and Authentication failures**.
+
+To learn how frequently users authenticate with your app, update your application code so that Amazon Pinpoint receives the following standard event types for authentication:
+
+ - `_userauth.sign_in`
+ - `_userauth.sign_up`
+ - `_userauth.auth_fail`
+
+You can report authentication events by doing either of the following:
+
+ - Managing user sign-up and sign-in with Amazon Cognito user pools.
+
+  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplify_outputs.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
+
+  ```json
+  "CognitoUserPool": {
+      "Default": {
+          "PoolId": "<your-user-pool-id>",
+          "AppClientId": "<your-app-client-id>",
+          "Region": "<your-app-region>",
+          "PinpointAppId": "<your-pinpoint-app-id>"
+     }
+  }
+  ```
+
+- Manually recording events using the `recordEvent()` API.
+
+  If you don't want to use Cognito user pools, you can use the Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
+
+<BlockSwitcher>
+<Block name="Java">
+
+  ```java
+  /**
+  * Call this method to log an authentication event to the analytics client.
+  */
+  public void logAuthenticationEvent() {
+    AnalyticsEvent event = AnalyticsEvent.builder()
+      .name("_userauth.sign_in")
+      .build();
+    Amplify.Analytics.recordEvent(event);
+  }
+  ```
+
+  </Block>
+  <Block name="Kotlin">
+
+  ```kotlin
+  /**
+  * Call this method to log an authentication event to the analytics client.
+  */
+  fun logAuthenticationEvent() {
+    val event = AnalyticsEvent.builder()
+      .name("_userauth.sign_in")
+      .build()
+    Amplify.Analytics.recordEvent(event)
+  }
+  ```
+  </Block>
+  <Block name="RxJava">
+
+  ```java
+
+  /**
+  * Call this method to log an authentication event to the analytics client.
+  */
+  public void logAuthenticationEvent() {
+    AnalyticsEvent event = AnalyticsEvent.builder()
+      .name("_userauth.sign_in")
+      .build();
+    RxAmplify.Analytics.recordEvent(event);
+  }
+  ```
+  </Block>
+  </BlockSwitcher>
+
+## Global Properties
+
+You can register global properties which will be sent along with all invocations of `Amplify.Analytics.recordEvent`.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Analytics.registerGlobalProperties(
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build());
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Analytics.registerGlobalProperties(
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build())
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Analytics.registerGlobalProperties(
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build());
+```
+
+</Block>
+</BlockSwitcher>
+
+To unregister a global property, call `Amplify.Analytics.unregisterGlobalProperties()`:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty")
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+## Record event
+
+The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
+
+```dart
+Future<void> recordCustomEvent() async {
+  final event = AnalyticsEvent('PasswordReset');
+
+  event.customProperties
+    ..addStringProperty('Channel', 'SMS')
+    ..addBoolProperty('Successful', true);
+
+  // You can also add the properties one by one like the following
+  event.customProperties.addIntProperty('ProcessDuration', 792);
+  event.customProperties.addDoubleProperty('doubleKey', 120.3);
+
+  await Amplify.Analytics.recordEvent(event: event);
+}
+```
+
+<Callout>
+
+The Amazon Pinpoint event count updates in minutes after recording your event.
+
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Amazon Pinpoint.
+
+</Callout>
+
+## Flush events
+
+Events have default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplify_outputs.dart` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
+
+```json
+{
+  "Version": "1.0",
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "<your-app-id>",
+          "region": "<your-app-region>"
+        },
+        "pinpointTargeting": {
+          "region": "<your-app-region>"
+        },
+        "autoFlushEventsInterval": 10
+      }
+    }
+  }
+}
+```
+
+> **Note**
+>
+> Setting `autoFlushEventsInterval` to 0 will **disable** the automatic flush of events and you will be responsible for submitting them.
+
+To manually flush events, call:
+
+```dart
+await Amplify.Analytics.flushEvents();
+```
+
+## Global Properties
+
+You can register global properties which will be sent along with all invocations of `Amplify.Analytics.recordEvent`.
+
+```dart
+Future<void> registerGlobalProperties() async {
+  final properties = CustomProperties()
+    ..addStringProperty('AppStyle', 'DarkMode');
+  await Amplify.Analytics.registerGlobalProperties(
+    globalProperties: properties,
+  );
+}
+```
+
+To unregister a global property, call `Amplify.Analytics.unregisterGlobalProperties()`:
+
+```dart
+Future<void> unregisterGlobalProperties() async {
+  await Amplify.Analytics.unregisterGlobalProperties(
+    propertyNames: ['AppStyle', 'OtherProperty'],
+  );
+}
+```
+
+Furthermore, you can remove all global properties by calling `unregisterGlobalProperties` without `propertyNames`:
+
+```dart
+Future<void> unregisterAllGlobalProperties() async {
+  await Amplify.Analytics.unregisterGlobalProperties();
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+## Record Event
+
+The Amplify Analytics plugin provides a simple interface to record custom events within your app:
+
+```swift
+let properties: AnalyticsProperties = [
+    "eventPropertyStringKey": "eventPropertyStringValue",
+    "eventPropertyIntKey": 123,
+    "eventPropertyDoubleKey": 12.34,
+    "eventPropertyBoolKey": true
+]
+
+let event = BasicAnalyticsEvent(
+    name: "eventName",
+    properties: properties
+)
+
+Amplify.Analytics.record(event: event)
+```
+
+<Callout>
+
+The Amazon Pinpoint event count updates in minutes after recording your event.
+
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint.
+
+</Callout>
+
+## Flush Events
+
+By default, events are automatically flushed out to the network every 60 seconds.
+
+You can change this through the `options` parameter when initializing the plugin, by creating a `AWSPinpointAnalyticsPlugin.Options` instance and setting its `autoFlushEventsInterval` property to the desired value, expressed in seconds:
+
+```swift
+let options = AWSPinpointAnalyticsPlugin.Options(
+    autoFlushEventsInterval: 60
+)
+try Amplify.add(plugin: AWSPinpointAnalyticsPlugin(options: options))
+```
+
+> **Note**
+>
+> Setting `autoFlushEventsInterval` to 0 will **disable** the automatic flush of events and you will be responsible for submitting them.
+
+To manually submit the recoded events to the backend, call:
+
+```swift
+Amplify.Analytics.flushEvents()
+```
+
+The plugin automatically batches requests in order to reduce network bandwidth and handles the retry logic if the device loses connectivity.
+
+## Authentication events
+
+Indicate how frequently users authenticate with your application.
+
+On the **Analytics** page, the **Users** tab displays charts for **Sign-ins, Sign-ups, and Authentication failures**.
+
+To learn how frequently users authenticate with your app, update your application code so that Pinpoint receives the following standard event types for authentication:
+
+ - `_userauth.sign_in`
+ - `_userauth.sign_up`
+ - `_userauth.auth_fail`
+
+You can report these events by doing the following:
+
+```swift
+let event = BasicAnalyticsEvent(
+    name: "_userauth.sign_in" // Or any of the accepted values
+)
+Amplify.Analytics.record(event: event)
+```
+
+## Global Properties
+
+You can register properties which will be included across all `Amplify.Analytics.record(event:)` calls.
+
+```swift
+let globalProperties: AnalyticsProperties = [
+    "globalPropertyKey": "value"
+]
+Amplify.Analytics.registerGlobalProperties(globalProperties)
+```
+
+To unregister global properties, call `Amplify.Analytics.unregisterGlobalProperties()`:
+
+```swift
+// When called with no arguments, it unregisters all global properties
+Amplify.Analytics.unregisterGlobalProperties()
+
+// Or you can specify which properties to unregister
+let globalProperties = ["globalPropertyKey1", "globalPropertyKey2"]
+Amplify.Analytics.unregisterGlobalProperties(globalProperties)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript',  'react-native', "angular", "nextjs", "react", "vue"]}>
+
+## Recording Custom Events
+
+To record custom events call the `record` API:
+
+```javascript title="src/index.js"
+import { record } from 'aws-amplify/analytics';
+
+record({
+  name: 'albumVisit',
+});
+```
+
+<Callout>
+
+Analytics events are buffered in memory and periodically sent to the service and not saved locally between application sessions. If the session is ended before a buffered event is sent, it will be lost. Use the `flushEvents` API to manually send buffered events to the service.
+
+</Callout>
+
+## Record a Custom Event with Attributes
+
+The `record` API lets you add additional attributes to an event. For example, to record _artist_ information with an _albumVisit_ event:
+
+```javascript title="src/index.js"
+import { record } from 'aws-amplify/analytics';
+
+record({
+  name: 'albumVisit',
+  attributes: { genre: '', artist: '' },
+});
+```
+
+Recorded events will be buffered and periodically sent to Amazon Pinpoint.
+
+## Record Engagement Metrics
+
+Metrics can also be added to an event:
+
+```javascript title="src/index.js"
+import { record } from 'aws-amplify/analytics';
+
+record({
+  name: 'albumVisit',
+  metrics: { minutesListened: 30 },
+});
+```
+
+Metric values must be a `Number` type such as a float or integer.
+
+<Callout>
+
+The Amazon Pinpoint event count updates in minutes after recording your event.
+
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Amazon Pinpoint.
+
+</Callout>
+
+## Flush events
+
+The recorded events are saved in a buffer and sent to the remote server periodically. If needed, you have the option to manually clear all the events from the buffer by using the 'flushEvents' API.
+
+```javascript title="src/index.js"
+import { flushEvents } from 'aws-amplify/analytics';
+
+flushEvents();
+```
+
+</InlineFilter>

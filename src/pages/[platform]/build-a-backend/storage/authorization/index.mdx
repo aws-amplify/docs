@@ -1,0 +1,283 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Customize authorization rules',
+  description:
+    'Define granular authorization rules for storage buckets',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'swift',
+    'android',
+    'flutter',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Customize authorization for your storage bucket by defining access to file paths for guests, authenticated users, and user groups. Access can also be defined for functions that require access to the storage bucket.
+
+Refer to the following examples to understand how you can further customize authorization against different user types.
+
+## Access Types
+
+Authentication is required to continue using Amplify Storage, please make sure you set it up if you haven't already - [documentation to set up Auth](/[platform]/build-a-backend/auth/set-up-auth/).
+
+<Callout>
+
+**Note:** Paths in access definitions cannot have a '/' at the beginning of the string.
+
+By default, all paths are denied to all types of users unless explicitly granted within `defineStorage` using the `access` callback as shown below.
+
+</Callout>
+
+<BlockSwitcher>
+<Block name="Guest Users">
+To grant all guest (i.e. not signed in) users of your application read access to files under `media/`, use the following `access` values.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'media/*': [
+      allow.guest.to(['read']) // additional actions such as "write" and "delete" can be specified depending on your use case
+    ]
+  })
+});
+```
+
+</Block>
+<Block name="Authenticated Users">
+<Callout>
+
+**Note:** When a user is part of a group, they are assigned the group role, which means permissions defined for the authenticated role will not apply for this user.
+
+To grant access to users within a group, you must explicitly define access permissions for the group against the desired prefix.
+
+</Callout>
+
+To grant all authenticated (i.e. signed in) users of your application read access to files under `media/`, use the following `access` configuration.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'media/*': [
+      allow.authenticated.to(['read']) // additional actions such as "write" and "delete" can be specified depending on your use case
+    ]
+  })
+});
+```
+</Block>
+<Block name="User Groups">
+
+<Callout>
+
+**Note:** When a user is part of a group, they are assigned the group role, which means permissions defined for the authenticated role will not apply for this user.
+
+To grant access to users within a group, you must explicitly define access permissions for the group against the desired prefix.
+
+</Callout>
+
+If you have configured user groups when setting up auth in your `defineAuth` object, you can scope storage access to specific groups. In this example, assume you have a `defineAuth` config with `admin` and `auditor` groups.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  },
+  groups: ['admin', 'auditor']
+});
+```
+
+With the following `access` definition, you can configure permissions such that auditors have read only permissions to `media/*` while admin has full permissions.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'media/*': [
+      allow.groups(['auditor']).to(['read']),
+      allow.groups(['admin']).to(['read', 'write', 'delete'])
+    ]
+  })
+});
+```
+
+If multiple groups require the same set of actions, this can be combined into a single rule.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'media/*': [
+      allow.groups(['auditor', 'admin']).to(['read', 'write'])
+    ]
+  })
+});
+```
+
+</Block>
+<Block name="Owners">
+In some use cases, you may want just the uploader of a file to be able to perform actions on it. For example, in a music sharing app anyone can listen to a song, but only the person who uploaded that song could delete it. 
+
+In Amplify Storage, you can do this by using the `entity_id` to represent the user which scopes files to individual users.
+
+The `entity_id` is a reserved token that will be replaced with the users' identifier when the file is being uploaded. You can specify the method of identification when defining access to the path like `allow.entity(<identification_method>).to([..])`. 
+
+Currently, Identity Pool is the only identification method available  - `allow.entity('identity').to([..])`
+
+The following policy would allow authenticated users full access to `media/` that matches their identity id.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'media/{entity_id}/*': [
+      // {entity_id} is the token that is replaced with the user identity id
+      allow.entity('identity').to(['read', 'write', 'delete'])
+    ]
+  })
+});
+```
+
+A user with identity id `user123` would be able to perform read/write/delete operations on files within `media/user123/*` but would not be able to perform actions on files with any other path.
+
+Likewise, a user with identity ID `userABC` would be able to perform read/write/delete operation on files only within `media/userABC/*`. In this way, each user can be granted access to a storage path that is not accessible to any other user.
+
+The following example shows how you can define access to profile pictures where anyone can view them but only the owner can modify/delete them.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'media/profile-pictures/{entity_id}/*': [
+      allow.entity('identity').to(['read', 'write', 'delete']),
+      allow.guest.to(['read']),
+      allow.authenticated.to(['read'])
+    ]
+  })
+});
+```
+
+When a rule for guests, authenticated users, user groups, or resources is applied to a path with the `{entity_id}` token, the token is replaced with a wildcard (`*`). This means that the access will apply to files uploaded by _any_ user. In the above policy, write and delete is scoped to just the owner, but read is allowed for guest and authenticated users for any file within `media/profile-pictures/*/*`.
+
+</Block>
+<Block name="Functions">
+In addition to granting application users access to storage files, you may also want to grant a backend function access to storage files. This could be used to enable a use case like resizing images or automatically deleting old files. The following configuration is used to define function access.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage, defineFunction } from '@aws-amplify/backend';
+
+const demoFunction = defineFunction({});
+
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'media/*': [allow.resource(demoFunction).to(['read', 'write', 'delete'])]
+  })
+});
+```
+
+This would grant the function `demoFunction` the ability to read write and delete files within `media/*`.
+
+When a function is granted access to storage, it also receives an environment variable that contains the name of the Amazon S3 bucket configured by storage. This environment variable can be used in the function to make AWS SDK calls to the storage bucket. The environment variable is named `<storage-name>_BUCKET_NAME`. In the above example, it would be named `myProjectFiles_BUCKET_NAME`.
+
+[Learn more about function resource access environment variables](/[platform]/build-a-backend/functions/#resource-access)
+
+</Block>
+</BlockSwitcher>
+
+### Access definition rules
+
+There are some rules for the types of paths that can be specified at the same time in the storage access definition.
+
+1. All paths must end with `/*`.
+2. Only one level of nesting is allowed. For example, you can define access controls on `media/*` and `media/albums/*` but not on `media/albums/photos/*` because there are two other definitions along the same path.
+3. Wildcards cannot conflict with the `{entity_id}` token. For example, you cannot have both `media/*` and `media/{entity_id}/*` defined because the wildcard in the first path conflicts with the `{entity_id}` token in the second path.
+4. A path cannot be a prefix of another path with an `{entity_id}` token. For example `media/*` and `media/albums/{entity_id}/*` is not allowed.
+
+When one path is a subpath of another, the permissions on the subpath _always override_ the permissions from the parent path. Permissions are not "inherited" from a parent path. Consider the following access definition example:
+
+```ts
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'media/*': [allow.authenticated.to(['read', 'write', 'delete'])],
+    'media/profile-pictures/*': [allow.guest.to(['read'])],
+    'media/albums/*': [allow.authenticated.to(['read'])],
+    'other/*': [
+      allow.guest.to(['read']),
+      allow.authenticated.to(['read', 'write'])
+    ]
+  })
+});
+```
+
+The access control matrix for this configuration is
+
+| Path | media/\* | media/profile-pictures/\* | media/albums/\* | other/\* |
+| --- | --- | --- | --- | --- |
+| **Authenticated Users** | read, write, delete | NONE | read | read, write |
+| **Guest users** | NONE | read | NONE | read |
+
+Authenticated users have access to read, write, and delete everything under `media/*` EXCEPT `media/profile-pictures/*` and `media/albums/*`. For those subpaths, the scoped down access overrides the access granted on the parent `media/*`
+
+### Available actions
+
+When you configure access to a particular path, you can scope the access to one or more CRUDL actions.
+
+| Access   | Corresponding Library APIs                            |
+| -------- | ----------------------------------------------------- |
+| `read`   | `getUrl`, `downloadData`, `list`, and `getProperties` |
+| `get`    | `getUrl` and `downloadData`                           |
+| `list`   | `list`, and `getProperties`                           |
+| `write`  | `uploadData`, `copy`                                  |
+| `delete` | `remove`                                              |
+
+<Callout>
+
+**Note:** `read` is a combination of `get` and `list` access definitions and hence cannot be defined in the presence of `get` or `list`.
+
+</Callout>
+
+
+## For Gen 1 public, protected, and private access pattern
+{/* I don't think I'd include this, if you do I'd do it in an accordion component */}
+To configure `defineStorage` in Amplify Gen 2 to behave the same way as the storage category in Gen 1, the following definition can be used.
+
+```ts title="amplify/storage/resource.ts"
+export const storage = defineStorage({
+  name: 'myProjectFiles',
+  access: (allow) => ({
+    'public/*': [
+      allow.guest.to(['read']),
+      allow.authenticated.to(['read', 'write', 'delete']),
+    ],
+    'protected/{entity_id}/*': [
+      allow.authenticated.to(['read']),
+      allow.entity('identity').to(['read', 'write', 'delete'])
+    ],
+    'private/{entity_id}/*': [
+      allow.entity('identity').to(['read', 'write', 'delete'])
+    ]
+  })
+});
+```

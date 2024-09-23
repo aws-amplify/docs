@@ -1,20 +1,18 @@
-import { useState, useEffect, useRef, ReactElement } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
-  Button,
   ColorMode,
   Flex,
   Heading,
   IconsProvider,
   ThemeProvider,
-  View,
-  VisuallyHidden
+  View
 } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { defaultIcons } from '@/themes/defaultIcons';
 import { defaultTheme } from '@/themes/defaultTheme';
-import { gen2Theme } from '@/themes/gen2Theme';
+import { gen1Theme } from '@/themes/gen1Theme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import {
@@ -23,34 +21,21 @@ import {
   PLATFORM_DISPLAY_NAMES,
   Platform
 } from '@/data/platforms';
-import {
-  ALGOLIA_API_KEY,
-  ALGOLIA_INDEX_NAME,
-  ALGOLIA_APP_ID
-} from '../../constants/algolia';
-import { GEN2BANNER_URLS } from '@/data/gen2Banner-urls';
 import { SpaceShip } from '@/components/SpaceShip';
-import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
-import { Menu } from '@/components/Menu';
-import { LayoutProvider } from '@/components/Layout';
+import { LayoutProvider, LayoutHeader } from '@/components/Layout';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
-import { PlatformNavigator } from '@/components/PlatformNavigator';
-import flatDirectory from '@/directory/flatDirectory.json';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
-import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
-import { PageLastUpdated } from '../PageLastUpdated';
-import Feedback from '../Feedback';
-import RepoActions from '../Menu/RepoActions';
-import { Banner } from '@/components/Banner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import {
   NextPrevious,
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
+import { Modal } from '@/components/Modal';
+import { Gen1Banner } from '@/components/Gen1Banner';
 
 export const Layout = ({
   children,
@@ -78,8 +63,6 @@ export const Layout = ({
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const mainId = 'pageMain';
   const showTOC = hasTOC && tocHeadings.length > 0;
   const router = useRouter();
@@ -87,13 +70,10 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowGen2Banner = GEN2BANNER_URLS.includes(asPathWithNoHash);
-  const isGen2 = asPathWithNoHash.split('/')[1] === 'gen2';
-  let currentPlatform = isGen2 ? undefined : DEFAULT_PLATFORM;
+  const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
-  const isPrev = asPathWithNoHash.split('/')[2] === 'prev';
-
+  const isHome = pageType === 'home';
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
     if (mode !== 'system') {
@@ -109,47 +89,35 @@ export const Layout = ({
 
   const showNextPrev = NEXT_PREVIOUS_SECTIONS.some(
     (section) =>
-      asPathWithNoHash.includes(section) &&
+      pathname.includes(section) &&
       !asPathWithNoHash.endsWith(section) &&
       !isOverview
   );
 
-  if (!isGen2) {
-    // [platform] will always be the very first subpath right?
-    // when using `router.asPath` it returns a string that starts with a '/'
-    // To get the "platform" the client was trying to visit, we have to get the string at index 1
-    // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
-    // to check where the user was trying to visit from
-    const asPathPlatform = asPathWithNoHash.split('/')[1] as Platform;
+  // For 404 pages, we need to check what platform the user was visiting from so that we can
+  // show them the correct platform. This is because 404 pages do not have the platform in router.query.platform.
+  // For gen1 routes, [platform] is in index 2
+  const asPathPlatform = isGen1
+    ? (asPathWithNoHash.split('/')[2] as Platform)
+    : (asPathWithNoHash.split('/')[1] as Platform);
 
-    currentPlatform = platform
-      ? platform
-      : PLATFORMS.includes(asPathPlatform)
+  const currentPlatform = platform
+    ? platform
+    : PLATFORMS.includes(asPathPlatform)
       ? asPathPlatform
       : DEFAULT_PLATFORM;
-  }
 
   const title = [
     pageTitle,
     platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
-    isGen2 ? 'AWS Amplify Gen 2 Documentation' : 'AWS Amplify Documentation'
+    isGen1
+      ? 'AWS Amplify Gen 1 Documentation'
+      : 'AWS Amplify Gen 2 Documentation'
   ]
     .filter((s) => s !== '' && s !== null)
     .join(' - ');
 
   const description = `${pageDescription} AWS Amplify Documentation`;
-
-  const handleMenuToggle = () => {
-    if (!menuOpen) {
-      toggleMenuOpen(true);
-      // For keyboard navigators, move focus to the close menu button in the nav
-      setTimeout(() => sidebarMenuButtonRef?.current?.focus(), 0);
-    } else {
-      toggleMenuOpen(false);
-      // For keyboard navigators, move focus back to menu button in header
-      menuButtonRef?.current?.focus();
-    }
-  };
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
@@ -159,6 +127,13 @@ export const Layout = ({
       document.body.classList.remove('scrolled');
     }
   }, 20);
+
+  const isGen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//.test(
+    asPathWithNoHash
+  );
+  const isGen1HowAmplifyWorks = /\/gen1\/\w+\/how-amplify-works\//.test(
+    asPathWithNoHash
+  );
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -184,7 +159,7 @@ export const Layout = ({
   }, [children, pageType]);
 
   useEffect(() => {
-    if (pageType === 'home') {
+    if (isHome) {
       document.addEventListener('scroll', handleScroll);
       return () => {
         document.removeEventListener('scroll', handleScroll);
@@ -214,7 +189,7 @@ export const Layout = ({
         <meta
           property="og:image"
           content={`https://docs.amplify.aws/assets/${
-            isGen2 ? 'gen2' : 'classic'
+            isGen1 ? 'classic' : 'gen2'
           }-og.png`}
           key="og:image"
         />
@@ -229,7 +204,7 @@ export const Layout = ({
         <meta
           property="twitter:image"
           content={`https://docs.amplify.aws/assets/${
-            isGen2 ? 'gen2' : 'classic'
+            isGen1 ? 'classic' : 'gen2'
           }-og.png`}
           key="twitter:image"
         />
@@ -243,111 +218,36 @@ export const Layout = ({
         }}
       >
         <ThemeProvider
-          theme={isGen2 ? gen2Theme : defaultTheme}
+          theme={isGen1 ? gen1Theme : defaultTheme}
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
-            <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-              {pageType === 'home' ? (
-                <SpaceShip hasBanner={shouldShowGen2Banner} />
-              ) : null}
+            <Modal isGen1={isGen1} />
+            <View
+              className={classNames(
+                'layout-wrapper',
+                `layout-wrapper--${pageType}`,
+                {
+                  'spaceship-layout': isHome,
+                  'spaceship-layout--gen1': isHome && isGen1
+                }
+              )}
+            >
+              {isHome ? <SpaceShip /> : null}
               <GlobalNav
                 leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                 rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                 currentSite={currentGlobalNavMenuItem}
-                isGen2={isGen2}
+                isGen1={isGen1}
                 mainId={mainId}
               />
-              <View as="header" className="layout-header">
-                <Flex className={`layout-search layout-search--${pageType}`}>
-                  <Button
-                    onClick={() => handleMenuToggle()}
-                    size="small"
-                    ref={menuButtonRef}
-                    className="search-menu-toggle mobile-toggle"
-                  >
-                    <IconMenu aria-hidden="true" />
-                    Menu
-                  </Button>
-
-                  <View
-                    className={classNames(
-                      'layout-search__search',
-                      `layout-search__search--${pageType}`,
-                      { 'layout-search__search--toc': showTOC }
-                    )}
-                  >
-                    <View className="layout-search__search__container">
-                      <DocSearch
-                        appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
-                        indexName={
-                          process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME
-                        }
-                        apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-                        searchParameters={{
-                          facetFilters: [
-                            `platform:${isGen2 ? 'gen2' : currentPlatform}`
-                          ]
-                        }}
-                      />
-                    </View>
-                  </View>
-                </Flex>
-                <View
-                  className={classNames('layout-sidebar', {
-                    'layout-sidebar--expanded': menuOpen
-                  })}
-                >
-                  <View
-                    className={classNames('layout-sidebar__backdrop', {
-                      'layout-sidebar__backdrop--expanded': menuOpen
-                    })}
-                    onClick={() => toggleMenuOpen(false)}
-                  ></View>
-                  <View
-                    className={classNames('layout-sidebar__inner', {
-                      'layout-sidebar__inner--expanded': menuOpen
-                    })}
-                  >
-                    <Button
-                      size="small"
-                      colorTheme="overlay"
-                      className={classNames('layout-sidebar__mobile-toggle', {
-                        'layout-sidebar__mobile-toggle--open': menuOpen
-                      })}
-                      ref={sidebarMenuButtonRef}
-                      onClick={() => handleMenuToggle()}
-                    >
-                      <IconDoubleChevron />
-                      <VisuallyHidden>Close menu</VisuallyHidden>
-                    </Button>
-                    {isGen2 ? null : (
-                      <div className="layout-sidebar-platform">
-                        <PlatformNavigator
-                          currentPlatform={currentPlatform}
-                          isPrev={isPrev}
-                        />
-                      </div>
-                    )}
-
-                    <div className="layout-sidebar-menu">
-                      <Menu
-                        currentPlatform={currentPlatform}
-                        path={asPathWithNoHash}
-                      />
-                      <div className="layout-sidebar-feedback">
-                        <RepoActions router={router}></RepoActions>
-                        <Feedback router={router}></Feedback>
-                      </div>
-                      {showLastUpdatedDate && (
-                        <PageLastUpdated
-                          directoryData={flatDirectory[router.pathname]}
-                        />
-                      )}
-                    </div>
-                  </View>
-                </View>
-              </View>
+              <LayoutHeader
+                showTOC={showTOC}
+                isGen1={isGen1}
+                currentPlatform={currentPlatform}
+                pageType={pageType}
+                showLastUpdatedDate={showLastUpdatedDate}
+              ></LayoutHeader>
               <View key={asPathWithNoHash} className="layout-main">
                 <Flex
                   id={mainId}
@@ -359,9 +259,11 @@ export const Layout = ({
                   {showBreadcrumbs ? (
                     <Breadcrumbs route={pathname} platform={currentPlatform} />
                   ) : null}
-                  {shouldShowGen2Banner ? <Banner /> : null}
                   {useCustomTitle ? null : (
                     <Heading level={1}>{pageTitle}</Heading>
+                  )}
+                  {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
+                    <Gen1Banner currentPlatform={currentPlatform} />
                   )}
                   {children}
                   {showNextPrev && <NextPrevious />}

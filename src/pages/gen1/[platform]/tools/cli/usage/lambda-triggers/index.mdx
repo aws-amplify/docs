@@ -1,0 +1,435 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Lambda triggers',
+  description: "Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table, or Kinesis Stream managed through the Amplify CLI.",
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions.
+
+## Cognito Lambda Triggers
+
+Certain AWS Services can [invoke Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html) in response to lifecycle events. The Amplify CLI provides trigger templates for common use cases.
+
+If you wish to modify the functionality of these templates, you are able to do so locally before pushing them. After selecting the templates via the CLI, your local copy of the templates are located in `amplify/backend/function/<function-name>/src`.
+
+Amazon Cognito allows you to set up one Lambda trigger per event. In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules. Each template that you configure is its own JavaScript module. This allows you to attach multiple use cases and logical flows to a single lifecycle event.
+
+You have the opportunity to edit both the index file as well as each module. For example, when creating a email deny list [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
+
+```console
+$ Do you want to edit the local PreSignUp lambda function now? (Y/n)
+```
+
+Selecting 'yes' will open the index file in your editor.
+
+You will then be asked if you want to edit the individual JavaScript module for the email deny list functionality:
+
+```console
+$ Do you want to edit your email-filter-deny-list function now?
+```
+
+### Set up Lambda triggers
+
+There are two ways to setup Lambda Triggers for your Cognito User Pool.
+
+1. In the default Auth CLI workflow, you will be presented with a list of Lambda Trigger templates if you opt to configure advanced settings:
+
+```console
+$ Do you want to enable any of the following capabilities?
+  ❯ ◯ Add Google reCaptcha Challenge
+    ◯ Email Verification Link with Redirect
+    ◯ Add User to Group
+    ◯ Email Domain Filtering (deny list)
+    ◯ Email Domain Filtering (allow list)
+    ◯ Custom Auth Challenge Flow (basic scaffolding - not for production)
+    ◯ Override ID Token Claims
+```
+
+2. In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
+
+```console
+$ Do you want to configure Lambda Triggers for Cognito? Yes
+
+$ Which triggers do you want to enable for Cognito?
+◯ Learn More
+ ──────────────
+ ◯ Create Auth Challenge
+❯◉ Custom Message
+ ◯ Define Auth Challenge
+ ◯ Post Authentication
+ ◯ Post Confirmation
+ ◯ Pre Sign-up
+ ◯ Verify Auth Challenge Response
+ ◯ Pre Token Generation
+
+$ What functionality do you want to use for Custom Message
+ ◯ Learn More
+ ──────────────
+❯◉ Send Account Confirmation Link w/ Redirect
+ ◯ Create your own module
+```
+
+If your manually-configured Lambda Triggers require enhanced permissions, you can run `amplify function update` after they have been initially configured.
+
+import trigger from '/src/fragments/cli/lambda_triggers_callout.mdx';
+
+<Fragments fragments={{ all: trigger }} />
+
+### Auth Templates
+
+The CLI Auth workflow provides the following Lambda trigger templates:
+
+#### Custom Auth Challenge with Google reCaptcha
+
+Captchas allow front end applications to guard against bots or other unwanted page interactions by presenting a challenge that is designed to require human intervention. The Google reCaptcha service is a popular implementation of captcha.
+
+This template will configure three triggers: [CreateAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-create-auth-challenge.html), [DefineAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-define-auth-challenge.html), and [VerifyAuthChallengeResponse](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-verify-auth-challenge-response.html).
+
+The first two will essentially allow the standard username/password flow to execute unimpeded, while VerifyAuthChallengeResponse will run when the `confirmSignIn()` function is called with the data that is returned when the user interacts with the Google reCaptcha component. The VerifyAuthChallengeResponse Lambda function will subsequently execute a POST request to Google, and will pass the success or failure of the reCaptcha interaction back to Cognito. In order to trigger the custom authentication flow, you will pass an options to the `signIn()` method via `options.authFlowType`.
+
+<BlockSwitcher>
+<Block name="React">
+
+#### React Sample
+
+The following code sample demonstrates how to create a custom `CaptchaConfirmSignIn` component in React using the `react-google-recaptcha` npm package.
+
+```js
+import React from 'react';
+import './App.css';
+import { Amplify } from 'aws-amplify';
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
+import amplifyconfig from './amplifyconfiguration.json';
+import ReCAPTCHA from 'react-google-recaptcha';
+
+Amplify.configure(amplifyconfig);
+
+const CaptchaConfirmSignIn = (props) => {
+  const handleConfirmSignIn = async (value) => {
+    try {
+      const res = await confirmSignIn({ challengeResponse: value });
+      console.log('User has signed in.', res);
+    } catch (e) {
+      console.log('Sign in failed', e);
+    }
+  };
+
+  return (
+    <div>
+      <ReCAPTCHA
+        sitekey="your-client-side-google-recaptcha-key"
+        onChange={handleConfirmSignIn}
+      />
+    </div>
+  );
+};
+
+function App() {
+  const [showCaptcha, setShowCaptcha] = useState(false);
+
+  const handleSignIn = async () => {
+    try {
+      const response = await signIn({
+        username,
+        password,
+        options: {
+          authFlowType: 'CUSTOM_WITH_SRP'
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  return (
+    <div className="App">
+      <button onClick={handleSignIn}>Sign In</button>
+      {showCaptcha && <CaptchaConfirmation />}
+    </div>
+  );
+}
+
+export default App;
+```
+
+</Block>
+<Block name="Angular">
+
+#### Angular Sample
+
+The following code sample demonstrates how to create a custom ConfirmSignIn component in Angular using the `ng-recaptcha` npm package.
+
+```js
+// app.module.ts
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { RecaptchaModule } from 'ng-recaptcha';
+import { FormsModule } from '@angular/forms';
+
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from '../amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, FormsModule, RecaptchaModule],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+```js
+// app.component.ts
+
+import { Component } from '@angular/core';
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  title = 'cli-lambda-sample';
+  displayCaptcha = false;
+
+  async handleSignIn() {
+    try {
+      const { nextStep } = await signIn({
+        username,
+        password,
+        options: {
+          authFlowType: 'CUSTOM_WITH_SRP'
+        }
+      });
+      displayCaptcha = nextStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE';
+    } catch (e) {
+      console.log('Sign In Failed', e);
+    }
+  }
+
+  async handleConfirmSignIn(e) {
+    try {
+      await confirmSignIn({ challengeResponse: e });
+    } catch (e) {
+      console.log('Failed to confirm sign in', e);
+    }
+  }
+}
+```
+
+```html
+<!-- app.component.html -->
+
+<button (click)="handleSignIn()">Sign In</button>
+<div *ngIf="displayCaptcha">
+  <re-captcha
+    (resolved)="handleConfirmSignIn($event)"
+    siteKey="your-client-side-google-recaptcha-key"
+  ></re-captcha>
+</div>
+```
+
+</Block>
+
+</BlockSwitcher>
+
+#### Basic Scaffolding for a Custom Auth Challenge
+
+This template will configure three triggers: [CreateAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-create-auth-challenge.html), [DefineAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-define-auth-challenge.html), and [VerifyAuthChallengeResponse](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-verify-auth-challenge-response.html).
+
+It will not, however, provide a fully-formed custom authentication flow. Instead, it will create a 'hello world' custom auth flow skeleton that you can manually edit. The intent of this template is to give you a starting place for building out your own custom auth flow.
+
+#### Add User to Group
+
+This trigger allows you to define a Cognito group to which a user will be added upon registration.
+
+The trigger will check for the existence of the group in your User Pool, and will create the group if it is not present.
+
+#### Email Domain Filtering (deny list) and Email Domain Filtering (allow list)
+
+These two templates allow you to define email domains which are allowed or disallowed (respectively). They can be used in tandem or individually.
+
+#### Override ID Token Claims
+
+This template uses the Pre Token Generation trigger and allows you to add, override or remove claims from the [ID token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html#amazon-cognito-user-pools-using-the-id-token) that is returned by Cognito.
+
+You will need to manually edit the template to define the claims that you wish to manipulate. The template currently contains dummy values as examples.
+
+## S3 Lambda Triggers
+
+You can associate a trigger to an S3 bucket managed by the Amplify CLI, by following the `amplify add/update storage` flows. When attempting to add/update an S3 storage resource, you would get the following CLI prompts to add a trigger for it.
+
+```console
+? Do you want to add a Lambda Trigger for your S3 Bucket? Yes
+? Select from the following options
+❯ Choose an existing function from the project
+  Create a new function
+```
+
+As you can see in the prompt above, you can either choose to use an existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function to handle S3 events. We also auto-populate the IAM policies required by the Lambda execution role of the newly created function to access the S3 bucket.
+
+**Note:** You can associate only one Lambda Function trigger to an S3 bucket.
+
+## DynamoDB Lambda Triggers
+
+You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
+
+- As a part of the [Storage category](/gen1/[platform]/build-a-backend/storage/configure-storage/#)
+- As a part of the [GraphQL API (types with @model annotation)](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/)
+
+### As a part of the Storage category
+
+You can add and manage a DynamoDB table to your Amplify project using the amplify add/update storage flows. When attempting to add/update a DynamoDB storage resource, you would get the following CLI prompts to add a trigger for it.
+
+```console
+? Do you want to add a Lambda Trigger for your Table? Yes
+? Select from the following options (Use arrow keys)
+❯ Choose an existing function from the project
+  Create a new function
+```
+
+As you can see in the prompt above, you can either choose to use an already existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function handle DynamoDB events.
+
+**Note:** You can associate more than one Lambda Function trigger to a DynamoDB table.
+
+### As a part of the GraphQL API (types with @model annotation)
+
+You can also associate a Lambda trigger with any of the GraphQL transformer schema's DynamoDB backed @models which you can add via `amplify add api`. GraphQL mutations that result in DynamoDB item changes will in turn result in change records published to DynamoDB streams that can trigger a Lambda function. To create such a function, start with adding a new lambda function with:
+
+```bash
+amplify add function
+```
+
+Proceed by providing a name and selecting a Lambda Trigger template:
+
+```console
+? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
+? Provide the AWS Lambda function name: mytrigger
+? Choose the function template that you want to use:
+  Hello world function
+  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
+  Serverless express function (Integration with Amazon API Gateway)
+❯ Lambda Trigger
+```
+
+Then select `Amazon DynamoDB Stream` when prompted with event source question.
+
+```bash
+? What event source do you want to associate with Lambda trigger (Use arrow keys)
+❯ Amazon DynamoDB Stream
+  Amazon Kinesis Stream
+```
+
+Now select `API category graphql @model backed DynamoDB table`.
+
+```console
+?
+> Use API category graphql @model backed DynamoDB table(s) in the current Amplify project
+  Use storage category DynamoDB table configured in the current Amplify project
+  Provide the ARN of DynamoDB stream directly
+```
+
+After the above question, you can select one of the types annotated by @model for which you want to add a trigger for.
+
+On completion of the above mentioned flow, a boilerplate lambda function trigger will be created in your `amplify/backend/function` directory with the following template:
+
+```js
+exports.handler = function (event, context) {
+  console.log(JSON.stringify(event, null, 2));
+  event.Records.forEach((record) => {
+    console.log(record.eventID);
+    console.log(record.eventName);
+    console.log('DynamoDB Record: %j', record.dynamodb);
+  });
+  context.done(null, 'Successfully processed DynamoDB record');
+};
+```
+
+`record.dynamodb` will contain a DynamoDB change json describing the item changed in DynamoDB table. Please note that it does not represent an original and new item as stored in DynamoDB table. To retrieve a original and new item you need to convert a DynamoDB json to original form:
+
+<BlockSwitcher>
+
+<Block name="AWS SDK V2">
+
+```js
+const AWS = require('aws-sdk');
+const records = event.Records.map((record) => ({
+  new: AWS.DynamoDB.Converter.unmarshall(record.dynamodb.NewImage),
+  old: AWS.DynamoDB.Converter.unmarshall(record.dynamodb.OldImage)
+}));
+```
+</Block>
+
+<Block name="AWS SDK V3">
+
+```js
+const { unmarshall } = require("@aws-sdk/util-dynamodb");
+const records = event.Records.map((record) => ({
+  new: unmarshall(record.dynamodb.NewImage),
+  old: unmarshall(record.dynamodb.OldImage),
+}));
+```
+</Block>
+
+</BlockSwitcher>
+
+## Kinesis Stream Trigger
+
+Amplify Analytics category Kinesis stream resource can be also used as an event source for Lambda triggers. Event published to Kinesis stream will trigger a lambda function. You can add a Kinesis stream to your Amplify project by going through the `amplify add analytics` flow. To create a Lambda trigger for the Kinesis Stream, start with adding a new lambda function:
+
+```bash
+amplify add function
+```
+
+Proceed by providing a name and selecting a Lambda Trigger template:
+
+```console
+? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
+? Provide the AWS Lambda function name: mytrigger
+? Choose the function template that you want to use:
+  Hello world function
+  CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)
+  Serverless express function (Integration with Amazon API Gateway)
+❯ Lambda Trigger
+```
+
+Then select `Amazon Kinesis Stream` when prompted with event source question and select the resource.
+
+```console
+? What event source do you want to associate with Lambda trigger (Use arrow keys)
+  Amazon DynamoDB Stream
+❯ Amazon Kinesis Stream
+? Choose a Kinesis event source option (Use arrow keys)
+❯ Use Analytics category kinesis stream in the current Amplify project
+  Provide the ARN of Kinesis stream directly
+```
+
+After the completion of the above flow, a Lambda function will be created in your `amplify/backend/function` directory and will be invoked when a new event is pushed to a Kinesis stream. Please refer to [Working with the API](/gen1/[platform]/build-a-backend/more-features/analytics/set-up-analytics/) to learn more about publishing your events to Kinesis stream.

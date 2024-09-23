@@ -11,6 +11,7 @@ import {
   IconSwift,
   IconVue
 } from '@/components/Icons';
+import { useIsGen1Page } from '@/utils/useIsGen1Page';
 
 const frameworks = [
   {
@@ -20,34 +21,10 @@ const frameworks = [
     icon: <IconReact />
   },
   {
-    title: 'JavaScript',
-    key: 'javascript',
-    href: '/javascript',
-    icon: <IconJS />
-  },
-  {
-    title: 'Flutter',
-    key: 'flutter',
-    href: '/flutter',
-    icon: <IconFlutter />
-  },
-  {
-    title: 'Swift',
-    key: 'swift',
-    href: '/swift',
-    icon: <IconSwift />
-  },
-  {
-    title: 'Android',
-    key: 'android',
-    href: '/android',
-    icon: <IconAndroid />
-  },
-  {
-    title: 'React Native',
-    key: 'react-native',
-    href: '/react-native',
-    icon: <IconReact />
+    title: 'Next.js',
+    key: 'nextjs',
+    href: '/nextjs',
+    icon: <IconNext />
   },
   {
     title: 'Angular',
@@ -56,16 +33,40 @@ const frameworks = [
     icon: <IconAngular />
   },
   {
-    title: 'Next.js',
-    key: 'nextjs',
-    href: '/nextjs',
-    icon: <IconNext />
-  },
-  {
     title: 'Vue',
     key: 'vue',
     href: '/vue',
     icon: <IconVue />
+  },
+  {
+    title: 'JavaScript',
+    key: 'javascript',
+    href: '/javascript',
+    icon: <IconJS />
+  },
+  {
+    title: 'React Native',
+    key: 'react-native',
+    href: '/react-native',
+    icon: <IconReact />
+  },
+  {
+    title: 'Flutter',
+    key: 'flutter',
+    href: '/flutter',
+    icon: <IconFlutter />
+  },
+  {
+    title: 'Android',
+    key: 'android',
+    href: '/android',
+    icon: <IconAndroid />
+  },
+  {
+    title: 'Swift',
+    key: 'swift',
+    href: '/swift',
+    icon: <IconSwift />
   }
 ];
 
@@ -74,6 +75,8 @@ interface FrameworkGridProps {
 }
 
 export const FrameworkGrid = ({ currentKey }: FrameworkGridProps) => {
+  const isGen1Page = useIsGen1Page();
+
   return (
     <View
       as="nav"
@@ -87,7 +90,7 @@ export const FrameworkGrid = ({ currentKey }: FrameworkGridProps) => {
           return (
             <li key={key} className="framework-grid__item">
               <Link
-                href={href}
+                href={isGen1Page ? `/gen1${href}` : href}
                 className={`framework-grid__link${
                   isCurrent ? ' framework-grid__link--current' : ''
                 }`}

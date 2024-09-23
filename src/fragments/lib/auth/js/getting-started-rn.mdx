@@ -7,6 +7,10 @@ Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authe
 <BlockSwitcher>
 <Block name="React Native CLI">
 
+import rnVersionCallout from '/src/fragments/common/react-native-version-deployment-target.mdx';
+
+<Fragments fragments={{ all: rnVersionCallout }} />
+
 Install the necessary dependencies by running the following command:
 
 ```sh
@@ -17,6 +21,12 @@ You will also need to install the pod dependencies for iOS:
 
 ```sh
 npx pod-install
+```
+
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm run ios
 ```
 
 </Block>
@@ -38,7 +48,7 @@ The most common way to use Authentication with Amplify is via the Amplify CLI, w
 <BlockSwitcher>
 <Block name="Amplify CLI (Create)">
 
-> Prerequisites: [Install and configure](/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
+> Prerequisites: [Install and configure](/gen1/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/gen1/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
 
 To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
 
@@ -61,7 +71,7 @@ The CLI prompts will help you to customize your auth flow for your app. With the
 - Customize attributes for your users, e.g. name, email
 - Enable 3rd party social providers, e.g. Facebook, Twitter, Google and Amazon
 
-If you wish to federate with social providers [you will need to configure them first](/[platform]/build-a-backend/auth/add-social-provider/#social-providers-and-federation).
+If you wish to federate with social providers [you will need to configure them first](/gen1/[platform]/build-a-backend/auth/add-social-provider/#social-providers-and-federation).
 
 After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
 
@@ -87,7 +97,7 @@ Amplify.configure(amplifyconfig);
 
 <Block name="Amplify CLI (Import)">
 
-> Prerequisites: [Install and configure](/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
+> Prerequisites: [Install and configure](/gen1/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/gen1/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
 
 To import existing Amazon Cognito resources into your Amplify project, **execute the command**:
 
@@ -133,7 +143,7 @@ Amplify.configure(amplifyconfig);
 
 <Block name="Amplify Studio">
 
-> Prerequisites: [Install and configure](/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
+> Prerequisites: [Install and configure](/gen1/[platform]/start/project-setup/prerequisites/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/gen1/[platform]/build-a-backend/auth/set-up-auth/#install-amplify-libraries).
 
 Amplify Studio allows you create auth resources, set up authorization rules, implement Multi-factor authentication (MFA), and more via an intuitive UI. To set up Authentication through the Amplify Studio, take the following steps:
 
@@ -151,7 +161,7 @@ Amplify Studio allows you create auth resources, set up authorization rules, imp
 7. In the **Configure sign up** section, expand **Password protection settings** and customize the password policy settings to enforce. u6. Choose **Save and Deploy**. This starts a CloudFormation deployment with the progress displayed in the upper right corner of the page.
 8. After creating and configuring your auth resources, you'll need to pull them down from Amplify Studio. To do so, simply click on "Local setup instructions" in the upper right hand corner of the Studio console and execute the CLI command it provides at the root directory of your app.
 
-> You can also [import](/[platform]/tools/console/auth/import/) existing Amazon Cognito resources and [manage users and groups](/[platform]/tools/console/auth/user-management/) through the Amplify Studio UI.
+> You can also [import](/gen1/[platform]/tools/console/auth/import/) existing Amazon Cognito resources and [manage users and groups](/gen1/[platform]/tools/console/auth/user-management/) through the Amplify Studio UI.
 
 </Block>
 
@@ -229,12 +239,12 @@ These settings can be found in the Cognito User Pools console under **App Integr
 
 ## Enable sign-up, sign-in, and sign-out
 
-Follow the instructions in the [Sign in, Sign up and Sign out](/[platform]/build-a-backend/auth/enable-sign-up/) to learn about how to integrate these authentication flows in your application with the Auth APIs.
+Follow the instructions in the [Sign in, Sign up and Sign out](/gen1/[platform]/build-a-backend/auth/enable-sign-up/) to learn about how to integrate these authentication flows in your application with the Auth APIs.
 
 ## Summary
 
 To implement authentication flows using Amplify you can either use the Amplify UI libraries or call authentication methods directly on the `Auth` class.
 
-`Auth` has over 30 methods including [`signUp`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-up), [`signIn`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-in), [`forgotPassword`](/[platform]/build-a-backend/auth/manage-user-session/#forgot-password), and [`signOut`](/[platform]/build-a-backend/auth/enable-sign-up/#sign-out) that allow you full control over all aspects of the user authentication flow.
+`Auth` has over 30 methods including [`signUp`](/gen1/[platform]/build-a-backend/auth/enable-sign-up/#sign-up), [`signIn`](/gen1/[platform]/build-a-backend/auth/enable-sign-up/#sign-in), [`forgotPassword`](/gen1/[platform]/build-a-backend/auth/manage-user-session/#forgot-password), and [`signOut`](/gen1/[platform]/build-a-backend/auth/enable-sign-up/#sign-out) that allow you full control over all aspects of the user authentication flow.
 
-Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/modules/aws_amplify.auth.html).

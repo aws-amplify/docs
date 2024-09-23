@@ -1,0 +1,70 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Amplify Storage',
+  description: 'The Amplify Storage category provides a simple mechanism for managing user content for your app in public, protected, or private storage buckets. The Amplify AWS S3 Storage plugin leverages Amazon S3.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'flutter',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ swift: ios_maintenance }} />
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import ios1 from '/src/fragments/lib-v1/storage/native_common/getting-started/common.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import android2 from '/src/fragments/lib-v1/storage/native_common/getting-started/common.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+import flutter3 from '/src/fragments/lib-v1/storage/native_common/getting-started/common.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />
+
+import js0 from '/src/fragments/lib-v1/storage/js/getting-started.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
+
+import reactnative0 from '/src/fragments/lib-v1/storage/js/getting-started.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />

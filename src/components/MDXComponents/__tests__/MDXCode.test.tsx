@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { MDXCode } from '../MDXCode';
+import { MDXCode, emptyCodeString } from '../MDXCode';
+
+jest.mock('react-copy-to-clipboard', () => ({
+  CopyToClipboard: jest.fn().mockImplementation(({ children }) => {
+    return children;
+  })
+}));
 
 const codeString = `
 import * as sns from 'aws-cdk-lib/aws-sns';
@@ -38,6 +44,15 @@ describe('MDXCode', () => {
     expect(titleElement.className).toContain('pre-title');
   });
 
+  it('should reset the code-block css counter', async () => {
+    // line numbers have been moved to css, so here we are looking for the class that has "counter-reset: code-block;"
+    // line number css can be found in `/src/styles/code.scss`
+    const { container } = render(
+      <MDXCode testId={testId} codeString={codeString}></MDXCode>
+    );
+    expect(container.querySelector('.code-block')).toBeInTheDocument();
+  });
+
   it('should show a copy button for supported languages', async () => {
     render(<MDXCode codeString={codeString}></MDXCode>);
     const copyButton = await screen.findByRole('button', { name: /Copy/i });
@@ -64,17 +79,44 @@ describe('MDXCode', () => {
   });
 
   it('should show line numbers by default', async () => {
+    // Line numbers have been moved to css so we are just looking for the needed class name
     const codeString = 'test code';
-    render(<MDXCode codeString={codeString}></MDXCode>);
-    const number = screen.queryByText('1');
-    expect(number).toBeInTheDocument();
+    const { container } = render(<MDXCode codeString={codeString}></MDXCode>);
+    expect(container.querySelector('.show-line-numbers')).toBeInTheDocument();
+  });
+
+  it('should hide line numbers by default for bash language', async () => {
+    // Line numbers have been moved to css so we are just looking for the needed class name
+    const codeString = 'test code';
+    const { container } = render(
+      <MDXCode codeString={codeString} language={'bash'}></MDXCode>
+    );
+    expect(
+      container.querySelector('.show-line-numbers')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should show line numbers for bash', async () => {
+    // Line numbers have been moved to css so we are just looking for the needed class name
+    const codeString = 'test code';
+    const { container } = render(
+      <MDXCode
+        codeString={codeString}
+        language={'bash'}
+        showLineNumbers={true}
+      ></MDXCode>
+    );
+    expect(container.querySelector('.show-line-numbers')).toBeInTheDocument();
   });
 
   it('should not have line numbers if showLineNumbers is false', async () => {
     const codeString = 'test code';
-    render(<MDXCode showLineNumbers={false} codeString={codeString}></MDXCode>);
-    const number = screen.queryByText('1');
-    expect(number).not.toBeInTheDocument();
+    const { container } = render(
+      <MDXCode showLineNumbers={false} codeString={codeString}></MDXCode>
+    );
+    expect(
+      container.querySelector('.show-line-numbers')
+    ).not.toBeInTheDocument();
   });
 
   it('should have highlighted line when //highlight-next-line is used', async () => {
@@ -139,5 +181,20 @@ describe('MDXCode', () => {
     expect(highlightedLines[0]).toContainHTML('result');
     expect(highlightedLines[1]).toContainHTML('value');
     expect(highlightedLines[2]).toContainHTML('}');
+  });
+
+  it('should throw an error for an empty codeblock string', async () => {
+    const mdxCode = <MDXCode codeString={''}></MDXCode>;
+    expect(() => {
+      render(mdxCode);
+    }).toThrow(emptyCodeString);
+  });
+
+  it('should throw an error if the codestring contains only whitespace', async () => {
+    const codeString = ' \t\n\r\v\f';
+    const mdxCode = <MDXCode codeString={codeString}></MDXCode>;
+    expect(() => {
+      render(mdxCode);
+    }).toThrow(emptyCodeString);
   });
 });

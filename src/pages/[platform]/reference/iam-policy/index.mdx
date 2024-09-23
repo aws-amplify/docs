@@ -1,0 +1,40 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'IAM policy',
+  description: 'Learn more about the IAM policy required by Amplify.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Branch deployments
+
+Branch deployments require the [`AmplifyBackendDeployFullAccess`](https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmplifyBackendDeployFullAccess) managed policy to be able to deploy backend resources during a fullstack deployment. When connecting your project through the console, a role with this policy attached will be automatically created for you.
+
+<Video src="/images/gen2/references/iam-policy.mp4" description="Video - IAM Policy" />
+
+## Cloud sandbox deployments
+
+Sandbox deployments, by design, use local credentials to deploy resources. You need to ensure that the local profile has the `AmplifyBackendDeployFullAccess` policy attached to it.

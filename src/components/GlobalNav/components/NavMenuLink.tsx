@@ -1,6 +1,5 @@
 import { Text, Link } from '@aws-amplify/ui-react';
 import { Dispatch, SetStateAction } from 'react';
-import styles from '../GlobalNav.module.scss';
 import { IconLink, ExternalLink } from './icons';
 import { NavMenuItem } from '../GlobalNav';
 
@@ -19,7 +18,7 @@ export function NavMenuLink({
     navMenuItem.type === 'EXTERNAL' ? (
       <ExternalLink>{label}</ExternalLink>
     ) : (
-      <Text as="span" color="inherit" className={styles['icon-link']}>
+      <Text as="span" color="inherit" className="icon-link">
         <IconLink iconType={navMenuItem.icon ? navMenuItem.icon : ''} />
       </Text>
     );
@@ -27,9 +26,9 @@ export function NavMenuLink({
   if (navMenuItem.type === 'DEFAULT') {
     return (
       <Link
-        className={`${styles['nav-menu-item']} ${
+        className={`navbar-menu-item ${
           navMenuItem.label === currentMenuItem
-            ? styles['current-nav-menu-item']
+            ? 'navbar-menu-item--current'
             : ''
         }`}
         href={navMenuItem.url}
@@ -41,7 +40,8 @@ export function NavMenuLink({
     return (
       <Link
         isExternal={true}
-        className={styles['nav-menu-item']}
+        aria-label={label + ' (opens in new tab)'}
+        className="navbar-menu-item"
         href={navMenuItem.url}
       >
         {linkContent}

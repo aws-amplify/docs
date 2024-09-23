@@ -1,0 +1,41 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Sync messages',
+  description: "Learn how to sync in-app messages to your user's local device. Synced messages will be displayed when a matching event is triggered.",
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+To trigger messages, you must sync them from your In-App Messaging campaigns to your users' devices. These messages are then triggered with an analytics or In-App Messaging event. You can control when and how often this sync is performed.
+
+```js title="src/index.js"
+import { syncMessages } from 'aws-amplify/in-app-messaging';
+
+await syncMessages();
+```
+
+<Callout informational>
+
+**Note:** Syncing messages will always overwrite existing messages currently on the user's device so that they are always up to date when the sync is performed.
+
+</Callout>

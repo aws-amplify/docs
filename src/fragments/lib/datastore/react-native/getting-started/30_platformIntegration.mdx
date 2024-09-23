@@ -3,23 +3,26 @@
 
 Start with the [React Native CLI](https://reactnative.dev/docs/getting-started):
 
+import rnVersionCallout from '/src/fragments/common/react-native-version-deployment-target.mdx';
+
+<Fragments fragments={{ all: rnVersionCallout }} />
+
 ```sh
 npx react-native init AmplifyDataStoreRN
 cd AmplifyDataStoreRN
 npm install aws-amplify @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values @azure/core-asynciterator-polyfill
 ```
 
-`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0`, open the _Podfile_ located in the _ios_ directory and update the `target` value:
-
-```diff
-- platform :ios, min_ios_version_supported
-+ platform :ios, 13.0
-```
-
 You will also need to install the pod dependencies for iOS:
 
 ```sh
 npx pod-install
+```
+
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm run ios
 ```
 
 **Use SQLite for enhanced performance (optional)**

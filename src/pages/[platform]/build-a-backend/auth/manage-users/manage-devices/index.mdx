@@ -1,0 +1,452 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Manage devices',
+  description: 'Learn how to manage user devices',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}
+
+Amplify Auth enables you to track devices your users use for auditing, MFA, and more. Before you begin it is important to understand the terminology for device statuses:
+
+- **Tracked:** Every time the user signs in with a new device, the client is given the device key at the end of a successful authentication event. We use this device key to generate a salt and password verifier which is used to call the ConfirmDevice API. At this point, the device is considered to be _tracked_. Once the device is in a tracked state, you can use the Amazon Cognito console to see the time it started to be tracked, last authentication time, and other information about that device.
+- **Remembered:** Remembered devices are also tracked. During user authentication, the device key and secret pair assigned to a remembered device is used to authenticate the device to verify that it is the same device that the user previously used to sign in.
+- **Not Remembered:** A not-remembered device is a tracked device where Cognito has been configured to require users to "Opt-in" to remember a device, but the user has not opt-ed in to having the device remembered. This use case is used for users signing into their application from a device that they don't own.
+- **Forgotten:** a forgotten device is one removed from being remembered
+
+<Callout info>
+
+**Note:** [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are not available when using federating sign-in with external providers as devices are tracked on the upstream identity provider. These features are also not available when using Cognito's Hosted UI.
+
+</Callout>
+
+## Remember devices
+
+You can remember devices using the following:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { rememberDevice } from 'aws-amplify/auth';
+
+await rememberDevice();
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```dart
+Future<void> rememberCurrentDevice() async {
+  try {
+    await Amplify.Auth.rememberDevice();
+    safePrint('Remember device succeeded');
+  } on AuthException catch (e) {
+    safePrint('Remember device failed with error: $e');
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.rememberDevice(
+    () -> Log.i("AuthQuickStart", "Remember device succeeded"),
+    error -> Log.e("AuthQuickStart", "Remember device failed with error " + error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.rememberDevice(
+    { Log.i("AuthQuickStart", "Remember device succeeded") },
+    { Log.e("AuthQuickStart", "Remember device failed with error", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    Amplify.Auth.rememberDevice()
+    Log.i("AuthQuickStart", "Remember device succeeded")
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Remember device failed with error", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.rememberDevice()
+    .subscribe(
+      () -> Log.i("AuthQuickStart", "Remember device succeeded"),
+      error -> Log.e("AuthQuickStart", "Remember device failed with error " + error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func rememberDevice() async {
+    do {
+        try await Amplify.Auth.rememberDevice()
+        print("Remember device succeeded")
+    } catch let error as AuthError {
+        print("Remember device failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func rememberDevice() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.rememberDevice()
+    }.sink {
+            if case let .failure(authError) = $0 {
+                print("Remember device failed with error \(authError)")
+            }
+        }
+        receiveValue: {
+            print("Remember device succeeded")
+        }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+## Forget devices
+
+You can also forget devices but note that forgotten devices are neither remembered nor tracked.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { forgetDevice } from 'aws-amplify/auth';
+
+await forgetDevice();
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+<BlockSwitcher>
+<Block name="Current Device">
+
+```dart
+Future<void> forgetCurrentDevice() async {
+  try {
+    await Amplify.Auth.forgetDevice();
+    safePrint('Forget device succeeded');
+  } on AuthException catch (e) {
+    safePrint('Forget device failed with error: $e');
+  }
+}
+```
+
+</Block>
+<Block name="Specific Device">
+
+```dart
+// A device that was fetched via Amplify.Auth.fetchDevices()
+Future<void> forgetSpecificDevice(AuthDevice myDevice) async {
+  try {
+    await Amplify.Auth.forgetDevice(myDevice);
+    safePrint('Forget device succeeded');
+  } on AuthException catch (e) {
+    safePrint('Forget device failed with error: $e');
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.forgetDevice(
+    () -> Log.i("AuthQuickStart", "Forget device succeeded"),
+    error -> Log.e("AuthQuickStart", "Forget device failed with error " + error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.forgetDevice(
+    { Log.i("AuthQuickStart", "Forget device succeeded") },
+    { Log.e("AuthQuickStart", "Forget device failed with error", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    Amplify.Auth.forgetDevice()
+    Log.i("AuthQuickStart", "Forget device succeeded")
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Forget device failed with error", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.forgetDevice()
+    .subscribe(
+      () -> Log.i("AuthQuickStart", "Forget device succeeded"),
+      error -> Log.e("AuthQuickStart", "Forget device failed with error " + error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func forgetDevice() async {
+    do {
+        try await Amplify.Auth.forgetDevice()
+        print("Forget device succeeded")
+    } catch let error as AuthError {
+        print("Forget device failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func forgetDevice() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.forgetDevice()
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Forget device failed with error \(authError)")
+        }
+    }
+    receiveValue: {
+        print("Forget device succeeded")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+## Fetch devices
+
+You can fetch a list of remembered devices by using the following:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { fetchDevices } from 'aws-amplify/auth';
+
+const output = await fetchDevices();
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```dart
+Future<void> fetchAllDevices() async {
+  try {
+    final devices = await Amplify.Auth.fetchDevices();
+    for (final device in devices) {
+      safePrint('Device: $device');
+    }
+  } on AuthException catch (e) {
+    safePrint('Fetch devices failed with error: $e');
+  }
+}
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.fetchDevices(
+    devices -> {
+        for (AuthDevice device : devices) {
+            Log.i("AuthQuickStart", "Device: " + device);
+        }
+    },
+    error -> Log.e("AuthQuickStart", "Fetch devices failed with error: " + error.toString()));
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.fetchDevices(
+    { devices ->
+        devices.forEach { Log.i("AuthQuickStart", "Device: " + it) }
+    },
+    { Log.e("AuthQuickStart", "Fetch devices failed with error", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    Amplify.Auth.fetchDevices().forEach { device ->
+        Log.i("AuthQuickStart", "Device: $device")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart",  "Fetch devices failed with error", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.fetchDevices()
+    .subscribe(
+        device -> Log.i("AuthQuickStart", "Device: " + device);
+        error -> Log.e("AuthQuickStart", "Fetch devices failed with error: " + error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func fetchDevices() async {
+    do {
+        let fetchDeviceResult = try await Amplify.Auth.fetchDevices()
+        for device in fetchDeviceResult {
+            print(device.id)
+        }
+    } catch let error as AuthError {
+        print("Fetch devices failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func fetchDevices() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.fetchDevices()
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Fetch devices failed with error \(authError)")
+        }
+    }
+    receiveValue: { fetchDeviceResult in
+        for device in fetchDeviceResult {
+            print(device.id)
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## Fetch the current device
+
+You can fetch the current device by using the following:
+
+```dart
+Future<void> fetchCurrentUserDevice() async {
+  try {
+    final device = await Amplify.Auth.fetchCurrentDevice();
+    safePrint('Device: $device');
+  } on AuthException catch (e) {
+    safePrint('Get current device failed with error: $e');
+  }
+}
+```
+
+</InlineFilter>
+
+You can now set up devices to be remembered, forgotten, and fetched.
+
+{/* user agents */}

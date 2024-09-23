@@ -12,13 +12,19 @@ Start with the [React Native CLI](https://reactnative.dev/docs/getting-started):
 npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
 cd AmplifyDataStoreRN
 npx amplify-app@latest
-npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage @azure/core-asynciterator-polyfill
+npm install aws-amplify@^5 amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage @azure/core-asynciterator-polyfill
 ```
 
 You will also need to install the pod dependencies for iOS:
 
 ```sh
 npx pod-install
+```
+
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm run ios
 ```
 
 **Use SQLite for enhanced performance (optional)**
@@ -31,7 +37,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
 cd AmplifyDataStoreRN
 npx amplify-app@latest
-npm install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage @azure/core-asynciterator-polyfill
+npm install aws-amplify@^5 amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage @azure/core-asynciterator-polyfill
 npx pod-install
 ```
 

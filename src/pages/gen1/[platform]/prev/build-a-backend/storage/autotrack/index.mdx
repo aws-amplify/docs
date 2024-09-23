@@ -1,0 +1,38 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Automatically track events',
+  description: 'You can enable automatic tracking of Storage Events such as uploads and downloads. Enabling this will automatically send Storage Events to Amazon Pinpoint and you will be able to see them within the AWS Pinpoint Console under Custom Events.',
+  platforms: [
+    'javascript',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import js0 from '/src/fragments/lib-v1/storage/js/autotrack.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>

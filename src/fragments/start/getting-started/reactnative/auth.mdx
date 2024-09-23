@@ -61,6 +61,12 @@ You will also need to install the pod dependencies for iOS:
 npx pod-install
 ```
 
+After installing pod dependencies, rebuild the app:
+
+```sh
+npm run ios
+```
+
 </Block>
 </BlockSwitcher>
 
@@ -386,4 +392,4 @@ In this example, you used the Amplify React UI library and the `withAuthenticato
 
 You can also [customize this component](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/customization#override-function-calls) if needed.
 
-In addition to `withAuthenticator`, you can build [custom authentication flows with the Amplify Library for JS](/[platform]/build-a-backend/auth/set-up-auth/). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+In addition to `withAuthenticator`, you can build [custom authentication flows with the Amplify Library for JS](/gen1/[platform]/build-a-backend/auth/set-up-auth/). Amplify's Auth category has over 30 APIs including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/modules/aws_amplify.auth.html).

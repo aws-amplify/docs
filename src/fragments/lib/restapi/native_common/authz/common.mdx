@@ -115,7 +115,7 @@ import android1 from '/src/fragments/lib/graphqlapi/android/authz/20_oidc.mdx';
 
 The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes.](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/).
 
-The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well, for example using [Amplify CLI](/[platform]/tools/cli/usage/lambda-triggers/#override-id-token-claims).
+The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well, for example using [Amplify CLI](/gen1/[platform]/tools/cli/usage/lambda-triggers/#override-id-token-claims).
 
 If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider, set the authorization type to `OPENID_CONNECT` and use `Amplify.Auth` to retrieve the ID Token for your requests.
 

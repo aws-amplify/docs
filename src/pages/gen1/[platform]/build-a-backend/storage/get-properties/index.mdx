@@ -1,0 +1,111 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Get file properties',
+  description: "Learn more about how to get a file's properties without downloading the file using Amplify's storage category.",
+  platforms: [
+    'javascript',
+    'flutter',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import flutter0 from '/src/fragments/lib/storage/flutter/get-properties.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />
+
+<InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
+
+You can get file properties and metadata without downloading the file
+
+## getProperties
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { getProperties } from 'aws-amplify/storage';
+
+try {
+  const result = await getProperties({
+    path: 'public/album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+  });
+  console.log('File Properties ', result);
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { getProperties } from 'aws-amplify/storage';
+
+try {
+  const result = await getProperties({
+    key: 'album/2024/1.jpg',
+    options: {
+      accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+      targetIdentityId: 'xxxxxxx' // ID of another user, if accessLevel is `protected`
+    }
+  });
+  console.log('File Properties ', result);
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+</Block>
+</BlockSwitcher>
+
+The properties and metadata will look similar to the below example
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```js
+{
+  path: 'public/album/2024/1.jpg',
+  contentType: 'image/jpeg',
+  contentLength: 6873,
+  eTag: '\"56b32cf4779ff6ca3ba3f2d455fa56a7\"',
+  lastModified: Wed Apr 19 2023 14:20:55 GMT-0700 (Pacific Daylight Time) {},
+  metadata: { owner : 'aws' }
+}
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```js
+{
+  key : 'album/2024/1.jpg',
+  contentType: 'image/jpeg',
+  contentLength: 6873,
+  eTag: '\"56b32cf4779ff6ca3ba3f2d455fa56a7\"',
+  lastModified: Wed Apr 19 2023 14:20:55 GMT-0700 (Pacific Daylight Time) {},
+  metadata: { owner : 'aws' }
+}
+```
+</Block>
+</BlockSwitcher>
+
+
+<Callout>
+To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
+
+Learn more about how to setup an appropriate [CORS Policy](/gen1/[platform]/prev/build-a-backend/storage/set-up-storage/#amazon-s3-bucket-cors-policy-setup).
+
+</Callout>
+
+</InlineFilter>

@@ -4,9 +4,9 @@ When adding the Storage category, you configure the level of access users have t
 - **Protected** Readable by all users, but only writable by the creating user
 - **Private** Readable and writable only by the creating user
 
-Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](/[platform]/prev/build-a-backend/auth/set-up-auth/) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
+Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](/gen1/[platform]/prev/build-a-backend/auth/set-up-auth/) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
 
-For protected and private access, the `[IDENTITY_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[IDENTITY_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](/[platform]/prev/build-a-backend/auth/accessing-credentials/) to retrieve the identity id, and use this as the unique ID of the authenticated user.
+For protected and private access, the `[IDENTITY_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[IDENTITY_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](/gen1/[platform]/prev/build-a-backend/auth/accessing-credentials/) to retrieve the identity id, and use this as the unique ID of the authenticated user.
 
 <Callout>
 
@@ -30,9 +30,9 @@ import flutter2 from '/src/fragments/lib-v1/storage/flutter/configureaccess/10_p
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-This will upload with the prefix `/protected/[IDENTITY_ID]/` followed by the key.
+This will upload with the prefix `/protected/[IDENTITY_ID]/` followed by the `key`.
 
-For other users to read the file, you must specify the user ID of the creating user in the passed options.
+For other users to read the file, you must specify the access level as `protected` and the identity ID of the user who uploaded it in the options.
 
 import ios3 from '/src/fragments/lib-v1/storage/ios/configureaccess/20_protected_download.mdx';
 
@@ -62,7 +62,7 @@ import flutter8 from '/src/fragments/lib-v1/storage/flutter/configureaccess/30_p
 
 <Fragments fragments={{ flutter: flutter8 }} />
 
-This will upload with the prefix `/private/[IDENTITY_ID]/`, followed by the key.
+This will upload with the prefix `/private/[IDENTITY_ID]/`, followed by the `key`.
 
 For the user to read the file, specify the same access level (`private`) and key you used to upload:
 
@@ -85,3 +85,114 @@ import ios10 from '/src/fragments/lib-v1/storage/ios/configureaccess/50_customiz
 import android11 from '/src/fragments/lib-v1/storage/android/configureaccess/50_customization.mdx';
 
 <Fragments fragments={{ android: android11 }} />
+
+<InlineFilter filters={["flutter"]}>
+    
+## Customization
+
+### Customize Object Key Path
+
+You can customize your key path by defining a prefix resolver:
+
+```dart
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
+// Define your own prefix resolver, which implements the `S3PrefixResolver`.
+class MyPrefixResolver implements S3PrefixResolver {
+  const MyPrefixResolver();
+
+  @override
+  Future<String> resolvePrefix({
+    required StorageAccessLevel accessLevel,
+    String? identityId,
+  }) async {
+    if (accessLevel == StorageAccessLevel.guest) {
+      return 'myPublicPrefix/';
+    }
+
+    final String accessLevelPrefix;
+
+    if (accessLevel == StorageAccessLevel.protected) {
+      accessLevelPrefix = 'myProtectedPrefix/';
+    } else {
+      accessLevelPrefix = 'myPrivatePrefix/';
+    }
+
+    final targetIdentityId = identityId ?? await getCurrentUserIdentityId();
+
+    return '$accessLevelPrefix$targetIdentityId/';
+  }
+
+  Future<String> getCurrentUserIdentityId() async {
+    final authPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+    final authSession = await authPlugin.fetchAuthSession();
+    return authSession.identityIdResult.value;
+  }
+}
+```
+
+Then, configure the Storage plugin with your custom prefix resolver:
+
+```dart
+final storagePlugin = AmplifyStorageS3(
+  prefixResolver: const MyPrefixResolver(),
+);
+...
+await Amplify.addPlugin(storagePlugin);
+```
+
+Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path _myPublicPrefix/_:
+
+```json
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": ["arn:aws:s3:::your-s3-bucket/myPublicPrefix/*"]
+    }
+  ]
+}
+```
+
+If you want to have custom _private_ path prefix like `myPrivatePrefix/`, you need to add it into your IAM policy:
+
+```json
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
+      ]
+    }
+  ]
+}
+```
+
+## Passthrough PrefixResolver
+
+If you would like no prefix resolution logic, such as performing S3 requests at the root of the bucket, you can use the `PassThroughPrefixResolver` provided by the `amplify_storage_s3` package.
+
+```dart
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
+final storagePlugin = AmplifyStorageS3(
+  prefixResolver: const PassThroughPrefixResolver(),
+);
+
+await Amplify.addPlugin(storagePlugin);
+```
+
+</InlineFilter>

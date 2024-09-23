@@ -1,6 +1,6 @@
 ```dart
 const getTodo = 'getTodo';
-String graphQLDocument = '''query GetTodo(\$id: ID!) {
+const graphQLDocument = '''query GetTodo(\$id: ID!) {
   $getTodo(id: \$id) {
     id
     name
@@ -19,6 +19,6 @@ Then, query for the Todo by a todo id:
 ```dart
 Future<void> queryTodo(GraphQLRequest<Todo> getTodoRequest) async {
   final response = await Amplify.API.query(request: getTodoRequest).response;
-  print('Response: $response');
+  safePrint('Response: $response');
 }
 ```

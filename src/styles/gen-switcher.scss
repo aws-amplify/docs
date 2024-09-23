@@ -1,0 +1,39 @@
+.gen-switcher__trigger {
+  background-color: transparent;
+  color: var(--amplify-colors-white);
+  border-color: var(--amplify-colors-white);
+  &:hover {
+    background-color: var(--amplify-colors-primary-90);
+  }
+  &:focus-visible {
+    outline-color: var(--amplify-colors-white);
+  }
+  .popover-icon {
+    font-size: var(--amplify-font-sizes-xs);
+  }
+  @include darkMode {
+    &:hover {
+      background-color: var(--amplify-colors-primary-10);
+    }
+  }
+}
+
+.gen-switcher__check {
+  margin-inline-start: auto;
+  font-size: var(--amplify-font-sizes-small);
+}
+
+.gen-switcher__trigger--gen1 {
+  border-color: var(--amplify-colors-neutral-100);
+  color: var(--amplify-colors-font-primary);
+  &:hover {
+    background-color: var(--amplify-colors-primary-10);
+  }
+  &:focus {
+    outline-color: var(--amplify-colors-font-primary);
+  }
+}
+
+.gen-switcher__list.popover {
+  min-width: 10rem;
+}

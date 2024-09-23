@@ -1,0 +1,48 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Delete data',
+  description: 'Using the Delete API REST in Amplify',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## DELETE requests
+
+To delete an item via the API endpoint:
+
+```ts
+import { del } from 'aws-amplify/api';
+
+async function deleteItem() {
+  try {
+    const restOperation = del({
+      apiName: 'myRestApi',
+      path: 'items/1'
+    });
+    await restOperation.response;
+    console.log('DELETE call succeeded');
+  } catch (e) {
+    console.log('DELETE call failed: ', JSON.parse(e.response.body));
+  }
+}
+```

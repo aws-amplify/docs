@@ -1,0 +1,84 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Share resources across branches',
+  description: 'Update app build settings to share resources across branches.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+In some instances, you may not want to deploy new resources for every branch. For example, you might want all your `feature` branches to point to the backend resources deployed by the `dev` branch so you can reuse seed data, users, and groups.
+
+![Main and dev environments, each with their own backend resources. In the dev environment, two feature branches are shown sharing the same backend resources. ](/images/gen2/fullstack-branching/share-resources.png)
+
+You can update your app build settings to share resources across branches. From the Amplify console, go to your **App overview** page, select **Build settings** under the **Hosting** for viewing your app's build specification YAML file.
+
+![The build specification YAML file on the Build settings page in Amplify console.](/images/gen2/fullstack-branching/build-settings.png)
+
+Update the build settings for the `backend` phase to run `npx ampx generate outputs --branch dev app-id $AWS_APP_ID` to generate the `amplify_outputs.json` file for all branches other than `main` or `dev`. After this update, any new deployed branches will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `dev` branch.
+Update the build settings for the `backend` phase to run `npx ampx generate outputs --branch dev app-id $AWS_APP_ID` to generate the `amplify_outputs.json` file for all branches other than `main` or `dev`. After this update, any new deployed branches will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `dev` branch.
+
+```yaml title="amplify.yml"
+version: 1
+backend:
+    phases:
+        build:
+            commands:
+                - 'npm ci --cache .npm --prefer-offline'
+                - 'echo $AWS_BRANCH'
+                - |
+                  case "${AWS_BRANCH}" in
+                      main)
+                          echo "Deploying main branch..."
+                          npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+                          ;;
+                      dev)
+                          echo "Deploying dev branch..."
+                          npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+                          ;;
+                      pr-*)
+                          echo "Deploying pull request branch..."
+                          npx ampx generate outputs --branch previews --app-id $AWS_APP_ID
+                          ;;
+                      *)
+                          echo "Deploying to staging branch..."
+                          npx ampx generate outputs --branch dev --app-id $AWS_APP_ID
+                          ;;
+                  esac
+frontend:
+    phases:
+        build:
+            commands:
+                - 'npm run build'
+    artifacts:
+        baseDirectory: .next
+        files:
+            - '**/*'
+    cache:
+        paths:
+            - .next/cache/**/*
+            - .npm/**/*
+            - node_modules/**/*
+```

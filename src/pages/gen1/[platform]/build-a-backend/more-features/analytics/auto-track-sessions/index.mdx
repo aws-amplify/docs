@@ -1,0 +1,60 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Automatically track sessions',
+  description: 'The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from your local computer’s terminal or the AWS Console for Pinpoint.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+{/* TODO_ double check what the session tracking API possibilities are for iOS/Flutter/Android */}
+
+import js0 from '/src/fragments/lib/analytics/js/autotrack/autotrack.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js0,
+    angular: js0,
+    nextjs: js0,
+    react: js0,
+    vue: js0
+  }}
+/>
+
+import reactNative0 from '/src/fragments/lib/analytics/js/autotrack/autotrack.mdx';
+
+<Fragments fragments={{ 'react-native': reactNative0 }} />
+
+import ios1 from '/src/fragments/lib/analytics/autotrack.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android2 from '/src/fragments/lib/analytics/autotrack.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+import flutter3 from '/src/fragments/lib/analytics/autotrack.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />

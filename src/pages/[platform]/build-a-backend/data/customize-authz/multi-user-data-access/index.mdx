@@ -1,0 +1,179 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Multi-user data access',
+  description: "The `ownersDefinedIn` rule grants a set of users access to a record by automatically creating an `owners` field to store the allowed record owners. You can override the default owners field name by specifying `inField` with the desired field name to store the owner information. You can dynamically manage which users can access a record by updating the owner field.",
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The `ownersDefinedIn` rule grants a set of users access to a record by automatically creating an `owners` field to store the allowed record owners. You can override the default owners field name by specifying `inField` with the desired field name to store the owner information. You can dynamically manage which users can access a record by updating the owner field.
+
+## Add multi-user authorization rule
+
+If you want to grant a set of users access to a record, you use the `ownersDefinedIn` rule. This automatically creates a `owners: a.string().array()` field to store the allowed owners.
+
+```ts title="amplify/data/resource.ts"
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      owners: a.string().array(),
+    })
+    .authorization(allow => [allow.ownersDefinedIn('owners')]),
+});
+```
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
+
+In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '../amplify/data/resource'; // Path to your backend resource definition
+
+const client = generateClient<Schema>();
+
+// Create a record with current user as first owner
+const { errors, data: newTodo } = await client.models.Todo.create(
+  {
+    content: 'My new todo',
+  },
+  // highlight-start
+  {
+    authMode: 'userPool',
+  }
+  // highlight-end
+);
+```
+
+Add another user as an owner
+
+```ts
+await client.models.Todo.update(
+  {
+    id: newTodo.id,
+    owners: [...(newTodo.owners as string[]), otherUserId],
+  },
+  // highlight-start
+  {
+    authMode: "userPool"
+  }
+  // highlight-end
+);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+In your application, you can perform CRUD operations against the model with the `userPools` auth mode.
+  
+```dart
+try {
+  final todo = Todo(content: 'My new todo');
+  final request = ModelMutations.create(
+    todo,  
+    authorizationMode: APIAuthorizationType.userPools,
+  );
+  final createdTodo = await Amplify.API.mutations(request: request).response;
+
+  if (createdTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+  safePrint('Mutation result: ${createdTodo.name}');
+
+} on APIException catch (e) {
+  safePrint('Failed to create todo', e);
+}
+```
+
+Add another user as an owner
+
+```dart
+try {
+  createdTodo.owners!.add(otherUserId);
+  let updateRequest = ModelMutations.update(
+    createdTodo,
+    authorizationMode: APIAuthorizationType.userPools,
+  );
+  final updatedTodo = await Amplify.API.mutations(request: updateRequest).response;
+
+  if (updatedTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+
+} catch {
+  safePrint("Failed to update todo", error)
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In your application, you can perform CRUD operations against the model with the `amazonCognitoUserPools` auth mode.
+
+```swift
+do {
+    let todo = Todo(content: "My new todo")
+    let createdTodo = try await Amplify.API.mutate(request: .create(
+        todo,
+        authMode: .amazonCognitoUserPools)).get()
+} catch {
+    print("Failed to create todo", error)
+}
+```
+
+Add another user as an owner
+
+```swift
+do {
+    createdTodo.owners?.append(otherUserId)
+    let updatedTodo = try await Amplify.API.mutate(request: .update(
+        createdTodo,
+        authMode: .amazonCognitoUserPools)).get()
+} catch {
+    print("Failed to update todo", error)
+}
+```
+
+</InlineFilter>
+
+## Override to a list of owners
+
+You can override the `inField` to a list of owners. Use this if you want a dynamic set of users to have access to a record. In the example below, the `authors` list is populated with the creator of the record upon record creation. The creator can then update the `authors` field with additional users. Any user listed in the `authors` field can access the record.
+
+```ts
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      authors: a.string().array(), // record owner information now stored in "authors" field
+    })
+    .authorization(allow => [allow.ownersDefinedIn('authors')]),
+});
+```

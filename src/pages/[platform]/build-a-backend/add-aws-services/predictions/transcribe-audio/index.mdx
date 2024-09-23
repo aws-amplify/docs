@@ -1,0 +1,50 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Transcribe audio to text',
+  description: 'Learn more about how to transcribe audio to text (also known as speech-to-text) for your application using Amplify',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue',
+  ]
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout informational>
+
+**Note:** Make sure to complete the [getting started](../set-up-predictions) section first, where you will set up the IAM roles with the right policy actions
+
+</Callout>
+
+## Working with the API
+
+You can transcribe a PCM Audio byte buffer to Text, such as a recording from microphone.
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const { transcription } = await Predictions.convert({
+  transcription: {
+    source: {
+      bytes
+    }
+  }
+})
+```
+
+To view the complete list of all the supported languages and language specific features refer to [the supported languages list](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html). The language data input type has to support streaming for it to work with Amplify Predictions.

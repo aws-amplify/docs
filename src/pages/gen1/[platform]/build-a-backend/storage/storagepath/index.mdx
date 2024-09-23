@@ -1,0 +1,125 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Using StoragePath',
+  description: "Learn more about constructing a StoragePath to use on Amplify Storage APIs",
+  platforms: [
+    'swift',
+    'android',
+    'flutter'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["android", "swift", "flutter"]}>
+You can use `StoragePath` to access, upload to, or download from to any path in your S3 bucket. The Amplify Gen 1 CLI automatically creates the following directories:
+- `public/`: Accessible by all users of your application
+- `protected/<identityId>/`: Readable by all users (you need to specify the identityID of the user who uploaded the file). Writable only by the creating user
+- `private/<identityId>/`: Readable and writable only by the creating user
+
+If you are using Amplify Gen2 or an S3 bucket not created by Amplify, you can use StoragePath to access, upload to, or download from any directory in your bucket.
+
+You can specify the path to your S3 resource by creating a `StoragePath` directly from a String, or by constructing the path with the user's Cognito IdentityId.
+
+A `StoragePath` must: 
+
+1. Not start with a '/' (leading slash)
+2. Not be empty
+
+## Create a StoragePath from String
+When constructing a StoragePath from a String, the provided string will be the path.
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+```swift
+// Resolves to "public/exampleFile.txt"
+StoragePath.fromString("public/exampleFile.txt")
+```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+  <BlockSwitcher>
+    <Block name="Java">
+    ```java
+    // Resolves to "public/exampleFile.txt"
+    StoragePath.fromString("public/exampleFile.txt") 
+    ```
+    </Block>
+
+    <Block name="Kotlin">
+      ```kotlin
+      // Resolves to "public/exampleFile.txt"
+      StoragePath.fromString("public/exampleFile.txt") 
+      ```
+    </Block>
+  </BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+```dart
+// Resolves to "public/exampleFile.txt"
+const StoragePath.fromString('public/exampleFile.txt');
+```
+</InlineFilter>
+
+<InlineFilter filters={["android", "swift", "flutter"]}>
+
+## Create a StoragePath with user’s IdentityId
+You may want to construct a StoragePath that contains the Amplify Auth user’s IdentityId. We’ve created a helper function that injects the user’s IdentityId when a Storage API is called, since fetching an IdentityId from the Auth plugin is not synchronous.
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+```swift
+// If the user's identityId was "123", 
+// the StoragePath would resolve to "private/123/exampleFile.txt"
+StoragePath.fromIdentityID { identityId in
+  return "private/\(identityId)/exampleFile.txt"
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+  <BlockSwitcher>
+    <Block name="Java">
+    ```java
+    // If the user's identityId was "123", 
+    // the StoragePath would resolve to "private/123/exampleFile.txt"
+    StoragePath.fromIdentityId(identityId -> 
+      "private/" + identityId + "/exampleFile.txt"
+    );
+    ```
+    </Block>
+
+    <Block name="Kotlin">
+    ```kotlin
+    // If the user's identityId was "123", 
+    // the StoragePath would resolve to "private/123/exampleFile.txt"
+    StoragePath.fromIdentityId { identityId -> 
+      "private/${identityId}/exampleFile.txt" 
+    }
+    ```
+    </Block>
+  </BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+```dart
+// If the user's identityId was "123", 
+// the StoragePath would resolve to "private/123/exampleFile.txt"
+StoragePath.fromIdentityId(
+  (String identityId) => 'private/$identityId/exampleFile.txt',
+};
+```
+</InlineFilter>

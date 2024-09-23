@@ -1,0 +1,57 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Post data',
+  description: 'Using Post, Put, etc. in Amplify',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## POST Requests
+
+Send a POST request with a JSON body.
+
+```ts
+import { post } from 'aws-amplify/api';
+
+async function postItem() {
+  try {
+    const restOperation = post({
+      apiName: 'myRestApi',
+      path: 'items',
+      options: {
+        body: {
+          message: 'Mow the lawn'
+        }
+      }
+    });
+
+    const { body } = await restOperation.response;
+    const response = await body.json();
+
+    console.log('POST call succeeded');
+    console.log(response);
+  } catch (error) {
+    console.log('POST call failed: ', JSON.parse(error.response.body));
+  }
+}
+```

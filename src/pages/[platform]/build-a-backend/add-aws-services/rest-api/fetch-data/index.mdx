@@ -1,0 +1,104 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Fetch data',
+  description: 'Using the GET API REST in Amplify',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+To invoke an endpoint, you need to set input object with required `apiName` option and optional `headers`, `queryParams`, and `body` options. API status code response > 299 are thrown as an `ApiError` instance. The error instance provides `name` and `message` properties parsed from the response.
+
+## GET requests
+
+```ts
+import { get } from 'aws-amplify/api';
+
+async function getItem() {
+  try {
+    const restOperation = get({ 
+      apiName: 'myRestApi',
+      path: 'items' 
+    });
+    const response = await restOperation.response;
+    console.log('GET call succeeded: ', response);
+  } catch (error) {
+    console.log('GET call failed: ', JSON.parse(error.response.body));
+  }
+}
+```
+
+## Accessing response payload
+
+You can consume the response payload by accessing the `body` property of the response object. Depending on the use case and the content type of the body, you can consume they payload in string, blob, or JSON.
+
+```ts
+// ...
+const { body } = await restOperation.response;
+// consume as a string:
+const str = await body.text();
+// OR consume as a blob:
+const blob = await body.blob();
+// OR consume as a JSON:
+const json = await body.json();
+```
+
+<Callout warning>
+
+You can not consume the response payload more than once.
+
+</Callout>
+
+## Access HTTP response from errors
+
+The REST API handler may throw an `ApiError` error instance. If the error is caused by an HTTP response with a non-2xx status code, the error instance will provide a `response` property. The `response` property contains following
+properties:
+* `statusCode`: HTTP status code
+* `headers`: HTTP response headers
+* `body`: HTTP response body as a string
+
+The following example shows how to access the HTTP response from an `ApiError` instance, so that you can handle the error response from your REST API endpoint:
+
+```ts
+import { ApiError, get } from 'aws-amplify/api';
+
+try {
+  const restOperation = get({ 
+    apiName: 'myRestApi',
+    path: 'items' 
+  });
+  await restOperation.response;
+} catch (error) {
+  if (error instanceof ApiError) {
+    if (error.response) {
+      const { 
+        statusCode, 
+        headers, 
+        body 
+      } = error.response;
+      console.error(`Received ${statusCode} error response with payload: ${body}`);
+    }
+    // Handle API errors not caused by HTTP response.
+  }
+  // Handle other errors.
+}
+```

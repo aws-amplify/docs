@@ -4,22 +4,26 @@ import directory from '@/directory/directory.json';
 import { useRouter } from 'next/router';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { IconChevron } from '@/components/Icons';
+import { useIsGen1Page } from '@/utils/useIsGen1Page';
 
 export const NextPrevious = () => {
   const platform = useCurrentPlatform();
   const router = useRouter();
   const pathname = router.pathname;
+  const isGen1 = useIsGen1Page();
 
-  const findDirectoryNodes = (
-    route,
-    dir = directory,
-    platform,
-    previous,
-    next
-  ) => {
+  const findDirectoryNodes = (route, dir, platform, previous, next) => {
     const children = dir?.children?.filter((child) => {
-      return child?.platforms?.includes(platform);
+      if (isGen1) {
+        return (
+          child?.route.startsWith('/gen1') &&
+          child?.platforms?.includes(platform)
+        );
+      } else {
+        return child?.platforms?.includes(platform);
+      }
     });
+
     if (dir.route === route) {
       return { previous, next };
     } else if (children && children.length) {
@@ -89,31 +93,39 @@ export const NextPrevious = () => {
 };
 
 export const NEXT_PREVIOUS_SECTIONS = [
-  '/start/getting-started/',
-  '/start/project-setup/',
-  '/build-ui/formbuilder/',
-  '/build-ui/uibuilder/',
-  '/build-a-backend/auth/',
-  '/build-a-backend/functions/',
-  '/build-a-backend/graphqlapi/',
-  '/build-a-backend/more-features/',
-  '/build-a-backend/push-notifications/',
-  '/build-a-backend/restapi/',
-  '/build-a-backend/storage/',
-  '/build-a-backend/utilities/',
-  '/tools/cli/auth/',
-  '/tools/cli/custom/',
-  '/tools/cli/migration/',
-  '/tools/cli/plugins/',
-  '/tools/cli/project/',
-  '/tools/cli/reference/',
-  '/tools/cli/restapi/',
-  '/tools/cli/start/',
-  '/tools/cli/teams/',
-  '/tools/cli/usage/',
-  '/tools/console/adminui/',
-  '/tools/console/auth/',
-  '/tools/console/data/',
-  '/tools/console/storage/',
-  '/tools/console/tutorial/'
+  '/gen1/[platform]/start/getting-started/',
+  '/gen1/[platform]/start/project-setup/',
+  '/gen1/[platform]/build-ui/formbuilder/',
+  '/gen1/[platform]/build-ui/uibuilder/',
+  '/gen1/[platform]/build-a-backend/auth/',
+  '/gen1/[platform]/build-a-backend/functions/',
+  '/gen1/[platform]/build-a-backend/graphqlapi/',
+  '/gen1/[platform]/build-a-backend/more-features/',
+  '/gen1/[platform]/build-a-backend/push-notifications/',
+  '/gen1/[platform]/build-a-backend/restapi/',
+  '/gen1/[platform]/build-a-backend/storage/',
+  '/gen1/[platform]/build-a-backend/utilities/',
+  '/gen1/[platform]/tools/cli/auth/',
+  '/gen1/[platform]/tools/cli/custom/',
+  '/gen1/[platform]/tools/cli/migration/',
+  '/gen1/[platform]/tools/cli/plugins/',
+  '/gen1/[platform]/tools/cli/project/',
+  '/gen1/[platform]/tools/cli/reference/',
+  '/gen1/[platform]/tools/cli/restapi/',
+  '/gen1/[platform]/tools/cli/start/',
+  '/gen1/[platform]/tools/cli/teams/',
+  '/gen1/[platform]/tools/cli/usage/',
+  '/gen1/[platform]/tools/console/adminui/',
+  '/gen1/[platform]/tools/console/auth/',
+  '/gen1/[platform]/tools/console/data/',
+  '/gen1/[platform]/tools/console/storage/',
+  '/gen1/[platform]/tools/console/tutorial/',
+  '/[platform]/build-a-backend/auth/',
+  '/[platform]/build-a-backend/data/',
+  '/[platform]/build-a-backend/storage/',
+  '/[platform]/build-a-backend/functions/',
+  '/[platform]/build-a-backend/add-aws-services/',
+  '/[platform]/build-ui/formbuilder/',
+  '/[platform]/deploy-and-host/sandbox-environments/',
+  '/[platform]/deploy-and-host/fullstack-branching/'
 ];

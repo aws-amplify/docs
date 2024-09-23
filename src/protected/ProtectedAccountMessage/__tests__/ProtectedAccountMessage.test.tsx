@@ -4,7 +4,7 @@ import { ProtectedAccountMessage } from '../index';
 import fs from 'fs';
 
 const ADMINUI_START_PAGE_PATH =
-  'src/pages/[platform]/tools/console/adminui/start/index.mdx';
+  'src/pages/gen1/[platform]/tools/console/adminui/start/index.mdx';
 
 const PROTECTED_MESSAGE = `We recommend operating Amplify workloads in dedicated accounts so IAM principals not working with Amplify do not manipulate provisioned resources out-of-band.`;
 

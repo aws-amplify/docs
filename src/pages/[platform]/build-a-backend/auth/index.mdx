@@ -1,9 +1,10 @@
-import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Authentication',
-  description: 'Enable sign-in, sign-up and sign-out within minutes with pre-built UI components and powerful authentication APIs',
+  description: 'Learn about the authentication capabilities of AWS Amplify.',
+  route: '/[platform]/build-a-backend/auth',
   platforms: [
     'android',
     'angular',
@@ -14,32 +15,17 @@ export const meta = {
     'react-native',
     'swift',
     'vue'
-  ],
-  route: '/[platform]/build-a-backend/auth',
-  canonicalObjects: [
-    {
-      platforms: [
-        'nextjs',
-        'vue',
-        'javascript',
-        'react',
-        'angular',
-        'react-native'
-      ],
-      canonicalPath: '/javascript/build-a-backend/auth/'
-    }
   ]
 };
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
-};
+}
 
-export function getStaticProps(context) {
+export function getStaticProps() {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
-      platform: context.params.platform,
       meta,
       childPageNodes
     }

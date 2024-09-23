@@ -1,0 +1,49 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'IAM Permissions Boundary',
+  description: 'Apply a Permissions Boundary to all IAM Roles created by Amplify.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+
+To set the maximum permissions that can be granted to IAM Roles created by Amplify, configure a [permissions boundary](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) for the [AWS environment](https://docs.aws.amazon.com/cdk/v2/guide/environments.html) (i.e. AWS account & region). Then, Amplify-generated IAM roles can perform only the actions that are allowed by both the roles’ policies and permissions boundary. 
+
+The IAM permissions boundary will apply to all IAM Roles created by Amplify. This includes the "auth role" assumed by users that log into the app and the "unauth role" assumed by guest users. It also applies to Lambda execution roles, Cognito user group roles, and any role configured in a [custom resource stack](/[platform]/build-a-backend/add-aws-services/custom-resources/).
+
+The IAM Policy to be used as a permissions boundary must be configured outside of Amplify. A permissions boundary is an [IAM Policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create-console.html). This is usually part of an AWS Organization rule or some other corporate governance requirement. Once you have created an IAM Policy to use as a permissions boundary, copy the IAM Policy ARN for the next steps.
+
+## Set up a permissions boundary in an AWS environment
+
+
+```bash title="Terminal" showLineNumbers={false}
+cdk bootstrap --custom-permissions-boundary <iam-policy-name>
+```
+
+
+The `cdk bootstrap` command is a one-time operation that configures the AWS account and region for CDK deployments. Once executed, users can continue to utilize Amplify commands (e.g. `sandbox`) without interruption. Any custom IAM permissions boundary set by `cdk bootstrap` will be automatically applied to the roles created by Amplify.
+
+Check this [guide](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html) to learn more about bootstrapping.

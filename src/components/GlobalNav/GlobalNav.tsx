@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Flex } from '@aws-amplify/ui-react';
 import { useState } from 'react';
-import styles from './GlobalNav.module.scss';
 import { NavMenuIconType } from './components/icons/IconLink';
 import { RightNavLinks } from './components/RightNavLinks';
 import { AmplifyNavLink } from './components/AmplifyNavLink';
@@ -27,55 +26,40 @@ export interface NavProps {
   rightLinks: NavMenuItem[];
   socialLinks?: NavMenuItem[];
   currentSite: string;
-  isGen2?: boolean;
+  isGen1?: boolean;
   mainId: string;
 }
 
 export function GlobalNav({
   currentSite,
-  isGen2,
+  isGen1,
   leftLinks,
   mainId,
   rightLinks,
   socialLinks
 }: NavProps) {
-  const themeableSites: any = {
-    'UI Library': true,
-    Docs: true
-  };
-
-  // This class will be added onto the sites that aren't using an Amplify UI theme provider, this will let those using a ThemeProvider use the variables
-  // provided and the sites not using a ThemeProvider will have the needed variables added on
-  const themeClass = themeableSites[currentSite] ? '' : 'use-ui-theme';
-
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   return (
     <View
       as="nav"
-      className={`${styles['navbar']} ${isGen2 ? styles['navbar--gen2'] : ''} ${
-        themeClass ? styles[themeClass] : ''
-      }`}
-      aria-label="Amplify Dev Center - External links to additional Amplify resources"
+      className={`navbar ${isGen1 ? 'navbar--gen1' : ''}`}
+      aria-label="Amplify Docs - External links to additional Amplify resources"
     >
       <SkipToMain mainId={mainId} />
-      <Flex className={styles['nav-links-container']}>
-        <Flex height="100%" id="left-nav" className={styles['left-nav-links']}>
-          <AmplifyNavLink
-            currentSite={currentSite}
-            isCollapsed={isCollapsed}
-            setIsCollapsed={setIsCollapsed}
-            isGen2={isGen2}
-          />
+      <Flex className="nav-links-container">
+        <AmplifyNavLink
+          isGen1={isGen1}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
 
-          {isGen2 ? null : (
-            <LeftNavLinks
-              isCollapsed={isCollapsed}
-              leftLinks={leftLinks}
-              currentSite={currentSite}
-            />
-          )}
-        </Flex>
+        <LeftNavLinks
+          isCollapsed={isCollapsed}
+          leftLinks={leftLinks}
+          currentSite={currentSite}
+        />
+
         <RightNavLinks
           rightLinks={rightLinks}
           socialLinks={socialLinks}
@@ -84,7 +68,7 @@ export function GlobalNav({
         />
       </Flex>
       <View
-        className={isCollapsed ? '' : styles['background-overlay']}
+        className={isCollapsed ? '' : 'background-overlay'}
         onClick={() => {
           setIsCollapsed(true);
         }}

@@ -1,79 +1,35 @@
-import {
-  Flex,
-  Text,
-  Button,
-  VisuallyHidden,
-  Badge
-} from '@aws-amplify/ui-react';
-import styles from '../GlobalNav.module.scss';
-import { AmplifyLogo, ChevronIcon } from './icons';
-import Link from 'next/link';
-export function AmplifyNavLink({
-  currentSite,
-  isCollapsed,
-  setIsCollapsed,
-  isGen2
-}) {
-  const chevronRotation = isCollapsed ? '0' : '180';
-  return (
-    <Flex justifyContent={'space-between'} className={styles['logo-container']}>
-      {isGen2 ? (
-        <Link href="/gen2" className={styles['gen2-home']}>
-          <AmplifyLogo isGen2={isGen2} />
-          <Text as="span" className={styles['dev-center-logo']}>
-            Amplify code-first DX
-          </Text>
-          <Badge marginInlineStart="medium" className={styles['navbar-badge']}>
-            Preview
-          </Badge>
-        </Link>
-      ) : (
-        <>
-          <Flex
-            className={styles['desktop-only']}
-            gap="xs"
-            alignItems="center"
-            direction="row"
-          >
-            <AmplifyLogo />
-            <Text as="span" className={styles['dev-center-logo']}>
-              <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
-              <span style={{ fontWeight: '300' }}>Dev Center</span>
-              <span className={styles['mobile-only']}>
-                {' '}
-                <ChevronIcon rotateDeg="270" /> {currentSite}
-              </span>
-            </Text>
-          </Flex>
+import { Flex, Text, Button, VisuallyHidden } from '@aws-amplify/ui-react';
+import { AmplifyLogo } from './icons';
+import { IconChevron } from '@/components/Icons';
+import { GenSwitcher } from '@/components/GenSwitcher';
+import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 
-          <Flex
-            className={`${styles['mobile-only']} ${styles['mobile-current-link']}`}
-            gap="xs"
-            alignItems="center"
-            direction="row"
-            as="a"
-            href="/"
-            style={{ textDecoration: 'none', cursor: 'pointer' }}
-          >
-            <AmplifyLogo />
-            <Text as="span" className={styles['dev-center-logo']}>
-              <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
-              <span style={{ fontWeight: '300' }}>Dev Center</span>
-              <span className={styles['mobile-only']}>
-                {' '}
-                <ChevronIcon rotateDeg="270" /> {currentSite}
-              </span>
-            </Text>
-          </Flex>
-        </>
-      )}
+export function AmplifyNavLink({ isCollapsed, setIsCollapsed, isGen1 }) {
+  const chevronRotation = isCollapsed ? '0' : '180';
+  const currentPlatform = useCurrentPlatform() || '';
+
+  return (
+    <Flex className="navbar__logo-container">
+      <Flex
+        className={`navbar-logo-link${isGen1 ? ' navbar-logo-link--gen1' : ''}`}
+        as="a"
+        href={isGen1 ? `/gen1/${currentPlatform}` : `/${currentPlatform}`}
+      >
+        <AmplifyLogo />
+        <Text as="span" className="navbar-logo-text">
+          <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
+          <span style={{ fontWeight: '300' }}>Docs</span>
+        </Text>
+      </Flex>
+
+      <GenSwitcher isGen1={isGen1} />
 
       <Button
         aria-expanded={!isCollapsed}
         aria-controls="mobile-nav-links"
         variation="link"
         size="large"
-        className={`${styles['mobile-only']} ${styles['nav-expander']}`}
+        className="mobile-only navbar-expander"
         onClick={() => {
           setIsCollapsed(!isCollapsed);
         }}
@@ -81,7 +37,10 @@ export function AmplifyNavLink({
         <VisuallyHidden>
           {isCollapsed ? 'Open Dev Center menu' : 'Close Dev Center menu'}
         </VisuallyHidden>
-        <ChevronIcon rotateDeg={chevronRotation} />
+        <IconChevron
+          fontSize="xs"
+          className={`icon-rotate-${chevronRotation}`}
+        />
       </Button>
     </Flex>
   );

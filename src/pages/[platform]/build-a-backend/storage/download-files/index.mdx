@@ -1,0 +1,1200 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Download files',
+  description: 'Download files using Amplify Storage',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'android',
+    'swift',
+    'flutter',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["react", "javascript", "nextjs"]}>
+
+## Storage Image React UI Component
+
+You can easily display images in your app by using the cloud-connected Storage Image React UI component. This component fetches images securely from your storage resource and displays it on the web page.
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/ui-react-storage aws-amplify
+```
+```tsx
+import { StorageImage } from '@aws-amplify/ui-react-storage';
+
+export const DefaultStorageImageExample = () => {
+  return <StorageImage alt="cat" path="your-path/cat.jpg" />;
+};
+```
+
+Learn more about how you can further customize the UI component by referring to the [Storage Image documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storageimage).
+
+</InlineFilter>
+
+To further customize your in-app experience, you can use the `getUrl` or `downloadData` API from the Amplify Library for Storage.
+
+<Callout>
+
+**Note:** Refer to [the Transfer Acceleration documentation](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) to learn how to enable transfer acceleration for storage APIs.
+
+</Callout>
+
+## Get or download file from a URL
+
+With the `getUrl` API, you can get a presigned URL which is valid for 900 seconds or 15 minutes by default. You can use this URL to create a download link for users to click on. The `expiresAt` property is a `Date` object that represents the time at which the URL will expire.
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+```typescript
+import { getUrl } from 'aws-amplify/storage';
+
+const linkToStorageFile = await getUrl({
+  path: "album/2024/1.jpg",
+  // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+});
+console.log('signed URL: ', linkToStorageFile.url);
+console.log('URL expires at: ', linkToStorageFile.expiresAt);
+```
+Inside your template or JSX code, you can use the `url` property to create a link to the file:
+
+```tsx
+<a href={linkToStorageFile.url.toString()} target="_blank" rel="noreferrer">
+  {fileName} 
+</a>
+```
+
+<Callout>
+
+This function does not check if the file exists by default. As result, the signed URL may fail if the file to be downloaded does not exist.
+  
+</Callout>
+
+### More getUrl options
+
+The behavior of the `getUrl` API can be customized by passing in options.
+
+```typescript
+import { getUrl } from 'aws-amplify/storage';
+
+const linkToStorageFile = await getUrl({
+  path: "album/2024/1.jpg",
+  options: {
+    // specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend',
+    // ensure object exists before getting url
+    validateObjectExistence: true, 
+    // url expiration time in seconds.
+    expiresIn: 300,
+    // whether to use accelerate endpoint
+    useAccelerateEndpoint: true,
+  }
+});
+```
+
+Option | Type | Default | Description |
+| :--: | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) 
+| validateObjectExistence | boolean | false | Whether to head object to make sure the object existence before downloading. |
+| expiresIn | number | 900 | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/example"),
+    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/example"),
+    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") },
+    { Log.e("MyAmplifyApp", "URL generation failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val url = Amplify.Storage.getUrl(StoragePath.fromString("public/example")).url
+    Log.i("MyAmplifyApp", "Successfully generated: $url")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "URL generation failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Storage.getUrl(StoragePath.fromString("public/example")).subscribe(
+    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Check the existence of a file
+
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `AWSS3StorageGetPresignedUrlOptions`. If the file is inaccessible or does not exist, a `StorageException` is thrown.
+This allows you to check if an object exists when generating the presigned URL, which you can then use to download
+that object.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSS3StorageGetPresignedUrlOptions options = AWSS3StorageGetPresignedUrlOptions
+  .builder()
+  .setValidateObjectExistence(true)
+  .build();
+
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/example"),
+    options,
+    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+```kotlin
+val options = AWSS3StorageGetPresignedUrlOptions
+  .builder()
+  .setValidateObjectExistence(true)
+  .build()
+  
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/example"),
+    options,
+    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") },
+    { Log.e("MyAmplifyApp", "URL generation failure", it) }
+)
+```
+</Block>
+<Block name="Kotlin - Coroutines">
+```kotlin
+try {
+    val options = AWSS3StorageGetPresignedUrlOptions
+      .builder()
+      .setValidateObjectExistence(true)
+      .build()
+
+    val url = Amplify.Storage.getUrl(StoragePath.fromString("public/example"), options).url
+    Log.i("MyAmplifyApp", "Successfully generated: $url")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "URL generation failure", error)
+}
+```
+</Block>
+<Block name="RxJava">
+```java
+AWSS3StorageGetPresignedUrlOptions options = AWSS3StorageGetPresignedUrlOptions
+  .builder()
+  .setValidateObjectExistence(true)
+  .build();
+
+RxAmplify.Storage.getUrl(StoragePath.fromString("public/example"), options).subscribe(
+    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+);
+```
+</Block>
+</BlockSwitcher>
+
+### All `getURL` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| bucket | StorageBucket | The bucket in which the object is stored. |
+| expires | Integer | Number of seconds before the URL expires. |
+| useAccelerateEndpoint | Boolean | Flag to configure use of acceleration mode. |
+| validateObjectExistence | Boolean | Flag to check if the file exists. |
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+```swift
+let url = try await Amplify.Storage.getURL(
+    path: .fromString("public/example/path")
+)
+print("Completed: \(url)")
+```
+
+### Check the existence of a file
+
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `AWSStorageGetURLOptions`. If the file is inaccessible or does not exist, a `StorageError` is thrown.
+This allows you to check if an object exists during generating the presigned URL, which you can then use to download
+that object.
+
+```swift
+let url = try await Amplify.Storage.getURL(
+    path: .fromString("public/example/path"),
+    options: .init(
+        pluginOptions: AWSStorageGetURLOptions(
+            validateObjectExistence: true
+        )
+    )
+)
+```
+
+### All `getURL` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| expires | Int | Number of seconds before the URL expires |
+| bucket | StorageBucket | The bucket in which the object is stored |
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `S3GetUrlPluginOptions`. If the file is inaccessible or does not exist, a `StorageException` is thrown.
+This allows you to check if an object exists during generating the presigned URL, which you can then use to download
+that object.
+
+```dart
+Future<void> getDownloadUrl() async {
+  try {
+    final result = await Amplify.Storage.getUrl(
+      path: const StoragePath.fromString('public/example.txt'),
+    ).result;
+    safePrint('url: ${result.url}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+## Download to a file
+
+Use the `downloadData` API to download the file locally.
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Downloads file content to memory
+const { body, eTag } = await downloadData({
+  path: "album/2024/1.jpg"
+}).result;
+```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+## Download to a file
+
+Use the `downloadFile` API to download the file locally on the client.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Storage.downloadFile(
+        StoragePath.fromString("public/example"),
+        new File(getApplicationContext().getFilesDir() + "/download.txt"),
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val file = File("${applicationContext.filesDir}/download.txt")
+Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file,
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.e("MyAmplifyApp",  "Download Failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val file = File("${applicationContext.filesDir}/download.txt")
+    val download = Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file)
+    try {
+        val fileName = download.result().file.name
+        Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Download Failure", error)
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+        RxAmplify.Storage.downloadFile(
+            StoragePath.fromString("public/example"),
+            new File(getApplicationContext().getFilesDir() + "/download.txt")
+        );
+
+download
+    .observeResult()
+    .subscribe(
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+## Download files
+### Download to a local file
+
+Use the `downloadFile` API to download the file locally on the client.
+
+You can download to a file [URL](https://developer.apple.com/documentation/foundation/url) with `Amplify.Storage.downloadFile`:
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+```swift
+let downloadToFileUrl = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
+
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileUrl,
+    options: nil
+)
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+try await downloadTask.value
+print("Completed")
+```
+</Block>
+<Block name="Combine">
+```swift
+let downloadToFileUrl = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
+
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileUrl,
+    options: nil
+)
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: {
+        print("Completed")
+    }
+```
+</Block>
+</BlockSwitcher>
+
+### Download to data in memory
+
+You can download to in-memory buffer [Data](https://developer.apple.com/documentation/foundation/data) object with `Amplify.Storage.downloadData`:
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path")
+)
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+let data = try await downloadTask.value
+print("Completed: \(data)")
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path")
+)
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
+```
+
+</Block>
+
+</BlockSwitcher>
+
+### Download from a specified bucket
+
+You can also perform a download operation from a specific bucket by providing the `bucket` option
+
+<BlockSwitcher>
+<Block name="From Outputs">
+You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
+
+```swift
+// Download to File
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileUrl,
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+
+// Download to Data
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+</Block>
+
+<Block name="From Bucket Info">
+You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
+
+```swift
+// Download to File
+let downloadTask = Amplify.Storage.downloadFile(
+    path: .fromString("public/example/path"),
+    local: downloadToFileUrl,
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+
+// Download to Data
+let downloadTask = Amplify.Storage.downloadData(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+```
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+## Download to a file
+
+You can download a file to a local directory using `Amplify.Storage.downloadFile`.
+
+You can use the [path_provider](https://pub.dev/packages/path_provider) package to create a local file in the user's documents directory where you can store the downloaded data.
+
+<BlockSwitcher>
+<Block name="Mobile & Desktop">
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+
+Future<void> downloadFile() async {
+  final documentsDir = await getApplicationDocumentsDirectory();
+  final filepath = '${documentsDir.path}/example.txt';
+  try {
+    final result = await Amplify.Storage.downloadFile(
+      path: const StoragePath.fromString('public/example.txt'),
+      localFile: AWSFile.fromPath(filepath),
+    ).result;
+    safePrint('Downloaded file is located at: ${result.localFile.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+<Block name="Web">
+
+On Web, the download process will be handled by the browser. You can provide the downloaded file name by specifying the `path` parameter of `AWSFile.fromPath`. E.g. this instructs the browser to download the file `download.txt`.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> downloadFile() async {
+  try {
+    final result = await Amplify.Storage.downloadFile(
+      path: const StoragePath.fromString('public/example.txt'),
+      localFile: AWSFile.fromPath('download.txt'),
+    ).result;
+    safePrint('Downloaded file: ${result.downloadedItem.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+### Get the text value of downloaded File
+
+You can get the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+try {
+  const downloadResult = await downloadData({
+    path: "album/2024/1.jpg"
+  }).result;
+  const text = await downloadResult.body.text();
+  // Alternatively, you can use `downloadResult.body.blob()`
+  // or `downloadResult.body.json()` get read body in Blob or JSON format.
+  console.log('Succeed: ', text);
+} catch (error) {
+  console.log('Error : ', error);
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+### Download from a specified bucket
+
+You can also perform an upload operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
+
+```ts
+import { downloadData } from 'aws-amplify/storage';
+
+const result = await downloadData({
+  path: 'album/2024/1.jpg',
+  options: {
+    // highlight-start
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: 'assignedNameInAmplifyBackend'
+    // highlight-end
+  }
+}).result;
+
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+```ts
+import { downloadData } from 'aws-amplify/storage';
+
+const result = await downloadData({
+  path: 'album/2024/1.jpg',
+  options: {
+    // highlight-start
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
+    }
+    // highlight-end
+  }
+}).result;
+
+```
+
+### Monitor download progress
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Download a file from S3 bucket
+const { body, eTag } = await downloadData(
+  {
+    path: 'album/2024/1.jpg',
+    options: {
+      onProgress: (progress) {
+        console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
+      }
+    }
+  }
+).result;
+```
+
+### Cancel download
+
+```javascript
+import { downloadData, isCancelError } from 'aws-amplify/storage';
+
+const downloadTask = downloadData({ path: 'album/2024/1.jpg' });
+downloadTask.cancel();
+try {
+  await downloadTask.result;
+} catch (error) {
+  if (isCancelError(error)) {
+    // Handle error thrown by task cancellation.
+  }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+### Download from a specified bucket
+
+You can also perform a download operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+StorageBucket secondBucket = StorageBucket.fromOutputs("secondBucket");
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder().bucket(secondBucket).build();
+Amplify.Storage.downloadFile(
+        StoragePath.fromString("public/example"),
+        new File(getApplicationContext().getFilesDir() + "/download.txt"),
+        options,
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val secondBucket = StorageBucket.fromOutputs("secondBucket")
+val options = StorageDownloadFileOptions.builder().bucket(secondBucket).build()
+val file = File("${applicationContext.filesDir}/download.txt")
+Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, option,
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.e("MyAmplifyApp",  "Download Failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val secondBucket = StorageBucket.fromOutputs("secondBucket")
+val options = StorageDownloadFileOptions.builder().bucket(secondBucket).build()
+val file = File("${applicationContext.filesDir}/download.txt")
+val download = Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, options)
+try {
+    val fileName = download.result().file.name
+    Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Download Failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java      
+StorageBucket secondBucket = StorageBucket.fromOutputs("secondBucket");
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder().bucket(secondBucket).build();
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+        RxAmplify.Storage.downloadFile(
+            StoragePath.fromString("public/example"),
+            new File(getApplicationContext().getFilesDir() + "/download.txt"),
+            options
+        );
+
+download
+    .observeResult()
+    .subscribe(
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+BucketInfo bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+StorageBucket secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder().bucket(secondBucket).build();
+Amplify.Storage.downloadFile(
+        StoragePath.fromString("public/example"),
+        new File(getApplicationContext().getFilesDir() + "/download.txt"),
+        options,
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val bucketInfo = BucketInfo("second-bucket-name-from-console", "us-east-2")
+val secondBucket = StorageBucket.fromBucketInfo(bucketInfo)
+val options = StorageDownloadFileOptions.builder().bucket(secondBucket).build()
+val file = File("${applicationContext.filesDir}/download.txt")
+Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, options,
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.e("MyAmplifyApp",  "Download Failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val bucketInfo = BucketInfo("second-bucket-name-from-console", "us-east-2")
+val secondBucket = StorageBucket.fromBucketInfo(bucketInfo)
+val options = StorageDownloadFileOptions.builder().bucket(secondBucket).build()
+val file = File("${applicationContext.filesDir}/download.txt")
+val download = Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, options)
+try {
+    val fileName = download.result().file.name
+    Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Download Failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+BucketInfo bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+StorageBucket secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder().bucket(secondBucket).build();
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+        RxAmplify.Storage.downloadFile(
+            StoragePath.fromString("public/example"),
+            new File(getApplicationContext().getFilesDir() + "/download.txt"),
+            options,
+        );
+
+download
+    .observeResult()
+    .subscribe(
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+### Monitor download progress
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Storage.downloadFile(
+        StoragePath.fromString("public/example"),
+        new File(getApplicationContext().getFilesDir() + "/download.txt"),
+        StorageDownloadFileOptions.defaultInstance(),
+        progress -> Log.i("MyAmplifyApp", "Fraction completed: " + progress.getFractionCompleted()),
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val file = File("${applicationContext.filesDir}/download.txt")
+val options = StorageDownloadFileOptions.defaultInstance()
+Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, options,
+    { Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}") },
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.e("MyAmplifyApp", "Download Failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val file = File("${applicationContext.filesDir}/download.txt")
+val options = StorageDownloadFileOptions.defaultInstance()
+val download = Amplify.Storage.downloadFile(StoragePath.fromString("public/example"), file, options)
+val progressJob = activityScope.async {
+    download.progress().collect { progress ->
+        Log.i("MyAmplifyApp", "Fraction completed: ${progress.fractionCompleted}")
+    }
+}
+try {
+    val fileName = download.result().file.name
+    Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Download Failure", error)
+}
+progressJob.cancel()
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
+        RxAmplify.Storage.downloadFile(StoragePath.fromString("public/example"), localFile);
+
+download
+    .observeProgress()
+    .subscribe(
+      progress -> Log.i("MyAmplifyApp", progress.getFractionCompleted())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+### Monitor download progress
+
+```dart
+final operation = Amplify.Storage.downloadData(
+  path: const StoragePath.fromString('public/example.txt'),
+  onProgress: (progress) {
+    safePrint('fraction totalBytes: ${progress.totalBytes}');
+    safePrint('fraction transferredBytes: ${progress.transferredBytes}');
+    safePrint('fraction completed: ${progress.fractionCompleted}');
+  },
+);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+### Pause, resume, and cancel downloads
+
+```dart
+
+Future<void> upload() async {
+  final operation = Amplify.Storage.downloadFile(
+    localFile: AWSFile.fromPath('/path/to/local/file'),
+    path: const StoragePath.fromString('public/example.txt'),
+  );
+
+  // pause operation
+  await operation.pause();
+
+  // resume operation
+  await operation.resume();
+
+  // cancel operation
+  await operation.cancel();
+}
+
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+### Query transfers
+
+When an upload or download operation is requested using the Amplify Android library, the request is first persisted in the local SQLite Database and then queued for execution. You can query the transfer operation queued in the local database using the transfer ID returned by an upload or download API. Get-Transfer API could retrieve a pending transfer previously en-queued and enable attaching a listener to receive updates on progress change, on-error or on-success, or pause, cancel or resume it.
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Storage.getTransfer("TRANSFER_ID",
+    operation -> {
+        Log.i("MyAmplifyApp", "Current State" + operation.getTransferState());
+        // set listener to receive updates
+        operation.setOnProgress( progress -> {});
+        operation.setOnSuccess( result -> {});
+        operation.setOnError(error -> {});
+
+        // possible actions
+        operation.pause();
+        operation.resume();
+        operation.start();
+        operation.cancel();
+    },
+    {
+        error -> Log.e("MyAmplifyApp", "Failed to query transfer", error)
+    }
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Storage.getTransfer("TRANSFER_ID",
+    { operation ->
+        Log.i("MyAmplifyApp", "Current State" + operation.transferState)
+        // set listener to receive updates
+        operation.setOnProgress {  }
+        operation.setOnSuccess {  }
+        operation.setOnError {  }
+
+        // possible actions
+        operation.pause()
+        operation.resume()
+        operation.start()
+        operation.cancel()
+    },
+    {
+        Log.e("MyAmplifyApp", "Failed to query transfer", it)
+    }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val operation = Amplify.Storage.getTransfer("TRANSFER_ID")
+    Log.i("MyAmplifyApp", "Current State" + operation.transferState)
+    // set listener to receive updates
+    operation.setOnProgress {  }
+    operation.setOnSuccess {  }
+    operation.setOnError {  }
+
+    // possible actions
+    operation.pause()
+    operation.resume()
+    operation.start()
+    operation.cancel()
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Failed to query transfer", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Storage.getTransfer("TRANSFER_ID")
+    .subscribe(
+        operation -> {
+            Log.i("MyAmplifyApp", "Current State" + operation.getTransferState());
+            // set listener to receive updates
+            operation.setOnProgress( progress -> {});
+            operation.setOnSuccess( result -> {});
+            operation.setOnError(error -> {});
+
+            // possible actions
+            operation.pause();
+            operation.resume();
+            operation.start();
+            operation.cancel();
+        },
+        error -> Log.e("MyAmplifyApp", "Failed to query transfer", error);
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+## API to download data in memory
+
+You can download a file to in-memory buffer with `Amplify.Storage.downloadData`:
+
+```dart
+Future<void> download() async {
+  try {
+    final result = await Amplify.Storage.downloadData(
+      path: const StoragePath.fromString('public/example.txt'),
+    ).result;
+    safePrint('Downloaded data: ${result.bytes}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+## More download options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| getProperties | boolean | Whether to retrieve properties for the downloaded object using theAmplify.Storage.getProperties() after the operation completes. When set to true the returned item will contain additional info such as metadata and content type. |
+| useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
+| bytesRange | S3DataBytesRange | The byte range to download from the object |
+
+### Example of `downloadFile` with options
+
+```dart
+final operation = Amplify.Storage.downloadFile(
+  path: const StoragePath.fromString('public/example.txt'),
+  localFile: AWSFile.fromPath('/path/to/local/file.txt'),
+  options: const StorageDownloadFileOptions(
+    pluginOptions: S3DownloadFilePluginOptions(
+      getProperties: true,
+      useAccelerateEndpoint: true,
+    ),
+  ),
+);
+```
+
+### Example of `downloadData` with options
+
+```dart
+final operation = Amplify.Storage.downloadData(
+  path: const StoragePath.fromString('public/example.txt'),
+  options: StorageDownloadDataOptions(
+    pluginOptions: S3DownloadDataPluginOptions(
+      getProperties: true,
+      useAccelerateEndpoint: true,
+      bytesRange: S3DataBytesRange(start: 0, end: 100),
+    ),
+  ),
+);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+### Pause, resume, and cancel downloads
+
+Calls to `downloadData` or `downloadFile` return a reference to the task that is actually performing the download.
+
+You can pause then resume the task or cancel a task as shown below.
+
+```swift
+downloadTask.pause()
+downloadTask.resume()
+downloadTask.cancel()
+```
+
+<Callout>
+
+Download tasks are run using `URLSessionTask` instances internally. You can learn more about them in [Apple's official documentation](https://developer.apple.com/documentation/foundation/urlsessiontask).
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+### More download options
+The behavior of the `downloadData` API can be customized by passing in options.
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Downloads file content to memory
+const { body, eTag } = await downloadData({
+  path: "album/2024/1.jpg",
+  options: {
+    // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
+    bytesRange: {
+      start: 1024,
+      end: 2048
+    },
+    useAccelerateEndpoint: true,
+  }
+}).result;
+
+```
+
+Option | Type | Default | Description |
+| :--: | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| onProgress | callback | — | Callback function tracking the upload/download progress. |
+| bytesRange |  \{ start: number; end:number; \} | — | Bytes range parameter to download a part of the file. |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint.<br/><br/>Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+
+## Frequently Asked Questions
+
+- `downloadData` is cached; if you have recently modified a file you may not get the latest version right away. You can pass in `cacheControl: 'no-cache'` to get the latest version.
+- `downloadData` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
+- [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
+- There is no API for [Cognito Group-based access to files](https://github.com/aws-amplify/amplify-js/issues/3388).
+- There is currently [no API for getting the `identityId` of other users](https://github.com/aws-amplify/amplify-js/issues/5177); you have to retrieve this from elsewhere before calling `Storage.get`.
+
+</InlineFilter>

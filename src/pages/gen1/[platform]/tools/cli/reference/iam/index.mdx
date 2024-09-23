@@ -1,0 +1,33 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'IAM policy',
+  description: "The Amplify CLI requires several IAM policies for performing actions across all categories. You can grant or restrict category permissions by including or removing items from the 'Action' section as appropriate.",
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+This page has been removed in favor of AWS managed policies for AWS Amplify. Please refer to the [`AdministratorAccess-Amplify` policy](https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AdministratorAccess-Amplify).

@@ -1,0 +1,157 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Monorepo setup',
+  description: 'Set up monorepos with the Amplify CI/CD pipeline.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Some teams choose a monorepo approach, or single repositories that contain multiple packages or components to simplify the deployment process for shared libraries and components. Without a monorepo, you have to deploy each package individually, keep track of package versions and dependencies across packages, and ensure version compatibility. This can become exponentially more complex as the number of packages grows. With a monorepo, all packages and dependencies are contained within a single repository.
+
+Amplify Gen 2 supports monorepo workflows for fullstack builds with monorepo tools such as Nx and yarn workspaces. When building with Gen 2, we recommend creating the `amplify/` folder in a shared workspace. We will use the following example for this guide:
+
+```text
+├── apps/
+│   ├── admin-dashboard/
+│   │   ├── next.config.mjs
+│   │   └── package.json
+│   └── marketing-site/
+│       ├── astro.config.mjs
+│       └── package.json
+├── packages/
+│   └── my-shared-backend/
+│       ├── amplify/
+│       │   ├── auth/
+│       │   │   └── resource.ts
+│       │   ├── data/
+│       │   │   └── resource.ts
+│       │   └── backend.ts
+│       |── package.json
+        └── tsconfig.json
+└── package.json
+```
+
+Monorepos require a slightly different setup. We are going to deploy 3 Amplify apps:
+
+1. `my-shared-backend`
+2. `admin-dashboard`
+3. `marketing-site`
+
+## Deploy backend app
+
+The first app, `my-shared-backend`, will be the only app that updates changes to the backend. The other apps will only run frontend builds that point to the shared backend.
+
+1. To get started, deploy the shared backend Amplify app. With Gen 2, you can now setup backend-only CI/CD apps. Navigate to the Amplify console and select **Create new app**.
+
+1. Once you connect your repository, select your monorepo project. Check the box that says **My app is a monorepo** and enter the path to your amplify backend.
+
+![monorepo](/images/gen2/fullstack-branching/monorepo.png)
+
+3. Your build settings should be automatically detected. Save and deploy.
+
+## Deploy frontend apps
+
+1. For the frontend apps, connect the frontend projects in the Amplify console separately, and update the build commands to include:
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --branch main --app-id BACKEND-APP-ID
+```
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <your-backend-amplify-app-id> --branch main --format dart --out-dir lib
+```
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+<Callout warning>
+  Be sure to add a "raw" folder under app/src/main/res directory if it doesn't
+  exist.
+</Callout>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <your-backend-amplify-app-id> --branch main --out-dir app/src/main/res/raw
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <your-backend-amplify-app-id> --branch main
+```
+
+Once the sandbox environment is running, you would also generate the configuration files for your application. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
+
+<Video src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" description="Video - iOS Getting Started" />
+
+</InlineFilter>
+
+- To locate the `App ID` for your backend application, navigate to the Amplify console and select your **backend-app**. On the Overview page, the `App ID` is displayed under the project name.
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --branch main --app-id BACKEND-APP-ID
+```
+</InlineFilter>
+
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+## Sharing schema type definitions
+
+If you're using Amplify Data, we recommend adding a `paths` entry in your `tsconfig.json` file that points to the `amplify/data/resource.ts` file to easily access your schema type definitions from your frontend apps.
+
+```json title="tsconfig.json" showLineNumbers={false}
+{
+  "compilerOptions": {
+    "paths": {
+      "@/data-schema": ["./packages/my-shared-backend/amplify/data/resource"]
+    }
+  }
+}
+```
+
+You can then import the `Schema` type from this path in your frontend code to get code completion and strong typing for your API calls:
+
+```ts title="apps/admin-dashboard/page.tsx"
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "@/data-schema";
+
+const client = generateClient<Schema>();
+
+const createTodo = async () => {
+  await client.models.Todo.create({
+    content: window.prompt("Todo content?"),
+    isDone: false,
+  });
+}
+
+```
+
+</InlineFilter>

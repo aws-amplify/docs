@@ -1,54 +1,38 @@
-import { useState, useRef, useEffect } from 'react';
-import { Button, Flex, Text, View } from '@aws-amplify/ui-react';
-import { IconChevron } from '@/components/Icons';
+import { Flex, Text, View } from '@aws-amplify/ui-react';
+import { useRouter } from 'next/router';
+import type { LinkProps } from 'next/link';
 import { frameworks } from '@/constants/frameworks';
-import Link from 'next/link';
-import classNames from 'classnames';
-import { useClickOutside } from '@/utils/useClickOutside';
 import { VersionSwitcher } from '../VersionSwitcher';
-import { PLATFORM_VERSIONS, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
-import { useTabKeyDetection } from '@/utils/useTabKeyDetection';
+import flatDirectory from '@/directory/flatDirectory.json';
+import { Popover } from '../Popover';
+import {
+  PLATFORM_VERSIONS,
+  PLATFORM_DISPLAY_NAMES,
+  Platform
+} from '@/data/platforms';
 
-export function PlatformNavigator({ currentPlatform, isPrev }) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+type PlatformNavigatorProps = {
+  currentPlatform: Platform;
+  isGen1: boolean;
+  testId?: string;
+};
 
-  const triggerRef = useRef<HTMLButtonElement>(null);
+export function PlatformNavigator({
+  currentPlatform,
+  isGen1,
+  testId
+}: PlatformNavigatorProps) {
+  const { pathname } = useRouter();
+
+  /**
+   * Get the allowed platforms associated with this pathname
+   * from flatDirectory.json */
+  let allowedPlatforms: string[] = [];
+  if (flatDirectory[pathname]?.platforms) {
+    allowedPlatforms = flatDirectory[pathname].platforms;
+  }
+
   const platformTitle = PLATFORM_DISPLAY_NAMES[currentPlatform];
-
-  const contentRef = useClickOutside((e) => {
-    if (triggerRef.current && !triggerRef.current.contains(e.target)) {
-      if (isOpen) {
-        setIsOpen(false);
-      }
-    }
-  });
-
-  const { isTabKeyPressed, setIsTabKeyPressed } =
-    useTabKeyDetection(contentRef);
-
-  const handleBlur = (e) => {
-    // Use relatedTarget to see if the target receiving focus is outside of the popover
-    if (
-      contentRef.current &&
-      !contentRef.current.contains(e.relatedTarget) &&
-      isTabKeyPressed
-    ) {
-      if (isOpen) {
-        setIsOpen(false);
-
-        // Since the custom hook is only listening to the keydown and keyup
-        // event on the ref we pass in, the keyup event doesn't get registered
-        // when we lose focus and so the state isn't reset. Reset it here
-        setIsTabKeyPressed(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      contentRef?.current?.focus();
-    }
-  }, [isOpen, contentRef]);
 
   const platformItem = frameworks.filter((platform) => {
     return platform.title === platformTitle;
@@ -57,73 +41,73 @@ export function PlatformNavigator({ currentPlatform, isPrev }) {
   return (
     <>
       <View className={`platform-navigator`}>
-        <Text fontWeight="bold" paddingBottom="small">
+        <Text
+          fontWeight="bold"
+          id="platformNavigatorLabel"
+          paddingBottom="small"
+        >
           Choose your framework/language
         </Text>
         <Flex alignItems="center">
-          <Button
-            className={`platform-navigator__button`}
-            aria-expanded={isOpen}
-            onClick={() => {
-              setIsOpen(!isOpen);
-            }}
-            isFullWidth={true}
-            fontWeight="normal"
-            ref={triggerRef}
-            flex="1 1 0"
-            paddingInline="xs"
-          >
-            <Flex as="span" alignItems="center" gap="xs">
+          <Popover flex="1 0 auto">
+            <Popover.Trigger
+              id="selectedLabel"
+              className={`platform-navigator__button`}
+              isFullWidth={true}
+              aria-labelledby="platformNavigatorLabel selectedLabel"
+            >
               {platformItem.icon}
               {platformTitle}
-            </Flex>
-            <IconChevron
-              fontSize="xs"
-              className={isOpen ? '' : 'icon-rotate-90-reverse'}
-            />
-          </Button>
-          {PLATFORM_VERSIONS[currentPlatform] && (
-            <VersionSwitcher
-              platform={currentPlatform}
-              isPrev={isPrev}
-              flex="1 1 0"
-            />
-          )}
-        </Flex>
-        <View
-          className={classNames('popover', {
-            'popover--expanded': isOpen
-          })}
-          as="nav"
-          tabIndex={0}
-          ref={contentRef}
-          onBlur={handleBlur}
-          ariaLabel="Platform navigation"
-        >
-          <ul className="popover-list">
-            {frameworks.map((platform, index) => {
-              const title = platform.title;
-              const current = title === platformTitle;
-              return (
-                <li
-                  className={classNames('popover-list__item', {
-                    'platform-navigator__dropdown__item--current': current
-                  })}
-                  key={`platform-${index}`}
-                >
-                  <Link
-                    className="popover-list__link"
-                    href={platform.href}
-                    onClick={() => setIsOpen(false)}
+            </Popover.Trigger>
+            <Popover.List
+              testId={testId ? `${testId}-popoverList` : ''}
+              anchor="left"
+              fullWidth={true}
+            >
+              {frameworks.map((platform, index) => {
+                const title = platform.title;
+                const current = title === platformTitle;
+                let href: LinkProps['href'];
+
+                /**
+                 * If this platform in the list exists for the current pathname,
+                 * we'll link to that platforms version of the page.
+                 */
+
+                if (
+                  allowedPlatforms.includes(platform.key) &&
+                  pathname !== '/gen1'
+                ) {
+                  href = {
+                    pathname,
+                    query: { platform: platform.key }
+                  };
+                  /**
+                   * If this platform doesn't exist for the current pathname,
+                   * we link to the root page for the platform instead.
+                   */
+                } else {
+                  href = isGen1 ? `/gen1${platform.href}` : platform.href;
+                }
+
+                return (
+                  <Popover.ListItem
+                    current={current}
+                    key={`platform-${index}`}
+                    href={href}
                   >
                     {platform.icon}
                     {platform.title}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </View>
+                  </Popover.ListItem>
+                );
+              })}
+            </Popover.List>
+          </Popover>
+
+          {isGen1 && PLATFORM_VERSIONS[currentPlatform] && (
+            <VersionSwitcher platform={currentPlatform} />
+          )}
+        </Flex>
       </View>
     </>
   );

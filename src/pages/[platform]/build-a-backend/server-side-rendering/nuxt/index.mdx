@@ -6,26 +6,8 @@ export const meta = {
   description: 'Use Amplify categories APIs from Nuxt 3',
   platforms: [
     'javascript',
-    'react-native',
-    'react',
-    'nextjs',
-    'angular',
     'vue'
   ],
-  route: '/[platform]/build-a-backend/server-side-rendering/nuxt',
-  canonicalObjects: [
-    {
-      platforms: [
-        'nextjs',
-        'react',
-        'angular',
-        'vue',
-        'react-native',
-        'javascript'
-      ],
-      canonicalPath: '/javascript/build-a-backend/server-side-rendering/nuxt/'
-    }
-  ]
 };
 
 export const getStaticPaths = async () => {
@@ -43,38 +25,41 @@ export function getStaticProps(context) {
   };
 }
 
-If you have not already done so, please read the introduction documentation, [Use Amplify Categories APIs in Server Side Rendering](/[platform]/build-a-backend/server-side-rendering/), to learn about how to use Amplify categories APIs in server-side rendering.
+If you have not already done so, please read the introduction documentation, [Use Amplify Categories APIs in Server-Side Rendering](/gen1/[platform]/build-a-backend/server-side-rendering/), to learn about how to use Amplify categories' APIs in server-side rendering.
 
-This documentation provides a getting-started guide to using the generic `runWithAmplifyServerContext` adapter (exported from `aws-amplify/adapter-core`) to enable Amplify in a Nuxt 3 project. The examples in this documentation may not present best practices for your Nuxt project. You are welcome to provide suggestions and contributions to improve this documentation or to create a Nuxt adapter package for Amplify and let others use it.
+This documentation provides a getting started guide to using the generic `runWithAmplifyServerContext` adapter (exported from `aws-amplify/adapter-core`) to enable Amplify in a Nuxt 3 project. The examples in this documentation may not present best practices for your Nuxt project. You are welcome to provide suggestions and contributions to improve this documentation or to create a Nuxt adapter package for Amplify and let others use it.
 
 <Callout>
 
-**NOTE:** This guide assumes that you have a deep knowledge of Nuxt 3.
+**Note:** This guide assumes that you have deep knowledge of Nuxt 3.
 
 </Callout>
 
-## Set Up the AmplifyAPIs Plugin
+## Start using Amplify in your Nuxt 3 project
 
-Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed on both the client and server sides. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs of Amplify are slightly different. You can set up an `AmplifyAPIs` plugin to make your data fetching logic run smoothly across the client and server.
+You can install relevant Amplify libraries by following the [manual installation](/[platform]/start/manual-installation/) guide.
+
+## Set up the AmplifyAPIs plugin
+
+Nuxt 3 offers universal rendering by default, where your data fetching logic may be executed in both client and server runtimes. Amplify offers APIs that are capable of running within a server context to support use cases such as server-side rendering (SSR) and static site generation (SSG), though Amplify's client-side APIs and server-side APIs are slightly different. You can set up an `AmplifyAPIs` plugin to make your data fetching logic run smoothly across the client and server.
 
 1. If you haven’t already done so, create a `plugins` directory under the root of your Nuxt project
-2. Create two files `01.amplify-apis.client.ts` and `01.amplify-apis.server.ts` under the `plugins` directory
+2. Create two files `01.amplifyApis.client.ts` and `01.amplifyApis.server.ts` under the `plugins` directory
 
 <Callout>
 
-**NOTE:** the leading number in the files name indicate the plugin loading order, details see https://nuxt.com/docs/guide/directory-structure/plugins#registration-order. The `.client` and `.server` indicate the runtime that the logic contained in the file will run on, client or server. For details see: https://nuxt.com/docs/guide/directory-structure/plugins
+**Note:** the leading number in the filenames indicates the plugin loading order, details see https://nuxt.com/docs/guide/directory-structure/plugins#registration-order. The `.client` and `.server` indicate the runtime that the logic contained in the file will run on, client or server. For details see: https://nuxt.com/docs/guide/directory-structure/plugins
 
 </Callout>
 
 In these files, you will register both client-specific and server-specific Amplify APIs that you will use in your Nuxt project as a plugin. You can then access these APIs via the `useNuxtApp` composable.
 
-### Implement `01.amplify-apis.client.ts`
+### Implement `01.amplifyApis.client.ts`
 
 Example implementation:
 
-<Accordion title='Expand to view the example implementation' headingLevel='4' eyebrow='Learn more'>
-
-```ts
+```ts title="plugins/01.amplifyApis.client.ts"
+import type { Schema } from '~/amplify/data/resource';
 import { Amplify } from 'aws-amplify';
 import {
   fetchAuthSession,
@@ -84,9 +69,9 @@ import {
 } from 'aws-amplify/auth';
 import { list } from 'aws-amplify/storage';
 import { generateClient } from 'aws-amplify/api';
-import config from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-const client = generateClient();
+const client = generateClient<Schema>();
 
 export default defineNuxtPlugin({
   name: 'AmplifyAPIs',
@@ -123,16 +108,24 @@ export default defineNuxtPlugin({
 });
 ```
 
-</Accordion>
+<Callout warning="true">
 
-### Implement `01.amplify-apis.server.ts`
+Make sure you call `Amplify.configure` as early as possible in your application’s lifecycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
+
+### Implement `01.amplifyApis.server.ts`
 
 Example implementation:
 
-<Accordion title='Expand to view the example implementation' headingLevel='4' eyebrow='Learn more'>
-
-```ts
+```ts title="plugins/01.amplifyApis.server.ts"
 import type { CookieRef } from 'nuxt/app';
+import type { Schema } from '~/amplify/data/resource';
+import type { ListPaginateWithPathInput } from 'aws-amplify/storage';
+import type {
+  LibraryOptions,
+  FetchAuthSessionOptions
+} from '@aws-amplify/core';
 import {
   createKeyValueStorageFromCookieStorageAdapter,
   createUserPoolsTokenProvider,
@@ -147,27 +140,24 @@ import {
 } from 'aws-amplify/auth/server';
 import { list } from 'aws-amplify/storage/server';
 import { generateClient } from 'aws-amplify/api/server';
-import type { ListPaginateInput } from 'aws-amplify/storage';
-import type {
-  LibraryOptions,
-  FetchAuthSessionOptions
-} from '@aws-amplify/core';
-import type {
-  GraphQLOptionsV6,
-  GraphQLResponseV6
-} from '@aws-amplify/api-graphql';
 
-import config from '../amplifyconfiguration.json';
+import outputs from '../amplify_outputs.json';
 
-// parse the content of `amplifyconfiguration.json` into the shape of ResourceConfig
-const amplifyConfig = parseAmplifyConfig(config);
+// parse the content of `amplify_outputs.json` into the shape of ResourceConfig
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 // create the Amplify used token cookies names array
 const userPoolClientId = amplifyConfig.Auth!.Cognito.userPoolClientId;
 const lastAuthUserCookieName = `CognitoIdentityServiceProvider.${userPoolClientId}.LastAuthUser`;
 
 // create a GraphQL client that can be used in a server context
-const gqlServerClient = generateClient({ config: amplifyConfig });
+const gqlServerClient = generateClient<Schema>({ config: amplifyConfig });
+
+// extract the model operation function types for creating wrapper function later
+type RemoveFirstParam<Params extends any[]> = Params extends [infer _, ...infer Rest] ? Rest : never; 
+type TodoListInput = RemoveFirstParam<Parameters<typeof gqlServerClient.models.Todo.list>>;
+type TodoCreateInput = RemoveFirstParam<Parameters<typeof gqlServerClient.models.Todo.create>>;
+type TodoUpdateInput = RemoveFirstParam<Parameters<typeof gqlServerClient.models.Todo.update>>;
 
 const getAmplifyAuthKeys = (lastAuthUser: string) =>
   ['idToken', 'accessToken', 'refreshToken', 'clockDrift']
@@ -324,7 +314,7 @@ export default defineNuxtPlugin({
               )
           },
           Storage: {
-            list: (input: ListPaginateInput) =>
+            list: (input: ListPaginateWithPathInput) =>
               runWithAmplifyServerContext(
                 amplifyConfig,
                 libraryOptions,
@@ -333,24 +323,31 @@ export default defineNuxtPlugin({
           },
           GraphQL: {
             client: {
-              // Follow this typing to ensure the`graphql` API return type can
-              // be inferred correctly according to your queries and mutations
-              graphql: <
-                FALLBACK_TYPES = unknown,
-                TYPED_GQL_STRING extends string = string
-              >(
-                options: GraphQLOptionsV6<FALLBACK_TYPES, TYPED_GQL_STRING>,
-                additionalHeaders?: Record<string, string>
-              ) =>
-                runWithAmplifyServerContext<
-                  GraphQLResponseV6<FALLBACK_TYPES, TYPED_GQL_STRING>
-                >(amplifyConfig, libraryOptions, (contextSpec) =>
-                  gqlServerClient.graphql(
-                    contextSpec,
-                    options,
-                    additionalHeaders
-                  )
-                )
+              models: {
+                Todo: {
+                  list(...input: TodoListInput) {
+                    return runWithAmplifyServerContext(
+                      amplifyConfig,
+                      libraryOptions,
+                      (contextSpec) => gqlServerClient.models.Todo.list(contextSpec, ...input)
+                    )
+                  },
+                  create(...input: TodoCreateInput) {
+                    return runWithAmplifyServerContext(
+                      amplifyConfig,
+                      libraryOptions,
+                      (contextSpec) => gqlServerClient.models.Todo.create(contextSpec, ...input)
+                    )
+                  },
+                  update(...input: TodoUpdateInput) {
+                    return runWithAmplifyServerContext(
+                      amplifyConfig,
+                      libraryOptions,
+                      (contextSpec) => gqlServerClient.models.Todo.update(contextSpec, ...input)
+                    )
+                  }
+                }
+              }
             }
           }
         }
@@ -360,13 +357,11 @@ export default defineNuxtPlugin({
 });
 ```
 
-</Accordion>
+#### Usage example
 
-#### Usage Example
+Using the Storage `list` API in `pages/storage-list.vue`:
 
-Using the Storage `list` API in `~/pages/storage-list.vue`:
-
-```ts
+```ts title="pages/storage-list.vue"
 
 // `useAsyncData` and `useNuxtApp` are Nuxt composables
 // `$Amplify` is generated by Nuxt according to the `provide` key in the plugins
@@ -374,31 +369,25 @@ Using the Storage `list` API in `~/pages/storage-list.vue`:
 <script setup lang="ts">
 const { data, error } = useAsyncData(async () => {
   const listResult = await useNuxtApp().$Amplify.Storage.list({
-    options: {accessLevel: 'guest'}
+    path: 'album'
   });
   return listResult.items;
 });
 </script>
 
 <template>
-  <h3>Files with access level: guest</h3>
+  <h3>Files under path: album</h3>
   <pre>{{ data }}</pre>
 </template>
-
 ```
 
-Using the GraphQL API in `~/pages/todos-list.vue`:
+Using the GraphQL API in `pages/todos-list.vue`:
 
-```ts
+```ts title="pages/todos-list.vue"
 <script setup lang="ts">
-// Amplify codegen generated code after you run `amplify push` or `amplify pull`
-import { listTodos } from '~/graphql/queries';
-
 const { data, error } = useAsyncData(async () => {
-  const result = await useNuxtApp().$Amplify.GraphQL.client.graphql({
-    query: listTodos,
-  });
-  return result.data.listTodos;
+  const { data } = await useNuxtApp().$Amplify.GraphQL.client.models.Todo.list();
+  return data;
 });
 </script>
 
@@ -408,35 +397,33 @@ const { data, error } = useAsyncData(async () => {
 </template>
 ```
 
-The above two pages can be rendered on both the client and server sides by default. `useNuxtApp().$Amplify` will pick up the correct implementation of `01.amplify-apis.client.ts` and `01.amplify-apis.server.ts` to use, depending on the runtime.
+The above two pages can be rendered on both the client and server by default. `useNuxtApp().$Amplify` will pick up the correct implementation of `01.amplifyApis.client.ts` and `01.amplifyApis.server.ts` to use, depending on the runtime.
 
 <Callout warning>
 
-Only a subset of Amplify APIs are usable on the server side, and as the libraries evolve, `amplify-apis.client` and `amplify-apis.server` may diverge further. You can guard your API calls to ensure an API is available in the context where you use it. E.g., you can use `if (process.client)` to ensure that a client-only API isn't executed on the server.
+Only a subset of Amplify APIs are usable on the server side, and as the libraries evolve, `amplify-apis.client` and `amplify-apis.server` may diverge further. You can guard your API calls to ensure an API is available in the context where you use it (e.g., you can use `if (process.client)` to ensure that a client-only API isn't executed on the server).
 
 </Callout>
 
-## Set Up Auth Middleware to Protect Your Routes
+## Set up Auth middleware to protect your routes
 
-The auth middleware will use the plugin set up in the previous step as a dependency; therefore you can add the auth middleware via another plugin that will be loaded after the previous one.
+The auth middleware will use the plugin configured in the previous step as a dependency; therefore you can add the auth middleware via another plugin that will be loaded after the previous one.
 
-1. Create a `02.auth-redirect.ts` file under plugins directory
+1. Create a `02.authRedirect.ts` file under plugins directory
 
 <Callout>
 
-**NOTE:** This file will run on both client and server, details see: https://nuxt.com/docs/guide/directory-structure/middleware#when-middleware-runs. The `02` name prefix ensures this plugin loads after the previous so `useNuxtApp().$Amplify` becomes available.
+**Note:** This file will run on both client and server, details see: https://nuxt.com/docs/guide/directory-structure/middleware#when-middleware-runs. The `02` name prefix ensures this plugin loads after the previous so `useNuxtApp().$Amplify` becomes available.
 
 </Callout>
 
-### Implement `02.auth-redirect.ts`
+### Implement `02.authRedirect.ts`
 
 Example implementation:
 
-<Accordion title='Expand to view the example implementation' headingLevel='4' eyebrow='Learn more'>
-
-```ts
+```ts title="plugins/02.authRedirect.ts"
 import { Amplify } from 'aws-amplify';
-import config from '~/amplifyconfiguration.json';
+import outputs from '~/amplify_outputs.json';
 
 // Amplify.configure() only needs to be called on the client side
 if (process.client) {
@@ -475,13 +462,17 @@ export default defineNuxtPlugin({
 });
 ```
 
-</Accordion>
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
+
+</Callout>
 
 ## Set Up Amplify for API Route Use Cases
 
 Following the specification of Nuxt, your API route handlers will live under `~/server`, which is a separate environment from other parts of your Nuxt app; hence, the plugins created in the previous sections are not usable here, and extra work is required.
 
-### Set Up Amplify Server Context Utility
+### Set up Amplify server context utility
 
 1. If you haven’t already done so, create a `utils` directory under the server directory of your Nuxt project
 2. Create an `amplifyUtils.ts` file under the `utils` directory
@@ -490,9 +481,8 @@ In this file, you will create a helper function to call Amplify APIs that are ca
 
 Example implementation:
 
-<Accordion title='Expand to view the example implementation' headingLevel='4' eyebrow='Learn more'>
 
-```ts
+```ts title="utils/amplifyUtils.ts"
 import type { H3Event, EventHandlerRequest } from 'h3';
 import {
   createKeyValueStorageFromCookieStorageAdapter,
@@ -505,7 +495,7 @@ import {
 import { parseAmplifyConfig } from 'aws-amplify/utils';
 
 import type { LibraryOptions } from '@aws-amplify/core';
-import config from '~/amplifyconfiguration.json';
+import outputs from '~/amplify_outputs.json';
 
 const amplifyConfig = parseAmplifyConfig(config);
 
@@ -573,15 +563,13 @@ export const runAmplifyApi = <Result>(
 };
 ```
 
-</Accordion>
-
 You can then use `runAmplifyApi` function to call Amplify APIs in an isolated server context.
 
-#### Usage Example
+#### Usage example
 
-Take implementing an API route `GET /api/current-user` , in `~/server/api/current-user.ts`:
+Take implementing an API route `GET /api/current-user` , in `server/api/current-user.ts`:
 
-```ts
+```ts title="server/api/current-user.ts"
 import { getCurrentUser } from 'aws-amplify/auth/server';
 import { runAmplifyApi } from '~/server/utils/amplifyUtils';
 
@@ -594,9 +582,9 @@ export default defineEventHandler(async (event) => {
 });
 ```
 
-Then you can fetch data from this route, e.g. `fetch('http://localhost:3000/api/current-user')`.
+Then you can fetch data from this route, for example, `fetch('http://localhost:3000/api/current-user')`.
 
-## Set Up Server Middleware to Protect Your API Routes
+## Set up server middleware to protect your API routes
 
 Similar to API routes, the previously added auth middleware are not usable under `/server`, hence extra work is required to set up a auth middleware to protect your routes.
 
@@ -607,7 +595,7 @@ This middleware will be executed before a request reach your API route.
 
 Example implementation:
 
-```ts
+```ts title="middleware/amplifyAuthMiddleware.ts"
 import { fetchAuthSession } from 'aws-amplify/auth/server';
 
 export default defineEventHandler(async (event) => {

@@ -19,7 +19,7 @@ async function postTodo() {
     console.log('POST call succeeded');
     console.log(response);
   } catch (e) {
-    console.log('POST call failed: ', e);
+    console.log('POST call failed: ', JSON.parse(e.response.body));
   }
 }
 ```

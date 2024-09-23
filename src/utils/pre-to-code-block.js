@@ -7,7 +7,7 @@ module.exports = function preToCodeBlock(preProps) {
     const { title, highlight, showLineNumbers } = preProps;
     const { children, className } = preProps.children.props;
     return {
-      codeString: children.trim(),
+      codeString: children ? children.trim() : '',
       highlight,
       language: className && className.split('-')[1],
       showLineNumbers,

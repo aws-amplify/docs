@@ -1,5 +1,6 @@
 .version-switcher {
   gap: 0;
+  flex: 0 1 auto;
 
   &__link {
     flex: 1 1 0;
@@ -8,7 +9,7 @@
     background-color: var(--amplify-colors-overlay-5);
     display: flex;
     align-items: center;
-    padding: var(--amplify-space-xs);
+    padding: var(--amplify-space-xs) var(--amplify-space-small);
     justify-content: center;
     gap: var(--amplify-space-xxxs);
 
@@ -23,14 +24,14 @@
     }
 
     &.active {
-      background-color: var(--amplify-colors-teal-40);
+      background-color: var(--amplify-colors-primary-20);
     }
     &:focus {
       z-index: 1;
     }
     &:hover,
     &:active {
-      background-color: var(--amplify-colors-teal-20);
+      background-color: var(--amplify-colors-primary-40);
     }
   }
 }

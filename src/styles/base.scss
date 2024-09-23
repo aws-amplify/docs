@@ -10,6 +10,14 @@ html {
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
+  &:has([data-amplify-color-mode='dark']) {
+    background-color: var(--amplify-colors-neutral-100);
+  }
+  @media (prefers-color-scheme: dark) {
+    &:has([data-amplify-color-mode='system']) {
+      background-color: var(--amplify-colors-neutral-100);
+    }
+  }
 }
 
 :root {
@@ -108,7 +116,8 @@ kbd {
 
 .main {
   & > h2,
-  & > h3 {
+  & > h3,
+  & > h4 {
     scroll-margin-block: 9rem;
   }
 }
@@ -124,7 +133,7 @@ a,
     text-decoration: none;
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid var(--amplify-colors-border-focus);
   }
 }
@@ -178,6 +187,20 @@ ol:not([class]) {
   .amplify-heading--2,
   .amplify-heading--3 {
     scroll-margin-top: 9rem;
+
+    &:focus-visible {
+      transition: none;
+      outline: 2px solid var(--amplify-colors-border-focus);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.amplify-button {
+  &:focus-visible {
+    transition: none;
+    outline: 2px solid var(--amplify-colors-border-focus);
+    outline-offset: 2px;
   }
 }
 
@@ -195,5 +218,10 @@ ol:not([class]) {
     position: absolute;
     white-space: nowrap;
     width: 1px;
+  }
+  [data-amplify-theme='default-theme'] & {
+    &:focus-visible {
+      outline-color: var(--amplify-colors-white);
+    }
   }
 }

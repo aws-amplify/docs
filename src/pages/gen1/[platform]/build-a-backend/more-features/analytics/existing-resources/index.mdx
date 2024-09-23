@@ -1,0 +1,50 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use existing AWS resources',
+  description: 'Configure the Amplify Libraries to use existing Amazon Pinpoint resources by referencing them in your configuration.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import android_existing_resources from '/src/fragments/lib/analytics/android/existing-resources.mdx';
+import flutter_existing_resources from '/src/fragments/lib/analytics/flutter/existing-resources.mdx';
+import ios_existing_resources from '/src/fragments/lib/analytics/ios/existing-resources.mdx';
+import js_existing_resources from '/src/fragments/lib/analytics/js/existing-resources.mdx';
+import react_native_existing_resources from '/src/fragments/lib/analytics/js/existing-resources.mdx';
+
+<Fragments
+  fragments={{
+    android: android_existing_resources,
+    flutter: flutter_existing_resources,
+    swift: ios_existing_resources,
+    javascript: js_existing_resources,
+    angular: js_existing_resources,
+    nextjs: js_existing_resources,
+    react: js_existing_resources,
+    vue: js_existing_resources,
+    'react-native': react_native_existing_resources
+  }}
+/>

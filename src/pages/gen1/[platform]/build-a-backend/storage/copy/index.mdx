@@ -1,0 +1,241 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Copy files',
+  description: "Learn more about how to copy files using Amplify's storage category.",
+  platforms: [
+    'javascript',
+    'flutter',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import flutter0 from '/src/fragments/lib/storage/flutter/copy.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />
+
+<InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
+
+The `copy` API duplicates an existing file to a designated path and returns an object `{path: 'destPath'}` upon successful completion.
+
+<Callout>
+
+`copy` can copy an object up to 5 GB in a single operation.
+
+</Callout>
+
+To copy a file, you need to provide the existing path in `source` and the destination path in `destination`.
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { copy } from 'aws-amplify/storage';
+
+const copyFile = async () => {
+  try {
+    const response = await copy({
+      source: {
+        path: 'public/album/2024/1.jpg',
+        // Alternatively, path: ({identityId}) => `protected/${identityId}/album/1.jpg`
+      },
+      destination: {
+        path: 'public/shared/2024/1.jpg',
+        // Alternatively, path: ({identityId}) => `protected/${identityId}/shared/1.jpg`
+      },
+    });
+  } catch (error) {
+    console.error('Error', err);
+  }
+};
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { copy } from 'aws-amplify/storage';
+
+const copyFile = async () => {
+  try {
+    const response = await copy({
+      source: {
+        key: 'srcKey',
+        accessLevel: 'protected' // optional 'guest', 'private', or 'protected'. Defaults to 'guest'.
+        targetIdentityId: 'targetIdentityId' // optional, set it to other user's identity ID if copy from other user
+      },
+      destination: {
+        key: 'destKey',
+        accessLevel: 'protected' // optional 'guest', 'private', or 'protected'. Defaults to 'guest'.
+      },
+    });
+  } catch (error) {
+    console.error('Error', err);
+  }
+};
+```
+</Block>
+</BlockSwitcher>
+
+## Copy files within the same access levels
+
+You can copy a file from the specified path to another path within the same [File Access Level](/gen1/[platform]/build-a-backend/storage/configure-access/).
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { copy, list } from 'aws-amplify/storage';
+
+// Copies 'existing/srcPath' to 'copied/destPath' within 'public/'
+const copied = await copy({
+  source: { path: 'public/existing/srcPath' },
+  destination: { path: 'public/copied/destPath' }
+});
+
+// There should now be a new file 'copied/destPath' in 'public/'
+console.log((await list({ path: 'public/copied/' })).items); // [ { ..., path: 'public/copied/destPath' } ]
+console.log(copied); // { path: 'public/copied/destPath' }
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { copy, list } from 'aws-amplify/storage';
+
+// Copies 'existing/srcKey' to 'copied/destKey' within 'public/'
+const copied = await copy({
+  source: { key: 'existing/srcKey' },
+  destination: { key: 'copied/destKey' }
+});
+
+// There should now be a new file with key 'copied/destKey'
+console.log((await list({ prefix: 'copied/' })).items); // [ { ..., key: 'copied/destKey' } ]
+console.log(copied); // { key: 'copied/destKey' }
+```
+</Block>
+</BlockSwitcher>
+
+## Copy files across access levels
+
+To copy a file to or from an access level, you'll need to explicitly provide the access level in `path` parameter.
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { copy, list } from 'aws-amplify/storage';
+
+// Copies 'existing/srcPath' to 'copied/destPath' from 'guest' to 'private'
+const copied = await copy({
+  source: {
+    path: 'public/existing/srcPath'
+  },
+  destination: {
+    path: ({identityId}) => `private/${identityId}/copied/destPath`
+  }
+});
+
+// There should now be a new file 'copied/destPath' in 'private/'
+console.log(
+  (await list({ path: 'private/copied/'})).items
+); // [ { ..., path: 'private/XXXXX/copied/destPath' } ]
+console.log(copied); // { path: 'private/XXXXX/copied/destPath' }
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { copy, list } from 'aws-amplify/storage';
+
+// Copies 'existing/srcKey' to 'copied/destKey' from 'guest' to 'private'
+const copied = await copy({
+  source: {
+    key: 'existing/srcKey'
+  },
+  destination: {
+    key: 'copied/destKey',
+    accessLevel: 'private'
+  }
+});
+
+// There should now be a new file with key 'copied/destKey' in the 'private' level
+console.log(
+  (await list({ prefix: 'copied/', options: { accessLevel: 'private' } })).items
+); // [ { ..., key: 'copied/destKey' } ]
+console.log(copied); // { key: 'copied/destKey' }
+```
+</Block>
+</BlockSwitcher>
+
+## Copy protected files from another user
+
+You can also copy a protected file from another user by providing their identity id
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+
+```javascript
+import { copy, list } from 'aws-amplify/storage';
+
+// Copies 'existing/srcPath' to 'copied/destPath' from 'protected' of another user to 'protected' of the current authenticated user
+
+const copied = await copy({
+  source: {
+    path: `protected/${targetUserId}/existing/srcPath`,
+  },
+  destination: {
+    path: ({identityId}) => `protected/${identityId}/copied/destPath`,
+  }
+});
+
+// There should now be a new file 'copied/destPath'
+console.log(
+  (await list({ path: ({identityId}) => `protected/${identityId}/copied/`})).items
+); // [..., path: 'protected/XXXXX/copied/destPath']
+console.log(copied); // { path: 'protected/XXXXX/copied/destPath' }
+```
+</Block>
+<Block name="With Key (Deprecated)">
+
+```javascript
+import { copy, list } from 'aws-amplify/storage';
+
+// Copies 'existing/srcKey' to 'copied/destKey' from 'protected' of another user to 'private' of the current authenticated user
+
+const copied = await copy({
+  source: {
+    key: 'existing/srcKey',
+    accessLevel: 'protected',
+    targetIdentityId: 'identityId'
+  },
+  destination: {
+    key: 'copied/destKey',
+    accessLevel: 'private'
+  }
+});
+
+// There should now be a new file with key 'copied/destKey'
+console.log(
+  (await list({ prefix: 'copied/', options: { accessLevel: 'private' } })).items
+); // [..., key: 'copied/destKey']
+console.log(copied); // { key: 'copied/destKey' }
+```
+</Block>
+</BlockSwitcher>
+
+<Callout>
+Cross identity ID copying is only allowed if the source object's access level is set to 'protected'.
+</Callout>
+
+</InlineFilter>

@@ -1,12 +1,11 @@
 import { useId, useState, useEffect } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Prism, Highlight } from 'prism-react-renderer';
 import { theme } from './code-theme';
-import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
+import { Flex, View } from '@aws-amplify/ui-react';
 import { versions } from '@/constants/versions';
-import { trackCopyClicks } from '@/utils/track';
 import type { MDXCodeProps } from './types';
 import { TokenList } from './TokenList';
+import { MDXCopyCodeButton } from './MDXCopyCodeButton';
 
 (typeof global !== 'undefined' ? global : window).Prism = Prism;
 require('prismjs/components/prism-java');
@@ -28,31 +27,47 @@ const addVersions = (code: string) => {
   );
   code = code.replace(/ANDROID_SDK_VERSION/g, versions.ANDROID_SDK_VERSION);
   code = code.replace(/KOTLIN_SDK_VERSION/g, versions.KOTLIN_SDK_VERSION);
+  code = code.replace(
+    /ANDROID_AUTHENTICATOR_VERSION/g,
+    versions.ANDROID_AUTHENTICATOR_VERSION
+  );
   return code;
 };
+
+const hasHighlights = (code: string): boolean => {
+  const highlightableStrings = [
+    '// highlight-start',
+    '// highlight-end',
+    '// highlight-next-line'
+  ];
+  if (highlightableStrings.some((highlight) => code.includes(highlight))) {
+    return true;
+  }
+  return false;
+};
+
+export const emptyCodeString = 'Codeblock must contain a non empty code string';
 
 export const MDXCode = ({
   codeString,
   language = 'js',
-  showLineNumbers = true,
+  showLineNumbers,
   testHeaderId,
   testId,
   title
 }: MDXCodeProps) => {
-  const [copied, setCopied] = useState(false);
+  if (!codeString || !codeString.trim()) {
+    throw new Error(emptyCodeString);
+  }
   const [code, setCode] = useState(codeString);
-  const shouldShowCopy = language !== 'console';
+  const shouldShowCopy = language !== 'console' && !hasHighlights(codeString);
   const shouldShowHeader = shouldShowCopy || title;
   const titleId = `${useId()}-titleID`;
   const codeId = `${useId()}-codeID`;
-
-  const copy = () => {
-    trackCopyClicks(codeString);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-  };
+  const hideLineNumbers = ['bash'];
+  const defaultLineNumberValue = !hideLineNumbers.includes(language); //show line number by default for bash language
+  const showLineNumberValue =
+    showLineNumbers === undefined ? defaultLineNumberValue : showLineNumbers;
 
   useEffect(() => {
     setCode(addVersions(codeString));
@@ -61,11 +76,7 @@ export const MDXCode = ({
   return (
     <Highlight theme={theme} code={code} language={language}>
       {({ style, tokens, getLineProps, getTokenProps }) => (
-        <View data-testid={testId}>
-          <div style={{ display: 'none' }}>
-            {/* searchable code \ */}
-            {codeString}
-          </div>
+        <View data-testid={testId} className={'code-block'}>
           <View className="pre-container">
             {shouldShowHeader ? (
               <Flex className="pre-header" data-testid={testHeaderId}>
@@ -75,18 +86,11 @@ export const MDXCode = ({
                   </View>
                 ) : null}
                 {shouldShowCopy ? (
-                  <CopyToClipboard text={codeString} onCopy={copy}>
-                    <Button
-                      size="small"
-                      variation="link"
-                      disabled={copied}
-                      className="code-copy"
-                      aria-describedby={title ? undefined : codeId}
-                    >
-                      {copied ? 'Copied!' : 'Copy'}
-                      <VisuallyHidden>{title} code example</VisuallyHidden>
-                    </Button>
-                  </CopyToClipboard>
+                  <MDXCopyCodeButton
+                    codeString={codeString}
+                    title={title}
+                    codeId={codeId}
+                  />
                 ) : null}
               </Flex>
             ) : null}
@@ -100,7 +104,7 @@ export const MDXCode = ({
               >
                 <code className="pre-code" id={codeId}>
                   <TokenList
-                    showLineNumbers={showLineNumbers}
+                    showLineNumbers={showLineNumberValue}
                     tokens={tokens}
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}

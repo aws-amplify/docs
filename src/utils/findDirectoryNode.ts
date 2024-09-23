@@ -3,7 +3,10 @@ import { PageNode } from '@/directory/directory';
 
 const directoryCast = directory as PageNode;
 
-export const findDirectoryNode = (route: string, dir = directoryCast) => {
+export const findDirectoryNode = (
+  route: string,
+  dir = directoryCast
+): PageNode | null => {
   if (dir.route === route) {
     return dir;
   } else if (dir.children && dir.children.length) {
@@ -13,4 +16,6 @@ export const findDirectoryNode = (route: string, dir = directoryCast) => {
       if (res) return res;
     }
   }
+
+  return null;
 };

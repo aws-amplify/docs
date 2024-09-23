@@ -1,0 +1,133 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Test the REST API',
+  description: 'Learn how you can test the REST API from the terminal, with Amplify Mock, or with the API Gateway console.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+## Test the API from the terminal
+
+If unauthenticated guest users have access to your REST API you can test it from the terminal using [curl](https://github.com/curl/curl). curl is a command-line tool that lets you transfer data to and from a server using various protocols.
+
+> Curl is available in many distributions including Mac, Windows and Linux. Follow the install instructions in the [docs](https://curl.haxx.se/docs/install.html).
+
+<BlockSwitcher>
+<Block name="Mac and Linux">
+
+### GET method example
+
+```bash title="Terminal" showLineNumbers={false} 
+curl <your-api-endpoint>/<your-api-stage>/items
+```
+
+### POST method example
+
+```bash title="Terminal" showLineNumbers={false} 
+curl -H "Content-Type: application/json" -d '{"name":"item-1"}' <your-api-endpoint>/<your-api-stage>/items
+```
+
+</Block>
+<Block name="Windows">
+
+### GET method example
+
+```bash title="Terminal" showLineNumbers={false} 
+curl <your-api-endpoint>/<your-api-stage>/items
+```
+
+### POST method example
+
+```bash title="Terminal" showLineNumbers={false} 
+curl -H "Content-Type: application/json" -d {\"name\":\"item-1\"} <your-api-endpoint>/<your-api-stage>/items
+```
+
+</Block>
+</BlockSwitcher>
+
+## Test the API with API Gateway console
+
+Let's test your new REST API using the route below with HTTP Method `GET` and path `/items?limit=10` which includes a `limit` query string parameter.
+
+```console title="Terminal" showLineNumbers={false}
+GET /items?limit=10
+```
+
+1. Sign in to the [API Gateway console](https://console.aws.amazon.com/apigateway)  
+2. Choose the `myRestApi` REST API  
+3. In the Resources pane, choose the method you want to test. Select `GET` right under `/items`.  
+
+  ```console title="Terminal" showLineNumbers={false}
+  /                        
+  |_ /items               Main resource. Eg: /items  
+    GET                   Methods  
+    DELETE  
+    PUT  
+    POST  
+    OPTIONS               Allow pre-flight requests in CORS by browser  
+      |_ /{proxy+}         Proxy resource. Eg: /items/, /items/id, items/object/{id}  
+      ANY                  Includes methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT  
+      OPTIONS              Allow pre-flight requests in CORS by browser  
+  ```
+4. In the Method Execution pane, select **TEST**. Choose the `GET` method and add `limit=10` to the query string `{items}` field.
+5. Choose **Test** to run the test for `GET /items?limit=10`. The following information will be displayed: request, status, latency, response body, response headers and logs.
+
+
+```console title="Terminal" showLineNumbers={false} /* cSpell:disable */
+Request
+/items
+Latency
+111
+Status
+200
+Response body
+"Hello from myFunction!"
+Response headers
+{
+  "Access-Control-Allow-Headers": "*",
+  "Access-Control-Allow-Origin": "*",
+  "X-Amzn-Trace-Id": "Root=1-661eee4b-f400fbebc6cfe65c3dadebcd;Parent=189f175e8de8d3a7;Sampled=0;lineage=c22c6ce1:0"
+}
+Log
+Execution log for request 9bd9d8dc-95e2-494b-be1b-716393f83c49
+Tue Apr 16 21:31:55 UTC 2024 : Starting execution for request: 9bd9d8dc-95e2-494b-be1b-716393f83c49
+Tue Apr 16 21:31:55 UTC 2024 : HTTP Method: GET, Resource Path: /items
+Tue Apr 16 21:31:55 UTC 2024 : Method request path: {}
+Tue Apr 16 21:31:55 UTC 2024 : Method request query string: {}
+Tue Apr 16 21:31:55 UTC 2024 : Method request headers: {}
+Tue Apr 16 21:31:55 UTC 2024 : Method request body before transformations: 
+Tue Apr 16 21:31:55 UTC 2024 : Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:[TRUNCATED:function:amplify-nextamplifygen2-y-testfunctionlambdaC407E8-zttuHxtL6x0V/invocations
+Tue Apr 16 21:31:55 UTC 2024 : Endpoint request headers: {X-Amz-Date=20240416T213155Z, x-amzn-apigateway-api-id=bnyiitr69a, Accept=application/json, User-Agent=AmazonAPIGateway_bnyiitr69a, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=246bd274ab578bc88286bd20a7371b0f08a1ec8cc2c8cacffb41e60430254c82, X-Amzn-Trace-Id=Root=1-661eee4b-f400fbebc6cfe65c3dadebcd, x-amzn-lambda-integration-tag=9bd9d8dc-95e2-494b-be1b-716393f83c49, Authorization=*********************************************************************************************************************************************************************************************************************************************************************************************************************************************bc00f2, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:[TRUNCATED]:bnyiitr69a/test-invoke-stage/GET/items, X-Amz-Security-Token= [TRUNCATED]
+Tue Apr 16 21:31:55 UTC 2024 : Endpoint request body after transformations: {"resource":"/items","path":"/items","httpMethod":"GET","headers":null,"multiValueHeaders":null,"queryStringParameters":null,"multiValueQueryStringParameters":null,"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"1m3yhu","resourcePath":"/items","httpMethod":"GET","extendedRequestId":"WVorzEQzoAMFubg=","requestTime":"16/Apr/2024:21:31:55 +0000","path":"/items","accountId":"[TRUNCATED]
+","protocol":"HTTP/1.1","stage":"test-invoke-stage","domainPrefix":"testPrefix","requestTimeEpoch":1713303115234,"requestId":"9bd9d8dc-95e2-494b-be1b-716393f83c49","identity":{"cognitoIdentityPoolId":null,"cognitoIdentityId":null,"apiKey":"test-invoke-api-key","principalOrgId":null,"cognitoAuthenticationType":null,"userArn":"arn:aws:iam::[TRUNCATED]:user/ykethan","apiKeyId":"test-invoke-api-key-id","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36","accountId":"05364941472 [TRUNCATED]
+Tue Apr 16 21:31:55 UTC 2024 : Sending request to https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:[TRUNCATED]
+:function:amplify-nextamplifygen2-y-testfunctionlambdaC407E8-zttuHxtL6x0V/invocations
+Tue Apr 16 21:31:55 UTC 2024 : Received response. Status: 200, Integration latency: 108 ms
+Tue Apr 16 21:31:55 UTC 2024 : Endpoint response headers: {Date=Tue, 16 Apr 2024 21:31:55 GMT, Content-Type=application/json, Content-Length=135, Connection=keep-alive, x-amzn-RequestId=67cfbdff-46cf-4355-8475-50a22e1f3234, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=root=1-661eee4b-f400fbebc6cfe65c3dadebcd;parent=189f175e8de8d3a7;sampled=0;lineage=c22c6ce1:0}
+Tue Apr 16 21:31:55 UTC 2024 : Endpoint response body before transformations: {"statusCode":200,"headers":{"Access-Control-Allow-Origin":"*","Access-Control-Allow-Headers":"*"},"body":"\"Hello from myFunction!\""}
+Tue Apr 16 21:31:55 UTC 2024 : Method response body after transformations: "Hello from myFunction!"
+Tue Apr 16 21:31:55 UTC 2024 : Method response headers: {Access-Control-Allow-Origin=*, Access-Control-Allow-Headers=*, X-Amzn-Trace-Id=Root=1-661eee4b-f400fbebc6cfe65c3dadebcd;Parent=189f175e8de8d3a7;Sampled=0;lineage=c22c6ce1:0}
+Tue Apr 16 21:31:55 UTC 2024 : Successfully completed execution
+Tue Apr 16 21:31:55 UTC 2024 : Method completed with status: 200
+```

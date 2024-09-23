@@ -1,0 +1,190 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up in-app messaging',
+  description: 'Learn how to get started with in-app messaging.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amplify allows interacting with In-App Messaging APIs, enabling you to send messages to your app users. In-App Messaging is a powerful tool to engage with your users and provide them with relevant information. 
+A campaign is a messaging initiative that engages a specific audience segment. A campaign sends tailored messages according to a schedule that you define. You can use the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create a campaign that sends messages through any single channel that is supported by Amazon Pinpoint: Mobile Push, In-App, Email, SMS or Custom channels.
+
+The following is an example utilizing the AWS CDK to create the In-App Messaging resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/). Note: there are no official hand-written (L2) constructs for this service yet.
+
+<Callout informational>
+
+**Note:** Campaign start time must be at least 15 minutes in future. In-app messages can only be synced to local device once the campaign becomes active (Status should be "In Progress" in the campaigns screen of the Pinpoint console).
+
+</Callout>
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import {
+  CfnApp,
+  CfnCampaign,
+  CfnSegment,
+} from "aws-cdk-lib/aws-pinpoint";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Stack } from "aws-cdk-lib/core";
+
+
+const backend = defineBackend({
+  auth, 
+  data,
+  // additional resources 
+});
+
+const inAppMessagingStack = backend.createStack("inAppMessaging-stack");
+
+// create a Pinpoint app
+const pinpoint = new CfnApp(inAppMessagingStack, "Pinpoint", {
+  name: "myPinpointApp",
+});
+
+// create a segment 
+const mySegment = new CfnSegment(inAppMessagingStack, "Segment", {
+  applicationId: pinpoint.ref,
+  name: "mySegment",
+});
+
+// create a campaign with event and in-app message template
+new CfnCampaign(inAppMessagingStack, "Campaign", {
+  applicationId: pinpoint.ref,
+  name: "MyCampaign",
+  segmentId: mySegment.attrSegmentId,
+  schedule: {
+    // ensure the start and end time are in the future
+    startTime: "2024-02-23T14:39:34Z", 
+    endTime: "2024-02-29T14:32:40Z",
+    frequency: "IN_APP_EVENT",
+    eventFilter: {
+      dimensions: {
+        eventType: {
+          dimensionType: "INCLUSIVE",
+          values: ["my_first_event"],
+        },
+      },
+      filterType: "ENDPOINT",
+    },
+  },
+
+  messageConfiguration: {
+    inAppMessage: {
+      layout: "TOP_BANNER",
+      content: [
+        {
+          // define the content of the in-app message
+          bodyConfig: {
+            alignment: "CENTER",
+            body: "This is an example in-app message.",
+            textColor: "#FFFFFF",
+          },
+          backgroundColor: "#000000",
+          headerConfig: {
+            alignment: "CENTER",
+            header: "Welcome!",
+            textColor: "#FFFFFF",
+          },
+          // optionally, define buttons, images, etc.
+        },
+      ],
+    },
+  },
+});
+
+//create an IAM policy to allow interacting with Pinpoint in-app messaging
+const pinpointPolicy = new Policy(inAppMessagingStack, "PinpointPolicy", {
+  policyName: "PinpointPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: [
+        "mobiletargeting:GetInAppMessages",
+        "mobiletargeting:UpdateEndpoint",
+        "mobiletargeting:PutEvents",
+      ],
+      resources: [pinpoint.attrArn + "/*", pinpoint.attrArn],
+    }),
+  ],
+});
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+
+// patch the custom Pinpoint resource to the expected output configuration
+backend.addOutput({
+  notifications: {
+    amazon_pinpoint_app_id: pinpoint.ref,
+    aws_region: Stack.of(pinpoint).region,
+    channels: ["IN_APP_MESSAGING"],
+  },
+});
+```
+
+## Install Amplify Libraries
+
+First, install the `aws-amplify` library:
+
+```sh title="Terminal" showLineNumbers={false}
+npm add aws-amplify
+```
+
+### Initialize In-App Messaging
+
+To finish setting up your application with Amplify, you need to configure it using the `configure` API. Next, to interact with In-App Messaging APIs, you need to first initialize In-App Messaging by calling the `initializeInAppMessaging` API directly imported from the `in-app-messaging` sub-path. This is required to be called as early as possible in the app lifecycle.
+
+<InlineFilter filters={["javascript", "angular", "react", "vue", "react-native"]}>
+```js title="src/index.js"
+import { Amplify } from 'aws-amplify';
+import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
+import outputs from '../amplify_outputs.json';
+
+Amplify.configure(outputs);
+initializeInAppMessaging();
+```
+</InlineFilter>
+
+<InlineFilter filters={['nextjs']}> 
+```js title="index.tsx"
+import { Amplify } from 'aws-amplify';
+import { initializeInAppMessaging } from 'aws-amplify/in-app-messaging';
+import outputs from '@/amplify_outputs.json';
+
+Amplify.configure(outputs);
+initializeInAppMessaging();
+```
+</InlineFilter>
+
+<Callout warning="true">
+
+Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. 
+
+</Callout>
+
+{/* [Todo] add link to the troubleshooting doc when its moved over https://docs.amplify.aws/react/build-a-backend/troubleshooting/library-not-configured/ */}
+
+### References
+
+[Amazon Pinpoint Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_pinpoint-readme.html)

@@ -1,0 +1,100 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use existing AWS resources',
+  description: 'Configure the Amplify Libraries to use existing Amazon Pinpoint resources by referencing them in your configuration.',
+  platforms: [
+    'swift',
+    'android',
+    'flutter',
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+To use existing Amazon Pinpoint resources with your Amplify backend or frontend application, use the `addOutput` method to surface backend resource outputs to the `amplify_outputs.json` file:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend"
+
+const backend = defineBackend({})
+
+backend.addOutput({
+  analytics: {
+    amazon_pinpoint: {
+      aws_region: "<your-aws-region>",
+      app_id: "<your-pinpoint-app-id>",
+    },
+  },
+})
+```
+
+<InlineFilter filters={['javascript', 'react-native', "angular", "nextjs", "react", "vue"]}>
+## Configuring client library directly
+
+Alternatively, you can configure the client library directly using `Amplify.configure()`. This manual setup enables you to use your existing Amazon Pinpoint resource in your app.
+
+```ts title="src/main.ts"
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  ...Amplify.getConfig(),
+  Analytics: {
+    ...Amplify.getConfig().Analytics,
+    Pinpoint: {
+      // REQUIRED -  Amazon Pinpoint App Client ID
+      appId: 'XXXXXXXXXXabcdefghij1234567890ab',
+
+      // REQUIRED -  Amazon service region
+      region: 'us-east-1',
+
+      // OPTIONAL - How many events can be buffered at once.
+      bufferSize: 1000,
+
+      // OPTIONAL - How many events will be flushed from the buffer per batch.
+      flushSize: 100,
+
+      // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+      flushInterval: 5000, // 5s
+
+      // OPTIONAL - The limit for failed recording retries.
+      resendLimit: 5
+    }
+  }
+});
+```
+</InlineFilter>
+
+## Update your IAM Policy
+
+Amazon Pinpoint requires an AWS Identity and Access Management (IAM) policy in order to use the `record` and `identifyUser` APIs:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
+      "Resource": ["arn:aws:mobiletargeting:*:<your-account-id>:apps/<your-pinpoint-app-id>*"]
+    }
+  ]
+}
+```
+

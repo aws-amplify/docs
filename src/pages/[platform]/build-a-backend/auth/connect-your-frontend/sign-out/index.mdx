@@ -1,0 +1,550 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Sign-out',
+  description: 'Learn how to sign out',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify provides a client library that enables you to interact with backend resources such as Amplify Auth.
+
+<InlineFilter filters={["react"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/swift/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/flutter/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<Callout info>
+
+The quickest way to get started with Amplify Auth in your frontend application is with the [Authenticator component](https://ui.docs.amplify.aws/android/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
+
+</Callout>
+</InlineFilter>
+
+{/* signOut api definition */}
+
+To sign a user out of your application use the `signOut` API.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { signOut } from 'aws-amplify/auth';
+
+await signOut();
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```dart
+Future<void> signOutCurrentUser() async {
+  final result = await Amplify.Auth.signOut();
+  if (result is CognitoCompleteSignOut) {
+    safePrint('Sign out completed successfully');
+  } else if (result is CognitoFailedSignOut) {
+    safePrint('Error signing user out: ${result.exception.message}');
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.signOut( signOutResult -> {
+    if (signOutResult instanceof AWSCognitoAuthSignOutResult.CompleteSignOut) {
+        // Sign Out completed fully and without errors.
+        Log.i("AuthQuickStart", "Signed out successfully");
+    } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.PartialSignOut) {
+        // Sign Out completed with some errors. User is signed out of the device.
+        AWSCognitoAuthSignOutResult.PartialSignOut partialSignOutResult =
+                (AWSCognitoAuthSignOutResult.PartialSignOut) signOutResult;
+
+        HostedUIError hostedUIError = partialSignOutResult.getHostedUIError();
+        if (hostedUIError != null) {
+            Log.e("AuthQuickStart", "HostedUI Error", hostedUIError.getException());
+            // Optional: Re-launch hostedUIError.getUrl() in a Custom tab to clear Cognito web session.
+        }
+
+        GlobalSignOutError globalSignOutError = partialSignOutResult.getGlobalSignOutError();
+        if (globalSignOutError != null) {
+            Log.e("AuthQuickStart", "GlobalSignOut Error", globalSignOutError.getException());
+            // Optional: Use escape hatch to retry revocation of globalSignOutError.getAccessToken().
+        }
+
+        RevokeTokenError revokeTokenError = partialSignOutResult.getRevokeTokenError();
+        if (revokeTokenError != null) {
+            Log.e("AuthQuickStart", "RevokeToken Error", revokeTokenError.getException());
+            // Optional: Use escape hatch to retry revocation of revokeTokenError.getRefreshToken().
+        }
+    } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.FailedSignOut) {
+        AWSCognitoAuthSignOutResult.FailedSignOut failedSignOutResult =
+                (AWSCognitoAuthSignOutResult.FailedSignOut) signOutResult;
+        // Sign Out failed with an exception, leaving the user signed in.
+        Log.e("AuthQuickStart", "Sign out Failed", failedSignOutResult.getException());
+    }
+});
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signOut { signOutResult ->
+    when(signOutResult) {
+        is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+            // Sign Out completed fully and without errors.
+            Log.i("AuthQuickStart", "Signed out successfully")
+        }
+        is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+            // Sign Out completed with some errors. User is signed out of the device.
+            signOutResult.hostedUIError?.let {
+                Log.e("AuthQuickStart", "HostedUI Error", it.exception)
+                // Optional: Re-launch it.url in a Custom tab to clear Cognito web session.
+
+            }
+            signOutResult.globalSignOutError?.let {
+                Log.e("AuthQuickStart", "GlobalSignOut Error", it.exception)
+                // Optional: Use escape hatch to retry revocation of it.accessToken.
+            }
+            signOutResult.revokeTokenError?.let {
+                Log.e("AuthQuickStart", "RevokeToken Error", it.exception)
+                // Optional: Use escape hatch to retry revocation of it.refreshToken.
+            }
+        }
+        is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+            // Sign Out failed with an exception, leaving the user signed in.
+            Log.e("AuthQuickStart", "Sign out Failed", signOutResult.exception)
+        }
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val signOutResult = Amplify.Auth.signOut()
+when(signOutResult) {
+    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+        // Sign Out completed fully and without errors.
+        Log.i("AuthQuickStart", "Signed out successfully")
+    }
+    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+        // Sign Out completed with some errors. User is signed out of the device.
+        signOutResult.hostedUIError?.let {
+            Log.e("AuthQuickStart", "HostedUI Error", it.exception)
+            // Optional: Re-launch it.url in a Custom tab to clear Cognito web session.
+
+        }
+        signOutResult.globalSignOutError?.let {
+            Log.e("AuthQuickStart", "GlobalSignOut Error", it.exception)
+            // Optional: Use escape hatch to retry revocation of it.accessToken.
+        }
+        signOutResult.revokeTokenError?.let {
+            Log.e("AuthQuickStart", "RevokeToken Error", it.exception)
+            // Optional: Use escape hatch to retry revocation of it.refreshToken.
+        }
+    }
+    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+        // Sign Out failed with an exception, leaving the user signed in.
+        Log.e("AuthQuickStart", "Sign out Failed", signOutResult.exception)
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.signOut()
+    .subscribe(signOutResult -> {
+        if (signOutResult instanceof AWSCognitoAuthSignOutResult.CompleteSignOut) {
+            // Sign Out completed fully and without errors.
+            Log.i("AuthQuickStart", "Signed out successfully");
+        } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.PartialSignOut) {
+            // Sign Out completed with some errors. User is signed out of the device.
+            AWSCognitoAuthSignOutResult.PartialSignOut partialSignOutResult =
+                    (AWSCognitoAuthSignOutResult.PartialSignOut) signOutResult;
+
+            HostedUIError hostedUIError = partialSignOutResult.getHostedUIError();
+            if (hostedUIError != null) {
+                Log.e("AuthQuickStart", "HostedUI Error", hostedUIError.getException());
+                // Optional: Re-launch hostedUIError.getUrl() in a Custom tab to clear Cognito web session.
+            }
+
+            GlobalSignOutError globalSignOutError = partialSignOutResult.getGlobalSignOutError();
+            if (globalSignOutError != null) {
+                Log.e("AuthQuickStart", "GlobalSignOut Error", globalSignOutError.getException());
+                // Optional: Use escape hatch to retry revocation of globalSignOutError.getAccessToken().
+            }
+
+            RevokeTokenError revokeTokenError = partialSignOutResult.getRevokeTokenError();
+            if (revokeTokenError != null) {
+                Log.e("AuthQuickStart", "RevokeToken Error", revokeTokenError.getException());
+                // Optional: Use escape hatch to retry revocation of revokeTokenError.getRefreshToken().
+            }
+        } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.FailedSignOut) {
+            AWSCognitoAuthSignOutResult.FailedSignOut failedSignOutResult =
+                    (AWSCognitoAuthSignOutResult.FailedSignOut) signOutResult;
+            // Sign Out failed with an exception, leaving the user signed in.
+            Log.e("AuthQuickStart", "Sign out Failed", failedSignOutResult.getException());
+        }
+    });
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func signOutLocally() async {
+    let result = await Amplify.Auth.signOut()
+    guard let signOutResult = result as? AWSCognitoSignOutResult
+    else {
+        print("Signout failed")
+        return
+    }
+
+    print("Local signout successful: \(signOutResult.signedOutLocally)")
+    switch signOutResult {
+    case .complete:
+        // Sign Out completed fully and without errors.
+        print("Signed out successfully")
+
+    case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+        // Sign Out completed with some errors. User is signed out of the device.
+        
+        if let hostedUIError = hostedUIError {
+            print("HostedUI error  \(String(describing: hostedUIError))")
+        }
+
+        if let globalSignOutError = globalSignOutError {
+            // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
+            print("GlobalSignOut error  \(String(describing: globalSignOutError))")
+        }
+
+        if let revokeTokenError = revokeTokenError {
+            // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
+            print("Revoke token error  \(String(describing: revokeTokenError))")
+        }
+
+    case .failed(let error):
+        // Sign Out failed with an exception, leaving the user signed in.
+        print("SignOut failed with \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func signOutLocally() -> AnyCancellable {
+    Amplify.Publisher.create {
+        await Amplify.Auth.signOut()
+    }.sink(receiveValue: { result in
+        guard let signOutResult = result as? AWSCognitoSignOutResult
+        else {
+            print("Signout failed")
+            return
+        }
+        print("Local signout successful: \(signOutResult.signedOutLocally)")
+        switch signOutResult {
+        case .complete:
+            // Sign Out completed fully and without errors.
+            print("Signed out successfully")
+
+        case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+            // Sign Out completed with some errors. User is signed out of the device.
+            if let hostedUIError = hostedUIError {
+                print("HostedUI error  \(String(describing: hostedUIError))")
+            }
+
+            if let globalSignOutError = globalSignOutError {
+                // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
+                print("GlobalSignOut error  \(String(describing: globalSignOutError))")
+            }
+
+            if let revokeTokenError = revokeTokenError {
+                // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
+                print("Revoke token error  \(String(describing: revokeTokenError))")
+            }
+
+        case .failed(let error):
+            // Sign Out failed with an exception, leaving the user signed in.
+            print("SignOut failed with \(error)")
+        }
+    })
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+You can also sign out users from all devices by performing a global sign-out. This will also invalidate all refresh tokens issued to a user. The user's current access and ID tokens will remain valid on other devices until the refresh token expires (access and ID tokens expire one hour after they are issued).
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { signOut } from 'aws-amplify/auth';
+
+await signOut({ global: true });
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```dart
+Future<void> signOutGlobally() async {
+  final result = await Amplify.Auth.signOut(
+    options: const SignOutOptions(globalSignOut: true),
+  );
+  if (result is CognitoCompleteSignOut) {
+    safePrint('Sign out completed successfully');
+  } else if (result is CognitoPartialSignOut) {
+    final globalSignOutException = result.globalSignOutException!;
+    final accessToken = globalSignOutException.accessToken;
+    // Retry the global sign out using the access token, if desired
+    // ...
+    safePrint('Error signing user out: ${globalSignOutException.message}');
+  } else if (result is CognitoFailedSignOut) {
+    safePrint('Error signing user out: ${result.exception.message}');
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AuthSignOutOptions options = AuthSignOutOptions.builder()
+    .globalSignOut(true)
+    .build();
+
+Amplify.Auth.signOut(options, signOutResult -> {
+    if (signOutResult instanceof AWSCognitoAuthSignOutResult.CompleteSignOut) {
+        // handle successful sign out
+    } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.PartialSignOut) {
+        // handle partial sign out
+    } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.FailedSignOut) {
+        // handle failed sign out
+    }
+});
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = AuthSignOutOptions.builder()
+    .globalSignOut(true)
+    .build()
+
+Amplify.Auth.signOut(options) { signOutResult ->
+    when(signOutResult) {
+        is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+            // handle successful sign out
+        }
+        is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+            // handle partial sign out
+        }
+        is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+            // handle failed sign out
+        }
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = AuthSignOutOptions.builder()
+    .globalSignOut(true)
+    .build()
+
+val signOutResult = Amplify.Auth.signOut(options)
+
+when(signOutResult) {
+    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+        // handle successful sign out
+    }
+    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+        // handle partial sign out
+    }
+    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+        // handle failed sign out
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AuthSignOutOptions options = AuthSignOutOptions.builder()
+    .globalSignOut(true)
+    .build();
+    
+RxAmplify.Auth.signOut(options)
+    .subscribe(signOutResult -> {
+        if (signOutResult instanceof AWSCognitoAuthSignOutResult.CompleteSignOut) {
+            // handle successful sign out
+        } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.PartialSignOut) {
+            // handle partial sign out
+        } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.FailedSignOut) {
+            // handle failed sign out
+        }
+    });
+```
+
+</Block>
+</BlockSwitcher> 
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+import AWSCognitoAuthPlugin
+
+func signOutGlobally() async {
+    let result = await Amplify.Auth.signOut(options: .init(globalSignOut: true))
+    guard let signOutResult = result as? AWSCognitoSignOutResult
+    else {
+        print("Signout failed")
+        return
+    }
+
+    print("Local signout successful: \(signOutResult.signedOutLocally)")
+    switch signOutResult {
+    case .complete:
+        // handle successful sign out
+    case .failed(let error):
+        // handle failed sign out
+    case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+        // handle partial sign out
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func signOutGlobally() -> AnyCancellable {
+    Amplify.Publisher.create {
+        await Amplify.Auth.signOut(options: .init(globalSignOut: true))
+    }.sink(receiveValue: { result in
+        guard let signOutResult = result as? AWSCognitoSignOutResult
+        else {
+            print("Signout failed")
+            return
+        }
+        print("Local signout successful: \(signOutResult.signedOutLocally)")
+        switch signOutResult {
+        case .complete:
+            // handle successful sign out
+        case .failed(let error):
+            // handle failed sign out
+        case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+            // handle partial sign out
+        }
+    })
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+{/* double-filter to conditionally display this section for only platforms that have examples */}
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+## Practical Example
+
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+
+```tsx title="src/App.tsx"
+import { Amplify } from "aws-amplify"
+// highlight-next-line
+import { signOut } from "aws-amplify/auth"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure(outputs)
+
+export default function App() {
+  async function handleSignOut() {
+    // highlight-next-line
+    await signOut()
+  }
+
+  return (
+    <button type="button" onClick={handleSignOut}>
+      Sign out
+    </button>
+  )
+}
+```
+
+</InlineFilter>
+</InlineFilter>

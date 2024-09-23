@@ -16,7 +16,7 @@ import androidPreReq from '/src/fragments/lib/logging/android/setup_logging/10_p
 
 <Callout>
 
-You can use the Amplify CLI to [add custom CDK resources](/[platform]/tools/cli/custom/cdk/).
+You can use the Amplify CLI to [add custom CDK resources](/gen1/[platform]/tools/cli/custom/cdk/).
 
 </Callout>
 
@@ -73,6 +73,39 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
 
 The `<log-group-name>` and `<region>` will be printed out in the in the terminal. You can use this information to setup the Amplify library in the next section.
 
+<InlineFilter filters={['android']}>
+
+## Install Amplify Libraries
+
+Add the following dependencies to your `build.gradle (Module :app)` file and click "Sync Now" when prompted:
+
+```
+android {
+    compileOptions {
+        // Support for Java 8 features
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // Amplify API dependencies
+    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+    implementation 'com.amplifyframework:aws-logging-cloudwatch:ANDROID_VERSION'
+    // ... other dependencies
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+}
+```
+
+<Callout>
+
+**Note:** The CloudWatch plugin has a dependency on Cognito Auth.
+
+</Callout>
+
+</InlineFilter>
+
 ## Initialize Amplify Logging
 
 In this section, we will initialize and setup the Amplify library. The Logger can be configured via a configuration file or in code when your app is initializing.
@@ -92,8 +125,6 @@ import androidInitWithoutConfig from '/src/fragments/lib/logging/android/setup_l
       }}
     />
   </Block>
-
-{' '}
 <Block name="With Code">
   <Fragments
     fragments={{

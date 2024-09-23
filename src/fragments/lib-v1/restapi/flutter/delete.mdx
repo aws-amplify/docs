@@ -1,17 +1,15 @@
 ## DELETE requests
 
   ```dart
-  Future<void> deleteTodo() async {
-    try {
-      const options = RestOptions(path: '/todo/1');
-      final restOperation = Amplify.API.delete(restOptions: options);
-      final response = await restOperation.response;
-      print('DELETE call succeeded');
-      print(response.body);
-    } on ApiException catch (e) {
-      print('DELETE call failed: $e');
-    }
+Future<void> deleteTodo() async {
+  try {
+    final restOperation = Amplify.API.delete('todo/1');
+    final response = await restOperation.response;
+    safePrint('DELETE call succeeded: ${response.decodeBody()}');
+  } on ApiException catch (e) {
+    safePrint('DELETE call failed: $e');
   }
+}
   ```
 
 

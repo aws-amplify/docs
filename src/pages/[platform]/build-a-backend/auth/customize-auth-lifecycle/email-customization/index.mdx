@@ -1,0 +1,88 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Email customization',
+  description: 'Learn how to customize emails your users receive when signing up',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}
+
+{/* verification email (basic) */}
+{/* verification email with react.email/jsx.email */}
+
+## Customize the Verification Email
+
+By default, Amplify Auth resources are scaffolded with email as the default method for your users to sign in. When you users sign up they receive a verification email to confirm their ownership of the email they specified during sign-up. Emails such as the verification email can be customized with your app's brand identity.
+
+To get started, change the `email` attribute of `loginWith` from `true` to an object to begin customizing its default behavior:
+
+```diff title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+export const auth = defineAuth({
+  loginWith: {
+-   email: true, 
++   email: {
++     verificationEmailStyle: "CODE",
++     verificationEmailSubject: "Welcome to my app!",
++     verificationEmailBody: (createCode) => `Use this code to confirm your account: ${createCode()}`,
++   },
+  },
+})
+```
+
+## Customize the Invitation Email 
+
+In some cases, you may [set up a user account on behalf of a user in the Amplify console](/[platform]/build-a-backend/auth/manage-users/with-amplify-console/). In this case, Amplify Auth will send an invitation email to the user welcoming them to your application. This email includes a brief welcome message, along with the email address they can log in with and the temporary password you've set up for them. 
+
+If you'd like to customize that email, you can override the `userInvitation` attribute of the `email` object:
+
+```diff title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+export const auth = defineAuth({
+  loginWith: {
+-   email: true, 
++   email: {
++     // can be used in conjunction with a customized welcome email as well
++     verificationEmailStyle: "CODE",
++     verificationEmailSubject: "Welcome to my app!",
++     verificationEmailBody: (createCode) => `Use this code to confirm your account: ${createCode()}`,
++     userInvitation: {
++       emailSubject: "Welcome to my app!",
++       emailBody: (user, code) =>
++         `We're happy to have you! You can now login with username ${user()} and temporary password ${code()}`, 
++     },
++   },
+  },
+})
+```
+
+Note that when using the `user` and `code` arguments of the `emailBody` function, `user` and `code` are **functions** which must be called. Failure to call them will result in an error when your sandbox deploys.
+
+{/* ## With react.email */}
+
+{/* ## With jsx.email */}
+
+{/* ## i18n */}

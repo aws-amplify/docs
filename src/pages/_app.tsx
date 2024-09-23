@@ -6,8 +6,6 @@ import { Layout } from '@/components/Layout';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
-import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
-import { useCanonicalUrl } from '@/utils/useCanonicalUrl';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -22,6 +20,7 @@ function MyApp({ Component, pageProps }) {
   } = pageProps;
 
   const router = useRouter();
+  const { BUILD_ENV } = process.env;
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -53,12 +52,7 @@ function MyApp({ Component, pageProps }) {
       </Layout>
     ));
 
-  let canonicalUrl = 'https://docs.amplify.aws';
-
-  const canonicalUrlPath = useCanonicalUrl(meta, useCurrentPlatform());
-
-  canonicalUrl += canonicalUrlPath;
-
+  const favIconColor = router.route.startsWith('/gen1') ? 'teal' : 'purple';
   return (
     <>
       <Head>
@@ -119,76 +113,54 @@ function MyApp({ Component, pageProps }) {
           sizes="192x192"
           href="/assets/icon/android-icon-192x192.png"
         />
-        {router.route.startsWith('/gen2') ? (
-          <>
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="16x16"
-              href="/assets/icon/favicon-purple-16x16.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="32x32"
-              href="/assets/icon/favicon-purple-32x32.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="96x96"
-              href="/assets/icon/favicon-purple-96x96.png"
-            />
-            <link
-              rel="icon"
-              type="image/x-icon"
-              href="/assets/icon/favicon-purple.ico"
-            />
-          </>
-        ) : (
-          <>
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="16x16"
-              href="/assets/icon/favicon-teal-16x16.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="32x32"
-              href="/assets/icon/favicon-teal-32x32.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="96x96"
-              href="/assets/icon/favicon-teal-96x96.png"
-            />
-            <link
-              rel="icon"
-              type="image/x-icon"
-              href="/assets/icon/favicon-teal.ico"
-            />
-          </>
-        )}
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`/assets/icon/favicon-${favIconColor}-16x16.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={`/assets/icon/favicon-${favIconColor}-32x32.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="96x96"
+          href={`/assets/icon/favicon-${favIconColor}-96x96.png`}
+        />
+        <link
+          rel="icon"
+          type="image/x-icon"
+          href={`/assets/icon/favicon-${favIconColor}.ico`}
+        />
 
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
-        <link rel="canonical" href={canonicalUrl} />
+
+        {BUILD_ENV === 'production' ? (
+          <>
+            <link
+              rel="preload"
+              as="script"
+              href="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
+            />
+          </>
+        ) : BUILD_ENV === 'staging' ? (
+          <>
+            <link
+              rel="preload"
+              as="script"
+              href="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
+            />
+          </>
+        ) : null}
       </Head>
 
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
 
-      {process.env.BUILD_ENV !== 'production' ? (
-        <>
-          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-          <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
-          <script
-            src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
-            defer
-          ></script>
-        </>
-      ) : (
+      {BUILD_ENV === 'production' ? (
         <>
           {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
@@ -197,11 +169,23 @@ function MyApp({ Component, pageProps }) {
             defer
           ></script>
         </>
-      )}
-      <link
-        href="https://prod.assets.shortbread.aws.dev/shortbread.css"
-        rel="stylesheet"
-      ></link>
+      ) : BUILD_ENV === 'staging' ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+          <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
+          <script
+            src="https://alpha.d2c.marketing.aws.dev/client/loader/v1/d2c-load.js"
+            defer
+          ></script>
+        </>
+      ) : null}
+
+      {BUILD_ENV === 'staging' || BUILD_ENV === 'production' ? (
+        <link
+          href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+          rel="stylesheet"
+        ></link>
+      ) : null}
     </>
   );
 }

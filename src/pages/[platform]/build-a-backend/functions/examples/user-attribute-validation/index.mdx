@@ -1,0 +1,81 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'User attribute validation',
+  description:
+    'Validate user attributes with an Auth trigger',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+You can use `defineAuth` and `defineFunction` to create a [Cognito pre sign-up Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) that extends the behavior of sign-up to validate attribute values.
+
+To get started, create a new directory and a resource file, `amplify/auth/pre-sign-up/resource.ts`. Then, define the function with `defineFunction`:
+
+```ts title="amplify/auth/pre-sign-up/resource.ts"
+import { defineFunction } from '@aws-amplify/backend';
+
+export const preSignUp = defineFunction({
+  name: "pre-sign-up"
+});
+```
+
+Next, create the corresponding handler file, `amplify/auth/pre-sign-up/handler.ts`, file with the following contents:
+
+```ts title="amplify/auth/pre-sign-up/handler.ts"
+import type { PreSignUpTriggerHandler } from "aws-lambda"
+
+function isOlderThan(date: Date, age: number) {
+  const comparison = new Date()
+  comparison.setFullYear(comparison.getFullYear() - age)
+  return date.getTime() > comparison.getTime()
+}
+
+export const handler: PreSignUpTriggerHandler = async (event) => {
+  const birthdate = new Date(event.request.userAttributes["birthdate"])
+
+  // you must be 13 years or older
+  if (!isOlderThan(birthdate, 13)) {
+    throw new Error("You must be 13 years or older to use this site")
+  }
+
+  return event
+}
+```
+
+Lastly, set the newly created function resource on your auth resource:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+import { preSignUp } from './pre-sign-up/resource';
+
+export const auth = defineAuth({
+  // ...
+  triggers: {
+    preSignUp
+  }
+});
+```
+
+After deploying the changes, whenever a user attempts to sign up this handler will verify the submitter's age is above 13 years.

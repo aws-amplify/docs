@@ -1,0 +1,33 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Geo',
+  description: 'Modern, interactive maps with location markers and location search.',
+  platforms: [
+    'android',
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend/add-aws-services/geo',
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

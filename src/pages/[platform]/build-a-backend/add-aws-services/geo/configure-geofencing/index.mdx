@@ -1,0 +1,162 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Configure a geofence collection',
+  description: 'Create and manage collections of Geofences',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+A Geofence is a virtual perimeter for a real-world geographic area. A Geofence contains points or vertices that form a closed boundary, defining an area of interest. Geofence collections store one or multiple Geofences.
+
+## Setup a new Geofence Collection
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { CfnGeofenceCollection } from "aws-cdk-lib/aws-location";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+
+const backend = defineBackend({
+  auth,
+  data,
+  // additional resources
+});
+
+const geoStack = backend.createStack("geo-stack");
+
+// create a location services geofence collection
+const myGeofenceCollection = new CfnGeofenceCollection(
+  geoStack,
+  "GeofenceCollection",
+  {
+    collectionName: "myGeofenceCollection",
+    pricingPlan: "RequestBasedUsage",
+    tags: [
+      {
+        key: "name",
+        value: "myGeofenceCollection",
+      },
+    ],
+  }
+);
+
+// create an IAM policy to allow interacting with geofence collection resource
+const myGeofenceCollectionPolicy = new Policy(
+  geoStack,
+  "GeofenceCollectionPolicy",
+  {
+    policyName: "myGeofenceCollectionPolicy",
+    statements: [
+      new PolicyStatement({
+        actions: [
+          "geo:GetGeofence",
+          "geo:PutGeofence",
+          "geo:BatchPutGeofence",
+          "geo:BatchDeleteGeofence",
+          "geo:ListGeofences",
+        ],
+        resources: [myGeofenceCollection.attrArn],
+      }),
+    ],
+  }
+);
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeofenceCollectionPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeofenceCollectionPolicy);
+
+// patch the geofence collection resource to the expected output configuration
+backend.addOutput({
+  geo: {
+    geofence_collections: {
+      default: myGeofenceCollection.collectionName,
+      items: [myGeofenceCollection.collectionName],
+    },
+  },
+});
+```
+
+## Geofence Collection Pricing Plan
+
+The pricing plan for the Geofence Collection will be set to `RequestBasedUsage`. We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
+
+#### Group access
+
+To scope access permissions based on [Cognito User Groups](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-user-groups.html)
+
+1. Create a Cognito User Pool Group
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  groups: ["User"],
+});
+```
+
+2. Add permissions to the Cognito User Pool Group role
+
+```ts title="amplify/backend.ts"
+const myGeofenceCollectionPolicy = new Policy(
+  geoStack,
+  "GeofenceCollectionPolicy",
+  {
+    policyName: "myGeofenceCollectionPolicy",
+    statements: [
+      new PolicyStatement({
+        actions: [
+          "geo:GetGeofence",
+          "geo:PutGeofence",
+          "geo:BatchPutGeofence",
+          "geo:BatchDeleteGeofence",
+          "geo:ListGeofences",
+        ],
+        resources: [myGeofenceCollection.attrArn],
+      }),
+    ],
+  }
+);
+
+backend.auth.resources.groups["User"].role.attachInlinePolicy(myGeofenceCollectionPolicy);
+```
+
+> Note: If you combine `Auth/Guest user access` and `Individual Group access`, users who are members of a group will only be granted the permissions of the group, and not the authenticated user permissions. The permissions apply to ALL Geofences in a collection. For example, If you add `Read` permission such as `ListGeofences` and `GetGeofence` to `User` Cognito group, ALL users added to that group will be able to read the properties of ALL Geofences in that Geofence collection.
+
+#### Using the AWS SDK for Javascript
+
+Alternatively, if you want to add users to an existing Cognito user pool group programmatically, you can use the AWS SDK for Javascript. Refer to the [API documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminAddUserToGroup).
+
+
+
+<InlineFilter filters={["javascript", "react", "angular", "nextjs", "vue"]}>
+
+<Callout>
+
+**Note:** After you have provisioned the Geofence Collection, depending on your application's use-case, you can also add Geofences to the provisioned Geofence Collection programmatically. Refer this [API documentation](/[platform]/build-a-backend/add-aws-services/geo/geofences/#savegeofences) for more information.
+
+</Callout>
+
+</InlineFilter>

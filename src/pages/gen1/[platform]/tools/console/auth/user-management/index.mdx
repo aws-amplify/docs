@@ -1,0 +1,82 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Manage authentication for users and groups',
+  description: 'Manage authentication for users and groups',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+          
+
+In Amplify Studio, you can create and manage users and groups, edit user attributes, and suspend users.
+
+To set authorization rules that allow these users and groups to perform create, read, update, or delete operations on your app data, see [Authorization](/gen1/[platform]/tools/console/authz/).
+
+![Display of user management page in Amplify Studio](/images/studio/auth/user-management.png)
+
+## To create a user
+
+![Screenshot of user creation form to create a new Amazon Cognito user in user management page](/images/studio/auth/create-user.png)
+
+1. On the **Manage** menu, choose **User management**.
+2. On the **User management** page, choose the **Users** tab and then choose **Create user**.
+3. In the **Create user** window, for **Unique identifier** enter a username, email address, or phone number. For **Temporary password** enter a password.
+4. Choose **Create user**.
+
+<Callout>
+
+A user can be confirmed by using the [pre-built UI components](/gen1/[platform]/build-a-backend/auth/set-up-auth/#enable-sign-up-sign-in-and-sign-out), [Amplify libraries](https://aws-amplify.github.io/amplify-js/api/modules/aws_amplify.auth.html)
+
+</Callout>
+
+## To modify access for a user
+
+1. On the **User management** page, choose the **Users** tab.
+2. Select the name of the user to manage.
+3. On the **Actions** menu, choose the action to perform on the user. The options are **Reset password**, **Delete**, **Suspend**, or **Reactivate**.
+4. For each menu option, a confirmation window is displayed. Follow the instructions in the confirmation window to complete the action on the user.
+
+## To create a group
+
+![](/images/studio/auth/user-groups.png)
+
+1. On the **User management** page, choose the **Groups** tab and then choose **Create group**.
+2. In the **Create group** window, for **Title** enter a name for the group.
+3. Choose **Create group**.
+
+## To add a user to a group
+
+1. On the **User management** page, choose the **Groups** tab.
+2. Select the name of the group to add users to.
+3. Choose **Add user(s)**.
+4. In the **Add users to group** window, choose how you want to search for users to add from the **Search** menu. You can choose _Email_, _Phone number_, or _Username_.
+5. Choose one user or multiple users to add to the group and then choose **Add users**.
+
+## To delete a group
+
+1. On the **User management** page, choose the **Groups** tab.
+2. In the **Groups** section, select the name of the group to delete.
+3. Choose **Delete**.
+4. A confirmation window is displayed. Enter _Delete_ and choose, **Confirm deletion**.

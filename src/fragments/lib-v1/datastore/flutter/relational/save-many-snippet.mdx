@@ -7,19 +7,30 @@ amplify codegen models
 Once it is regenerated, save your posts with many-to-many mode like the following:
 
 ```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+import 'models/ModelProvider.dart';
+
 Future<void> savePostAndEditor() async {
-  final post = Post(title: 'My First Post');
+  final post = Post(
+    title: 'My First Post',
+    rating: 10,
+    status: PostStatus.INACTIVE,
+  );
   final editor = User(username: 'Nadia');
   final postEditor = PostEditor(post: post, user: editor);
 
-  // first you save the post
-  await Amplify.DataStore.save(post);
+  try {
+    // first you save the post
+    await Amplify.DataStore.save(post);
 
-  // secondly, you save the editor/user
-  await Amplify.DataStore.save(editor);
+    // secondly, you save the editor/user
+    await Amplify.DataStore.save(editor);
 
-  // then you save the model that links a post with an editor
-  await Amplify.DataStore.save(postEditor);
-  print('Saved user, post and postEditor!');
+    // then you save the model that links a post with an editor
+    await Amplify.DataStore.save(postEditor);
+  } on DataStoreException catch (e) {
+    safePrint('Something went wrong saving model: ${e.message}');
+  }
 }
 ```

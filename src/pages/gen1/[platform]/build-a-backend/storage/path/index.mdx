@@ -1,0 +1,97 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Using Path',
+  description: "Learn more about using path on Amplify Storage APIs.",
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+  canonicalObjects: [
+    {
+      platforms: [
+        'react',
+        'javascript',
+        'vue',
+        'react-native',
+        'nextjs',
+        'angular'
+      ],
+      canonicalPath: '/javascript/build-a-backend/storage/path/'
+    }
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
+You can now use the `path` parameter in the API to access any path within your S3 bucket. This provides more flexibility than the predefined `protected`, `private`, or `guest` folder access levels, allowing you to create and manage a storage structure tailored to your needs.
+
+<Callout>Note: `path` parameter can not be empty or start with a '/' (leading slash)</Callout>
+
+The sections below explain how to use existing `guest`, `protected`, and `private` resources with path-based APIs.
+
+## Using Guest accessLevel
+
+```javascript
+import { getProperties } from 'aws-amplify/storage';
+
+try {
+  const result = await getProperties({
+    path: 'public/album/2024/1.jpg',
+  });
+  console.log('File Properties ', result);
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+## Using Protected accessLevel
+
+```javascript
+import { getProperties } from 'aws-amplify/storage';
+
+try {
+  const result = await getProperties({
+    // `identityId` will provide the ID of the currently authenticated user
+    path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`,
+  });
+  console.log('File Properties ', result);
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+## Using Private accessLevel
+
+```javascript
+import { getProperties } from 'aws-amplify/storage';
+
+try {
+  const result = await getProperties({
+    // `identityId` will provide the ID of the currently authenticated user
+    path: ({identityId}) => `private/${identityId}/album/2024/1.jpg`,
+  });
+  console.log('File Properties ', result);
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+
+</InlineFilter>

@@ -8,22 +8,14 @@ If you already have your project remotely hosted in a Git repository, you can sk
 
 ### Connect branch in the Amplify console
 
-1. To get started with Gen 2, log in to the [AWS console](https://console.aws.amazon.com/console/home?#amplify) and navigate to your preferred AWS Region. (The Amplify console is available in [19 AWS Regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
-2. From the _Public Preview_ banner, choose _Try Amplify Gen 2_.
+1. To get started with Gen 2, log in to the [Amplify console](https://console.aws.amazon.com/amplify/home) and navigate to your preferred AWS Region. (The Amplify console is available in [19 AWS Regions](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplify_region)).
+2. From the **Public Preview** banner, choose **Try Amplify Gen 2**.
 
-![Amplify Gen 2 console showing the "Public Preview" banner with "Try Amplify Gen 2" button](/images/gen2/getting-started/console1.png)
+![Amplify console showing the "Public Preview" banner with "Try Amplify Gen 2" button](/images/gen2/getting-started/console1.png)
 
-3. In the Git provider screen, choose _Option 2: Start with an existing app_. Connect the repository you just deployed and pick a branch.
+3. In the Git provider screen, choose **Option 2: Start with an existing app**. Connect the repository you just deployed and pick a branch.
 
-<Callout warning>Next.js 14 apps require a [minimum node version](https://nextjs.org/blog/next-14#other-changes) of 18.17 at build time.</Callout>
-
-4. Under _Advanced settings_, navigate to _Build Image_ and enter `amplify:al2023`. The Amplify Amazon Linux 2023 build image supports Node.js versions 18 and 20 at build time. You can specify the Node.js version during your build via [live package updates](https://docs.aws.amazon.com/amplify/latest/userguide/custom-build-image.html#setup-live-updates) or [nvm](https://github.com/nvm-sh/nvm). Amplify Hosting will automatically deploy your compute runtime to match the Node.js version used at build time.
-
-![Amplify Gen 2 console showing the "Advanced Settings" view with "amplify:al2023" specified for build image](/images/gen2/getting-started/console4.png)
-
-<Callout warning>If you have an existing Gen 2 application, you can modify the build image by navigating to _Hosting_ -> _Environment Variables_ and create a new environment variable `_CUSTOM_IMAGE` with the value `amplify:al2023`, then redeploy the build.</Callout>
-
-5. Review all of your settings to ensure everything is set up correctly. Choose _Save and deploy_ to deploy your web app.
+4. Review all of your settings to ensure everything is set up correctly. Choose **Save and deploy** to deploy your web app.
 
 ### Manage fullstack branch
 

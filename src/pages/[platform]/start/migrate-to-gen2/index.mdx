@@ -1,0 +1,238 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Gen 2 for Gen 1 customers',
+  description: 'Learn how to set up your AWS account and configure it locally for use with Amplify.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Migrating from Gen 1 to Gen 2
+
+We are actively developing migration tooling to aid in transitioning your project from Gen 1 to Gen 2. Until then, we recommend you continue working with your Gen 1 Amplify project.  We remain committed to supporting both Gen 1 and Gen 2 for the foreseeable future. For new projects, we recommend adopting Gen 2 to take advantage of its [enhanced capabilities](/[platform]/how-amplify-works/concepts/). Meanwhile, customers on Gen 1 will continue to receive support for high-priority bugs and essential security updates.
+
+
+## Gen 1 vs. Gen 2 feature matrix
+
+The tables below present a feature matrix for Gen 1 customers who are considering Gen 2 for their apps. This will help determine the support availability for various features.
+
+### Auth
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| Configure username | Yes | Yes with CDK |
+| Configure email | Yes | Yes |
+| Configure phone number | Yes | Yes |
+| Facebook | Yes | Yes |
+| Google | Yes | Yes |
+| Amazon | Yes | Yes |
+| Sign-in with Apple | Yes | Yes |
+| Add user pool groups | Yes | Yes |
+| User pool group preference | Yes | Yes |
+| Email verification link redirect | Yes | Yes |
+| Sign-up attributes | Yes | Yes |
+| Auth trigger support | Yes | Yes |
+| Auth trigger templates: Add Google reCaptcha Challenge | Yes | Yes |
+| Auth trigger templates: Add user to Group | Yes | Yes |
+| Auth trigger templates: Email Domain Filtering (denylist) | Yes | Yes |
+| Auth trigger templates: Email Domain Filtering (allowlist) | Yes | Yes |
+| Auth trigger templates: Override ID Token Claims | Yes | Yes |
+| Auth trigger templates: Custom Auth Challenge Flow| Yes | No |
+| Configure default password policy | Yes | Yes with CDK |
+| Configure read/write capabilities for attributes | Yes | Yes with CDK |
+| Oauth flow: Configure authorization v implicit grant | Yes | Yes with CDK |
+| Admin queries | Yes | Yes with CDK |
+| MFA login (on/off/optional) | Yes | Yes |
+| MFA: SMS | Yes | Yes |
+| MFA: TOTP | Yes | Yes |
+| Zero-config Authenticator support | Yes | Yes |
+| User management in console | Yes | Yes |
+| Configure Oauth scopes | Yes | Yes |
+| Email verification - code | Yes | Yes |
+| Email Verification - Link | Yes | Yes |
+| Oauth flow: Configure redirect URIs | Yes | Yes |
+| Ability to set a friendly name for User Pool | Yes | Yes |
+| Unauthenticated logins | Yes | Yes |
+| Custom attributes | Yes | Yes with CDK |
+| Oauth flow: Configure domain name prefix | Yes | Yes with CDK |
+| Auth configuration in console | Yes | No |
+| First class OIDC support | No | Yes |
+| First class SAML support | No | Yes |
+| Import auth | Yes | No |
+
+### Data
+
+| Feature | Gen 1 | Gen2 |
+|---|---|---|
+| model | Yes | Yes |
+| primaryKey | Yes | Yes |
+| secondaryKey (name, sortKeyFields, query) | Yes | Yes |
+| hasOne | Yes | Yes |
+| hasMany | Yes | Yes |
+| belongsTo | Yes | Yes |
+| manyToMany | Yes | No |
+| default | Yes | Yes |
+| **auth - model level** |   |   |
+| auth - public - apiKey | Yes | Yes |
+| auth - public - iam | Yes | Yes |
+| auth - owner - userPools | Yes | Yes |
+| auth - owner - ownerField - userPools | Yes | Yes |
+| auth - owner - ownerField as array - userPools | Yes | Yes |
+| auth - owner - oidc | Yes | Yes |
+| auth - owner - ownerField - oidc | Yes | Yes |
+| auth - owner - ownerField as array - oidc | Yes | Yes |
+| auth - private - userPools | Yes | Yes |
+| auth - private - oidc | Yes | Yes |
+| auth - private - iam | Yes | Yes |
+| auth - group - userPools | Yes | Yes |
+| auth - group - dynamic - userPools | Yes | Yes |
+| auth - group - oidc | Yes | Yes |
+| auth - group - dynamic - oidc | Yes | Yes |
+| auth - custom - function | Yes | Yes |
+| **auth - field level** |   |   |
+| auth - public - apiKey | Yes | Yes |
+| auth - public - iam | Yes | Yes |
+| auth - owner - userPools | Yes | Yes |
+| auth - owner - ownerField - userPools | Yes | Yes |
+| auth - owner - ownerField as array - userPools | Yes | Yes |
+| auth - owner - oidc | Yes | Yes |
+| auth - owner - ownerField - oidc | Yes | Yes |
+| auth - owner - ownerField as array - oidc | Yes | Yes |
+| auth - private - userPools | Yes | Yes |
+| auth - private - oidc | Yes | Yes |
+| auth - private - iam | Yes | Yes |
+| auth - group - userPools | Yes | Yes |
+| auth - group - dynamic - userPools | Yes | Yes |
+| auth - group - oidc | Yes | Yes |
+| auth - group - dynamic - oidc | Yes | Yes |
+| auth - custom - function | Yes | Yes |
+| **other directives** |   |   |
+| searchable | Yes | No but we offer a guide using Zero-ETL DynamoDB-to-OpenSearch |
+| predictions | Yes | No but we offer a guide with AI service integrations |
+| **Custom Mutations, Queries, Subscriptions** | Yes | Yes |
+| VTL handler | Yes | Yes with CDK |
+| JavaScript resolver handler | No | Yes |
+| function handler | Yes | Yes |
+| http handler | Yes | Yes - we support custom data sources including `http` |
+| **Other configurations** |  |  |
+| DataStore support | Yes | No but we'll offer a migration guide soon |
+| Visual configuration | Yes | No - Gen 2 is code-first by design |
+| @model queries, mutations, subscriptions, and timestamps modifiers | Yes | No |
+| Custom GraphQL Transformer plugins | Yes | No |
+| MySQL and PostgreSQL support | No | Yes |
+| In-IDE end-to-end type safety | No | Yes |
+| @hasOne, @hasMany, and @belongsTo on required fields | Yes | No |
+| fields argument on @hasOne, @hasMany, and @belongsTo | Yes | No |
+
+### Storage
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| Ability to provision S3 bucket | Yes | Yes |
+| Auth and Guest access | Yes | [Yes](/[platform]/build-a-backend/storage/authorization/#for-gen-1-public-protected-and-private-access-pattern) |
+| Auth - Configure CRUD access | Yes | Yes |
+| Configure Cognito Group CRUD access | Yes | Yes |
+| Guest - Configure CRUD access | Yes | Yes |
+| Lambda trigger for S3 bucket | Yes | Yes |
+| Import an S3 bucket | Yes | Yes |
+| File browser in console | Yes | Yes |
+| Ability to override/custom | Yes | Yes |
+| S3 Lambda triggers | Yes | Yes |
+| Locally test  | Yes | Yes - with sandbox environments |
+| Visual configuration | Yes | No - Gen 2 is code-first by design |
+| File Browser in console | Yes | Yes |
+| Import S3 buckets | Yes | No |
+
+
+### Functions
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| Function runtime: TypeScript | No | Yes |
+| Function resource access permissions: auth | Yes | Yes |
+| Function resource access permissions: function | Yes | Yes |
+| Function resource access permissions: API | Yes | Yes |
+| Function resource access permissions CRUD operations | Yes | Yes |
+| Function resource access permissions: custom | No | Yes |
+| Environment variables | Yes | Yes |
+| Secrets | Yes | Yes |
+| Cron jobs | Yes | Yes |
+| Configure memory size | Yes | Yes |
+| Function build options for Node.js | Yes | Yes |
+| Function templates: AWS AppSync - GraphQL API request (with IAM) | Yes | Yes |
+| Function templates: CRUD function for DynamoDB (Integration with API Gateway) | Yes | Yes |
+| Function templates: GraphQL Lambda Authorizer | Yes | Yes |
+| Function templates: Hello World | Yes | Yes |
+| Function templates: Lambda trigger | Yes | Yes |
+| Function logs in console | Yes | Yes |
+| Function resource access permissions: geo | Yes | Yes with CDK |
+| Function resource access permissions: analytics | Yes | Yes with CDK |
+| Function runtime: .NET 6 | Yes | Yes with CDK |
+| Function runtime: Go | Yes | Yes with CDK |
+| Function runtime: Java | Yes | Yes with CDK |
+| Function runtime: JavaScript | Yes | Yes with CDK |
+| Function runtime: Python | Yes | Yes with CDK |
+| Lambda layers | Yes | No |
+
+
+### Other categories
+
+<InlineFilter filters={['android', 'swift']}>
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| REST API| Yes|	No
+| Analytics| Yes|	Yes with custom CDK
+| Geo| Yes|	Yes with custom CDK
+| Predictions | Yes|	No
+| Interactions| Yes|	No
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| REST API| Yes|	Yes with custom CDK
+| Analytics| Yes|	Yes with custom CDK
+| Geo| No|	No
+| Predictions | No|	No
+| Interactions| No|	No
+
+</InlineFilter>
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| REST API| Yes|	Yes with custom CDK
+| Analytics| Yes|	Yes with custom CDK
+| Geo| Yes|	Yes with custom CDK
+| Predictions | Yes|	Yes with custom CDK
+| Interactions| Yes|	Yes with custom CDK
+
+</InlineFilter>
+
+

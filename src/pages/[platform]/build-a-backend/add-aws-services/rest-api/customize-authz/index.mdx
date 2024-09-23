@@ -1,0 +1,126 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Define authorization rules',
+  description: "Learn more about how to define authorization rules for Amplify's REST API capabilities",
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+When determining the authorization mode for your REST endpoint, there are a few customizations you can do.
+
+## IAM Authorization
+
+By default, the API will be using IAM authorization and the requests will be signed for you automatically. IAM authorization has two modes: one using an **unauthenticated** role, and one using an **authenticated** role. When the user has not signed in, the unauthenticated role is used by default. Once the user has signed in, the authenticate role is used, instead.
+
+## API Key
+
+If you want to configure a public REST API, you can set an API key in Amazon API Gateway or create one using the [CDK construct](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_apigateway.ApiKey.html). Then, you can set the API key header in the API configuration which will be applied to all requests.
+
+```ts
+Amplify.configure(outputs, {
+  API: {
+    REST: {
+      headers: async () => {
+        return { 'X-Api-Key': apiKey };
+      }
+    }
+  }
+});
+```
+
+## Cognito User Pool Authorization
+
+You can use the access token from configured Cognito User Pool to authenticate against REST endpoint. The JWT token can be retrieved from the `Auth` category.
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth'
+
+const session = await fetchAuthSession();
+const token = session.tokens?.idToken
+```
+
+Then you need to set the Authorization header in the API category configuration. The following example shows how to set the Authorization header for all requests.
+
+```ts
+Amplify.configure(outputs, {
+  API: {
+    REST: {
+      headers: async () => {
+        return { Authorization: authToken };
+      }
+    }
+  }
+});
+```
+
+For more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
+
+### Note related to use of Access Token or ID Token
+
+The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. On the Amplify Authentication category you can retrieve the Id Token using:
+
+```ts
+const session = await fetchAuthSession();
+const token = session.tokens?.idToken
+```
+
+The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/). You can retrieve the Access Token using
+
+```textSpanIntersectsWith
+const session = await fetchAuthSession();
+const token = session.tokens?.accessToken
+```
+
+## Custom Authorization Token
+
+If you want to use a custom authorization token, you can set the token in the API category configuration. The custom authorization token will be applied to all requests.
+
+```ts
+Amplify.configure(outputs, {
+  API: {
+    REST: {
+      headers: async () => {
+        return { Authorization: customAuthToken };
+      }
+    }
+  }
+});
+```
+
+## Setting Authorization Headers per Request
+
+Alternatively, you can set the authorization headers per request. For example, if you want to use a custom header named `Authorization` for a specific REST request, you can set the following configuration:
+
+```ts
+async function updateItem() {
+  await del({
+    apiName: 'myRestApi',
+    path: 'items/1',
+    options: {
+      headers: {
+        Authorization: authToken
+      }
+    }
+  }).response;
+}
+```

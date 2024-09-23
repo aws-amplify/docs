@@ -6,7 +6,7 @@
 
 ## Display a map
 
-First, ensure you've provisioned an Amazon Location Service Map resource and configured your app using the instructions in either [Configuring Maps](/[platform]/prev/build-a-backend/more-features/geo/configure-maps/) or [Use existing resources](/[platform]/prev/build-a-backend/more-features/geo/existing-resources) guide.
+First, ensure you've provisioned an Amazon Location Service Map resource and configured your app using the instructions in either [Configuring Maps](/gen1/[platform]/prev/build-a-backend/more-features/geo/configure-maps/) or [Use existing resources](/gen1/[platform]/prev/build-a-backend/more-features/geo/existing-resources) guide.
 
 <Callout>
 
@@ -38,14 +38,14 @@ import { createMap } from 'maplibre-gl-js-amplify';
 import 'maplibre-gl/dist/maplibre-gl.css';
 ```
 
-Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [createMap](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createmap).
+Next, create and render the [Map](https://maplibre.org/maplibre-gl-js/docs/API/classes/Map/) with the help of [createMap](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createmap).
 
 **Note:** There must be a `div` with an `id="map"` on the DOM before making the call to `createMap` in this way.
 
 ```javascript
 async function initializeMap() {
   const map = await createMap({
-    container: 'map', // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
+    container: 'map', // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js/docs/API/classes/Map/
     center: [-123.1187, 49.2819], // [Longitude, Latitude]
     zoom: 11
   });
@@ -110,7 +110,7 @@ import { drawPoints } from 'maplibre-gl-js-amplify';
 
 <Callout>
 
-The `drawPoints` method returns ids of the source and layers used to display the markers on the map. These ids can be used for further customization through maplibre-gl-js [source](https://maplibre.org/maplibre-gl-js-docs/api/sources/), [paint](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#paint-property), and [layer](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/) options.
+The `drawPoints` method returns ids of the source and layers used to display the markers on the map. These ids can be used for further customization through maplibre-gl-js [source](https://maplibre.org/maplibre-gl-js/docs/API/#sources), [paint](https://maplibre.org/maplibre-style-spec/layers/#paint-property), and [layer](https://maplibre.org/maplibre-style-spec/layers/) options.
 
 For more information about the parameters and options that can be used with `drawPoints` check the documentation [here](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints).
 
@@ -311,7 +311,7 @@ Each object has the following properties:
 
 <Callout>
 
-**Note:** When changing a map with Amplify and MapLibre the [setStyle](https://maplibre.org/maplibre-gl-js-docs/api/map/#map#setstyle) function should be called with the name of the Location Service map NOT the style. This is because the `transformRequest` function uses the Location Service map name to make a new request for map tile data.
+**Note:** When changing a map with Amplify and MapLibre the [setStyle](https://maplibre.org/maplibre-gl-js/docs/API/classes/Map/#setstyle) function should be called with the name of the Location Service map NOT the style. This is because the `transformRequest` function uses the Location Service map name to make a new request for map tile data.
 
 </Callout>
 
