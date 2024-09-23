@@ -157,7 +157,7 @@ cleanReferences['categories'] = categoryNodes;
 // update_references workflow and will be committed.
 try {
   writeFileSync(
-    'src/references/references.json',
+    'src/directory/apiReferences.json',
     JSON.stringify(cleanReferences, null, 2),
     'utf8'
   );
