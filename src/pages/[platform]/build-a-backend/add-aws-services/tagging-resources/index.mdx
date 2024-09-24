@@ -42,7 +42,7 @@ Amplify applies the following tags by default:
 | branch          | `amplify:app-id`          | `<your-amplify-app-id>`  |
 | branch          | `amplify:branch-name`     | `<your-git-branch-name>` |
 
-In your Amplify backend your can use the [`Tags`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Tags.html) class from the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to apply tags at the root level, which cascades tag application to child resources.
+In your Amplify backend you can use the [`Tags`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Tags.html) class from the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to apply tags at the root level, which then cascades to child resources.
 
 ```ts title="amplify/backend.ts"
 import { Tags } from 'aws-cdk-lib';
