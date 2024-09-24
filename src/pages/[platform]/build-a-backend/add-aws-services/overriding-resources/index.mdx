@@ -97,7 +97,7 @@ userPool.grant(lambdaFunction, 'cognito:AdminListUserAuthEvents');
 backend.authAuditorFunction.addEnvironment('USER_POOL_ID', userPool.userPoolId);
 ```
 
-## Example - Mutate synthesized CloudFormation
+## Example - Modify L1 CDK Constructs
 
 It's possible to reach all the way down to the raw CloudFormation to mutate properties using `addPropertyOverride` on an AWS CDK construct. To edit the password policies of the Cognito user pool in `defineAuth`, you can use the following code.
 
