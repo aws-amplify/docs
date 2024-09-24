@@ -42,7 +42,7 @@
   flex: 1 0 0;
   padding-bottom: var(--amplify-space-medium);
   margin-bottom: var(--amplify-space-xs);
-  overflow: scroll;
+  overflow: auto;
   align-items: baseline;
   gap: 2px;
   &__separator {
@@ -87,7 +87,7 @@
 }
 
 .api-modal__api-value {
-  overflow: scroll;
+  overflow: auto;
 
   &:focus-visible {
     outline: 2px solid var(--amplify-colors-border-focus);
@@ -134,7 +134,7 @@
   }
 
   color: var(--amplify-colors-blue-80);
-  
+
   &.type-reference {
     color: var(--amplify-colors-red-80);
   }
