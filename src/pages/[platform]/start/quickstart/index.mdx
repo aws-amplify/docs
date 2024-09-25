@@ -317,6 +317,12 @@ This will add the following files to your project's directory:
 
 If you prefer setting up your project from scratch, refer to the [documentation for manual installation](https://docs.amplify.aws/react/start/manual-installation/).
 
+<Callout info>
+
+**Prefer a template?** [Start a new project from the Vite React template](https://github.com/new?template_name=amplify-vite-react-template&template_owner=aws-samples)
+
+</Callout>
+
 ## Set up local AWS credentials
 
 To make backend updates, we are going to require AWS credentials to deploy backend updates from our local machine.
@@ -606,6 +612,20 @@ When the build completes, visit the newly deployed branch by selecting "Visit de
 In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
 <Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" description="Video - Data Manager" />
+
+### Downloading outputs file for deployed app
+
+As you build your backend with Amplify and your personal cloud sandbox, changes to the resource metadata are reflected in `amplify_outputs.json`. If you wish to use resource metadata from your deployed branch, you can download the `amplify_outputs.json` file from the Amplify console.
+
+![Amplify console for an application's branch highlighting download button](/images/gen2/getting-started/react/amplify-outputs-download.png)
+
+Alternatively you can use the backend CLI to _generate outputs_:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <your-amplify-app-id> --branch <your-git-branch-name>
+```
+
+[Learn more about backend CLI commands.](/[platform]/reference/cli-commands)
 
 ## Deploy changes
 
