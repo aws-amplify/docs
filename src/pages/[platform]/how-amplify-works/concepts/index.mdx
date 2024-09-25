@@ -85,7 +85,7 @@ const schema = a.schema({
     chat: a.belongsTo('Chat', 'chatId'),
     chatId: a.id()
   }),
-});
+}).authorization((allow) => allow.owner());
 ```
 
 On your app's frontend, you can use the `generateClient` function, which provides a typed client instance, making it easy to integrate CRUD (create, read, update, delete) operations for your models in your application code.
