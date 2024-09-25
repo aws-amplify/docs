@@ -4,6 +4,7 @@ import { FunctionReference } from './FunctionReference';
 import { Divider, View, Flex } from '@aws-amplify/ui-react';
 import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories.mjs';
 import references from '@/directory/apiReferences.json';
+import { MDXHeading } from '../MDXComponents';
 
 export const ReferencePage = ({ category }) => {
   category = API_CATEGORIES[category] || API_SUB_CATEGORIES[category];
@@ -18,6 +19,8 @@ export const ReferencePage = ({ category }) => {
           <FunctionReference func={child} />
         </Fragment>
       ))}
+      <Divider marginTop={'large'} marginBottom={'large'} />
+      <MDXHeading level={4}>Link Color Legend</MDXHeading>
       <Flex className="api-legend-container">
         <Flex>
           <View as="span" className="api-legend interface" />

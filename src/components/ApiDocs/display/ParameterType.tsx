@@ -70,7 +70,7 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
     case 'reference':
       return (
         <>
-          <ReferenceType data={typeData} />{' '}
+          <ReferenceType data={typeData} />
           {typeArgs && <>{addTypeArgs(typeArgs, [])}</>}
         </>
       );
