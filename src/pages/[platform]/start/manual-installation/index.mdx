@@ -118,7 +118,6 @@ Or define your data resource:
 ```ts title="amplify/data/resource.ts"
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
-// The schema cannot be empty.
 const schema = a.schema({
   Todo: a.model({
       content: a.string(),
