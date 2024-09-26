@@ -40,14 +40,6 @@ You must create a connection string using the following database information to 
 - Database **user password**
 - Database **name**
 
-<Callout info>
-
-**Only databases with certificates from well-known certificate providers are supported.** Support for databases using custom or self-signed SSL certificates is under active development.
-
-Amplify's MySQL and PostgreSQL feature builds on top of [AWS Lambda](https://aws.amazon.com/lambda) with a Node.js runtime. By default, Node.js includes root certificate authority (CA) certificates from [well-known certificate providers](https://github.com/nodejs/node/issues/4175). Lambda Node.js runtimes up to Node.js 18 augments these certificates with Amazon-specific CA certificates, making it easier to create functions accessing other AWS services.
-
-</Callout>
-
 ## Step 1 - Set secrets for database connection
 
 First, provide all the database connection information as secrets, you can use the Amplify sandbox's secret functionality to set them or go to the Amplify console to set secrets in a shared environment:
@@ -123,6 +115,22 @@ However, there is a tradeoff of increased latency - queries may take slightly lo
 
 </Accordion>
 
+<Accordion title="Connecting to a database with a custom SSL certificate">
+
+Amplify creates an [AWS Lambda](https://aws.amazon.com/lambda) function using a Node.js runtime to connect your AppSync API to your SQL database. The Lambda function connects to the database using Secure Socket Layer (SSL) or Transport Layer Security (TLS) to protect data in transit. Amplify automatically uses the correct root certificate authority (CA) certificates for Amazon RDS databases, and the Node.js runtime includes root CAs from [well-known certificate providers](https://github.com/nodejs/node/issues/4175) to connect to non-RDS databases.
+
+However, if your database uses a custom or self-signed SSL certificate, you can upload the PEM-encoded public CA certificate of 4 KB or less to your Amplify project as a secret when you generate the database configuration, and specify that secret when generating the schema from your database:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret set CUSTOM_SSL_CERT < /path/to/custom/ssl/public-ca-cert.pem
+npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_STRING --ssl-cert-secret CUSTOM_SSL_CERT --out amplify/data/schema.sql.ts
+```
+
+The Lambda function will then use the specified root CA to validate connections to the database.
+
+When deploying your app to production, you need to [add the PEM-encoded public CA certificate as a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). Make sure to add the certificate with the same secret name you used in the sandbox environment. For example, we used `CUSTOM_SSL_CERT` above. Make sure to preserve the newlines and the `------BEGIN CERTIFICATE------` and `------END CERTIFICATE------` delimiters in the value. Finally, make sure the size of the entire value does not exceed 4KB.
+
+</Accordion>
 
 This creates a new **schema.sql.ts** with a schema reflecting the types of your database. **Do not edit the schema.sql.ts file directly**. Import the schema to your **amplify/data/resource.ts** file and apply any additive changes there. This ensures that you can continuously regenerate the TypeScript schema representation of your SQL database without losing any additive changes that you apply out-of-band.
 
@@ -195,9 +203,9 @@ const { data: events } = await client.models.event.list()
 
 When deploying your app to production, you need to [add the database connection string as a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). Make sure to add the appropriate database connection string with the same secret name you used in the sandbox environment. For example, we used `SQL_CONNECTION_STRING` above.
 
-<video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true}>
+<Video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true} description="Video - Configuring database connection for production">
   <source src="/images/gen2/secrets-and-vars/secrets.mp4" />
-</video>
+</Video>
 
 ## Rename generated models and fields
 

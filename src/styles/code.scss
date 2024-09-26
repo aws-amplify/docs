@@ -8,6 +8,11 @@ code:not([class]) {
   display: inline-block;
   line-height: var(--amplify-line-heights-small);
   font-style: normal;
+
+  @media (max-width: 320px) {
+    overflow-wrap: anywhere;
+  }
+
   h2 &,
   h3 & {
     font-size: 0.75em;

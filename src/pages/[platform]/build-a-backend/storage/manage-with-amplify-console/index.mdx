@@ -1,0 +1,72 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Manage files with Amplify console',
+  description:
+    'Manage your applications storage files with Amplify console',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The **File storage** page in the Amplify console provides a user-friendly interface for managing your application's backend file storage. It allows for efficient testing and management of your files.
+
+If you have not yet created a **storage** resource, visit the [Storage setup guide](/[platform]/build-a-backend/storage/set-up-storage/).
+
+## Access File storage
+
+After you've deployed your storage resource, you can access the manager on Amplify Console.
+
+1. Log in to the [Amplify console](https://console.aws.amazon.com/amplify/home) and choose your app.
+2. Select the branch you would like to access.
+3. Select **Storage** from the left navigation bar.
+
+<Video src="/images/gen2/manage/storage-manager.mp4" description="Video - Access storage manager on Amplify console"/>
+
+### To upload a file
+
+1. On the **Storage** page, select the **Upload** button
+2. Select the file you would like to upload and then select **Done**
+
+Alternatively, you can **Drag and drop** a file onto the Storage page.
+
+### To delete a file
+
+1. On the **Storage** page, select the file you want to delete.
+2. Select the **Actions** dropdown and then select **Delete**.
+
+### To copy a file
+
+1. On the **Storage** page, select the file you want to copy.
+2. Select the **Actions** dropdown and then select **Copy to**.
+3. Select or create the folder you want a copy of your file to be saved to.
+4. Select **Copy** to copy your file to the selected folder.
+
+### To move a file
+
+1. On the **Storage** page, select the file you want to move.
+3. Select the **Actions** dropdown and then select **Move to**.
+4. Select or create the folder you want to move your file to.
+5. Select **Move** to move your file to the selected folder.
+

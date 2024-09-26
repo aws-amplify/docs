@@ -26,7 +26,7 @@ export function getStaticProps(context) {
 
 ## Pre-requisites
 
-This Quickstart guide will walk you through how to build a task list application with TypeScript, Next.js **App Router with Client Components**, and React. Before you begin, make sure you have the following installed:
+This Quickstart guide will walk you through how to build a task list application with TypeScript, Next.js **Pages Router with Client Components**, and React. Before you begin, make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) v14.x or later
 - [npm](https://www.npmjs.com/) v6.14.4 or later
@@ -66,7 +66,7 @@ Deploy to AWS
 
 Select **Start with an existing app** > **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<Video src="/images/gen2/getting-started/react/deploy.mp4" />
+<Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Save and Deploy" />
 
 ### 3. View deployed app
 
@@ -93,11 +93,11 @@ Let's take a tour of the project structure in this starter repository by opening
 
  When the build completes, visit the newly deployed branch by selecting "View deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" description="Video - View Deployed URL" />
 
 In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
-<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" />
+<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" description="Video - Data Manager" />
 
 
 ## Make frontend updates
@@ -108,7 +108,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" description="Video - Deployments" />
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
 
@@ -215,7 +215,7 @@ npm run dev
 
 This should start a local dev server at http://localhost:3000.
 
-<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" description="Video - Demo" />
 
 ### 6. Implement login UI
 
@@ -249,9 +249,10 @@ function App() {
           // highlight-next-line
           <button onClick={signOut}>Sign out</button>
         </main>
+    // highlight-start
       )}
-    // highlight-next-line
     </Authenticator>
+    // highlight-end
   )
 }
 ```
@@ -306,7 +307,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -403,7 +404,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
