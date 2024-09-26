@@ -70,7 +70,7 @@ const schema = a.schema({
     //    from the `Member`s model.
     members: a.hasMany('Member', 'teamId'),
   }),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ### Create a "Has Many" relationship between records
@@ -462,7 +462,7 @@ const schema = a.schema({
     //    from the Cart model
     activeCart: a.hasOne('Cart', 'customerId')
   }),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ### Create a "Has One" relationship between records
@@ -830,7 +830,7 @@ const schema = a.schema({
     // highlight-next-line
     posts: a.hasMany('PostTag', 'tagId'),
   }),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ## Model multiple relationships between two models
@@ -856,7 +856,7 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', 'authorId'),
     // highlight-end
   }),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 On the client-side, you can fetch the related data with the following code:
@@ -919,7 +919,7 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', ['authorName', 'authorDoB']),
     // highlight-next-line
   }).identifier(['name', 'dateOfBirth']),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ## Make relationships required or optional
@@ -949,5 +949,5 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', 'authorId'),
     // highlight-end
   }),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
