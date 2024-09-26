@@ -41,8 +41,8 @@ export const parseMarkdown = (input: stringOrJSXArray): stringOrJSXArray => {
   // look for \n- which indicates a list and create a list starting with the first \n-
   for (let i = 0; i < lineBreaks.length; i++) {
     const current = lineBreaks[i];
-    if (typeof current === 'string' && current.indexOf('\n-') !== -1) {
-      const parts = current.split('\n-');
+    if (typeof current === 'string' && current.indexOf('\n- ') !== -1) {
+      const parts = current.split('\n- ');
       result.push(parts[0]);
       const listItems: JSX.Element[] = [];
       for (let x = 1; x < parts.length; x++) {
