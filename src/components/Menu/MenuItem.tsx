@@ -59,30 +59,66 @@ export function MenuItem({
 
   const setSelectability = () => {
     const current = ref.current;
-    const items = current?.parentElement?.nextSibling?.children;
-    if (items) {
-      for (const item of items) {
-        const links = item.getElementsByTagName('a');
-        const buttons = item.getElementsByTagName('button');
-        if (links[0].getAttribute('tabIndex') == 0) {
-          for (const link of links) {
-            link.setAttribute('tabIndex', -1);
+    const list = current?.parentElement?.nextSibling?.children;
+    if (list) {
+      for (const item of list) {
+        const subItems = item.children[1]?.children;
+        if (subItems) {
+          for (const subItem of subItems) {
+            const links = subItem.getElementsByTagName('a');
+            const buttons = subItem.getElementsByTagName('button');
+            if (!item.children[1]?.classList.contains('menu__list--hide')) {
+              for (const link of links) {
+                link.setAttribute('tabIndex', 0);
+              }
+              for (const button of buttons) {
+                button.setAttribute('tabIndex', 0);
+              }
+            } else {
+              const subMenus = item.children[1].children;
+              for (const subMenu of subMenus) {
+                if (subMenu.children.length > 1) {
+                  subMenu.children[1].classList.add('menu__list--hide');
+                }
+              }
+              for (const link of links) {
+                link.setAttribute('tabIndex', -1);
+              }
+              for (const button of buttons) {
+                button.setAttribute('tabIndex', -1);
+              }
+              // if (subItem.children.length > 1) {
+              //   console.log('banan');
+              //   setOpen(false);
+              // }
+            }
+            // if (
+            //   subItem.children.length > 1 &&
+            //   item.children[1]?.classList.contains('menu__list--hide')
+            // ) {
+            //   subItem.children[1].classList.add('menu__list--hide');
+            //   // console.log(subItem.children[0].children[1].children[0]);
+            //   // if (
+            //   //   !subItem.children[0].children[1].children[0].classList.contains(
+            //   //     'icon-rotate-90-reverse'
+            //   //   )
+            //   // ) {
+            //   //   subItem.children[0].children[1].children[0].classList.add(
+            //   //     'icon-rotate-90-reverse'
+            //   //   );
+            //   // }
+
+            //   setOpen(false);
+            // }
           }
-          for (const button of buttons) {
-            button.setAttribute('tabIndex', -1);
-          }
-        } else if (-links[0].getAttribute('tabIndex')) {
-          links[0]?.setAttribute('tabIndex', 0);
-          buttons[0]?.setAttribute('tabIndex', 0);
         }
       }
     }
-    current?.focus();
   };
 
-  const onLinkClick = () => {
-    setSelectability();
+  setTimeout(setSelectability, 0);
 
+  const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (
       level > Levels.Category &&
@@ -98,7 +134,6 @@ export function MenuItem({
   };
 
   const onCheveronClick = () => {
-    setSelectability();
     setOpen((prevOpen) => !prevOpen);
 
     if (menuOpen) {
