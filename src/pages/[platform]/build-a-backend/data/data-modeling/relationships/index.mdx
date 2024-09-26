@@ -62,17 +62,15 @@ const schema = a.schema({
     teamId: a.id(),
     // 2. Create a belongsTo relationship with the reference field
     team: a.belongsTo('Team', 'teamId'),
-  })
-  .authorization(allow => [allow.publicApiKey()]),
+  }),
 
   Team: a.model({
     mantra: a.string().required(),
     // 3. Create a hasMany relationship with the reference field
     //    from the `Member`s model.
     members: a.hasMany('Member', 'teamId'),
-  })
-  .authorization(allow => [allow.publicApiKey()]),
-});
+  }),
+}).authorization(allow => [allow.publicApiKey()]);
 ```
 
 ### Create a "Has Many" relationship between records
@@ -464,7 +462,7 @@ const schema = a.schema({
     //    from the Cart model
     activeCart: a.hasOne('Cart', 'customerId')
   }),
-});
+}).authorization(allow => [allow.publicApiKey()]);
 ```
 
 ### Create a "Has One" relationship between records
@@ -951,5 +949,5 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', 'authorId'),
     // highlight-end
   }),
-})
+}).authorization(allow => [allow.publicApiKey()]);
 ```
