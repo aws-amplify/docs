@@ -57,66 +57,38 @@ export function MenuItem({
     [hideChildren, pageNode.children]
   );
 
-  const setSelectability = () => {
-    const current = ref.current;
-    const list = current?.parentElement?.nextSibling?.children;
-    if (list) {
-      for (const item of list) {
-        const subItems = item.children[1]?.children;
-        if (subItems) {
-          for (const subItem of subItems) {
-            const links = subItem.getElementsByTagName('a');
-            const buttons = subItem.getElementsByTagName('button');
-            if (!item.children[1]?.classList.contains('menu__list--hide')) {
-              for (const link of links) {
-                link.setAttribute('tabIndex', 0);
-              }
-              for (const button of buttons) {
-                button.setAttribute('tabIndex', 0);
-              }
-            } else {
-              const subMenus = item.children[1].children;
-              for (const subMenu of subMenus) {
-                if (subMenu.children.length > 1) {
-                  subMenu.children[1].classList.add('menu__list--hide');
-                }
-              }
-              for (const link of links) {
-                link.setAttribute('tabIndex', -1);
-              }
-              for (const button of buttons) {
-                button.setAttribute('tabIndex', -1);
-              }
-              // if (subItem.children.length > 1) {
-              //   console.log('banan');
-              //   setOpen(false);
-              // }
-            }
-            // if (
-            //   subItem.children.length > 1 &&
-            //   item.children[1]?.classList.contains('menu__list--hide')
-            // ) {
-            //   subItem.children[1].classList.add('menu__list--hide');
-            //   // console.log(subItem.children[0].children[1].children[0]);
-            //   // if (
-            //   //   !subItem.children[0].children[1].children[0].classList.contains(
-            //   //     'icon-rotate-90-reverse'
-            //   //   )
-            //   // ) {
-            //   //   subItem.children[0].children[1].children[0].classList.add(
-            //   //     'icon-rotate-90-reverse'
-            //   //   );
-            //   // }
+  const makeSubsKeyboardAccessible = () => {
+    const pages = ref.current?.children[1]?.children;
+    for (const page of pages) {
+      const links = page.children[0].children;
 
-            //   setOpen(false);
-            // }
+      for (const link of links) {
+        link.setAttribute('tabIndex', 0);
+      }
+
+      if (!page.children[1]?.classList.contains('menu__list--hide')) {
+        const subs = page.children[1]?.children;
+        if (subs) {
+          for (const sub of subs) {
+            sub.children[0].children[0].setAttribute('tabIndex', 0);
           }
         }
       }
     }
   };
 
-  setTimeout(setSelectability, 0);
+  const makeSubsKeyboardInaccessible = () => {
+    const subItems = ref.current?.children[1];
+    const links = subItems?.getElementsByTagName('a');
+    const buttons = subItems?.getElementsByTagName('button');
+
+    for (const link of links) {
+      link.setAttribute('tabIndex', -1);
+    }
+    for (const button of buttons) {
+      button.setAttribute('tabIndex', -1);
+    }
+  };
 
   const onLinkClick = () => {
     // Category shouldn't be collapsible
@@ -157,6 +129,26 @@ export function MenuItem({
   const currentStyle = current ? 'menu__list-item__link--current' : '';
 
   let hideAPIResources = false;
+
+  useEffect(() => {
+    const current = ref.current;
+    if (
+      current?.children.length > 1 &&
+      open &&
+      !current?.classList.contains('menu__list-item--category')
+    ) {
+      makeSubsKeyboardAccessible();
+    } else if (
+      current?.children.length > 1 &&
+      !open &&
+      !current?.classList.contains('menu__list-item--category')
+    ) {
+      const pages = current?.children[1]?.children;
+      if (pages) {
+        makeSubsKeyboardInaccessible();
+      }
+    }
+  }, [open]);
 
   useEffect(() => {
     if (current) {
@@ -271,6 +263,7 @@ export function MenuItem({
         onFocus={handleFocus}
         key={pageNode.route}
         className={`menu__list-item ${listItemStyle}`}
+        ref={ref}
       >
         <Flex className={`menu__list-item__inner`}>
           <Link
@@ -278,7 +271,6 @@ export function MenuItem({
             aria-current={current ? 'page' : null}
             href={href}
             onClick={onLinkClick}
-            ref={ref}
             tabIndex={level > Levels.Subcategory ? -1 : 0}
             passHref
           >
@@ -292,7 +284,6 @@ export function MenuItem({
             <Button
               className={`${listItemLinkStyle} expand-button`}
               onClick={onCheveronClick}
-              ref={ref}
               aria-expanded="true"
               aria-labelledby="li"
               tabIndex={level > Levels.Subcategory ? -1 : 0}
