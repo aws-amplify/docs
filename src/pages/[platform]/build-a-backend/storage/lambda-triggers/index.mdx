@@ -86,6 +86,9 @@ If you want the ability to do something more than simply handle the events `onUp
 Here is an example of how you can add a lambda trigger for an s3 object PUT event. This trigger will execute when the file has matching prefix and suffix content.
 
 ```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { storage } from './storage/resource';
+
 import { EventType } from 'aws-cdk-lib/aws-s3';
 import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications';
 
