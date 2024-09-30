@@ -64,7 +64,7 @@ a.schema({
     }),
     content: a.string(),
   }),
-});
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 **Explicit definition:** Specify the "Location" as `a.customType()` in your schema. To use the custom type, reference it through `a.ref()` in the respective field definitions.
@@ -84,7 +84,7 @@ a.schema({
   User: a.model({
     lastKnownLocation: a.ref('Location'),
   }),
-});
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
@@ -131,7 +131,7 @@ a.schema({
     privacySetting: a.enum(['PRIVATE', 'FRIENDS_ONLY', 'PUBLIC']),
     content: a.string(),
   }),
-});
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 Long-form approach
@@ -152,7 +152,7 @@ a.schema({
   Video: a.model({
     privacySetting: a.ref('PrivacySetting'),
   }),
-});
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
@@ -206,7 +206,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string().required(),
   }),
-});
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ## Mark fields as arrays
@@ -219,7 +219,7 @@ const schema = a.schema({
     content: a.string().required(),
     notes: a.string().array(),
   }),
-});
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ## Assign default values for fields
@@ -231,7 +231,7 @@ const schema = a.schema({
   Todo: a.model({
     content: a.string().default('My new Todo'),
   }),
-});
+}).authorization((allow) => allow.publicApiKey());
 ```
 <Callout>
 **Note:** The `.default(...)` modifier can't be applied to required fields.
