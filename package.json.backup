@@ -1,0 +1,37 @@
+{
+  "name": "amplify-docs",
+  "packageManager": "yarn@4.5.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@aws-amplify/core": "^6.4.2",
+    "@aws-amplify/ui-react": "^6.5.1",
+    "@docsearch/css": "^3.6.2",
+    "@docsearch/react": "^3.6.2",
+    "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@next/mdx": "^14.2.13",
+    "aws-amplify": "^6.6.2",
+    "classnames": "^2.5.1",
+    "next": "^14.0.0",
+    "next-image-export-optimizer": "^1.15.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rehype-img-size": "^1.0.1",
+    "rehype-mdx-code-props": "^3.0.1",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.0",
+    "sass": "^1.79.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.0.0",
+    "webpack": "^5.95.0"
+  }
+}
