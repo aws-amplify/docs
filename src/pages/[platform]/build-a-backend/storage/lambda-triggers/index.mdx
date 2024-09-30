@@ -77,7 +77,7 @@ export const handler: S3Handler = async (event) => {
 
 Now, when you deploy your backend, these functions will be invoked whenever an object is uploaded or deleted from the bucket.
 
-## More Advacned Triggers
+## More Advanced Triggers
 
 The example listed above demonstrate what is exposed directly in `storage` definition, and specifically the use of `triggers` option when you use `defineStorage`. Doing it this way can be limiting if, for example, you want the ability to do something more than simply handle the events `onUpload` and `onDelete`. There are no additional modifications you can make to the triggers defined in this way.
 
