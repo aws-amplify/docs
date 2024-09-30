@@ -79,9 +79,11 @@ Now, when you deploy your backend, these functions will be invoked whenever an o
 
 ## More Advanced Triggers
 
-The example listed above demonstrate what is exposed directly in `storage` definition, and specifically the use of `triggers` option when you use `defineStorage`. Doing it this way can be limiting if, for example, you want the ability to do something more than simply handle the events `onUpload` and `onDelete`. There are no additional modifications you can make to the triggers defined in this way.
+The example listed above demonstrate what is exposed directly in your `storage` definition. Specifically, the use of the `triggers` option when you use `defineStorage`. This method is for simple triggers that always execute on a file uploads or file deletions. There are no additional modifications you can make to the triggers defined in this way.
 
-If you want to add more robust triggers, you have to use `.addEventNotification` in your `backend.ts`. If you use this method, the `triggers` section in your `storage/resource.ts` file should be removed. Here is an example of how you can adjust a lambda trigger to trigger on an s3 object PUT event, and only execute when the file has matching prefix and suffix content.
+If you want the ability to do something more than simply handle the events `onUpload` and `onDelete` you will have to use `.addEventNotification` in your `backend.ts`. If you use this method, the `triggers` section in your `storage/resource.ts` file should be removed.
+
+Here is an example of how you can add a lambda trigger for an s3 object PUT event. This trigger will execute when the file has matching prefix and suffix content.
 
 ```ts title="amplify/backend.ts"
 import { yourLambda } from './functions/yourLambda/resource';
