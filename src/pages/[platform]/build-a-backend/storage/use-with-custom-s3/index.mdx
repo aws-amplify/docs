@@ -61,6 +61,7 @@ The policy will look something like this
 				"s3:ListBucket"
 			],
 			"Resource": [
+        "arn:aws:s3:::<bucket-name>",
 				"arn:aws:s3:::<bucket-name>/*"
 			]
 		}
