@@ -83,7 +83,7 @@ The example listed above demonstrates what is exposed directly in your `storage`
 
 If you want the ability to do something more than simply handle the events `onUpload` and `onDelete` you will have to use `.addEventNotification` in your `backend.ts`. If you use this method, the `triggers` section in your `storage/resource.ts` file should be removed.
 
-Here is an example of how you can add a lambda trigger for an s3 object PUT event. This trigger will execute when a file that has been uploaded to the bucket defined in your `storage/resource.ts` has a matching prefix and suffix as that listed in the function input of `addEventNotification`.
+Here is an example of how you can add a Lambda trigger for an S3 object PUT event. This trigger will execute when a file that has been uploaded to the bucket defined in your `storage/resource.ts` has a matching prefix and suffix as that listed in the function input of `addEventNotification`.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
