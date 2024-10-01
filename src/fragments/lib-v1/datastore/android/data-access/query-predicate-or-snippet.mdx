@@ -20,7 +20,7 @@ Amplify.DataStore.query(
 
 ```kotlin
 Amplify.DataStore.query(
-    Post.class, Where.matches(
+    Post::class.java, Where.matches(
         Post.RATING.gt(4)
             .or(Post.STATUS.eq(PostStatus.ACTIVE))
     ),
