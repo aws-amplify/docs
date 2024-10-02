@@ -63,6 +63,12 @@ Future<void> _handleSignInResult(SignInResult result) async {
   switch (result.nextStep.signInStep) {
     case AuthSignInStep.continueSignInWithMfaSelection:
       // Handle select from MFA methods case
+    case AuthSignInStep.continueSignInWithMfaSetupSelection:
+      // Handle select from MFA methods available to setup
+    case AuthSignInStep.continueSignInWithEmailMfaSetup:
+      // Handle email setup case
+    case AuthSignInStep.confirmSignInWithEmailMfaCode:
+      // Handle email MFA case
     case AuthSignInStep.continueSignInWithTotpSetup:
       // Handle TOTP setup case
     case AuthSignInStep.confirmSignInWithTotpMfaCode:
@@ -84,8 +90,7 @@ Future<void> _handleSignInResult(SignInResult result) async {
 ```
 ### Confirm signin with SMS MFA
 
-If the next step is `confirmSignInWithSmsMfaCode`, Amplify Auth has sent the user a random code over SMS and is waiting for the user to verify that code. 
-To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
+If the next step is `confirmSignInWithSmsMfaCode`, Amplify Auth has sent the user a random code over SMS and is waiting for the user to verify that code. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
 
 <Callout>
 
@@ -156,14 +161,58 @@ Future<void> confirmTotpUser(String totpCode) async {
 }
 ```
 
+### Confirm signin with Email MFA
+
+If the next step is `confirmSignInWithEmailMfaCode`, Amplify Auth has sent the user a random code to their email address and is waiting for the user to verify that code. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
+
+<Callout>
+
+The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery, such as the partial email address of 
+the recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    case AuthSignInStep.confirmSignInWithEmailMfaCode:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+    // ...
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
+}
+```
+
+```dart
+Future<void> confirmMfaUser(String mfaCode) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: mfaCode,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming MFA code: ${e.message}');
+  }
+}
+```
+
+
 ### Continue signin with MFA Selection
 
-If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently supports SMS, TOTP, and email as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
 
 The MFA types which are currently supported by Amplify Auth are:
 
 - `MfaType.sms`
 - `MfaType.totp`
+- `MfaType.email`
 
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
@@ -189,6 +238,34 @@ Future<void> _handleMfaSelection(MfaType selection) async {
     return _handleSignInResult(result);
   } on AuthException catch (e) {
     safePrint('Error resending code: ${e.message}');
+  }
+}
+```
+
+### Continue signin with Email Setup
+
+If the next step is `continueSignInWithEmailMfaSetup`, then the user must provide an email address to complete the sign in process. Once this value has been collected from the user, call the `confirmSignIn` API to continue.
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithEmailMfaSetup:
+    // Prompt user to enter an email address they would like to use for MFA
+    // ···
+  }
+}
+
+// Then, pass the email address to `confirmSignIn`
+
+Future<void> confirmTotpUser(String emailAddress) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: emailAddress,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming email address: ${e.message}');
   }
 }
 ```
@@ -225,6 +302,44 @@ Future<void> confirmTotpUser(String totpCode) async {
   }
 }
 ```
+
+### Continue signin with MFA Setup Selection
+If the next step is `continueSignInWithMfaSetupSelection`, then the user must indicate which of the available MFA methods they would like to setup. After the user selects an MFA method to setup, your implementation must pass the selected MFA method to the `confirmSignIn` API.
+
+The MFA types which are currently supported by Amplify Auth are:
+
+- `MfaType.sms`
+- `MfaType.totp`
+- `MfaType.email`
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithMfaSetupSelection:
+      final allowedMfaTypes = result.nextStep.allowedMfaTypes!;
+      final selection = await _promptUserPreference(allowedMfaTypes);
+      return _handleMfaSelection(selection);
+    // ···
+  }
+}
+
+Future<MfaType> _promptUserPreference(Set<MfaType> allowedTypes) async {
+  // ···
+}
+
+Future<void> _handleMfaSelection(MfaType selection) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: selection.confirmationValue,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error selecting MFA method: ${e.message}');
+  }
+}
+```
+
 ### Confirm signin with custom challenge
 
 If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user).
@@ -435,20 +550,33 @@ try {
               {
                   AuthNextSignInStep nextStep = result.getNextStep();
                   switch (nextStep.getSignInStep()) {
-                      case CONFIRM_SIGN_IN_WITH_TOTP_CODE -> {
+                      case CONFIRM_SIGN_IN_WITH_TOTP_CODE: {
                           Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code");
                           // Prompt the user to enter the TOTP code generated in their authenticator app
                           // Then invoke `confirmSignIn` api with the code
                           break;
                       }
-                      case CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
+                      case CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION: {
+                          Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup");
+                          Log.i("AuthQuickstart", "Allowed MFA types for setup" + nextStep.getAllowedMFATypes());
+                          // Prompt the user to select the MFA type they want to setup
+                          // Then invoke `confirmSignIn` api with the MFA type
+                          break;
+                      }
+                      case CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP: {
+                          Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA");
+                          // Prompt the user to enter the email address they would like to use to receive OTPs
+                          // Then invoke `confirmSignIn` api with the email address
+                          break;
+                      }
+                      case CONTINUE_SIGN_IN_WITH_TOTP_SETUP: {
                           Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP");
                           Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app" + nextStep.getTotpSetupDetails().getSharedSecret());
                           // Prompt the user to enter the TOTP code generated in their authenticator app
                           // Then invoke `confirmSignIn` api with the code
                           break;
                       }
-                      case CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
+                      case CONTINUE_SIGN_IN_WITH_MFA_SELECTION: {
                           Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type");
                           Log.i("AuthQuickstart", "Allowed MFA type" + nextStep.getAllowedMFATypes());
                           // Prompt the user to select the MFA type they want to use
@@ -459,6 +587,13 @@ try {
                           Log.i("AuthQuickstart", "SMS code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
                           Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
                           // Prompt the user to enter the SMS MFA code they received
+                          // Then invoke `confirmSignIn` api with the code
+                          break;
+                      }
+                      case CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE: {
+                          Log.i("AuthQuickstart", "Email code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
+                          Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
+                          // Prompt the user to enter the Email MFA code they received
                           // Then invoke `confirmSignIn` api with the code
                           break;
                       }
@@ -522,9 +657,20 @@ try {
               val nextStep  = result.nextStep
               when(nextStep.signInStep){
                  AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE -> {
-                    Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code")
-                    // Prompt the user to enter the TOTP code generated in their authenticator app
-                    // Then invoke `confirmSignIn` api with the code
+                      Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code")
+                      // Prompt the user to enter the TOTP code generated in their authenticator app
+                      // Then invoke `confirmSignIn` api with the code
+                  }
+                  AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION -> {
+                      Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup");
+                      Log.i("AuthQuickstart", "Allowed MFA types for setup" + nextStep.getAllowedMFATypes());
+                      // Prompt the user to select the MFA type they want to setup
+                      // Then invoke `confirmSignIn` api with the MFA type
+                  }
+                  AuthSignInStep.CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP -> {
+                      Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA");
+                      // Prompt the user to enter the email address they would like to use to receive OTPs
+                      // Then invoke `confirmSignIn` api with the email address
                   }
                   AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
                       Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
@@ -542,6 +688,12 @@ try {
                       Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
                       Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
                       // Prompt the user to enter the SMS MFA code they received
+                      // Then invoke `confirmSignIn` api with the code
+                  }
+                  AuthSignInStep.CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE -> {
+                      Log.i("AuthQuickstart", "Email code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
+                      Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
+                      // Prompt the user to enter the Email MFA code they received
                       // Then invoke `confirmSignIn` api with the code
                   }
                   AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
@@ -604,6 +756,17 @@ try {
             Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code")
             // Prompt the user to enter the TOTP code generated in their authenticator app
             // Then invoke `confirmSignIn` api with the code
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION -> {
+            Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup");
+            Log.i("AuthQuickstart", "Allowed MFA types for setup" + nextStep.getAllowedMFATypes());
+            // Prompt the user to select the MFA type they want to setup
+            // Then invoke `confirmSignIn` api with the MFA type
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP -> {
+            Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA");
+            // Prompt the user to enter the email address they would like to use to receive OTPs
+            // Then invoke `confirmSignIn` api with the email address
         }
         AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
             Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
@@ -674,20 +837,33 @@ RxAmplify.Auth.signIn("username", "password", options).subscribe(
         {
             AuthNextSignInStep nextStep = result.getNextStep();
             switch (nextStep.getSignInStep()) {
-                case CONFIRM_SIGN_IN_WITH_TOTP_CODE -> {
+                case CONFIRM_SIGN_IN_WITH_TOTP_CODE: {
                     Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code");
                     // Prompt the user to enter the TOTP code generated in their authenticator app
                     // Then invoke `confirmSignIn` api with the code
                     break;
                 }
-                case CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
+                case CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION: {
+                    Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup");
+                    Log.i("AuthQuickstart", "Allowed MFA types for setup" + nextStep.getAllowedMFATypes());
+                    // Prompt the user to select the MFA type they want to setup
+                    // Then invoke `confirmSignIn` api with the MFA type
+                    break;
+                }
+                case CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP: {
+                    Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA");
+                    // Prompt the user to enter the email address they would like to use to receive OTPs
+                    // Then invoke `confirmSignIn` api with the email address
+                    break;
+                }
+                case CONTINUE_SIGN_IN_WITH_TOTP_SETUP: {
                     Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP");
                     Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app" + nextStep.getTotpSetupDetails().getSharedSecret());
                     // Prompt the user to enter the TOTP code generated in their authenticator app
                     // Then invoke `confirmSignIn` api with the code
                     break;
                 }
-                case CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
+                case CONTINUE_SIGN_IN_WITH_MFA_SELECTION: {
                     Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type");
                     Log.i("AuthQuickstart", "Allowed MFA type" + nextStep.getAllowedMFATypes());
                     // Prompt the user to select the MFA type they want to use
@@ -698,6 +874,13 @@ RxAmplify.Auth.signIn("username", "password", options).subscribe(
                     Log.i("AuthQuickstart", "SMS code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
                     Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
                     // Prompt the user to enter the SMS MFA code they received
+                    // Then invoke `confirmSignIn` api with the code
+                    break;
+                }
+                case CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE: {
+                    Log.i("AuthQuickstart", "Email code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
+                    Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
+                    // Prompt the user to enter the Email MFA code they received
                     // Then invoke `confirmSignIn` api with the code
                     break;
                 }
@@ -848,19 +1031,34 @@ RxAmplify.Auth.confirmSignIn(
 
 ### Confirm signin with TOTP MFA
 
-If the next step is `confirmSignInWithTOTPCode`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
+If the next step is `CONFIRM_SIGN_IN_WITH_TOTP_CODE`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
 
 After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
+### Confirm signin with Email MFA
+
+If the next step is `CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE`, Amplify Auth has sent the user a random code to their email address and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
+
+Note: the signIn result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial email address of the recipient.
+
 ### Continue signin with MFA Selection
 
-If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+If the next step is `CONTINUE_SIGN_IN_WITH_MFA_SELECTION`, the user must select the MFA method to use. Amplify Auth currently supports SMS, TOTP, and email as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+
+### Continue signin with Email Setup
+
+If the next step is `CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP`, then the user must provide an email address to complete the sign in process. Once this value has been collected from the user, call the `confirmSignIn` API to continue.
 
 ### Continue signin with TOTP Setup
 
-If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
+If the next step is `CONTINUE_SIGN_IN_WITH_TOTP_SETUP`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
+
+### Continue signin with MFA Setup Selection
+
+If the next step is `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION`, the user must select the MFA method to setup. Amplify Auth currently supports SMS, TOTP, and email as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+
 
 ### Confirm signin with custom challenge
 
@@ -1283,7 +1481,7 @@ func signIn(username: String, password: String) async {
         let signInResult = try await Amplify.Auth.signIn(username: username, password: password)
         switch signInResult.nextStep {
         case .confirmSignInWithSMSMFACode(let deliveryDetails, let info):
-            print("SMS code send to \(deliveryDetails.destination)")
+            print("SMS code sent to \(deliveryDetails.destination)")
             print("Additional info \(String(describing: info))")
 
             // Prompt the user to enter the SMSMFA code they received
@@ -1294,6 +1492,13 @@ func signIn(username: String, password: String) async {
 
             // Prompt the user to enter the TOTP code generated in their authenticator app
             // Then invoke `confirmSignIn` api with the code
+
+        case .confirmSignInWithEmailMFACode(let deliveryDetails, let info):
+            print("Email code sent to \(deliveryDetails.destination)")
+            print("Additional info \(String(describing: info))")
+
+            // Prompt the user to enter the Email MFA code they received
+            // Then invoke `confirmSignIn` api with the code
         
         case .continueSignInWithTOTPSetup(let setUpDetails):
             print("Received next step as continue sign in by setting up TOTP")
@@ -1301,6 +1506,19 @@ func signIn(username: String, password: String) async {
             
             // Prompt the user to enter the TOTP code generated in their authenticator app
             // Then invoke `confirmSignIn` api with the code
+
+        case .continueSignInWithEmailMFASetup:
+             print("Received next step as continue sign in by setting up email MFA")
+             
+            // Prompt the user to enter the email address they wish to use for MFA
+            // Then invoke `confirmSignIn` api with the email address
+
+        case .continueSignInWithMFASetupSelection(let allowedMFATypes):
+            print("Received next step as continue sign in by selecting MFA type to setup")
+            print("Allowed MFA types \(allowedMFATypes)")
+
+            // Prompt the user to select the MFA type they want to setup
+            // Then invoke `confirmSignIn` api with the MFA type
 
         case .continueSignInWithMFASelection(let allowedMFATypes):
             print("Received next step as continue sign in by selecting MFA type")
@@ -1474,9 +1692,71 @@ func confirmSignIn(totpCode: String) -> AnyCancellable {
 
 </BlockSwitcher>
 
+### Confirm signin with Email MFA
+If the next step is `confirmSignInWithEmailMFACode`, Amplify Auth has sent a random code to the user's email address, and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
+
+Note: the signin result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial email address of the recipient.
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func confirmSignIn(confirmationCodeFromUser: String) async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(challengeResponse: confirmationCodeFromUser)
+        if signInResult.isSignedIn {
+            print("Confirm sign in succeeded. The user is signed in.")
+        } else {
+            print("Confirm sign in succeeded.")
+            print("Next step: \(signInResult.nextStep)")
+            // Switch on the next step to take appropriate actions. 
+            // If `signInResult.isSignedIn` is true, the next step 
+            // is 'done', and the user is now signed in.
+        }
+    } catch let error as AuthError {
+        print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func confirmSignIn(confirmationCodeFromUser: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: confirmationCodeFromUser)
+        }.sink {
+            if case let .failure(authError) = $0 {
+                print("Confirm sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+            if signInResult.isSignedIn {
+                print("Confirm sign in succeeded. The user is signed in.")
+            } else {
+                print("Confirm sign in succeeded.")
+                print("Next step: \(signInResult.nextStep)")
+                // Switch on the next step to take appropriate actions. 
+                // If `signInResult.isSignedIn` is true, the next step 
+                // is 'done', and the user is now signed in.
+            }
+        }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+
 ### Continue signin with MFA Selection
 
-If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently supports SMS, TOTP, and email as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
 
 <BlockSwitcher>
 
@@ -1523,6 +1803,19 @@ func confirmSignInWithTOTPAsMFASelection() -> AnyCancellable {
 </Block>
 
 </BlockSwitcher>
+
+### Continue signin with Email Setup
+If the next step is `continueSignInWithEmailMFASetup`, then the user must provide an email address to complete the sign in process. Once this value has been collected from the user, call the `confirmSignIn` API to continue.
+
+```swift 
+// Confirm sign in with Email Setup
+case .continueSignInWithEmailMFASetup:
+    print("Received next step as continue sign in by setting up email MFA")
+        
+    // Prompt the user to enter the email address they wish to use for MFA
+    // Then invoke `confirmSignIn` api with the email address
+```
+
 ### Continue signin with TOTP Setup
 
 If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
@@ -1589,6 +1882,57 @@ func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) -> AnyCanc
                 // is 'done', and the user is now signed in.
             }
         }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+
+### Continue signin with MFA Setup Selection
+
+If the next step is `continueSignInWithMFASetupSelection`, the user must indicate which of the available MFA methods they would like to setup. After the user selects an MFA method to setup, your implementation must pass the selected MFA method to the `confirmSignIn` API.
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func continueSignInWithEmailMFASetupSelection() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(
+            challengeResponse: MFAType.email.challengeResponse)
+
+        if case .confirmSignInWithTOTPCode = signInResult.nextStep {
+            print("Received next step as confirm sign in with TOTP")
+        }
+
+    } catch {
+        print("Confirm sign in failed \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func continueSignInWithEmailMFASetupSelection() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(
+            challengeResponse: MFAType.email.challengeResponse)
+        }.sink {
+            if case let .failure(authError) = $0 {
+                print("Confirm sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+        if case .confirmSignInWithTOTPCode = signInResult.nextStep {
+            print("Received next step as confirm sign in with TOTP")
+        }
+    }
 }
 ```
 
