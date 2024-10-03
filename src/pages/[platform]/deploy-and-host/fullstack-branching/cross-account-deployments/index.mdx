@@ -38,11 +38,11 @@ This guide walks you through how to create a trunk-based, multi-region deploymen
 
 </Callout>
 
-### Step 1: Set up an Amazon CodeCatalyst space
+## Step 1: Set up an Amazon CodeCatalyst space
 
 Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/codecatalyst/latest/userguide/setting-up-topnode.html) for a detailed step-by-step walkthrough to set up your [space](https://docs.aws.amazon.com/codecatalyst/latest/userguide/spaces.html).
 
-### Step 2: Deploy a fullstack Amplify Gen 2 app
+## Step 2: Deploy a fullstack Amplify Gen 2 app
 
 <InlineFilter filters={["nextjs"]}>
 
@@ -68,19 +68,19 @@ Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/cod
 
 ![Screenshot of completed deployment in AWS Amplify Gen 2 console](images/gen2/cross-account-deployments/pipeline1.png)
 
-### Step 3: Update build specification
+## Step 3: Update build specification
 
 Add the `npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID` command to the build spec and comment out the `npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID` command. `ampx pipeline-deploy` runs a script to deploy backend updates, while `ampx generate outputs` fetches the latest `amplify_outputs.json` for the specified environment.
 
 ![Screenshot of Build image settings section in AWS Amplify Gen 2 console, with details about the app build specification](images/gen2/cross-account-deployments/pipeline10.png)
 
-### Step 4: Disable automatic builds on the branch
+## Step 4: Disable automatic builds on the branch
 
 You can configure Amplify to disable automatic builds on every code commit. Navigate to the app in the Amplify console. Under **App settings**, select **Branch settings**. From the **Branches** section, select the branch and then choose **Disable auto build** from the **Actions** dropdown menu.
 
-<Video src="/images/gen2/fullstack-branching/auto-build.mp4" />
+<Video src="/images/gen2/fullstack-branching/auto-build.mp4" description="Video - Disable automatic builds on the branch" />
 
-### Step 5: Create an incoming webhook
+## Step 5: Create an incoming webhook
 
 You can set up an incoming webhook to trigger a build without committing code to your Git repository. Use the Amplify Console to create an [incoming webhook](https://docs.aws.amazon.com/amplify/latest/userguide/webhooks.html).
 
@@ -92,7 +92,7 @@ Next, select the webhook and copy the `curl` command which will be used to trigg
 
 ![Screenshot of the Incoming webhooks page in the Amplify console displaying the newly created webhook](/images/gen2/fullstack-branching/multirepo6.png)
 
-### Step 6: Create a new Amazon CodeCatalyst project
+## Step 6: Create a new Amazon CodeCatalyst project
 
 Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/codecatalyst/latest/userguide/projects-create.html#projects-create-github) for a detailed step-by-step walkthrough to create a new [project](https://docs.aws.amazon.com/codecatalyst/latest/userguide/projects.html).
 
@@ -104,11 +104,11 @@ Please refer to this Amazon CodeCatalyst [guide](https://docs.aws.amazon.com/cod
 
 ![Screenshot of CodeCatalyst console showing Source repositories section](images/gen2/cross-account-deployments/pipeline2.png)
 
-### Step 7: Set up the resources in a different or target AWS account
+## Step 7: Set up the resources in a different or target AWS account
 
 To achieve a cross-account deployment, you will need to implement Steps 1 through 6 outlined previously in this guide in a different AWS account (for example, `production` account).
 
-### Step 8: Add the target AWS account to the CodeCatalyst space
+## Step 8: Add the target AWS account to the CodeCatalyst space
 
 Navigate to the CodeCatalyst space created as part of Step 1, select **Settings**, and then select **AWS accounts**. Add the target **AWS account ID** (Step 7) to it and select **Associate AWS account**.
 
@@ -116,7 +116,7 @@ Navigate to the CodeCatalyst space created as part of Step 1, select **Settings*
 
 You will also need to create an IAM role in the target AWS account which will be assumed by the `staging` environment to perform actions and deploy resources in the `production` environment. As a best practice, we recommend attaching the [`AmplifyBackendDeployFullAccess`](https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmplifyBackendDeployFullAccess) AWS managed policy to the IAM role as it contains all the required permissions to deploy Gen 2 resources in your account. You can learn more about adding IAM roles to account connections in the CodeCatalyst [documentation](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-connect-account-addroles.html).
 
-### Step 9: Create a workflow in the Amazon CodeCatalyst project
+## Step 9: Create a workflow in the Amazon CodeCatalyst project
 
 A workflow is an automated procedure that describes how to build, test, and deploy your code as part of a continuous integration and continuous delivery (CI/CD) system. You can learn more about workflows in the [Amazon CodeCatalyst User Guide](https://docs.aws.amazon.com/codecatalyst/latest/userguide/flows.html).
 

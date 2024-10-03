@@ -45,7 +45,7 @@ const schema = a.schema({
 });
 ```
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
 
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` by specifying the `apiKey` auth mode.
 
@@ -69,9 +69,35 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 
 </InlineFilter>
 
-<InlineFilter filters={["swift"]}>
-
+<InlineFilter filters={["swift", "flutter"]}>
 In your application, you can perform CRUD operations against the model by specifying the `apiKey` auth mode.
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+```dart
+try {
+  final todo = Todo(content: 'My new todo');
+  final request = ModelMutations.create(
+    todo,  
+    authorizationMode: APIAuthorizationType.apiKey,
+  );
+  final createdTodo = await Amplify.API.mutations(request: request).response;
+
+  if (createdTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+  safePrint('Mutation result: ${createdTodo.name}');
+
+} on APIException catch (e) {
+  safePrint('Failed to create todo', e);
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
 
 ```swift
 do {
@@ -149,8 +175,32 @@ const { errors, data: newTodo } = await client.models.Todo.create(
 
 </InlineFilter>
 
-<InlineFilter filters={["swift"]}>
+<InlineFilter filters={["flutter"]}>
+In your application, you can perform CRUD operations against the model with the `iam` auth mode.
 
+```dart
+try {
+  final todo = Todo(content: 'My new todo');
+  final request = ModelMutations.create(
+    todo,  
+    authorizationMode: APIAuthorizationType.iam,
+  );
+  final createdTodo = await Amplify.API.mutations(request: request).response;
+
+  if (createdTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+  safePrint('Mutation result: ${createdTodo.name}');
+
+} on APIException catch (e) {
+  safePrint('Failed to create todo', e);
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
 In your application, you can perform CRUD operations against the model with the `awsIAM` auth mode.
 
 ```swift

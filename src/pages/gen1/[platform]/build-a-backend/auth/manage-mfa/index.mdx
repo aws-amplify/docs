@@ -33,7 +33,7 @@ export function getStaticProps(context) {
 
 The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. Amplify Auth supports the MFA methods with Time-based-One-Time Passwords (TOTP) as well as text messages (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. We’ll also review how to set up MFA to remember a device and reduce sign-in friction for your users.
 
-Before you begin, you will need:
+Before you begin, you will need: 
 
 - The Amplify libraries installed and configured
 - _Optional_ If you are using SMS you will need a phone number provisioned with an [SNS/Pinpoint](https://docs.aws.amazon.com/sns/latest/dg/channels-sms-originating-identities.html)
@@ -755,7 +755,6 @@ Remembering a device is useful in conjunction with MFA because it allows the sec
 **Note:** The [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are not available if any of the following conditions are met:
 
 - the federated OAuth flow with Cognito User Pools or Hosted UI is used, or
-- the User Pool uses `email/phone_number` or `alias` sign-in method, or
 - when the `signIn` API uses the `USER_PASSWORD_AUTH` as the `authFlowType`.
 
 </Callout>

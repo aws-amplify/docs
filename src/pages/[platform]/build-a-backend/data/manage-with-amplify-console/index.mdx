@@ -1,0 +1,89 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Manage Data with Amplify console',
+  description:
+    'Manage GraphQL data with Amplify console',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The **Data manager** page in the Amplify Console offers a user-friendly interface for managing the backend GraphQL API data of an application. It enables real-time creation and updates of application data, eliminating the need to build separate admin views.
+
+If you have not yet created a **data** resource, visit the [Data setup guide](/[platform]/build-a-backend/data/set-up-data/).
+
+## Access Data manager
+
+After you've deployed your data resource, you can access the manager on Amplify console.
+
+1. Log in to the [Amplify console](https://console.aws.amazon.com/amplify/home) and choose your app.
+2. Select the branch you would like to access.
+3. Select **Data** from the left navigation bar.
+4. Then, select **Data manager**.
+
+<Video src="/images/gen2/manage/data-manager.mp4" description="Video - Access data manager on Amplify console"/>
+
+### To create a record
+
+1. On the **Data manager** page, select a table from the **Select table** dropdown. For this example, we are using a *Todo* table.
+2. Select **Create Todo**.
+3. In the **Add Todo** pane, specify your custom values for the fields in the table. For example, enter *my first todo* for the *Content* field and toggle the *Is done* field.
+4. Select **Submit**.
+
+### To update a record
+
+1. On the **Data manager** page, select a table from the **Select table** dropdown.
+2. From the list of records, select a record you want to update.
+3. In the **Edit Todo** pane, make any changes to your record, and then select **Submit**.
+
+### To delete a record(s)
+
+1. On the **Data manager** page, select a table from the **Select table** dropdown.
+2. From the list of records, select the checkbox to the left of the record(s) you want to delete.
+3. Select the **Actions** dropdown, and then select **delete item(s)** .
+
+### To Seed records
+
+1. On the **Data manager** page, select a table from the **Select table** dropdown.
+2. Select the **Actions** dropdown and then select **Auto-generate data**.
+3. In the **Auto-generate data** pane, specify how many rows of data you want to generate and constraints for the generated data.
+4. Then select **Generate data**
+
+You can generate up to 100 records at a time.
+
+<Callout warning>
+
+ Seed data cannot be generated for tables that have the following field types: AWSPhone, Enum, Custom Type, or Relationship
+
+</Callout>
+
+### To download records
+
+1. On the **Data manager** page, select a table from the **Select table** dropdown.
+2. Select the **Actions** dropdown. 
+3. Here you have two options for downloading data.
+    - Choose **Download selected items (.csv)** to download only the selected rows of data.
+    - Choose **Download all items (.csv)** to download all rows of records on the currently selected table.
+4. Once you have selected a download option, your data should immediately start downloading as a CSV file.

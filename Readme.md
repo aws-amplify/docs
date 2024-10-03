@@ -91,7 +91,9 @@ When linking to other pages within the docs.amplify.aws site, do not use relativ
 
 To incorporate new platform-specific content within a page, please use [Inline Filters](https://github.com/aws-amplify/docs/blob/main/Readme.md#inline-filters).
 
-When editing content that hasn't been migrated, you may see the following pattern:
+Please note: we do allow fragments in some cases where content is intended to be reused and cannot be via InlineFilters
+
+When editing content that hasn't been migrated to InlineFilters, you may see the following pattern:
 
 ```jsx
 import js from '/src/fragments/lib/datastore/js/conflict.mdx';
@@ -173,7 +175,7 @@ let mut a = String::from("a");
 Videos can be added using the `<Video />` component and referencing a path to the video file. The video should be an `.mp4` file and should exist in the `/public` directory
 
 ```jsx
-<Video src="/path/to/video.mp4" />
+<Video src="/path/to/video.mp4" description="Video - [video description]" />
 ```
 
 ## Accessibility testing
