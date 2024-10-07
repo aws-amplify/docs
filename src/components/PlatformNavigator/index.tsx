@@ -14,11 +14,13 @@ import {
 type PlatformNavigatorProps = {
   currentPlatform: Platform;
   isGen1: boolean;
+  testId?: string;
 };
 
 export function PlatformNavigator({
   currentPlatform,
-  isGen1
+  isGen1,
+  testId
 }: PlatformNavigatorProps) {
   const { pathname } = useRouter();
 
@@ -49,15 +51,16 @@ export function PlatformNavigator({
         <Flex alignItems="center">
           <Popover flex="1 0 auto">
             <Popover.Trigger
+              id="selectedLabel"
               className={`platform-navigator__button`}
               isFullWidth={true}
-              aria-describedby="platformNavigatorLabel"
+              aria-labelledby="platformNavigatorLabel selectedLabel"
             >
               {platformItem.icon}
               {platformTitle}
             </Popover.Trigger>
             <Popover.List
-              ariaLabel="Supported frameworks and languages"
+              testId={testId ? `${testId}-popoverList` : ''}
               anchor="left"
               fullWidth={true}
             >

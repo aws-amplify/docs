@@ -16,10 +16,7 @@ export default function RepoActions({ router }) {
       {shouldShowEditLink && (
         <Flex className="repo-actions">
           <ExternalLink href={editLink}>
-            <Flex
-              className="repo-actions-link"
-              aria-label="Edit this page on GitHub"
-            >
+            <Flex className="repo-actions-link">
               <IconPencil />
               Edit on GitHub
             </Flex>

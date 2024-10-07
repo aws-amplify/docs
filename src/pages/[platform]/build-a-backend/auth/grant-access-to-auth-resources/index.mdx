@@ -54,7 +54,7 @@ When you grant a function access to another resource in your Amplify backend it 
 
 </Callout>
 
-### List of actions
+## List of actions
 
 |Action Name|Description|Cognito IAM Actions|
 |-|-|-|
@@ -72,8 +72,10 @@ When you grant a function access to another resource in your Amplify backend it 
 |forgetDevice | Grants permission to deregister any user's devices | <ul><li>cognito-idp:AdminForgetDevice</li></ul>
 |getDevice | Grants permission to get information about any user's devices | <ul><li>cognito-idp:AdminGetDevice</li></ul>
 |getUser | Grants permission to look up any user by user name | <ul><li>cognito-idp:AdminGetUser</li></ul>
+|listUsers | Grants permission to list users and their basic details in the UserPool | <ul><li>cognito-idp:ListUsers</li></ul>
 |listDevices | Grants permission to list any user's remembered devices | <ul><li>cognito-idp:AdminListDevices</li></ul>
 |listGroupsForUser | Grants permission to list the groups that any user belongs to | <ul><li>cognito-idp:AdminListGroupsForUser</li></ul>
+|listUsersInGroup | Grants permission to list users in the specified group | <ul><li>cognito-idp:ListUsersInGroup</li></ul>
 |removeUserFromGroup | Grants permission to remove any user from any group | <ul><li>cognito-idp:AdminRemoveUserFromGroup</li></ul>
 |resetUserPassword | Grants permission to reset any user's password | <ul><li>cognito-idp:AdminResetUserPassword</li></ul>
 |setUserMfaPreference | Grants permission to set any user's preferred MFA method | <ul><li>cognito-idp:AdminSetUserMFAPreference</li></ul>

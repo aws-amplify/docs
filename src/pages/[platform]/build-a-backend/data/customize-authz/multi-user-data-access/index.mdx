@@ -47,7 +47,7 @@ const schema = a.schema({
 });
 ```
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
 
 In your application, you can perform CRUD operations against the model using `client.models.<model-name>` with the `userPool` auth mode.
 
@@ -86,6 +86,51 @@ await client.models.Todo.update(
 );
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+In your application, you can perform CRUD operations against the model with the `userPools` auth mode.
+  
+```dart
+try {
+  final todo = Todo(content: 'My new todo');
+  final request = ModelMutations.create(
+    todo,  
+    authorizationMode: APIAuthorizationType.userPools,
+  );
+  final createdTodo = await Amplify.API.mutations(request: request).response;
+
+  if (createdTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+  safePrint('Mutation result: ${createdTodo.name}');
+
+} on APIException catch (e) {
+  safePrint('Failed to create todo', e);
+}
+```
+
+Add another user as an owner
+
+```dart
+try {
+  createdTodo.owners!.add(otherUserId);
+  let updateRequest = ModelMutations.update(
+    createdTodo,
+    authorizationMode: APIAuthorizationType.userPools,
+  );
+  final updatedTodo = await Amplify.API.mutations(request: updateRequest).response;
+
+  if (updatedTodo == null) {
+    safePrint('errors: ${response.errors}');
+    return;
+  }
+
+} catch {
+  safePrint("Failed to update todo", error)
+}
+```
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>

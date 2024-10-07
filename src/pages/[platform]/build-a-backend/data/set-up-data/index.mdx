@@ -127,6 +127,9 @@ First, install the Amplify client library to your project:
 ```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify
 ```
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
 
 In your app's entry point, typically **main.tsx** for React apps created using Vite, make the following edits:
 
@@ -138,6 +141,20 @@ Amplify.configure(outputs);
 ```
 
 </InlineFilter>
+
+<InlineFilter filters={["vue"]}>
+
+In your app's entry point, typically **main.ts** for Vue apps created using Vite, make the following edits:
+
+```tsx title="src/main.ts"
+import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+
+Amplify.configure(outputs);
+```
+
+</InlineFilter>
+
 
 <InlineFilter filters={["android"]}>
 
@@ -332,16 +349,20 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
 // highlight-start
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 import 'models/ModelProvider.dart';
 // highlight-end
 
 Future<void> main() async {
   // highlight-start
   try {
-    final api = AmplifyAPI(modelProvider: ModelProvider.instance);
+    final api = AmplifyAPI(
+      options: APIPluginOptions(
+        modelProvider: ModelProvider.instance
+        )
+      );
     await Amplify.addPlugins([api]);
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
 
     safePrint('Successfully configured Amplify');
   } on Exception catch (e) {
@@ -356,9 +377,14 @@ Future<void> main() async {
 </InlineFilter>
 ## Write data to your backend
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
 
 Let's first add a button to create a new todo item. To make a "create Todo" API request, generate the data client using `generateClient()` in your frontend code, and then call `.create()` operation for the Todo model. The Data client is a fully typed client that gives you in-IDE code completion. To enable this in-IDE code completion capability, pass in the `Schema` type to the `generateClient` function.
+
+</InlineFilter>
+
+
+<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
 
 ```tsx title="src/TodoList.tsx"
 import type { Schema } from '../amplify/data/resource'
@@ -379,6 +405,38 @@ export default function TodoList() {
   </div>
 }
 ```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["vue"]}>
+
+```html title="src/TodoList.vue"
+<script setup lang="ts">
+import type { Schema } from '../../amplify/data/resource'
+import { generateClient } from 'aws-amplify/data'
+
+const client = generateClient<Schema>()
+
+async function createTodo() {
+  await client.models.Todo.create({
+    content: window.prompt("Todo content?"),
+    isDone: false
+  })
+}
+</script>
+
+<template>
+  <div>
+    <button @click="createTodo">Add new todo</button>
+  </div>
+</template>
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
+
 
 Run the application in local development mode and check your network tab after creating a todo. You should see a successful request to a `/graphql` endpoint.
 
@@ -579,7 +637,7 @@ Creating Todo successful.
 
 Next, list all your todos and then refetch the todos after a todo has been added:
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
 
 
 ```tsx title="src/TodoList.tsx"
@@ -621,6 +679,54 @@ export default function TodoList() {
     </div>
   );
 }
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["vue"]}>
+
+```html title="src/TodoList.vue"
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import type { Schema } from '../../amplify/data/resource'
+import { generateClient } from 'aws-amplify/data'
+
+const client = generateClient<Schema>()
+
+// create a reactive reference to the array of todos
+const todos = ref<Array<Schema['Todo']['type']>>([]);
+
+function fetchTodos() {
+  const { data: items, errors } = await client.models.Todo.list();
+  todos.value = items; 
+}
+
+async function createTodo() {
+  await client.models.Todo.create({
+    content: window.prompt("Todo content?"),
+    isDone: false
+  })
+  fetchTodos();
+}
+
+ onMounted(() => {
+  fetchTodos();
+});
+
+</script>
+
+<template>
+  <div>
+    <button @click="createTodo">Add new todo</button>
+    <ul>
+     <li 
+       v-for="todo in todos" 
+       :key="todo.id">
+       {{ todo.content }}
+     </li>
+    </ul>
+  </div>
+</template>
 ```
 
 </InlineFilter>
@@ -834,7 +940,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 ## Subscribe to real-time updates
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
 
 You can also use `observeQuery` to subscribe to a live feed of your backend data. Let's refactor the code to use a real-time observeQuery instead.
 
@@ -879,6 +985,61 @@ export default function TodoList() {
   );
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["vue"]}>
+```html title="src/TodoList.vue"
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import type { Schema } from '../../amplify/data/resource'
+import { generateClient } from 'aws-amplify/data'
+
+const client = generateClient<Schema>()
+
+// create a reactive reference to the array of todos
+const todos = ref<Array<Schema['Todo']["type"]>>([]);
+
+function fetchTodos() {
+  client.models.Todo.observeQuery().subscribe({
+    next: ({ items, isSynced }) => {
+      todos.value = items
+     },
+  }); 
+}
+
+async function createTodo() {
+  await client.models.Todo.create({
+    content: window.prompt("Todo content?"),
+    isDone: false
+  })
+  // no more manual refetchTodos required!
+  // - fetchTodos()
+}
+
+ onMounted(() => {
+  fetchTodos();
+});
+
+</script>
+
+<template>
+  <div>
+    <button @click="createTodo">Add new todo</button>
+    <ul>
+     <li 
+       v-for="todo in todos" 
+       :key="todo.id">
+       {{ todo.content }}
+     </li>
+    </ul>
+  </div>
+</template>
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
 
 Now try to open your app in two browser windows and see how creating a todo in one window automatically adds the todo in the second window as well.
 
