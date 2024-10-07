@@ -45,29 +45,27 @@ To get started with Amazon SES in production, you must first [request production
 After you have configured your account for production access and have verified your _sender_ email, you can configure your Cognito user pool to send emails using the verified sender:
 
 ```ts title="amplify/backend.ts"
-import { Stack } from "aws-cdk-lib/core"
-import { EmailIdentity } from "aws-cdk-lib/aws-ses"
-import { defineBackend } from "@aws-amplify/backend"
-import { auth } from "./auth/resource"
+import { EmailIdentity } from 'aws-cdk-lib/aws-ses';
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
 
 const backend = defineBackend({
-  auth,
-})
+  auth
+});
 
-const { cfnUserPool } = backend.auth.resources.cfnResources
-const authStack = Stack.of(cfnUserPool)
+const { cfnUserPool } = backend.auth.resources.cfnResources;
 
 const email = EmailIdentity.fromEmailIdentityName(
-  authStack,
-  "EmailIdentity",
+  backend.auth.stack,
+  'EmailIdentity',
   // your email configured for use in SES
   process.env.EMAIL
-)
+);
 
 cfnUserPool.emailConfiguration = {
-  emailSendingAccount: "DEVELOPER",
-  sourceArn: email.emailIdentityArn,
-}
+  emailSendingAccount: 'DEVELOPER',
+  sourceArn: email.emailIdentityArn
+};
 ```
 
 Now when emails are sent on new user sign-ups, password resets, etc., the sending account will be your verified email.
