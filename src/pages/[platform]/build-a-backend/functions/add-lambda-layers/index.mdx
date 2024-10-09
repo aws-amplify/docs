@@ -45,13 +45,14 @@ export const myFunction = defineFunction({
 
 The Lambda layer is represented by an object of key/value pairs where the key is the module name that is exported from your layer and the value is the ARN of the layer. The key (module name) is used to externalize the module dependency so it doesn't get bundled with your lambda function. A maximum of 5 layers can be attached to a function, and they must be in the same region as the function.
 
-then use the locally installed module in the function handler:
+Then use the locally installed module in the function handler:
 ```ts title="amplify/functions/my-function/handler.ts"
 import { Logger } from "@aws-lambda-powertools/logger";
+import type { Handler } from "aws-lambda";
 
 const logger = new Logger({ serviceName: "serverlessAirline" });
 
-export const handler = async (): Promise<void> => {
+export const handler: Handler = async (event, context) => {
   logger.info("Hello World");
 };
 ```
