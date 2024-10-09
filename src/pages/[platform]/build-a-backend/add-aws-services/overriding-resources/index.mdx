@@ -57,16 +57,15 @@ The `backend` object exposes a `resources` property with objects for each of the
 For example, here is how you can access the Cognito user pool that is created by `defineAuth` and set a custom removal policy on the resource.
 
 ```ts title="amplify/backend.ts"
+import { RemovalPolicy } from 'aws-cdk-lib';
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
-import { UserPool } from 'aws-cdk-lib/aws-cognito';
-import { RemovalPolicy } from 'aws-cdk-lib';
 
 const backend = defineBackend({
   auth
 });
 
-const userPool = backend.auth.resources.userPool as UserPool;
+const userPool = backend.auth.resources.userPool;
 userPool.applyRemovalPolicy(RemovalPolicy.RETAIN_ON_UPDATE_OR_DELETE);
 ```
 
@@ -74,33 +73,31 @@ Most L1 and L2 AWS CDK constructs that are used by the `define*` functions are a
 
 ## Example - Grant access permissions between resources
 
-Consider the case that we want to grant a function created by `defineFunction` access to call the Cognito user pool created by `defineAuth`. This can be accomplished with the following overrides.
+Consider the case that we want to grant a function created by `defineFunction` access to call the Cognito user pool created by `defineAuth`. For most cases it is recommended to use the [`access` property on `defineAuth`](/[platform]/build-a-backend/auth/grant-access-to-auth-resources/), however for permissions not exposed by this property, access can be accomplished with the following overrides.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
-import { demoFunction } from './functions/demo-function/resource';
-import { UserPool } from 'aws-cdk-lib/aws-cognito';
-import { Function } from 'aws-cdk-lib/aws-lambda';
+import { authAuditorFunction } from './functions/auth-auditor-function/resource';
 
 const backend = defineBackend({
   auth,
   data,
-  demoFunction
+  authAuditorFunction,
 });
 
-const userPool = backend.auth.resources.userPool as UserPool;
-const lambdaFunction = backend.demoFunction.resources.lambda as Function;
+const userPool = backend.auth.resources.userPool;
+const lambdaFunction = backend.authAuditorFunction.resources.lambda;
 
-// grant the lambdaFunction read access to users
-userPool.grant(lambdaFunction, 'cognito:GetUser', 'cognito:ListUsers');
+// grant the lambdaFunction access to list auth events for a particular user
+userPool.grant(lambdaFunction, 'cognito:AdminListUserAuthEvents');
 
 // pass the Lambda the UserPool ID so that the Lambda can use it to make SDK calls
-lambdaFunction.addEnvironment('USER_POOL_ID', userPool.userPoolId);
+backend.authAuditorFunction.addEnvironment('USER_POOL_ID', userPool.userPoolId);
 ```
 
-## Example - Mutate synthesized CloudFormation
+## Example - Modify L1 CDK Constructs
 
 It's possible to reach all the way down to the raw CloudFormation to mutate properties using `addPropertyOverride` on an AWS CDK construct. To edit the password policies of the Cognito user pool in `defineAuth`, you can use the following code.
 
@@ -109,23 +106,21 @@ import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 
 const backend = defineBackend({
-  auth
+  auth,
 });
-
-// override user pool password policies
-backend.auth.resources.cfnResources.cfnUserPool.addPropertyOverride(
-  'Policies',
-  {
-    PasswordPolicy: {
-      MinimumLength: 10,
-      RequireLowercase: true,
-      RequireNumbers: true,
-      RequireSymbols: true,
-      RequireUppercase: true,
-      TemporaryPasswordValidityDays: 20
-    }
-  }
-);
+// extract L1 CfnUserPool resources
+const { cfnUserPool } = backend.auth.resources.cfnResources;
+// modify cfnUserPool policies directly
+cfnUserPool.policies = {
+  passwordPolicy: {
+    minimumLength: 10,
+    requireLowercase: true,
+    requireNumbers: true,
+    requireSymbols: true,
+    requireUppercase: true,
+    temporaryPasswordValidityDays: 20,
+  },
+};
 ```
 
 Note the usage of `auth.resources.cfnResources`. This property exposes [L1 CDK constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_l1_using) that map one-to-one with the underlying CloudFormation properties.

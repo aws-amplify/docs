@@ -101,7 +101,7 @@
 	},
 	{
 		"source": "/ui/storage/s3-image-picker/q/framework/<platform>/",
-		"target": "https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager",
+		"target": "https://ui.docs.amplify.aws/react/connected-components/storage/fileuploader",
 		"status": "302"
 	},
 	{
@@ -7717,16 +7717,6 @@
 	{
 		"source": "/documentation/swagger-ui/",
 		"target": "https://ui.docs.amplify.aws/",
-		"status": "301"
-	},
-	{
-		"source": "/flutter/build-ui/<*>",
-		"target": "/flutter/build-ui/",
-		"status": "301"
-	},
-	{
-		"source": "/flutter/deploy-and-host/<*>",
-		"target": "/flutter/deploy-and-host",
 		"status": "301"
 	},
 	{
