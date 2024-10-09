@@ -224,12 +224,12 @@ The starter application already has a pre-configured auth backend defined in the
 The fastest way to get your login experience up and running is to use our Authenticator UI component. In your **pages/_app.tsx** file, import the Authenticator UI component and wrap your `<App>` component.
 
 ```tsx title="pages/_app.tsx"
+import type { AppProps } from "next/app";
 // highlight-start
 import { Authenticator } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 // highlight-end
 import "@/styles/app.css";
-import type { AppProps } from "next/app";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 
@@ -305,7 +305,7 @@ import { generateClient } from "aws-amplify/data";
 
 const client = generateClient<Schema>();
 
-export default function App() {
+export default function HomePage() {
 
   // highlight-start
   const { signOut } = useAuthenticator();
@@ -401,9 +401,9 @@ In the application client code, let's also render the username to distinguish di
 ```tsx title="pages/index.tsx"
 // ... imports
 
-function App() {
+function HomePage() {
   // highlight-next-line
-  const user = useAuthenticator().user;
+  const { user, signOut } = useAuthenticator();
 
   // ...
 
@@ -411,7 +411,7 @@ function App() {
     <main>
       // highlight-next-line
       <h1>{user?.signInDetails?.loginId}'s todos</h1>
-      {/* ... rest of the UI */}
+      {/* ... */}
     </main>
   )
 }
