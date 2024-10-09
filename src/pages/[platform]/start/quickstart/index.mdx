@@ -574,7 +574,7 @@ In the application client code, let's also render the username to distinguish di
 
 function App() {
   // highlight-next-line
-  const user = useAuthenticator().user;
+  const { user, signOut } = useAuthenticator();
 
   // ...
 
@@ -582,7 +582,7 @@ function App() {
     <main>
       // highlight-next-line
       <h1>{user?.signInDetails?.loginId}'s todos</h1>
-      {/* ... rest of the UI */}
+      {/* ... */}
     </main>
   )
 }
