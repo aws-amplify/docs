@@ -567,24 +567,23 @@ export const data = defineData({
 });
 ```
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property.
+In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property from the `useAuthenticator` hook.
 
 ```tsx title="src/App.tsx"
 // ... imports
 
 function App() {
+  // highlight-next-line
+  const { user, signOut } = useAuthenticator();
+
   // ...
+
   return (
-    <Authenticator>
+    <main>
       // highlight-next-line
-      {({ signOut, user }) => (
-        <main>
-          // highlight-next-line
-          <h1>{user?.signInDetails?.loginId}'s todos</h1>
-          {/* ... rest of the UI */}
-        </main>
-      )}
-    </Authenticator>
+      <h1>{user?.signInDetails?.loginId}'s todos</h1>
+      {/* ... */}
+    </main>
   )
 }
 ```
