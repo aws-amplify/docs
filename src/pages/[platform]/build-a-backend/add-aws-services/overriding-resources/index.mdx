@@ -129,28 +129,4 @@ The `auth.resources.cfnResources.cfnUserPool` property in the above example dire
 
 This is different from `auth.resources.userPool` in the first example, which is an [L2 CDK construct](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_using). These are constructs that provide a convenient interface around several related L1 constructs.
 
-## Example - Add tags to resources
-
-```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource';
-import { data } from './data/resource';
-
-const backend = defineBackend({
-  auth,
-  data
-});
-
-backend.data.resources.cfnResources.cfnGraphqlApi.addPropertyOverride('Tags', [
-  {
-    Key: 'graphqlapi-tag-1',
-    Value: 'graphql-tag-value-1'
-  },
-  {
-    Key: 'graphqlapi-tag-2',
-    Value: 'graphql-tag-value-2'
-  }
-]);
-```
-
 For situations where you need even more customization of your app backend, see the documentation on [custom resources](/[platform]/build-a-backend/add-aws-services/custom-resources).
