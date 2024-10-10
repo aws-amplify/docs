@@ -113,11 +113,11 @@ The `<log-group-name>` and `<region>` configured in the CDK construct will be us
 - `<amplify-authenticated-role-name>` and `<amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.
 
 ```ts
+import * as path from "node:path"
 import * as cdk from "aws-cdk-lib"
-import { Construct } from "constructs"
 import * as logs from "aws-cdk-lib/aws-logs"
-import * as path from "path"
 import * as iam from "aws-cdk-lib/aws-iam"
+import { Construct } from "constructs"
 
 export class RemoteLoggingConstraintsConstruct extends Construct {
   constructor(scope: Construct, id: string, props: RemoteLoggingConstraintProps) {
