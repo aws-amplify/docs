@@ -436,36 +436,63 @@ This should start a local dev server at http://localhost:5173.
 
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. In your **src/App.tsx** file, import the Authenticator UI component and wrap your `<main>` element.
+The fastest way to get your login experience up and running is to use our Authenticator UI component. In your **src/main.tsx** file, import the Authenticator UI component and wrap your `<App>` component.
 
-```tsx title="src/App.tsx"
-// highlight-start
-import { Authenticator } from '@aws-amplify/ui-react'
-import '@aws-amplify/ui-react/styles.css'
-// highlight-end
-// ... other imports
+```tsx title="src/main.tsx"
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// highlight-next-line
+import { Authenticator } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import App from './App.tsx';
+import outputs from '../amplify_outputs.json';
+import './index.css';
+// highlight-next-line
+import '@aws-amplify/ui-react/styles.css';
 
-function App() {
-  // ...
-  return (
-    // highlight-start
+Amplify.configure(outputs);
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  // highlight-start
+  <React.StrictMode>
     <Authenticator>
-      {({ signOut }) => (
-    // highlight-end
-        <main>
-          {/*...*/}
-          // highlight-next-line
-          <button onClick={signOut}>Sign out</button>
-        </main>
-    // highlight-start
-      )}
+      <App />
     </Authenticator>
-    // highlight-end
-  )
-}
+  </React.StrictMode>
+  // highlight-end
+);
 ```
 
 The Authenticator component auto-detects your auth backend settings and renders the correct UI state based on the auth backend's authentication flow.
+
+In your `src/App.tsx` file, add a button to enable users to sign out of the application. Import the [`useAuthenticator`](https://ui.docs.amplify.aws/react/connected-components/authenticator/advanced#access-auth-state) hook from the Amplify UI library to hook into the state of the Authenticator.
+
+```tsx title="src/App.tsx"
+import type { Schema } from '../amplify/data/resource';
+// highlight-next-line
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useEffect, useState } from 'react';
+import { generateClient } from 'aws-amplify/data';
+
+const client = generateClient<Schema>();
+
+function App() {
+  // highlight-next-line
+  const { signOut } = useAuthenticator();
+
+  // ...
+
+  return (
+    <main>
+      {/* ... */}
+      // highlight-next-line
+      <button onClick={signOut}>Sign out</button>
+    </main>
+  );
+}
+
+export default App;
+```
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
@@ -540,24 +567,23 @@ export const data = defineData({
 });
 ```
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property.
+In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property from the `useAuthenticator` hook.
 
 ```tsx title="src/App.tsx"
 // ... imports
 
 function App() {
+  // highlight-next-line
+  const { user, signOut } = useAuthenticator();
+
   // ...
+
   return (
-    <Authenticator>
+    <main>
       // highlight-next-line
-      {({ signOut, user }) => (
-        <main>
-          // highlight-next-line
-          <h1>{user?.signInDetails?.loginId}'s todos</h1>
-          {/* ... rest of the UI */}
-        </main>
-      )}
-    </Authenticator>
+      <h1>{user?.signInDetails?.loginId}'s todos</h1>
+      {/* ... */}
+    </main>
   )
 }
 ```
