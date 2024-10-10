@@ -8,7 +8,7 @@ You can integrate with AWS AppSync using the following steps:
 
 The Amplify CLI provides support for AppSync that make this process easy. Using the CLI, you can configure an AWS AppSync API, download required client side configuration files, and generate client side code within minutes by running a few simple commands on the command line.
 
-### Configuration
+## Configuration
 
 The AWS SDKs support configuration through a centralized file called `awsconfiguration.json` that defines your AWS regions and service endpoints. You obtain this file in one of two ways, depending on whether you are creating your AppSync API in the AppSync console or using the Amplify CLI.
 
@@ -16,11 +16,11 @@ The AWS SDKs support configuration through a centralized file called `awsconfigu
 
 - If you are creating your API with the Amplify CLI (using `amplify add api`), the `awsconfiguration.json` file is automatically downloaded and updated each time you run `amplify push` to update your cloud resources. The file is placed in the root directory of your iOS project, and you need to add it to your Xcode project.
 
-### Code Generation
+## Code Generation
 
 To execute GraphQL operations in iOS you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain helps you do this by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process. If your client requirements change, you can alter these GraphQL statements and regenerate your types.
 
-#### AppSync APIs Created in the Console
+### AppSync APIs Created in the Console
 
 After installing the Amplify CLI open a terminal, go to your Xcode project root, and then run the following:
 
@@ -31,7 +31,7 @@ amplify add codegen --apiId XXXXXX
 
 The `XXXXXX` is the unique AppSync API identifier that you can find in the console in the root of your API's integration page. When you run this command you can accept the defaults, which create an `API.swift` file, and a `graphql` folder with your statements, in your root directory.
 
-#### AppSync APIs Created Using the CLI
+### AppSync APIs Created Using the CLI
 
 Navigate in your terminal to an Xcode project directory and run the following:
 
@@ -81,7 +81,7 @@ amplify console api
 
 When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
-### Import SDK and Config
+## Import SDK and Config
 
 To use AppSync in your Xcode project, modify your Podfile with a dependency of the AWS AppSync SDK as follows:
 
@@ -94,7 +94,7 @@ end
 
 Run `pod install` from your terminal and open up the `.xcworkspace` Xcode project. Add the `API.swift` and `awsconfiguration.json` files to your project **(File->Add Files to ..->Add)** and then build your project, ensuring there are no issues.
 
-### Client Initialization
+## Client Initialization
 
 Initialize the AppSync client your application delegate by creating `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like the following:
 
@@ -167,7 +167,7 @@ struct ContentView: View {
 }
 ```
 
-### Run a Query
+## Run a Query
 
 Now that the client is set up, you can run a GraphQL query. The syntax is `appSyncClient?.fetch(query: <NAME>Query() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. For example, if you have a `ListTodos` query your code will look like the following:
 
@@ -190,7 +190,7 @@ appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFe
 
 `returnCacheDataAndFetch` pulls results from the local cache first before retrieving data over the network. This gives a snappy UX and offline support.
 
-#### Considerations for SwiftUI
+### Considerations for SwiftUI
 
 When using `List` and `ForEach` for SwiftUI the structure needs to conform to `Identifiable`. The code generated for Swift does not make the structure `Identifiable` but as long as you have a unique id associated with the object then you can retroactively mark a field as unique. Here is some example code for `ListTodosQuery()`
 
@@ -201,7 +201,7 @@ ForEach(listTodosStore.listTodos.identified(by:\.id)){ todo in
 
 ```
 
-### Run a Mutation
+## Run a Mutation
 
 To add data you need to run a GraphQL mutation. The syntax is `appSyncClient?.perform(mutation: <NAME>Mutation() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the AppSync console and Amplify CLI do as well. Therefore, you need to pass this as a parameter called `input`, as in the following example:
 
@@ -219,11 +219,11 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 }
 ```
 
-#### Working with Complex Objects
+### Working with Complex Objects
 
 Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](/gen1/[platform]/sdk/storage/graphql-api/).
 
-### Subscribe to Data
+## Subscribe to Data
 
 Finally, it's time to set up a subscription to real-time data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
 
@@ -252,7 +252,7 @@ do {
 
 Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
 
-### Client Architecture
+## Client Architecture
 
 The AppSync client supports offline scenarios with a programming model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, its offline mutation queue, the Apollo cache, and your application code.
 
@@ -281,7 +281,7 @@ appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
 
 If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response.
 
-#### Offline Mutations
+### Offline Mutations
 
 As outlined in the architecture section, all query results are automatically persisted to disc with the AppSync client. For updating data through mutations when offline you will need to use an "optimistic response" with a transaction. This is done by passing an `optimisticUpdate` in the `appSyncClient?.perform()` mutation method using a `transaction`, where you pass in a query that will be updated in the cache. Inside of this transaction, you can write to the store via `appSyncClient?.store?.withinReadWriteTransaction`.
 
@@ -341,11 +341,11 @@ func optimisticCreateTodo(input: CreateTodoInput, query:ListTodosQuery) {
 
 You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `data.listTodos?.items` array.
 
-### Authorization Modes
+## Authorization Modes
 
 For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` file when you call `AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig()`.
 
-#### API Key
+### API Key
 
 API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](/gen1/[platform]/sdk/auth/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
@@ -379,7 +379,7 @@ do {
 }
 ```
 
-#### Cognito User Pools
+### Cognito User Pools
 
 Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/gen1/[platform]/sdk/auth/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
@@ -438,7 +438,7 @@ class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
 }
 ```
 
-#### IAM
+### IAM
 
 When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/gen1/[platform]/sdk/auth/) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
@@ -480,7 +480,7 @@ do {
 }
 ```
 
-#### OIDC
+### OIDC
 
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `awsconfiguration.json` file and code snippet as follows:
 
@@ -521,7 +521,7 @@ do {
 }
 ```
 
-#### Multi-Auth
+### Multi-Auth
 
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
@@ -683,7 +683,7 @@ appSyncClient?.fetch(query: GetPostQuery())  { (result, error) in
 }
 ```
 
-### Clear cache
+## Clear cache
 
 Clears the data cached by the `AWSAppSyncClient` object on the local device.
 
@@ -703,7 +703,7 @@ let clearCacheOptions = ClearCacheOptions(
 appSyncClient.clearCaches(options: clearCacheOptions)
 ```
 
-### Delta Sync
+## Delta Sync
 
 DeltaSync allows you to perform automatic synchronization with an AWS AppSync GraphQL server. The client will perform reconnection, exponential backoff, and retries when network errors take place for simplified data replication to devices. It does this by taking the results of a GraphQL query and caching it in the local Apollo cache.
 
