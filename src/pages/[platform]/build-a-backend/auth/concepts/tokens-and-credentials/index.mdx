@@ -253,23 +253,35 @@ class InMemoryStorage implements SecureStorageInterface {
 </InlineFilter>
 
 ## Token Revocation
+
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android"]}>
+
 Token revocation is enabled automatically in Amplify Auth. To revoke tokens you can set up global sign-out with `signOut({ global: true })` to globally sign out your user from all of their devices.
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={["flutter"]}>
+
 Token revocation is enabled automatically in Amplify Auth. To revoke tokens you can invoke `await Amplify.Auth.signOut(options: const signOutOptions(globalSignOut: true))` to globally sign out your user from all of their devices.
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={["swift"]}>
-Token revocation is enabled automatically in Amplify Auth. To revoke tokens you can invoke `await Amplify.Auth.signOut(options: .init(globalSignOut: true))` to globally sign out your user from all of their devices.
-</InlineFilter>
 
+Token revocation is enabled automatically in Amplify Auth. To revoke tokens you can invoke `await Amplify.Auth.signOut(options: .init(globalSignOut: true))` to globally sign out your user from all of their devices.
+
+</InlineFilter>
 
 ## Next steps
 
-- [Learn how to customize the ID token](/[platform]/build-a-backend/functions/examples/override-token/)
 <InlineFilter filters={["javascript","nextjs","angular","vue","react","react-native"]}>
-- [Learn how to use cookie storage server-side](/[platform]/build-a-backend/server-side-rendering/#configure-amplify-library-for-client-side-usage)
-</InlineFilter>
 
+- [Learn how to customize the ID token](/[platform]/build-a-backend/functions/examples/override-token/)
+- [Learn how to bring your own tokens from external providers](/[platform]/build-a-backend/auth/advanced-workflows/#custom-token-providers)
+- [Learn how to use cookie storage server-side](/[platform]/build-a-backend/server-side-rendering/#configure-amplify-library-for-client-side-usage)
+
+</InlineFilter>
+<InlineFilter filters={["android", "swift", "flutter"]}>
+
+- [Learn how to customize the ID token](/[platform]/build-a-backend/functions/examples/override-token/)
+- [Learn how to bring your own tokens from external providers](/[platform]/build-a-backend/auth/advanced-workflows/#custom-token-providers)
+
+</InlineFilter>
