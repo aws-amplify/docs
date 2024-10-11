@@ -55,7 +55,7 @@ The Lambda layer is represented by an object of key/value pairs where the key is
 
 > When using layers, be mindful of versioning. The ARN includes a version number (e.g., `:12` in the example). Ensure you're using the appropriate version and have a strategy for updating layers when new versions are released.
 
-Then use the locally installed module in the function handler:
+3. Then use the locally installed module in the function handler:
 ```ts title="amplify/functions/my-function/handler.ts"
 import { Logger } from "@aws-lambda-powertools/logger";
 import type { Handler } from "aws-lambda";
