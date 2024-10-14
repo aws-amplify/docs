@@ -1,6 +1,6 @@
 Currently, the federation feature in the AWSMobileClient supports Cognito Identity Pools only.
 
-### Federated Sign In
+## Federated Sign In
 
 ```java
 AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.FACEBOOK.toString(), "FACEBOOK_TOKEN_HERE", new Callback<UserStateDetails>() {
@@ -20,7 +20,7 @@ AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.FACEBOOK.toString
 
 The API calls to get AWS credentials will be asynchronously blocked until you fetch the social provider's token and give it to `AWSMobileClient`. Once you pass the tokens, the `AWSMobileClient` will fetch AWS Credentials using the new tokens and unblock all waiting calls. It will then use the new credentials.
 
-#### SAML with Cognito Identity
+### SAML with Cognito Identity
 
 To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. You must first register your SAML application with AWS IAM by using the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html).
 
@@ -60,7 +60,7 @@ AWSMobileClient.getInstance().federatedSignIn("YOUR_SAML_PROVIDER_NAME", "YOUR_S
 });
 ```
 
-### Set up Facebook
+## Set up Facebook
 
 To federate Facebook as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. You must first register your application with Facebook by using the [Facebook Developers portal](https://developers.facebook.com/) and configure this with Amazon Cognito Identity Pools.
 
@@ -111,7 +111,7 @@ You can now [configure Facebook in your mobile app](#facebook-login-in-your-mobi
 
 Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify auth update` to add an identity provider to an existing auth configuration.
 
-### Set up Google
+## Set up Google
 
 To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. You must first register your application with Google Sign-In in the Google Developers Console, and then configure this with Amazon Cognito Identity Pools.
 
@@ -156,7 +156,7 @@ You can now [configure Google in your mobile app](#google-login-in-your-mobile-a
 
 > Note that the CLI allows you to select more than one identity provider for your app. You can also run `amplify update auth` to add an identity provider to an existing auth configuration.
 
-### Set up Sign in with Apple
+## Set up Sign in with Apple
 
 To federate Sign in with Apple as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. You must set up your application to use Sign in with Apple, and then configure Amazon Cognito Identity Pools to use Apple as an authentication provider. There are three main steps to setting up Sign in with Apple: implementing Sign in with Apple in your app, configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool, and passing the Sign in with Apple token to AWSMobileClient via `federatedSignIn`.
 
@@ -197,7 +197,7 @@ To federate Sign in with Apple as a user sign-in provider for AWS services calle
 
    After the `federatedSignIn` method successfully completes, `AWSMobileClient` will automatically use the federated identity to obtain credentials to make AWS service calls.
 
-### Facebook Login in Your Mobile App
+## Facebook Login in Your Mobile App
 
 > **Use Android API level 23 or higher** The `AWSMobileClient` library for Android sign-in provides the activity and view for presenting a `SignInUI` for the sign-in providers you configure. This library depends on the Android SDK API Level 23 or higher.
 
@@ -307,7 +307,7 @@ public class AuthenticatorActivity extends Activity {
 }
 ```
 
-### Google Login in Your Mobile App
+## Google Login in Your Mobile App
 
 > **Use Android API level 23 or higher** The `AWSMobileClient` library for Android sign-in provides the activity and view for presenting a `SignInUI` for the sign-in providers you configure. This library depends on the Android SDK API Level 23 or higher.
 

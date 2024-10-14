@@ -8,7 +8,7 @@ You can integrate with AWS AppSync using the following steps:
 
 The Amplify CLI provides support for AppSync that make this process easy. Using the CLI, you can configure an AWS AppSync API, download required client side configuration files, and generate client side code within minutes by running a few simple commands on the command line.
 
-### Configuration
+## Configuration
 
 The AWS SDKs support configuration through a centralized file called `awsconfiguration.json` that defines your AWS regions and service endpoints. You obtain this file in one of two ways, depending on whether you are creating your AppSync API in the AppSync console or using the Amplify CLI.
 
@@ -16,11 +16,11 @@ The AWS SDKs support configuration through a centralized file called `awsconfigu
 
 - If you are creating your API with the Amplify CLI (using `amplify add api`), the `awsconfiguration.json` file is automatically downloaded and updated each time you run `amplify push` to update your cloud resources. The file is placed in the `./app/src/main/res/raw` directory of your Android Studio project.
 
-### Code Generation
+## Code Generation
 
 To execute GraphQL operations in Android you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain makes this easy for you by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process using Gradle. If your client requirements change, you can alter these GraphQL statements and kick off a Gradle build again to regenerate the types.
 
-#### AppSync APIs Created in the Console
+### AppSync APIs Created in the Console
 
 After installing the Amplify CLI open a terminal, go to your Android Studio project root, and then run the following:
 
@@ -33,7 +33,7 @@ The `XXXXXX` is the unique AppSync API identifier that you can find in the conso
 
 **Note:** It is not necessary to run the command `amplify codegen` after adding an API, as code generation is done by the Gradle build process. However, if you subsequently update your API in the AppSync Console, you will need to re-run `amplify codegen` to update the local `schema.json` and `.graphql` with the modified schema.
 
-#### AppSync APIs Created Using the CLI
+### AppSync APIs Created Using the CLI
 
 Navigate in your terminal to an Android Studio project directory and run the following:
 
@@ -83,7 +83,7 @@ amplify console api
 
 When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
-### Import SDK and Config
+## Import SDK and Config
 
 To use AppSync in your Android studio project, modify the project's `build.gradle` by adding the Maven plugin repositories, and the AppSync Gradle plugin to `dependencies`.
 
@@ -154,11 +154,11 @@ Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` fo
         </application>
 ```
 
-### Build your Project
+## Build your Project
 
 Do not skip this step! Run `gradlew build`, or build your application via Android Studio. This will trigger the AppSync Gradle plugin that you added above to generate Java classes in your build folder based off of your schema files. These classes will be needed before proceeding to the steps below.
 
-### Client Initialization
+## Client Initialization
 
 Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder like the following:
 
@@ -180,7 +180,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 `AWSConfiguration()` reads configuration information in the `awsconfiguration.json` file. By default, the information in the `Default` section of the json file is used.
 
-### Run a Query
+## Run a Query
 
 Now that the client is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME}Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after you ran a Gradle build. You invoke this from an instance of the AppSync client with a similar syntax of `.query({NAME}Query.builder().build())`. For example, if you have a `ListTodos` query, your code will look like the following:
 
@@ -206,7 +206,7 @@ private GraphQLCall.Callback<ListTodosQuery.Data> todosCallback = new GraphQLCal
 
 Optionally, you can change the cache policy on `AppSyncResponseFetchers`, but we recommend leaving `CACHE_AND_NETWORK` because it pulls results from the local cache first before retrieving data over the network. This gives a snappy UX and offline support.
 
-### Run a Mutation
+## Run a Mutation
 
 To add data you need to run a GraphQL mutation. The syntax of the callback is `GraphQLCall.Callback<{NAME}Mutation.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen` created after a Gradle build. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` created with a second builder. You invoke this from an instance of the AppSync client with a similar syntax of `.mutate({NAME}Mutation.builder().input({Name}Input).build())` like the following:
 
@@ -234,7 +234,7 @@ private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new Gra
 };
 ```
 
-### Subscribe to Data
+## Subscribe to Data
 
 Finally, it's time to set up a subscription to real-time data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen` and Gradle build created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
 
@@ -267,7 +267,7 @@ private AppSyncSubscriptionCall.Callback<OnCreateTodoSubscription.Data> subCallb
 
 Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input.
 
-### Background Tasks
+## Background Tasks
 
 All GraphQL operations in the Android client are automatically run as asynchronous tasks and can be safely called from any thread. If you have a need to run GraphQL operations from a background thread you can do it with a `Runnable()` like the example below:
 
@@ -318,7 +318,7 @@ try {
 }
 ```
 
-### Client Architecture
+## Client Architecture
 
 The AppSync client supports offline scenarios with a programming model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
 
@@ -362,7 +362,7 @@ AWSAppSyncClient.builder()
 
 If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response.
 
-#### Offline Mutations
+### Offline Mutations
 
 As outlined in the architecture section, all query results are automatically persisted to disc with the AppSync client. For updating data through mutations when offline you will need to use an "optimistic response" by writing directly to the store. This is done by querying the store directly with `client.query().responseFetcher()` and passing in `AppSyncResponseFetchers.CACHE_ONLY` to pull the records for a specific query that you wish to update.
 
@@ -449,11 +449,11 @@ private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
     .build();
 ```
 
-### Authorization Modes
+## Authorization Modes
 
 For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` when you call `.awsConfiguration()` on the `AWSAppSyncClient` builder.
 
-#### API Key
+### API Key
 
 API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](/gen1/[platform]/sdk/auth/getting-started/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
@@ -479,7 +479,7 @@ private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
     .build();
 ```
 
-#### Cognito User Pools
+### Cognito User Pools
 
 Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/gen1/[platform]/sdk/auth/getting-started/). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
@@ -521,7 +521,7 @@ private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
     }).build();
 ```
 
-#### IAM
+### IAM
 
 When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/gen1/[platform]/sdk/auth/getting-started/) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
 
@@ -555,7 +555,7 @@ private AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
     .build();
 ```
 
-#### OIDC
+### OIDC
 
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `awsconfiguration.json` file and code snippet as follows:
 
@@ -592,7 +592,7 @@ private static String MyOIDCAuthProvider(){
 }
 ```
 
-#### Multi-Auth
+### Multi-Auth
 
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
@@ -800,7 +800,7 @@ public class ClientFactory {
 }
 ```
 
-### Clear cache
+## Clear cache
 
 Clears the data cached by the `AWSAppSyncClient` object on the local device.
 
@@ -827,7 +827,7 @@ try {
 }
 ```
 
-### Delta Sync
+## Delta Sync
 
 DeltaSync allows you to perform automatic synchronization with an AWS AppSync GraphQL server. The client will perform reconnection, exponential backoff, and retries when network errors take place for simplified data replication to devices. It does this by taking the results of a GraphQL query and caching it in the local Apollo cache. The DeltaSync API manages writes to the Apollo cache for you, and all rendering in your app (such as from React components, Angular bindings) should be done through a read-only fetch.
 
