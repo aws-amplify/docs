@@ -391,6 +391,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/functions/streaming-logs/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/functions/add-lambda-layers/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/functions/grant-access-to-other-resources/index.mdx'
                 },
                 {
@@ -684,6 +687,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/tagging-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
