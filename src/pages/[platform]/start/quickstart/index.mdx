@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       }
   }
-  
+
 
     client.models.Todo.observeQuery().subscribe({
         next: (data) => {
@@ -360,7 +360,7 @@ Now let's set up our local development environment to add features to the fronte
 
 <Video src="/images/gen2/getting-started/react/branch-details.mp4" description="Video - Deployments" />
 
-At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
+At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button.
 
 ![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
@@ -710,7 +710,7 @@ Now let's set up our local development environment to add features to the fronte
 
 <Video src="/images/gen2/getting-started/react/branch-details.mp4" description="Video - Deployments" />
 
-At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
+At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button.
 
 ![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
@@ -1016,7 +1016,7 @@ Let's take a tour of the project structure in this starter repository by opening
 <Video src="/images/gen2/getting-started/react/hosted-app.mp4" description="Video - Visit Deployed URL" />
 
 In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
- 
+
 <Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" description="Video - Data Manager"/>
 
 ## Make frontend updates
@@ -1756,7 +1756,7 @@ Now you should have your project created.
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-cd my-app
+cd my_amplify_app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
@@ -2000,7 +2000,7 @@ class TodoViewModel: ObservableObject {
 }
 ```
 
-This will assign the value of the fetched todos into a Published object. 
+This will assign the value of the fetched todos into a Published object.
 
 Now let's update the UI code to observe the todos. Update the `VStack` in the `ContentView.swift` file with the following code:
 
@@ -2076,7 +2076,7 @@ class TodoViewModel: ObservableObject {
             }
         }
     }
-    
+
     func updateTodo(todo: Todo) async {
         do {
             let result = try await Amplify.API.mutate(request: .update(todo))
@@ -2503,7 +2503,7 @@ setContent {
     MyAmplifyAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
-            modifier = Modifier.fillMaxSize(), 
+            modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
             Authenticator { state ->
@@ -2537,7 +2537,7 @@ fun TodoList() {
         Amplify.API.subscribe(
             ModelSubscription.onCreate(Todo::class.java),
             { Log.i("ApiQuickStart", "Subscription established") },
-            { 
+            {
                 Log.i("ApiQuickStart", "Todo create subscription received: ${it.data}")
                 todoList = todoList + it.data
             },
@@ -2674,7 +2674,7 @@ npx expo prebuild
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-cd my-app
+cd my_amplify_app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
