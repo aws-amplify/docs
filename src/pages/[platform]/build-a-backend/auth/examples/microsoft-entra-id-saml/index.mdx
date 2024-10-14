@@ -222,16 +222,120 @@ signInWithRedirect({
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-{/* @todo */}
+{/* @todo update with explicit provider name */}
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.signInWithWebUI(
+    this,
+    result -> Log.i("AuthQuickStart", result.toString()),
+    error -> Log.e("AuthQuickStart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signInWithWebUI(
+    this,
+    { Log.i("AuthQuickStart", "Signin OK = $it") },
+    { Log.e("AuthQuickStart", "Signin failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.signInWithWebUI(this)
+    Log.i("AuthQuickStart", "Signin OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Signin failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.signInWithWebUI(this)
+    .subscribe(
+        result -> Log.i("AuthQuickStart", result.toString()),
+        error -> Log.e("AuthQuickStart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
 
-{/* @todo */}
+```dart
+Future<void> signInWithMicrosoftEntraID() async {
+  try {
+    final result = await Amplify.Auth.signInWithWebUI(
+      provider: AuthProvider.custom("MicrosoftEntraIDSAML"),
+    );
+    safePrint('Sign in result: $result');
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
+  }
+}
+```
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-{/* @todo */}
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func signInWithMicrosoftEntraID() async {
+    do {
+        let signInResult = try await Amplify.Auth.signInWithWebUI(
+            for: AuthProvider.custom("MicrosoftEntraIDSAML"),
+            presentationAnchor: self.view.window!
+        )
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func signInWithMicrosoftEntraID() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signInWithWebUI(
+            for: AuthProvider.custom("MicrosoftEntraIDSAML"),
+            presentationAnchor: self.view.window!
+        )
+    }
+    .sink { completion in
+        if case let .failure(authError) = completion {
+            print("Sign in failed \(authError)")
+        }
+    } receiveValue: { signInResult in
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
