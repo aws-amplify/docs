@@ -222,13 +222,12 @@ signInWithRedirect({
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-{/* @todo update with explicit provider name */}
-
 <BlockSwitcher>
 <Block name="Java">
 
 ```java
-Amplify.Auth.signInWithWebUI(
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.custom("MicrosoftEntraIDSAML")
     this,
     result -> Log.i("AuthQuickStart", result.toString()),
     error -> Log.e("AuthQuickStart", error.toString())
@@ -239,10 +238,11 @@ Amplify.Auth.signInWithWebUI(
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Auth.signInWithWebUI(
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.custom("MicrosoftEntraIDSAML"),
     this,
-    { Log.i("AuthQuickStart", "Signin OK = $it") },
-    { Log.e("AuthQuickStart", "Signin failed", it) }
+    { Log.i("AuthQuickstart", "Sign in OK: $it") },
+    { Log.e("AuthQuickstart", "Sign in failed", it) }
 )
 ```
 
@@ -251,10 +251,10 @@ Amplify.Auth.signInWithWebUI(
 
 ```kotlin
 try {
-    val result = Amplify.Auth.signInWithWebUI(this)
-    Log.i("AuthQuickStart", "Signin OK: $result")
+    val result = Amplify.Auth.signInWithSocialWebUI(AuthProvider.custom("MicrosoftEntraIDSAML"), this)
+    Log.i("AuthQuickstart", "Sign in OK: $result")
 } catch (error: AuthException) {
-    Log.e("AuthQuickStart", "Signin failed", error)
+    Log.e("AuthQuickstart", "Sign in failed", error)
 }
 ```
 
@@ -262,10 +262,10 @@ try {
 <Block name="RxJava">
 
 ```java
-RxAmplify.Auth.signInWithWebUI(this)
+RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.custom("MicrosoftEntraIDSAML"), this)
     .subscribe(
-        result -> Log.i("AuthQuickStart", result.toString()),
-        error -> Log.e("AuthQuickStart", error.toString())
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
     );
 ```
 
