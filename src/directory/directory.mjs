@@ -317,6 +317,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/manage-with-amplify-console/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/aws-appsync-apollo-extensions/index.mdx'
                 }
               ]
             },
