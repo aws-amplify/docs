@@ -32,7 +32,7 @@ Microsoft Entra ID can be configured as a SAML provider for use with Amazon Cogn
 
 ## Start your personal cloud sandbox
 
-To get started, define your Amplify Auth resource with the appropriate redirect URIs:
+To get started, define your auth resource with the appropriate redirect URIs:
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from "@aws-amplify/backend"
@@ -155,9 +155,9 @@ Save the configuration and proceed to Step 3's **SAML Certificates** section. Co
 
 ![Entra ID set up single sign-on page highlighting the app federation metadata URL](/images/auth/examples/microsoft-entra-id-saml/entra-id-copy-federation-url.png)
 
-## Configure Amplify Auth with Entra ID
+## Configure your backend with Entra ID
 
-Now that you've configured your SAML provider with Microsoft Entra ID and copied the **App Federation Metadata Url**, configure your Amplify Auth resource with the new SAML provider and paste the URL value into the `metadataContent` property:
+Now that you've configured your SAML provider with Microsoft Entra ID and copied the **App Federation Metadata Url**, configure your auth resource with the new SAML provider and paste the URL value into the `metadataContent` property:
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from "@aws-amplify/backend"
@@ -207,7 +207,7 @@ Save your changes, and now requests to Entra ID from your Cognito User Pool will
 
 ## Connect your frontend
 
-Now your users are ready to sign in with Microsoft Entra ID. To sign in with this custom provider, specify the provider name as the name specified in your Amplify Auth definition: `MicrosoftEntraIDSAML`
+Now your users are ready to sign in with Microsoft Entra ID. To sign in with this custom provider, specify the provider name as the name specified in your auth resource definition: `MicrosoftEntraIDSAML`
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
