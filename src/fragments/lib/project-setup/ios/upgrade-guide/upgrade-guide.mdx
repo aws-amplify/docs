@@ -1,10 +1,8 @@
-As of v2, Amplify Library iOS is now Amplify Library for Swift. Amplify Library for Swift supports iOS 13+ and macOS 10.15+, and ships with APIs that leverage Swift Concurrency (async/await) to return values. There are a few things you need to know if you are upgrading to this latest version.
+As of v2, Amplify Library iOS is now Amplify Library for Swift. Amplify Library for Swift supports iOS 13+, macOS 10.15+, tvOS 13+, watchOS 9+, and visionOS (developer preview), and adopts Swift structured concurrency including async/await. There are a few things you need to know if you are upgrading to this latest version.
 
 ## What's changed
 
 We have re-written our APIs to support idiomatic Swift features including [structured concurrency](#structured-concurrency-asyncawait-pattern) and [combine support](/gen1/[platform]/start/project-setup/combine-framework/). We have also changed [how you access the underlying SDK](#escape-hatches) (keep in mind that the AWS SDK for Swift is still in Developer Preview). 
-
-The Predictions APIs do not currently have an upgrade plan. We will update this guide as soon as they do.
 
 ## Using the new Swift features with Amplify APIs
 
@@ -47,7 +45,7 @@ func signIn(username: String, password: String) async throws {
 
 ### Combine support
 
-Amplify for Swift supports converting the async/await apis to Combine publishers. For more details, check out the guide to [using Combine with Amplify](/gen1/[platform]/start/project-setup/combine-framework/).
+Amplify for Swift provides helpers for converting the async/await APIs to Combine publishers. For more details, check out the guide to [using Combine with Amplify](/[platform]/start/project-setup/combine-framework/).
 
 ## Escape Hatches
 
