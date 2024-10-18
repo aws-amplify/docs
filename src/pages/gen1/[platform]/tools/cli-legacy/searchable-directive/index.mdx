@@ -38,7 +38,7 @@ export function getStaticProps(context) {
 
 The `@searchable` directive handles streaming the data of an `@model` object type to the Amazon OpenSearch Service and configures search resolvers that search that information.
 
-> **Migration warning**: You might observe duplicate records on search operations, if you deployed your GraphQL schema using CLI version older than 4.14.1 and have thereafter updated your schema & deployed the changes with a CLI version between 4.14.1 - 4.16.1. Please use this Python [script](https://github.com/aws-amplify/amplify-category-api/blob/api-plugin-stable/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records from your OpenSearch cluster. [This script](https://github.com/aws-amplify/amplify-category-api/blob/api-plugin-stable/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your OpenSearch Cluster. View an example of how to call the script with the following parameters [here](https://aws-amplify.github.io/docs/cli-toolchain/graphql#example-of-calling-the-script).
+> **Migration warning**: You might observe duplicate records on search operations, if you deployed your GraphQL schema using CLI version older than 4.14.1 and have thereafter updated your schema & deployed the changes with a CLI version between 4.14.1 - 4.16.1. Please use this Python [script](https://github.com/aws-amplify/amplify-category-api/blob/release-api-plugin-stable/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) to remove the duplicate records from your OpenSearch cluster. [This script](https://github.com/aws-amplify/amplify-category-api/blob/release-api-plugin-stable/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) indexes data from your DynamoDB Table to your OpenSearch Cluster. View an example of how to call the script with the following parameters [here](https://aws-amplify.github.io/docs/cli-toolchain/graphql#example-of-calling-the-script).
 
 > **Billing warning**: `@searchable` incurs an additional cost depending on instance size. For more information refer to the [Amazon OpenSearch service pricing](https://aws.amazon.com/elasticsearch-service/pricing/).
 
@@ -201,7 +201,7 @@ Learn more about Amazon OpenSearch Service instance types [here](https://docs.aw
 
 ### Backfill your OpenSearch index from your DynamoDB table
 
-The following Python [script](https://github.com/aws-amplify/amplify-category-api/blob/api-plugin-stable/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) creates an event stream of your DynamoDB records and sends them to your OpenSearch Index. This will help you backfill your data should you choose to add `@searchable` to your @model types at a later time.
+The following Python [script](https://github.com/aws-amplify/amplify-category-api/blob/release-api-plugin-stable/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py) creates an event stream of your DynamoDB records and sends them to your OpenSearch Index. This will help you backfill your data should you choose to add `@searchable` to your @model types at a later time.
 
 **Example of calling the script**:
 
