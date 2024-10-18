@@ -1,0 +1,112 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'API Key Not Found issue',
+  description: 'Resolving API Key Not Found issue',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+If you're encountering an "API Key Not Found" issue in your Amplify project, follow the steps below to troubleshoot and resolve the problem:
+
+## Step 1: Modify `parameters.json` to Remove API Key
+
+1. Navigate to the `amplify/backend/api/<api-name>/parameters.json` file in your project.
+2. Add the following line to the file:
+
+  ```json title="amplify/backend/api/<api-name>/parameters.json"
+  {
+        "CreateAPIKey": 0
+  }
+  ```      
+  Ensure that a comma is placed after the previous line if this is added at the end of the JSON object.  
+
+## Step 2: Remove API Key from Lambda Function Attributes
+
+1. Open the `amplify/backend/backend-config.json` file.
+2. Locate any JSON attribute arrays that include `GraphQLAPIKeyOutput`.
+3. Modify the arrays by removing the `GraphQLAPIKeyOutput` entry. For example:
+
+    * Change this:
+
+      ```json title="amplify/backend/backend-config.json"
+      {
+        "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+        ]
+      }
+      ```
+
+    * To this:
+
+      ```json title="amplify/backend/backend-config.json"
+      {
+        "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+        ]
+      }
+      ```
+      Perform this change for each Lambda function that utilizes the API.
+
+
+## Step 3: Apply the Changes
+
+1. Push the changes to the cloud:
+
+  ```terminal
+  amplify push -y
+  ```
+  Once this process is complete, the API key should be removed from both the application and the associated Lambda functions.
+
+## Step 4: Restore the API Key
+
+1. Remove the `CreateAPIKey: 0` entry from `amplify/backend/api/<apiName>/parameters.json`.
+2. Push the changes to restore the API key to the application:
+
+  ```terminal
+  amplify push -y
+  ```
+  After this step, the API key should be restored to the application but will not be associated with the Lambda functions.
+
+
+## Step 5: Update Lambda Function Resources
+
+1. Use the following command to update each Lambda function that was previously associated with the API:
+
+  ```terminal
+  amplify update function
+  ```
+2. Follow the prompts to remove the API from the Lambda’s resources.
+3. Use the same command to restore the API to each Lambda function:
+
+  ```terminal
+  amplify update function
+  ```
+4. Finally, push the changes to apply them:
+
+  ```terminal
+  amplify push -y
+  ```
+  This should complete the process and resolve the "API Key Not Found" issue.

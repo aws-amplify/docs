@@ -1742,6 +1742,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/troubleshooting/apikey-not-found/index.mdx'
                     }
                   ]
                 }
