@@ -30,6 +30,12 @@ export function getStaticProps() {
 
 Microsoft Entra ID can be configured as a SAML provider for use with Amazon Cognito. Integrating Entra ID enables you to sign in with your existing enterprise users, and maintain profiles unique to the Amplify Auth resource for use within your Amplify app. To learn more, visit the [Azure documentation for SAML authentication with Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/architecture/auth-saml).
 
+<Callout info>
+
+**Note:** the following guidance showcases configuration with your [personal cloud sandbox](/[platform]/deploy-and-host/sandbox-environments/setup/). You will need to repeat the configuration steps for branch deployments after confirming functionality against your sandbox.
+
+</Callout>
+
 ## Start your personal cloud sandbox
 
 To get started, define your auth resource with the appropriate redirect URIs:
