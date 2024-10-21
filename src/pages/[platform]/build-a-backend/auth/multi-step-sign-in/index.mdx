@@ -1693,7 +1693,7 @@ func confirmSignIn(totpCode: String) -> AnyCancellable {
 </BlockSwitcher>
 
 ## Confirm signin with Email MFA
-If the next step is `confirmSignInWithEmailMFACode`, Amplify Auth has sent a random code to the user's email address, and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
+If the next step is `confirmSignInWithOTP`, Amplify Auth has sent a random code to the user's email address, and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
 Note: the signin result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial email address of the recipient.
 
