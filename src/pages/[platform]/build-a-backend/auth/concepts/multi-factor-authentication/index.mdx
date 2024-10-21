@@ -858,7 +858,7 @@ Additional pricing applies for ASF. [Learn more about Amazon Cognito pricing](ht
 
 You will need to pass `email` as a user attribute to enable email MFA for your users during sign-up. However, if the primary sign-in mechanism for your Cognito resource is already `email` (without enabling `username`), then you do not need to pass it as an attribute.
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 ```ts
 import { signUp } from 'aws-amplify/auth';
 
@@ -872,6 +872,84 @@ await signUp({
   },
 });
 ```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
+
+Amplify.Auth.signUp(
+    "username",
+    "Password123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build(),
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "my@email.com",
+    AuthUserAttributeKey.phoneNumber() to "+15551234567"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+Amplify.Auth.signUp("username", "Password123", options,
+    { Log.i("AuthQuickstart", "Sign up result = $it") },
+    { Log.e("AuthQuickstart", "Sign up failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "my@email.com",
+    AuthUserAttributeKey.phoneNumber() to "+15551234567"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+try {
+    val result = Amplify.Auth.signUp("username", "Password123", options)
+    Log.i("AuthQuickstart", "Sign up OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign up failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
+
+RxAmplify.Auth.signUp(
+    "username",
+    "Password123",
+    AuthSignUpOptions.builder().userAttributes(attributes).build())
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -923,7 +1001,7 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
 
 By default, you have to verify a user account after they sign up using the `confirmSignUp` API. Following the initial `signUp` request, a one-time passcode will be sent to the user's phone number or email, depending on your Amazon Cognito configuration.
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 ```ts
 import { confirmSignUp } from 'aws-amplify/auth';
 
@@ -932,6 +1010,74 @@ await confirmSignUp({
   confirmationCode: "123456",
 })
 ```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+ try {
+      Amplify.Auth.confirmSignUp(
+             "username",
+             "confirmation code",
+             result -> Log.i("AuthQuickstart", "Confirm signUp result completed: " + result.isSignUpComplete()),
+             error -> Log.e("AuthQuickstart", "An error occurred while confirming sign up: " + error)
+      );
+} catch (Exception error) {
+   Log.e("AuthQuickstart", "unexpected error: " + error);
+}
+```
+</Block>
+
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+ try {
+      Amplify.Auth.confirmSignUp(
+          "username",
+          "confirmation code",
+          { result ->
+              Log.i("AuthQuickstart", "Confirm signUp result completed: ${result.isSignUpComplete}")
+          }
+      ) { error ->
+          Log.e("AuthQuickstart", "An error occurred while confirming sign up: $error")
+      }
+} catch (error: Exception) {
+    Log.e("AuthQuickstart", "unexpected error: $error")
+}
+```
+</Block>
+
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+     val result = Amplify.Auth.confirmSignUp(
+         "username",
+         "confirmation code"
+     )
+     Log.i("AuthQuickstart", "Confirm signUp result completed: ${result.isSignUpComplete}")
+} catch (error: Exception) {
+   Log.e("AuthQuickstart", "unexpected error: $error")
+}
+```
+</Block>
+
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignUp(
+        "username",
+        "confirmation code").subscribe(
+        result -> Log.i("AuthQuickstart", "Confirm signUp result completed: " + result.isSignUpComplete()),
+        error -> Log.e("AuthQuickstart", "An error occurred while confirming sign up: " + error)
+);
+```
+</Block>
+
+</BlockSwitcher>
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -973,7 +1119,7 @@ After a user signs in, if they have MFA enabled for their account, a challenge w
 
 If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their email address.
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 ```ts
 import { confirmSignIn } from 'aws-amplify/auth';
 
@@ -981,6 +1127,101 @@ await confirmSignIn({
   challengeResponse: "123456"
 });
 ```
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+try {
+      Amplify.Auth.confirmSignIn(
+            "confirmation code",
+            result -> {
+                if (result.isSignedIn()) {
+                    Log.i("AuthQuickstart", "Confirm signIn succeeded");
+                } else {
+                    Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+                    // Switch on the next step to take appropriate actions.
+                    // If `signInResult.isSignedIn` is true, the next step
+                    // is 'done', and the user is now signed in.
+                }
+            },
+            error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+    );
+} catch (Exception error) {
+    Log.e("AuthQuickstart", "Unexpected error: " + error);
+}
+```
+</Block>
+
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+try {
+    Amplify.Auth.confirmSignIn(
+          "confirmation code",
+          { result ->
+              if (result.isSignedIn) {
+                  Log.i("AuthQuickstart","Confirm signIn succeeded")
+              } else {
+                  Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}")
+                  // Switch on the next step to take appropriate actions.
+                  // If `signInResult.isSignedIn` is true, the next step
+                  // is 'done', and the user is now signed in.
+              }
+          }
+    ) { error -> Log.e("AuthQuickstart", "Confirm sign in failed: $error")}
+} catch (error: Exception) {
+    Log.e("AuthQuickstart", "Unexpected error: $error")
+}
+```
+</Block>
+
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.confirmSignIn(
+        "confirmation code"
+    )
+    if (result.isSignedIn) {
+        Log.i("AuthQuickstart", "Confirm signIn succeeded")
+    } else {
+        Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}"
+        )
+        // Switch on the next step to take appropriate actions.
+        // If `signInResult.isSignedIn` is true, the next step
+        // is 'done', and the user is now signed in.
+    }
+} catch (error: Exception) {
+    Log.e("AuthQuickstart", "Unexpected error: $error")
+}
+```
+</Block>
+
+<Block name="RxJava">
+
+```java
+
+RxAmplify.Auth.confirmSignIn(
+                "confirmation code").subscribe(
+                result -> {
+                    if (result.isSignedIn()) {
+                        Log.i("AuthQuickstart", "Confirm signIn succeeded");
+                    } else {
+                        Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+                        // Switch on the next step to take appropriate actions.
+                        // If `signInResult.isSignedIn` is true, the next step
+                        // is 'done', and the user is now signed in.
+                    }
+                },
+                error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+        );
+```
+</Block>
+
+</BlockSwitcher>
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -1011,12 +1252,50 @@ func confirmSignIn() async {
 
 After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
 
 await updateMFAPreference({ email: 'PREFERRED' });
 ```
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+            AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+            plugin.updateMFAPreference(
+                    MfaPreference.DISABLED, // SMS Preference
+                    MfaPreference.DISABLED, // TOTP Preference
+                    MfaPreference.PREFERRED, // Email Preference
+                    () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
+                    e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
+            );
+        }
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin) {
+    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+    plugin.updateMFAPreference(
+            MfaPreference.DISABLED, // SMS Preference
+            MfaPreference.DISABLED, // TOTP Preference
+            MfaPreference.PREFERRED, // Email Preference
+        { Log.i("AuthQuickstart", "MFA preference updated successfully" ) },
+        { e: AuthException? -> Log.e("AuthQuickstart", "Failed to update MFA preference", e) }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -1051,12 +1330,44 @@ func updateMFAPreferences() async throws {
 
 Invoke the following API to get the current MFA preference and enabled MFA types, if any, for the current user.
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 ```ts
 import { fetchMFAPreference } from 'aws-amplify/auth';
 
 const { enabled, preferred } = await fetchMFAPreference();
 ```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.fetchMFAPreference(
+        preference -> Log.i(
+            "AuthQuickStart",
+            "Fetched MFA preference, enabled: " + preference.getEnabled() + ", preferred: " + preference.getPreferred()
+        ),
+        e -> Log.e("AuthQuickStart", "Failed to fetch MFA preference.", e)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+cognitoAuthPlugin?.fetchMFAPreference(
+    { Log.d("AuthQuickStart", "Fetched MFA preference, enabled: ${it.enabled}, preferred: ${it.preferred}") },
+    { Log.e("AuthQuickStart", "Failed to fetch MFA preference.", it) }
+)
+```
+
+</Block>
+</BlockSwitcher>
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
@@ -1095,12 +1406,48 @@ Only one MFA method can be marked as preferred at a time. If the user has multip
 
 </Callout>
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 ```ts
 import { updateMFAPreference } from 'aws-amplify/auth';
 
 await updateMFAPreference({ sms: 'ENABLED', totp: 'PREFERRED' });
 ```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.updateMFAPreference(
+        MFAPreference.DISABLED, // SMS Preference
+        MFAPreference.PREFERRED, // TOTP Preference
+        null // Email Preference
+        () -> Log.i( "AuthQuickStart", "Preference updated successfully"),
+        e -> Log.e("AuthQuickStart", "Failed to update MFA preference.", e)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+cognitoAuthPlugin?.updateMFAPreference(
+    MFAPreference.DISABLED, // SMS Preference
+    MFAPreference.PREFERRED, // TOTP Preference
+    null, // Email Preference
+    { Log.d("AuthQuickStart", "Preference updated successfully") },
+    { Log.e("AuthQuickStart", "Failed to update MFA preference.", it) }
+)
+```
+
+</Block>
+
+</BlockSwitcher>
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
