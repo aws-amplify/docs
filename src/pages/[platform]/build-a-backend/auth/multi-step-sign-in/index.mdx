@@ -1493,7 +1493,7 @@ func signIn(username: String, password: String) async {
             // Prompt the user to enter the TOTP code generated in their authenticator app
             // Then invoke `confirmSignIn` api with the code
 
-        case .confirmSignInWithEmailMFACode(let deliveryDetails, let info):
+        case .confirmSignInWithOTP(let deliveryDetails):
             print("Email code sent to \(deliveryDetails.destination)")
 
             // Prompt the user to enter the Email MFA code they received
