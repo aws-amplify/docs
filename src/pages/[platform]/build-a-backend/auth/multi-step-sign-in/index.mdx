@@ -1495,7 +1495,6 @@ func signIn(username: String, password: String) async {
 
         case .confirmSignInWithEmailMFACode(let deliveryDetails, let info):
             print("Email code sent to \(deliveryDetails.destination)")
-            print("Additional info \(String(describing: info))")
 
             // Prompt the user to enter the Email MFA code they received
             // Then invoke `confirmSignIn` api with the code
