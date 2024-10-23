@@ -253,7 +253,7 @@ func signIn(username: String, password: String) -> AnyCancellable {
 
 The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue"]}>
 | Next Step | Description |
 | --------- | ----------- |
 | `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` | The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`. |
@@ -268,7 +268,23 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 | `RESET_PASSWORD` | The user must reset their password via `resetPassword`. |
 | `CONFIRM_SIGN_UP` | The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`. |
 | `DONE` | The sign in process has been completed. |
+</InlineFilter>
 
+<InlineFilter filters={["android"]}>
+| Next Step | Description |
+| --------- | ----------- |
+| `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD` | The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` | The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_TOTP_CODE` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_OTP` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION` | The user must select their mode of MFA verification to setup. Complete the process by passing either `"EMAIL"` or `"TOTP"` to `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP` | The EMAIL setup process must be continued. Complete the process by passing a valid email address to `confirmSignIn`. |
+| `RESET_PASSWORD` | The user must reset their password via `resetPassword`. |
+| `CONFIRM_SIGN_UP` | The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`. |
+| `DONE` | The sign in process has been completed. |
 </InlineFilter>
 
 <InlineFilter filters={["swift", "flutter"]}>
@@ -549,7 +565,7 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
 
 ### Confirm sign-in
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue"]}>
 Following sign in, you will receive a `nextStep` in the sign-in result of one of the following types. Collect the user response and then pass to the `confirmSignIn` API to complete the sign in flow.
 | Next Step | Description |
 | --------- | ----------- |
@@ -560,6 +576,19 @@ Following sign in, you will receive a `nextStep` in the sign-in result of one of
 | `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION` | The user must select their mode of MFA verification to setup. Complete the process by passing either `"EMAIL"` or `"TOTP"` to `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_EMAIL_SETUP` | The EMAIL setup process must be continued. Complete the process by passing a valid email address to `confirmSignIn`. |
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+Following sign in, you will receive a `nextStep` in the sign-in result of one of the following types. Collect the user response and then pass to the `confirmSignIn` API to complete the sign in flow.
+| Next Step | Description |
+| --------- | ----------- |
+| `CONFIRM_SIGN_IN_WITH_TOTP_CODE` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_OTP` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION` | The user must select their mode of MFA verification to setup. Complete the process by passing either `"EMAIL"` or `"TOTP"` to `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP` | The EMAIL setup process must be continued. Complete the process by passing a valid email address to `confirmSignIn`. |
 </InlineFilter>
 
 <InlineFilter filters={["swift", "flutter"]}>

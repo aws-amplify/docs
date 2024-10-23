@@ -1143,7 +1143,7 @@ try {
                 } else {
                     Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
                     // Switch on the next step to take appropriate actions.
-                    // If `signInResult.isSignedIn` is true, the next step
+                    // If `result.isSignedIn` is true, the next step
                     // is 'done', and the user is now signed in.
                 }
             },
@@ -1167,7 +1167,7 @@ try {
               } else {
                   Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}")
                   // Switch on the next step to take appropriate actions.
-                  // If `signInResult.isSignedIn` is true, the next step
+                  // If `result.isSignedIn` is true, the next step
                   // is 'done', and the user is now signed in.
               }
           }
@@ -1191,7 +1191,7 @@ try {
         Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}"
         )
         // Switch on the next step to take appropriate actions.
-        // If `signInResult.isSignedIn` is true, the next step
+        // If `result.isSignedIn` is true, the next step
         // is 'done', and the user is now signed in.
     }
 } catch (error: Exception) {
@@ -1212,7 +1212,7 @@ RxAmplify.Auth.confirmSignIn(
                     } else {
                         Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
                         // Switch on the next step to take appropriate actions.
-                        // If `signInResult.isSignedIn` is true, the next step
+                        // If `result.isSignedIn` is true, the next step
                         // is 'done', and the user is now signed in.
                     }
                 },
@@ -1268,9 +1268,9 @@ await updateMFAPreference({ email: 'PREFERRED' });
 if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
             AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
             plugin.updateMFAPreference(
-                    MfaPreference.DISABLED, // SMS Preference
-                    MfaPreference.DISABLED, // TOTP Preference
-                    MfaPreference.PREFERRED, // Email Preference
+                    MFAPreference.DISABLED, // SMS Preference
+                    MFAPreference.DISABLED, // TOTP Preference
+                    MFAPreference.PREFERRED, // Email Preference
                     () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
                     e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
             );
@@ -1281,12 +1281,12 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
 <Block name="Kotlin">
 
 ```kotlin
-if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin) {
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") is AWSCognitoAuthPlugin) {
     val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
-    plugin.updateMFAPreference(
-            MfaPreference.DISABLED, // SMS Preference
-            MfaPreference.DISABLED, // TOTP Preference
-            MfaPreference.PREFERRED, // Email Preference
+    plugin?.updateMFAPreference(
+            MFAPreference.DISABLED, // SMS Preference
+            MFAPreference.DISABLED, // TOTP Preference
+            MFAPreference.PREFERRED, // Email Preference
         { Log.i("AuthQuickstart", "MFA preference updated successfully" ) },
         { e: AuthException? -> Log.e("AuthQuickstart", "Failed to update MFA preference", e) }
     )

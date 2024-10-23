@@ -590,10 +590,10 @@ try {
                           // Then invoke `confirmSignIn` api with the code
                           break;
                       }
-                      case CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE: {
-                          Log.i("AuthQuickstart", "Email code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
+                      case CONFIRM_SIGN_IN_WITH_OTP: {
+                          Log.i("AuthQuickstart", "OTP code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
                           Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
-                          // Prompt the user to enter the Email MFA code they received
+                          // Prompt the user to enter the OTP MFA code they received
                           // Then invoke `confirmSignIn` api with the code
                           break;
                       }
@@ -690,10 +690,10 @@ try {
                       // Prompt the user to enter the SMS MFA code they received
                       // Then invoke `confirmSignIn` api with the code
                   }
-                  AuthSignInStep.CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE -> {
-                      Log.i("AuthQuickstart", "Email code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
+                  AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP -> {
+                      Log.i("AuthQuickstart", "OTP code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
                       Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
-                      // Prompt the user to enter the Email MFA code they received
+                      // Prompt the user to enter the OTP MFA code they received
                       // Then invoke `confirmSignIn` api with the code
                   }
                   AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
@@ -784,6 +784,12 @@ try {
             Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
             Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
             // Prompt the user to enter the SMS MFA code they received
+            // Then invoke `confirmSignIn` api with the code
+        }
+        AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP -> {
+            Log.i("AuthQuickstart", "OTP code sent to ${nextStep.codeDeliveryDetails?.destination}")
+            Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
+            // Prompt the user to enter the OTP MFA code they received
             // Then invoke `confirmSignIn` api with the code
         }
         AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
@@ -877,10 +883,10 @@ RxAmplify.Auth.signIn("username", "password", options).subscribe(
                     // Then invoke `confirmSignIn` api with the code
                     break;
                 }
-                case CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE: {
-                    Log.i("AuthQuickstart", "Email code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
+                case CONFIRM_SIGN_IN_WITH_OTP: {
+                    Log.i("AuthQuickstart", "OTP code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
                     Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
-                    // Prompt the user to enter the Email MFA code they received
+                    // Prompt the user to enter the OTP MFA code they received
                     // Then invoke `confirmSignIn` api with the code
                     break;
                 }
@@ -1071,19 +1077,19 @@ If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awa
 ```java
 try {
     Amplify.Auth.confirmSignIn(
-            "challenge answer",
-            result -> {
-                if (result.isSignedIn()) {
-                    Log.i("AuthQuickstart", "Confirm signIn succeeded");
-                } else {
-                    Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
-                    // Switch on the next step to take appropriate actions.
-                    // If `signInResult.isSignedIn` is true, the next step
-                    // is 'done', and the user is now signed in.
-                }
-            },
-             error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
-      );
+        "challenge answer",
+        result -> {
+            if (result.isSignedIn()) {
+                Log.i("AuthQuickstart", "Confirm signIn succeeded");
+            } else {
+                Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+                // Switch on the next step to take appropriate actions.
+                // If `signInResult.isSignedIn` is true, the next step
+                // is 'done', and the user is now signed in.
+            }
+        },
+        error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+    );
 } catch (Exception error) {
     Log.e("AuthQuickstart", "Unexpected error: " + error);
 }
@@ -1095,21 +1101,21 @@ try {
 
 ```kotlin
 try {
-Amplify.Auth.confirmSignIn(
-          "challenge answer",
-          { result ->
-              if (result.isSignedIn) {
-                Log.i("AuthQuickstart","Confirm signIn succeeded")
-                } else {
-                    Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}")
-                    // Switch on the next step to take appropriate actions.
-                    // If `signInResult.isSignedIn` is true, the next step
-                    // is 'done', and the user is now signed in.
-                }
-          }
-      ) { error ->
-          Log.e("AuthQuickstart", "Confirm sign in failed: $error")
-      }
+    Amplify.Auth.confirmSignIn(
+        "challenge answer",
+        { result ->
+            if (result.isSignedIn) {
+              Log.i("AuthQuickstart","Confirm signIn succeeded")
+              } else {
+                  Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}")
+                  // Switch on the next step to take appropriate actions.
+                  // If `signInResult.isSignedIn` is true, the next step
+                  // is 'done', and the user is now signed in.
+              }
+        }
+    ) { error ->
+        Log.e("AuthQuickstart", "Confirm sign in failed: $error")
+    }
 } catch (error: Exception) {
     Log.e("AuthQuickstart", "Unexpected error: $error")
 }
@@ -1144,19 +1150,19 @@ try {
 ```java
 
 RxAmplify.Auth.confirmSignIn(
-                "challenge answer").subscribe(
-                result -> {
-                    if (result.isSignedIn()) {
-                        Log.i("AuthQuickstart", "Confirm signIn succeeded");
-                    } else {
-                        Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
-                        // Switch on the next step to take appropriate actions.
-                        // If `signInResult.isSignedIn` is true, the next step
-                        // is 'done', and the user is now signed in.
-                    }
-                },
-                error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
-        );
+    "challenge answer").subscribe(
+    result -> {
+        if (result.isSignedIn()) {
+            Log.i("AuthQuickstart", "Confirm signIn succeeded");
+        } else {
+            Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+            // Switch on the next step to take appropriate actions.
+            // If `signInResult.isSignedIn` is true, the next step
+            // is 'done', and the user is now signed in.
+        }
+    },
+    error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
 ```
 
 </Block>
