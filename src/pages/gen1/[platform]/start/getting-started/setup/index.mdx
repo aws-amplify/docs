@@ -223,6 +223,9 @@ cd amplify-app
 
 This tutorial is built using the [Next.js App Router](https://nextjs.org/docs/app/building-your-application/routing).
 
+**NOTE:** Amplify JS v6 supports Next.js with the version range: `>=13.5.0 <15.0.0`.
+Ensure you have the correct version to integrate with Amplify.
+
 </Callout>
 
 To set up the project, you'll first create a new Next.js app with [Create Next App](https://nextjs.org/docs/api-reference/create-next-app), a simple CLI tool that enables you to quickly start building a new Next.js application, with everything set up for you. You'll then add Amplify and initialize a new project.
@@ -233,12 +236,6 @@ From your projects directory, run the following commands:
 npm create next-app@14 -- next-amplified --ts --no-eslint --src-dir --import-alias '@/*' --no-tailwind --app
 cd next-amplified
 ```
-
-<Callout>
-
-**Note:** We currently support Next JS versions 13.5.0 up to 14.x. We are investigating support for later versions.
-
-</Callout>
 
 This command will bootstrap the project with the following options:
 
