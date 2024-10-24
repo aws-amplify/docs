@@ -44,33 +44,50 @@ To get started with Amazon SES in production, you must first [request production
 
 After you have configured your account for production access and have verified your _sender_ email, you can configure your Cognito user pool to send emails using the verified sender:
 
-```ts title="amplify/backend.ts"
-import { Stack } from "aws-cdk-lib/core"
-import { EmailIdentity } from "aws-cdk-lib/aws-ses"
-import { defineBackend } from "@aws-amplify/backend"
-import { auth } from "./auth/resource"
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
 
-const backend = defineBackend({
-  auth,
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/react/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  senders: {
+    email: {
+      // configure using the email registered and verified in Amazon SES
+      fromEmail: "registrations@example.com",
+    },
+  },
 })
-
-const { cfnUserPool } = backend.auth.resources.cfnResources
-const authStack = Stack.of(cfnUserPool)
-
-const email = EmailIdentity.fromEmailIdentityName(
-  authStack,
-  "EmailIdentity",
-  // your email configured for use in SES
-  process.env.EMAIL
-)
-
-cfnUserPool.emailConfiguration = {
-  emailSendingAccount: "DEVELOPER",
-  sourceArn: email.emailIdentityArn,
-}
 ```
 
-Now when emails are sent on new user sign-ups, password resets, etc., the sending account will be your verified email.
+Now when emails are sent on new user sign-ups, password resets, etc., the sending account will be your verified email! To customize further, you can change the display name of the sender, or optionally apply a custom address for your users to reply.
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/react/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  senders: {
+    email: {
+      fromEmail: "registrations@example.com",
+      // highlight-start
+      fromName: "MyApp",
+      replyTo: "inquiries@example.com"
+      // highlight-end
+    },
+  },
+})
+```
 
 ## SMS
 
