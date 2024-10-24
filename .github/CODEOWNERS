@@ -66,13 +66,13 @@
 /src/pages/[platform]/build-a-backend/add-aws-services/geo/ @hdworld11
 
 #Getting Started
-/src/fragments/start @aspittel
-/src/fragments/gen2/quickstart/ @aspittel
-/src/fragments/**/start/ @aspittel
-/src/fragments/**/project-setup @aspittel
-/src/pages/gen1/[platform]/prev/start/ @aspittel
-/src/pages/gen1/[platform]/start/ @aspittel
-/src/pages/[platform]/start/ @aspittel
+/src/fragments/start @aspittel @amplify-pms @developer-advocates
+/src/fragments/gen2/quickstart/ @aspittel @developer-advocates @amplify-pms
+/src/fragments/**/start/ @aspittel @developer-advocates @amplify-pms
+/src/fragments/**/project-setup @aspittel @developer-advocates @amplify-pms
+/src/pages/gen1/[platform]/prev/start/ @aspittel @developer-advocates @amplify-pms
+/src/pages/gen1/[platform]/start/ @aspittel @developer-advocates @amplify-pms
+/src/pages/[platform]/start/ @aspittel @developer-advocates @amplify-pms
 
 #GraphQL API
 /src/fragments/**/api-graphql @renebrandel
