@@ -1,0 +1,83 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Troubleshoot CDKToolkit stack issues',
+  description: 'Addressing issues with CDKToolkit stack',
+  platforms: [
+    "android",
+    'angular',
+    "flutter",
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    "swift",
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+AWS Amplify requires your AWS account and region to be _bootstrapped_ in order to deploy resources into your account. Amplify uses the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/) to scaffold backend resource configurations and orchestrate deployments by using the supplemental resources created by the process of bootstrapping.
+
+> _Bootstrapping_ is the process of preparing your AWS environment for usage with the AWS Cloud Development Kit (AWS CDK). Before you deploy a CDK stack into an AWS environment, the environment must first be bootstrapped.
+
+Learn more about bootstrapping by visiting the [AWS documentation for AWS CDK's concept of bootstrapping](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html).
+
+## Error bootstrapping account
+
+When deploying an Amplify app you may be redirected to the Amplify Console to complete bootstrapping for your current account ID and region. If this process encounters an error you will be prompted with the following message:
+
+```text title="Amplify Console" showLineNumbers={false}
+Error bootstrapping account in region “<your-aws-region>”. There is an issue with the CDKToolkit stack which must be resolved manually.
+```
+
+This typically indicates one or more of the resources within the `CDKToolkit` stack has failed to create or update. Navigate to the [AWS CloudFormation console](https://us-east-1.console.aws.amazon.com/cloudformation/home), select your `CDKToolkit` stack, and select the "Events" tab to view resource events. Here you may identify issues with the corresponding [assets bucket](https://docs.aws.amazon.com/cdk/v2/guide/assets.html) or issues with the IAM roles used for deployments.
+
+You can mitigate by manually updating your `CDKToolkit` stack using the browser-based [AWS CloudShell](https://aws.amazon.com/cloudshell/):
+
+```bash title="AWS CloudShell" showLineNumbers={false}
+cdk bootstrap aws://$(aws sts get-caller-identity --query Account --output text)/$AWS_REGION
+```
+
+Or by running `bootstrap` using the AWS CDK CLI from your terminal:
+
+```bash title="Terminal" showLineNumbers={false}
+npx aws-cdk@latest bootstrap aws://<your-aws-account-id>/<your-aws-region>
+```
+
+If you continue to experience this issue after applying the workaround noted above, please file an issue in the [GitHub repository for Amplify Backend](https://github.com/aws-amplify/amplify-backend).
+
+## Stack CDKToolkit already exists
+
+If you are deploying an Amplify app for the first time and have previously bootstrapped your AWS account to work with CDK, and you encounter the following error in the Amplify Console:
+
+```text title="Amplify Console" showLineNumbers={false}
+Build error!
+Stack [CDKToolkit] already exists
+```
+
+You can mitigate by manually updating your `CDKToolkit` stack using the browser-based [AWS CloudShell](https://aws.amazon.com/cloudshell/):
+
+```bash title="AWS CloudShell" showLineNumbers={false}
+cdk bootstrap aws://$(aws sts get-caller-identity --query Account --output text)/$AWS_REGION
+```
+
+Or by running `bootstrap` using the AWS CDK CLI from your terminal:
+
+```bash title="Terminal" showLineNumbers={false}
+npx aws-cdk@latest bootstrap aws://<your-aws-account-id>/<your-aws-region>
+```
+
+If you continue to experience this issue after applying the workaround noted above, please file an issue in the [GitHub repository for Amplify Backend](https://github.com/aws-amplify/amplify-backend).
