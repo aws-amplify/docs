@@ -105,7 +105,7 @@ Future<void> fetchAuthSession() async {
 }
 ```
 
-### Retrieving AWS credentials
+## Retrieving AWS credentials
 
 Sometimes it can be helpful to retrieve the instance of the underlying plugin which has more specific typing. In case of Cognito, calling `fetchAuthSession` on the Cognito plugin returns AWS-specific values such as the identity ID, AWS credentials, and Cognito User Pool tokens.
 

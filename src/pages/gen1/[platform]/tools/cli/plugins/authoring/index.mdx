@@ -34,13 +34,13 @@ export function getStaticProps(context) {
 
 The Amplify CLI provides the command `amplify plugin init` (with alias `amplify plugin new`) for the development of plugins. This command first collects requirements, and then creates the skeleton of the plugin package for you to start the development. The newly created plugin is added to your local Amplify CLI plugin platform, so you can conveniently test its functionalities while it is being developed. It can be easily removed from the local plugin platform with the `amplify plugin remove` command, and added back with the `amplify plugin add` command.
 
-### Step 1: Install Amplify CLI
+## Step 1: Install Amplify CLI
 
 import all0 from "/src/fragments/cli-install-block.mdx";
 
 <Fragments fragments={{all: all0}} />
 
-### Step 2: Initialize plugin
+## Step 2: Initialize plugin
 
 ```bash
 amplify plugin init
@@ -48,7 +48,7 @@ amplify plugin init
 
 You will be prompted to enter the plugin name, then select the plugin type, and event subscriptions. The CLI will then create a plugin package for you and add it to the local Amplify CLI plugin platform.
 
-### Step 3: Test your plugin
+## Step 3: Test your plugin
 
 The newly created plugin package is already added to the local Amplify CLI, so you can start testing it immediately.
 Let's say you have chosen to use the default plugin name: `my-amplify-plugin`
@@ -63,11 +63,11 @@ At this point, there are only two sub commands in the plugin package, `help` and
 
 From here, you can start to develop the plugin package. See below for the detailed explanation of the package structure.
 
-### Step 4: Publish to npm
+## Step 4: Publish to npm
 
 After the completion of one development cycle and you are ready to release your plugin to the public, you can publish it to the npm: [https://docs.npmjs.com/getting-started/publishing-npm-packages](https://docs.npmjs.com/getting-started/publishing-npm-packages)
 
-### Step 5: Install and Use
+## Step 5: Install and Use
 
 Once your plugin is published to the npm, other developers can install and use it
 
