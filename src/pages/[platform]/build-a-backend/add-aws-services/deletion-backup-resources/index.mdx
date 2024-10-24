@@ -159,3 +159,32 @@ plan.addSelection("BackupPlanSelection", {
 });
 // highlight-end
 ```
+
+## Retaining resources on stack deletion
+
+For example, if you would like to retain a resource on stack deletion, you can use the `applyRemovalPolicy` property on the resource to add a retention policy.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { RemovalPolicy } from "aws-cdk-lib";
+import { storage } from "./storage/resource";
+
+const backend = defineBackend({
+  auth,
+  data,
+  storage,
+});
+
+// highlight-start
+// Retain the S3 bucket on stack deletion
+backend.storage.resources.bucket.applyRemovalPolicy(RemovalPolicy.RETAIN);
+
+// Retain the Cognito user pool on stack deletion
+backend.auth.resources.userPool.applyRemovalPolicy(RemovalPolicy.RETAIN);
+
+// Retain the DynamoDB table on stack deletion
+backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"].applyRemovalPolicy(RemovalPolicy.RETAIN);
+// highlight-end
+```
