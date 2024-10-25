@@ -258,7 +258,7 @@ Future<void> _handleSignInResult(SignInResult result) async {
 
 // Then, pass the email address to `confirmSignIn`
 
-Future<void> confirmTotpUser(String emailAddress) async {
+Future<void> confirmEmailUser(String emailAddress) async {
   try {
     final result = await Amplify.Auth.confirmSignIn(
       confirmationValue: emailAddress,
