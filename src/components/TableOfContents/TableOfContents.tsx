@@ -1,11 +1,11 @@
 import { Flex, View, Link, Heading } from '@aws-amplify/ui-react';
 import { IconTOC } from '@/components/Icons';
-import { useContext } from 'react';
-import { LayoutContext } from '../Layout';
+
 export interface HeadingInterface {
   linkText: string;
   hash: string;
   level: string;
+  subheadings: Array<object>;
 }
 interface TableOfContents {
   headers?: HeadingInterface[];
@@ -13,15 +13,6 @@ interface TableOfContents {
 }
 
 export const TableOfContents = ({ headers, forDesktop }) => {
-  const { tocOpen, toggleTocOpen } = useContext(LayoutContext);
-
-  const onLinkClick = () => {
-    if (tocOpen) {
-      // Close the menu after clicking a link (applies to the mobile menu)
-      toggleTocOpen(false);
-    }
-  };
-
   const hideOnMobile = forDesktop ? 'desktop-toc' : '';
 
   return (
@@ -39,21 +30,57 @@ export const TableOfContents = ({ headers, forDesktop }) => {
       )}
       <View as="ul" className="toc-list">
         {headers.map(({ linkText, hash, level }, index) => {
-          return (
-            <View
-              as="li"
-              className={`toc-item toc-item--${level}`}
-              key={`toc-${index}`}
-            >
-              <Link
-                href={`#${hash}`}
-                className={`toc-item__link toc-item__link--${level}`}
-                onClick={onLinkClick}
+          if (headers[index].subheadings?.length === 0) {
+            return (
+              <View
+                as="li"
+                className={`toc-item toc-item--${level}`}
+                key={`toc-${index}`}
               >
-                {linkText}
-              </Link>
-            </View>
-          );
+                <Link
+                  href={`#${hash}`}
+                  className={`toc-item__link toc-item__link--${level}`}
+                >
+                  {linkText}
+                </Link>
+              </View>
+            );
+          } else {
+            return (
+              <View
+                as="li"
+                className={`toc-item toc-item--${level}`}
+                key={`toc-${index}`}
+              >
+                <Link
+                  href={`#${hash}`}
+                  className={`toc-item__link toc-item__link--${level}`}
+                >
+                  {linkText}
+                </Link>
+                <View as="ul" className="toc-list">
+                  {headers[index].subheadings?.map(
+                    ({ linkText, hash, level }, index) => {
+                      return (
+                        <View
+                          as="li"
+                          className={`toc-item toc-item--${level}`}
+                          key={`toc-${index}`}
+                        >
+                          <Link
+                            href={`#${hash}`}
+                            className={`toc-item__link toc-item__link--${level}`}
+                          >
+                            {linkText}
+                          </Link>
+                        </View>
+                      );
+                    }
+                  )}
+                </View>
+              </View>
+            );
+          }
         })}
       </View>
     </Flex>
