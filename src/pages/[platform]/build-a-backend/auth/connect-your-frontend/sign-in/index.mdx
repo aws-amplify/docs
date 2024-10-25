@@ -604,6 +604,19 @@ Following sign in, you will receive a `nextStep` in the sign-in result of one of
 | `continueSignInWithEmailMFASetup` | The EMAIL setup process must be continued. Complete the process by passing a valid email address to `confirmSignIn`. |
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+Following sign in, you will receive a `nextStep` in the sign-in result of one of the following types. Collect the user response and then pass to the `confirmSignIn` API to complete the sign in flow.
+| Next Step | Description |
+| --------- | ----------- |
+| `confirmSignInWithTotpMfaCode` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
+| `confirmSignInWithSmsMfaCode` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
+| `confirmSignInWithOtpCode` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
+| `continueSignInWithMfaSelection` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
+| `continueSignInWithMfaSetupSelection` | The user must select their mode of MFA verification to setup. Complete the process by passing either `"EMAIL"` or `"TOTP"` to `confirmSignIn`. |
+| `continueSignInWithTotpSetup` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
+| `continueSignInWithEmailMfaSetup` | The EMAIL setup process must be continued. Complete the process by passing a valid email address to `confirmSignIn`. |
+</InlineFilter>
+
 <InlineFilter filters={["android", "flutter", "react-native", "swift"]}>
 <Callout info>
 
