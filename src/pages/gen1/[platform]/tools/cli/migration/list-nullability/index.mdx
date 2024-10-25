@@ -29,7 +29,7 @@ export function getStaticProps(context) {
   };
 }
 
-### **What is changing?**
+## **What is changing?**
 
 Amplify CLI 5.1.2 has updated the codegen process to correctly set the optionality for types in models.
 
@@ -53,11 +53,11 @@ In this example, there are four fields with different combinations of optionalit
 
 > The list component in this example is a String type, however, this applies for other types as well such as Int, Bool, and embedded types that you define yourself.
 
-### **Why are we introducing this change?**
+## **Why are we introducing this change?**
 
 This is to align the optionality of the generated Swift models as closely as possible to the type defined in the schema.
 
-### **Who is impacted?**
+## **Who is impacted?**
 
 Developers building an iOS app with Amplify DataStore or Amplify API generates Swift models by running the command `amplify codegen models`.
 
@@ -92,11 +92,11 @@ The difference between the current and previous code:
 - `optionalElementRequiredList` - the list component was required and is now optional. The list was optional and is now required
 - `optionalElementOptionalList` - the list component was required and is now optional.
 
-### **When do I have to upgrade?**
+## **When do I have to upgrade?**
 
 This is behind a feature flag in Amplify CLI 5.1.2 and will be deprecated by November 1st, 2021. Developers with existing apps should upgrade to the latest CLI, set the feature flag, and update their app code or their schema (see recommendations following) to account for the change in optionality of the types. Developers building a new app will automatically generate code with the latest changes and no action is required.
 
-### **Where do I make these changes?**
+## **Where do I make these changes?**
 
 1. Update Amplify CLI to the latest version
 
