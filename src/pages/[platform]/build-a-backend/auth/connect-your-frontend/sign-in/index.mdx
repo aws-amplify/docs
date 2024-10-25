@@ -304,6 +304,23 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 | `done` | The sign in process has been completed. |
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+| Next Step | Description |
+| --------- | ----------- |
+| `confirmSignInWithNewPassword` | The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`. |
+| `confirmSignInWithCustomChallenge` | The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`. |
+| `confirmSignInWithTotpMfaCode` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
+| `confirmSignInWithSmsMfaCode` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
+| `confirmSignInWithOtpCode` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
+| `continueSignInWithMfaSelection` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
+| `continueSignInWithMfaSetupSelection` | The user must select their mode of MFA verification to setup. Complete the process by passing either `"EMAIL"` or `"TOTP"` to `confirmSignIn`. |
+| `continueSignInWithTotpSetup` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
+| `continueSignInWithEmailMfaSetup` | The EMAIL setup process must be continued. Complete the process by passing a valid email address to `confirmSignIn`. |
+| `resetPassword` | The user must reset their password via `resetPassword`. |
+| `confirmSignUp` | The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`. |
+| `done` | The sign in process has been completed. |
+</InlineFilter>
+
 For more information on handling the MFA steps that may be returned, see [multi-factor authentication](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/).
 
 <InlineFilter filters={["android"]}>
