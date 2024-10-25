@@ -40,6 +40,7 @@ export function NavMenuLink({
     return (
       <Link
         isExternal={true}
+        aria-label={label + ' (opens in new tab)'}
         className="navbar-menu-item"
         href={navMenuItem.url}
       >

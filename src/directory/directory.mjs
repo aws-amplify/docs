@@ -417,6 +417,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/s3-upload-confirmation/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/custom-auth-flows/index.mdx'
                     }
                   ]
                 },
@@ -796,10 +799,10 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager',
-              title: 'Storage Manager',
+                'https://ui.docs.amplify.aws/react/connected-components/storage/fileuploader',
+              title: 'File Uploader',
               description:
-                'Storage Manager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
+                'File Uploader is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
               platforms: ['javascript', 'nextjs', 'react']
             },
             {

@@ -1,6 +1,8 @@
 import { Button, ButtonProps } from '@aws-amplify/ui-react';
 import { IconExternalLink } from '../Icons';
 import { trackExternalLink } from '../../utils/track';
+import { useEffect, useRef } from 'react';
+import React from 'react';
 
 interface ExternalLinkButtonProps {
   variation?: ButtonProps['variation'];
@@ -21,6 +23,16 @@ export const ExternalLinkButton = ({
   children,
   className
 }: ExternalLinkButtonProps) => {
+  const [label, setLabel] = React.useState('');
+  const buttonRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (buttonRef.current) {
+      const text = buttonRef.current.innerText;
+      setLabel(text ? text : '');
+    }
+  }, []);
+
   return (
     <Button
       href={href}
@@ -32,9 +44,11 @@ export const ExternalLinkButton = ({
       as="a"
       align-items="center"
       className={className}
+      aria-label={label + ' (opens in new tab)'}
       onClick={() => {
         trackLink(href);
       }}
+      ref={buttonRef}
     >
       {children} <IconExternalLink />
     </Button>
