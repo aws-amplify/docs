@@ -169,6 +169,14 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/auth/examples/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/examples/microsoft-entra-id-saml/index.mdx'
+                    }
+                  ]
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
                 },
                 {
@@ -381,6 +389,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/streaming-logs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/add-lambda-layers/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/grant-access-to-other-resources/index.mdx'
@@ -678,6 +689,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/tagging-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
                 }
               ]
@@ -910,24 +924,7 @@ export const directory = {
               path: 'src/pages/[platform]/reference/iam-policy/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/reference/permissions-boundary/index.mdx'
-            },
-            {
               path: 'src/pages/[platform]/reference/telemetry/index.mdx'
-            },
-            {
-              isExternal: true,
-              route: 'https://aws-amplify.github.io/amplify-js/api/',
-              title: 'API Documentation',
-              description: 'API references and type definitions.',
-              platforms: [
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'angular',
-                'vue'
-              ]
             },
             {
               isExternal: true,

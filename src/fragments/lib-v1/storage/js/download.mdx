@@ -52,6 +52,8 @@ result.Body.text().then((string) => {
 });
 ```
 
+
+<InlineFilter filters={["react", "javascript", "nextjs", "angular", "vue"]}>
 You can programmatically download Blobs using JavaScript:
 
 ```js
@@ -77,6 +79,7 @@ async function download() {
   downloadBlob(result.Body, 'filename');
 }
 ```
+</InlineFilter>
 
 The full return signature of `Storage.get(key, { download: true })` looks like this:
 
