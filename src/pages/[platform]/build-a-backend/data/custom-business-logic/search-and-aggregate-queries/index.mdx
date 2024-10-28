@@ -116,6 +116,7 @@ Create an OpenSearch instance with encryption.
 ```ts title="amplify/backend.ts"
 // highlight-start
 import * as opensearch from 'aws-cdk-lib/aws-opensearchservice';
+import { RemovalPolicy } from "aws-cdk-lib";
 // highlight-end
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
@@ -148,6 +149,8 @@ const openSearchDomain = new opensearch.Domain(
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true
     }
@@ -155,6 +158,14 @@ const openSearchDomain = new opensearch.Domain(
 );
 // highlight-end
 ```
+<Callout warning>
+
+**Important considerations:**
+
+We recommend configuring the `removalPolicy` to destroy resources for sandbox environments. By default, OpenSearch instances are not deleted when you run `npx ampx sandbox delete`, as the default removal policy for stateful resources is set to retain the resource.
+
+</Callout>
+
 
 ## Step 3: Setting Up Zero ETL from DynamoDB to OpenSearch
 
@@ -181,6 +192,7 @@ Get the `s3BucketArn` and `s3BucketName` values from storage resource as shown b
 ```ts title="amplify/backend.ts"
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { RemovalPolicy } from "aws-cdk-lib";
 // highlight-next-line
 import * as iam from "aws-cdk-lib/aws-iam";
 import { defineBackend } from "@aws-amplify/backend";
@@ -220,6 +232,8 @@ const openSearchDomain = new opensearch.Domain(
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
     },
@@ -307,6 +321,7 @@ Customize the `template_content` JSON-representation to define the data structur
 ```ts title="amplify/backend.ts"
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { RemovalPolicy } from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
@@ -342,6 +357,8 @@ const openSearchDomain = new opensearch.Domain(
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
     },
@@ -444,6 +461,7 @@ The configuration is a data-prepper feature of OpenSearch. For specific document
 ```ts title="amplify/backend.ts"
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { RemovalPolicy } from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
@@ -479,6 +497,8 @@ const openSearchDomain = new opensearch.Domain(
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,  
     encryptionAtRest: {
       enabled: true,
     },
@@ -636,6 +656,7 @@ Now, create the OSIS pipeline resource:
 ```ts title="amplify/backend.ts"
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { RemovalPolicy } from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
 // highlight-start
 import * as osis from "aws-cdk-lib/aws-osis";
@@ -676,6 +697,8 @@ const openSearchDomain = new opensearch.Domain(
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
     },
