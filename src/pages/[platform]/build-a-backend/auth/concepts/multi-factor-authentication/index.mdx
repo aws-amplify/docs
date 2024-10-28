@@ -78,9 +78,12 @@ When enabling MFA you will have two key decisions to make:
 </Accordion>
 
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue", "android"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue", "android"]}>
 If multiple MFA methods are enabled for the user, the `signIn` API will return `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
 
+</InlineFilter>
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react-native", "react", "vue"]}>
 ```ts
 import { confirmSignIn, SignInOutput } from 'aws-amplify/auth';
 
