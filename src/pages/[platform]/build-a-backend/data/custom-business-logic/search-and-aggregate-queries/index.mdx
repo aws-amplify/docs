@@ -231,8 +231,8 @@ const openSearchDomain = new opensearch.Domain(
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
     nodeToNodeEncryption: true,
-    // set removalPolicy to DESTROY for sandbox environemnt
-    // removalPolicy: RemovalPolicy.DESTROY,
+    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
     },
