@@ -111,13 +111,15 @@ function handleSignInNextSteps(output: SignInOutput) {
   }
 }
 
+type MfaType = 'SMS' | 'TOTP' | 'EMAIL';
+
 function promptUserForMFAType(
-  allowedMFATypes?: ('SMS' | 'TOTP' | 'EMAIL')[]
-): 'SMS' | 'TOTP' | 'EMAIL' {
+  allowedMFATypes?: MfaType[]
+): MfaType {
   // Prompt user to select MFA type
 }
 
-async function handleMFASelection(mfaType: 'SMS' | 'TOTP' | 'EMAIL') {
+async function handleMFASelection(mfaType: MfaType) {
   try {
     const output = await confirmSignIn({
       challengeResponse: mfaType
