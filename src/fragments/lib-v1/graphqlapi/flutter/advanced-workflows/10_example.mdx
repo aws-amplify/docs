@@ -1,8 +1,0 @@
-```dart
-Future<void> createAndMutateTodo() async {
-  final todo = Todo(name: 'my first todo', description: 'todo description');
-  final request = ModelMutations.create(todo);
-  final response = await Amplify.API.mutate(request: request).response;
-  safePrint('Response: $response');
-}
-```

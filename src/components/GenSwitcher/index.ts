@@ -1,1 +1,0 @@
-export { GenSwitcher } from './GenSwitcher';

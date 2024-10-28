@@ -1,1 +1,0 @@
-export { ColorModeSwitcher } from './ColorModeSwitcher';

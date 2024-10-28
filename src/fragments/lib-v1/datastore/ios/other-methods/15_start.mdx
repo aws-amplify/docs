@@ -1,1 +1,0 @@
-Synchronization starts automatically whenever you run any DataStore operation (`query()`, `save()`, `delete()`, `publisher()`.) You can also explicitly begin the process with `DataStore.start()`:

@@ -1,1 +1,0 @@
-export { SpaceShip } from './SpaceShip';
