@@ -89,45 +89,43 @@ If multiple MFA methods are enabled for the user, the `signIn` API will return `
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react-native", "react", "vue"]}>
 ```ts
-import { confirmSignIn, SignInOutput } from 'aws-amplify/auth';
+import { confirmSignIn, type SignInOutput } from 'aws-amplify/auth';
 
 function handleSignInNextSteps(output: SignInOutput) {
-  const { nextStep } = output;
-  switch (nextStep.signInStep) {
-    // ...
-    case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
-      const allowedMFATypes = nextStep.allowedMFATypes;
-      const mfaType = promptUserForMFAType(allowedMFATypes);
-    case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
-      // prompt user to enter otp code delivered via SMS
-      break;
-    case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
-      // prompt user to enter otp code from their authenticator app
-      break;
-    case 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE':
-      // prompt user to enter otp code delivered via EMAIL
-      break;
-    // ...
-  }
+	const { nextStep } = output;
+	switch (nextStep.signInStep) {
+		// ...
+		case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
+			const allowedMFATypes = nextStep.allowedMFATypes;
+			const mfaType = promptUserForMFAType(allowedMFATypes);
+		case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
+			// prompt user to enter otp code delivered via SMS
+			break;
+		case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
+			// prompt user to enter otp code from their authenticator app
+			break;
+		case 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE':
+			// prompt user to enter otp code delivered via EMAIL
+			break;
+		// ...
+	}
 }
 
 type MfaType = 'SMS' | 'TOTP' | 'EMAIL';
 
-function promptUserForMFAType(
-  allowedMFATypes?: MfaType[]
-): MfaType {
-  // Prompt user to select MFA type
+function promptUserForMFAType(allowedMFATypes?: MfaType[]): MfaType {
+	// Prompt user to select MFA type
 }
 
 async function handleMFASelection(mfaType: MfaType) {
-  try {
-    const output = await confirmSignIn({
-      challengeResponse: mfaType
-    });
-    handleSignInNextSteps(output);
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		const output = await confirmSignIn({
+			challengeResponse: mfaType,
+		});
+		handleSignInNextSteps(output);
+	} catch (error) {
+		console.log(error);
+	}
 }
 ```
 </InlineFilter>
