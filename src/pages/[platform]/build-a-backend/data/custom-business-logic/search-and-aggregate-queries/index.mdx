@@ -157,12 +157,11 @@ const openSearchDomain = new opensearch.Domain(
 );
 // highlight-end
 ```
-<Callout>
+<Callout warning>
 
-Important considerations:
+**Important considerations:**
 
-We recommend enabling the `removalPolicy` for sandbox environments.
-By default, OpenSearch instances are not deleted when you run `npx ampx delete`, as the default removal policy is set to retain the resource.
+We recommend configuring the `removalPolicy` to destroy resources for sandbox environments. By default, OpenSearch instances are not deleted when you run `npx ampx sandbox delete`, as the default removal policy for stateful resources is set to retain the resource.
 
 </Callout>
 
