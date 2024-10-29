@@ -130,6 +130,40 @@ async function handleMFASelection(mfaType: MfaType) {
 ```
 </InlineFilter>
 
+<InlineFilter filters={["android"]}>
+```kotlin
+fun signIn(username: String, password: String) {
+    val result: AuthSignInResult
+    try {
+        result = Amplify.Auth.signIn(username, password)
+    } catch (e: AuthException) {
+        Log.e("MFASelection", "Failed to sign in", e)
+    }
+    handleNextSignInStep(username, result.nextStep)
+}
+
+fun handleNextSignInStep(
+    username: String,
+    nextStep: AuthNextSignInStep
+) {
+    when (nextStep.signInStep) {
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
+            // User has multiple MFA methods and none are preferred
+            promptUserForMfaType(nextStep.allowedMFATypes)
+        }
+        else -> {
+            // Handle other SignInSteps
+        }
+    }
+}
+
+fun promptUserForMfaType(mfaTypes: Set<MFAType>?) {
+    // Prompt user to select one of the passed-in MFA Types
+    // Then invoke Amplify.Auth.confirmSignIn(selectedMfaType.challengeResponse)
+}
+```
+</InlineFilter>
+
 <InlineFilter filters={["swift", "flutter"]}>
 If multiple MFA methods are enabled for the user, and none are set as preferred, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
 </InlineFilter>
