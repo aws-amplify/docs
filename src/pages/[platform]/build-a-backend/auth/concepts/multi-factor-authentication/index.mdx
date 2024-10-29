@@ -854,6 +854,7 @@ Once you have setup email as your second layer of authentication with MFA as sho
 In order to send email authentication codes, the following prerequisites must be met:
 - Cognito must be configured to send emails using [Amazon Simple Email Service (Amazon SES)](/[platform]/build-a-backend/auth/moving-to-production/#email).
 - [Advanced Security Features (ASF)](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html) must be enabled in your user pool.
+- If account recovery is enabled in Cognito, the delivery method for recovery messages cannot be set to `Email only`
 </Callout>
 
 
