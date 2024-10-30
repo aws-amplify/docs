@@ -1,0 +1,100 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect to AWS AppSync Events',
+  description:
+    'Connect to AWS AppSync Events',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide walks through how you can connect to AWS AppSync Events using the Amplify library.
+
+AWS AppSync Events lets you create secure and performant serverless WebSocket APIs that can broadcast real-time event data to millions of subscribers, without you having to manage connections or resource scaling. With AWS AppSync Events, there is no API code required to get started, so you can create production-ready real-time web and mobile experiences in minutes.
+
+Learn more about AWS AppSync Events by visiting the [Developer Guide](https://docs.aws.amazon.com/appsync/latest/eventapi/event-api-welcome.html).
+
+## Quickstart
+### Connect to an Event API without an existing Amplify application
+
+Before you begin, you will need:
+
+- An Event API created via the AWS Console, CDK, CLI, etc.
+- Take note of: HTTP endpoint, region, API Key
+
+```ts
+import { useState, useEffect } from 'react';
+import { Amplify } from 'aws-amplify';
+import { events } from 'aws-amplify/data';
+
+Amplify.configure({
+  API: {
+    Events: {
+      endpoint: 'https://abcdefghijklmnopqrstuvwxyz.appsync-api.us-east-1.amazonaws.com/event',
+      region: 'us-east-1',
+      defaultAuthMode: 'apiKey',
+      apiKey: 'da2-abcdefghijklmnopqrstuvwxyz',
+    },
+  },
+});
+
+export default function MyComponent() {
+  const [events, setEvents] = useState<any[]>([]);
+
+  useEffect(() => {
+    let channel;
+
+    const connectAndSubscribe = async () => {
+      channel = await events.connect('default/channel');
+
+      channel.subscribe({
+        next: (data) => {
+          console.log('received', data);
+          setEvents(prev => [data, ...prev]);
+        },
+        error: (err) => console.error('error', err),
+      });
+    }
+
+    connectAndSubscribe();
+
+    return () => channel && channel.close();
+  }, []);
+
+  async function publishEvent() {
+    await events.post("default/channel", {some: 'data'});
+  }
+
+  return (
+    <button onClick={publishEvent}>Publish Event</button>
+    <ul>
+      {events.map((event) => (
+        <li>{JSON.stringify(event)}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## Connect an Event API to an existing Amplify application
+
+Coming Soon

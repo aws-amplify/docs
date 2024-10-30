@@ -321,6 +321,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/data/optimistic-ui/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/data/connect-event-api/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
                 },
                 {
