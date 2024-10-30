@@ -56,6 +56,8 @@ export const auth = defineAuth({
 
 <Callout info>
 Email-based MFA is currently not supported with `defineAuth`. We are working towards supporting this feature. For more information, visit the [feature request in GitHub](https://github.com/aws-amplify/amplify-backend/issues/2159).
+
+To take advantage of this feature with an Amplify generated backend, the underlying CDK construct can be extended manually. See [overriding Cognito User Pool multi-factor authentication options](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#override-cognito-userpool-multi-factor-authentication-options) for more information.
 </Callout>
 
 When MFA is `REQUIRED` with SMS in your backend auth resource, you will need to pass the phone number during sign-up API call. If you are using the `email` or `username` as the primary sign-in mechanism, you will need to pass the `phone_number` attribute as a user attribute. 
