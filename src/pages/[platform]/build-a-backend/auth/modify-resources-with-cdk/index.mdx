@@ -89,10 +89,9 @@ export const auth = defineAuth({
   },
 })
 ```
-Next, extend the underlying CDK construct by activating Advanced Security Mode and adding `EMAIL_OTP` to the enabled MFA options.
+Next, extend the underlying CDK construct by activating [Amazon Cognito's Advanced Security Features (ASF)](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html) and add `EMAIL_OTP` to the enabled MFA options.
 
 ```ts title="amplify/backend.ts"
-
 import { defineBackend } from "@aws-amplify/backend"
 import { auth } from "./auth/resource"
 
