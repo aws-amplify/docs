@@ -355,7 +355,7 @@ async function handleMfaSelection(mfaType: MfaType) {
 
 ## Confirm signin with custom challenge
 
-If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user).
+If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a custom sign in flow.
 
 For example, your custom challenge Lambda may pass a prompt to the frontend which requires the user to enter a secret code.
 
