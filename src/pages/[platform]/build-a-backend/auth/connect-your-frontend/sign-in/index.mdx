@@ -253,7 +253,7 @@ func signIn(username: String, password: String) -> AnyCancellable {
 
 The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "react", "react-native", "nextjs", "vue"]}>
 | Next Step | Description |
 | --------- | ----------- |
 | `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` | The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`. |
@@ -582,7 +582,7 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
 
 ### Confirm sign-in
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "react", "react-native", "nextjs", "vue"]}>
 Following sign in, you will receive a `nextStep` in the sign-in result of one of the following types. Collect the user response and then pass to the `confirmSignIn` API to complete the sign in flow.
 | Next Step | Description |
 | --------- | ----------- |
