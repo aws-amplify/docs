@@ -49,41 +49,42 @@ import { events } from 'aws-amplify/data';
 Amplify.configure({
   API: {
     Events: {
-      endpoint: 'https://abcdefghijklmnopqrstuvwxyz.appsync-api.us-east-1.amazonaws.com/event',
+      endpoint:
+        'https://abcdefghijklmnopqrstuvwxyz.appsync-api.us-east-1.amazonaws.com/event',
       region: 'us-east-1',
       defaultAuthMode: 'apiKey',
-      apiKey: 'da2-abcdefghijklmnopqrstuvwxyz',
-    },
-  },
+      apiKey: 'da2-abcdefghijklmnopqrstuvwxyz'
+    }
+  }
 });
 
 export default function App() {
-  const [myEvents, mySetEvents] = useState<unknown[]>([])
+  const [myEvents, mySetEvents] = useState<unknown[]>([]);
 
   useEffect(() => {
-    let channel: EventsChannel
-    console.log("use effect running")
+    let channel: EventsChannel;
+    console.log('use effect running');
 
     const connectAndSubscribe = async () => {
-      channel = await events.connect("default/channel")
+      channel = await events.connect('default/channel');
 
       channel.subscribe({
         next: (data) => {
-          console.log("received", data)
-          mySetEvents((prev) => [data, ...prev])
+          console.log('received', data);
+          mySetEvents((prev) => [data, ...prev]);
         },
-        error: (err) => console.error("error", err),
-      })
-    }
+        error: (err) => console.error('error', err)
+      });
+    };
 
-    connectAndSubscribe()
+    connectAndSubscribe();
 
-    return () => channel && channel.close()
-  }, [])
+    return () => channel && channel.close();
+  }, []);
 
   async function publishEvent() {
-    console.log("publishing ")
-    await events.post("default/channel", { some: "data" })
+    console.log('publishing ');
+    await events.post('default/channel', { some: 'data' });
   }
 
   return (
@@ -95,7 +96,7 @@ export default function App() {
         ))}
       </ul>
     </>
-  )
+  );
 }
 ```
 
