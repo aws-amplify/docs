@@ -63,7 +63,6 @@ export default function App() {
 
   useEffect(() => {
     let channel: EventsChannel;
-    console.log('use effect running');
 
     const connectAndSubscribe = async () => {
       channel = await events.connect('default/channel');
