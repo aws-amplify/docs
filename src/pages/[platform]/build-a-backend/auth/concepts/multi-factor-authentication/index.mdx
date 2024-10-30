@@ -195,7 +195,7 @@ Future<void> _handleMfaSelection(MfaType selection) async {
     );
     return _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint('Error resending code: ${e.message}');
+    safePrint('Error sending MFA selection: ${e.message}');
   }
 }
 ```
@@ -1007,8 +1007,8 @@ Future<void> signUpWithEmailVerification(
     password: password,
     options: SignUpOptions(
       userAttributes: <AuthUserAttributeKey, String>{
-        // ... if required
         AuthUserAttributeKey.email: 'test@example.com',
+        // ... if required
         AuthUserAttributeKey.phoneNumber: '+18885551234',
       },
     ),

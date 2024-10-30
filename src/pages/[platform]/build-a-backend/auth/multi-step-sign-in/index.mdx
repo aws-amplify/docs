@@ -573,7 +573,7 @@ Future<void> _handleSignInResult(SignInResult result) async {
       // Handle select from MFA methods available to setup
     case AuthSignInStep.continueSignInWithEmailMfaSetup:
       // Handle email setup case
-    case AuthSignInStep.confirmSignInWithEmailMfaCode:
+    case AuthSignInStep.confirmSignInWithOtpCode:
       // Handle email MFA case
     case AuthSignInStep.continueSignInWithTotpSetup:
       // Handle TOTP setup case
@@ -669,7 +669,7 @@ Future<void> confirmTotpUser(String totpCode) async {
 
 ## Confirm signin with Email MFA
 
-If the next step is `confirmSignInWithEmailMfaCode`, Amplify Auth has sent the user a random code to their email address and is waiting for the user to verify that code. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
+If the next step is `confirmSignInWithOtpCode`, Amplify Auth has sent the user a random code to their email address and is waiting for the user to verify that code. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
 
 <Callout>
 
@@ -681,7 +681,7 @@ the recipient, which can be used to prompt the user on where to look for the cod
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
   switch (result.nextStep.signInStep) {
-    case AuthSignInStep.confirmSignInWithEmailMfaCode:
+    case AuthSignInStep.confirmSignInWithOtpCode:
       final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
       _handleCodeDelivery(codeDeliveryDetails);
     // ...
