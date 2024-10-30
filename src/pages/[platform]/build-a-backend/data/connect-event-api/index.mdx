@@ -59,7 +59,7 @@ Amplify.configure({
 });
 
 export default function App() {
-  const [myEvents, mySetEvents] = useState<unknown[]>([]);
+  const [myEvents, setMyEvents] = useState<unknown[]>([]);
 
   useEffect(() => {
     let channel: EventsChannel;
