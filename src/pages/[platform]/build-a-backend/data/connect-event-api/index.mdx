@@ -70,7 +70,7 @@ export default function App() {
       channel.subscribe({
         next: (data) => {
           console.log('received', data);
-          mySetEvents((prev) => [data, ...prev]);
+          setMyEvents((prev) => [data, ...prev]);
         },
         error: (err) => console.error('error', err)
       });
