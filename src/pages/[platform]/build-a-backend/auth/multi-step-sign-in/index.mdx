@@ -1547,6 +1547,7 @@ If the next step is `CONFIRM_SIGN_IN_WITH_TOTP_CODE`, you should prompt the user
 
 After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
+
 ## Confirm signin with Email MFA
 
 If the next step is `CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE`, Amplify Auth has sent the user a random code to their email address and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
@@ -1570,7 +1571,6 @@ Once the authenticator app is set up, the user can generate a TOTP code and prov
 ## Continue signin with MFA Setup Selection
 
 If the next step is `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION`, the user must select the MFA method to setup. Amplify Auth currently supports SMS, TOTP, and email as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
-
 
 ## Confirm signin with custom challenge
 
@@ -2203,6 +2203,7 @@ func confirmSignIn(totpCode: String) -> AnyCancellable {
 
 </BlockSwitcher>
 
+
 ## Confirm signin with Email MFA
 If the next step is `confirmSignInWithOTP`, Amplify Auth has sent a random code to the user's email address, and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
@@ -2399,7 +2400,6 @@ func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) -> AnyCanc
 </Block>
 
 </BlockSwitcher>
-
 
 ## Continue signin with MFA Setup Selection
 

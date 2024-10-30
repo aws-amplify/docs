@@ -800,8 +800,7 @@ You can use `.fromOutputs(name:)` to provide a string representing the target bu
 
 ```swift
 let listResult = try await Amplify.Storage.list(
-    path: .fromString("public/example/path/myFile.txt"),
-    local: fileUrl,
+    path: .fromString("public/photos/"),
     options: .init(
         bucket: .fromOutputs(name: "secondBucket")
     )
@@ -814,8 +813,7 @@ You can also use `.fromBucketInfo(_:)` to provide a bucket name and region direc
 
 ```swift
 let listResult = try await Amplify.Storage.list(
-    path: .fromString("public/example/path/myFile.txt"),
-    local: fileUrl,
+    path: .fromString("public/photos/"),
     options: .init(
         bucket: .fromBucketInfo(.init(
             bucketName: "another-bucket-name",
