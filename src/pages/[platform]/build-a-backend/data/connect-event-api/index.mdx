@@ -82,7 +82,6 @@ export default function App() {
   }, []);
 
   async function publishEvent() {
-    console.log('publishing ');
     await events.post('default/channel', { some: 'data' });
   }
 
