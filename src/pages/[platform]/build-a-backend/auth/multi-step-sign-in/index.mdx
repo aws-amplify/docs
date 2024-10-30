@@ -4,7 +4,7 @@ export const meta = {
   title: 'Multi-step sign-in',
   description:
     'Use Amazon Cognito Auth plugin to complete a multi step authentication flow',
-  platforms: ['android', 'swift', 'flutter']
+  platforms: ['android', 'swift', 'flutter', 'react', 'nextjs', 'javascript', 'react-native', 'vue', 'angular']
 };
 
 export const getStaticPaths = async () => {
@@ -19,6 +19,512 @@ export function getStaticProps(context) {
     }
   };
 }
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi-step processes. The required steps are determined by the configuration provided when you define your auth resources. See the [multi-factor authentication](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) page for more information.
+
+Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter of the signin result.
+
+```typescript
+import {
+	confirmSignIn,
+	confirmSignUp,
+	resetPassword,
+	signIn,
+} from 'aws-amplify/auth';
+
+const { nextStep } = await signIn({
+	username: 'hello@mycompany.com',
+	password: 'hunter2',
+});
+
+if (
+	nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE' ||
+	nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE' ||
+	nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'
+) {
+	// collect OTP from user
+	await confirmSignIn({
+		challengeResponse: '123456',
+	});
+}
+
+if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION') {
+	// present nextStep.allowedMFATypes to user
+	// collect user selection
+	await confirmSignIn({
+		challengeResponse: 'EMAIL', // 'EMAIL', 'SMS', or 'TOTP'
+	});
+}
+
+if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION') {
+	// present nextStep.allowedMFATypes to user
+	// collect user selection
+	await confirmSignIn({
+		challengeResponse: 'EMAIL', // 'EMAIL' or 'TOTP'
+	});
+}
+
+if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_EMAIL_SETUP') {
+	// collect email address from user
+	await confirmSignIn({
+		challengeResponse: 'hello@mycompany.com',
+	});
+}
+
+if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP') {
+	// present nextStep.totpSetupDetails.getSetupUri() to user
+	// collect OTP from user
+	await confirmSignIn({
+		challengeResponse: '123456',
+	});
+}
+
+if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
+	// collect custom challenge answer from user
+	await confirmSignIn({
+		challengeResponse: 'custom-challenge-answer',
+	});
+}
+
+if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED') {
+	// collect new password from user
+	await confirmSignIn({
+		challengeResponse: 'new-password',
+	});
+}
+
+if (nextStep.signInStep === 'RESET_PASSWORD') {
+	// initiate reset password flow
+	await resetPassword({
+		username: 'username',
+	});
+}
+
+if (nextStep.signInStep === 'CONFIRM_SIGN_UP') {
+	// user was not confirmed during sign up process
+	// if user has confirmation code, invoke `confirmSignUp` api
+	// otherwise, invoke `resendSignUpCode` to resend the code
+	await confirmSignUp({
+		username: 'username',
+		confirmationCode: '123456',
+	});
+}
+
+if (nextStep.signInStep === 'DONE') {
+	// signin complete
+}
+```
+
+## Confirm signin with SMS MFA
+
+If the next step is `CONFIRM_SIGN_IN_WITH_SMS_CODE`, Amplify Auth has sent the user a random code over SMS and is waiting for the user to verify that code. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
+
+<Callout>
+
+The result includes `codeDeliveryDetails` with additional information about the code delivery, such as the partial phone number of the SMS recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONFIRM_SIGN_IN_WITH_SMS_CODE': {
+			const { codeDeliveryDetails } = result.nextStep;
+			// OTP has been delivered to user via SMS
+			// Inspect codeDeliveryDetails for additional delivery information
+			console.log(
+				`A confirmation code has been sent to ${codeDeliveryDetails?.destination}`,
+			);
+			console.log(
+				`Please check your ${codeDeliveryDetails?.deliveryMedium} for the code.`,
+			);
+			break;
+		}
+	}
+}
+
+```
+
+```ts
+async function confirmMfaCode(mfaCode: string) {
+	const result = await confirmSignIn({ challengeResponse: mfaCode });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Confirm signin with TOTP MFA
+
+If the next step is `CONFIRM_SIGN_IN_WITH_TOTP_CODE`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
+
+After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
+
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE': {
+			// Prompt user to open their authenticator app to retrieve the code
+			console.log(
+				`Enter a one-time code from your registered authenticator app`,
+			);
+			break;
+		}
+	}
+}
+// Then, pass the TOTP code to `confirmSignIn`
+async function confirmTotpCode(totpCode: string) {
+	const result = await confirmSignIn({ challengeResponse: totpCode });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Confirm signin with Email MFA
+
+If the next step is `CONFIRM_SIGN_IN_WITH_EMAIL_CODE`, Amplify Auth has sent the user a random code to their email address and is waiting for the user to verify that code. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
+
+<Callout>
+
+The result includes `codeDeliveryDetails` with additional information about the code delivery, such as the partial email address of the recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE': {
+			const { codeDeliveryDetails } = result.nextStep;
+			// OTP has been delivered to user via Email
+			// Inspect codeDeliveryDetails for additional delivery information
+			console.log(
+				`A confirmation code has been sent to ${codeDeliveryDetails?.destination}`,
+			);
+			console.log(
+				`Please check your ${codeDeliveryDetails?.deliveryMedium} for the code.`,
+			);
+			break;
+		}
+	}
+}
+
+```
+
+```ts
+async function confirmMfaCode(mfaCode: string) {
+	const result = await confirmSignIn({ challengeResponse: mfaCode });
+
+	return handleSignInResult(result);
+}
+
+```
+
+
+## Continue signin with MFA Selection
+
+If the next step is `CONTINUE_SIGN_IN_WITH_MFA_SELECTION`, the user must select the MFA method to use. Amplify Auth currently supports SMS, TOTP, and EMAIL as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+
+The MFA types which are currently supported by Amplify Auth are:
+
+- `SMS`
+- `TOTP`
+- `EMAIL`
+
+Once Amplify receives the users selection, you can expect to handle a follow up `nextStep` corresponding with the selected MFA type for setup:
+- If `SMS` is selected, `CONFIRM_SIGN_IN_WITH_SMS_CODE` will be the next step.
+- If `TOTP` is selected, `CONFIRM_SIGN_IN_WITH_TOTP_CODE` will be the next step.
+- If `EMAIL` is selected, `CONFIRM_SIGN_IN_WITH_EMAIL_CODE` will be the next step.
+
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION': {
+			const { allowedMFATypes } = result.nextStep;
+			// Present available MFA options to user
+			// Prompt for selection
+			console.log(`There are multiple MFA options available for sign in.`);
+			console.log(`Select an MFA type from the allowedMfaTypes list.`);
+			break;
+		}
+	}
+}
+
+type MfaType = 'SMS' | 'TOTP' | 'EMAIL';
+
+async function handleMfaSelection(mfaType: MfaType) {
+	const result = await confirmSignIn({ challengeResponse: mfaType });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Continue signin with Email Setup
+
+If the next step is `CONTINUE_SIGN_IN_WITH_EMAIL_SETUP`, then the user must provide an email address to complete the sign in process. Once this value has been collected from the user, call the `confirmSignIn` API to continue.
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONTINUE_SIGN_IN_WITH_EMAIL_SETUP': {
+			// Prompt the user to enter an email address they would like to use for MFA
+			break;
+		}
+	}
+}
+
+// Then, pass the email address to `confirmSignIn`
+async function confirmEmail(email: string) {
+	const result = await confirmSignIn({ challengeResponse: email });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Continue signin with TOTP Setup
+
+The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type TOTPSetupDetails which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. TOTPSetupDetails provides a helper method called getSetupURI which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, TOTPSetupDetails also contains a sharedSecret which can be used to either generate a QR code or be manually entered into an authenticator app.
+
+Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
+
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP': {
+			const { totpSetupDetails } = result.nextStep;
+			const appName = 'my_app_name';
+			const setupUri = totpSetupDetails.getSetupUri(appName);
+			// Open setupUri with an authenticator app
+			// Prompt user to enter OTP code to complete setup
+			break;
+		}
+	}
+}
+
+// Then, pass the collected OTP code to `confirmSignIn`
+async function confirmTotpCode(totpCode: string) {
+	const result = await confirmSignIn({ challengeResponse: totpCode });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Continue signin with MFA Setup Selection
+
+If the next step is `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION`, then the user must indicate which of the available MFA methods they would like to setup. After the user selects an MFA method to setup, your implementation must pass the selected MFA method to the `confirmSignIn` API.
+
+The MFA types which are currently supported by Amplify Auth for setup are:
+
+- `TOTP`
+- `EMAIL`
+
+Once Amplify receives the users selection, you can expect to handle a follow up `nextStep` corresponding with the selected MFA type for setup:
+- If `EMAIL` is selected, `CONTINUE_SIGN_IN_WITH_EMAIL_SETUP` will be the next step.
+- If `TOTP` is selected, `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` will be the next step.
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION': {
+			const { allowedMFATypes } = result.nextStep;
+			// Present available MFA options to user
+			// Prompt for selection
+			console.log(`There are multiple MFA options available for setup.`);
+			console.log(`Select an MFA type from the allowedMFATypes list.`);
+			break;
+		}
+	}
+}
+
+type MfaType = 'SMS' | 'TOTP' | 'EMAIL';
+
+async function handleMfaSelection(mfaType: MfaType) {
+	const result = await confirmSignIn({ challengeResponse: mfaType });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Confirm signin with custom challenge
+
+If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user).
+
+For example, your custom challenge Lambda may pass a prompt to the frontend which requires the user to enter a secret code.
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE': {
+			const params = result.nextStep.additionalInfo;
+			const hint = params.hint!;
+			// Prompt user to enter custom challenge response
+			console.log(hint); // `Enter the secret code`
+			break;
+		}
+	}
+}
+
+```
+
+To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+
+```ts
+async function confirmCustomChallenge(answer: string) {
+	const result = await confirmSignIn({ challengeResponse: answer });
+
+	return handleSignInResult(result);
+}
+```
+
+<Callout warning>
+
+**Special Handling on `confirmSignIn`**
+
+If `failAuthentication=true` is returned by the Lambda, Cognito will invalidate the session of the request. This is represented by a `NotAuthorizedException` and requires restarting the sign-in flow by calling `signIn` again.
+
+</Callout>
+
+## Confirm signin with new password
+
+If the next step is `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED`, Amplify Auth requires the user choose a new password they proceeding with the sign in. 
+
+Prompt the user for a new password and pass it to the `confirmSignIn` API.
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED': {
+			// Prompt user to enter a new password
+			console.log(`Please enter a new password.`);
+			break;
+		}
+	}
+}
+
+```
+
+```ts
+async function confirmNewPassword(newPassword: string) {
+	const result = await confirmSignIn({ challengeResponse: newPassword });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Reset password
+
+If the next step is `RESET_PASSWORD`, Amplify Auth requires that the user reset their password before proceeding.
+Use the `resetPassword` API to guide the user through resetting their password, then call `signIn` to restart the sign-in flow.
+
+See the [reset password](/[platform]/build-a-backend/auth/manage-users/manage-passwords/) docs for more information.
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'RESET_PASSWORD': {
+			const resetPasswordResult = await resetPassword({ username });
+			// initiate reset password flow
+			await handleResetPasswordResult(resetPasswordResult);
+			break;
+		}
+	}
+}
+
+async function handleResetPasswordResult(
+	resetPasswordResult: ResetPasswordOutput,
+) {
+	switch (resetPasswordResult.nextStep.resetPasswordStep) {
+		case 'CONFIRM_RESET_PASSWORD_WITH_CODE': {
+			const { codeDeliveryDetails } = resetPasswordResult.nextStep;
+			console.log(
+				`A confirmation code has been sent to ${codeDeliveryDetails.destination}.`,
+			);
+			console.log(
+				`Please check your ${codeDeliveryDetails.destination} for the code.`,
+			);
+			break;
+		}
+		case 'DONE': {
+			console.log(`Successfully reset password.`);
+			break;
+		}
+	}
+}
+
+```
+
+## Confirm Signup
+
+If the next step is `CONFIRM_SIGN_UP`, Amplify Auth requires that the user confirm their email or phone number before proceeding.
+Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` to complete the sign up.
+
+See the [confirm sign up](/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/#confirm-sign-up) docs for more information.
+
+<Callout>
+
+The result includes `codeDeliveryDetails` with additional information about the code delivery, such as the partial phone number of the SMS recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONFIRM_SIGN_UP': {
+			// Resend sign up code to the registered user
+			const { destination, deliveryMedium } = await resendSignUpCode({
+				username,
+			});
+			console.log(`A confirmation code has been sent to ${destination}.`);
+			console.log(`Please check your ${deliveryMedium} for the code.`);
+			break;
+		}
+	}
+}
+
+```
+
+```ts
+async function handleConfirmSignUp(username: string, confirmationCode: string) {
+	await confirmSignUp({
+		username,
+		confirmationCode,
+	});
+}
+
+
+```
+
+Once the sign up is confirmed, call `signIn` again to restart the sign-in flow.
+
+## Done
+
+The sign-in flow is complete when the next step is `DONE`, which means the user is successfully authenticated. 
+As a convenience, the `SignInResult` also provides the `isSignedIn` property, which will be true if the next step is `DONE`.
+
+```ts
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'DONE': {
+			// `result.isSignedIn` is `true`
+			console.log(`Sign in is complete.`);
+			break;
+		}
+	}
+}
+
+
+```
+</InlineFilter>
+
 
 <InlineFilter filters={['flutter']}>
 After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you define your auth resources like described on [Manage MFA Settings](/[platform]/build-a-backend/auth/concepts/multi-factor-authentication/) page.
