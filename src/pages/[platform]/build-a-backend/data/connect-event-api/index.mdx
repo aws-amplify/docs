@@ -40,7 +40,8 @@ Before you begin, you will need:
 - An Event API created via the AWS Console
 - Take note of: HTTP endpoint, region, API Key
 
-```ts
+```tsx title="src/App.tsx"
+import type { EventsChannel } from 'aws-amplify/data';
 import { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { events } from 'aws-amplify/data';
@@ -56,41 +57,45 @@ Amplify.configure({
   },
 });
 
-export default function MyComponent() {
-  const [events, setEvents] = useState<any[]>([]);
+export default function App() {
+  const [myEvents, mySetEvents] = useState<unknown[]>([])
 
   useEffect(() => {
-    let channel;
+    let channel: EventsChannel
+    console.log("use effect running")
 
     const connectAndSubscribe = async () => {
-      channel = await events.connect('default/channel');
+      channel = await events.connect("default/channel")
 
       channel.subscribe({
         next: (data) => {
-          console.log('received', data);
-          setEvents(prev => [data, ...prev]);
+          console.log("received", data)
+          mySetEvents((prev) => [data, ...prev])
         },
-        error: (err) => console.error('error', err),
-      });
+        error: (err) => console.error("error", err),
+      })
     }
 
-    connectAndSubscribe();
+    connectAndSubscribe()
 
-    return () => channel && channel.close();
-  }, []);
+    return () => channel && channel.close()
+  }, [])
 
   async function publishEvent() {
-    await events.post("default/channel", {some: 'data'});
+    console.log("publishing ")
+    await events.post("default/channel", { some: "data" })
   }
 
   return (
-    <button onClick={publishEvent}>Publish Event</button>
-    <ul>
-      {events.map((event) => (
-        <li>{JSON.stringify(event)}</li>
-      ))}
-    </ul>
-  );
+    <>
+      <button onClick={publishEvent}>Publish Event</button>
+      <ul>
+        {myEvents.map((event, index) => (
+          <li key={index}>{JSON.stringify(event)}</li>
+        ))}
+      </ul>
+    </>
+  )
 }
 ```
 
