@@ -1374,6 +1374,8 @@ func updateMFAPreferences() async throws {
 
 ## Set up a user's preferred MFA method
 
+Depending on your user pool configuration, it's possible that multiple MFA options may be available to a given user. In order to avoid requiring your users to select an MFA method each time they sign-in to your application, Amplify provides two utility APIs to manage an individual user's MFA preferences.
+
 ### Fetch the current user's MFA preferences
 
 Invoke the following API to get the current MFA preference and enabled MFA types, if any, for the current user.
