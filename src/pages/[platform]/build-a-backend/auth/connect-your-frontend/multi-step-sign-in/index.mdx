@@ -127,6 +127,8 @@ The result includes `codeDeliveryDetails` with additional information about the 
 </Callout>
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONFIRM_SIGN_IN_WITH_SMS_CODE': {
@@ -144,9 +146,6 @@ async function handleSignInResult(result: SignInOutput) {
 	}
 }
 
-```
-
-```ts
 async function confirmMfaCode(mfaCode: string) {
 	const result = await confirmSignIn({ challengeResponse: mfaCode });
 
@@ -163,6 +162,8 @@ After the user enters the code, your implementation must pass the value to Ampli
 
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE': {
@@ -194,6 +195,8 @@ The result includes `codeDeliveryDetails` with additional information about the 
 </Callout>
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE': {
@@ -240,6 +243,8 @@ Once Amplify receives the users selection, you can expect to handle a follow up 
 
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION': {
@@ -268,6 +273,8 @@ async function handleMfaSelection(mfaType: MfaType) {
 If the next step is `CONTINUE_SIGN_IN_WITH_EMAIL_SETUP`, then the user must provide an email address to complete the sign in process. Once this value has been collected from the user, call the `confirmSignIn` API to continue.
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONTINUE_SIGN_IN_WITH_EMAIL_SETUP': {
@@ -294,6 +301,8 @@ Once the authenticator app is set up, the user can generate a TOTP code and prov
 
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP': {
@@ -330,6 +339,8 @@ Once Amplify receives the users selection, you can expect to handle a follow up 
 - If `TOTP` is selected, `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` will be the next step.
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION': {
@@ -360,6 +371,8 @@ If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awa
 For example, your custom challenge Lambda may pass a prompt to the frontend which requires the user to enter a secret code.
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE': {
@@ -399,6 +412,8 @@ If the next step is `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED`, Amplify Auth r
 Prompt the user for a new password and pass it to the `confirmSignIn` API.
 
 ```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED': {
@@ -428,6 +443,12 @@ Use the `resetPassword` API to guide the user through resetting their password, 
 See the [reset password](/[platform]/build-a-backend/auth/manage-users/manage-passwords/) docs for more information.
 
 ```ts
+import {
+	type ResetPasswordOutput,
+	type SignInOutput,
+	resetPassword,
+} from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'RESET_PASSWORD': {
@@ -476,6 +497,12 @@ The result includes `codeDeliveryDetails` with additional information about the 
 </Callout>
 
 ```ts
+import {
+	type SignInOutput,
+	confirmSignUp,
+	resendSignUpCode,
+} from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'CONFIRM_SIGN_UP': {
@@ -490,16 +517,12 @@ async function handleSignInResult(result: SignInOutput) {
 	}
 }
 
-```
-
-```ts
 async function handleConfirmSignUp(username: string, confirmationCode: string) {
 	await confirmSignUp({
 		username,
 		confirmationCode,
 	});
 }
-
 
 ```
 
@@ -511,6 +534,8 @@ The sign-in flow is complete when the next step is `DONE`, which means the user 
 As a convenience, the `SignInResult` also provides the `isSignedIn` property, which will be true if the next step is `DONE`.
 
 ```ts
+import { type SignInOutput } from '@aws-amplify/auth';
+
 async function handleSignInResult(result: SignInOutput) {
 	switch (result.nextStep.signInStep) {
 		case 'DONE': {
@@ -520,7 +545,6 @@ async function handleSignInResult(result: SignInOutput) {
 		}
 	}
 }
-
 
 ```
 </InlineFilter>
