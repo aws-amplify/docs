@@ -214,9 +214,6 @@ async function handleSignInResult(result: SignInOutput) {
 	}
 }
 
-```
-
-```ts
 async function confirmMfaCode(mfaCode: string) {
 	const result = await confirmSignIn({ challengeResponse: mfaCode });
 
@@ -424,9 +421,6 @@ async function handleSignInResult(result: SignInOutput) {
 	}
 }
 
-```
-
-```ts
 async function confirmNewPassword(newPassword: string) {
 	const result = await confirmSignIn({ challengeResponse: newPassword });
 
