@@ -40,7 +40,8 @@ Before you begin, you will need:
 - An Event API created via the AWS Console
 - Take note of: HTTP endpoint, region, API Key
 
-```ts
+```tsx title="src/App.tsx"
+import type { EventsChannel } from 'aws-amplify/data';
 import { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { events } from 'aws-amplify/data';
@@ -48,19 +49,20 @@ import { events } from 'aws-amplify/data';
 Amplify.configure({
   API: {
     Events: {
-      endpoint: 'https://abcdefghijklmnopqrstuvwxyz.appsync-api.us-east-1.amazonaws.com/event',
+      endpoint:
+        'https://abcdefghijklmnopqrstuvwxyz.appsync-api.us-east-1.amazonaws.com/event',
       region: 'us-east-1',
       defaultAuthMode: 'apiKey',
-      apiKey: 'da2-abcdefghijklmnopqrstuvwxyz',
-    },
-  },
+      apiKey: 'da2-abcdefghijklmnopqrstuvwxyz'
+    }
+  }
 });
 
-export default function MyComponent() {
-  const [events, setEvents] = useState<any[]>([]);
+export default function App() {
+  const [myEvents, setMyEvents] = useState<unknown[]>([]);
 
   useEffect(() => {
-    let channel;
+    let channel: EventsChannel;
 
     const connectAndSubscribe = async () => {
       channel = await events.connect('default/channel');
@@ -68,11 +70,11 @@ export default function MyComponent() {
       channel.subscribe({
         next: (data) => {
           console.log('received', data);
-          setEvents(prev => [data, ...prev]);
+          setMyEvents((prev) => [data, ...prev]);
         },
-        error: (err) => console.error('error', err),
+        error: (err) => console.error('error', err)
       });
-    }
+    };
 
     connectAndSubscribe();
 
@@ -80,16 +82,18 @@ export default function MyComponent() {
   }, []);
 
   async function publishEvent() {
-    await events.post("default/channel", {some: 'data'});
+    await events.post('default/channel', { some: 'data' });
   }
 
   return (
-    <button onClick={publishEvent}>Publish Event</button>
-    <ul>
-      {events.map((event) => (
-        <li>{JSON.stringify(event)}</li>
-      ))}
-    </ul>
+    <>
+      <button onClick={publishEvent}>Publish Event</button>
+      <ul>
+        {myEvents.map((event, index) => (
+          <li key={index}>{JSON.stringify(event)}</li>
+        ))}
+      </ul>
+    </>
   );
 }
 ```
