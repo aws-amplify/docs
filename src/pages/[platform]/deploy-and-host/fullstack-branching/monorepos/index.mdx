@@ -54,7 +54,7 @@ Amplify Gen 2 supports monorepo workflows for fullstack builds with monorepo too
 └── package.json
 ```
 
-Monorepos require a slightly different setup. We are going to deploy three separate Amplify apps:
+Monorepos require a slightly different setup. We are going to deploy 3 Amplify apps:
 
 1. `my-shared-backend`
 2. `admin-dashboard`
@@ -65,8 +65,11 @@ Monorepos require a slightly different setup. We are going to deploy three separ
 The first app, `my-shared-backend`, will be the only app that updates changes to the backend. The other apps will only run frontend builds that point to the shared backend.
 
 1. To get started, deploy the shared backend Amplify app. With Gen 2, you can now setup backend-only CI/CD apps. Navigate to the Amplify console and select **Create new app**.
-2. Once you connect your repository, select your monorepo project. Check the box that says **My app is a monorepo** and enter the path to your amplify backend.
-  ![monorepo](/images/gen2/fullstack-branching/monorepo.png)
+
+1. Once you connect your repository, select your monorepo project. Check the box that says **My app is a monorepo** and enter the path to your amplify backend.
+
+![monorepo](/images/gen2/fullstack-branching/monorepo.png)
+
 3. Your build settings should be automatically detected. Save and deploy.
 
 ## Deploy frontend apps
