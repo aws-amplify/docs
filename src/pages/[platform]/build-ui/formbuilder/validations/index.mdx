@@ -54,7 +54,7 @@ Every form provides an `onValidate` event handler to provide additional validati
   onValidate={{
     address: (value, validationResponse) => {
       const firstWord = value.split('')[0];
-      if (!isNaN(str)) {
+      if (!isNaN(firstWord)) {
         // check if the first word is a number
         return {
           hasError: true,

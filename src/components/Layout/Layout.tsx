@@ -149,8 +149,15 @@ export const Layout = ({
 
     pageHeadings.forEach((node) => {
       const { innerText, id, localName } = node as HTMLElement;
-      if (innerText && id && (localName == 'h2' || localName == 'h3')) {
+      if (innerText && id && localName == 'h2') {
         headings.push({
+          linkText: innerText,
+          hash: id,
+          level: localName,
+          subheadings: []
+        });
+      } else if (innerText && id && localName == 'h3') {
+        headings[headings.length - 1].subheadings.push({
           linkText: innerText,
           hash: id,
           level: localName

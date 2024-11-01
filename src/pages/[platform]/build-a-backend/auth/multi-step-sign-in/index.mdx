@@ -82,7 +82,7 @@ Future<void> _handleSignInResult(SignInResult result) async {
   }
 }
 ```
-### Confirm signin with SMS MFA
+## Confirm signin with SMS MFA
 
 If the next step is `confirmSignInWithSmsMfaCode`, Amplify Auth has sent the user a random code over SMS and is waiting for the user to verify that code. 
 To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
@@ -125,7 +125,7 @@ Future<void> confirmMfaUser(String mfaCode) async {
 }
 ```
 
-### Confirm signin with TOTP MFA
+## Confirm signin with TOTP MFA
 
 If the next step is `confirmSignInWithTOTPCode`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
 
@@ -156,7 +156,7 @@ Future<void> confirmTotpUser(String totpCode) async {
 }
 ```
 
-### Continue signin with MFA Selection
+## Continue signin with MFA Selection
 
 If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
 
@@ -193,7 +193,7 @@ Future<void> _handleMfaSelection(MfaType selection) async {
 }
 ```
 
-### Continue signin with TOTP Setup
+## Continue signin with TOTP Setup
 
 If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
 
@@ -225,7 +225,7 @@ Future<void> confirmTotpUser(String totpCode) async {
   }
 }
 ```
-### Confirm signin with custom challenge
+## Confirm signin with custom challenge
 
 If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the AWS Lambda trigger you configured as part of a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user).
 
@@ -267,7 +267,7 @@ If `failAuthentication=true` is returned by the Lambda, Cognito will invalidate 
 
 </Callout>
 
-### Confirm signin with new password
+## Confirm signin with new password
 If the next step is `confirmSignInWithNewPassword`, Amplify Auth requires the user choose a new password they proceeding with the sign in. 
 
 Prompt the user for a new password and pass it to the `confirmSignIn` API.
@@ -296,7 +296,7 @@ Future<void> confirmNewPassword(String newPassword) async {
 }
 ```
 
-### Reset password
+## Reset password
 If the next step is `resetPassword`, Amplify Auth requires that the user reset their password before proceeding.
 Use the `resetPassword` API to guide the user through resetting their password, then call `Amplify.Auth.signIn`
 when that's complete to restart the sign-in flow.
@@ -333,7 +333,7 @@ void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
   );
 }
 ```
-### Confirm Signup
+## Confirm Signup
 If the next step is `resetPassword`, Amplify Auth requires that the user confirm their email or phone number before proceeding.
 Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` 
 to complete the sign up.
@@ -387,7 +387,7 @@ Future<void> confirmSignUp({
 
 Once the sign up is confirmed, call `Amplify.Auth.signIn` again to restart the sign-in flow.
 
-### Done
+## Done
 
 The sign-in flow is complete when the next step is `done`, which means the user is successfully authenticated. 
 As a convenience, the `SignInResult` also provides the `isSignedIn` property, which will be true if the next step is `done`.
@@ -746,7 +746,7 @@ RxAmplify.Auth.signIn("username", "password", options).subscribe(
 
 </BlockSwitcher>
 
-### Confirm signin with SMS MFA
+## Confirm signin with SMS MFA
 
 If the next step is `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`, Amplify Auth has sent the user a random code over SMS, and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
@@ -846,23 +846,23 @@ RxAmplify.Auth.confirmSignIn(
 
 </BlockSwitcher>
 
-### Confirm signin with TOTP MFA
+## Confirm signin with TOTP MFA
 
 If the next step is `confirmSignInWithTOTPCode`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
 
 After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
-### Continue signin with MFA Selection
+## Continue signin with MFA Selection
 
 If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
 
-### Continue signin with TOTP Setup
+## Continue signin with TOTP Setup
 
 If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
-### Confirm signin with custom challenge
+## Confirm signin with custom challenge
 
 If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
@@ -976,7 +976,7 @@ NotAuthorizedException{message=Failed since user is not authorized., cause=NotAu
 
 </Callout>
 
-### Confirm signin with new password
+## Confirm signin with new password
 If you receive a `UserNotConfirmedException` while signing in, Amplify Auth requires a new password for the user before they can proceed. Prompt the user for a new password and pass it to the `confirmSignIn` API.
 
 <BlockSwitcher>
@@ -1067,7 +1067,7 @@ RxAmplify.Auth.confirmSignIn(
 
 </BlockSwitcher>
 
-### Reset password
+## Reset password
 If you receive `PasswordResetRequiredException`, authentication flow could not proceed without resetting the password. The next step is to invoke `resetPassword` api and follow the reset password flow.
 <BlockSwitcher>
 
@@ -1129,7 +1129,7 @@ RxAmplify.Auth.resetPassword(
 
 </BlockSwitcher>
 
-### Confirm Signup
+## Confirm Signup
 
 If you receive `CONFIRM_SIGN_UP` as a next step, sign up could not proceed without confirming user information such as email or phone number. The next step is to invoke the `confirmSignUp` API and follow the confirm signup flow.
 
@@ -1199,7 +1199,7 @@ RxAmplify.Auth.confirmSignUp(
 
 </BlockSwitcher>
 
-### Get Current User
+## Get Current User
 
 This call fetches the current logged in user and should be used after a user has been successfully signed in.
 If the user is signed in, it will return the current userId and username.
@@ -1255,7 +1255,7 @@ try {
 
 </BlockSwitcher>
 
-### Done
+## Done
 
 Sign In flow is complete when you get `done`. This means the user is successfully authenticated. As a convenience, the SignInResult also provides the `isSignedIn` property, which will be true if the next step is `done`.
 
@@ -1353,7 +1353,7 @@ func signIn(username: String, password: String) async {
 
 The `nextStep` property is of enum type `AuthSignInStep`. Depending on its value, your code should take one of the following actions:
 
-### Confirm signin with SMS MFA
+## Confirm signin with SMS MFA
 If the next step is `confirmSignInWithSMSMFACode`, Amplify Auth has sent the user a random code over SMS, and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
 Note: the signin result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial phone number of the SMS recipient.
@@ -1414,7 +1414,7 @@ func confirmSignIn(confirmationCodeFromUser: String) -> AnyCancellable {
 
 </BlockSwitcher>
 
-### Confirm signin with TOTP MFA
+## Confirm signin with TOTP MFA
 
 If the next step is `confirmSignInWithTOTPCode`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
 
@@ -1474,7 +1474,7 @@ func confirmSignIn(totpCode: String) -> AnyCancellable {
 
 </BlockSwitcher>
 
-### Continue signin with MFA Selection
+## Continue signin with MFA Selection
 
 If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
 
@@ -1523,7 +1523,7 @@ func confirmSignInWithTOTPAsMFASelection() -> AnyCancellable {
 </Block>
 
 </BlockSwitcher>
-### Continue signin with TOTP Setup
+## Continue signin with TOTP Setup
 
 If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
 
@@ -1596,7 +1596,7 @@ func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) -> AnyCanc
 
 </BlockSwitcher>
 
-### Confirm signin with custom challenge
+## Confirm signin with custom challenge
 
 If the next step is `confirmSignInWithCustomChallenge`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/#sign-in-a-user). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
 
@@ -1667,7 +1667,7 @@ Exception:  notAuthorized{message=Failed since user is not authorized., cause=No
 
 </Callout>
 
-### Confirm signin with new password
+## Confirm signin with new password
 
 If the next step is `confirmSignInWithNewPassword`, Amplify Auth requires a new password for the user before they can proceed. Prompt the user for a new password and pass it to the `confirmSignIn` API.
 
@@ -1727,7 +1727,7 @@ func confirmSignIn(newPasswordFromUser: String) -> AnyCancellable {
 
 </BlockSwitcher>
 
-### Reset password
+## Reset password
 
 If you receive `resetPassword`, authentication flow could not proceed without resetting the password. The next step is to invoke `resetPassword` api and follow the reset password flow.
 
@@ -1773,7 +1773,7 @@ func resetPassword(username: String) -> AnyCancellable {
 
 </BlockSwitcher>
 
-### Confirm Signup
+## Confirm Signup
 
 If you receive `confirmSignUp` as a next step, sign up could not proceed without confirming user information such as email or phone number. The next step is to invoke the `confirmSignUp` API and follow the confirm signup flow.
 
@@ -1820,7 +1820,7 @@ func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCa
 
 </BlockSwitcher>
 
-### Done
+## Done
 
 Signin flow is complete when you get `done`. This means the user is successfully authenticated. As a convenience, the SignInResult also provides the `isSignedIn` property, which will be true if the next step is `done`.
 </InlineFilter>
