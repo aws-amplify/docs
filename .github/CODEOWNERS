@@ -49,9 +49,9 @@
 /src/fragments/**/common @hdworld11 @josefaidt @dbanksdesign 
 
 #Data
-/src/fragments/**/datastore @renebrandel
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/datastore @renebrandel
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/datastore/ @renebrandel
+/src/fragments/**/datastore @josefaidt
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/datastore @josefaidt
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/datastore/ @josefaidt
 /src/pages/\[platform\]/build-a-backend/data/ @josefaidt
 
 #Debugging
