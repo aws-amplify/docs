@@ -851,6 +851,7 @@
     "metadata",
     "mfaDescription",
     "mfaTypes",
+    "enabledMfas",
     "MiB",
     "middleware",
     "Millis",
