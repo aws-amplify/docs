@@ -256,9 +256,49 @@ do {
 
 </InlineFilter>
 
+## IAM authorization
+
+All Amplify Gen 2 projects enable IAM authorization for data access. This ensures that the Amplify console's [data manager](/[platform]/build-a-backend/data/manage-with-amplify-console/) will be able to access your API. It also allows you to authorize other administrative or machine-to-machine access using your own IAM policies. See the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/security_iam_service-with-iam.html) for details on how AWS AppSync works with IAM.
+
+## Authorization on custom types
+
+Authorization rules are only supported on data models (model-level and field-level) and custom operations (queries, mutations and subscriptions). They are not fully supported on custom types. In particular, this means custom operations that return a custom type won't always be authorized the way you expect. For example, consider a custom query that returns a custom type:
+
+```ts
+const schema = a.schema({
+  Counter: a.customType({
+    value: a.integer(),
+  })
+  .authorization(...), // <-- not supported
+  getCounter: a
+    .mutation()
+    .arguments({
+      id: a.string().required(),
+    })
+    .returns(a.ref("Counter"))
+    .handler(
+      a.handler.custom({
+        entry: "./getCounter.js",
+      })
+    )
+    .authorization((allow) => [allow.authenticated()]),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema: schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "userPool",
+  },
+});
+```
+
+As you can see, the custom `Counter` type does not support the `.authorization()` modifier. Instead, behind the scenes, Amplify will add appropriate authorization rules to `Counter` to allow authenticated users to access it. That means that any signed-in user will be able to access the custom operation and all fields of the custom type.
+
 <Callout info>
 
-**Note**: Authorization rules are only supported on data models (model-level and field-level) and custom operations (queries, mutations and subscriptions). They are not fully supported on custom types.
+**Note**: IAM authorization is not currently supported for custom operations that return custom types if `defaultAuthorizationMode` is not `iam`. See [GitHub issue #2929](https://github.com/aws-amplify/amplify-category-api/issues/2929) for details and suggested workarounds.
 
 </Callout>
 
