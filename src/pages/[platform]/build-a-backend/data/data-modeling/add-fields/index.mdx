@@ -234,7 +234,7 @@ const schema = a.schema({
 }).authorization((allow) => allow.publicApiKey());
 ```
 
-If you're working with a Postgres datasource, `.default()` can be used to represent [serial fields](/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-postgres-mysql-database/#mapping-of-sql-data-types-to-field-types-for-auto-generated-schema).
+If you're working with a Postgres datasource, `.default()` can be applied to integer fields to represent [serial fields](/[platform]/build-a-backend/data/connect-to-existing-data-sources/connect-postgres-mysql-database/#mapping-of-sql-data-types-to-field-types-for-auto-generated-schema).
 
 <Callout>
 **Note:** The `.default(...)` modifier can't be applied to required fields.
