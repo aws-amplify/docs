@@ -262,7 +262,7 @@ All Amplify Gen 2 projects enable IAM authorization for data access. This ensure
 
 ## Authorization on custom types
 
-Authorization rules are only supported on data models (model-level and field-level) and custom operations (queries, mutations and subscriptions). They are not fully supported on custom types. In particular, this means custom operations that return a custom type won't always support the authorization modes you expect. For example, consider a custom query that returns a custom type:
+Authorization rules are only supported on data models (model-level and field-level) and custom operations (queries, mutations and subscriptions). They are not fully supported on custom types, including custom types returned by custom operations. For example, consider a custom query that returns a custom type:
 
 ```ts
 const schema = a.schema({
