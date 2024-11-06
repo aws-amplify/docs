@@ -7,7 +7,7 @@ describe('LinkCards', () => {
   it('should render the LinkCards component', async () => {
     render(component);
     const linkCardNode = await screen.findByRole('link', {
-      name: 'React Libraries on GitHub'
+      name: 'React Libraries on GitHub (opens in new tab)'
     });
     expect(linkCardNode).toBeInTheDocument();
   });
@@ -15,13 +15,13 @@ describe('LinkCards', () => {
   it('should link each card to external href', async () => {
     render(component);
     const githubCard = await screen.findByRole('link', {
-      name: 'React Libraries on GitHub'
+      name: 'React Libraries on GitHub (opens in new tab)'
     });
     const discordCard = await screen.findByRole('link', {
-      name: 'Amplify Discord'
+      name: 'Amplify Discord (opens in new tab)'
     });
     const learnCard = await screen.findByRole('link', {
-      name: 'Amplify Learn'
+      name: 'Amplify Learn (opens in new tab)'
     });
 
     expect(githubCard.href).toBe('https://github.com/aws-amplify/amplify-ui');

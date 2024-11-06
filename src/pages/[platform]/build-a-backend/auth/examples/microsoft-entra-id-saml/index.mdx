@@ -1,0 +1,347 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Microsoft Entra ID (SAML)',
+  description: 'Learn how to connect a Microsoft Entra ID provider with SAML',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}
+
+Microsoft Entra ID can be configured as a SAML provider for use with Amazon Cognito. Integrating Entra ID enables you to sign in with your existing enterprise users, and maintain profiles unique to the Amplify Auth resource for use within your Amplify app. To learn more, visit the [Azure documentation for SAML authentication with Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/architecture/auth-saml).
+
+<Callout info>
+
+**Note:** the following guidance showcases configuration with your [personal cloud sandbox](/[platform]/deploy-and-host/sandbox-environments/setup/). You will need to repeat the configuration steps for branch deployments after confirming functionality against your sandbox.
+
+</Callout>
+
+## Start your personal cloud sandbox
+
+To get started, define your auth resource with the appropriate redirect URIs:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      logoutUrls: ["http://localhost:3000/come-back-soon"],
+      callbackUrls: ["http://localhost:3000/profile"],
+    },
+  },
+})
+```
+
+Deploy to your personal cloud sandbox with `npx ampx sandbox`. This will generate a domain you can use to configure your new Entra ID App. After deploying your changes successfully, copy the generated `domain` value from `amplify_outputs.json`
+
+```json title="amplify_outputs.json"
+{
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "<your-cognito-user-pool-id>",
+    "user_pool_client_id": "<your-cognito-user-pool-client-id>",
+    "identity_pool_id": "<your-cognito-identity-pool-id>",
+    "mfa_methods": [],
+    "standard_required_attributes": [
+      "email"
+    ],
+    "username_attributes": [
+      "email"
+    ],
+    "user_verification_types": [
+      "email"
+    ],
+    "mfa_configuration": "OFF",
+    "password_policy": {
+      "min_length": 8,
+      "require_numbers": true,
+      "require_lowercase": true,
+      "require_uppercase": true,
+      "require_symbols": true
+    },
+    "oauth": {
+      "identity_providers": [],
+      "redirect_sign_in_uri": [
+        "http://localhost:3000/profile"
+      ],
+      "redirect_sign_out_uri": [
+        "http://localhost:3000/come-back-soon"
+      ],
+      "response_type": "code",
+      "scopes": [
+        "phone",
+        "email",
+        "openid",
+        "profile",
+        "aws.cognito.signin.user.admin"
+      ],
+      // highlight-next-line
+      "domain": "<some-hash>.auth.us-east-1.amazoncognito.com"
+    },
+  },
+  "version": "1"
+}
+```
+
+## Set up Microsoft Entra ID
+
+Next, navigate to [portal.amazon.com](https://portal.azure.com/), select **Entra ID**. In your default directory, or company's existing directory, under **Manage**, select **Enterprise Applications**
+
+![Entra ID default directory page highlighting Enterprise Applications](/images/auth/examples/microsoft-entra-id-saml/entra-id-select-enterprise-applications.png)
+
+Afterwards, select **New application**, then select **Create your own application**. Specify a name for the application and choose **Integrate any other application you don't find in the gallery (Non-gallery)**
+
+![Azure portal creating a new enterprise application for Entra ID](/images/auth/examples/microsoft-entra-id-saml/entra-id-new-enterprise-application.png)
+
+Now that you have created the new enterprise application you can begin to configure Single Sign-on with SAML. Select **Single sign-on**
+
+![Entra ID enterprise application highlighting "single sign-on"](/images/auth/examples/microsoft-entra-id-saml/entra-id-select-single-sign-on.png)
+
+Then select **SAML**
+
+![Entra ID enterprise application single sign-on setup highlighting "SAML"](/images/auth/examples/microsoft-entra-id-saml/entra-id-select-saml.png)
+
+You will be directed to a page to set up single sign-on with SAML, which needs a few pieces of information from your Amplify Auth resource.
+
+![Entra ID set up single sign-on page with a form requiring an entity ID and reply URL](/images/auth/examples/microsoft-entra-id-saml/entra-id-set-up-saml.png)
+
+In the **Basic SAML Configuration** step, select **Edit** and populate with the appropriate values.
+
+| Label | Value |
+|-------|-------|
+| Identifier (Entity ID) | `urn:amazon:cognito:sp:<your-cognito-user-pool-id>` |
+| Reply URL (Assertion Consumer Service URL) | `https://<your-cognito-domain>/saml2/idpresponse` |
+| Logout Url (Optional) | `https://<your-cognito-domain>/saml2/logout` |
+
+<Callout info>
+
+**Note:** Amazon Cognito redirect URIs for SAML providers follow the convention:
+
+```text showLineNumbers={false}
+https://<some-hash>.auth.<aws-region>.amazoncognito.com/saml2/<action>
+```
+
+If you are using a custom domain the route remains the same: `/saml2/<action>`. [Learn more about configuring Amazon Cognito with SAML identity providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-saml-idp.html)
+
+</Callout>
+
+<Callout warning>
+
+**Warning:** there is a known limitation where upstream sign-out functionality successfully signs out of Entra ID, but fails to redirect back to the user app. This behavior is disabled by default with SAML integrations in Amplify Auth.
+
+</Callout>
+
+Save the configuration and proceed to Step 3's **SAML Certificates** section. Copy the **App Federation Metadata Url**
+
+![Entra ID set up single sign-on page highlighting the app federation metadata URL](/images/auth/examples/microsoft-entra-id-saml/entra-id-copy-federation-url.png)
+
+## Configure your backend with Entra ID
+
+Now that you've configured your SAML provider with Microsoft Entra ID and copied the **App Federation Metadata Url**, configure your auth resource with the new SAML provider and paste the URL value into the `metadataContent` property:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      saml: {
+        name: "MicrosoftEntraIDSAML",
+        metadata: {
+          metadataType: "URL",
+          metadataContent: "<your-metadata-content-url>",
+        },
+        attributeMapping: {
+          email: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+        },
+      },
+      logoutUrls: ["http://localhost:3000/come-back-soon"],
+      callbackUrls: ["http://localhost:3000/profile"],
+    },
+  },
+})
+```
+
+User attributes can be found in Step 2's **Attributes & Claims** section, and are prefixed with a namespace by default. The example above shows mapping the default claim for the SAML user's email address, however additional attributes can be mapped.
+
+## Optionally upload the Cognito Signing Certificate
+
+In the AWS Console, navigate to your Cognito User Pool. Select the identity provider, **MicrosoftEntraIDSAML**, created after configuring Amplify Auth with the Entra ID SAML provider. Select **View signing certificate** and **download as .crt**
+
+![Amazon Cognito console highlighting "view signing certificate" for SAML provider](/images/auth/examples/microsoft-entra-id-saml/cognito-view-signing-certificate.png)
+
+Rename the file extension to `.cer` in order to upload to Azure. On the **Single sign-on** page, scroll down to **Step 3** (**SAML Certificates**), and under **Verification Certificates (optional)**, select **Edit**.
+
+![Entra ID single sign-on page highlighting "edit" for verification certificates](/images/auth/examples/microsoft-entra-id-saml/entra-id-edit-verification-certificate.png)
+
+Select **Require verification certificates** and upload the certificate.
+
+![Entra ID verification certificate upload pane](/images/auth/examples/microsoft-entra-id-saml/entra-id-upload-verification-certificate.png)
+
+Save your changes, and now requests to Entra ID from your Cognito User Pool will be verified.
+
+## Connect your frontend
+
+Now your users are ready to sign in with Microsoft Entra ID. To sign in with this custom provider, specify the provider name as the name specified in your auth resource definition: `MicrosoftEntraIDSAML`
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts title="main.ts"
+import { signInWithRedirect } from "aws-amplify/auth"
+
+signInWithRedirect({
+  provider: { custom: "MicrosoftEntraIDSAML" }
+})
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.custom("MicrosoftEntraIDSAML")
+    this,
+    result -> Log.i("AuthQuickStart", result.toString()),
+    error -> Log.e("AuthQuickStart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.custom("MicrosoftEntraIDSAML"),
+    this,
+    { Log.i("AuthQuickstart", "Sign in OK: $it") },
+    { Log.e("AuthQuickstart", "Sign in failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.signInWithSocialWebUI(AuthProvider.custom("MicrosoftEntraIDSAML"), this)
+    Log.i("AuthQuickstart", "Sign in OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.custom("MicrosoftEntraIDSAML"), this)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```dart
+Future<void> signInWithMicrosoftEntraID() async {
+  try {
+    final result = await Amplify.Auth.signInWithWebUI(
+      provider: AuthProvider.custom("MicrosoftEntraIDSAML"),
+    );
+    safePrint('Sign in result: $result');
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func signInWithMicrosoftEntraID() async {
+    do {
+        let signInResult = try await Amplify.Auth.signInWithWebUI(
+            for: AuthProvider.custom("MicrosoftEntraIDSAML"),
+            presentationAnchor: self.view.window!
+        )
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func signInWithMicrosoftEntraID() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signInWithWebUI(
+            for: AuthProvider.custom("MicrosoftEntraIDSAML"),
+            presentationAnchor: self.view.window!
+        )
+    }
+    .sink { completion in
+        if case let .failure(authError) = completion {
+            print("Sign in failed \(authError)")
+        }
+    } receiveValue: { signInResult in
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>

@@ -1,0 +1,46 @@
+name: Accessibility Scan
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+env:
+  BUILD_DIR: 'client/www/next-build'
+jobs:
+  accessibility:
+    name: Runs accessibility scan on changed pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+      - name: Setup Node.js 20
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: 20.x
+      - name: Install dependencies
+        run: yarn
+      - name: Build
+        run: yarn build
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+      - name: Get changed/new pages to run accessibility tests on
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        id: pages-to-a11y-test
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { getChangedPages } = require('./.github/workflows/scripts/check_for_changed_pages.js');
+            const buildDir = process.env.BUILD_DIR;
+            return getChangedPages({github, context, buildDir});
+      - name: Run site
+        run: | 
+          python -m http.server 3000 -d ${{ env.BUILD_DIR }} &
+          sleep 5
+      - name: Run accessibility tests on changed/new MDX pages
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        id: axeResults
+        with:
+          result-encoding: string
+          script: |
+            const { runAccessibilityScan } = require('./.github/workflows/scripts/run_accessibility_scan.js');
+            const pages = ${{ steps.pages-to-a11y-test.outputs.result }}
+            return await runAccessibilityScan(pages)

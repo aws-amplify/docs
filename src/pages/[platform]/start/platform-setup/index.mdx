@@ -1,0 +1,244 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Platform setup',
+  description: 'Instructions for platform-specific configurations needed for amplify-flutter',
+  platforms: [
+    'flutter',
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+
+## iOS
+
+Amplify requires a minimum deployment target of 13.0 and Xcode 15.0 or higher when targeting iOS. Follow the steps below to update the minimum deployment target.
+
+Open `ios/Podfile` and update the target iOS platform to 13.0 or higher.
+
+<Callout info>
+If there is no file located at `ios/Podfile`, add `amplify_flutter` to your `pubspec.yaml` and run `pub get`. This will automatically create the file.
+</Callout>
+
+```diff title="ios/Podfile"
+- # Uncomment this line to define a global platform for your project
+- # platform :ios, '12.0'
++ platform :ios, '13.0'
+```
+
+Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the iOS version to 13.0 or higher.
+
+![Setting the iOS version to 13.0 or higher in the minimum deployments section of the Runner general window.](/images/project-setup/flutter/ios/target-min-deployment-version.png)
+
+Select Runner, Project -> Runner and then the "Info" tab. Update "iOS Deployment Target" to 13.0 or higher.
+
+![Setting the iOS version to 13.0 or higher in the deployment targets section of the Runner info window.](/images/project-setup/flutter/ios/project-min-deployment-version.png)
+
+## Android
+
+Amplify Flutter supports API level 24+ (Android 7.0+), and requires Gradle 8+, Kotlin 1.9+, and Java 17+ when targeting Android. Follow the steps below to apply these changes in your app. 
+
+<Callout warning>
+The steps below are intended for Flutter apps created with Flutter version 3.16+. If your app was created prior to version 3.16, please follow the guide [here](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply) to migrate to Gradle's declarative plugins block before following the steps below.
+</Callout>
+
+1. Open `android/settings.gradle` and update the Android Gradle plugin and kotlin versions:
+
+```diff title="android/settings.gradle"
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+-   id "com.android.application" version "7.3.0" apply false
+-   id "org.jetbrains.kotlin.android" version "1.7.10" apply false
++   id "com.android.application" version "8.1.0" apply false
++   id "org.jetbrains.kotlin.android" version "1.9.10" apply false
+}
+```
+
+2. Open `android/gradle/wrapper/gradle-wrapper.properties` and update the Gradle `distributionUrl`.
+
+```diff title="android/gradle/wrapper/gradle-wrapper.properties"
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-7.0-all.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-8.0-all.zip
+```
+
+3. Open `android/app/build.gradle` and update the Java version and minimum Android SDK version.
+
+```diff title="android/app/build.gradle"
+android {
+    namespace = "com.example.myapp"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+    compileOptions {
+-       sourceCompatibility = JavaVersion.VERSION_1_8
+-       targetCompatibility = JavaVersion.VERSION_1_8
++       sourceCompatibility = JavaVersion.VERSION_17
++       targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId = "com.example.myapp"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+-       minSdk = flutter.minSdkVersion
++       minSdk = 24
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
+    }
+    
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig = signingConfigs.debug
+        }
+    }
+}
+```
+
+<Callout info>
+If you would like to use a higher version of Gradle or Android Gradle plugin see the compatibility matrix [here](https://developer.android.com/build/releases/gradle-plugin#updating-gradle).
+</Callout>
+
+### Network Permissions for Release Builds
+
+Flutter apps have access to make network requests by default in debug mode. This permission needs to be added when building in release mode. To do this, open `android/app/src/main/AndroidManifest.xml` and make the following addition.
+
+```xml title="android/app/src/main/AndroidManifest.xml"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+// highlight-start
+   <uses-permission android:name="android.permission.INTERNET"/>
+// highlight-end
+...
+</manifest>
+```
+
+## Web
+
+There are no Amplify specific requirements or setup instructions when targeting web. You will need to use a browser supported by Flutter. See the following Flutter docs for more info:
+
+- [Supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms)
+- [FAQ: Which web browsers are supported by Flutter?](https://docs.flutter.dev/development/platform-integration/web/faq#which-web-browsers-are-supported-by-flutter)
+
+## macOS
+
+Amplify requires a minimum deployment target of 10.15 and Xcode 15.0 or higher when targeting macOS. Additionally, you will need to enable networking, keychain entitlements, and code signing.
+
+### Update Minimum Version
+
+Open `macos/Podfile` and update the target macOS platform to 10.15 or higher.
+
+<Callout info>
+If there is no file located at `macos/Podfile`, add `amplify_flutter` to your `pubspec.yaml` and run `pub get`. This will automatically create the file.
+</Callout>
+
+```diff title="ios/Podfile"
+- platform :osx, '10.14'
++ platform :osx, '10.15'
+```
+
+Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the macOS version to 10.15 or higher.
+
+![Setting the macOS version to 10.15 or higher in the Minimum Deployments tab of the Runner general section.](/images/project-setup/flutter/mac/target-min-deployment-version.png)
+
+Select Runner, Project -> Runner and then the "Info" tab. Update "macOS Deployment Target" to 10.15 or higher.
+
+![Setting the macOS version to 10.15 or higher in the macOS Deployment Target tab of the Runner info section.](/images/project-setup/flutter/mac/project-min-deployment-version.png)
+
+### Enable Network Calls
+
+Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab. Under "App Sandbox" select "Outgoing Connections (Client)".
+
+![Selecting outgoing connections in the app sandbox section of the runner signing and capabilities tab.](/images/project-setup/flutter/mac/xcode-entitlements.png)
+
+For more info on the Networking entitlement, see Apple's documentation on [com.apple.security.network.client](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client).
+
+### Enable Keychain Sharing
+
+<Callout info>
+
+This capability is required because Amplify uses the Data Protection Keychain on macOS as a platform best practice. 
+See [TN3137: macOS keychain APIs and implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains)
+for more information on how Keychain works on macOS and the Keychain Sharing entitlement.
+
+</Callout>
+
+Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab.
+
+1. Click the "+ icon".
+
+![Plus icon circled in the signing and capabilities section of the runner tab.](/images/project-setup/flutter/mac/enable-keychain-access.png)
+
+2. Search for "Keychain Sharing" in the subsequent modal, and add it.
+
+![Keychain Sharing search result after searching keychain.](/images/project-setup/flutter/mac/search-keychain-sharing.png)
+
+3. Scroll down to "Keychain Sharing" in the "Signing and Capabilities" and click the "+" icon. By default, your bundle ID will be used.
+
+![Plus icon highlighted in the keychain sharing section of the signing and capabilities section of runner.](/images/project-setup/flutter/mac/adding-keychain-access-group.png)
+
+4. Finally, add a development team and enable signing.
+
+![Team selector and Enable Development Signing button highlighted in the signing and capabilities section of the runner tab.](/images/project-setup/flutter/mac/enable-signing.png)
+
+
+## Windows
+
+There are no Amplify specific requirements or setup instructions when targeting Windows. You will need to use a Windows version supported by Flutter. See the following Flutter docs for more info:
+
+- [Supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms)
+
+## Linux
+
+Amplify Flutter depends on the [libsecret](https://wiki.gnome.org/Projects/Libsecret) library when targeting Linux.
+
+### Local Development
+
+To run and debug an app that depends on Amplify Flutter, you must install `libsecret-1-dev`. Run the following commands to install `libsecret-1-dev`. this will also install dependencies of `libsecret-1-dev`, such as `libglib2.0-dev`.
+
+<Callout info>
+  The command below is intended for Ubuntu. The command may vary on other Linux distributions.
+</Callout>
+
+{/* cSpell:disable */}
+
+```terminal
+sudo apt-get update
+sudo apt-get install -y libsecret-1-dev
+```
+
+{/* cSpell:enable */}
+
+### Packaging Your App
+
+To include the required dependencies when packaging your app with Snapcraft, include them in your `snapcraft.yaml` file. For more info, see [Flutter's documentation on releasing to the Snap Store](https://docs.flutter.dev/deployment/linux).
+
+```yaml
+parts:
+  my-app:
+    plugin: flutter
+    source: .
+    flutter-target: lib/main.dart
+    build-packages:
+      - libsecret-1-dev
+    stage-packages:
+      - libsecret-1-0
+```
+

@@ -4,14 +4,11 @@ export const meta = {
   title: 'Server-Side Rendering',
   description: 'Use Amplify Auth and Data APIs from Next.js server-side runtimes.',
   platforms: [
-    'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
-    'swift',
     'vue'
   ]
 };
@@ -178,7 +175,10 @@ export async function middleware(request: NextRequest) {
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
-        return session.tokens !== undefined;
+        return (
+          session.tokens?.accessToken !== undefined &&
+          session.tokens?.idToken !== undefined
+        );
       } catch (error) {
         console.log(error);
         return false;
@@ -228,6 +228,30 @@ For the **GraphQL API** category, review [Connect to data from Server-side Runti
 
 **NOTE:** A subset of Amplify APIs can now be called on the server side of a Next.js app. These APIs are exported from the `/server` sub paths. See [the full list](#supported-apis-for-nextjs-server-side-usage) of supported APIs.
 
+</Callout>
+
+<Callout>
+
+**Note:** If you use the Amplify server-side APIs in a [server action](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) and encounter the following error running `next build`:
+
+> ./node_modules/@aws-amplify/core/node_modules/@aws-crypto/sha256-js/build/module/index.js + 12 modules
+
+> Cannot get final name for export 'fromUtf8' of ./node_modules/@smithy/util-utf8/dist-es/index.js
+
+You can add the following to your `next.config.js`:
+
+```ts title="next.config.js"
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // highlight-start
+  experimental: {
+    serverComponentsExternalPackages: ['@aws-crypto'],
+  },
+  // highlight-end
+};
+```
+
+See Next.js documentation on [`serverComponentsExternalPackages`](https://nextjs.org/docs/app/api-reference/next-config-js/serverComponentsExternalPackages) for more details.
 </Callout>
 
 ### With Next.js App Router
@@ -380,3 +404,9 @@ All APIs that support use on the server are exported from the `aws-amplify/<cate
 | Storage | `list` | ✅ |  |
 | Storage | `remove` | ✅ |  |
 | Storage | `copy` | ✅ |  |
+
+<Callout info>
+
+Have a server-side use case that isn't currently supported in Amplify JS? Consider using the [AWS SDK for JavaScript](https://aws.amazon.com/sdk-for-javascript/).
+
+</Callout>

@@ -31,7 +31,7 @@ export function getStaticProps(context) {
 
 In this guide you will learn how to implement sorting in a GraphQL API. In our example, you will implement sorting results by date in either an ascending or descending order by implementing an additional data access pattern leveraging a DynamoDB Global Secondary Index using the `@index` GraphQL Transformer directive.
 
-### Overview
+## Overview
 
 To get started, let's start with a basic GraphQL schema for a Todo app:
 
@@ -68,7 +68,7 @@ By default, the `listTodos` query will return the `items` array **unordered**. M
 
 To enable this, you can use the [@index](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/) directive. This directive will allow you to set a custom `sortKey` on any field in your API.
 
-### Implementation
+## Implementation
 
 In this example, you will enable sorting by the `createdAt` field. By default, Amplify will populate this `createdAt` field with a timestamp if none is passed in.
 

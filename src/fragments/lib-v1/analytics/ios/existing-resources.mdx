@@ -27,3 +27,19 @@ Existing Amazon Pinpoint resources can be used with the Amplify Libraries by ref
   - **region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
 
 Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/gen1/[platform]/prev/start/project-setup/create-application/#n2-install-amplify-libraries).
+
+## Update your IAM Policy
+
+Amazon Pinpoint requires an AWS Identity and Access Management (IAM) policy in order to use the `record` and `identifyUser` APIs:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
+      "Resource": ["arn:aws:mobiletargeting:*:<your-account-id>:apps/<your-pinpoint-app-id>*"]
+    }
+  ]
+}
+```

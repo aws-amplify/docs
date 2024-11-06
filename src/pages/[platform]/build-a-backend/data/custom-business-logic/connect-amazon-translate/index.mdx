@@ -60,24 +60,21 @@ npm add @aws-sdk/client-translate
 
  ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource';
-import { data } from "./data/resource";
-import { Stack } from 'aws-cdk-lib';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,
   data
 });
 
-const dataStack = Stack.of(backend.data)
-
 const translateDataSource = backend.data.addHttpDataSource(
   "TranslateDataSource",
-  `https://translate.${dataStack.region}.amazonaws.com`,
+  `https://translate.${backend.data.stack.region}.amazonaws.com`,
   {
     authorizationConfig: {
-      signingRegion: dataStack.region,
+      signingRegion: backend.data.stack.region,
       signingServiceName: "translate",
     },
   }

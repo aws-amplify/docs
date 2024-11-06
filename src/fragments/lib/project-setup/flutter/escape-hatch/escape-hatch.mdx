@@ -1,7 +1,7 @@
 As an alternative to the Amplify client libraries, or in situations where the libraries do not provide the functionality you require,
 the underlying AWS services can be communicated with directly using an HTTP client and the AWS Signature V4 (SigV4) [package](https://pub.dev/packages/aws_signature_v4).
 
-### Using the Signer
+## Using the Signer
 
 To get started using the signer, add it as a dependency in your `pubspec.yaml` like the following:
 
@@ -29,7 +29,7 @@ $ flutter run --dart-define=AWS_ACCESS_KEY_ID=... --dart-define=AWS_SECRET_ACCES
 
 On Desktop, credentials are retrieved from the system's environment using [Platform.environment](https://api.dart.dev/stable/dart-io/Platform/environment.html).
 
-### Signing a Request
+## Signing a Request
 
 The signer works by transforming HTTP requests using your credentials to create _signed_ HTTP requests which can be sent off in the
 same way as normal HTTP requests.

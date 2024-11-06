@@ -27,7 +27,7 @@ export function getStaticProps(context) {
 }
 
 
-### Send messages to bot
+## Send messages to bot
 You can send a text message to chatbot backend with `send()` command. The method returns a promise that includes the chatbot response.
 
 ```javascript title="src/App.tsx"
@@ -45,7 +45,7 @@ const response = await Interactions.send({
 console.log(response.message);
 ```
 
-### Display end of chat message
+## Display end of chat message
 
 You can use `onComplete()` method to register a function to catch errors or chatbot confirmations when the session successfully ends.
 

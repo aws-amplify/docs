@@ -39,10 +39,16 @@ export const directory = {
               path: 'src/pages/[platform]/start/manual-installation/index.mdx'
             },
             {
+              path: 'src/pages/[platform]/start/connect-to-aws-resources/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/start/kotlin-coroutines/index.mdx'
             },
             {
               path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/start/platform-setup/index.mdx'
             }
           ]
         },
@@ -116,6 +122,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/delete-user-account/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/multi-step-sign-in/index.mdx'
                     }
                   ]
                 },
@@ -130,6 +139,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-amplify-console/index.mdx'
                     }
                   ]
                 },
@@ -148,9 +160,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
                 },
                 {
@@ -158,6 +167,14 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/examples/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/examples/microsoft-entra-id-saml/index.mdx'
+                    }
+                  ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
@@ -170,6 +187,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-existing-cognito-resources/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/use-aws-sdk/index.mdx'
@@ -301,7 +321,13 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/data/optimistic-ui/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/data/connect-event-api/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/manage-with-amplify-console/index.mdx'
                 }
               ]
             },
@@ -343,6 +369,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/manage-with-amplify-console/index.mdx'
                 }
               ]
             },
@@ -357,6 +386,15 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/configure-functions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/scheduling-functions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/streaming-logs/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/add-lambda-layers/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/grant-access-to-other-resources/index.mdx'
@@ -393,6 +431,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/s3-upload-confirmation/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/functions/examples/custom-auth-flows/index.mdx'
                     }
                   ]
                 },
@@ -651,6 +692,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/tagging-resources/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx'
                 }
               ]
@@ -665,7 +709,10 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/cdktoolkit-stack/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/index.mdx'
                 }
               ]
             }
@@ -769,10 +816,10 @@ export const directory = {
             {
               isExternal: true,
               route:
-                'https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager',
-              title: 'Storage Manager',
+                'https://ui.docs.amplify.aws/react/connected-components/storage/fileuploader',
+              title: 'File Uploader',
               description:
-                'Storage Manager is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
+                'File Uploader is a connected component that facilitates operations such as uploading, downloading, listing, and deleting files from an Amazon S3 bucket.',
               platforms: ['javascript', 'nextjs', 'react']
             },
             {
@@ -880,24 +927,7 @@ export const directory = {
               path: 'src/pages/[platform]/reference/iam-policy/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/reference/permissions-boundary/index.mdx'
-            },
-            {
               path: 'src/pages/[platform]/reference/telemetry/index.mdx'
-            },
-            {
-              isExternal: true,
-              route: 'https://aws-amplify.github.io/amplify-js/api/',
-              title: 'API Documentation',
-              description: 'API references and type definitions.',
-              platforms: [
-                'javascript',
-                'nextjs',
-                'react',
-                'react-native',
-                'angular',
-                'vue'
-              ]
             },
             {
               isExternal: true,

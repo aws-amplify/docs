@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       }
   }
-  
+
 
     client.models.Todo.observeQuery().subscribe({
         next: (data) => {
@@ -317,7 +317,7 @@ Deploy to AWS
 
 Select **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<Video src="/images/gen2/getting-started/react/deploy.mp4" />
+<Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Deploy the starter app" />
 
 ### 3. View deployed app
 
@@ -344,11 +344,11 @@ Let's take a tour of the project structure in this starter repository by opening
 
  When the build completes, visit the newly deployed branch by selecting "Visit deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" description="Video - Visit Deployed URL" />
 
 In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
-<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" />
+<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" description="Video - Data Manager" />
 
 ## Make frontend updates
 
@@ -358,11 +358,11 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" description="Video - Deployments" />
 
-At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
+At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button.
 
-![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 Clone the repository locally.
 
@@ -430,46 +430,73 @@ npm run dev
 
 This should start a local dev server at http://localhost:5173.
 
-<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" description="Video - Demo" />
 
 ### 6. Implement login UI
 
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. In your **src/App.tsx** file, import the Authenticator UI component and wrap your `<main>` element.
+The fastest way to get your login experience up and running is to use our Authenticator UI component. In your **src/main.tsx** file, import the Authenticator UI component and wrap your `<App>` component.
 
-```tsx title="src/App.tsx"
-// highlight-start
-import { Authenticator } from '@aws-amplify/ui-react'
-import '@aws-amplify/ui-react/styles.css'
-// highlight-end
-// ... other imports
+```tsx title="src/main.tsx"
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// highlight-next-line
+import { Authenticator } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import App from './App.tsx';
+import outputs from '../amplify_outputs.json';
+import './index.css';
+// highlight-next-line
+import '@aws-amplify/ui-react/styles.css';
 
-function App() {
-  // ...
-  return (
-    // highlight-start
+Amplify.configure(outputs);
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  // highlight-start
+  <React.StrictMode>
     <Authenticator>
-      {({ signOut, user }) => (
-    // highlight-end
-        <main>
-          {/*...*/}
-          // highlight-next-line
-          <button onClick={signOut}>Sign out</button>
-        </main>
-    // highlight-start
-      )}
+      <App />
     </Authenticator>
-    // highlight-end
-  )
-}
+  </React.StrictMode>
+  // highlight-end
+);
 ```
 
 The Authenticator component auto-detects your auth backend settings and renders the correct UI state based on the auth backend's authentication flow.
 
+In your `src/App.tsx` file, add a button to enable users to sign out of the application. Import the [`useAuthenticator`](https://ui.docs.amplify.aws/react/connected-components/authenticator/advanced#access-auth-state) hook from the Amplify UI library to hook into the state of the Authenticator.
+
+```tsx title="src/App.tsx"
+import type { Schema } from '../amplify/data/resource';
+// highlight-next-line
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useEffect, useState } from 'react';
+import { generateClient } from 'aws-amplify/data';
+
+const client = generateClient<Schema>();
+
+function App() {
+  // highlight-next-line
+  const { signOut } = useAuthenticator();
+
+  // ...
+
+  return (
+    <main>
+      {/* ... */}
+      // highlight-next-line
+      <button onClick={signOut}>Sign out</button>
+    </main>
+  );
+}
+
+export default App;
+```
+
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -540,24 +567,23 @@ export const data = defineData({
 });
 ```
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property.
+In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property from the `useAuthenticator` hook.
 
 ```tsx title="src/App.tsx"
 // ... imports
 
 function App() {
+  // highlight-next-line
+  const { user, signOut } = useAuthenticator();
+
   // ...
+
   return (
-    <Authenticator>
+    <main>
       // highlight-next-line
-      {({ signOut, user }) => (
-        <main>
-          // highlight-next-line
-          <h1>{user?.signInDetails?.loginId}'s todos</h1>
-          {/* ... rest of the UI */}
-        </main>
-      )}
-    </Authenticator>
+      <h1>{user?.signInDetails?.loginId}'s todos</h1>
+      {/* ... */}
+    </main>
   )
 }
 ```
@@ -566,7 +592,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -640,7 +666,7 @@ Deploy to AWS
 
 Select **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<Video src="/images/gen2/getting-started/react/deploy.mp4" />
+<Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Deploy the starter app" />
 
 ### 3. View deployed app
 
@@ -668,11 +694,11 @@ Let's take a tour of the project structure in this starter repository by opening
 
  When the build completes, visit the newly deployed branch by selecting "Visit deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" description="Video - Visit Deployed URL" />
 
 In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
-<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" />
+<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" description="Video - Data Manager" />
 
 ## Make frontend updates
 
@@ -682,11 +708,11 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" description="Video - Deployments" />
 
-At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
+At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button.
 
-![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 Clone the repository locally.
 
@@ -759,7 +785,7 @@ npm run dev
 
 This should start a local dev server at http://localhost:5173.
 
-<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" description="Video - Demo" />
 
 ### 6. Implement login UI
 
@@ -799,7 +825,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -900,7 +926,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -933,7 +959,7 @@ We've created a starter "To-do" application to help get started faster. First, y
 
 ### 1. Create the repository
 
-Use our starter template to create a repository in your GitHub account. This template scaffolds `create-vite-app` with Amplify backend capabilities.
+Use our starter template to create a repository in your GitHub account. This template scaffolds a starter Angular application with Amplify backend capabilities.
 
 <ExternalLinkButton
   size="medium"
@@ -960,7 +986,7 @@ Deploy to AWS
 
 Select **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<Video src="/images/gen2/getting-started/react/deploy.mp4" />
+<Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Deploy the starter app" />
 
 ### 3. View deployed app
 
@@ -987,11 +1013,11 @@ Let's take a tour of the project structure in this starter repository by opening
 
  When the build completes, visit the newly deployed branch by selecting "Visit deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" description="Video - Visit Deployed URL" />
 
 In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
-<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" />
+<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" description="Video - Data Manager"/>
 
 ## Make frontend updates
 
@@ -1001,17 +1027,17 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" description="Video - Deployments" />
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button.
 
-![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 Clone the repository locally.
 
 ```bash title="Terminal" showLineNumbers={false}
-git clone https://github.com/<github-user>/amplify-vite-react-template.git
-cd amplify-vite-react-template && npm install
+git clone https://github.com/<github-user>/amplify-angular-template.git
+cd amplify-angular-template && npm install
 ```
 
 Now move the `amplify_outputs.json` file you downloaded above to the root of your project.
@@ -1031,10 +1057,10 @@ The **amplify_outputs.json** file contains backend endpoint information, publicl
 
 ### 5. Implement delete functionality
 
-Go to the **src/todos/todos.component.ts** file and add a new `deleteTodo` function.
+Go to the **src/app/todos/todos.component.ts** file and add a new `deleteTodo` function.
 
 ```tsx title="src/todos/todos.component.ts"
-@Component {
+export class TodosComponent implements OnInit {
   // ...
   // highlight-start
   deleteTodo(id: string) {
@@ -1046,7 +1072,7 @@ Go to the **src/todos/todos.component.ts** file and add a new `deleteTodo` funct
 
 Call the `deleteTodo` function from the UI.
 
-```html title="src/todos/todos.component.html"
+```html title="src/app/todos/todos.component.html"
 ...
   <ul>
     <li *ngFor="let todo of todos;" (click)="deleteTodo(todo.id)">
@@ -1062,9 +1088,9 @@ Try out the deletion functionality now by starting the local dev server:
 npm run start
 ```
 
-This should start a local dev server at http://localhost:5173.
+This should start a local dev server at http://localhost:4200.
 
-<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" description="Video - Demo" />
 
 ### 6. Implement login UI
 
@@ -1095,7 +1121,7 @@ Amplify.configure(outputs);
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   // highlight-next-line
-  imports: [RouterOutlet, TodosComponent,AmplifyAuthenticatorModule],
+  imports: [RouterOutlet, TodosComponent, AmplifyAuthenticatorModule],
 })
 export class AppComponent {
   title = 'amplify-angular-template';
@@ -1133,7 +1159,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -1225,7 +1251,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -1263,17 +1289,26 @@ You can follow the [official documentation](https://flutter.dev/docs/get-started
 
 Once you have installed Flutter, you can create a new Flutter project using the following command:
 
+<Callout info>
+In this Quickstart guide, you will build the application for web. However, if you want to run the application on other platforms, be sure to follow the required setup [guide here](/[platform]/start/platform-setup/).
+</Callout>
+
 ```bash title="Terminal" showLineNumbers={false}
 flutter create my_amplify_app
 ```
 
 ## Create Backend
 
-The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
+The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory. First, go to the base project directory with the following command:
 
 ```bash title="Terminal" showLineNumbers={false}
-npm create amplify@latest
-? Where should we create your project? (.) # press enter
+cd my_amplify_app
+```
+
+After that, run the following to create an Amplify project:
+
+```bash title="Terminal" showLineNumbers={false}
+npm create amplify@latest -y
 ```
 
 Running this command will scaffold Amplify backend files in your current project with the following files added:
@@ -1296,13 +1331,22 @@ Running this command will scaffold Amplify backend files in your current project
 To deploy your backend use Amplify's per-developer cloud sandbox. This feature provides a separate backend environment for every developer on a team, ideal for local development and testing. To run your application with a sandbox environment, you can run the following command:
 
 
+<InlineFilter filters={["android", "javascript", "react-native", "angular", "nextjs", "react", "react-native", "vue", "swift"]}>
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
+
+```
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
+</InlineFilter>
+
 ## Adding Authentication
 
-The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource`.ts file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
+The initial scaffolding already has a pre-configured auth backend defined in the `amplify/auth/resource.ts` file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
 The fastest way to get your login experience up and running is to use our Authenticator UI component available in the Amplify UI library.
 
@@ -1335,7 +1379,7 @@ import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> main() async {
   try {
@@ -1350,7 +1394,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -1386,7 +1430,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 Run your application in your local environment again. You should be presented with a login experience now.
 
 
-<Video src="/images/gen2/getting-started/flutter/flutter-getting-started-1.mp4" />
+<Video src="/images/gen2/getting-started/flutter/flutter-getting-started-1.mp4" description="Video - Flutter Getting Started" />
 
 ## Adding Data
 
@@ -1443,10 +1487,14 @@ Future<void> _configureAmplify() async {
     await Amplify.addPlugins(
       [
         AmplifyAuthCognito(),
-        AmplifyAPI(modelProvider: ModelProvider.instance),
+        AmplifyAPI(
+          options: APIPluginOptions(
+            modelProvider: ModelProvider.instance,
+          ),
+        ),
       ],
     );
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -1454,7 +1502,7 @@ Future<void> _configureAmplify() async {
 }
 ```
 
-Next create a new widget called `TodoScreen` and add the following code:
+Next create a new widget called `TodoScreen` and add the following code to the end of the **main.dart** file:
 
 ```dart title="main.dart"
 
@@ -1476,8 +1524,6 @@ class _TodoScreenState extends State<TodoScreen> {
             id: uuid(),
             content: "Random Todo ${DateTime.now().toIso8601String()}",
             isDone: false,
-            createdAt: TemporalDateTime(DateTime.now()),
-            updatedAt: TemporalDateTime(DateTime.now()),
           );
           final request = ModelMutations.create(newTodo);
           final response = await Amplify.API.mutate(request: request).response;
@@ -1486,7 +1532,6 @@ class _TodoScreenState extends State<TodoScreen> {
           } else {
             safePrint('Creating Todo successful.');
           }
-          _refreshTodos();
         },
       ),
       body: const Placeholder(),
@@ -1558,36 +1603,59 @@ Future<void> _refreshTodos() async {
 }
 ```
 
-and update the body with the following code:
+and update the `build` function like the following:
 
 ```dart title="main.dart"
-body: _todos.isEmpty == true
-    ? const Center(
-        child: Text(
-          "The list is empty.\nAdd some items by clicking the floating action button.",
-          textAlign: TextAlign.center,
-        ),
-      )
-    : ListView.builder(
-        itemCount: _todos.length,
-        itemBuilder: (context, index) {
-          final todo = _todos[index];
-          return Dismissible(
-            key: UniqueKey(),
-            confirmDismiss: (direction) async {
-              return false;
-            },
-            child: CheckboxListTile.adaptive(
-              value: todo.isDone,
-              title: Text(todo.content!),
-              onChanged: (isChecked) async { },
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    floatingActionButton: FloatingActionButton.extended(
+      label: const Text('Add Random Todo'),
+      onPressed: () async {
+        final newTodo = Todo(
+          id: uuid(),
+          content: "Random Todo ${DateTime.now().toIso8601String()}",
+          isDone: false,
+        );
+        final request = ModelMutations.create(newTodo);
+        final response = await Amplify.API.mutate(request: request).response;
+        if (response.hasErrors) {
+          safePrint('Creating Todo failed.');
+        } else {
+          safePrint('Creating Todo successful.');
+        }
+        _refreshTodos();
+      },
+    ),
+    body: _todos.isEmpty == true
+        ? const Center(
+            child: Text(
+              "The list is empty.\nAdd some items by clicking the floating action button.",
+              textAlign: TextAlign.center,
             ),
-          );
-        },
-      ),
+          )
+        : ListView.builder(
+            itemCount: _todos.length,
+            itemBuilder: (context, index) {
+              final todo = _todos[index];
+              return Dismissible(
+                key: UniqueKey(),
+                confirmDismiss: (direction) async {
+                  return false;
+                },
+                child: CheckboxListTile.adaptive(
+                  value: todo.isDone,
+                  title: Text(todo.content!),
+                  onChanged: (isChecked) async {},
+                ),
+              );
+            },
+          ),
+  );
+}
 ```
 
-Now let's add a update and delete functionality.
+Now let's add the update and delete functionality.
 
 For update, add the following code to the `onChanged` method of the `CheckboxListTile.adaptive` widget:
 
@@ -1627,13 +1695,13 @@ return false;
 
 This will delete the Todo item when the user swipes the item from right to left. Now if you run the application you should see the following flow.
 
-<Video src="/images/gen2/getting-started/flutter/flutter-getting-started-2.mp4" />
+<Video src="/images/gen2/getting-started/flutter/flutter-getting-started-2.mp4" description="Video - Flutter Getting Started" />
 
 You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#publishing-changes-to-cloud).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 
@@ -1688,7 +1756,7 @@ Now you should have your project created.
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-cd my-app
+cd my_amplify_app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
@@ -1719,7 +1787,7 @@ npx ampx sandbox
 
 Once the sandbox environment is deployed, it will create an `amplify_outputs.json`. However, Xcode won't be able to recognize them. For recognizing the files, you need to drag and drop the generated files to your project.
 
-<Video src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" />
+<Video src="/images/gen2/getting-started/ios/ios-getting-started-2.mp4" description="Video - XCode Demo" />
 
 ## Adding Authentication
 
@@ -1794,7 +1862,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Run your application in your local environment again. You should be presented with a login experience now.
 
-<Video with="40%" src="/images/gen2/getting-started/ios/ios-getting-started-1.mp4" />
+<Video with="40%" src="/images/gen2/getting-started/ios/ios-getting-started-1.mp4" description="Video - Authentication Demo" />
 
 ## Adding Data
 
@@ -1842,7 +1910,15 @@ Once you are done, add the API dependencies to your project. Select **File > Add
 
 ![Shows the Amplify API library for Swift selected](/images/lib/getting-started/ios/set-up-swift-9.png)
 
-After adding the dependencies, update the `init` part of your `MyAmplifyAppApp.swift` file with the following code:
+After adding the dependencies, update the `import` part of your `MyAmplifyAppApp.swift` file with the following code:
+
+```swift title="MyAmplifyAppApp.swift"
+import Amplify
+import AWSCognitoAuthPlugin
+import AWSAPIPlugin
+```
+
+Then, update the `init()` part of your `MyAmplifyAppApp.swift` file with the following code:
 
 ```swift title="MyAmplifyAppApp.swift"
 init() {
@@ -1860,31 +1936,31 @@ Create a new file called `TodoViewModel.swift` and the `createTodo` function wit
 
 ```swift title="TodoViewModel.swift"
 import Amplify
+import SwiftUI
 
 @MainActor
 class TodoViewModel: ObservableObject {
-    func createTodo() {
+    func createTodo() async {
         let creationTime = Temporal.DateTime.now()
         let todo = Todo(
-            content: "Random Todo \(creationTime)",
+            content: "Random Todo \(creationTime.iso8601String)",
             isDone: false,
             createdAt: creationTime,
             updatedAt: creationTime
         )
-        Task {
-            do {
-                let result = try await Amplify.API.mutate(request: .create(todo))
-                switch result {
-                case .success(let todo):
-                    print("Successfully created todo: \(todo)")
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
-            } catch let error as APIError {
-                print("Failed to create todo: ", error)
-            } catch {
-                print("Unexpected error: \(error)")
+        do {
+            let result = try await Amplify.API.mutate(request: .create(todo))
+            switch result {
+            case .success(let todo):
+                print("Successfully created todo: \(todo)")
+                todos.append(todo)
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
             }
+        } catch let error as APIError {
+            print("Failed to create todo: ", error)
+        } catch {
+            print("Unexpected error: \(error)")
         }
     }
 }
@@ -1904,29 +1980,27 @@ class TodoViewModel: ObservableObject {
         /// ...
     }
 
-    func listTodos() {
+    func listTodos() async {
         let request = GraphQLRequest<Todo>.list(Todo.self)
-        Task {
-            do {
-                let result = try await Amplify.API.query(request: request)
-                switch result {
-                case .success(let todos):
-                    print("Successfully retrieved list of todos: \(todos)")
-                    self.todos = todos.elements
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
-            } catch let error as APIError {
-                print("Failed to query list of todos: ", error)
-            } catch {
-                print("Unexpected error: \(error)")
+        do {
+            let result = try await Amplify.API.query(request: request)
+            switch result {
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
+                self.todos = todos.elements
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
             }
+        } catch let error as APIError {
+            print("Failed to query list of todos: ", error)
+        } catch {
+            print("Unexpected error: \(error)")
         }
     }
 }
 ```
 
-This will assign the value of the fetched todos into a Published object. 
+This will assign the value of the fetched todos into a Published object.
 
 Now let's update the UI code to observe the todos. Update the `VStack` in the `ContentView.swift` file with the following code:
 
@@ -1945,8 +2019,7 @@ struct ContentView: View {
                     }
                 }
                 Button(action: {
-                    vm.createTodo()
-                    vm.listTodos()
+                    Task { await vm.createTodo() }
                 }) {
                     HStack {
                         Text("Add a New Todo")
@@ -1984,49 +2057,46 @@ class TodoViewModel: ObservableObject {
         // ...
     }
 
-    func deleteTodos(indexSet: IndexSet) {
+    func deleteTodos(indexSet: IndexSet) async {
         for index in indexSet {
-            let todo = todos[index]
-            Task {
-                do {
-                    let result = try await Amplify.API.mutate(request: .delete(todo))
-                    switch result {
-                    case .success(let todo):
-                        print("Successfully deleted todo: \(todo)")
-                    case .failure(let error):
-                        print("Got failed result with \(error.errorDescription)")
-                    }
-                } catch let error as APIError {
-                    print("Failed to deleted todo: ", error)
-                } catch {
-                    print("Unexpected error: \(error)")
-                }
-            }
-        }
-    }
-
-    func updateTodo(todo: Todo) {
-        Task {
             do {
-                let result = try await Amplify.API.mutate(request: .update(todo))
+                let todo = todos[index]
+                let result = try await Amplify.API.mutate(request: .delete(todo))
                 switch result {
                 case .success(let todo):
-                    print("Successfully updated todo: \(todo)")
+                    print("Successfully deleted todo: \(todo)")
+                    todos.remove(at: index)
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
                 }
             } catch let error as APIError {
-                print("Failed to updated todo: ", error)
+                print("Failed to deleted todo: ", error)
             } catch {
                 print("Unexpected error: \(error)")
             }
+        }
+    }
+
+    func updateTodo(todo: Todo) async {
+        do {
+            let result = try await Amplify.API.mutate(request: .update(todo))
+            switch result {
+            case .success(let todo):
+                print("Successfully updated todo: \(todo)")
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
+            }
+        } catch let error as APIError {
+            print("Failed to updated todo: ", error)
+        } catch {
+            print("Unexpected error: \(error)")
         }
     }
 }
 
 ```
 
-Update the `List` in the `ContentView.swift` file with the following code:
+Update the `List` in the `ContentView.swift` file with code to fetch the todos when the View is displayed and to call `deleteTodos(indexSet:)` when the user left-swipe a todo.
 
 ```swift title="ContentView.swift"
 struct ContentView: View {
@@ -2039,10 +2109,13 @@ struct ContentView: View {
                 List {
                     ForEach($vm.todos, id: \.id) { todo in
                         TodoRow(vm: vm, todo: todo)
-                    }.onDelete { indexSet in
-                        vm.deleteTodos(indexSet: indexSet)
-                        vm.listTodos()
                     }
+                    .onDelete { indexSet in
+                        Task { await vm.deleteTodos(indexSet: indexSet) }
+                    }
+                }
+                .task {
+                    await vm.listTodos()
                 }
                 // ... Add new Todo button
             }
@@ -2054,6 +2127,8 @@ struct ContentView: View {
 Lastly, create a new file called `TodoRow.swift` with the following code:
 
 ```swift title="TodoRow.swift"
+import SwiftUI
+
 struct TodoRow: View {
     @ObservedObject var vm: TodoViewModel
     @Binding var todo: Todo
@@ -2062,26 +2137,30 @@ struct TodoRow: View {
         Toggle(isOn: $todo.isDone) {
             Text(todo.content ?? "")
         }
-        .toggleStyle(SwitchToggleStyle())
+        .toggleStyle(.switch)
         .onChange(of: todo.isDone) { _, newValue in
             var updatedTodo = todo
             updatedTodo.isDone = newValue
-            vm.updateTodo(todo: updatedTodo)
-            vm.listTodos()
+            Task { await vm.updateTodo(todo: updatedTodo) }
         }
     }
+}
+
+#Preview {
+    @State var todo = Todo(content: "Hello Todo World 20240706T15:23:42.256Z", isDone: false)
+    return TodoRow(vm: TodoViewModel(), todo: $todo)
 }
 ```
 
 This will update the UI to show a toggle to update the todo `isDone` and a swipe to delete the todo. Now if you run the application you should see the following flow.
 
-<Video width="40%" src="/images/gen2/getting-started/ios/ios-getting-started-3.mp4" />
+<Video width="40%" src="/images/gen2/getting-started/ios/ios-getting-started-3.mp4" description="Video - Delete Demo" />
 
 You can terminate the sandbox environment now to clean up the project.
 
 ## Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#create-remote-git-repository).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 
@@ -2125,7 +2204,7 @@ Deploy to AWS
 
 Select **GitHub**, pick the starter repository, and hit "Save and Deploy".
 
-<Video src="/images/gen2/getting-started/react/deploy.mp4" />
+<Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Deploy the starter app" />
 
 ### 3: View deployed backend
 
@@ -2146,7 +2225,7 @@ Let's take a tour of the project structure in this starter repository. The start
 
  When the build completes, visit the newly deployed branch by selecting the branch name and then looking at the **Deployed backend resources** section under deployments.
 
-<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" description="Video - Deployments" />
 
 ## Make app updates
 
@@ -2175,7 +2254,7 @@ In **Select a Project Template**, select **Empty Activity** or **Empty Compose A
 
 On the **Deployed backend resources**, choose **Download outputs file** to download the `amplify_outputs.json` file that contains identifiers for all the deployed backend resources.
 
-![outputs](/images/gen2/getting-started/react/amplify-outputs-download.png)
+![](/images/gen2/getting-started/react/amplify-outputs-download.png)
 
 
 Now move the `amplify_outputs.json` file you downloaded above to `app/src/main/res/raw` in your Android project. You will now be able to connect to this backend.
@@ -2298,7 +2377,7 @@ class MainActivity : ComponentActivity() {
 
 Now if you run the application on the Android emulator, you should see the authentication flow working.
 
-<Video width="40%" src="/images/gen2/getting-started/android/android-getting-started-1.mp4" />
+<Video width="40%" src="/images/gen2/getting-started/android/android-getting-started-1.mp4" description="Video - Authentication Demo" />
 
 ### 7. Read and write data
 
@@ -2424,7 +2503,7 @@ setContent {
     MyAmplifyAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
-            modifier = Modifier.fillMaxSize(), 
+            modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
             Authenticator { state ->
@@ -2458,7 +2537,7 @@ fun TodoList() {
         Amplify.API.subscribe(
             ModelSubscription.onCreate(Todo::class.java),
             { Log.i("ApiQuickStart", "Subscription established") },
-            { 
+            {
                 Log.i("ApiQuickStart", "Todo create subscription received: ${it.data}")
                 todoList = todoList + it.data
             },
@@ -2569,7 +2648,7 @@ Before you get started, make sure you have the following installed:
 - Configure your AWS account to use with Amplify [instructions](/[platform]/start/account-setup/).
 
 
-This Quickstart guide will walk you through how to build a Todo application using [Expo](https://expo.dev/)'s TypeScript template.
+This Quickstart guide will walk you through how to build a Todo application for Android or iOS using [Expo](https://expo.dev/)'s TypeScript template.
 
   <Callout>
 
@@ -2595,7 +2674,7 @@ npx expo prebuild
 The easiest way to get started with AWS Amplify is through npm with `create-amplify` command. You can run it from your base project directory.
 
 ```bash title="Terminal" showLineNumbers={false}
-cd my-app
+cd my_amplify_app
 npm create amplify@latest
 ? Where should we create your project? (.) # press enter
 ```
@@ -2698,7 +2777,7 @@ The Authenticator component auto-detects your auth backend settings and renders 
 
 Run your application in your local environment again. You should be presented with a login experience now.
 
-<Video src="/images/gen2/getting-started/reactnative/reactnative-getting-started-1.mp4" />
+<Video src="/images/gen2/getting-started/reactnative/reactnative-getting-started-1.mp4" description="Video - Authentication Demo" />
 
 ## Adding Data
 
@@ -2872,13 +2951,13 @@ const styles = StyleSheet.create({
 
 If you run the application now, you should see the following behavior:
 
-<Video src="/images/gen2/getting-started/reactnative/reactnative-getting-started-2.mp4" />
+<Video src="/images/gen2/getting-started/reactnative/reactnative-getting-started-2.mp4" description="Video - Delete Demo" />
 
 You can terminate the sandbox environment now to clean up the project.
 
 ### Publishing changes to cloud
 
-For publishing the changes to cloud, you need to create a remote git repository. For a detailed guide, you can follow the link [here](/[platform]/start/quickstart/#publishing-changes-to-cloud).
+Publishing changes to the cloud requires a remote git repository. Amplify offers fullstack branch deployments that allow you to automatically deploy infrastructure and application code changes from feature branches. To learn more, visit the [fullstack branch deployments guide](/[platform]/deploy-and-host/fullstack-branching/branch-deployments).
 
 </InlineFilter>
 

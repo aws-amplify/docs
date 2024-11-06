@@ -32,7 +32,7 @@ export function getStaticProps() {
 
 `defineFunction` comes out-of-the-box with sensible but minimal defaults. The following options are provided to tweak the function configuration.
 
-### `name`
+## `name`
 
 By default, functions are named based on the directory the `defineFunction` call is placed in. In the above example, defining the function in `amplify/functions/my-demo-function/resource.ts` will cause the function to be named `my-demo-function` by default.
 
@@ -47,7 +47,7 @@ export const myDemoFunction = defineFunction({
 });
 ```
 
-### `timeoutSeconds`
+## `timeoutSeconds`
 
 By default, functions will time out after 3 seconds. This can be configured to any whole number of seconds up to 15 minutes.
 
@@ -58,7 +58,7 @@ export const myDemoFunction = defineFunction({
 });
 ```
 
-### `memoryMB`
+## `memoryMB`
 
 By default, functions have 512 MB of memory allocated to them. This can be configured from 128 MB up to 10240 MB. Note that this can increase the cost of function invocation. For more pricing information see [here](https://aws.amazon.com/lambda/pricing/).
 
@@ -69,7 +69,7 @@ export const myDemoFunction = defineFunction({
 });
 ```
 
-### `runtime`
+## `runtime`
 
 Currently, only Node runtimes are supported by `defineFunction`. However, you can change the Node version that is used by the function. The default is the oldest Node LTS version that is supported by AWS Lambda (currently Node 18).
 
@@ -81,7 +81,7 @@ export const myDemoFunction = defineFunction({
 });
 ```
 
-### `entry`
+## `entry`
 
 By default, Amplify will look for your function handler in a file called `handler.ts` in the same directory as the file where `defineFunction` is called. To point to a different handler location, specify an `entry` value.
 

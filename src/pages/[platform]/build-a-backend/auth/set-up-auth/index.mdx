@@ -69,7 +69,7 @@ npx ampx sandbox
 <InlineFilter filters={['flutter']}>
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --config-format dart --config-out-dir lib
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 ```
 
 </InlineFilter>
@@ -382,19 +382,13 @@ flutter pub get
 
 Next, update your `main.dart` file with the following:
 
-<Callout info>
-
-**Note:** when using Amplify Gen 2 with Flutter, you must downgrade the generated client configuration file (`amplify_outputs.dart`) with [`--outputs-version 0`](/[platform]/reference/cli-commands/#npx-ampx-generate-outputs)
-
-</Callout>
-
 ```dart
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'amplifyconfiguration.dart';
+import 'amplify_outputs.dart';
 
 Future<void> main() async {
   try {
@@ -410,7 +404,7 @@ Future<void> main() async {
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.configure(outputs);
+    await Amplify.configure(amplifyConfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {
     safePrint('Error configuring Amplify: $e');
@@ -577,14 +571,12 @@ An application with Amplify libraries integrated and a minimum target of any of 
 - **macOS 10.15**, using **Xcode 14.1** or later.
 - **tvOS 13.0**, using **Xcode 14.3** or later.
 - **watchOS 9.0**, using **Xcode 14.3** or later.
-- **visionOS 1.0**, using **Xcode 15 beta 2** or later. (Preview support - see below for more details.)
+- **visionOS 1.0**, using **Xcode 15** or later. (Preview support - see below for more details.)
 
-<Callout info>
+<Callout>
 
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
-As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
-
-For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
+visionOS support is currently in **preview** and can be used by using the latest [Amplify Release](https://github.com/aws-amplify/amplify-swift/releases). 
+As new Xcode and visionOS versions are released, the support will be updated with any necessary fixes on a best effort basis.
 
 </Callout>
 <Callout>

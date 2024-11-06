@@ -114,14 +114,14 @@ For cases where items are uniquely identified by more than a single field, you c
 ```typescript
 const schema = a.schema({
   StoreBranch: a.model({
-    tenantId: a.id().required(),
+    geoId: a.id().required(),
     name: a.string().required(),
     country: a.string(),
     state: a.string(),
     city: a.string(),
     zipCode: a.string(),
     streetAddress: a.string(),
-  }).identifier(['tenantId', 'name'])
+  }).identifier(['geoId', 'name'])
   .authorization(allow => [allow.publicApiKey()]),
 });
 ```
@@ -130,7 +130,7 @@ const schema = a.schema({
 ```ts
 const client = generateClient<Schema>();
 
-const branch = await client.models.StoreBranch.get({ tenantId: '123', name: 'Downtown' }); // All identifier fields are required when retrieving an item
+const branch = await client.models.StoreBranch.get({ geoId: '123', name: 'Downtown' }); // All identifier fields are required when retrieving an item
 ```
 </InlineFilter>
 
@@ -140,7 +140,7 @@ let queriedStoreBranch = try await Amplify.API.query(
   request: .get(
       StoreBranch.self,
       byIdentifier: .identifier(
-          tenantId: "123",
+          geoId: "123",
           name: "Downtown")))
 ```
 </InlineFilter>

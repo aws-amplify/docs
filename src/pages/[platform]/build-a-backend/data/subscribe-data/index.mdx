@@ -38,6 +38,12 @@ Before you begin, you will need:
 - An [application connected to the API](/[platform]/build-a-backend/data/connect-to-API/)
 - Data already created to modify
 
+{/* This component contains approved messaging and cannot be removed or modified without prior approval */}
+
+import { ProtectedRedactionGen2Message } from "@/protected/ProtectedRedactionMessage"
+
+<ProtectedRedactionGen2Message />
+
 ## Set up a real-time list query
 
 The recommended way to fetch a list of data is to use `observeQuery` to get a real-time list of your app data at all times. You can integrate `observeQuery` with React's `useState` and `useEffect` hooks in the following way:
@@ -74,6 +80,102 @@ export default function MyComponent() {
 ```
 
 `observeQuery` fetches and paginates through all of your available data in the cloud. While data is syncing from the cloud, snapshots will contain all of the items synced so far and an `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and an `isSynced` status of `true`.
+
+<Accordion title='Missing real-time events and model fields' headingLevel='4' eyebrow='Troubleshooting'>
+
+If you don't see all of the real-time events and model fields you expect to see, here are a few things to look for.
+
+#### Authorization
+
+The model's [authorization rules](/[platform]/build-a-backend/data/customize-authz/) must grant the appropriate rights to the user.
+
+| Operation | Authorization |
+| -- | -- |
+| `onCreate` | `read` OR `listen` |
+| `onUpdate` | `read` OR `listen` |
+| `onDelete` | `read` OR `listen` |
+| `observeQuery` | `read` OR (`listen` AND `list`) |
+
+If the authorization rules are correct, also ensure the session is authenticated as expected.
+
+#### Selection Set Parity
+
+All of the fields you expect to see in a real-time update must be present in the selection set of the **mutation** that triggers it. A mutation essentially "provides" the fields via its selection set that the corresponding subscription can then select from.
+
+One way to address this is to use a common selection set variable for both operations. For example:
+
+```ts
+// Defining your selection set `as const` ensures the types
+// propagate through to the response objects.
+const selectionSet = ['title', 'author', 'posts.*'] as const;
+
+const sub = client.models.Blog.observeQuery(
+  filter: { id: { eq: 'blog-id' } },
+  selectionSet: [...selectionSet]
+).subscribe({
+  next(data) {
+    handle(data.items)
+  }
+});
+
+// The update uses the same selection set, ensuring all the
+// required fields are provided to the subscriber.
+const { data } = await client.models.Blog.update({
+  id: 'blog-id',
+  name: 'Updated Name'
+}, {
+  selectionSet: [...selectionSet]
+});
+```
+
+This works well if all subscriptions to `Blog` require the same subset of fields. If multiple subscriptions are involved with various selection sets, you must ensure that all `Blog` mutations contain the superset of fields from all subscriptions.
+
+Alternatively, you can skip the custom selection sets entirely. The internally generated selection set for any given model is identical across operations by default. The trade-off is that the default selection sets exclude related models. So, when related models are required, you would need to either lazy load them or construct a query to fetch them separately.
+
+#### Related Model Mutations
+
+Mutations do not trigger real-time updates for *related* models. This is true even when the subscription includes a related model in the selection set. For example, if we're subscribed to a particular `Blog` and wish to see updates when a `Post` is added or changed, it's tempting to create  a subscribe on `Blog` and assume it "just works":
+
+```ts
+// Notice how we're fetching a few `Blog` details, but mostly using
+// the selection set to grab all the related posts.
+const selectionSet = ['title', 'author', 'posts.*'] as const;
+
+const sub = client.models.Blog.observeQuery(
+  filter: { id: { eq: 'blog-id' } },
+  selectionSet: [...selectionSet]
+).subscribe({
+  next(data) {
+    handle(data.items)
+  }
+});
+```
+
+But, mutations on `Post` records won't trigger an real-time event for the related `Blog`. If you need `Blog` updates when a `Post` is added, you must manually "touch" the relevant `Blog` record.
+
+```ts
+async function addPostToBlog(
+  post: Schema['Post']['createType'],
+  blog: Schema['Blog']['type']
+) {
+  // Create the post first.
+  await client.models.Post.create({
+    ...post,
+    blogId: blog.id
+  });
+
+  // "Touch" the blog, notifying subscribers to re-render.
+  await client.models.Blog.update({
+    id: blog.id
+  }, {
+    // Remember to include the selection set if the subscription
+    // is looking for related-model fields!
+    selectionSet: [...selectionSet]
+  });
+}
+```
+
+</Accordion>
 
 ## Set up a real-time event subscription
 
@@ -340,9 +442,9 @@ func createSubscription() {
 
 </BlockSwitcher>
 
-### Unsubscribing from updates
+## Unsubscribing from updates
 
-#### Async/Await
+### Async/Await
 
 To unsubscribe from updates, you can call `cancel()` on the subscription.
 
@@ -353,7 +455,7 @@ func cancelSubscription() {
 }
 ```
 
-#### Combine
+### Combine
 
 Calling `cancel()` on the sequence will disconnect the subscription from the backend. Any downstream subscribers will also be cancelled.
 
@@ -537,7 +639,7 @@ Amplify.Hub.listen(
 );
 ```
 
-#### SubscriptionStatus
+### SubscriptionStatus
 
 - **`connected`** - Connected and working with no issues
 - **`connecting`** - Attempting to connect (both initial connection and reconnection)
@@ -554,11 +656,13 @@ Likewise, when disconnected from the internet unexpectedly, the subscription wil
 ```dart
 Future<void> _configureAmplify() async {
   final apiPlugin = AmplifyAPI(
-    modelProvider: ModelProvider.instance,
-    // Optional config
-    subscriptionOptions: const GraphQLSubscriptionOptions(
-      retryOptions: RetryOptions(maxAttempts: 10),
-    ),
+    options: APIPluginOptions(
+      modelProvider: ModelProvider.instance,
+      // Optional config
+      subscriptionOptions: const GraphQLSubscriptionOptions(
+        retryOptions: RetryOptions(maxAttempts: 10),
+      ),
+    )
   );
   await Amplify.addPlugin(apiPlugin);
 
