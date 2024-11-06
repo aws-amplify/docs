@@ -5,6 +5,9 @@ on:
   repository_dispatch:
     types: [update-references]
   workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
