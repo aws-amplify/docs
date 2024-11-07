@@ -6,8 +6,8 @@ on:
     types: [update-references]
   workflow_dispatch:
 permissions:
-  contents: write
-  pull-requests: write
+  contents: write # Used to commit updated references PR
+  pull-requests: write # Used to create updated references PR
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
