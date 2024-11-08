@@ -10169,9 +10169,84 @@
 		"target": "/gen1/react/tools/cli/commands/",
 		"status": "301"
 	},
-  {
-    "source": "/gen1/flutter/build-a-backend/storage/move/",
+	{
+		"source": "/<platform>/build-a-backend/data/custom-business-logic/connect-external-ddb-table/",
+		"target": "/<platform>/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/REACT/build-a-backend/graphqlapi/customize-authz-modes/",
+		"target": "/gen1/react/build-a-backend/graphqlapi/customize-authorization-rules/",
+		"status": "301"
+	},
+	{
+		"source": "/sdk/push-notifications/getting-started/",
+		"target": "/gen1/swift/sdk/push-notifications/getting-started/",
+		"status": "301"
+	},
+	{
+		"source": "/lib/troubleshooting/upgrading/q/platform/flutter/",
+		"target": "/gen1/flutter/build-a-backend/troubleshooting/upgrade-amplify-packages/",
+		"status": "301"
+	},
+	{
+		"source": "/start/getting-started/integrate/q/integration/react-native/",
+		"target": "/gen1/react-native/build-a-backend/more-features/datastore/set-up-datastore/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/react/build-a-backend/auth/connect-your-frontend/sign-up/",
+		"target": "/gen1/react/build-a-backend/auth/enable-sign-up/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/flutter/build-a-backend/storage/move/",
 		"target": "/gen1/flutter/prev/build-a-backend/storage/move/",
 		"status": "301"
-  }
+	},
+	{
+		"source": "/android/start/connect-existing-aws-resources",
+		"target": "/android/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/angular/start/connect-existing-aws-resources",
+		"target": "/angular/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/flutter/start/connect-existing-aws-resources",
+		"target": "/flutter/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/start/connect-existing-aws-resources",
+		"target": "/javascript/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/start/connect-existing-aws-resources",
+		"target": "/nextjs/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/react/start/connect-existing-aws-resources",
+		"target": "/react/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/start/connect-existing-aws-resources",
+		"target": "/react-native/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/swift/start/connect-existing-aws-resources",
+		"target": "/swift/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/vue/start/connect-existing-aws-resources",
+		"target": "/vue/start/connect-to-aws-resources",
+		"status": "301"
+	}
 ]
