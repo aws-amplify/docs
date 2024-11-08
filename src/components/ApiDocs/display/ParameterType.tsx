@@ -1,11 +1,10 @@
 import { View } from '@aws-amplify/ui-react';
 import { TypeLink } from './TypeLink';
-import { LinkDataType } from './TypeLink';
 import React from 'react';
 import references from '@/directory/apiReferences.json';
 
 interface typeDataType {
-  typeArguments?: LinkDataType[];
+  typeArguments?: typeDataType[];
   type: string | typeDataType;
   kind: number;
   types?: [];
@@ -43,15 +42,19 @@ export const ParameterType = ({ typeData }: ParameterComponentType) => {
 
   // adds type arguments to an array to be rendered
   const addTypeArgs = (
-    typeArgs: LinkDataType[],
+    typeArgs: typeDataType[],
     displayArray: TypeArguments
   ): TypeArguments => {
     const typeArgArray = typeArgs.reduce<TypeArguments>((acc, tArg, index) => {
       let retValue;
       if (index === 0) {
-        retValue = [<TypeLink key={tArg.name} linkData={tArg} />];
+        retValue = [<ParameterType key={tArg.name} typeData={tArg} />];
       } else {
-        retValue = [...acc, ', ', <TypeLink key={tArg.name} linkData={tArg} />];
+        retValue = [
+          ...acc,
+          ', ',
+          <ParameterType key={tArg.name} typeData={tArg} />
+        ];
       }
       if (tArg?.typeArguments?.length) {
         addTypeArgs(tArg.typeArguments, retValue);
