@@ -10173,5 +10173,10 @@
     "source": "/gen1/flutter/build-a-backend/storage/move/",
 		"target": "/gen1/flutter/prev/build-a-backend/storage/move/",
 		"status": "301"
-  }
+  },
+	{
+		"source": "/ai/",
+		"target": "/react/ai/set-up-ai/",
+		"status": "302"
+	}
 ]
