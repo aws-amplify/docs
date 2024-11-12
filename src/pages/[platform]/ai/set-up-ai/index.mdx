@@ -648,7 +648,7 @@ const { data: conversation } = await client.conversations.chat.create();
 
 // Assistant messages come back as websocket events
 // over a subscription
-conversation.onResponseEvent({
+conversation.onStreamEvent({
   next: (event) => {
     console.log(event);
   },
