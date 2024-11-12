@@ -72,7 +72,7 @@ const s3Client = new S3Client();
 
 export const handler = async () => {
   const command = new PutObjectCommand({
-    Bucket: env.myReports_BUCKET_NAME,
+    Bucket: env.MY_REPORTS_BUCKET_NAME,
     Key: `reports/${new Date().toISOString()}.csv`,
     Body: new Blob([''], { type: 'text/csv;charset=utf-8;' })
   });
@@ -119,7 +119,6 @@ However some constructs provide a `grant*` method to grant access to common poli
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend"
-import * as iam from "aws-cdk-lib/aws-iam"
 import * as sns from "aws-cdk-lib/aws-sns"
 import { weeklyDigest } from "./functions/weekly-digest/resource"
 

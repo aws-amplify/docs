@@ -1,0 +1,67 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Tagging resources',
+  description: 'Decorate resources with tags for categorization.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Tags are a key-value pair that are applied to AWS resources to hold metadata. Tags are often used to decorate resources with metadata that helps categorize resources for billing or viewing purposes. Learn more about tags by visiting the [AWS documentation for best practices for tagging resources](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/what-are-tags.html).
+
+Amplify applies the following tags by default:
+
+| Deployment type | Tag key                   | Tag value                |
+|-----------------|---------------------------|--------------------------|
+| sandbox         | `created-by`              | `amplify`                |
+| sandbox         | `amplify:deployment-type` | `sandbox`                |
+| branch          | `created-by`              | `amplify`                |
+| branch          | `amplify:deployment-type` | `branch`                 |
+| branch          | `amplify:app-id`          | `<your-amplify-app-id>`  |
+| branch          | `amplify:branch-name`     | `<your-git-branch-name>` |
+
+In your Amplify backend you can use the [`Tags`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Tags.html) class from the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to apply tags at the root level, which then cascades to child resources.
+
+```ts title="amplify/backend.ts"
+import { Tags } from 'aws-cdk-lib';
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+/**
+ * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
+ */
+const backend = defineBackend({
+  auth,
+  data
+});
+
+const tags = Tags.of(backend.stack);
+// add a new tag
+tags.add('my-key', 'my-value');
+// remove tags
+tags.remove('my-key');
+```
+
