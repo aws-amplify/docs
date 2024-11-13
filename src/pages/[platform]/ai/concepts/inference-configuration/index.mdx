@@ -64,7 +64,9 @@ a.generation({
 
 ### Temperature
 
-Affects the shape of the probability distribution for the predicted output and influences the likelihood of the model selecting lower-probability outputs. Temperature is a number from 0 to 1, where a lower value will influence the model to select higher-probability options. Another way to think about temperature is to think about creativity. A low number (close to zero) would produce the least creative and most deterministic response.
+Affects the shape of the probability distribution for the predicted output and influences the likelihood of the model selecting lower-probability outputs. Temperature is usually* number from 0 to 1, where a lower value will influence the model to select higher-probability options. Another way to think about temperature is to think about creativity. A low number (close to zero) would produce the least creative and most deterministic response.
+
+-* AI21 Labs Jamba models use a temperature range of 0 &ndash; 2.0
 
 ### Top P
 
@@ -81,10 +83,13 @@ This parameter is used to limit the maximum response a model can give.
 
 | Model | Temperature | Top P | Max Tokens |
 | ----- | ----------- | ----- | ---------- |
-| Meta Llama | 0.5 | 0.9 | 512 |
-| Amazon Titan | 0.7 | 0.9 | 512 |
-| Anthropic Claude | 1 | 0.999 | 512 |
-| Cohere Command R | 0.3 | 0.75 | 512 |
-| Mistral Large | 0.7 | 1 | 8192 |
+| [AI21 Labs Jamba](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-jamba.html#model-parameters-jamba-request-response) | 1.0* | 0.5 | 4096 |
+| [Meta Llama](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-meta.html#model-parameters-meta-request-response) | 0.5 | 0.9 | 512 |
+| [Amazon Titan](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-titan-text.html) | 0.7 | 0.9 | 512 |
+| [Anthropic Claude](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html#model-parameters-anthropic-claude-messages-request-response) | 1 | 0.999 | 512 |
+| [Cohere Command R](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-cohere-command-r-plus.html#model-parameters-cohere-command-request-response) | 0.3 | 0.75 | 512 |
+| [Mistral Large](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-mistral-chat-completion.html#model-parameters-mistral-chat-completion-request-response) | 0.7 | 1 | 8192 |
 
 [Bedrock documentation on model default inference configuration](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html)
+
+-* AI21 Labs Jamba models use a temperature range of 0 &ndash; 2.0
