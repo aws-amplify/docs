@@ -1610,7 +1610,8 @@
     "esac",
     "voteField",
     "ampx",
-    "autodetection"
+    "autodetection",
+    "jamba"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
