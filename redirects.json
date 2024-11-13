@@ -7320,6 +7320,51 @@
 		"status": "301"
 	},
 	{
+		"source": "/react/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/react/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/angular/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/angular/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/react-native/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/next.js/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/next.js/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/vue/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/vue/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/javascript/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/android/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/android/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/flutter/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/flutter/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/swift/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/swift/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
 		"source": "/[platform]/build-a-backend/utilities",
 		"target": "/react/build-a-backend/utilities",
 		"status": "301"
