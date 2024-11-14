@@ -83,7 +83,7 @@ const schema = a.schema({
     aiModel: a.ai.model('Claude 3 Haiku'),
     systemPrompt: 'You are a helpful assistant',
   })
-  .authorization((allow) => allow.owner()),,
+  .authorization((allow) => allow.owner()),
   // highlight-end
 
   // This adds a new generation route to your Amplify Data backend.
