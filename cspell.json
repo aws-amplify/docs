@@ -170,6 +170,8 @@
     "Auth.currentAuthenticatedUser",
     "Auth.federatedSignIn",
     "Auth0",
+    "Authauthenticated",
+    "Authunauthenticate",
     "authcurrentsession",
     "authverifycurrentuserattribute",
     "authverifycurrentuserattributesubmit",
