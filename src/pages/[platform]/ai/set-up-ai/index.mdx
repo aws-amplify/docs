@@ -82,7 +82,8 @@ const schema = a.schema({
   chat: a.conversation({
     aiModel: a.ai.model('Claude 3 Haiku'),
     systemPrompt: 'You are a helpful assistant',
-  }),
+  })
+  .authorization((allow) => allow.owner()),,
   // highlight-end
 
   // This adds a new generation route to your Amplify Data backend.
@@ -179,7 +180,7 @@ Call `Amplify.configure()` with the **amplify_outputs.json** file where the Reac
 
 ```tsx title="src/main.tsx"
 import { Amplify } from 'aws-amplify';
-import outputs from '../../amplify_outputs.json';
+import outputs from '../amplify_outputs.json';
 
 Amplify.configure(outputs);
 ```
@@ -314,12 +315,13 @@ export const { useAIConversation, useAIGeneration } = createAIHooks(client);
 <InlineFilter filters={["react"]}>
 
 ```tsx title="src/App.tsx"
-import { Flex, TextAreaField, Loader, Text, View } from "@aws-amplify/ui-react"
-import { useAIGeneration } from "@/client";
+import * as React from 'react';
+import { Flex, TextAreaField, Loader, Text, View, Button } from "@aws-amplify/ui-react"
+import { useAIGeneration } from "./client";
 
 export default function App() {
   const [description, setDescription] = React.useState("");
-  const [{ data, isLoading, hasError }, generateRecipe] =
+  const [{ data, isLoading }, generateRecipe] =
     useAIGeneration("generateRecipe");
 
   const handleClick = async () => {
