@@ -112,7 +112,7 @@ Configuring the mobile client libraries directly is not supported, however you c
 
 ## Use auth resources with an Amplify backend
 
-If you have created Amazon Cognito resources outside of the context of your Amplify app such as creating resources through the AWS Console or consuming resources created by a separate team, you can use `referenceAuth` to reference the existing resources.
+If you have created Amazon Cognito resources outside of the context of your Amplify app such as creating resources through the AWS Console or consuming resources created by a separate team, you can use `referenceAuth` to reference the existing resources. It requires a user pool, a user pool client, identity pool, and an authenticated & unauthenticated IAM role configured on your identity pool.
 
 ```ts title="amplify/auth/resource.ts"
 import { referenceAuth } from '@aws-amplify/backend';
@@ -128,7 +128,7 @@ export const auth = referenceAuth({
 
 <Callout info>
 
-Referenced resources cannot be modified. IAM policies specific to your Amplify application will be appended to your authenticated and unauthenticated roles, and applications using the referenced resource will be able to create users in the Cognito user pool and identities in the Cognito identity pool.
+The configuration of your referenced resources cannot be modified. IAM policies specific to your Amplify application will be appended to your authenticated and unauthenticated roles, and applications using the referenced resource will be able to create users in the Cognito user pool and identities in the Cognito identity pool.
 
 </Callout>
 
