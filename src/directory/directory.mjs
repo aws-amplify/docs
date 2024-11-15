@@ -74,6 +74,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/phone/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/passwordless/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/user-attributes/index.mdx'
                     },
                     {
