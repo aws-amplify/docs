@@ -47,13 +47,20 @@ To list all the conversations a user has you can use the `.list()` method. It wo
 const { data: conversations } = await client.conversations.chat.list()
 ```
 
-The conversation model has `createdAt` and `updatedAt` fields so you can sort by when the conversation was created or when it was last updated. The `updatedAt` field gets updated when new messages are sent, so you can use that to see which conversation had the most recent message. 
+The `updatedAt` field gets updated when new messages are sent, so you can use that to see which conversation had the most recent message. Conversations retrieved via `.list()` are sorted in descending order by `updatedAt`.
+
+### Pagination
+The result of `.list()` contains a `nextToken` property. This can be used to retrieve subsequent pages of conversations.
 
 ```ts
-const {data: conversations} = await client.conversations.chat.list();
+const { data: conversations, nextToken } = await client.conversations.chat.list();
 
-conversations.sort((a, b) => (a.updatedAt > b.updatedAt ? -1 : 1))
-```
+// retrieve next page
+if (nextToken) { 
+  const { data: nextPageConversations } = await client.conversations.chat.list({ 
+    nextToken 
+  });
+}
 
 Conversations also have `name` and `metadata` fields you can use to more easily find and resume past conversations. `name` is a string and `metadata` is a JSON object so you can store any extra information you need. 
 
