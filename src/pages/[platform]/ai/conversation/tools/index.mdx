@@ -229,12 +229,10 @@ const thermometer: ExecutableTool = {
   name: 'thermometer',
   description: 'Returns current temperature in a city',
   execute: (input): Promise<ToolResultContentBlock> => {
-    if (input && typeof input === 'object' && 'city' in input) {
-      if (input.city === 'Seattle') {
-        return Promise.resolve({
-          text: `75F`,
-        });
-      }
+    if (input.city === 'Seattle') {
+      return Promise.resolve({
+        text: `75F`,
+      });
     }
     return Promise.resolve({
       text: 'unknown'

@@ -82,7 +82,11 @@ const { data: conversation } = await client.conversations.chat.get({ id: convers
 const { data: messages } = await conversation.listMessages();
 
 // You can now send a message to the conversation
-conversation.sendMessage({})
+conversation.sendMessage({
+  content: [
+    {text: "hello"}
+  ]
+})
 ```
 
 </InlineFilter>
