@@ -1613,7 +1613,8 @@
     "voteField",
     "ampx",
     "autodetection",
-    "jamba"
+    "jamba",
+    "knowledgebases"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
