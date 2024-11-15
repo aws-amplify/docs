@@ -98,9 +98,9 @@ In the handler file for your function, configure the Amplify data client
 
 ```ts title="amplify/functions/data-access/handler.ts"
 import type { Handler } from 'aws-lambda';
+import { type Schema } from '../../data/resource';
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/data';
-import { Schema } from '../../data/resource';
 import { getAmplifyDataClientConfig } from '@aws-amplify/backend/function/runtime';
 import { env } from '$amplify/env/<function-name>'; // replace with your function name
 
