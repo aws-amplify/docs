@@ -14,7 +14,7 @@
     "@docsearch/react": "3",
     "ajv": "^8.16.0",
     "aws-amplify": "^6.0.9",
-    "next": "^14.2.3",
+    "next": "^14.2.18",
     "next-image-export-optimizer": "^1.8.3",
     "next-transpile-modules": "^9.0.0",
     "parse-imports": "^1.1.0",
