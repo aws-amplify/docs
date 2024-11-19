@@ -30,7 +30,7 @@ export function getStaticProps(context) {
 
 
 
-Tools allow LLMs to take action or query information so it can respond with up to date information. There are a few different ways to define LLM tools in the Amplify AI kit. 
+Tools allow LLMs to take action or query information so it can respond with up to date information. There are a few different ways to define LLM tools in the Amplify AI kit.
 
 1. Model tools
 2. Query tools
@@ -75,7 +75,7 @@ This will let the LLM list and filter `Post` records. Because the data schema ha
 
 ## Query tools
 
-You can also give the LLM access to custom queries. You can define a custom query with a [Function](/[platform]/build-a-backend/functions/set-up-function/) handler and then reference that custom query as a tool. 
+You can also give the LLM access to custom queries. You can define a custom query with a [Function](/[platform]/build-a-backend/functions/set-up-function/) handler and then reference that custom query as a tool.
 
 ```ts title="amplify/data/resource.ts"
 // highlight-start
@@ -117,7 +117,7 @@ const schema = a.schema({
 });
 ```
 
-Because the definition of the query itself has the shape of the inputs and outputs (arguments and returns), the Amplify data tool can automatically tell the LLM exactly how to call the custom query. 
+Because the definition of the query itself has the shape of the inputs and outputs (arguments and returns), the Amplify data tool can automatically tell the LLM exactly how to call the custom query.
 
 <Callout>
 
@@ -191,6 +191,12 @@ backend.getWeather.resources.lambda.addToRolePolicy(
 
 Conversation routes can also have completely custom tools defined in a Lambda handler.
 
+### Install the backend-ai package
+
+```bash
+npm install @aws-amplify/backend-ai
+```
+
 ### Create a custom conversation handler function
 
 ```ts title="amplify/data/resource.ts"
@@ -217,28 +223,16 @@ const schema = a.schema({
 ### Implement the custom handler
 
 ```ts title="amplify/data/chatHandler.ts"
-
 import {
-    ConversationTurnEvent,
-    ExecutableTool,
-    handleConversationTurnEvent,
+  ConversationTurnEvent,
+  handleConversationTurnEvent,
 } from '@aws-amplify/ai-constructs/conversation/runtime';
-import { ToolResultContentBlock } from '@aws-sdk/client-bedrock-runtime';
+import { createExecutableTool } from '@aws-amplify/backend-ai/conversation/runtime';
 
-const thermometer: ExecutableTool = {
-  name: 'thermometer',
-  description: 'Returns current temperature in a city',
-  execute: (input): Promise<ToolResultContentBlock> => {
-    if (input.city === 'Seattle') {
-      return Promise.resolve({
-        text: `75F`,
-      });
-    }
-    return Promise.resolve({
-      text: 'unknown'
-    })
-  },
-  inputSchema: {
+const thermometer = createExecutableTool(
+  'thermometer',
+  'Returns current temperature in a city',
+  {
     json: {
       type: 'object',
       'properties': {
@@ -249,12 +243,22 @@ const thermometer: ExecutableTool = {
       },
       required: ['city']
     }
-  }
-};
+  },
+  (input) => {
+    if (input.city === 'Seattle') {
+      return Promise.resolve({
+        text: '75F',
+      });
+    }
+    return Promise.resolve({
+      text: 'unknown'
+    })
+  },
+);
 
 /**
- * Handler with simple tool.
- */
+* Handler with simple tool.
+*/
 export const handler = async (event: ConversationTurnEvent) => {
   await handleConversationTurnEvent(event, {
     tools: [thermometer],
