@@ -141,6 +141,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-passwords/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
                     },
                     {
