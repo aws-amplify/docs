@@ -258,35 +258,37 @@ import {
   handleConversationTurnEvent
 } from '@aws-amplify/backend-ai/conversation/runtime';
 
+const jsonSchema = {
+  json: {
+    type: 'object',
+    properties: {
+      'operator': {
+        'type': 'string',
+        'enum': ['+', '-', '*', '/'],
+        'description': 'The arithmetic operator to use'
+      },
+      'operands': {
+        'type': 'array',
+        'items': {
+          'type': 'number'
+        },
+        'minItems': 2,
+        'maxItems': 2,
+        'description': 'Two numbers to perform the operation on'
+      }
+    },
+    required: ['operator', 'operands']
+  }
+} as const;
+// declare as const to allow the input type to be derived from the JSON schema in the tool handler definition.
+
 const calculator = createExecutableTool(
   'calculator',
   'Returns the result of a simple calculation',
-  {
-    json: {
-      type: 'object',
-      properties: {
-        'operator': {
-          'type': 'string',
-          'enum': ['+', '-', '*', '/'],
-          'description': 'The arithmetic operator to use'
-        },
-        'operands': {
-          'type': 'array',
-          'items': {
-            'type': 'number'
-          },
-          'minItems': 2,
-          'maxItems': 2,
-          'description': 'Two numbers to perform the operation on'
-        }
-      },
-      required: ['operator', 'operands']
-    }
-  },
+  jsonSchema,
   // input type is derived from the JSON schema
   (input) => {
-    const [a, b] = input.operands as [number, number];
-
+    const [a, b] = input.operands;
     switch (input.operator) {
       case '+': return Promise.resolve({ text: (a + b).toString() });
       case '-': return Promise.resolve({ text: (a - b).toString() });
