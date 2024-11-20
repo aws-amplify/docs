@@ -87,9 +87,9 @@ Example response:
 <InlineFilter filters={['react','react-native','next-js']}>
 
 ```ts title="React Hook"
+import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/api";
 import { createAIHooks } from "@aws-amplify/ui-react-ai";
-import { Schema } from "../amplify/data/resource";
 
 const client = generateClient<Schema>({ authMode: "userPool" });
 const { useAIGeneration } = createAIHooks(client);
