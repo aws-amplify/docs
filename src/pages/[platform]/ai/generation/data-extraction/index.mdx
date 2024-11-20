@@ -32,7 +32,7 @@ Data extraction allows you to parse unstructured text and extract structured dat
 
 The following example shows how to extract product details from an unstructured product description. The AI model will analyze the text and return a structured object containing the product name, summary, price, and category.
 
-```typescript title="Schema Definition"
+```typescript title="amplify/data/resource.ts"
 const schema = a.schema({
   ProductDetails: a.customType({
     name: a.string().required(),
