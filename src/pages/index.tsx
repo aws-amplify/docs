@@ -40,6 +40,7 @@ export default function Page() {
   return (
     <Flex className="home-content">
       <Flex className="home-intro">
+        {/* <Banner /> */}
         <Heading level={1} className="home-intro__heading">
           Amplify Documentation
         </Heading>
