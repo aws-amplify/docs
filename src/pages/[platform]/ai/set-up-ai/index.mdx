@@ -47,6 +47,12 @@ Before you begin, you will need:
 
 You will also need an AWS account that is [setup for local development](/[platform]/start/account-setup) and has access to the Bedrock Foundation Model(s) you want to use. You can request access to Bedrock models by going in to the [Bedrock console and requesting access](https://console.aws.amazon.com/bedrock/home#/modelaccess).
 
+<Callout>
+
+Running inference on large language models (LLMs) can be costly. Amazon Bedrock is a serverless service so you only pay for what you use, but be mindful of the costs associated with building generative AI applications. [See Bedrock pricing for more information](https://aws.amazon.com/bedrock/pricing/).
+
+</Callout>
+
 ## Create an Amplify backend
 
 Run the create amplify script in your project directory:
@@ -106,6 +112,12 @@ const schema = a.schema({
   // highlight-end
 });
 ```
+
+<Callout>
+
+Conversation routes currently ONLY support owner-based authorization and generation routes ONLY support non-owner-based authorization (`authenticated`, `guest`, `group`, `publicApiKey`).
+
+</Callout>
 
 If you have the Amplify sandbox running, when you save this file it will pick up the changes and redeploy the necessary resources for you. 
 
@@ -180,6 +192,7 @@ Call `Amplify.configure()` with the **amplify_outputs.json** file where the Reac
 
 ```tsx title="src/main.tsx"
 import { Amplify } from 'aws-amplify';
+import '@aws-amplify/ui-react/styles.css';
 import outputs from '../amplify_outputs.json';
 
 Amplify.configure(outputs);

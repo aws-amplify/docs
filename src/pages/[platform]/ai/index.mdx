@@ -1,19 +1,18 @@
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
-import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: "Concepts",
-  description:
-    "Learn about what Amplify AI provisions and get an overview about generative AI concepts and terminology.",
-  route: '/[platform]/ai/concepts',
+  title: 'AI kit',
+  description: 'The quickest way for fullstack developers to build web apps with AI capabilities such as chat, conversational search, and summarization',
+  route: '/[platform]/ai',
   platforms: [
-    "javascript",
-    "react-native",
-    "angular",
-    "nextjs",
-    "react",
-    "vue",
-  ],
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
 };
 
 export const getStaticPaths = async () => {
