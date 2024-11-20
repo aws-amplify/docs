@@ -1,0 +1,170 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Response components",
+  description:
+    "Create rich conversational interfaces with custom UI responses",
+  platforms: [
+    "nextjs",
+    "react",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      showBreadcrumbs: false,
+    },
+  };
+}
+
+
+Response components are custom UI components you can define that the AI assistant can respond with. Response components allow you to build conversational interfaces that are more than just text in and text out. 
+
+## How it works
+
+The `AIConversation` component takes the response components and turns them into [tool](/[platform]/ai/concepts/tools) configurations to send to the LLM. The tool configurations get sent when a user message is sent to the backend, then the backend Lambda merges the tools coming from the client and any [schema tools](/[platform]/ai/conversation/tools). The LLM sees that it can invoke UI component "tool", with certain input/props. If the LLM chooses to use a response component tool, a message gets sent to the client with the response component name and props. The `AIConversation` component will then try to render the React component provided with the props the LLM sends. 
+
+It is important to know that the LLM is NOT writing raw code that sent to the browser and evaluated.
+
+## Structure
+
+The `responseComponents` prop on the `AIConversation` component takes a named object where the keys are the component names and the value is the component definition. 
+
+A response component has:
+
+* `description`: A description of the component. The more descriptive, the easier it is 
+* `component`: The React component to render. The props of the component should match the props
+* `props`: The props for the React component in [JSONSchema format](https://json-schema.org/understanding-json-schema/reference).
+
+
+```tsx
+<AIConversation
+  // highlight-start
+  responseComponents={{
+    WeatherCard: {
+      description: "Used to display the weather to the user",
+      component: ({ city }) => {
+        return (
+          <div>{city}</div>
+        )
+      },
+      props: {
+        city: {
+          type: "string",
+          required: true,
+          description: "The name of the city to display the weather for",
+        },
+      },
+    },
+  }}
+  // highlight-end
+/>
+```
+
+## Passing context back to the assistant
+
+When a user sends a message to the AI assistant from the client, you can optionally send `aiContext` with the message. `aiContext` is any information about the current state of the client application that might be useful for the AI assistant to know to help it respond better. `aiContext` could be things like the user's name, or the current state of the application like what page they are currently on. AI context is a plain object that will get stringified and sent to the AI assistant with the next user message.
+
+You can use the `aiContext` to let the AI assistant know what was rendered in the response component so it can have more context to respond with.
+
+It can be helpful to continue the conversation to add some context to the next message in the conversation to let the AI know what was displayed to the user. Because a UI component can have state and also data not included in a prop,
+
+
+```tsx
+// Create a context to share state across components
+// highlight-start
+const DataContext = React.createContext<{
+  data: any;
+  setData: (value: React.SetStateAction<any>) => void;
+}>({ data: {}, setData: () => {} });
+
+function WeatherCard({ city }: { city: string }) {
+  const { setData } = React.useContext(DataContext);
+
+  React.useEffect(() => {
+    // fetch some weather data
+    // set the data context
+    setData({ 
+      city,
+      // weather info
+    })
+  },[city])
+
+  return (
+    <div>{city}</div>
+  )
+}
+// highlight-start
+
+
+function Chat() {
+  const { data } = React.useContext(DataContext);
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    sendMessage,
+  ] = useAIConversation('chat');
+
+  return (
+    <AIConversation
+      messages={messages}
+      isLoading={isLoading}
+      handleSendMessage={sendMessage}
+      responseComponents={{
+        WeatherCard: {
+          component: WeatherCard,
+          description: "Used to display the weather to the user",
+          props: {
+            city: {
+              type: "string",
+              required: true,
+              description: "The name of the city to display the weather for",
+            },
+          },
+        }
+      }}
+      // highlight-start
+      aiContext={() => {
+        return {
+          ...data,
+        };
+      }}
+      // highlight-end
+    />
+  );
+}
+
+export default function Example() {
+  const [data, setData] = React.useState({});
+  return (
+    <Authenticator>
+      <DataContext.Provider value={{ data, setData }}>
+        <Chat />
+      </DataContext.Provider>
+    </Authenticator>
+  )
+}
+```
+
+## Fallback
+
+Because response components are defined at runtime in your React code, but conversation history is stored in a database, there can be times when there is a message in the conversation history that has a response component you no longer have. To handle these situations there is a `FallbackResponseComponent` prop you can use.
+
+```tsx
+<AIConversation
+  // highlight-start
+  FallBackResponseComponent={(props) => {
+    return <>{JSON.stringify(props)}</>
+  }}
+  // highlight-end
+/>
+```

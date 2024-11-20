@@ -170,6 +170,8 @@
     "Auth.currentAuthenticatedUser",
     "Auth.federatedSignIn",
     "Auth0",
+    "Authauthenticated",
+    "Authunauthenticate",
     "authcurrentsession",
     "authverifycurrentuserattribute",
     "authverifycurrentuserattributesubmit",
@@ -1610,7 +1612,9 @@
     "esac",
     "voteField",
     "ampx",
-    "autodetection"
+    "autodetection",
+    "jamba",
+    "knowledgebases"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

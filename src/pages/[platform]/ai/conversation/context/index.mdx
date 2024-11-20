@@ -1,0 +1,182 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Context",
+  description:
+    "How to pass client-side context to the LLM to help it respond.",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      showBreadcrumbs: false,
+    },
+  };
+}
+
+
+
+For LLMs to provide high-quality answers to users' questions, they need to have the right information. Sometimes this information is contextual, based on the user or the state of the application. To allow for this, you can send `aiContext` with any user message to the LLM, which can be any unstructured or structured data that might be useful.
+
+<InlineFilter filters={["javascript","vue","angular"]}>
+
+```ts
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "../amplify/data/resource";
+
+const client = generateClient<Schema>({ authMode: 'userPool' });
+
+const { data: conversation } = await client.conversations.chat.create();
+
+conversation.sendMessage({
+  content: [{ text: "hello" }],
+  // aiContext can be any shape
+  aiContext: {
+    username: "danny"
+  }
+})
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["react-native"]}>
+
+```tsx
+export default function Chat() {
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    sendMessage,
+  ] = useAIConversation('chat');
+
+  function handleSendMessage(message) {
+    sendMessage({
+      ...message,
+      // this can be any object that can be stringified
+      aiContext: {
+        currentTime: new Date().toLocaleTimeString()
+      }
+    })
+  }
+
+  return (
+    //...
+  )
+}
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["react", "nextjs"]}>
+
+```tsx
+function Chat() {
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    sendMessage,
+  ] = useAIConversation('chat');
+
+  return (
+    <AIConversation
+      messages={messages}
+      isLoading={isLoading}
+      handleSendMessage={sendMessage}
+      // This will let the LLM know about the current state of this application
+      // so it can better respond to questions
+      aiContext={() => {
+        return {
+          currentTime: new Date().toLocaleTimeString(),
+        };
+      }}
+    />
+  );
+}
+```
+
+
+The function passed to the `aiContext` prop will be run immediately before the request is sent in order to get the most up to date information. 
+
+You can use React context or other state management systems to update the data passed to `aiContext`. Using React context we can provide more information about the current state of the application:
+
+```tsx
+// Create a context to share state across components
+const DataContext = React.createContext<{
+  data: any;
+  setData: (value: React.SetStateAction<any>) => void;
+}>({ data: {}, setData: () => {} });
+
+// Create a component that updates the shared state
+function Counter() {
+  const { data, setData } = React.useContext(AIContext);
+  const count = data.count ?? 0;
+  return (
+    <Button onClick={() => setData({ ...data, count: count + 1 })}>
+      {count}
+    </Button>
+  );
+}
+
+// reference shared data in aiContext
+function Chat() {
+  const { data } = React.useContext(DataContext);
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    sendMessage,
+  ] = useAIConversation('pirateChat');
+
+  return (
+    <AIConversation
+      messages={messages}
+      isLoading={isLoading}
+      handleSendMessage={sendMessage}
+      // This will let the LLM know about the current state of this application
+      // so it can better respond to questions
+      aiContext={() => {
+        return {
+          ...data,
+          currentTime: new Date().toLocaleTimeString(),
+        };
+      }}
+    />
+  );
+}
+
+export default function Example() {
+  const [data, setData] = React.useState({});
+  return (
+    <Authenticator>
+      <DataContext.Provider value={{ data, setData }}>
+        <Counter />
+        <Chat />
+      </DataContext.Provider>
+    </Authenticator>
+  )
+}
+```
+
+
+</InlineFilter>

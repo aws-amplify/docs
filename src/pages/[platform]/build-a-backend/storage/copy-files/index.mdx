@@ -46,12 +46,12 @@ const copyFile = async () => {
   try {
     const response = await copy({
       source: {
-        path: 'album/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+        path: `album/2024/${encodeURIComponent('#1.jpg')}`,
+        // Alternatively, path: ({identityId}) => `album/${identityId}/${encodeURIComponent('#1.jpg')`
       },
       destination: {
-        path: 'shared/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `shared/{identityId}/1.jpg`
+        path: 'shared/2024/#1.jpg',
+        // Alternatively, path: ({identityId}) => `shared/${identityId}/#1.jpg`
       },
     });
   } catch (error) {
@@ -59,6 +59,12 @@ const copyFile = async () => {
   }
 };
 ```
+<Callout>
+
+The operation can fail if there's a special character in the `source` path. You should URI encode the source
+path with special character. You **don't** need to encode the `destination` path.
+
+</Callout>
 
 <Callout>
 
@@ -106,7 +112,7 @@ In order to copy to or from a bucket other than your default, both source and de
 
 Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
-| path | string \| <br/>(\{ identityId \}) => string | Required | A string or callback that represents the path in source and destination bucket to copy the object to or from |
+| path | string \| <br/>(\{ identityId \}) => string | Required | A string or callback that represents the path in source and destination bucket to copy the object to or from. <br /> **Each segment of the path in `source` must by URI encoded.** |
 | bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets). |
 
 </InlineFilter>

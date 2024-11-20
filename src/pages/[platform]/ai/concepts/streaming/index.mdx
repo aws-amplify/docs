@@ -1,0 +1,41 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Streaming",
+  description:
+    "Learn about how streaming works with LLMs and the Amplify AI kit",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+    },
+  };
+}
+
+
+When an LLM generates a large amount of text, like over 100 words, it can take a while for the entire response to be generated. Rather than waiting for the entire response to come back, we can send back text as it is generated. 
+
+Foundation model providers like Amazon Bedrock will typically have an HTTP streaming API which can send back the response in chunks.
+
+## How Amplify AI kit streaming works
+
+The Amplify AI kit does not use HTTP streaming from the backend to the frontend like other AI frameworks do. Instead, streaming updates are sent to the browser via a websocket connection to AWS AppSync. 
+
+The Lambda that the Amplify AI kit provisions will call Bedrock with a streaming API request. The Lambda will receive the chunks from the HTTP streaming response and send updates to AppSync, which the client then subscribes to. 
+
+If you are using the provided React hook, `useAIConversation` you don't really need to worry about this because it takes care of all of that for you and provides you with conversation messages as React state that is updated as chunks are received.

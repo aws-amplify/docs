@@ -1,0 +1,268 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Tools",
+  description:
+    "Tools allow LLMs to take action or query information so it can respond with up to date information.",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      showBreadcrumbs: false,
+    },
+  };
+}
+
+
+
+Tools allow LLMs to take action or query information so it can respond with up to date information. There are a few different ways to define LLM tools in the Amplify AI kit.
+
+1. Model tools
+2. Query tools
+3. Lambda tools
+
+The easiest way you can define tools for the LLM to use is with data models and custom queries in your data schema. When you define tools in your data schema, Amplify will take care of all of the heavy lifting required to properly implement such as:
+
+* **Describing the tools to the LLM:** because each tool is a custom query or data model that is defined in the schema, Amplify knows the input shape needed for that tool
+* **Invoking the tool with the right parameters:** after the LLM responds it wants to call a tool, the code that initially called the LLM needs to then run that code.
+* **Maintaining the caller identity and authorization:** we don't want users to have access to more data through the LLM than they normally would, so when the LLM wants to invoke a tool we will call it with the user's identity. For example, if the LLM wanted to invoke a query to list Todos, it would only return the todos of the user and not everyone's todos.
+
+## Model tools
+
+You can give the LLM access to your data models by referencing them in an `a.ai.dataTool()` with a reference to a model in your data schema.
+
+```ts
+const schema = a.schema({
+  Post: a.model({
+    title: a.string(),
+    body: a.string(),
+  })
+  .authorization(allow => allow.owner()),
+
+  chat: a.conversation({
+    aiModel: a.ai.model('Claude 3 Haiku'),
+    systemPrompt: 'Hello, world!',
+    tools: [
+      a.ai.dataTool({
+        name: 'PostQuery',
+        description: 'Searches for Post records',
+        model: a.ref('Post'),
+        modelOperation: 'list',
+      }),
+    ],
+  }),
+})
+```
+
+This will let the LLM list and filter `Post` records. Because the data schema has all the information about the shape of a `Post` record, the data tool will provide that information to the LLM so you don't have to. Also, the Amplify AI kit handles authorizing the tool use requests based on the caller's identity. This means if you have an owner-based model, the LLM will only be able to query the user's records.
+
+*The only supported model operation currently is 'list'*
+
+## Query tools
+
+You can also give the LLM access to custom queries. You can define a custom query with a [Function](/[platform]/build-a-backend/functions/set-up-function/) handler and then reference that custom query as a tool.
+
+```ts title="amplify/data/resource.ts"
+// highlight-start
+import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/backend";
+// highlight-end
+
+// highlight-start
+export const getWeather = defineFunction({
+  name: 'getWeather',
+  entry: 'getWeather.ts'
+});
+// highlight-end
+
+const schema = a.schema({
+  // highlight-start
+  getWeather: a.query()
+    .arguments({ city: a.string() })
+    .returns(a.customType({
+      value: a.integer(),
+      unit: a.string()
+    }))
+    .handler(a.handler.function(getWeather))
+    .authorization((allow) => allow.authenticated()),
+  // highlight-end
+
+  chat: a.conversation({
+    aiModel: a.ai.model('Claude 3 Haiku'),
+    systemPrompt: 'You are a helpful assistant',
+    // highlight-start
+    tools: [
+      a.ai.dataTool({
+        name: 'getWeather',
+        description: 'Gets the weather for a given city',
+        query: a.ref('getWeather'),
+      }),
+    ]
+    // highlight-end
+  }),
+});
+```
+
+Because the definition of the query itself has the shape of the inputs and outputs (arguments and returns), the Amplify data tool can automatically tell the LLM exactly how to call the custom query.
+
+<Callout>
+
+The description of the tool is very important to help the LLM know when to use that tool. The more descriptive you are about what the tool does, the better.
+
+</Callout>
+
+Here is an example Lambda function handler for our `getWeather` query:
+
+```ts title="amplify/data/getWeather.ts"
+import type { Schema } from "./resource";
+
+export const handler: Schema["getWeather"]["functionHandler"] = async (
+  event
+) => {
+  // This returns a mock value, but you can connect to any API, database, or other service
+  return {
+    value: 42,
+    unit: 'C'
+  };
+}
+```
+
+Lastly, you will need to update your **`amplify/backend.ts`** file to include the newly defined `getWeather` function.
+
+```ts title="amplify/backend.ts"
+// highlight-start
+import { getWeather } from "./data/resource";
+// highlight-end
+
+const backend = defineBackend({
+  auth,
+  data,
+  // highlight-start
+  getWeather
+  // highlight-end
+});
+```
+
+
+## Connect to any AWS Service
+
+You can connect to any AWS service by defining a custom query and calling that service in the function handler. Then you will need to provide the Lambda with the proper permissions to call the AWS service.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { storage } from "./storage/resource";
+import { getWeather } from "./functions/getWeather/resource";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+
+const backend = defineBackend({
+  auth,
+  data,
+  storage,
+  getWeather
+});
+
+backend.getWeather.resources.lambda.addToRolePolicy(
+  new PolicyStatement({
+    resources: ["[resource arn]",],
+    actions: ["[action]"],
+  }),
+)
+```
+
+
+
+## Custom Lambda Tools
+
+Conversation routes can also have completely custom tools defined in a Lambda handler.
+
+### Install the backend-ai package
+
+```bash
+npm install @aws-amplify/backend-ai
+```
+
+### Create a custom conversation handler function
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { defineConversationHandlerFunction } from '@aws-amplify/backend-ai/conversation';
+
+const chatHandler = defineConversationHandlerFunction({
+  entry: './chatHandler.ts',
+  name: 'customChatHandler',
+  models: [
+    { modelId: a.ai.model("Claude 3 Haiku") }
+  ]
+});
+
+const schema = a.schema({
+  chat: a.conversation({
+    aiModel: a.ai.model('Claude 3 Haiku'),
+    systemPrompt: "You are a helpful assistant",
+    handler: chatHandler,
+  })
+})
+```
+
+### Implement the custom handler
+
+```ts title="amplify/data/chatHandler.ts"
+import {
+  ConversationTurnEvent,
+  handleConversationTurnEvent,
+} from '@aws-amplify/ai-constructs/conversation/runtime';
+import { createExecutableTool } from '@aws-amplify/backend-ai/conversation/runtime';
+
+const thermometer = createExecutableTool(
+  'thermometer',
+  'Returns current temperature in a city',
+  {
+    json: {
+      type: 'object',
+      'properties': {
+        'city': {
+          'type': 'string',
+          'description': 'The city name'
+        }
+      },
+      required: ['city']
+    }
+  },
+  (input) => {
+    if (input.city === 'Seattle') {
+      return Promise.resolve({
+        text: '75F',
+      });
+    }
+    return Promise.resolve({
+      text: 'unknown'
+    })
+  },
+);
+
+/**
+* Handler with simple tool.
+*/
+export const handler = async (event: ConversationTurnEvent) => {
+  await handleConversationTurnEvent(event, {
+    tools: [thermometer],
+  });
+};
+```
+
