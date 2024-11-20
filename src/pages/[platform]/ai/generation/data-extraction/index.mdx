@@ -55,8 +55,8 @@ const schema = a.schema({
 
 <InlineFilter filters={["javascript","angular","vue"]}>
 ```ts title="Data Client Request"
+import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/api";
-import { Schema } from "../amplify/data/resource";
 
 export const client = generateClient<Schema>();
 
