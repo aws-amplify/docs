@@ -24,8 +24,8 @@ export const Banner: React.FC<BannerProps> = ({
               Amplify AI kit is now generally available
             </Text>
             <Text className="message-banner__content">
-              Create fullstack AI capabable apps using TypeScript, with just a
-              few lines of code.
+              Create fullstack AI capable apps using TypeScript, with just a few
+              lines of code.
             </Text>
           </Flex>
 
