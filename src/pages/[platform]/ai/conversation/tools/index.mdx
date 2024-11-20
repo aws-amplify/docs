@@ -37,7 +37,7 @@ There are a few different ways to define LLM tools in the Amplify AI kit.
 2. Query tools
 3. Lambda tools
 
-The easiest way you can define tools for the LLM to use is with data models and custom queries in your data schema. When you define tools in your data schema, Amplify will take care of all of the heavy lifting required to properly implement such as:
+The easiest way to define tools for your conversation route is with `a.ai.dataTool()` for data models and custom queries in your data schema. When you define a tool for a conversation route, Amplify takes care of the heavy lifting:
 
 * **Describing the tools to the LLM:** Each tool definition is an Amplify model query or custom query that is defined in the schema. Amplify knows the input parameters needed for that tool and describes them to the LLM.
 * **Invoking the tool with the right parameters:** After the LLM requests to use a tool with necessary input parameters, the conversation handler Lambda function invokes the tool, returns the result to the LLM, and continues the conversation.
