@@ -7,7 +7,7 @@ To record event data, you need the following:
 
 For more information, see [Record Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
 
-### Installation and Configuration
+## Installation and Configuration
 
 Register the *AmazonPersonalizeProvider* with the Analytics category:
 You need the tracking ID of your event tracker. For more information, see [Get a Tracking ID](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#event-get-tracker).
@@ -38,7 +38,7 @@ Analytics.configure({
     }
 });
 ```
-### Working with the API
+## Working with the API
 
 You can use the `Identify` event type to track a user identity. This lets you connect a user to their actions and record traits about them. To identify a user, specify a unique identifier for the userId property.
  Consider the following user interactions when choosing when and how often to call record with the  Identify eventType:

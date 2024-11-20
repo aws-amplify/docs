@@ -29,112 +29,19 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify Auth can be configured to use an existing Amazon Cognito user pool and identity pool. If you are in a team setting or part of a company that has previously created auth resources, you have a few different options to configure your application to use existing auth resources.
-
-If you are using Amplify to build your backend, it is recommended to [add a reference to your auth resource using `backend.addOutput`](#use-auth-resources-with-an-amplify-backend).
-
-If you do not use Amplify to build your backend, you can [configure the client library directly](#use-auth-resources-without-an-amplify-backend).
+Amplify Auth can be configured to use an existing Amazon Cognito user pool and identity pool. If you are in a team setting or part of a company that has previously created auth resources, you can [configure the client library directly](#use-auth-resources-without-an-amplify-backend), or maintain references with [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/) in your Amplify backend.
 
 <Callout info>
 
-**Note:** when using existing auth resources, it may be necessary to add policies or permissions for your authenticated and unauthenticated IAM roles. These changes must be performed manually using the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/)
+**Note:** when using existing auth resources, it may be necessary to add additional policies or permissions for your authenticated and unauthenticated IAM roles. These changes must be performed manually.
 
 </Callout>
-
-## Use auth resources with an Amplify backend
-
-The easiest way to get started with your existing resource is to use `backend.addOutput` to surface auth configuration to `amplify_outputs.json` automatically. In it's simplest form:
-
-```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend"
-
-/**
- * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
- */
-const backend = defineBackend({})
-
-backend.addOutput({
-  auth: {
-    aws_region: "<your-cognito-aws-region>",
-    user_pool_id: "<your-cognito-user-pool-id>",
-    user_pool_client_id: "<your-cognito-user-pool-client-id>",
-    identity_pool_id: "<your-cognito-identity-pool-id>",
-    username_attributes: ["email"],
-    standard_required_attributes: ["email"],
-    user_verification_types: ["email"],
-    unauthenticated_identities_enabled: true,
-    password_policy: {
-      min_length: 8,
-      require_lowercase: true,
-      require_uppercase: true,
-      require_numbers: true,
-      require_symbols: true,
-    }
-  }
-})
-```
-
-<Callout warning>
-
-**Warning:** if you are creating an auth resource with `defineAuth`, you cannot override the default auth configuration automatically surfaced to `amplify_outputs.json` by Amplify.
-
-</Callout>
-
-You can also use the CDK to dynamically reference existing resources, and use metadata from that resource to set up IAM policies for other resources, or reference as an authorizer for a custom REST API:
-
-```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend"
-import { UserPool, UserPoolClient } from "aws-cdk-lib/aws-cognito"
-
-/**
- * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
- */
-const backend = defineBackend({})
-
-const authStack = backend.createStack("ExistingAuth")
-const userPool = UserPool.fromUserPoolId(
-  authStack,
-  "UserPool",
-  "<your-cognito-user-pool-id>"
-)
-const userPoolClient = UserPoolClient.fromUserPoolClientId(
-  authStack,
-  "UserPoolClient",
-  "<your-cognito-user-pool-client-id>"
-)
-// Cognito Identity Pools can be referenced directly
-const identityPoolId = "<your-cognito-identity-pool-id>"
-
-backend.addOutput({
-  auth: {
-    aws_region: authStack.region,
-    user_pool_id: userPool.userPoolId,
-    user_pool_client_id: userPoolClient.userPoolClientId,
-    identity_pool_id: identityPoolId,
-    // this property configures the Authenticator's sign-up/sign-in views
-    username_attributes: ["email"],
-    // this property configures the Authenticator's sign-up/sign-in views
-    standard_required_attributes: ["email"],
-    // this property configures the Authenticator confirmation views
-    user_verification_types: ["email"],
-    unauthenticated_identities_enabled: true,
-    // this property configures the validation for the Authenticator's password field
-    password_policy: {
-      min_length: 8,
-      require_lowercase: true,
-      require_uppercase: true,
-      require_numbers: true,
-      require_symbols: true,
-    },
-  },
-})
-```
 
 ## Use auth resources without an Amplify backend
 
-Alternatively, you can use existing resources without an Amplify backend.
-
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+You can use existing resources without an Amplify backend by configuring the client library directly.
 
 ```ts title="src/main.ts"
 import { Amplify } from "aws-amplify"
@@ -178,7 +85,6 @@ Configuring the mobile client libraries directly is not supported, however you c
 
 </Callout>
 
-{/* pending hosted outputs schema */}
 ```json title="amplify_outputs.json"
 {
   "version": "1",
@@ -203,6 +109,62 @@ Configuring the mobile client libraries directly is not supported, however you c
 ```
 
 </InlineFilter>
+
+## Use auth resources with an Amplify backend
+
+If you have created Amazon Cognito resources outside of the context of your Amplify app such as creating resources through the AWS Console or consuming resources created by a separate team, you can use `referenceAuth` to reference the existing resources. It requires a user pool, a user pool client, identity pool, and an authenticated & unauthenticated IAM role configured on your identity pool.
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+
+export const auth = referenceAuth({
+  userPoolId: 'us-east-1_xxxx',
+  identityPoolId: 'us-east-1:b57b7c3b-9c95-43e4-9266-xxxx',
+  authRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthauthenticatedU-xxxx',
+  unauthRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthunauthenticate-xxxx',
+  userPoolClientId: 'xxxx',
+});
+```
+
+<Callout info>
+
+The configuration of your referenced resources cannot be modified. IAM policies specific to your Amplify application will be appended to your authenticated and unauthenticated roles, and applications using the referenced resource will be able to create users in the Cognito user pool and identities in the Cognito identity pool.
+
+</Callout>
+
+You can also use the [`access` property](/[platform]/build-a-backend/auth/grant-access-to-auth-resources/) to grant permissions to your auth resource from other Amplify backend resources. For example, if you have a function that needs to retrieve details about a user:
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+import { getUser } from "../functions/get-user/resource";
+
+export const auth = referenceAuth({
+  userPoolId: 'us-east-1_xxxx',
+  identityPoolId: 'us-east-1:b57b7c3b-9c95-43e4-9266-xxxx',
+  authRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthauthenticatedU-xxxx',
+  unauthRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthunauthenticate-xxxx',
+  userPoolClientId: 'xxxx',
+  access: (allow) => [
+    allow.resource(getUser).to(["getUser"]),
+  ],
+});
+```
+
+In a team setting you may want to reference a different set of auth resources depending on the deployment context. For instance if you have a `staging` branch that should reuse resources from a separate "staging" environment compared to a `production` branch that should reuse resources from the separate "production" environment. In this case we recommend using environment variables.
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+
+export const auth = referenceAuth({
+  userPoolId: process.env.MY_USER_POOL_ID,
+  identityPoolId: process.env.MY_IDENTITY_POOL_ID,
+  authRoleArn: process.env.MY_AUTH_ROLE_ARN,
+  unauthRoleArn: process.env.MY_UNAUTH_ROLE_ARN,
+  userPoolClientId: process.env.MY_USER_POOL_CLIENT_ID,
+});
+```
+
+Environment variables must be configured separately on your machine for sandbox deployments and Amplify console for branch deployments.
 
 ## Next steps
 

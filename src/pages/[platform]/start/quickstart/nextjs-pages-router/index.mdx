@@ -26,12 +26,12 @@ export function getStaticProps(context) {
 
 ## Pre-requisites
 
-This Quickstart guide will walk you through how to build a task list application with TypeScript, Next.js **App Router with Client Components**, and React. Before you begin, make sure you have the following installed:
+This Quickstart guide will walk you through how to build a task list application with TypeScript, Next.js **Pages Router with Client Components**, and React. Before you begin, make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) v14.x or later
 - [npm](https://www.npmjs.com/) v6.14.4 or later
 - [git](https://git-scm.com/) v2.14.1 or later
-- If you are new to these technologies, we recommend you go through the official [React](https://react.dev/learn/tutorial-tic-tac-toe), [Next.js](https://nextjs.org/docs/getting-started/installation), and [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html) tutorials first.
+- If you are new to these technologies, we recommend you go through the official [React](https://react.dev/learn/tutorial-tic-tac-toe), [Next.js](https://nextjs.org/docs/pages/getting-started), and [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html) tutorials first.
 
 ## Deploy a fullstack app to AWS
 
@@ -66,7 +66,7 @@ Deploy to AWS
 
 Select **Start with an existing app** > **GitHub**. After you give Amplify access to your GitHub account via the popup window, pick the repository and `main` branch to deploy. Make no other changes and click through the flow to **Save and deploy**.
 
-<Video src="/images/gen2/getting-started/react/deploy.mp4" />
+<Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Save and Deploy" />
 
 ### 3. View deployed app
 
@@ -93,11 +93,11 @@ Let's take a tour of the project structure in this starter repository by opening
 
  When the build completes, visit the newly deployed branch by selecting "View deployed URL". Since the build deployed an API, database, and authentication backend, you will be able to create new to-do items.
 
-<Video src="/images/gen2/getting-started/react/hosted-app.mp4" />
+<Video src="/images/gen2/getting-started/react/hosted-app.mp4" description="Video - View Deployed URL" />
 
 In the Amplify console, click into the deployment branch (in this case **main**) > select **Data** in the left-hand menu > **Data manager** to see the data entered in your database.
 
-<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" />
+<Video src="/images/gen2/getting-started/amplify-console-data-manager.mp4" description="Video - Data Manager" />
 
 
 ## Make frontend updates
@@ -108,7 +108,7 @@ Let's learn how to enhance the app functionality by creating a delete flow for t
 
 Now let's set up our local development environment to add features to the frontend. Click on your deployed branch and you will land on the **Deployments** page which shows you your build history and a list of deployed backend resources.
 
-<Video src="/images/gen2/getting-started/react/branch-details.mp4" />
+<Video src="/images/gen2/getting-started/react/branch-details.mp4" description="Video - Deployments" />
 
 At the bottom of the page you will see a tab for **Deployed backend resources**. Click on the tab and then click the **Download amplify_outputs.json file** button. 
 
@@ -215,44 +215,34 @@ npm run dev
 
 This should start a local dev server at http://localhost:3000.
 
-<Video src="/images/gen2/getting-started/react/demo-delete.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-delete.mp4" description="Video - Demo" />
 
 ### 6. Implement login UI
 
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. First, install the Amplify UI component library:
+The fastest way to get your login experience up and running is to use our Authenticator UI component. In your **pages/_app.tsx** file, import the Authenticator UI component and wrap your `<App>` component.
 
-```bash showLineNumbers={false}
-npm add @aws-amplify/ui-react
-```
-
-Next, import the Authenticator UI component and wrap your `<main>` element.
-
-
-```tsx title="pages/index.tsx"
+```tsx title="pages/_app.tsx"
+import type { AppProps } from "next/app";
 // highlight-start
 import { Authenticator } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 // highlight-end
-// ... other imports
+import "@/styles/app.css";
+import { Amplify } from "aws-amplify";
+import outputs from "@/amplify_outputs.json";
 
-function App() {
-  // ...
-  return (
+Amplify.configure(outputs);
+
+export default function App({ Component, pageProps }: AppProps) {
+  return(
     // highlight-start
     <Authenticator>
-      {({ signOut, user }) => (
-    // highlight-end
-        <main>
-          {/*...*/}
-          // highlight-next-line
-          <button onClick={signOut}>Sign out</button>
-        </main>
-      )}
-    // highlight-next-line
+      <Component {...pageProps} />;
     </Authenticator>
-  )
+    // highlight-end
+  ) 
 }
 ```
 <Accordion title="See the complete amplify/auth/resources.ts">
@@ -304,9 +294,38 @@ export const auth = defineAuth({
 
 The Authenticator component auto-detects your auth backend settings and renders the correct UI state based on the auth backend's authentication flow.
 
+In your **pages/index.tsx** file, add a button to enable users to sign out of the application. Import the [`useAuthenticator`](https://ui.docs.amplify.aws/react/connected-components/authenticator/advanced#access-auth-state) hook from the Amplify UI library to hook into the state of the Authenticator.
+
+```tsx title="pages/index.tsx"
+import type { Schema } from "@/amplify/data/resource";
+// highlight-next-line
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useState, useEffect } from "react";
+import { generateClient } from "aws-amplify/data";
+
+const client = generateClient<Schema>();
+
+export default function HomePage() {
+
+  // highlight-start
+  const { signOut } = useAuthenticator();
+  // highlight-end
+
+  // ...
+
+  return (
+    <main>
+      {/* ... */}
+      // highlight-next-line
+      <button onClick={signOut}>Sign out</button>
+    </main>
+  );
+}
+```
+
 Try out your application in your localhost environment again. You should be presented with a login experience now.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 
@@ -377,24 +396,23 @@ export const data = defineData({
 });
 ```
 
-In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **src/App.tsx** file and render the `user` property.
+In the application client code, let's also render the username to distinguish different users once they're logged in. Go to your **pages/index.tsx** file and render the `user` property from the `useAuthenticator` hook.
 
 ```tsx title="pages/index.tsx"
 // ... imports
 
-function App() {
+function HomePage() {
+  // highlight-next-line
+  const { user, signOut } = useAuthenticator();
+
   // ...
+
   return (
-    <Authenticator>
+    <main>
       // highlight-next-line
-      {({ signOut, user }) => (
-        <main>
-          // highlight-next-line
-          <h1>{user?.signInDetails?.loginId}'s todos</h1>
-          {/* ... rest of the UI */}
-        </main>
-      )}
-    </Authenticator>
+      <h1>{user?.signInDetails?.loginId}'s todos</h1>
+      {/* ... */}
+    </main>
   )
 }
 ```
@@ -403,7 +421,7 @@ Now, let's go back to your local application and test out the user isolation of 
 
 You will need to sign up new users again because now you're working with the cloud sandbox instead of your production backend.
 
-<Video src="/images/gen2/getting-started/react/demo-auth.mp4" />
+<Video src="/images/gen2/getting-started/react/demo-auth.mp4" description="Video - Authentication Demo" />
 
 To get these changes to the cloud, commit them to git and push the changes upstream.
 

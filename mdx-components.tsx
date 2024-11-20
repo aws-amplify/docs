@@ -28,6 +28,7 @@ import { InternalLinkButton } from './src/components/InternalLinkButton';
 import { Grid, View } from '@aws-amplify/ui-react';
 import { Columns } from './src/components/Columns';
 import { Video } from './src/components/Video';
+import { ReferencePage } from './src/components/ApiDocs';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -75,7 +76,8 @@ const components = {
   Grid,
   Columns,
   Video,
-  View
+  View,
+  ReferencePage
 } satisfies BaseMDXComponents;
 
 /**
