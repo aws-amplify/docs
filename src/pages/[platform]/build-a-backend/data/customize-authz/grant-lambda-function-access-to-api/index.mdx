@@ -115,6 +115,12 @@ export const handler = async (event) => {
 }
 ```
 
+<Callout warning>
+  When configuring Amplify with `getAmplifyDataClientConfig`, your function consumes schema information from an S3 bucket
+   created during backend deployment with grants for the access your function need to use it. Any changes to this
+   bucket outside of backend deployment may break your function.
+</Callout>
+
 Once you have generated the client code, update the function to access the data. The following code creates a todo and then lists all todos.
 
 ```ts title="amplify/functions/data-access.ts"
