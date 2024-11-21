@@ -350,24 +350,33 @@
     fast-xml-parser "^4.4.1"
     tslib "^2.5.0"
 
-"@aws-amplify/ui-react-core@3.0.22":
-  version "3.0.22"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-react-core/-/ui-react-core-3.0.22.tgz"
-  integrity sha512-uL5jspqvTZhpqH1inPV3ifvrzIVgIIriXPgjz4BaceDm+1X03Hc3tfq5TiUKW8PdpuWF6riXXBP3MEFsk29OGw==
+"@aws-amplify/ui-react-ai@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react-ai/-/ui-react-ai-1.0.0.tgz#db6dede6b42685f9c03293374a1aaf195de7f02f"
+  integrity sha512-Y+ezPjjdUajEjN+naWhaBn7TQ4nVEtB0EylGwI8YrLKHFQVJaEGBWvvw9mfiUl3krWv+utP+EhagTM8Zk9cMBg==
   dependencies:
-    "@aws-amplify/ui" "6.4.1"
+    "@aws-amplify/ui" "^6.6.6"
+    "@aws-amplify/ui-react" "^6.6.0"
+    "@aws-amplify/ui-react-core" "^3.0.30"
+
+"@aws-amplify/ui-react-core@3.1.0", "@aws-amplify/ui-react-core@^3.0.30":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react-core/-/ui-react-core-3.1.0.tgz#236ecf10194a27dc57fc983c679ab1de19b8a00d"
+  integrity sha512-Nime3qjJRQyfRDDA4bnAaFVzRfEBddZFP8NhVIb13z7Uw0XoPQzX+dXwuRW+Bjt2FJnlIUHh7Cfkt0m4PedRHQ==
+  dependencies:
+    "@aws-amplify/ui" "6.7.0"
     "@xstate/react" "^3.2.2"
     lodash "4.17.21"
     react-hook-form "^7.43.5"
     xstate "^4.33.6"
 
-"@aws-amplify/ui-react@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-react/-/ui-react-6.3.1.tgz"
-  integrity sha512-n/wTjMYYuAhpgpuQ4o+9+IgvNsdjGqbfaA4bAXE7b1apIOfM8HTaO2zant85x+geDl7rbaa1y/z62T4H9AksMQ==
+"@aws-amplify/ui-react@^6.6.0", "@aws-amplify/ui-react@^6.7.0":
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-6.7.0.tgz#a3fc28980feee01f319448c360307a5ccc65c7f3"
+  integrity sha512-3H97gz43+iaVNPqkQIiFj4Ko7zJLyMGtZScfNyt6PK4Ntuit5ZP6hc+Z7BtNsNEkfnAiGL1BiNOuD1IBfsnifw==
   dependencies:
-    "@aws-amplify/ui" "6.4.1"
-    "@aws-amplify/ui-react-core" "3.0.22"
+    "@aws-amplify/ui" "6.7.0"
+    "@aws-amplify/ui-react-core" "3.1.0"
     "@radix-ui/react-direction" "1.0.0"
     "@radix-ui/react-dropdown-menu" "1.0.0"
     "@radix-ui/react-slider" "1.0.0"
@@ -376,10 +385,10 @@
     qrcode "1.5.0"
     tslib "^2.5.2"
 
-"@aws-amplify/ui@6.4.1":
-  version "6.4.1"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui/-/ui-6.4.1.tgz"
-  integrity sha512-0rGGJjnd60gZNhjqDepk3VpCpzyJDE2+xevVg0iqM8APKpyQ9XRWisNLIvglQy7p/3CauXdw8U0NZVcu29Yhrw==
+"@aws-amplify/ui@6.7.0", "@aws-amplify/ui@^6.6.6":
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui/-/ui-6.7.0.tgz#f31da1515a25c2fac3d9e17c9638e619a988baf8"
+  integrity sha512-6hByYfFBQRjsFMoVGdCWMSdo7rwMgz6rxxdWV0xuHb4j3tsPEI9ZhRXG0Z1ivtQFAM3Uaz0D3hcg1kp6QFdCFg==
   dependencies:
     csstype "^3.1.1"
     lodash "4.17.21"
