@@ -343,7 +343,7 @@ Response components are a way to define custom UI components that the LLM can re
 />
 ```
 
-Because response components are just plain React components, they can have their own state, fetch data, really do anything you can think of. You can pair response components with [data tools](/[platform]/ai/conversation/tools), so the LLM can query for some data and then use a component to display that data. Or your response component could fetch data itself and the LLM just needs to pass in certain props based on the user's message. 
+Response components are just plain React components; they can have their own interactive state, fetch data, update shared state, or really anything you can think of. You can pair response components with [data tools](/[platform]/ai/conversation/tools), so the LLM can query for some data and then use a component to display that data. Or your response component could fetch data itself. 
 
 ### Adding a fallback
 
