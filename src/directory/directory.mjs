@@ -771,7 +771,12 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/ai/generation/index.mdx'
+              path: 'src/pages/[platform]/ai/generation/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
+                }
+              ]
             }
           ]
         },
