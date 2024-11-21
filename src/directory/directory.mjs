@@ -754,6 +754,9 @@ export const directory = {
               path: 'src/pages/[platform]/ai/conversation/index.mdx',
               children: [
                 {
+                  path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
                 },
                 {
