@@ -34,7 +34,16 @@ Amplify supports the use of passwordless authentication flows using the followin
 - [Email-based one-time password (Email OTP)](#email-otp)
 - [WebAuthn passkey](#webauthn-passkey)
 
-Passwordless authentication removes the security risks and user friction associated with traditional passwords. 
+Passwordless authentication removes the security risks and user friction associated with traditional passwords.
+{/* add more color */}
+
+<Callout warning>
+
+**Warning:** Passwordless configuration is currently not available in `defineAuth`. We are currently working towards enabling support for passwordless configurations. [Visit the GitHub issue to track the progress](https://link-to-backend-issue)
+
+{/* @TODO file issue */}
+
+</Callout>
 
 {/* need a section about what a "preferred" factor is */}
 
@@ -47,6 +56,26 @@ SMS-based authentication uses phone numbers as the identifier and text messages 
 3. After the user enters their code they are authenticated
 
 {/* quick blurb of basic usage */}
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+{/*  */}
+
+</InlineFilter>
 
 <Callout info>
 
@@ -67,6 +96,26 @@ Email-based authentication uses email addresses for identification and verificat
 3. After the users enters their code they are authenticated
 
 {/* quick blurb of basic usage */}
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+{/*  */}
+
+</InlineFilter>
 
 <Callout info>
 
@@ -85,6 +134,26 @@ WebAuthn uses biometrics or security keys for authentication, leveraging device-
 3. For future logins, they'll authenticate using the same method
 
 {/* quick blurb of basic usage */}
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+{/*  */}
+
+</InlineFilter>
 
 [Learn more about using WebAuthn passkeys in your application code](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#webauthn-passkeys).
 
