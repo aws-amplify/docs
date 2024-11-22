@@ -36,11 +36,31 @@ WebAuthn registration and authentication are not currently supported on React Na
 </Callout>
 </InlineFilter>
 
-Amplify Auth enables your users to keep track of registered passkeys.
+Amplify Auth enables your users to associate, keep track of, and delete passkeys.
+
+## Associate a passkey
+
+Note that users must be authenticated to register a passkey. That also means users cannot create a passkey during sign up; consequently, they must have at least one other first factor authentication mechanism associated with their account to use WebAuthn.
+
+You can associate a passkey using the following API:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { associateWebAuthnCredential} from 'aws-amplify/auth';
+
+await associateWebAuthnCredential();
+```
+
+The associate passkey API has no inputs, and it does not return a value.
+
+</InlineFilter>
+
+You will be prompted to register a passkey using your local authenticator. Amplify will then associate that passkey with Cognito.
 
 ## List passkeys
 
-You can list registered passkeys using the following API.
+You can list registered passkeys using the following API:
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
