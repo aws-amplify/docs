@@ -41,7 +41,7 @@ Under the hood, a generation route is an AWS AppSync query that ensures the AI m
 ```ts title="Schema Definition"
 const schema = a.schema({
   generateRecipe: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant that generates recipes.',
   })
     .arguments({ description: a.string() })
@@ -117,7 +117,7 @@ export default function Example() {
 ```ts title="Schema Definition"
 const schema = ({
   summarize: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'Provide an accurate, clear, and concise summary of the input provided'
   })
   .arguments({ input: a.string() })
@@ -141,7 +141,7 @@ This ability to control the randomness and diversity of responses is useful for 
 ```ts title="Inference Parameters"
 const schema = a.schema({
   generateHaiku: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant that generates haikus.',
     // highlight-start
     inferenceConfiguration: {
@@ -168,7 +168,7 @@ const schema = a.schema({
     instructions: a.string(),
   }),
   generateRecipe: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant that generates recipes.',
   })
     .arguments({ description: a.string() })
@@ -187,7 +187,7 @@ const schema = a.schema({
     instructions: a.string(),
   }),
   generateRecipe: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant that generates recipes.',
   })
     .arguments({ description: a.string() })
@@ -211,7 +211,7 @@ The following AppSync scalar types are not supported as **required** fields in r
 ```ts title="Unsupported Required Type"
 const schema = a.schema({
   generateUser: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant that generates users.',
   })
     .arguments({ description: a.string() })

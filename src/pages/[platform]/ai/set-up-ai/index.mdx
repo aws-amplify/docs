@@ -86,7 +86,7 @@ const schema = a.schema({
   // This will add a new conversation route to your Amplify Data backend.
   // highlight-start
   chat: a.conversation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant',
   })
   .authorization((allow) => allow.owner()),
@@ -95,7 +95,7 @@ const schema = a.schema({
   // This adds a new generation route to your Amplify Data backend.
   // highlight-start
   generateRecipe: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant that generates recipes.',
   })
   .arguments({
