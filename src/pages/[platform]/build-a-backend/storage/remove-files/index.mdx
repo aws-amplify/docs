@@ -341,7 +341,7 @@ let removedObject = try await Amplify.Storage.remove(
 
 <InlineFilter filters={["flutter"]}>
 
-You can also perform a remove operation from a specific bucket by providing the target bucket's assigned name from Amplify Backend in `bucket` option.
+You can also perform a `remove` operation to a specific bucket by providing the `bucket` option. You can pass in a `StorageBucket` object representing the target bucket from the name defined in the Amplify Backend.
 
 ```dart
 final result = await Amplify.Storage.remove(
