@@ -314,7 +314,7 @@ const { data: message, errors } = await chat.sendMessage('Hello, world!', {
 
 #### Tool Configuration
 
-The `toolConfiguration` argument allows you to optionally pass a client tool configuration to the AI assistant with a user message. See the [Tools concept page](/ai/concepts/tools) and [Tools guide](/ai/conversation/tools/) for more information on how tools works.
+The `toolConfiguration` argument allows you to optionally pass a client tool configuration to the AI assistant with a user message. See the [Tools concept page](/[platform]/ai/concepts/tools) and [Tools guide](/[platform]/ai/conversation/tools/) for more information on how tools works.
 
 <Callout type="info">
   Client tools are conceptually the same as data tools and lambda executable tools. They are API definitions provided to an LLM alongside a user message. The LLM can use the provided tool configuration to decide which tool (if any) to call in order to better respond to the user. However, there's an important distinction with client tools -- you are responsible for implementing the tool execution logic and responding to the AI assistant with the tool's response.
