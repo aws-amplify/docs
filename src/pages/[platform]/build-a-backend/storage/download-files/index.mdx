@@ -1142,6 +1142,37 @@ final operation = Amplify.Storage.downloadData(
       useAccelerateEndpoint: true,
       bytesRange: S3DataBytesRange(start: 0, end: 100),
     ),
+  ),
+);
+```
+
+You can also perform a `downloadData` or `downloadFile` operation to a specific bucket by providing the `bucket` option. You can pass in a `StorageBucket` object representing the target bucket from the name defined in the Amplify Backend.
+
+```dart
+final operation = Amplify.Storage.downloadFile(
+  path: const StoragePath.fromString('public/example.txt'),
+  localFile: AWSFile.fromPath('/path/to/local/file.txt'),
+  options: const StorageDownloadFileOptions(
+    pluginOptions: S3DownloadFilePluginOptions(
+      getProperties: true,
+      useAccelerateEndpoint: true,
+    ),
+    bucket: StorageBucket.fromOutputs('secondBucket'),
+  ),
+);
+```
+
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+```dart
+final operation = Amplify.Storage.downloadData(
+  path: const StoragePath.fromString('public/example.txt'),
+  options: StorageDownloadDataOptions(
+    pluginOptions: S3DownloadDataPluginOptions(
+      getProperties: true,
+      useAccelerateEndpoint: true,
+      bytesRange: S3DataBytesRange(start: 0, end: 100),
+    ),
     bucket: StorageBucket.fromBucketInfo(
       BucketInfo(
         bucketName: 'second-bucket-name-from-console',
@@ -1151,7 +1182,6 @@ final operation = Amplify.Storage.downloadData(
   ),
 );
 ```
-
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>

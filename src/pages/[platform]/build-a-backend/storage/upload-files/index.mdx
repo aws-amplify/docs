@@ -649,7 +649,7 @@ Future<void> upload() async {
 
 ### Upload to a specified bucket
 
-You can also perform an `upload` operation to a specific bucket by providing the `bucket` option. You can pass in an object representing the target bucket in Amplify Backend.
+You can also perform an `upload` operation to a specific bucket by providing the `bucket` option. You can pass in a `StorageBucket` object representing the target bucket from the name defined in the Amplify Backend.
 
 ```dart
 final data = 'multi bucket upload data byte'.codeUnits;
