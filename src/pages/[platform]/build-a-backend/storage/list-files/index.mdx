@@ -1015,7 +1015,7 @@ Future<void> listAllUnderPublicPath() async {
 <InlineFilter filters={["flutter"]}>
 
 ### List files from a specified bucket
-You can also perform a `list` operation to a specific bucket by providing the `bucket` option. You can pass in a object representing the target bucket in Amplify Backend.
+You can also perform a `list` operation to a specific bucket by providing the `bucket` option. You can pass in a `StorageBucket` object representing the target bucket from the name defined in the Amplify Backend.
 
 ```dart
 final result = await Amplify.Storage.list(
