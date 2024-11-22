@@ -28,6 +28,14 @@ export function getStaticProps() {
   };
 }
 
+<InlineFilter filters={["react-native"]}>
+<Callout warning>
+
+Passwordless features are currently not supported on react native.
+
+</Callout>
+</InlineFilter>
+
 Amplify Auth enables your users to keep track of registered passkeys.
 
 ## List passkeys
@@ -48,28 +56,32 @@ The API returns a list of `AuthWebAuthnCredential` objects, which define the pro
 
 ```ts
 interface ListWebAuthnCredentialInput {
-    pageSize?: number;
-    nextToken?: string;
+  pageSize?: number;
+  nextToken?: string;
 }
 
 interface ListWebAuthnCredentialOutput {
-    credentials: AuthWebAuthnCredential[];
-    nextToken?: string;
+  credentials: AuthWebAuthnCredential[];
+  nextToken?: string;
 }
 
 interface AuthWebAuthnCredential {
-    credentialId: string | undefined;
-    friendlyCredentialName: string | undefined;
-    relyingPartyId: string | undefined;
-    authenticatorAttachment?: string;
-    authenticatorTransports: string[] | undefined;
-    createdAt: Date | undefined;
+  credentialId: string | undefined;
+  friendlyCredentialName: string | undefined;
+  relyingPartyId: string | undefined;
+  authenticatorAttachment?: string;
+  authenticatorTransports: string[] | undefined;
+  createdAt: Date | undefined;
 }
 ```
+
+</InlineFilter>
 
 ## Delete a passkey
 
 You can delete a passkey with the following API:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
 ```ts
 import { deleteWebAuthnCredential } from 'aws-amplify/auth';
@@ -85,11 +97,15 @@ The delete passkey API has only the required `credentialId` as input, and it doe
 
 ```ts
 interface DeleteWebAuthnCredentialInput {
-    credentialId: string;
+  credentialId: string;
 }
 ```
 
-## Full code example
+</InlineFilter>
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+## Practical example
 
 Here is a code example that uses the two APIs together. In this example, the user has 3 passkeys registered. They want to list all passkeys as well as delete the first passkey in the list.
 
@@ -106,8 +122,8 @@ const result = await listWebAuthnCredentials({ pageSize: 2 });
 passkeys.push(...result.credentials);
 
 const nextPage = await listWebAuthnCredentials({
-    pageSize: 2,
-    nextToken: result.nextToken,
+  pageSize: 2,
+  nextToken: result.nextToken,
 });
 
 passkeys.push(...nextPage.credentials);
@@ -118,3 +134,5 @@ await deleteWebAuthnCredential({
   credentialId: id
 });
 ```
+
+</InlineFilter>
