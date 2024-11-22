@@ -72,7 +72,7 @@ const schema = a.schema({
   .authorization(allow => allow.owner()),
 
   chat: a.conversation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'Hello, world!',
     tools: [
       a.ai.dataTool({
@@ -126,7 +126,7 @@ const schema = a.schema({
     .authorization((allow) => allow.authenticated()),
 
   chat: a.conversation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant',
     tools: [
       a.ai.dataTool({
@@ -235,13 +235,13 @@ export const chatHandler = defineConversationHandlerFunction({
   entry: './chatHandler.ts',
   name: 'customChatHandler',
   models: [
-    { modelId: a.ai.model("Claude 3 Haiku") }
+    { modelId: a.ai.model("Claude 3.5 Haiku") }
   ]
 });
 
 const schema = a.schema({
   chat: a.conversation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: "You are a helpful assistant",
     handler: chatHandler,
   })

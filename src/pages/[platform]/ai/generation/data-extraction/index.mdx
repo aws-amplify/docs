@@ -42,7 +42,7 @@ const schema = a.schema({
   }),
 
   extractProductDetails: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'Extract the property details from the text provided',
   })
     .arguments({
