@@ -39,7 +39,7 @@ There are two main types within the conversation flow, `Conversation` and `Messa
 
 A `Conversation` is an instance of a chat session between an application user and an LLM. It contains data and methods for interacting with the conversation. A conversation has a one-to-many relationship with its messages.
 
-The `Conversation` type is accessible via `Schema['myChat']['type']` type definition, where `'myChat'` is the name of the conversation route in your data schema. 
+The `Conversation` type is accessible via `Schema['myChat']['type']` type definition, where `'myChat'` is the name of the conversation route in your data schema.
 
 | Property/Method  | Type   | Description  |
 |------------------|:-------|:-------------|
@@ -56,7 +56,7 @@ The `Conversation` type is accessible via `Schema['myChat']['type']` type defini
 
 A `Message` is a single chat message between an application user and an LLM. Each message has a `role` property that indicates whether the message is from the user or the assistant. User and assistant messages have a one-to-one relationship. Assistant messages contain an `associatedUserMessageId` property that points to the `id` of the user message that triggered the assistant response.
 
-The `Message` type is accessible via `Schema['myChat']['messageType']`.
+The `Message` type is accessible via `Schema['myChat']['messageType']`, where `'myChat'` is the name of the conversation route in your data schema.
 
 | Property  | Type   | Description  |
 |-----------|:-------|:-------------|
@@ -67,22 +67,29 @@ The `Message` type is accessible via `Schema['myChat']['messageType']`.
 | `role` | `'user' \| 'assistant'` | Whether the message is from the user or assistant |
 | `createdAt` | `string` | The date and time when the message was created |
 
-## Data flow
+## Request response flow
 
 1. Create a new conversation with `.create()` or get an existing one with `.get()`.
 2. Subscribe to assistant responses for a conversation with `.onStreamEvent()`.
 3. Send messages to the conversation with `.sendMessage()`.
 
 ```ts
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource'
+
+const client = generateClient<Schema>();
+
 // 1. Create a conversation
 const { data: chat, errors } = await client.conversations.chat.create();
 
 // 2. Subscribe to assistant responses
 const subscription = chat.onStreamEvent({
   next: (event) => {
+    // handle assistant response stream events
     console.log(event);
   },
   error: (error) => {
+    // handle errors
     console.error(error);
   },
 });
@@ -95,16 +102,7 @@ const { data: message, errors } = await chat.sendMessage('Hello, world!');
 
 ### Create a conversation
 
-Conversation routes defined in your schema are accessible via the `.conversations` namespace. First create a client instance with the `generateClient()` function.
-
-```ts
-import { generateClient } from 'aws-amplify/data';
-import { type Schema } from '../amplify/data/resource'
-
-const client = generateClient<Schema>();
-```
-
-Then create a new conversation by calling the `.create()` method on your conversation route. In the examples below, we're using a conversation route named `chat`.
+Create a new conversation by calling the `.create()` method on your conversation route. In the examples below, we're using a conversation route named `chat`.
 
 ```ts
 const { data: chat, errors } = await client.conversations.chat.create();

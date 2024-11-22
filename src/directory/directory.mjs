@@ -757,6 +757,9 @@ export const directory = {
                   path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
                 },
                 {
