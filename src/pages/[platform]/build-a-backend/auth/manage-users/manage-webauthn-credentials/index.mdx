@@ -28,3 +28,93 @@ export function getStaticProps() {
   };
 }
 
+Amplify Auth enables your users to keep track of registered passkeys.
+
+## List passkeys
+
+You can list registered passkeys using the following API.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { listWebAuthnCredentials } from 'aws-amplify/auth';
+
+await listWebAuthnCredentials();
+```
+
+The list passkeys API takes optional parameters `pageSize` and `nextToken` which may be used to paginate the list request.
+
+The API returns a list of `AuthWebAuthnCredential` objects, which define the properties of a passkey, as well as a `nextToken` to be used in subsequent list requests.
+
+```ts
+interface ListWebAuthnCredentialInput {
+    pageSize?: number;
+    nextToken?: string;
+}
+
+interface ListWebAuthnCredentialOutput {
+    credentials: AuthWebAuthnCredential[];
+    nextToken?: string;
+}
+
+interface AuthWebAuthnCredential {
+    credentialId: string | undefined;
+    friendlyCredentialName: string | undefined;
+    relyingPartyId: string | undefined;
+    authenticatorAttachment?: string;
+    authenticatorTransports: string[] | undefined;
+    createdAt: Date | undefined;
+}
+```
+
+## Delete a passkey
+
+You can delete a passkey with the following API:
+
+```ts
+import { deleteWebAuthnCredential } from 'aws-amplify/auth';
+
+const id = "credential-id-to-delete";
+
+await deleteWebAuthnCredential({
+  credentialId: id
+});
+```
+
+The delete passkey API has only the required `credentialId` as input, and it does not return a value.
+
+```ts
+interface DeleteWebAuthnCredentialInput {
+    credentialId: string;
+}
+```
+
+## Full code example
+
+Here is a code example that uses the two APIs together. In this example, the user has 3 passkeys registered. They want to list all passkeys as well as delete the first passkey in the list.
+
+```ts
+import { 
+  listWebAuthnCredentials,
+  deleteWebAuthnCredential
+} from 'aws-amplify/auth';
+
+let passkeys = [];
+
+const result = await listWebAuthnCredentials({ pageSize: 2 });
+
+passkeys.push(...result.credentials);
+
+const nextPage = await listWebAuthnCredentials({
+    pageSize: 2,
+    nextToken: result.nextToken,
+});
+
+passkeys.push(...nextPage.credentials);
+
+const id = passkeys[0].credentialId;
+
+await deleteWebAuthnCredential({
+  credentialId: id
+});
+```
