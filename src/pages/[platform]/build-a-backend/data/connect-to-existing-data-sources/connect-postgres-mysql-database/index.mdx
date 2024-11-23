@@ -404,6 +404,7 @@ This allows the Amplify team to maintain and enhance the SQL Layer without needi
 | integer            | a.integer()          |
 | bigint             | a.integer()          |
 | tinyint            | a.integer()          |
+| serial*            | a.integer().default() |
 | float              | a.float()        |
 | double             | a.float()        |
 | decimal            | a.float()        |
@@ -428,6 +429,8 @@ This allows the Amplify team to maintain and enhance the SQL Layer without needi
 | bit                | a.integer()          |
 | json               | a.json()       |
 | enum               | a.enum()          |
+
+*Support for auto increment (serial) fields is limited to PostgreSQL datasources.
 
 ## Troubleshooting
 
