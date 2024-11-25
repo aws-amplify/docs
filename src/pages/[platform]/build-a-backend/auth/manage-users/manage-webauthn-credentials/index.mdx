@@ -27,3 +27,193 @@ export function getStaticProps() {
   };
 }
 
+## Associate WebAuthN credentials
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func associateWebAuthNCredentials() async {
+    do {
+        try await Amplify.Auth.associateWebAuthnCredential()
+        print("WebAuthn credential was associated")
+    } catch {
+        print("Associate WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func associateWebAuthNCredentials() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.associateWebAuthnCredential()
+    }.sink {
+        print("Associate WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { _ in
+        print("WebAuthn credential was associated")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+## List WebAuthN credentials
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func listWebAuthNCredentials() async {
+    do {
+        let result = try await Amplify.Auth.listWebAuthnCredentials(
+          options: .init(pageSize: 5))
+          
+        for credential in result.credentials {  
+          print("Credential ID: \(credential.credentialId)")  
+          print("Created At: \(credential.createdAt)")  
+          print("Relying Party Id: \(credential.relyingPartyId)")  
+          if let friendlyName = credential.friendlyName {    
+            print("Friendly name: \(friendlyName)")    
+          }
+        }
+          
+        // Fetch the next page
+        if let nextToken = result.nextToken {  
+          let nextResult = try await Amplify.Auth.listWebAuthnCredentials(
+            options: .init(
+              pageSize: 5,
+              nextToken: nextToken))
+        }
+    } catch {
+        print("Associate WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func listWebAuthNCredentials() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.listWebAuthnCredentials(
+          options: .init(pageSize: 5))
+    }.sink {
+        print("List WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { result in
+        for credential in result.credentials {  
+          print("Credential ID: \(credential.credentialId)")  
+          print("Created At: \(credential.createdAt)")  
+          print("Relying Party Id: \(credential.relyingPartyId)")  
+          if let friendlyName = credential.friendlyName {    
+            print("Friendly name: \(friendlyName)")    
+          }
+        }
+          
+        if let nextToken = result.nextToken {  
+          // Fetch the next page
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+## Delete WebAuthN credentials
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func deleteWebAuthNCredentials(credentialId: String) async {
+    do {
+        try await Amplify.Auth.deleteWebAuthnCredential(credentialId: credentialId)
+        print("WebAuthn credential was deleted")
+    } catch {
+        print("Delete WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func deleteWebAuthNCredentials(credentialId: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.deleteWebAuthnCredential(credentialId: credentialId)
+    }.sink {
+        print("Delete WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { _ in
+        print("WebAuthn credential was deleted")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>

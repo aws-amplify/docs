@@ -1123,7 +1123,79 @@ Your application's users can also sign in using passwordless methods. To learn m
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-{/*  */}
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+// sign in with `smsOTP` as preferred factor
+func signIn(username: String) async {
+    do {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .smsOTP))
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+// confirm sign in with the code received
+func confirmSignIn() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+// sign in with `smsOTP` as preferred factor
+func signIn(username: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .smsOTP))
+        try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+
+// confirm sign in with the code received
+func confirmSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -1143,7 +1215,79 @@ Your application's users can also sign in using passwordless methods. To learn m
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-{/*  */}
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+// sign in with `emailOTP` as preferred factor
+func signIn(username: String) async {
+    do {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .emailOTP))
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+// confirm sign in with the code received
+func confirmSignIn() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+// sign in with `emailOTP` as preferred factor
+func signIn(username: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .emailOTP))
+        try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+
+// confirm sign in with the code received
+func confirmSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -1163,6 +1307,21 @@ Your application's users can also sign in using passwordless methods. To learn m
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-{/*  */}
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+aa
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+aa
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
