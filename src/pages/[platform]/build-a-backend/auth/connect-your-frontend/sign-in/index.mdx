@@ -1144,8 +1144,8 @@ type SignInOptions = AuthServiceOptions & {
 // sign in with preferred challenge as password
 // note password must be provided in same step
 const { nextStep } = await signIn({
-    username: state.username,
-    password: state.password,
+    username: "hello@mycompany.com",
+    password: "hunter2",
     options: {
         authFlowType: "USER_AUTH",
         preferredChallenge: "PASSWORD_SRP" // or "PASSWORD"
@@ -1159,7 +1159,7 @@ handleNextSignInStep(nextStep);
 // sign in with preferred challenge as web authn
 // no user input required at this step 
 const { nextStep } = await signIn({
-    username: state.username,
+    username: "hello@mycompany.com",
     options: {
         authFlowType: "USER_AUTH",
         preferredChallenge: "WEB_AUTHN" 
@@ -1173,7 +1173,7 @@ handleNextSignInStep(nextStep);
 // sign in with preferred challenge as email otp
 // no user input required at this step 
 const { nextStep } = await signIn({
-    username: state.username,
+    username: "hello@mycompany.com",
     options: {
         authFlowType: "USER_AUTH",
         preferredChallenge: "EMAIL_OTP" 
@@ -1187,7 +1187,7 @@ handleNextSignInStep(nextStep);
 // sign in with preferred challenge as sms otp
 // no user input required at this step 
 const { nextStep } = await signIn({
-    username: state.username,
+    username: "hello@mycompany.com",
     options: {
         authFlowType: "USER_AUTH",
         preferredChallenge: "SMS_OTP" 
@@ -1213,7 +1213,7 @@ interface ContinueSignInWithFirstFactorSelection {
 
 ```ts
 const { nextStep } = await signIn({
-    username: state.username,
+    username: "hello@mycompany.com",
     options: {
         authFlowType: "USER_AUTH",
     }
