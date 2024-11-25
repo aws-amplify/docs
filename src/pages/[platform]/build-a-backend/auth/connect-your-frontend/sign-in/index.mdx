@@ -295,6 +295,8 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 | `confirmSignInWithTOTPCode` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
 | `confirmSignInWithSMSMFACode` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
 | `confirmSignInWithOTP` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
+| `confirmSignInWithPassword` | The user must set a new password. Complete the process with `confirmSignIn`. |
+| `continueSignInWithFirstFactorSelection` | The user must select their preferred mode of First Factor authentication. Complete the process with `confirmSignIn`. |
 | `continueSignInWithMFASelection` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
 | `continueSignInWithMFASetupSelection` | The user must select their mode of MFA verification to setup. Complete the process by passing either `MFAType.email.challengeResponse` or `MFAType.totp.challengeResponse ` to `confirmSignIn`. |
 | `continueSignInWithTOTPSetup` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
@@ -615,6 +617,8 @@ Following sign in, you will receive a `nextStep` in the sign-in result of one of
 | `confirmSignInWithTOTPCode` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
 | `confirmSignInWithSMSMFACode` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
 | `confirmSignInWithOTP` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
+| `confirmSignInWithPassword` | The user must set a new password. Complete the process with `confirmSignIn`. |
+| `continueSignInWithFirstFactorSelection` | The user must select their preferred mode of First Factor authentication. Complete the process with `confirmSignIn`. |
 | `continueSignInWithMFASelection` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
 | `continueSignInWithMFASetupSelection` | The user must select their mode of MFA verification to setup. Complete the process by passing either `MFAType.email.challengeResponse` or `MFAType.totp.challengeResponse ` to `confirmSignIn`. |
 | `continueSignInWithTOTPSetup` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
