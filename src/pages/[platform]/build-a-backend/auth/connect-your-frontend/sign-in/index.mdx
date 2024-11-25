@@ -1235,7 +1235,7 @@ To initiate an available first factor, the desired first factor type is passed t
 
 To request an OTP code via SMS for authentication, the challenge is passed as the challenge response to the confirm sign in API.
 
-Amplify JS will respond appropriately to Cognito and return the challenge as sign in next step: `CONFIRM_SIGN_IN_WITH_SMS_CODE`:
+Amplify will respond appropriately to Cognito and return the challenge as sign in next step: `CONFIRM_SIGN_IN_WITH_SMS_CODE`:
 
 ```ts
 const { nextStep } = await confirmSignIn({
