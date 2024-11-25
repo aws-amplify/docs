@@ -69,7 +69,7 @@ guard case .continueSignInWithFirstFactorSelection(let availableFactors) = signI
 print("Available factors: \(availableFactors)")
 ```
 
-The selection of the authentication method is done by the user. The user can choose from the available factors and proceed with the selected factor. You should call the `confirmSignIn` API with the selected factor to continue the sign-in process. Followign is an example if you want to proceed with the `emailOTP` factor selection:
+The selection of the authentication method is done by the user. The user can choose from the available factors and proceed with the selected factor. You should call the `confirmSignIn` API with the selected factor to continue the sign-in process. Following is an example if you want to proceed with the `emailOTP` factor selection:
 
 ```swift
 // Select emailOTP as the factor
