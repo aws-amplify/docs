@@ -1114,6 +1114,227 @@ func socialSignInWithWebUI() -> AnyCancellable {
 
 Your application's users can also sign in using passwordless methods. To learn more, visit the [concepts page for passwordless](/[platform]/build-a-backend/auth/concepts/passwordless/)
 
+<InlineFilter filters={["android"]}>
+
+### New auth flow type
+
+In order to facilitate the new passwordless sign in options, Cognito is introducing a new auth flow type known as `USER_AUTH`. This flow is designed to be flexible and supports both password and passwordless sign in factors.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// The callingActivity parameter should always be set if your app is
+// expecting to use WebAuthn as not setting this option will lead to
+// a sub-optimal user experience when authenticating via WebAuthn
+AWSCognitoAuthSignInOptions options =
+    AWSCognitoAuthSignInOptions
+        .builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build();
+Amplify.Auth.signIn(
+    "username",
+    null,
+    options,
+    result -> Log.i("AuthQuickStart", "Next step for sign in is " + result.getNextStep()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// The callingActivity parameter should always be set if your app is
+// expecting to use WebAuthn as not setting this option will lead to
+// a sub-optimal user experience when authenticating via WebAuthn
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.USER_AUTH)
+    .callingActivity(callingActivity)
+    .build()
+Amplify.Auth.signIn(
+    "username",
+    null,
+    options,
+    { result ->
+        Log.i("AuthQuickStart", "Next step for sign in is ${result.nextStep}")
+    },
+    { error ->
+        Log.e("AuthQuickstart", "Failed to sign in", error)
+    }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    // The callingActivity parameter should always be set if your app is
+    // expecting to use WebAuthn as not setting this option will lead to
+    // a sub-optimal user experience when authenticating via WebAuthn
+    val options = AWSCognitoAuthSignInOptions.builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build()
+    val result = Amplify.Auth.signIn(
+        username = "username",
+        password = null,
+        options = options
+    )
+    Log.i("AuthQuickStart", "Next step for sign in is ${result.nextStep}")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+// The callingActivity parameter should always be set if your app is
+// expecting to use WebAuthn as not setting this option will lead to
+// a sub-optimal user experience when authenticating via WebAuthn
+AWSCognitoAuthSignInOptions options =
+    AWSCognitoAuthSignInOptions
+        .builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build();
+RxAmplify.Auth.signIn("username", null, options)
+    .subscribe(
+        result -> Log.i("AuthQuickStart", "Next step for sign in is " + result.getNextStep()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+
+### Sign In with a Preferred Challenge for First Factor
+
+The USER_AUTH sign in flow will support the following methods of first factor authentication: `AuthFactorType.WEB_AUTHN`, `AuthFactorType.EMAIL_OTP`, `AuthFactorType.SMS_OTP`, `AuthFactorType.PASSWORD`, and `AuthFactorType.PASSWORD_SRP`.
+
+If the desired first factor is known before the sign in flow is initiated it can be passed to the initial sign in call:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSCognitoAuthSignInOptions options =
+    AWSCognitoAuthSignInOptions
+        .builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .preferredFirstFactor(AuthFactorType.EMAIL_OTP)
+        .callingActivity(callingActivity)
+        .build();
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.USER_AUTH)
+    .preferredFirstFactor(AuthFactorType.EMAIL_OTP)
+    .callingActivity(callingActivity)
+    .build()
+```
+
+</Block>
+
+</BlockSwitcher>
+
+```kotlin
+// PASSWORD_SRP / PASSWORD
+// sign in with preferred challenge as password
+// note password must be provided in same step
+const { nextStep } = await signIn({
+    username: state.username,
+    password: state.password,
+    options: {
+        authFlowType: "USER_AUTH",
+        preferredChallenge: "PASSWORD_SRP" // or "PASSWORD"
+    },
+});
+
+// nextStep.signInStep === 'DONE'
+handleNextSignInStep(nextStep);
+
+// WEB_AUTHN
+// sign in with preferred challenge as web authn
+// no user input required at this step
+const { nextStep } = await signIn({
+    username: state.username,
+    options: {
+        authFlowType: "USER_AUTH",
+        preferredChallenge: "WEB_AUTHN"
+    },
+});
+
+// nextStep.signInStep === 'DONE'
+handleNextSignInStep(nextStep);
+
+// EMAIL_OTP
+// sign in with preferred challenge as email otp
+// no user input required at this step
+const { nextStep } = await signIn({
+    username: state.username,
+    options: {
+        authFlowType: "USER_AUTH",
+        preferredChallenge: "EMAIL_OTP"
+    },
+});
+
+// nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE'
+handleNextSignInStep(nextStep);
+
+// SMS_OTP
+// sign in with preferred challenge as sms otp
+// no user input required at this step
+const { nextStep } = await signIn({
+    username: state.username,
+    options: {
+        authFlowType: "USER_AUTH",
+        preferredChallenge: "SMS_OTP"
+    },
+});
+
+// nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE'
+handleNextSignInStep(nextStep);
+```
+
+Note that if the preferred auth factor is not available, the preference will be ignored and the flow will continue to first factor discovery.
+
+### Passwordless Sign In with First Factor Discovery
+
+When multiple first factor options are available and none are set as preferred in InitiateAuth API call (or preferred challenge is not available), Amplify JS continues to a new sign in step `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`:
+
+```ts
+interface ContinueSignInWithFirstFactorSelection {
+    signInStep: 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION';
+    availableChallenges?: ChallengeName[];
+}
+```
+
+```ts
+const { nextStep } = await signIn({
+    username: state.username,
+    options: {
+        authFlowType: "USER_AUTH",
+    }
+});
+
+// nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
+handleNextSignInStep(nextStep);
+```
+
+To initiate an available first factor, the desired first factor type is passed to confirm sign in as the challenge response. The next sections will that step for each `AuthFactorType`.
+
+</InlineFilter>
+
 ### SMS OTP
 
 {/* blurb with supplemental information about handling sign-in, events, etc. */}
