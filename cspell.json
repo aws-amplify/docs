@@ -1614,6 +1614,7 @@
     "ampx",
     "autodetection",
     "jamba",
+    "webauthn",
     "knowledgebases",
     "rehype"
   ],

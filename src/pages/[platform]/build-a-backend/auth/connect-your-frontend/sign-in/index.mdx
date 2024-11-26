@@ -259,8 +259,10 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 | `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` | The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`. |
 | `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` | The sign-in must be confirmed with a custom challenge response. Complete the process with `confirmSignIn`. |
 | `CONFIRM_SIGN_IN_WITH_TOTP_CODE` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
-| `CONFIRM_SIGN_IN_WITH_SMS_CODE` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
-| `CONFIRM_SIGN_IN_WITH_EMAIL_CODE` | The sign-in must be confirmed with a EMAIL code from the user. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_SMS_CODE` | The sign-in must be confirmed with an SMS code from the user. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_EMAIL_CODE` | The sign-in must be confirmed with an EMAIL code from the user. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_PASSWORD` | The sign-in must be confirmed with the password from the user. Complete the process with `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION` | The user must select their mode of first factor authentication. Complete the process by passing the desired mode to the `challengeResponse` field of `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION` | The user must select their mode of MFA verification to setup. Complete the process by passing either `"EMAIL"` or `"TOTP"` to `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
@@ -295,6 +297,8 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 | `confirmSignInWithTOTPCode` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
 | `confirmSignInWithSMSMFACode` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
 | `confirmSignInWithOTP` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
+| `confirmSignInWithPassword` | The user must set a new password. Complete the process with `confirmSignIn`. |
+| `continueSignInWithFirstFactorSelection` | The user must select their preferred mode of First Factor authentication. Complete the process with `confirmSignIn`. |
 | `continueSignInWithMFASelection` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
 | `continueSignInWithMFASetupSelection` | The user must select their mode of MFA verification to setup. Complete the process by passing either `MFAType.email.challengeResponse` or `MFAType.totp.challengeResponse ` to `confirmSignIn`. |
 | `continueSignInWithTOTPSetup` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
@@ -589,6 +593,8 @@ Following sign in, you will receive a `nextStep` in the sign-in result of one of
 | `CONFIRM_SIGN_IN_WITH_TOTP_CODE` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
 | `CONFIRM_SIGN_IN_WITH_SMS_CODE` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
 | `CONFIRM_SIGN_IN_WITH_EMAIL_CODE` | The sign-in must be confirmed with a EMAIL code from the user. Complete the process with `confirmSignIn`. |
+| `CONFIRM_SIGN_IN_WITH_PASSWORD` | The sign-in must be confirmed with the password from the user. Complete the process with `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION` | The user must select their mode of first factor authentication. Complete the process by passing the desired mode to the `challengeResponse` field of `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION` | The user must select their mode of MFA verification to setup. Complete the process by passing either `"EMAIL"` or `"TOTP"` to `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
@@ -615,6 +621,8 @@ Following sign in, you will receive a `nextStep` in the sign-in result of one of
 | `confirmSignInWithTOTPCode` | The sign-in must be confirmed with a TOTP code from the user. Complete the process with `confirmSignIn`. |
 | `confirmSignInWithSMSMFACode` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
 | `confirmSignInWithOTP` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
+| `confirmSignInWithPassword` | The user must set a new password. Complete the process with `confirmSignIn`. |
+| `continueSignInWithFirstFactorSelection` | The user must select their preferred mode of First Factor authentication. Complete the process with `confirmSignIn`. |
 | `continueSignInWithMFASelection` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
 | `continueSignInWithMFASetupSelection` | The user must select their mode of MFA verification to setup. Complete the process by passing either `MFAType.email.challengeResponse` or `MFAType.totp.challengeResponse ` to `confirmSignIn`. |
 | `continueSignInWithTOTPSetup` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
@@ -1099,4 +1107,276 @@ func socialSignInWithWebUI() -> AnyCancellable {
 
 </InlineFilter>
 
-{/* sign-in with web UI (this is a very limited alternative to the Authenticator) */}
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue", "swift"]}>
+
+
+## Sign in with passwordless methods
+
+Your application's users can also sign in using passwordless methods. To learn more, visit the [concepts page for passwordless](/[platform]/build-a-backend/auth/concepts/passwordless/)
+
+### SMS OTP
+
+{/* blurb with supplemental information about handling sign-in, events, etc. */}
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+To request an OTP code via SMS for authentication, the challenge is passed as the challenge response to the confirm sign in API.
+
+Amplify will respond appropriately to Cognito and return the challenge as sign in next step: `CONFIRM_SIGN_IN_WITH_SMS_CODE`:
+
+```ts
+const { nextStep } = await confirmSignIn({
+    challengeResponse: "SMS_OTP"
+});
+
+// nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE'
+handleNextSignInStep(nextStep);
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+// sign in with `smsOTP` as preferred factor
+func signIn(username: String) async {
+    do {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .smsOTP))
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+// confirm sign in with the code received
+func confirmSignIn() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+// sign in with `smsOTP` as preferred factor
+func signIn(username: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .smsOTP))
+        try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+
+// confirm sign in with the code received
+func confirmSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+### Email OTP
+
+{/* blurb with supplemental information about handling sign-in, events, etc. */}
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+To request an OTP code via email for authentication, the challenge is passed as the challenge response to the confirm sign in API.
+
+Amplify will respond appropriately to Cognito and return the challenge as sign in next step: `CONFIRM_SIGN_IN_WITH_EMAIL_CODE`:
+
+```ts
+const { nextStep } = await confirmSignIn({
+    challengeResponse: "EMAIL_OTP"
+});
+
+// nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE'
+handleNextSignInStep(nextStep);
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+// sign in with `emailOTP` as preferred factor
+func signIn(username: String) async {
+    do {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .emailOTP))
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+// confirm sign in with the code received
+func confirmSignIn() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+// sign in with `emailOTP` as preferred factor
+func signIn(username: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .emailOTP))
+        try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+
+// confirm sign in with the code received
+func confirmSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+  
+### WebAuthn Passkeys
+
+{/* blurb with supplemental information about handling sign-in, events, etc. */}
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+The WebAuthn credential flow is initiated by passing the challenge name to the confirm sign in api.
+
+```ts
+const { nextStep } = await confirmSignIn({
+    challengeResponse: "WEB_AUTHN",
+});
+
+// nextStep.signInStep === 'DONE'
+handleNextSignInStep(nextStep);
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+{/*  */}
+
+</InlineFilter>
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+### Password or SRP
+
+Traditional password based authentication is available from this flow as well. To initiate this flow from select challenge, either `PASSWORD` or `PASSWORD_SRP` is passed as the challenge response.
+
+```ts
+const { nextStep } = await confirmSignIn({
+    challengeResponse: "PASSWORD_SRP", // or "PASSWORD"
+});
+
+// in both cases
+// nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_PASSWORD'
+handleNextSignInStep(nextStep);
+
+const { nextStep: nextNextStep } = await confirmSignIn({
+    challengeResponse: "Test123#",
+});
+
+// nextNextStep.signInStep === 'DONE'
+handleNextSignInStep(nextNextStep);
+```
+
+</InlineFilter>
+
+</InlineFilter>
