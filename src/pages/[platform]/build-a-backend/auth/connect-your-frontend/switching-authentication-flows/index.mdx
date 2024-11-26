@@ -40,6 +40,8 @@ For client side authentication there are four different flows that can be config
 
 4. `customWithoutSRP`: The `customWithoutSRP` flow is used to start authentication flow **WITHOUT** SRP and then use a series of challenge and response cycles that can be customized to meet different requirements.
 
+5. `userAuth`: The `userAuth` flow is a choice-based authentication flow that allows the user to choose from the list of available authentication methods. This flow is useful when you want to provide the user with the option to choose the authentication method. The choices that may be available to the user are `emailOTP`, `smsOTP`, `webAuthn`, `password` or `passwordSRP`.
+
 `Auth` can be configured to use the different flows at runtime by calling `signIn` with `AuthSignInOptions`'s `authFlowType` as `AuthFlowType.userPassword`, `AuthFlowType.customAuthWithoutSrp` or `AuthFlowType.customAuthWithSrp`. If you do not specify the `AuthFlowType` in `AuthSignInOptions`, the default flow (`AuthFlowType.userSRP`) will be used.
 
 <Callout>
@@ -49,6 +51,31 @@ Runtime configuration will take precedence and will override any auth flow type 
 </Callout>
 
 > For more information about authentication flows, please visit [Amazon Cognito developer documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#amazon-cognito-user-pools-custom-authentication-flow)
+
+## USER_AUTH (Choice-based authentication) flow
+
+A use case for the `USER_AUTH` authentication flow is to provide the user with the option to choose the authentication method. The choices that may be available to the user are `emailOTP`, `smsOTP`, `webAuthn`, `password` or `passwordSRP`.
+
+```swift
+let pluginOptions = AWSAuthSignInOptions(
+    authFlowType: .userAuth)
+let signInResult = try await Amplify.Auth.signIn(
+    username: username,
+    password: password,
+    options: .init(pluginOptions: pluginOptions))
+guard case .continueSignInWithFirstFactorSelection(let availableFactors) = signInResult.nextStep else {
+    return
+}
+print("Available factors: \(availableFactors)")
+```
+
+The selection of the authentication method is done by the user. The user can choose from the available factors and proceed with the selected factor. You should call the `confirmSignIn` API with the selected factor to continue the sign-in process. Following is an example if you want to proceed with the `emailOTP` factor selection:
+
+```swift
+// Select emailOTP as the factor
+var confirmSignInResult = try await Amplify.Auth.confirmSignIn(
+    challengeResponse: AuthFactorType.emailOTP.challengeResponse)
+```
 
 ## USER_PASSWORD_AUTH flow
 
@@ -92,6 +119,7 @@ const backend = defineBackend({
 backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
   "ALLOW_USER_PASSWORD_AUTH",
   "ALLOW_USER_SRP_AUTH",
+  "ALLOW_USER_AUTH",
   "ALLOW_REFRESH_TOKEN_AUTH"
 ];
 // highlight-end

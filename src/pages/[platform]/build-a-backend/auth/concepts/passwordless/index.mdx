@@ -6,7 +6,6 @@ export const meta = {
   platforms: [
     'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
@@ -52,7 +51,7 @@ Passwordless authentication removes the security risks and user friction associa
 SMS-based authentication uses phone numbers as the identifier and text messages as the verification channel. At a high level end users will perform the following steps to authenticate:
 
 1. User enters their phone number to sign up/sign in
-2. They receive a text message with a time-limited 6-digit code
+2. They receive a text message with a time-limited code
 3. After the user enters their code they are authenticated
 
 {/* quick blurb of basic usage */}
@@ -66,9 +65,6 @@ SMS-based authentication uses phone numbers as the identifier and text messages 
 {/*  */}
 
 </InlineFilter>
-<InlineFilter filters={["flutter"]}>
-
-{/*  */}
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
@@ -92,7 +88,7 @@ SMS-based one-time password requires your Amazon Cognito user pool to be configu
 Email-based authentication uses email addresses for identification and verification. At a high level end users will perform the following steps to authenticate:
 
 1. User enters their email address to sign up/sign in
-2. They receive an email message with a time-limited 6-digit code
+2. They receive an email message with a time-limited code
 3. After the users enters their code they are authenticated
 
 {/* quick blurb of basic usage */}
@@ -102,11 +98,6 @@ Email-based authentication uses email addresses for identification and verificat
 
 </InlineFilter>
 <InlineFilter filters={["android"]}>
-
-{/*  */}
-
-</InlineFilter>
-<InlineFilter filters={["flutter"]}>
 
 {/*  */}
 
@@ -144,11 +135,6 @@ WebAuthn uses biometrics or security keys for authentication, leveraging device-
 {/*  */}
 
 </InlineFilter>
-<InlineFilter filters={["flutter"]}>
-
-{/*  */}
-
-</InlineFilter>
 <InlineFilter filters={["swift"]}>
 
 {/*  */}
@@ -162,6 +148,3 @@ WebAuthn uses biometrics or security keys for authentication, leveraging device-
 {/* quick blurb then segue over to "manage WebAuthn credentials" page */}
 
 [Learn more about managing WebAuthn credentials](/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials).
-
-{/* ?? */}
-{/* ## Adding passwords later */}

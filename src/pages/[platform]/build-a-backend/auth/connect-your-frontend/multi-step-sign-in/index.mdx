@@ -2030,6 +2030,19 @@ func signIn(username: String, password: String) async {
 
             // Prompt the user to enter the Email MFA code they received
             // Then invoke `confirmSignIn` api with the code
+
+        case .continueSignInWithFirstFactorSelection(let allowedFactors):
+            print("Received next step as continue sign in by selecting first factor")
+            print("Allowed factors \(allowedFactors)")
+
+            // Prompt the user to select the first factor they want to use
+            // Then invoke `confirmSignIn` api with the factor
+
+        case .confirmSignInWithPassword:
+            print("Received next step as confirm sign in with password")
+
+            // Prompt the user to enter the password
+            // Then invoke `confirmSignIn` api with the password
         
         case .continueSignInWithTOTPSetup(let setUpDetails):
             print("Received next step as continue sign in by setting up TOTP")

@@ -579,14 +579,104 @@ if (confirmSignUpNextStep.signUpStep === 'DONE') {
 {/*  */}
 
 </InlineFilter>
-<InlineFilter filters={["flutter"]}>
-
-{/*  */}
-
-</InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-{/*  */}
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+// Sign up using an phone number
+func signUp(username: String, phonenumber: String) async {
+    let userAttributes = [
+        AuthUserAttribute(.phoneNumber, value: phonenumber)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            options: options
+        )
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+// Confirm sign up with the OTP received
+func confirmSignUp(for username: String, with confirmationCode: String) async {
+    do {
+        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+        print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+    } catch let error as AuthError {
+        print("An error occurred while confirming sign up \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+// Sign up using a phone number
+func signUp(username: String, phonenumber: String) -> AnyCancellable {
+    let userAttributes = [
+        AuthUserAttribute(.phoneNumber, value: phonenumber)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    let sink = Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
+        }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    }
+    return sink
+}
+
+// Confirm sign up with the OTP received
+func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
+        }
+    }
+    receiveValue: { _ in
+        print("Confirm signUp succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -637,20 +727,110 @@ if (confirmSignUpNextStep.signUpStep === 'DONE') {
 {/*  */}
 
 </InlineFilter>
-<InlineFilter filters={["flutter"]}>
-
-{/*  */}
-
-</InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-{/*  */}
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+// Sign up using an email
+func signUp(username: String, email: String) async {
+    let userAttributes = [
+        AuthUserAttribute(.email, value: email)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            options: options
+        )
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+// Confirm sign up with the OTP received
+func confirmSignUp(for username: String, with confirmationCode: String) async {
+    do {
+        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+        print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+    } catch let error as AuthError {
+        print("An error occurred while confirming sign up \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+// Sign up using an email
+func signUp(username: String, email: String) -> AnyCancellable {
+    let userAttributes = [
+        AuthUserAttribute(.email, value: email)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    let sink = Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
+        }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    }
+    return sink
+}
+
+// Confirm sign up with the OTP received
+func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
+        }
+    }
+    receiveValue: { _ in
+        print("Confirm signUp succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
-### WebAuthn Passkeys
+### Auto Sign In
 
-{/* blurb with supplemental information about handling sign-up, events, etc. */}
+{/* blurb with supplemental information about auto sign in */}
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
@@ -675,14 +855,79 @@ if (confirmSignUpNextStep.signUpStep === 'COMPLETE_AUTO_SIGN_IN') {
 {/*  */}
 
 </InlineFilter>
-<InlineFilter filters={["flutter"]}>
-
-{/*  */}
-
-</InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-{/*  */}
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+// Confirm sign up with the OTP received and auto sign in
+func confirmSignUp(for username: String, with confirmationCode: String) async {
+    do {
+        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+        if case .completeAutoSignIn(let session) = confirmSignUpResult.nextStep {
+            let autoSignInResult = try await Amplify.Auth.autoSignIn()
+            print("Auto sign in result: \(autoSignInResult.isSignedIn)")
+        } else {
+            print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while confirming sign up \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+// Confirm sign up with the OTP received and auto sign in
+func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
+        }
+    }
+    receiveValue: { confirmSignUpResult in
+        if case let .completeAutoSignIn(session) = confirmSignUpResult.nextStep {
+            print("Confirm Sign Up succeeded. Next step is auto sign in")
+            // call `autoSignIn()` API to complete sign in
+        } else {
+            print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+        }
+    }
+}
+
+func autoSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.autoSignIn()
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Auto Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { autoSignInResult in
+        if autoSignInResult.isSignedIn {
+            print("Auto Sign in succeeded")
+        }
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
-

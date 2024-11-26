@@ -6,7 +6,6 @@ export const meta = {
   platforms: [
     'android',
     'angular',
-    'flutter',
     'javascript',
     'nextjs',
     'react',
@@ -38,8 +37,8 @@ WebAuthn registration and authentication are not currently supported on React Na
 
 Amplify Auth enables your users to associate, keep track of, and delete passkeys.
 
-## Associate a passkey
-
+## Associate WebAuthN credentials
+  
 Note that users must be authenticated to register a passkey. That also means users cannot create a passkey during sign up; consequently, they must have at least one other first factor authentication mechanism associated with their account to use WebAuthn.
 
 You can associate a passkey using the following API:
@@ -53,10 +52,51 @@ await associateWebAuthnCredential();
 ```
 
 </InlineFilter>
+<InlineFilter filters={["android"]}>
 
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func associateWebAuthNCredentials() async {
+    do {
+        try await Amplify.Auth.associateWebAuthnCredential()
+        print("WebAuthn credential was associated")
+    } catch {
+        print("Associate WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func associateWebAuthNCredentials() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.associateWebAuthnCredential()
+    }.sink {
+        print("Associate WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { _ in
+        print("WebAuthn credential was associated")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+  
 You will be prompted to register a passkey using your local authenticator. Amplify will then associate that passkey with Cognito.
 
-## List passkeys
+## List WebAuthN credentials
 
 You can list registered passkeys using the following API:
 
@@ -94,8 +134,78 @@ interface AuthWebAuthnCredential {
 ```
 
 </InlineFilter>
+<InlineFilter filters={["android"]}>
 
-## Delete a passkey
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func listWebAuthNCredentials() async {
+    do {
+        let result = try await Amplify.Auth.listWebAuthnCredentials(
+          options: .init(pageSize: 5))
+          
+        for credential in result.credentials {  
+          print("Credential ID: \(credential.credentialId)")  
+          print("Created At: \(credential.createdAt)")  
+          print("Relying Party Id: \(credential.relyingPartyId)")  
+          if let friendlyName = credential.friendlyName {    
+            print("Friendly name: \(friendlyName)")    
+          }
+        }
+          
+        // Fetch the next page
+        if let nextToken = result.nextToken {  
+          let nextResult = try await Amplify.Auth.listWebAuthnCredentials(
+            options: .init(
+              pageSize: 5,
+              nextToken: nextToken))
+        }
+    } catch {
+        print("Associate WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func listWebAuthNCredentials() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.listWebAuthnCredentials(
+          options: .init(pageSize: 5))
+    }.sink {
+        print("List WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { result in
+        for credential in result.credentials {  
+          print("Credential ID: \(credential.credentialId)")  
+          print("Created At: \(credential.createdAt)")  
+          print("Relying Party Id: \(credential.relyingPartyId)")  
+          if let friendlyName = credential.friendlyName {    
+            print("Friendly name: \(friendlyName)")    
+          }
+        }
+          
+        if let nextToken = result.nextToken {  
+          // Fetch the next page
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+## Delete WebAuthN credentials
 
 You can delete a passkey with the following API:
 
@@ -120,10 +230,51 @@ interface DeleteWebAuthnCredentialInput {
 ```
 
 </InlineFilter>
+<InlineFilter filters={["android"]}>
 
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func deleteWebAuthNCredentials(credentialId: String) async {
+    do {
+        try await Amplify.Auth.deleteWebAuthnCredential(credentialId: credentialId)
+        print("WebAuthn credential was deleted")
+    } catch {
+        print("Delete WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func deleteWebAuthNCredentials(credentialId: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.deleteWebAuthnCredential(credentialId: credentialId)
+    }.sink {
+        print("Delete WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { _ in
+        print("WebAuthn credential was deleted")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+  
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
 ## Practical example
+  
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
 Here is a code example that uses the list and delete APIs together. In this example, the user has 3 passkeys registered. They want to list all passkeys while using a `pageSize` of 2 as well as delete the first passkey in the list.
 
@@ -153,4 +304,5 @@ await deleteWebAuthnCredential({
 });
 ```
 
+</InlineFilter>
 </InlineFilter>
