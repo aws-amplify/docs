@@ -822,21 +822,26 @@ func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCa
         }
     }
     receiveValue: { confirmSignUpResult in
-        if case .completeAutoSignIn = confirmSignUpResult.nextStep {
-            let _ = Amplify.Publisher.create {
-                try await Amplify.Auth.autoSignIn()
-            }.sink {
-                if case let .failure(authError) = $0 {
-                    print("Auto Sign in failed \(authError)")
-                }
-            }
-            receiveValue: { autoSignInResult in
-                if autoSignInResult.isSignedIn {
-                    print("Auto Sign in succeeded")
-                }
-            }
+        if case let .completeAutoSignIn(session) = confirmSignUpResult.nextStep {
+            print("Confirm Sign Up succeeded. Next step is auto sign in")
+            // call `autoSignIn()` API to complete sign in
         } else {
             print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+        }
+    }
+}
+
+func autoSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.autoSignIn()
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Auto Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { autoSignInResult in
+        if autoSignInResult.isSignedIn {
+            print("Auto Sign in succeeded")
         }
     }
 }
