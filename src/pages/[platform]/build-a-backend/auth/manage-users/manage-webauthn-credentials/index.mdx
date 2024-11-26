@@ -52,8 +52,6 @@ import { associateWebAuthnCredential} from 'aws-amplify/auth';
 await associateWebAuthnCredential();
 ```
 
-The associate passkey API has no inputs, and it does not return a value.
-
 </InlineFilter>
 
 You will be prompted to register a passkey using your local authenticator. Amplify will then associate that passkey with Cognito.
@@ -113,7 +111,7 @@ await deleteWebAuthnCredential({
 });
 ```
 
-The delete passkey API has only the required `credentialId` as input, and it does not return a value.
+The delete passkey API has only the required `credentialId` as input.
 
 ```ts
 interface DeleteWebAuthnCredentialInput {

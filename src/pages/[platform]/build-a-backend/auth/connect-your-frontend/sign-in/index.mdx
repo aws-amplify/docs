@@ -1116,15 +1116,15 @@ In order to facilitate the new passwordless sign in options, Cognito is introduc
 ```ts
 const { nextStep } = await signIn({
 username: state.username,
-   options: {
+    options: {
         authFlowType: "USER_AUTH",
-   }
+    }
 });
 ```
 
 ### Sign In with a Preferred Challenge for First Factor
 
-The USER_AUTH sign in flow will support the following methods of first factor authentication: `WEB_AUTHN`, `EMAIL_OTP`, `SMS_OTP`, `PASSWORD`, and `PASSWORD_SRP`.
+The `USER_AUTH` sign in flow will support the following methods of first factor authentication: `WEB_AUTHN`, `EMAIL_OTP`, `SMS_OTP`, `PASSWORD`, and `PASSWORD_SRP`.
 
 If the desired first factor is known before the sign in flow is initiated it can be passed to the initial sign in call:
 
@@ -1309,9 +1309,7 @@ handleNextSignInStep(nextStep);
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-The WebAuthn credential flow is initiated by passing the challenge name to the confirm sign in api. Cognito will respond with credential request options that are used by Amplify JS to begin the authentication ceremony with the local authenticator.
-
-As no additional user input is required from the application to complete this flow, there is no intermediate sign in step specific to WebAuthn:
+The WebAuthn credential flow is initiated by passing the challenge name to the confirm sign in api.
 
 ```ts
 const { nextStep } = await confirmSignIn({
