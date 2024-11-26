@@ -147,13 +147,13 @@ Follow the instructions in [Custom Auth Sign In](/gen1/[platform]/build-a-backen
 
 For client side authentication there are four different flows:
 
-1. `USER_AUTH`: The `USER_AUTH` flow is designed to be flexible and supports both password and passwordless sign in factors. `USER_AUTH` can do username-password and SRP authentication without the other flows being configured. This flow doesn't include CUSTOM_AUTH. This is the recommended flow.
+1. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the [SRP protocol (Secure Remote Password)](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) where the password never leaves the client and is unknown to the server. This is the recommended flow and is used by default.
 
-2. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the [SRP protocol (Secure Remote Password)](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) where the password never leaves the client and is unknown to the server.
+2. `USER_PASSWORD_AUTH`: The `USER_PASSWORD_AUTH` flow will send user credentials to the backend without applying SRP encryption. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
 
-3. `USER_PASSWORD_AUTH`: The `USER_PASSWORD_AUTH` flow will send user credentials unencrypted to the backend. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
+3. `CUSTOM_WITH_SRP` & `CUSTOM_WITHOUT_SRP`: Allows for a series of challenge and response cycles that can be customized to meet different requirements.
 
-4. `CUSTOM_WITH_SRP` & `CUSTOM_WITHOUT_SRP`: Allows for a series of challenge and response cycles that can be customized to meet different requirements.
+4. `USER_AUTH`: The `USER_AUTH` flow is a choice-based authentication flow that allows the user to choose from the list of available authentication methods. This flow is useful when you want to provide the user with the option to choose the authentication method. The choices that may be available to the user are `EMAIL_OTP`, `SMS_OTP`, `WEB_AUTHN`, `PASSWORD` or `PASSWORD_SRP`.
 
 The Auth flow can be customized when calling `signIn`, for example:
 
