@@ -538,7 +538,40 @@ Your application's users can also sign up using passwordless methods. To learn m
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-{/*  */}
+```typescript
+// Sign up using a phone number
+const { nextStep: signUpNextStep } = await signUp({
+	username: 'james',
+	options: {
+		userAttributes: {
+			phone_number: '+15555551234',
+		},
+	},
+});
+
+if (signUpNextStep.signUpStep === 'DONE') {
+	console.log(`SignUp Complete`);
+}
+
+if (signUpNextStep.signUpStep === 'CONFIRM_SIGN_UP') {
+	console.log(
+		`Code Delivery Medium: ${signUpNextStep.codeDeliveryDetails.deliveryMedium}`,
+	);
+	console.log(
+		`Code Delivery Destination: ${signUpNextStep.codeDeliveryDetails.destination}`,
+	);
+}
+
+// Confirm sign up with the OTP received
+const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
+	username: 'james',
+	confirmationCode: '123456',
+});
+
+if (confirmSignUpNextStep.signUpStep === 'DONE') {
+	console.log(`SignUp Complete`);
+}
+```
 
 </InlineFilter>
 <InlineFilter filters={["android"]}>
@@ -653,7 +686,40 @@ func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCa
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-{/*  */}
+```typescript
+// Sign up using an email address
+const { nextStep: signUpNextStep } = await signUp({
+	username: 'james',
+	options: {
+		userAttributes: {
+			email: 'james@example.com',
+		},
+	},
+});
+
+if (signUpNextStep.signUpStep === 'DONE') {
+	console.log(`SignUp Complete`);
+}
+
+if (signUpNextStep.signUpStep === 'CONFIRM_SIGN_UP') {
+	console.log(
+		`Code Delivery Medium: ${signUpNextStep.codeDeliveryDetails.deliveryMedium}`,
+	);
+	console.log(
+		`Code Delivery Destination: ${signUpNextStep.codeDeliveryDetails.destination}`,
+	);
+}
+
+// Confirm sign up with the OTP received
+const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
+	username: 'james',
+	confirmationCode: '123456',
+});
+
+if (confirmSignUpNextStep.signUpStep === 'DONE') {
+	console.log(`SignUp Complete`);
+}
+```
 
 </InlineFilter>
 <InlineFilter filters={["android"]}>
@@ -768,8 +834,21 @@ func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCa
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-{/*  */}
+```typescript
+// Confirm sign up with the OTP received and auto sign in
+const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
+	username: 'james',
+	confirmationCode: '123456',
+});
 
+if (confirmSignUpNextStep.signUpStep === 'COMPLETE_AUTO_SIGN_IN') {
+	const { nextStep } = await autoSignIn();
+
+	if (nextStep.signInStep === 'DONE') {
+		console.log('Successfully signed in.');
+	}
+}
+```
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 

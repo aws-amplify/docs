@@ -27,11 +27,29 @@ export function getStaticProps() {
   };
 }
 
+<InlineFilter filters={["react-native"]}>
+<Callout warning>
+
+WebAuthn registration and authentication are not currently supported on React Native, other passwordless features are fully supported.
+
+</Callout>
+</InlineFilter>
+
+Amplify Auth enables your users to associate, keep track of, and delete passkeys.
+
 ## Associate WebAuthN credentials
+  
+Note that users must be authenticated to register a passkey. That also means users cannot create a passkey during sign up; consequently, they must have at least one other first factor authentication mechanism associated with their account to use WebAuthn.
+
+You can associate a passkey using the following API:
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-{/*  */}
+```ts
+import { associateWebAuthnCredential} from 'aws-amplify/auth';
+
+await associateWebAuthnCredential();
+```
 
 </InlineFilter>
 <InlineFilter filters={["android"]}>
@@ -75,12 +93,45 @@ func associateWebAuthNCredentials() -> AnyCancellable {
 </BlockSwitcher>
 
 </InlineFilter>
+  
+You will be prompted to register a passkey using your local authenticator. Amplify will then associate that passkey with Cognito.
 
 ## List WebAuthN credentials
 
+You can list registered passkeys using the following API:
+
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-{/*  */}
+```ts
+import { listWebAuthnCredentials } from 'aws-amplify/auth';
+
+await listWebAuthnCredentials();
+```
+
+The list passkeys API takes optional parameters `pageSize` and `nextToken` which may be used to paginate the list request.
+
+The API returns a list of `AuthWebAuthnCredential` objects, which define the properties of a passkey, as well as a `nextToken` to be used in subsequent list requests.
+
+```ts
+interface ListWebAuthnCredentialInput {
+  pageSize?: number;
+  nextToken?: string;
+}
+
+interface ListWebAuthnCredentialOutput {
+  credentials: AuthWebAuthnCredential[];
+  nextToken?: string;
+}
+
+interface AuthWebAuthnCredential {
+  credentialId: string | undefined;
+  friendlyCredentialName: string | undefined;
+  relyingPartyId: string | undefined;
+  authenticatorAttachment?: string;
+  authenticatorTransports: string[] | undefined;
+  createdAt: Date | undefined;
+}
+```
 
 </InlineFilter>
 <InlineFilter filters={["android"]}>
@@ -156,9 +207,27 @@ func listWebAuthNCredentials() -> AnyCancellable {
 
 ## Delete WebAuthN credentials
 
+You can delete a passkey with the following API:
+
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-{/*  */}
+```ts
+import { deleteWebAuthnCredential } from 'aws-amplify/auth';
+
+const id = "credential-id-to-delete";
+
+await deleteWebAuthnCredential({
+  credentialId: id
+});
+```
+
+The delete passkey API has only the required `credentialId` as input.
+
+```ts
+interface DeleteWebAuthnCredentialInput {
+  credentialId: string;
+}
+```
 
 </InlineFilter>
 <InlineFilter filters={["android"]}>
@@ -200,5 +269,40 @@ func deleteWebAuthNCredentials(credentialId: String) -> AnyCancellable {
 
 </Block>
 </BlockSwitcher>
+  
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
+## Practical example
+  
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+Here is a code example that uses the list and delete APIs together. In this example, the user has 3 passkeys registered. They want to list all passkeys while using a `pageSize` of 2 as well as delete the first passkey in the list.
+
+```ts
+import { 
+  listWebAuthnCredentials,
+  deleteWebAuthnCredential
+} from 'aws-amplify/auth';
+
+let passkeys = [];
+
+const result = await listWebAuthnCredentials({ pageSize: 2 });
+
+passkeys.push(...result.credentials);
+
+const nextPage = await listWebAuthnCredentials({
+  pageSize: 2,
+  nextToken: result.nextToken,
+});
+
+passkeys.push(...nextPage.credentials);
+
+const id = passkeys[0].credentialId;
+
+await deleteWebAuthnCredential({
+  credentialId: id
+});
+```
+
+</InlineFilter>
 </InlineFilter>
