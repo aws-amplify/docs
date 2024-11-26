@@ -1569,31 +1569,121 @@ RxAmplify.Auth.signIn("username", null, options)
 </Block>
 </BlockSwitcher>
 
-
 Note that if the preferred auth factor is not available, the preference will be ignored and the flow will continue to first factor discovery.
 
 ### Passwordless Sign In with First Factor Discovery
 
-When multiple first factor options are available and none are set as preferred in InitiateAuth API call (or preferred challenge is not available), Amplify JS continues to a new sign in step `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`:
+When multiple first factor options are available and none are set as preferred in InitiateAuth API call (or preferred challenge is not available), Amplify Auth continues to a new sign in step `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`:
 
-```ts
-interface ContinueSignInWithFirstFactorSelection {
-    signInStep: 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION';
-    availableChallenges?: ChallengeName[];
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// The callingActivity parameter should always be set if your app is
+// expecting to use WebAuthn as not setting this option will lead to
+// a sub-optimal user experience when authenticating via WebAuthn
+AWSCognitoAuthSignInOptions options =
+    AWSCognitoAuthSignInOptions
+        .builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build();
+Amplify.Auth.signIn(
+    "username",
+    null,
+    options,
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
+            Log.i(
+                "AuthQuickStart",
+                "Available authentication factors for this user: " + result.getNextStep().getAvailableFactors()
+            );
+        }
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// Retrieve the authentication factors by calling .availableFactors
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.USER_AUTH)
+    .callingActivity(callingActivity)
+    .build()
+Amplify.Auth.signIn(
+    "username",
+    null,
+    options,
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
+            Log.i(
+                "AuthQuickStart",
+                "Available factors for this user: ${result.nextStep.availableFactors}"
+            )
+        }
+    },
+    { error ->
+        Log.e("AuthQuickstart", "Failed to sign in", error)
+    }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    // Retrieve the authentication factors by calling .availableFactors
+    val options = AWSCognitoAuthSignInOptions.builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build()
+    val result = Amplify.Auth.signIn(
+        username = "username",
+        password = null,
+        options = options
+    )
+    if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
+        Log.i(
+            "AuthQuickStart",
+            "Available factors for this user: ${result.nextStep.availableFactors}"
+        )
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
 }
 ```
 
-```ts
-const { nextStep } = await signIn({
-    username: state.username,
-    options: {
-        authFlowType: "USER_AUTH",
-    }
-});
+</Block>
+<Block name="RxJava">
 
-// nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
-handleNextSignInStep(nextStep);
+```java
+// Retrieve the authentication factors by calling .availableFactors
+AWSCognitoAuthSignInOptions options =
+    AWSCognitoAuthSignInOptions
+        .builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build();
+RxAmplify.Auth.signIn("username", null, options)
+    .subscribe(
+        result -> {
+            if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
+                Log.i(
+                    "AuthQuickStart",
+                    "Available authentication factors for this user: " + result.getNextStep().getAvailableFactors()
+                );
+            }
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
 ```
+
+</Block>
+</BlockSwitcher>
 
 To initiate an available first factor, the desired first factor type is passed to confirm sign in as the challenge response. The next sections will that step for each `AuthFactorType`.
 
@@ -1621,7 +1711,108 @@ handleNextSignInStep(nextStep);
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-{/*  */}
+To request an OTP code via SMS for authentication, you must pass the SMS auth factor type (`AuthFactorType.SMS_OTP`) to the `confirmSignIn` API.
+
+Amplify will respond appropriately to Cognito and return the challenge as the sign in next step: `CONFIRM_SIGN_IN_WITH_OTP_CODE`. You will call `confirmSignIn` again, this time with the OTP that your user provides.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// First confirm the challenge type
+Amplify.Auth.confirmSignIn(
+    AuthFactorType.SMS_OTP.name(),
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+            // Show UI to collect OTP
+        }
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+
+// Then pass that OTP into the confirmSignIn API
+Amplify.Auth.confirmSignIn(
+    "123456",
+    result -> {
+        // result.nextStep.signInStep should be "DONE" now
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// First confirm the challenge type
+Amplify.Auth.confirmSignIn(
+    AuthFactorType.SMS_OTP.name,
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+            // Show UI to collect OTP
+        }
+    },
+    { error ->
+        Log.i("AuthQuickstart", "Failed to sign in", error)
+    }
+)
+
+// Then pass that OTP into the confirmSignIn API
+Amplify.Auth.confirmSignIn(
+    "123456",
+    { result ->
+        // result.nextStep.signInStep should be "DONE" now
+    },
+    { error ->
+        Log.i("AuthQuickstart", "Failed to sign in", error)
+    }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+// First confirm the challenge type
+var result = Amplify.Auth.confirmSignIn(AuthFactorType.SMS_OTP.name)
+if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+    // Show UI to collect OTP
+}
+
+// Then pass that OTP into the confirmSignIn API
+result = Amplify.Auth.confirmSignIn("123456")
+
+// result.nextStep.signInStep should be "DONE" now
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+// First confirm the challenge type
+RxAmplify.Auth.confirmSignIn(AuthFactorType.SMS_OTP.name())
+    .subscribe(
+        result -> {
+            if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+                // Show UI to collect OTP
+            }
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+
+// Then pass that OTP into the confirmSignIn API
+RxAmplify.Auth.confirmSignIn("123456")
+    .subscribe(
+        result -> {
+            // result.nextStep.signInStep should be "DONE" now
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
@@ -1724,7 +1915,110 @@ handleNextSignInStep(nextStep);
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-{/*  */}
+
+To request an OTP code via email for authentication, you must pass the email auth factor type (`AuthFactorType.EMAIL_OTP`) to the `confirmSignIn` API.
+
+Amplify will respond appropriately to Cognito and return the challenge as the sign in next step: `CONFIRM_SIGN_IN_WITH_OTP_CODE`. You will call `confirmSignIn` again, this time with the OTP that your user provides.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// First confirm the challenge type
+Amplify.Auth.confirmSignIn(
+    AuthFactorType.EMAIL_OTP.name(),
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+            // Show UI to collect OTP
+        }
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+
+// Then pass that OTP into the confirmSignIn API
+Amplify.Auth.confirmSignIn(
+    "123456",
+    result -> {
+        // result.nextStep.signInStep should be "DONE" now
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// First confirm the challenge type
+Amplify.Auth.confirmSignIn(
+    AuthFactorType.EMAIL_OTP.name,
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+            // Show UI to collect OTP
+        }
+    },
+    { error ->
+        Log.i("AuthQuickstart", "Failed to sign in", error)
+    }
+)
+
+// Then pass that OTP into the confirmSignIn API
+Amplify.Auth.confirmSignIn(
+    "123456",
+    { result ->
+        // result.nextStep.signInStep should be "DONE" now
+    },
+    { error ->
+        Log.i("AuthQuickstart", "Failed to sign in", error)
+    }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+// First confirm the challenge type
+var result = Amplify.Auth.confirmSignIn(AuthFactorType.EMAIL_OTP.name)
+if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+    // Show UI to collect OTP
+}
+
+// Then pass that OTP into the confirmSignIn API
+result = Amplify.Auth.confirmSignIn("123456")
+
+// result.nextStep.signInStep should be "DONE" now
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+// First confirm the challenge type
+RxAmplify.Auth.confirmSignIn(AuthFactorType.EMAIL_OTP.name())
+    .subscribe(
+        result -> {
+            if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+                // Show UI to collect OTP
+            }
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+
+// Then pass that OTP into the confirmSignIn API
+RxAmplify.Auth.confirmSignIn("123456")
+    .subscribe(
+        result -> {
+            // result.nextStep.signInStep should be "DONE" now
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
