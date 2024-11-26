@@ -49,6 +49,7 @@ You can associate a passkey using the following API:
 import { associateWebAuthnCredential} from 'aws-amplify/auth';
 
 await associateWebAuthnCredential();
+
 ```
 
 </InlineFilter>
@@ -105,34 +106,16 @@ You can list registered passkeys using the following API:
 ```ts
 import { listWebAuthnCredentials } from 'aws-amplify/auth';
 
-await listWebAuthnCredentials();
+const result = await listWebAuthnCredentials();
+
+for (const credential of result.credentials) {
+	console.log(`Credential ID: ${credential.credentialId}`);
+	console.log(`Friendly Name: ${credential.friendlyCredentialName}`);
+	console.log(`Relying Party ID: ${credential.relyingPartyId}`);
+	console.log(`Created At: ${credential.createdAt}`);
+}
+
 ```
-
-The list passkeys API takes optional parameters `pageSize` and `nextToken` which may be used to paginate the list request.
-
-The API returns a list of `AuthWebAuthnCredential` objects, which define the properties of a passkey, as well as a `nextToken` to be used in subsequent list requests.
-
-```ts
-interface ListWebAuthnCredentialInput {
-  pageSize?: number;
-  nextToken?: string;
-}
-
-interface ListWebAuthnCredentialOutput {
-  credentials: AuthWebAuthnCredential[];
-  nextToken?: string;
-}
-
-interface AuthWebAuthnCredential {
-  credentialId: string | undefined;
-  friendlyCredentialName: string | undefined;
-  relyingPartyId: string | undefined;
-  authenticatorAttachment?: string;
-  authenticatorTransports: string[] | undefined;
-  createdAt: Date | undefined;
-}
-```
-
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
@@ -220,15 +203,6 @@ await deleteWebAuthnCredential({
   credentialId: id
 });
 ```
-
-The delete passkey API has only the required `credentialId` as input.
-
-```ts
-interface DeleteWebAuthnCredentialInput {
-  credentialId: string;
-}
-```
-
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
@@ -269,12 +243,11 @@ func deleteWebAuthNCredentials(credentialId: String) -> AnyCancellable {
 
 </Block>
 </BlockSwitcher>
-  
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+</InlineFilter>
 
-## Practical example
-  
+
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+## Practical example
 
 Here is a code example that uses the list and delete APIs together. In this example, the user has 3 passkeys registered. They want to list all passkeys while using a `pageSize` of 2 as well as delete the first passkey in the list.
 
@@ -304,5 +277,4 @@ await deleteWebAuthnCredential({
 });
 ```
 
-</InlineFilter>
 </InlineFilter>
