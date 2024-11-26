@@ -164,6 +164,12 @@ plan.addSelection("BackupPlanSelection", {
 
 For example, if you would like to retain a resource on stack deletion, you can use the `applyRemovalPolicy` property on the resource to add a retention policy.
 
+<Callout>
+
+`ampx sandbox delete` ignores any resource removal policy and always deletes all resources.
+
+</Callout>
+
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";

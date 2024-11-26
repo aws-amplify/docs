@@ -1614,7 +1614,9 @@
     "ampx",
     "autodetection",
     "jamba",
-    "webauthn"
+    "webauthn",
+    "knowledgebases",
+    "rehype"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

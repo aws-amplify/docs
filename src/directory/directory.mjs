@@ -728,6 +728,71 @@ export const directory = {
           ]
         },
         {
+          path: 'src/pages/[platform]/ai/index.mdx',
+          children: [
+            {
+              path: 'src/pages/[platform]/ai/set-up-ai/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/ai/concepts/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/concepts/architecture/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/models/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/prompting/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/inference-configuration/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/streaming/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/tools/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/ai/conversation/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/tools/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/context/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/response-components/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/knowledge-base/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/ai/generation/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
+                }
+              ]
+            }
+          ]
+        },
+        {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           children: [
             {
