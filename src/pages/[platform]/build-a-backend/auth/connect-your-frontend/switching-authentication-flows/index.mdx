@@ -117,27 +117,83 @@ Follow the instructions in [Custom Auth Sign In](/gen1/[platform]/build-a-backen
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-For client side authentication there are three different flows:
+For client side authentication there are four different flows:
 
-1. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the [SRP protocol (Secure Remote Password)](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) where the password never leaves the client and is unknown to the server. This is the recommended flow and is used by default.
+1. `USER_AUTH`: The `USER_AUTH` flow is designed to be flexible and supports both password and passwordless sign in factors. `USER_AUTH` can do username-password and SRP authentication without the other flows being configured. This flow doesn't include CUSTOM_AUTH. This is the recommended flow.
 
-2. `USER_PASSWORD_AUTH`: The `USER_PASSWORD_AUTH` flow will send user credentials to the backend without applying SRP encryption. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
+2. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the [SRP protocol (Secure Remote Password)](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) where the password never leaves the client and is unknown to the server.
 
-3. `CUSTOM_WITH_SRP` & `CUSTOM_WITHOUT_SRP`: Allows for a series of challenge and response cycles that can be customized to meet different requirements.
+3. `USER_PASSWORD_AUTH`: The `USER_PASSWORD_AUTH` flow will send user credentials unencrypted to the backend. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
+
+4. `CUSTOM_WITH_SRP` & `CUSTOM_WITHOUT_SRP`: Allows for a series of challenge and response cycles that can be customized to meet different requirements.
 
 The Auth flow can be customized when calling `signIn`, for example:
 
 ```ts title="src/main.ts"
 await signIn({
-	username: "hello@mycompany.com",
+  username: "hello@mycompany.com",
   password: "hunter2",
   options: {
-      authFlowType: 'USER_PASSWORD_AUTH'
+      authFlowType: 'USER_AUTH'
   }
 })
 ```
 
 > For more information about authentication flows, please visit [AWS Cognito developer documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#amazon-cognito-user-pools-custom-authentication-flow)
+
+## USER_AUTH flow
+
+In order to facilitate the new passwordless sign in options, Cognito is introducing a new auth flow type known as `USER_AUTH`. This flow is designed to be flexible and supports both password and passwordless sign in factors.
+
+### Set up auth backend
+
+Configure supported flows in your Cognito app client. In the AWS Console, this is done by ticking the checkboxes at General settings > App clients > App client information (Edit) > App client flows. If you're using the AWS CLI or CloudFormation, update your app client by adding `USER_AUTH` to the list of "Explicit Auth Flows".
+
+### User authentication flow
+
+The `USER_AUTH` sign in flow will support the following methods of first factor authentication: `WEB_AUTHN`, `EMAIL_OTP`, `SMS_OTP`, `PASSWORD`, and `PASSWORD_SRP`.
+
+```ts
+type AuthFactorType = 
+    | "WEB_AUTHN" 
+    | "EMAIL_OTP" 
+    | "SMS_OTP" 
+    | "PASSWORD" 
+    | "PASSWORD_SRP";
+```
+
+If the desired first factor is known before the sign in flow is initiated it can be passed to the initial sign in call.
+
+Password flows will require the password to be passed in the same step. Passwordless flows do not require user input, and the challenges will be handled in the next sign in step:
+
+```ts
+// PASSWORD_SRP / PASSWORD
+// sign in with preferred challenge as password
+// note password must be provided in same step
+const { nextStep } = await signIn({
+    username: "hello@mycompany.com",
+    password: "hunter2",
+    options: {
+        authFlowType: "USER_AUTH",
+        preferredChallenge: "PASSWORD_SRP" // or "PASSWORD"
+    },
+});
+
+// WEB_AUTHN / EMAIL_OTP / SMS_OTP
+// sign in with preferred passwordless challenge
+// no user input required at this step 
+const { nextStep } = await signIn({
+    username: "passwordless@mycompany.com",
+    options: {
+        authFlowType: "USER_AUTH",
+        preferredChallenge: "WEB_AUTHN" // or "EMAIL_OTP" or "SMS_OTP"
+    },
+});
+```
+
+If the desired first factor is not known, the flow will continue to select an available first factor. 
+
+> For more information about determining a first factor, and signing in with passwordless authorization factors, please visit the [concepts page for passwordless](/[platform]/build-a-backend/auth/concepts/passwordless/)
 
 ## USER_PASSWORD_AUTH flow
 
