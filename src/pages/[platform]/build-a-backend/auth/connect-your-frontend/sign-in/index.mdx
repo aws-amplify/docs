@@ -1141,7 +1141,7 @@ Amplify.Auth.signIn(
     "username",
     null,
     options,
-    result -> Log.i("AuthQuickStart", "Next step for sign in is " + result.getNextStep()),
+    result -> Log.i("AuthQuickstart", "Next step for sign in is " + result.getNextStep()),
     error -> Log.e("AuthQuickstart", error.toString())
 );
 ```
@@ -1162,7 +1162,7 @@ Amplify.Auth.signIn(
     null,
     options,
     { result ->
-        Log.i("AuthQuickStart", "Next step for sign in is ${result.nextStep}")
+        Log.i("AuthQuickstart", "Next step for sign in is ${result.nextStep}")
     },
     { error ->
         Log.e("AuthQuickstart", "Failed to sign in", error)
@@ -1187,7 +1187,7 @@ try {
         password = null,
         options = options
     )
-    Log.i("AuthQuickStart", "Next step for sign in is ${result.nextStep}")
+    Log.i("AuthQuickstart", "Next step for sign in is ${result.nextStep}")
 } catch (error: AuthException) {
     Log.e("AuthQuickstart", "Sign in failed", error)
 }
@@ -1208,7 +1208,7 @@ AWSCognitoAuthSignInOptions options =
         .build();
 RxAmplify.Auth.signIn("username", null, options)
     .subscribe(
-        result -> Log.i("AuthQuickStart", "Next step for sign in is " + result.getNextStep()),
+        result -> Log.i("AuthQuickstart", "Next step for sign in is " + result.getNextStep()),
         error -> Log.e("AuthQuickstart", error.toString())
     );
 ```
@@ -1595,7 +1595,7 @@ Amplify.Auth.signIn(
     result -> {
         if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
             Log.i(
-                "AuthQuickStart",
+                "AuthQuickstart",
                 "Available authentication factors for this user: " + result.getNextStep().getAvailableFactors()
             );
         }
@@ -1620,7 +1620,7 @@ Amplify.Auth.signIn(
     { result ->
         if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
             Log.i(
-                "AuthQuickStart",
+                "AuthQuickstart",
                 "Available factors for this user: ${result.nextStep.availableFactors}"
             )
         }
@@ -1648,7 +1648,7 @@ try {
     )
     if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
         Log.i(
-            "AuthQuickStart",
+            "AuthQuickstart",
             "Available factors for this user: ${result.nextStep.availableFactors}"
         )
     }
@@ -1673,7 +1673,7 @@ RxAmplify.Auth.signIn("username", null, options)
         result -> {
             if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
                 Log.i(
-                    "AuthQuickStart",
+                    "AuthQuickstart",
                     "Available authentication factors for this user: " + result.getNextStep().getAvailableFactors()
                 );
             }
