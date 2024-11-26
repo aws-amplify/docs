@@ -171,14 +171,6 @@ await signIn({
 
 ## USER_AUTH flow
 
-In order to facilitate the new passwordless sign in options, Cognito is introducing a new auth flow type known as `USER_AUTH`. This flow is designed to be flexible and supports both password and passwordless sign in factors.
-
-### Set up auth backend
-
-Configure supported flows in your Cognito app client. In the AWS Console, this is done by ticking the checkboxes at General settings > App clients > App client information (Edit) > App client flows. If you're using the AWS CLI or CloudFormation, update your app client by adding `USER_AUTH` to the list of "Explicit Auth Flows".
-
-### User authentication flow
-
 The `USER_AUTH` sign in flow will support the following methods of first factor authentication: `WEB_AUTHN`, `EMAIL_OTP`, `SMS_OTP`, `PASSWORD`, and `PASSWORD_SRP`.
 
 ```ts
@@ -191,8 +183,6 @@ type AuthFactorType =
 ```
 
 If the desired first factor is known before the sign in flow is initiated it can be passed to the initial sign in call.
-
-Password flows will require the password to be passed in the same step. Passwordless flows do not require user input, and the challenges will be handled in the next sign in step:
 
 ```ts
 // PASSWORD_SRP / PASSWORD
