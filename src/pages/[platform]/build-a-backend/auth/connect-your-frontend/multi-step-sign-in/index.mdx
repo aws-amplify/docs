@@ -402,7 +402,7 @@ async function confirmWithPassword(password: string) {
 
 ## Continue sign-in with First Factor Selection
 
-If the next step is `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`,the user must select a first factor method for authentication. After the user selects an option, your implementation should pass the selected method to the `confirmSignIn` API.
+If the next step is `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`, the user must select a first factor method for authentication. After the user selects an option, your implementation should pass the selected method to the `confirmSignIn` API.
 
 The first factor types which are currently supported by Amplify Auth are:
 - `SMS_OTP`
@@ -413,12 +413,12 @@ The first factor types which are currently supported by Amplify Auth are:
 
 Depending on your configuration and what factors the user has previously setup, not all options may be available. Only the available options will be presented in `availableChallenges` for selection.
 
-Once Amplify receives the users selection, you can expect to handle a follow up `nextStep` corresponding with the selected factor type:
-
-- If `SMS_OTP` is selected, you can expect to receive `CONFIRM_SIGN_IN_WITH_SMS_CODE` as the next step.
-- If `EMAIL_OTP` is selected, you can expect to receive `CONFIRM_SIGN_IN_WITH_EMAIL_CODE` as the next step.
-- If `WEB_AUTHN` is selected, Amplify will initiate the authentication ceremony on the user's device. If successful, the next step will be `DONE`.
+Once Amplify receives the user's selection via the `confirmSignIn` API, you can expect to handle a follow up `nextStep` corresponding with the first factor type selected:
+- If `SMS_OTP` is selected, `CONFIRM_SIGN_IN_WITH_SMS_CODE` will be the next step.
+- If `EMAIL_OTP` is selected, `CONFIRM_SIGN_IN_WITH_EMAIL_CODE` will be the next step.
 - If `PASSWORD` or `PASSWORD_SRP` is selected, `CONFIRM_SIGN_IN_WITH_PASSWORD` will be the next step.
+- If `WEB_AUTHN` is selected, Amplify Auth will initiate the authentication ceremony on the user's device. If successful, the next step will be `DONE`.
+
 
 ```ts
 import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
