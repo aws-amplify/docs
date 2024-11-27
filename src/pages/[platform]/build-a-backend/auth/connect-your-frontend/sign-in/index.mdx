@@ -1120,17 +1120,28 @@ Your application's users can also sign in using passwordless methods. To learn m
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-To request an OTP code via SMS for authentication, the challenge is passed as the challenge response to the confirm sign in API.
+Pass `SMS_OTP` as the `preferredChallenge` when calling the `signIn` API in order to initiate a passwordless authentication flow with SMS OTP.
 
-Amplify will respond appropriately to Cognito and return the challenge as sign in next step: `CONFIRM_SIGN_IN_WITH_SMS_CODE`:
 
 ```ts
-const { nextStep } = await confirmSignIn({
-    challengeResponse: "SMS_OTP"
+const { nextStep: signInNextStep } = await signIn({
+	username: 'example-username',
+	options: {
+		authFlowType: 'USER_AUTH',
+		preferredChallenge: 'SMS_OTP',
+	},
 });
 
-// nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE'
-handleNextSignInStep(nextStep);
+if (signInNextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE') {
+	// prompt user for otp code delivered via SMS
+	const { nextStep: confirmSignInNextStep } = await confirmSignIn({
+		challengeResponse: '123456',
+	});
+
+	if (confirmSignInNextStep.signInStep === 'DONE') {
+		console.log('Sign in successful!');
+	}
+}
 ```
 
 </InlineFilter>
@@ -1223,17 +1234,27 @@ func confirmSignIn() -> AnyCancellable {
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-To request an OTP code via email for authentication, the challenge is passed as the challenge response to the confirm sign in API.
-
-Amplify will respond appropriately to Cognito and return the challenge as sign in next step: `CONFIRM_SIGN_IN_WITH_EMAIL_CODE`:
+Pass `EMAIL_OTP` as the `preferredChallenge` when calling the `signIn` API in order to initiate a passwordless authentication flow using email OTP.
 
 ```ts
-const { nextStep } = await confirmSignIn({
-    challengeResponse: "EMAIL_OTP"
+const { nextStep: signInNextStep } = await signIn({
+	username: 'example-username',
+	options: {
+		authFlowType: 'USER_AUTH',
+		preferredChallenge: 'EMAIL_OTP',
+	},
 });
 
-// nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE'
-handleNextSignInStep(nextStep);
+if (signInNextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_EMAIL_CODE') {
+	// prompt user for otp code delivered via email
+	const { nextStep: confirmSignInNextStep } = await confirmSignIn({
+		challengeResponse: '123456',
+	});
+
+	if (confirmSignInNextStep.signInStep === 'DONE') {
+		console.log('Sign in successful!');
+	}
+}
 ```
 
 </InlineFilter>
@@ -1326,15 +1347,20 @@ func confirmSignIn() -> AnyCancellable {
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-The WebAuthn credential flow is initiated by passing the challenge name to the confirm sign in api.
+Pass `WEB_AUTHN` as the `preferredChallenge` in order to initiate the passwordless authentication flow using a WebAuthn credential.
 
 ```ts
-const { nextStep } = await confirmSignIn({
-    challengeResponse: "WEB_AUTHN",
+const { nextStep: signInNextStep } = await signIn({
+	username: 'example-username',
+	options: {
+		authFlowType: 'USER_AUTH',
+		preferredChallenge: 'WEB_AUTHN',
+	},
 });
 
-// nextStep.signInStep === 'DONE'
-handleNextSignInStep(nextStep);
+if (signInNextStep.signInStep === 'DONE') {
+	console.log('Sign in successful!');
+}
 ```
 
 </InlineFilter>
@@ -1356,25 +1382,52 @@ handleNextSignInStep(nextStep);
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
-### Password or SRP
+### Password
 
-Traditional password based authentication is available from this flow as well. To initiate this flow from select challenge, either `PASSWORD` or `PASSWORD_SRP` is passed as the challenge response.
+ Pass either `PASSWORD` or `PASSWORD_SRP` as the `preferredChallenge` in order to initiate a traditional password based authentication flow.
 
 ```ts
-const { nextStep } = await confirmSignIn({
-    challengeResponse: "PASSWORD_SRP", // or "PASSWORD"
+const { nextStep: signInNextStep } = await signIn({
+	username: 'example-username',
+	password: 'example-password',
+	options: {
+		authFlowType: 'USER_AUTH',
+		preferredChallenge: 'PASSWORD_SRP', // or 'PASSWORD'
+	},
 });
 
-// in both cases
-// nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_PASSWORD'
-handleNextSignInStep(nextStep);
+if (confirmSignInNextStep.signInStep === 'DONE') {
+	console.log('Sign in successful!');
+}
+```
 
-const { nextStep: nextNextStep } = await confirmSignIn({
-    challengeResponse: "Test123#",
+
+### First Factor Selection
+
+Omit the `preferredChallenge` parameter to discover what first factors are available for a given user. 
+
+The `confirmSignIn` API can then be used to select a challenge and initiate the associated authentication flow.
+
+```ts
+const { nextStep: signInNextStep } = await signIn({
+	username: 'example-username',
+	options: {
+		authFlowType: 'USER_AUTH',
+	},
 });
 
-// nextNextStep.signInStep === 'DONE'
-handleNextSignInStep(nextNextStep);
+if (
+	signInNextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
+) {
+	// present user with list of available challenges and
+	console.log(`Available Challenges: ${signInNextStep.availableChallenges}`);
+
+	// respond with user selection using `confirmSignIn` API
+	const { nextStep: nextConfirmSignInStep } = await confirmSignIn({
+		challengeResponse: 'SMS_OTP', // or 'EMAIL_OTP', 'WEB_AUTHN', 'PASSWORD', 'PASSWORD_SRP'
+	});
+}
+
 ```
 
 </InlineFilter>
