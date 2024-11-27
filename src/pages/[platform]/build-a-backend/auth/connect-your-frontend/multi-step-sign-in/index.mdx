@@ -80,6 +80,21 @@ if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP') {
 	});
 }
 
+if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_PASSWORD') {
+    // collect password from user
+    await confirmSignIn({
+        challengeResponse: 'hunter2',
+    });
+}
+
+if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION') {
+    // present nextStep.availableChallenges to user
+    // collect user selection
+    await confirmSignIn({
+        challengeResponse: 'SMS_OTP', // or 'EMAIL_OTP', 'WEB_AUTHN', 'PASSWORD', 'PASSWORD_SRP'
+    });
+}
+
 if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
 	// collect custom challenge answer from user
 	await confirmSignIn({
@@ -355,6 +370,78 @@ type MfaType = 'SMS' | 'TOTP' | 'EMAIL';
 
 async function handleMfaSelection(mfaType: MfaType) {
 	const result = await confirmSignIn({ challengeResponse: mfaType });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Confirm sign-in with Password
+
+If the next step is `CONFIRM_SIGN_IN_WITH_PASSWORD`, the user must provide their password as the first factor authentication method. To handle this step, your implementation should prompt the user to enter their password. After the user enters the password, pass the value to the `confirmSignIn` API.
+
+```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
+async function handleSignInResult(result: SignInOutput) {
+    switch (result.nextStep.signInStep) {
+        case 'CONFIRM_SIGN_IN_WITH_PASSWORD': {
+            // Prompt user to enter their password
+            console.log(`Please enter your password.`);
+            break;
+        }
+    }
+}
+
+async function confirmWithPassword(password: string) {
+    const result = await confirmSignIn({ challengeResponse: password });
+
+    return handleSignInResult(result);
+}
+```
+
+## Continue sign-in with First Factor Selection
+
+If the next step is `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`,the user must select a first factor method for authentication. After the user selects an option, your implementation should pass the selected method to the `confirmSignIn` API.
+
+The first factor types which are currently supported by Amplify Auth are:
+- `SMS_OTP`
+- `EMAIL_OTP`
+- `WEB_AUTHN`
+- `PASSWORD`
+- `PASSWORD_SRP`
+
+Depending on your configuration and what factors the user has previously setup, not all options may be available. Only the available options will be presented in `availableChallenges` for selection.
+
+Once Amplify receives the users selection, you can expect to handle a follow up `nextStep` corresponding with the selected factor type:
+
+- If `SMS_OTP` is selected, you can expect to receive `CONFIRM_SIGN_IN_WITH_SMS_CODE` as the next step.
+- If `EMAIL_OTP` is selected, you can expect to receive `CONFIRM_SIGN_IN_WITH_EMAIL_CODE` as the next step.
+- If `WEB_AUTHN` is selected, Amplify will initiate the authentication ceremony on the user's device. If successful, the next step will be `DONE`.
+- If `PASSWORD` or `PASSWORD_SRP` is selected, `CONFIRM_SIGN_IN_WITH_PASSWORD` will be the next step.
+
+```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION': {
+			const { availableChallenges } = result.nextStep;
+			// Present available first factor options to user
+			// Prompt for selection
+			console.log(
+				`There are multiple first factor options available for sign in.`,
+			);
+			console.log(
+				`Select a first factor type from the availableChallenges list.`,
+			);
+			break;
+		}
+	}
+}
+
+async function handleFirstFactorSelection(firstFactorType: string) {
+	const result = await confirmSignIn({ challengeResponse: firstFactorType });
 
 	return handleSignInResult(result);
 }
