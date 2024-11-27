@@ -803,9 +803,9 @@ func confirmSignIn() -> AnyCancellable {
 
 ## Sign in with an external identity provider
 
-To sign in using an external identity provider such as Google, use the `signInWithRedirect` function.
-
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+To sign in using an external identity provider such as Google, use the `signInWithRedirect` function.
 
 ```ts
 import { signInWithRedirect } from "aws-amplify/auth"
@@ -844,7 +844,10 @@ await autoSignIn();
 ```
 
 </InlineFilter>
-<InlineFilter filters={['react-native']}>
+<InlineFilter filters={['react-native']}
+>
+
+To sign in using an external identity provider such as Google, use the `signInWithRedirect` function.
 
 ### Install native module
 
@@ -883,6 +886,8 @@ Add the `intent-filter` to your application's main activity, replacing `myapp` w
 
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
+To sign in using an external identity provider such as Google, use the `signInWithWebUI` function.
+
 ### How It Works
 
 Sign-in with web UI will display the sign-in UI inside a webview. After the sign-in process is complete, the sign-in UI will redirect back to your app.
@@ -949,7 +954,10 @@ Future<void> socialSignIn() async {
 ```
 </InlineFilter>
 <InlineFilter filters={['android']}>
-## Update AndroidManifest.xml
+
+To sign in using an external identity provider such as Google, use the `signInWithSocialWebUI` function.
+
+### Update AndroidManifest.xml
 
 Add the following activity and queries tag to your app's `AndroidManifest.xml` file, replacing `myapp` with
 your redirect URI prefix if necessary:
@@ -971,7 +979,7 @@ your redirect URI prefix if necessary:
 </application>
 ```
 
-## Launch Social Web UI Sign In
+### Launch Social Web UI Sign In
 
 Sweet! You're now ready to launch sign in with your social provider's web UI.
 
@@ -1034,7 +1042,10 @@ RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
-## Update Info.plist
+
+To sign in using an external identity provider such as Google, use the `signInWithWebUI` function.
+
+### Update Info.plist
 
 Sign-in with web UI requires the Amplify plugin to show up the sign-in UI inside a webview. After the sign-in process is complete it will redirect back to your app. 
 You have to enable this in your app's `Info.plist`. Right click Info.plist and then choose Open As > Source Code. Add the following entry in the URL scheme:
@@ -1064,7 +1075,7 @@ You have to enable this in your app's `Info.plist`. Right click Info.plist and t
 
 When creating a new SwiftUI app using Xcode 13 no longer require configuration files such as the Info.plist. If you are missing this file, click on the project target, under Info, Url Types, and click '+' to add a new URL Type. Add `myapp` to the URL Schemes. You should see the Info.plist file now with the entry for CFBundleURLSchemes.
 
-## Launch Social Web UI Sign In
+### Launch Social Web UI Sign In
 
 Invoke the following API with the provider you're using (shown with Facebook below):
 
@@ -1140,7 +1151,7 @@ handleNextSignInStep(nextStep);
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-To request an OTP code via SMS for authentication, you must pass the SMS auth factor type (`AuthFactorType.SMS_OTP`) to the `confirmSignIn` API.
+To request an OTP code via SMS for authentication, you pass the `challengeResponse` for `AuthFactorType.SMS_OTP` to the `confirmSignIn` API.
 
 Amplify will respond appropriately to Cognito and return the challenge as the sign in next step: `CONFIRM_SIGN_IN_WITH_OTP_CODE`. You will call `confirmSignIn` again, this time with the OTP that your user provides.
 
@@ -1150,7 +1161,7 @@ Amplify will respond appropriately to Cognito and return the challenge as the si
 ```java
 // First confirm the challenge type
 Amplify.Auth.confirmSignIn(
-    AuthFactorType.SMS_OTP.name(),
+    AuthFactorType.SMS_OTP.getChallengeResponse(),
     result -> {
         if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
             // Show UI to collect OTP
@@ -1175,7 +1186,7 @@ Amplify.Auth.confirmSignIn(
 ```kotlin
 // First confirm the challenge type
 Amplify.Auth.confirmSignIn(
-    AuthFactorType.SMS_OTP.name,
+    AuthFactorType.SMS_OTP.challengeResponse,
     { result ->
         if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
             // Show UI to collect OTP
@@ -1203,7 +1214,7 @@ Amplify.Auth.confirmSignIn(
 
 ```kotlin
 // First confirm the challenge type
-var result = Amplify.Auth.confirmSignIn(AuthFactorType.SMS_OTP.name)
+var result = Amplify.Auth.confirmSignIn(AuthFactorType.SMS_OTP.challengeResponse)
 if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
     // Show UI to collect OTP
 }
@@ -1219,7 +1230,7 @@ result = Amplify.Auth.confirmSignIn("123456")
 
 ```java
 // First confirm the challenge type
-RxAmplify.Auth.confirmSignIn(AuthFactorType.SMS_OTP.name())
+RxAmplify.Auth.confirmSignIn(AuthFactorType.SMS_OTP.getChallengeResponse())
     .subscribe(
         result -> {
             if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
@@ -1344,7 +1355,7 @@ handleNextSignInStep(nextStep);
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-To request an OTP code via email for authentication, you must pass the email auth factor type (`AuthFactorType.EMAIL_OTP`) to the `confirmSignIn` API.
+To request an OTP code via email for authentication, you pass the `challengeResponse` for `AuthFactorType.EMAIL_OTP` to the `confirmSignIn` API.
 
 Amplify will respond appropriately to Cognito and return the challenge as the sign in next step: `CONFIRM_SIGN_IN_WITH_OTP_CODE`. You will call `confirmSignIn` again, this time with the OTP that your user provides.
 
@@ -1354,7 +1365,7 @@ Amplify will respond appropriately to Cognito and return the challenge as the si
 ```java
 // First confirm the challenge type
 Amplify.Auth.confirmSignIn(
-    AuthFactorType.EMAIL_OTP.name(),
+    AuthFactorType.EMAIL_OTP.getChallengeResponse(),
     result -> {
         if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
             // Show UI to collect OTP
@@ -1379,7 +1390,7 @@ Amplify.Auth.confirmSignIn(
 ```kotlin
 // First confirm the challenge type
 Amplify.Auth.confirmSignIn(
-    AuthFactorType.EMAIL_OTP.name,
+    AuthFactorType.EMAIL_OTP.challengeResponse,
     { result ->
         if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
             // Show UI to collect OTP
@@ -1407,7 +1418,7 @@ Amplify.Auth.confirmSignIn(
 
 ```kotlin
 // First confirm the challenge type
-var result = Amplify.Auth.confirmSignIn(AuthFactorType.EMAIL_OTP.name)
+var result = Amplify.Auth.confirmSignIn(AuthFactorType.EMAIL_OTP.challengeResponse)
 if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
     // Show UI to collect OTP
 }
@@ -1423,7 +1434,7 @@ result = Amplify.Auth.confirmSignIn("123456")
 
 ```java
 // First confirm the challenge type
-RxAmplify.Auth.confirmSignIn(AuthFactorType.EMAIL_OTP.name())
+RxAmplify.Auth.confirmSignIn(AuthFactorType.EMAIL_OTP.getChallengeResponse())
     .subscribe(
         result -> {
             if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
@@ -1547,7 +1558,97 @@ handleNextSignInStep(nextStep);
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-{/*  */}
+To sign in with WebAuthn, you pass the `challengeResponse` for `AuthFactorType.WEB_AUTHN` to the `confirmSignIn` API. Amplify will invoke Android's Credential Manager to retrieve a PassKey, and the user will be shown a system UI to authorize the PassKey access. This flow
+completes without any additional interaction from your application, so there is only one `confirmSignIn` call needed for WebAuthn.
+
+<Callout>
+Amplify requires an `Activity` reference to attach the PassKey UI to your Application's [Task](https://developer.android.com/guide/components/activities/tasks-and-back-stack) when using WebAuthn - if an `Activity` is not supplied then the UI will appear in a separate Task. For this reason, we strongly recommend passing the `callingActivity` option to both the `signIn` and `confirmSignIn` APIs if your application uses the `USER_AUTH` flow.
+</Callout>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// Pass the calling activity
+AuthSignInOptions options = AWSCognitoAuthConfirmSignInOptions.builder()
+    .callingActivity(activity)
+    .build();
+
+// Confirm WebAuthn as the challenge type
+Amplify.Auth.confirmSignIn(
+    AuthFactorType.WEB_AUTHN.getChallengeResponse(),
+    options,
+    result -> Log.i("AuthQuickStart", "Next sign in step: " + result.getNextStep()),
+    error -> Log.e("AuthQuickstart", "Failed to sign in", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// Pass the calling activity
+val options = AWSCognitoAuthConfirmSignInOptions.builder()
+    .callingActivity(activity)
+    .build()
+
+// Confirm WebAuthn as the challenge type
+Amplify.Auth.confirmSignIn(
+    AuthFactorType.WEB_AUTHN.name,
+    options,
+    { result -> Log.i("AuthQuickStart", "Next sign in step: ${result.nextStep}") },
+    { error -> Log.i("AuthQuickstart", "Failed to sign in", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+// Pass the calling activity
+val options = AWSCognitoAuthConfirmSignInOptions.builder()
+    .callingActivity(activity)
+    .build()
+
+try {
+    // Confirm WebAuthn as the challenge type
+    var result = Amplify.Auth.confirmSignIn(
+        challengeResponse = AuthFactorType.WEB_AUTHN.challengeResponse,
+        options = options
+    )
+    Log.i("AuthQuickStart", "Next sign in step: ${result.nextStep}")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to sign in", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+// Pass the calling activity
+AuthSignInOptions options = AWSCognitoAuthConfirmSignInOptions.builder()
+    .callingActivity(activity)
+    .build();
+
+// Confirm WebAuthn as the challenge type
+RxAmplify.Auth.confirmSignIn(AuthFactorType.WEB_AUTHN.getChallengeResponse(), options)
+    .subscribe(
+        result -> Log.i("AuthQuickStart", "Next sign in step: " + result.getNextStep()),
+        error -> Log.e("AuthQuickstart", "Failed to sign in", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+Using WebAuthn sign in may result in a number of possible exception types.
+
+- `UserCancelledException` - If the user declines to authorize access to the PassKey in the system UI. You can retry the WebAuthn flow by invoking `confirmSignIn` again, or restart the `signIn` process to select a different `AuthFactorType`.
+- `WebAuthnNotEnabledException` - This indicates WebAuthn is not enabled in your user pool.
+- `WebAuthnNotSupportedException` - This indicates WebAuthn is not supported on the user's device.
+- `WebAuthnRpMismatchException` - This indicates there is a problem with the `assetlinks.json` file deployed to your relying party.
+- `WebAuthnFailedException` - This exception is used for other errors that may occur with WebAuthn. Inspect the `cause` to determine the best course of action.
 
 </InlineFilter>
 <InlineFilter filters={["flutter"]}>
@@ -1565,7 +1666,7 @@ handleNextSignInStep(nextStep);
 
 ### Password or SRP
 
-Traditional password based authentication is available from this flow as well. To initiate this flow from select challenge, either `PASSWORD` or `PASSWORD_SRP` is passed as the challenge response.
+Traditional password based authentication is available from the `USER_AUTH` flow as well. To initiate this flow from select challenge, either `PASSWORD` or `PASSWORD_SRP` is passed as the challenge response.
 
 </InlineFilter>
 
@@ -1596,7 +1697,7 @@ handleNextSignInStep(nextNextStep);
 ```java
 // First confirm the challenge type
 Amplify.Auth.confirmSignIn(
-    AuthFactorType.PASSWORD, // or PASSWORD_SRP
+    AuthFactorType.PASSWORD.getChallengeResponse(), // or PASSWORD_SRP
     result -> {
         if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD) {
             // Show UI to collect password
@@ -1621,7 +1722,7 @@ Amplify.Auth.confirmSignIn(
 ```kotlin
 // First confirm the challenge type
 Amplify.Auth.confirmSignIn(
-    AuthFactorType.PASSWORD.name, // or PASSWORD_SRP
+    AuthFactorType.PASSWORD.challengeResponse, // or PASSWORD_SRP
     { result ->
         if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD) {
             // Show UI to collect password
@@ -1649,7 +1750,7 @@ Amplify.Auth.confirmSignIn(
 
 ```kotlin
 // First confirm the challenge type
-var result = Amplify.Auth.confirmSignIn(AuthFactorType.PASSWORD.name) // or PASSWORD_SRP
+var result = Amplify.Auth.confirmSignIn(AuthFactorType.PASSWORD.challengeResponse) // or PASSWORD_SRP
 if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD) {
     // Show UI to collect password
 }
@@ -1665,7 +1766,7 @@ result = Amplify.Auth.confirmSignIn("password")
 
 ```java
 // First confirm the challenge type
-RxAmplify.Auth.confirmSignIn(AuthFactorType.PASSWORD.name()) // or PASSWORD_SRP
+RxAmplify.Auth.confirmSignIn(AuthFactorType.PASSWORD.getChallengeResponse()) // or PASSWORD_SRP
     .subscribe(
         result -> {
             if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD) {
