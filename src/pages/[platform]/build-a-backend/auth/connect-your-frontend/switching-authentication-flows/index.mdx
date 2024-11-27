@@ -200,7 +200,7 @@ const { nextStep } = await signIn({
 });
 ```
 
-If the desired first factor is not known or you would like to provide users with available options, it can be omitted from the initial `signIn` API call to discover which authentication first factors are available for a user via the `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION` step.
+If the desired first factor is not known or you would like to provide users with available options, `preferredChallenge` can be omitted from the initial `signIn` API call to discover which authentication first factors are available for a user via the `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION` step.
 
 ```ts
 const { nextStep: signInNextStep } = await signIn({
