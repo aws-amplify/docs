@@ -1116,7 +1116,7 @@ func socialSignInWithWebUI() -> AnyCancellable {
 
 ## Sign in with passwordless methods
 
-Your application's users can also sign in using passwordless methods. To learn more, visit the [concepts page for passwordless](/[platform]/build-a-backend/auth/concepts/passwordless/)
+Your application's users can also sign in using passwordless methods. To learn more, visit the [concepts page for passwordless](/[platform]/build-a-backend/auth/concepts/passwordless/).
 
 ### SMS OTP
 
@@ -1163,7 +1163,7 @@ Amplify.Auth.confirmSignIn(
 Amplify.Auth.confirmSignIn(
     "123456",
     result -> {
-        // result.nextStep.signInStep should be "DONE" now
+        // result.getNextStep().getSignInStep() should be "DONE" now
     },
     error -> Log.e("AuthQuickstart", error.toString())
 );
@@ -1233,7 +1233,7 @@ RxAmplify.Auth.confirmSignIn(AuthFactorType.SMS_OTP.name())
 RxAmplify.Auth.confirmSignIn("123456")
     .subscribe(
         result -> {
-            // result.nextStep.signInStep should be "DONE" now
+            // result.getNextStep().getSignInStep() should be "DONE" now
         },
         error -> Log.e("AuthQuickstart", error.toString())
     );
@@ -1367,7 +1367,7 @@ Amplify.Auth.confirmSignIn(
 Amplify.Auth.confirmSignIn(
     "123456",
     result -> {
-        // result.nextStep.signInStep should be "DONE" now
+        // result.getNextStep().getSignInStep() should be "DONE" now
     },
     error -> Log.e("AuthQuickstart", error.toString())
 );
@@ -1437,7 +1437,7 @@ RxAmplify.Auth.confirmSignIn(AuthFactorType.EMAIL_OTP.name())
 RxAmplify.Auth.confirmSignIn("123456")
     .subscribe(
         result -> {
-            // result.nextStep.signInStep should be "DONE" now
+            // result.getNextStep().getSignInStep() should be "DONE" now
         },
         error -> Log.e("AuthQuickstart", error.toString())
     );
@@ -1589,32 +1589,100 @@ handleNextSignInStep(nextNextStep);
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
+
 <BlockSwitcher>
 <Block name="Java">
 
 ```java
-// Java code
+// First confirm the challenge type
+Amplify.Auth.confirmSignIn(
+    AuthFactorType.PASSWORD, // or PASSWORD_SRP
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD) {
+            // Show UI to collect password
+        }
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+
+// Then pass that password into the confirmSignIn API
+Amplify.Auth.confirmSignIn(
+    "password",
+    result -> {
+        // result.getNextStep().getSignInStep() should be "DONE" now
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
 ```
 
 </Block>
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-// Kotlin code
+// First confirm the challenge type
+Amplify.Auth.confirmSignIn(
+    AuthFactorType.PASSWORD.name, // or PASSWORD_SRP
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD) {
+            // Show UI to collect password
+        }
+    },
+    { error ->
+        Log.i("AuthQuickstart", "Failed to sign in", error)
+    }
+)
+
+// Then pass that password into the confirmSignIn API
+Amplify.Auth.confirmSignIn(
+    "password",
+    { result ->
+        // result.nextStep.signInStep should be "DONE" now
+    },
+    { error ->
+        Log.i("AuthQuickstart", "Failed to sign in", error)
+    }
+)
 ```
 
 </Block>
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-// Kotlin coroutines code
+// First confirm the challenge type
+var result = Amplify.Auth.confirmSignIn(AuthFactorType.PASSWORD.name) // or PASSWORD_SRP
+if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD) {
+    // Show UI to collect password
+}
+
+// Then pass that password into the confirmSignIn API
+result = Amplify.Auth.confirmSignIn("password")
+
+// result.nextStep.signInStep should be "DONE" now
 ```
 
 </Block>
 <Block name="RxJava">
 
 ```java
-// RxJava code
+// First confirm the challenge type
+RxAmplify.Auth.confirmSignIn(AuthFactorType.PASSWORD.name()) // or PASSWORD_SRP
+    .subscribe(
+        result -> {
+            if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD) {
+                // Show UI to collect password
+            }
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+
+// Then pass that password into the confirmSignIn API
+RxAmplify.Auth.confirmSignIn("password")
+    .subscribe(
+        result -> {
+            // result.getNextStep().getSignInStep() should be "DONE" now
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
 ```
 
 </Block>
