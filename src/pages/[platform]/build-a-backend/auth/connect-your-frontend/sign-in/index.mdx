@@ -1419,7 +1419,7 @@ const { nextStep: signInNextStep } = await signIn({
 if (
 	signInNextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
 ) {
-	// present user with list of available challenges and
+	// present user with list of available challenges
 	console.log(`Available Challenges: ${signInNextStep.availableChallenges}`);
 
 	// respond with user selection using `confirmSignIn` API
