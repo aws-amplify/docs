@@ -171,18 +171,9 @@ await signIn({
 
 ## USER_AUTH flow
 
-The `USER_AUTH` sign in flow will support the following methods of first factor authentication: `WEB_AUTHN`, `EMAIL_OTP`, `SMS_OTP`, `PASSWORD`, and `PASSWORD_SRP`.
+The `USER_AUTH` sign in flow supports the following methods as first factors for authentication: `WEB_AUTHN`, `EMAIL_OTP`, `SMS_OTP`, `PASSWORD`, and `PASSWORD_SRP`.
 
-```ts
-type AuthFactorType = 
-    | "WEB_AUTHN" 
-    | "EMAIL_OTP" 
-    | "SMS_OTP" 
-    | "PASSWORD" 
-    | "PASSWORD_SRP";
-```
-
-If the desired first factor is known before the sign in flow is initiated it can be passed to the initial sign in call.
+If the desired first factor is known when authentication is initiated it can be passed to the `signIn` API as the `preferredChallenge` to initiate the corresponding authentication flow.
 
 ```ts
 // PASSWORD_SRP / PASSWORD
@@ -199,9 +190,9 @@ const { nextStep } = await signIn({
 
 // WEB_AUTHN / EMAIL_OTP / SMS_OTP
 // sign in with preferred passwordless challenge
-// no user input required at this step 
+// no additional user input required at this step 
 const { nextStep } = await signIn({
-    username: "passwordless@mycompany.com",
+    username: "hello@example.com",
     options: {
         authFlowType: "USER_AUTH",
         preferredChallenge: "WEB_AUTHN" // or "EMAIL_OTP" or "SMS_OTP"
@@ -209,9 +200,35 @@ const { nextStep } = await signIn({
 });
 ```
 
-If the desired first factor is not known, the flow will continue to select an available first factor. 
+If the desired first factor is not known or you would like to provide users with available options, it can be omitted from the initial `signIn` API call to discover which authentication first factors are available for a user via the `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION` step.
 
-> For more information about determining a first factor, and signing in with passwordless authorization factors, please visit the [concepts page for passwordless](/[platform]/build-a-backend/auth/concepts/passwordless/)
+```ts
+const { nextStep: signInNextStep } = await signIn({
+	username: '+15551234567',
+	options: {
+		authFlowType: 'USER_AUTH',
+	},
+});
+
+if (
+	signInNextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
+) {
+	// present user with list of available challenges
+	console.log(`Available Challenges: ${signInNextStep.availableChallenges}`);
+
+	// respond with user selection using `confirmSignIn` API
+	const { nextStep: nextConfirmSignInStep } = await confirmSignIn({
+		challengeResponse: 'SMS_OTP', // or 'EMAIL_OTP', 'WEB_AUTHN', 'PASSWORD', 'PASSWORD_SRP'
+	});
+}
+
+```
+Also, note that if the `preferredChallenge` passed to the initial `signIn` API call is unavailable for the user, Amplify will also respond with the `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION` next step.
+
+
+<Callout>
+For more information about determining a first factor, and signing in with passwordless authentication factors, please visit the [Passwordless](/[platform]/build-a-backend/auth/concepts/passwordless/) concepts page.
+</Callout>
 
 ## USER_PASSWORD_AUTH flow
 
