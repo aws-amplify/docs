@@ -285,15 +285,26 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
 
 The `signUp` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue", "android"]}>
-- `CONFIRM_SIGN_UP` - The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp`.
-- `DONE` - The sign up process has been fully completed.
-- `COMPLETE_AUTO_SIGN_IN` - The sign up process needs to complete by invoking the `autoSignIn` API.
+<InlineFilter filters={["angular", "javascript", "react", "react-native", "nextjs", "vue"]}>
+| Next Step | Description |
+| --------- | ----------- |
+| `CONFIRM_SIGN_UP` | The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp`. |
+| `DONE` | The sign up process has been fully completed. |
+| `COMPLETE_AUTO_SIGN_IN` | The sign up process needs to complete by invoking the `autoSignIn` API. |
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+| Next Step | Description |
+| --------- | ----------- |
+| `CONFIRM_SIGN_UP_STEP` | The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp`. |
+| `DONE` | The sign up process has been fully completed. |
 </InlineFilter>
 
 <InlineFilter filters={["swift", "flutter"]}>
-- `confirmUser` - The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp` API.
-- `done` - The sign up process has been fully completed.
+| Next Step | Description |
+| --------- | ----------- |
+| `confirmSignUp` | The sign up needs to be confirmed by collecting a code from the user and calling `confirmSignUp`. |
+| `done` | The sign up process has been fully completed. |
 </InlineFilter>
 
 ## Confirm sign-up
@@ -308,7 +319,7 @@ By default, each user that signs up remains in the unconfirmed status until they
 
 You can confirm the sign-up after receiving a confirmation code from the user:
 
-<InlineFilter filters={["angular", "javascript", "react", "nextjs", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "react", "react-native", "nextjs", "vue"]}>
 
 ```ts
 import { confirmSignUp } from 'aws-amplify/auth';
@@ -515,4 +526,412 @@ export default function App() {
 ```
 
 </InlineFilter>
+</InlineFilter>
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue", "swift"]}>
+
+## Sign up with passwordless methods
+
+Your application's users can also sign up using passwordless methods. To learn more, visit the [concepts page for passwordless](/[platform]/build-a-backend/auth/concepts/passwordless/)
+
+### SMS OTP
+
+{/* blurb with supplemental information about handling sign-up, events, etc. */}
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```typescript
+// Sign up using a phone number
+const { nextStep: signUpNextStep } = await signUp({
+	username: 'james',
+	options: {
+		userAttributes: {
+			phone_number: '+15555551234',
+		},
+	},
+});
+
+if (signUpNextStep.signUpStep === 'DONE') {
+	console.log(`SignUp Complete`);
+}
+
+if (signUpNextStep.signUpStep === 'CONFIRM_SIGN_UP') {
+	console.log(
+		`Code Delivery Medium: ${signUpNextStep.codeDeliveryDetails.deliveryMedium}`,
+	);
+	console.log(
+		`Code Delivery Destination: ${signUpNextStep.codeDeliveryDetails.destination}`,
+	);
+}
+
+// Confirm sign up with the OTP received
+const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
+	username: 'james',
+	confirmationCode: '123456',
+});
+
+if (confirmSignUpNextStep.signUpStep === 'DONE') {
+	console.log(`SignUp Complete`);
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+// Sign up using an phone number
+func signUp(username: String, phonenumber: String) async {
+    let userAttributes = [
+        AuthUserAttribute(.phoneNumber, value: phonenumber)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            options: options
+        )
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+// Confirm sign up with the OTP received
+func confirmSignUp(for username: String, with confirmationCode: String) async {
+    do {
+        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+        print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+    } catch let error as AuthError {
+        print("An error occurred while confirming sign up \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+// Sign up using a phone number
+func signUp(username: String, phonenumber: String) -> AnyCancellable {
+    let userAttributes = [
+        AuthUserAttribute(.phoneNumber, value: phonenumber)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    let sink = Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
+        }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    }
+    return sink
+}
+
+// Confirm sign up with the OTP received
+func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
+        }
+    }
+    receiveValue: { _ in
+        print("Confirm signUp succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+### Email OTP
+
+{/* blurb with supplemental information about handling sign-up, events, etc. */}
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```typescript
+// Sign up using an email address
+const { nextStep: signUpNextStep } = await signUp({
+	username: 'james',
+	options: {
+		userAttributes: {
+			email: 'james@example.com',
+		},
+	},
+});
+
+if (signUpNextStep.signUpStep === 'DONE') {
+	console.log(`SignUp Complete`);
+}
+
+if (signUpNextStep.signUpStep === 'CONFIRM_SIGN_UP') {
+	console.log(
+		`Code Delivery Medium: ${signUpNextStep.codeDeliveryDetails.deliveryMedium}`,
+	);
+	console.log(
+		`Code Delivery Destination: ${signUpNextStep.codeDeliveryDetails.destination}`,
+	);
+}
+
+// Confirm sign up with the OTP received
+const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
+	username: 'james',
+	confirmationCode: '123456',
+});
+
+if (confirmSignUpNextStep.signUpStep === 'DONE') {
+	console.log(`SignUp Complete`);
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+// Sign up using an email
+func signUp(username: String, email: String) async {
+    let userAttributes = [
+        AuthUserAttribute(.email, value: email)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            options: options
+        )
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+// Confirm sign up with the OTP received
+func confirmSignUp(for username: String, with confirmationCode: String) async {
+    do {
+        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+        print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+    } catch let error as AuthError {
+        print("An error occurred while confirming sign up \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+// Sign up using an email
+func signUp(username: String, email: String) -> AnyCancellable {
+    let userAttributes = [
+        AuthUserAttribute(.email, value: email)
+    ]
+    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
+    let sink = Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
+        }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
+        }
+    }
+    return sink
+}
+
+// Confirm sign up with the OTP received
+func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
+        }
+    }
+    receiveValue: { _ in
+        print("Confirm signUp succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+### Auto Sign In
+
+{/* blurb with supplemental information about auto sign in */}
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```typescript
+// Confirm sign up with the OTP received and auto sign in
+const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
+	username: 'james',
+	confirmationCode: '123456',
+});
+
+if (confirmSignUpNextStep.signUpStep === 'COMPLETE_AUTO_SIGN_IN') {
+	const { nextStep } = await autoSignIn();
+
+	if (nextStep.signInStep === 'DONE') {
+		console.log('Successfully signed in.');
+	}
+}
+```
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+// Confirm sign up with the OTP received and auto sign in
+func confirmSignUp(for username: String, with confirmationCode: String) async {
+    do {
+        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+        if case .completeAutoSignIn(let session) = confirmSignUpResult.nextStep {
+            let autoSignInResult = try await Amplify.Auth.autoSignIn()
+            print("Auto sign in result: \(autoSignInResult.isSignedIn)")
+        } else {
+            print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+        }
+    } catch let error as AuthError {
+        print("An error occurred while confirming sign up \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+// Confirm sign up with the OTP received and auto sign in
+func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
+        }
+    }
+    receiveValue: { confirmSignUpResult in
+        if case let .completeAutoSignIn(session) = confirmSignUpResult.nextStep {
+            print("Confirm Sign Up succeeded. Next step is auto sign in")
+            // call `autoSignIn()` API to complete sign in
+        } else {
+            print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+        }
+    }
+}
+
+func autoSignIn() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.autoSignIn()
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Auto Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { autoSignInResult in
+        if autoSignInResult.isSignedIn {
+            print("Auto Sign in succeeded")
+        }
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
 </InlineFilter>

@@ -1,0 +1,95 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Inference Configuration",
+  description:
+    "Learn about inference configuration",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+    },
+  };
+}
+
+
+
+
+LLMs have parameters that can be configured to change how the model behaves. This is called inference configuration or inference parameters. LLMs are actually *predicting* text based on the text input. This prediction is probabilistic, and can be tweaked by adjusting the inference configuration to allow for more creative or deterministic outputs. The proper configuration will depend on your use case.
+
+[Bedrock documentation on inference configuration](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-parameters.html)
+
+<Accordion title='What is inference?'>
+
+Inference refers to the process of using a model to generate or predict output based on input data. Inference is using a model after it has been trained on a data set. 
+
+</Accordion>
+
+
+
+
+
+## Setting inference configuration
+
+All generative AI routes in Amplify accept inference configuration as optional parameters. If you do not provide any inference configuration options, Bedrock will use [default ones for that particular model](#default-values). 
+
+```ts
+a.generation({
+  aiModel: a.ai.model("Claude 3.5 Haiku"),
+  systemPrompt: `You are a helpful assistant`,
+  inferenceConfiguration: {
+    temperature: 0.2,
+    topP: 0.2,
+    maxTokens: 1000,
+  }
+})
+```
+
+## Definitions
+
+### Temperature
+
+Affects the shape of the probability distribution for the predicted output and influences the likelihood of the model selecting lower-probability outputs. Temperature is usually* number from 0 to 1, where a lower value will influence the model to select higher-probability options. Another way to think about temperature is to think about creativity. A low number (close to zero) would produce the least creative and most deterministic response.
+
+-* AI21 Labs Jamba models use a temperature range of 0 &ndash; 2.0
+
+### Top P
+
+Top p refers to the percentage of token candidates the model can choose from for the next token in the response. A lower value will decrease the size of the pool and limit the options to more likely outputs. A higher value will increase the size of the pool and allow for lower-probability tokens.
+
+
+### Max Tokens
+
+This parameter is used to limit the maximum response a model can give. 
+
+
+## Default values
+
+
+| Model | Temperature | Top P | Max Tokens |
+| ----- | ----------- | ----- | ---------- |
+| [AI21 Labs Jamba](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-jamba.html#model-parameters-jamba-request-response) | 1.0* | 0.5 | 4096 |
+| [Meta Llama](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-meta.html#model-parameters-meta-request-response) | 0.5 | 0.9 | 512 |
+| [Amazon Titan](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-titan-text.html) | 0.7 | 0.9 | 512 |
+| [Anthropic Claude](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html#model-parameters-anthropic-claude-messages-request-response) | 1 | 0.999 | 512 |
+| [Cohere Command R](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-cohere-command-r-plus.html#model-parameters-cohere-command-request-response) | 0.3 | 0.75 | 512 |
+| [Mistral Large](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-mistral-chat-completion.html#model-parameters-mistral-chat-completion-request-response) | 0.7 | 1 | 8192 |
+
+[Bedrock documentation on model default inference configuration](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html)
+
+-* AI21 Labs Jamba models use a temperature range of 0 &ndash; 2.0

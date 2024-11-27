@@ -37,7 +37,7 @@ We welcome contributions to the documentation site! Here's how to do it:
 
 ## Authoring pages
 
-Our docs are generated using [Next.js](https://nextjs.org/). Refer to their docs on [how to create pages](https://nextjs.org/docs/basic-features/pages) as a primer.
+Our docs are generated using [Next.js](https://nextjs.org/). Refer to their docs on [how to create pages](https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts) as a primer.
 
 The source for each page is in **src**. This folder is the only directory you need to touch to edit or create pages.
 

@@ -170,6 +170,8 @@
     "Auth.currentAuthenticatedUser",
     "Auth.federatedSignIn",
     "Auth0",
+    "Authauthenticated",
+    "Authunauthenticate",
     "authcurrentsession",
     "authverifycurrentuserattribute",
     "authverifycurrentuserattributesubmit",
@@ -851,6 +853,7 @@
     "metadata",
     "mfaDescription",
     "mfaTypes",
+    "enabledMfas",
     "MiB",
     "middleware",
     "Millis",
@@ -1609,7 +1612,11 @@
     "esac",
     "voteField",
     "ampx",
-    "autodetection"
+    "autodetection",
+    "jamba",
+    "webauthn",
+    "knowledgebases",
+    "rehype"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
