@@ -1711,35 +1711,6 @@ if (confirmSignInNextStep.signInStep === 'DONE') {
 	console.log('Sign in successful!');
 }
 ```
-
-
-### First Factor Selection
-
-Omit the `preferredChallenge` parameter to discover what first factors are available for a given user.
-
-The `confirmSignIn` API can then be used to select a challenge and initiate the associated authentication flow.
-
-```ts
-const { nextStep: signInNextStep } = await signIn({
-	username: '+15551234567',
-	options: {
-		authFlowType: 'USER_AUTH',
-	},
-});
-
-if (
-	signInNextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
-) {
-	// present user with list of available challenges
-	console.log(`Available Challenges: ${signInNextStep.availableChallenges}`);
-
-	// respond with user selection using `confirmSignIn` API
-	const { nextStep: nextConfirmSignInStep } = await confirmSignIn({
-		challengeResponse: 'SMS_OTP', // or 'EMAIL_OTP', 'WEB_AUTHN', 'PASSWORD', 'PASSWORD_SRP'
-	});
-}
-
-```
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
@@ -1843,5 +1814,150 @@ RxAmplify.Auth.confirmSignIn("password")
 </BlockSwitcher>
 
 </InlineFilter>
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue", "android"]}>
+### First Factor Selection
+
+Omit the `preferredChallenge` parameter to discover what first factors are available for a given user.
+
+The `confirmSignIn` API can then be used to select a challenge and initiate the associated authentication flow.
+</InlineFilter>
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+```ts
+const { nextStep: signInNextStep } = await signIn({
+	username: '+15551234567',
+	options: {
+		authFlowType: 'USER_AUTH',
+	},
+});
+
+if (
+	signInNextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
+) {
+	// present user with list of available challenges
+	console.log(`Available Challenges: ${signInNextStep.availableChallenges}`);
+
+	// respond with user selection using `confirmSignIn` API
+	const { nextStep: nextConfirmSignInStep } = await confirmSignIn({
+		challengeResponse: 'SMS_OTP', // or 'EMAIL_OTP', 'WEB_AUTHN', 'PASSWORD', 'PASSWORD_SRP'
+	});
+}
+
+```
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// Retrieve the authentication factors by calling .availableFactors
+AWSCognitoAuthSignInOptions options =
+    AWSCognitoAuthSignInOptions
+        .builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build();
+Amplify.Auth.signIn(
+    "username",
+    null,
+    options,
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
+            Log.i(
+                "AuthQuickstart",
+                "Available authentication factors for this user: " + result.getNextStep().getAvailableFactors()
+            );
+        }
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// Retrieve the authentication factors by calling .availableFactors
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.USER_AUTH)
+    .callingActivity(callingActivity)
+    .build()
+Amplify.Auth.signIn(
+    "username",
+    null,
+    options,
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
+            Log.i(
+                "AuthQuickstart",
+                "Available factors for this user: ${result.nextStep.availableFactors}"
+            )
+        }
+    },
+    { error ->
+        Log.e("AuthQuickstart", "Failed to sign in", error)
+    }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    // Retrieve the authentication factors by calling .availableFactors
+    val options = AWSCognitoAuthSignInOptions.builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build()
+    val result = Amplify.Auth.signIn(
+        username = "username",
+        password = null,
+        options = options
+    )
+    if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
+        Log.i(
+            "AuthQuickstart",
+            "Available factors for this user: ${result.nextStep.availableFactors}"
+        )
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+// Retrieve the authentication factors by calling .availableFactors
+AWSCognitoAuthSignInOptions options =
+    AWSCognitoAuthSignInOptions
+        .builder()
+        .authFlowType(AuthFlowType.USER_AUTH)
+        .callingActivity(callingActivity)
+        .build();
+RxAmplify.Auth.signIn("username", null, options)
+    .subscribe(
+        result -> {
+            if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
+                Log.i(
+                    "AuthQuickstart",
+                    "Available authentication factors for this user: " + result.getNextStep().getAvailableFactors()
+                );
+            }
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+
 
 </InlineFilter>
