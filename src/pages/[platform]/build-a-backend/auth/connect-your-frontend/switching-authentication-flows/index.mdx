@@ -319,10 +319,10 @@ If the desired first factor is known before the sign in flow is initiated it can
 // Sign in with preferred challenge as password
 // NOTE: Password must be provided in the same step
 AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
-                  .callingActivity(activity)
-                  .authFlowType(AuthFlowType.USER_AUTH)
-                  .preferredFirstFactor(AuthFactorType.PASSWORD_SRP) // or "PASSWORD"
-                  .build();
+    .callingActivity(activity)
+    .authFlowType(AuthFlowType.USER_AUTH)
+    .preferredFirstFactor(AuthFactorType.PASSWORD_SRP) // or "PASSWORD"
+    .build();
 Amplify.Auth.signIn(
     username,
     password,
@@ -335,10 +335,10 @@ Amplify.Auth.signIn(
 // Sign in with preferred passwordless challenge
 // No user input is required at this step
 AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
-                  .callingActivity(activity)
-                  .authFlowType(AuthFlowType.USER_AUTH)
-                  .preferredFirstFactor(AuthFactorType.WEB_AUTHN) // or "EMAIL_OTP" or "SMS_OTP"
-                  .build();
+    .callingActivity(activity)
+    .authFlowType(AuthFlowType.USER_AUTH)
+    .preferredFirstFactor(AuthFactorType.WEB_AUTHN) // or "EMAIL_OTP" or "SMS_OTP"
+    .build();
 Amplify.Auth.signIn(
     username,
     null,
@@ -436,10 +436,10 @@ try {
 // Sign in with preferred challenge as password
 // NOTE: Password must be provided in the same step
 AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
-                  .callingActivity(activity)
-                  .authFlowType(AuthFlowType.USER_AUTH)
-                  .preferredFirstFactor(AuthFactorType.PASSWORD_SRP) // or "PASSWORD"
-                  .build();
+    .callingActivity(activity)
+    .authFlowType(AuthFlowType.USER_AUTH)
+    .preferredFirstFactor(AuthFactorType.PASSWORD_SRP) // or "PASSWORD"
+    .build();
 RxAmplify.Auth.signIn(username, password, options)
     .subscribe(
         result -> Log.i("AuthQuickstart", "Next step for sign in is " + result.getNextStep()),
@@ -450,10 +450,10 @@ RxAmplify.Auth.signIn(username, password, options)
 // Sign in with preferred passwordless challenge
 // No user input is required at this step
 AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
-                  .callingActivity(activity)
-                  .authFlowType(AuthFlowType.USER_AUTH)
-                  .preferredFirstFactor(AuthFactorType.WEB_AUTHN) // or "EMAIL_OTP" or "SMS_OTP"
-                  .build();
+    .callingActivity(activity)
+    .authFlowType(AuthFlowType.USER_AUTH)
+    .preferredFirstFactor(AuthFactorType.WEB_AUTHN) // or "EMAIL_OTP" or "SMS_OTP"
+    .build();
 RxAmplify.Auth.signIn(username, null, options)
     .subscribe(
         result -> Log.i("AuthQuickstart", "Next step for sign in is " + result.getNextStep()),
@@ -473,8 +473,8 @@ The selection of the authentication method is done by the user. The user can cho
 
 ```java
 AuthConfirmSignInOptions options = AWSCognitoAuthConfirmSignInOptions.builder()
-                                .callingActivity(activity)
-                                .build();
+    .callingActivity(activity)
+    .build();
 Amplify.Auth.confirmSignIn(
     AuthFactorType.WEB_AUTHN.getChallengeResponse(),
     options,
@@ -521,8 +521,8 @@ try {
 
 ```java
 AuthConfirmSignInOptions options = AWSCognitoAuthConfirmSignInOptions.builder()
-                                .callingActivity(activity)
-                                .build();
+    .callingActivity(activity)
+    .build();
 RxAmplify.Auth.confirmSignIn(AuthFactorType.WEB_AUTHN.getChallengeResponse(), options)
     .subscribe(
         result -> Log.i("AuthQuickstart", "Next step for sign in is " + result.getNextStep()),
@@ -546,8 +546,8 @@ When you have migrated all your users, switch flows to the more secure SRP flow.
 
 ```java
 AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
-                                .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
-                                .build();
+    .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
+    .build();
 Amplify.Auth.signIn(
     "username",
     "password",
@@ -601,8 +601,8 @@ try {
 
 ```java
 AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
-                                .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
-                                .build();
+    .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
+    .build();
 RxAmplify.Auth.signIn("username", "password", options)
     .subscribe(
         result -> Log.i("AuthQuickstart", "Next step for sign in is " + result.getNextStep()),

@@ -281,8 +281,8 @@ The `signIn` API response will include a `nextStep` property, which can be used 
 | `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE` | The sign-in must be confirmed with a SMS code from the user. Complete the process with `confirmSignIn`. |
 | `CONFIRM_SIGN_IN_WITH_OTP` | The sign-in must be confirmed with a code from the user (sent via SMS or Email). Complete the process with `confirmSignIn`. |
 | `CONFIRM_SIGN_IN_WITH_PASSWORD` | The sign-in must be confirmed with the password from the user. Complete the process with `confirmSignIn`. |
-| `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION` | The user must select their mode of MFA verification to setup. Complete the process by passing either `MFAType.EMAIL.challengeResponse` or `MFAType.TOTP.challengeResponse` to `confirmSignIn`. |
+| `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` | The user must select their mode of MFA verification before signing in. Complete the process with `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` | The TOTP setup process must be continued. Complete the process with `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP` | The EMAIL setup process must be continued. Complete the process by passing a valid email address to `confirmSignIn`. |
 | `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION` | The user must select their mode of first factor authentication. Complete the process by passing the desired mode to the `challengeResponse` field of `confirmSignIn`. |
@@ -1193,7 +1193,7 @@ Amplify.Auth.confirmSignIn(
         }
     },
     { error ->
-        Log.i("AuthQuickstart", "Failed to sign in", error)
+        Log.e("AuthQuickstart", "Failed to sign in", error)
     }
 )
 
@@ -1204,7 +1204,7 @@ Amplify.Auth.confirmSignIn(
         // result.nextStep.signInStep should be "DONE" now
     },
     { error ->
-        Log.i("AuthQuickstart", "Failed to sign in", error)
+        Log.e("AuthQuickstart", "Failed to sign in", error)
     }
 )
 ```
@@ -1397,7 +1397,7 @@ Amplify.Auth.confirmSignIn(
         }
     },
     { error ->
-        Log.i("AuthQuickstart", "Failed to sign in", error)
+        Log.e("AuthQuickstart", "Failed to sign in", error)
     }
 )
 
@@ -1408,7 +1408,7 @@ Amplify.Auth.confirmSignIn(
         // result.nextStep.signInStep should be "DONE" now
     },
     { error ->
-        Log.i("AuthQuickstart", "Failed to sign in", error)
+        Log.e("AuthQuickstart", "Failed to sign in", error)
     }
 )
 ```
@@ -1597,7 +1597,7 @@ Amplify.Auth.confirmSignIn(
     AuthFactorType.WEB_AUTHN.name,
     options,
     { result -> Log.i("AuthQuickStart", "Next sign in step: ${result.nextStep}") },
-    { error -> Log.i("AuthQuickstart", "Failed to sign in", error) }
+    { error -> Log.e("AuthQuickstart", "Failed to sign in", error) }
 )
 ```
 
@@ -1729,7 +1729,7 @@ Amplify.Auth.confirmSignIn(
         }
     },
     { error ->
-        Log.i("AuthQuickstart", "Failed to sign in", error)
+        Log.e("AuthQuickstart", "Failed to sign in", error)
     }
 )
 
@@ -1740,7 +1740,7 @@ Amplify.Auth.confirmSignIn(
         // result.nextStep.signInStep should be "DONE" now
     },
     { error ->
-        Log.i("AuthQuickstart", "Failed to sign in", error)
+        Log.e("AuthQuickstart", "Failed to sign in", error)
     }
 )
 ```
