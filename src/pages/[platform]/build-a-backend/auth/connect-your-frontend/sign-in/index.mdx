@@ -1125,7 +1125,7 @@ Pass `SMS_OTP` as the `preferredChallenge` when calling the `signIn` API in orde
 
 ```ts
 const { nextStep: signInNextStep } = await signIn({
-	username: 'example-username',
+	username: '+15551234567',
 	options: {
 		authFlowType: 'USER_AUTH',
 		preferredChallenge: 'SMS_OTP',
@@ -1238,7 +1238,7 @@ Pass `EMAIL_OTP` as the `preferredChallenge` when calling the `signIn` API in or
 
 ```ts
 const { nextStep: signInNextStep } = await signIn({
-	username: 'example-username',
+	username: 'hello@example.com',
 	options: {
 		authFlowType: 'USER_AUTH',
 		preferredChallenge: 'EMAIL_OTP',
@@ -1351,7 +1351,7 @@ Pass `WEB_AUTHN` as the `preferredChallenge` in order to initiate the passwordle
 
 ```ts
 const { nextStep: signInNextStep } = await signIn({
-	username: 'example-username',
+	username: 'hello@example.com',
 	options: {
 		authFlowType: 'USER_AUTH',
 		preferredChallenge: 'WEB_AUTHN',
@@ -1388,7 +1388,7 @@ if (signInNextStep.signInStep === 'DONE') {
 
 ```ts
 const { nextStep: signInNextStep } = await signIn({
-	username: 'example-username',
+	username: 'hello@example.com',
 	password: 'example-password',
 	options: {
 		authFlowType: 'USER_AUTH',
@@ -1410,7 +1410,7 @@ The `confirmSignIn` API can then be used to select a challenge and initiate the 
 
 ```ts
 const { nextStep: signInNextStep } = await signIn({
-	username: 'example-username',
+	username: '+15551234567',
 	options: {
 		authFlowType: 'USER_AUTH',
 	},
