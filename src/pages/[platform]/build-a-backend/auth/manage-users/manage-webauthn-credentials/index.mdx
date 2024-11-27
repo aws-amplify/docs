@@ -55,7 +55,51 @@ await associateWebAuthnCredential();
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-{/*  */}
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.associateWebAuthnCredential(
+    () -> Log.i("AuthQuickstart", "Associated credential"),
+    error -> Log.e("AuthQuickstart", "Failed to register credential", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.associateWebAuthnCredential(
+    { Log.i("AuthQuickstart", "Associated credential") },
+    { Log.e("AuthQuickstart", "Failed to register credential", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.associateWebAuthnCredential()
+    Log.i("AuthQuickstart", "Associated credential")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to associate credential", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.associateWebAuthnCredential()
+    .subscribe(
+        result -> Log.i("AuthQuickstart", "Associated credential"), 
+        error -> Log.e("AuthQuickstart", "Failed to associate credential", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
@@ -186,6 +230,76 @@ func listWebAuthNCredentials() -> AnyCancellable {
 </Block>
 </BlockSwitcher>
 
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.listWebAuthnCredentials(
+    result -> result.getCredentials().forEach(credential -> {
+        Log.i("AuthQuickstart", "Credential ID: " + credential.getCredentialId());
+        Log.i("AuthQuickstart", "Friendly Name: " + credential.getFriendlyName());
+        Log.i("AuthQuickstart", "Relying Party ID: " + credential.getRelyingPartyId());
+        Log.i("AuthQuickstart", "Created At: " + credential.getCreatedAt());
+    }),
+    error -> Log.e("AuthQuickstart", "Failed to list credentials", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.listWebAuthnCredentials(
+    { result ->
+        result.credentials.forEach { credential ->
+            Log.i("AuthQuickstart", "Credential ID: ${credential.credentialId}")
+            Log.i("AuthQuickstart", "Friendly Name: ${credential.friendlyName}")
+            Log.i("AuthQuickstart", "Relying Party ID: ${credential.relyingPartyId}")
+            Log.i("AuthQuickstart", "Created At: ${credential.createdAt}")
+        }
+    },
+    { error -> Log.e("AuthQuickstart", "Failed to list credentials", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.listWebAuthnCredentials()
+    result.credentials.forEach { credential ->
+        Log.i("AuthQuickstart", "Credential ID: ${credential.credentialId}")
+        Log.i("AuthQuickstart", "Friendly Name: ${credential.friendlyName}")
+        Log.i("AuthQuickstart", "Relying Party ID: ${credential.relyingPartyId}")
+        Log.i("AuthQuickstart", "Created At: ${credential.createdAt}")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to list credentials", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.listWebAuthnCredentials()
+    .subscribe(
+        result -> result.getCredentials().forEach(credential -> {
+            Log.i("AuthQuickstart", "Credential ID: " + credential.getCredentialId());
+            Log.i("AuthQuickstart", "Friendly Name: " + credential.getFriendlyName());
+            Log.i("AuthQuickstart", "Relying Party ID: " + credential.getRelyingPartyId());
+            Log.i("AuthQuickstart", "Created At: " + credential.getCreatedAt());
+        }), 
+        error -> Log.e("AuthQuickstart", "Failed to list credentials", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
 </InlineFilter>
 
 ## Delete WebAuthN credentials
