@@ -893,7 +893,7 @@ if (confirmSignUpNextStep.signUpStep === 'DONE') {
 ```java
 // Sign up using an email address
 ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
-attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
+attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "hello@example.com"));
 
 Amplify.Auth.signUp(
     "username",

@@ -1627,7 +1627,7 @@ If the next step is `CONFIRM_SIGN_IN_WITH_OTP`, Amplify Auth has sent the user a
 
 <Callout>
 
-The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery, such as the partial email address of the recipient, which can be used to prompt the user on where to look for the code.
+**Note:** The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery, such as the partial email address of the recipient, which can be used to prompt the user on where to look for the code.
 
 </Callout>
 
@@ -1998,7 +1998,7 @@ This call fetches the current logged in user and should be used after a user has
 If the user is signed in, it will return the current userId and username.
 
 <Callout>
-An empty string will be assigned to userId and/or username, if the values are not present in the accessToken.
+**Note:** An empty string will be assigned to userId and/or username, if the values are not present in the accessToken.
 </Callout>
 
 <BlockSwitcher>
