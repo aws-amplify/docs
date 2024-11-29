@@ -1068,7 +1068,7 @@ The `nextStep` property is of enum type `AuthSignInStep`. Depending on its value
 ```java
 try {
     Amplify.Auth.signIn(
-        "username",
+        "hello@example.com",
         "password",
         result ->
         {
@@ -1184,7 +1184,7 @@ try {
 ```kotlin
 try {
     Amplify.Auth.signIn(
-        "username",
+        "hello@example.com",
         "password",
         { result ->
             val nextStep  = result.nextStep
@@ -1291,7 +1291,7 @@ try {
 ```kotlin
 try {
     val result = Amplify.Auth.signIn(
-        "username",
+        "hello@example.com",
         "password"
     )
     val nextStep = result.nextStep
@@ -1391,7 +1391,7 @@ try {
 <Block name="RxJava">
 
 ```java
-RxAmplify.Auth.signIn("username", "password").subscribe(
+RxAmplify.Auth.signIn("hello@example.com", "password").subscribe(
     result ->
     {
         AuthNextSignInStep nextStep = result.getNextStep();

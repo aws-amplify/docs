@@ -399,7 +399,7 @@ try {
         .preferredFirstFactor(AuthFactorType.PASSWORD_SRP) // or "PASSWORD"
         .build()
     val result = Amplify.Auth.signIn(
-        username = "username",
+        username = "hello@example.com",
         password = "password",
         options = options
     )
@@ -418,7 +418,7 @@ try {
         .preferredFirstFactor(AuthFactorType.WEB_AUTHN) // or "EMAIL_OTP" or "SMS_OTP"
         .build()
     val result = Amplify.Auth.signIn(
-        username = "username",
+        username = "hello@example.com",
         password = null,
         options = options
     )
@@ -549,7 +549,7 @@ AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
     .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
     .build();
 Amplify.Auth.signIn(
-    "username",
+    "hello@example.com",
     "password",
     options,
     result -> Log.i("AuthQuickStart", "Sign in succeeded with result " + result),
@@ -565,7 +565,7 @@ val options = AWSCognitoAuthSignInOptions.builder()
     .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
     .build()
 Amplify.Auth.signIn(
-    "username",
+    "hello@example.com",
     "password",
     options,
     { result ->
@@ -586,7 +586,7 @@ try {
         .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
         .build()
     val result = Amplify.Auth.signIn(
-        username = "username",
+        username = "hello@example.com",
         password = "password",
         options = options
     )
@@ -603,7 +603,7 @@ try {
 AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
     .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
     .build();
-RxAmplify.Auth.signIn("username", "password", options)
+RxAmplify.Auth.signIn("hello@example.com", "password", options)
     .subscribe(
         result -> Log.i("AuthQuickstart", "Next step for sign in is " + result.getNextStep()),
         error -> Log.e("AuthQuickstart", error.toString())

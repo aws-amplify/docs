@@ -1860,7 +1860,7 @@ AWSCognitoAuthSignInOptions options =
         .callingActivity(callingActivity)
         .build();
 Amplify.Auth.signIn(
-    "username",
+    "hello@example.com",
     null,
     options,
     result -> {
@@ -1885,7 +1885,7 @@ val options = AWSCognitoAuthSignInOptions.builder()
     .callingActivity(callingActivity)
     .build()
 Amplify.Auth.signIn(
-    "username",
+    "hello@example.com",
     null,
     options,
     { result ->
@@ -1913,7 +1913,7 @@ try {
         .callingActivity(callingActivity)
         .build()
     val result = Amplify.Auth.signIn(
-        username = "username",
+        username = "hello@example.com",
         password = null,
         options = options
     )
@@ -1939,7 +1939,7 @@ AWSCognitoAuthSignInOptions options =
         .authFlowType(AuthFlowType.USER_AUTH)
         .callingActivity(callingActivity)
         .build();
-RxAmplify.Auth.signIn("username", null, options)
+RxAmplify.Auth.signIn("hello@example.com", null, options)
     .subscribe(
         result -> {
             if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {

@@ -587,7 +587,7 @@ ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
 attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
 
 Amplify.Auth.signUp(
-    "username",
+    "hello@example.com",
     null,
     AuthSignUpOptions.builder().userAttributes(attributes).build(),
     result -> {
@@ -605,7 +605,7 @@ Amplify.Auth.signUp(
 
 // Confirm sign up with the OTP received
 Amplify.Auth.confirmSignUp(
-    "username",
+    "hello@example.com",
     "123456",
     result -> {
         if (result.isSignUpComplete()) {
@@ -631,7 +631,7 @@ val options =
         .build()
 
 Amplify.Auth.signUp(
-    "username",
+    "hello@example.com",
     null,
     options,
     { result ->
@@ -649,7 +649,7 @@ Amplify.Auth.signUp(
 
 // Confirm sign up with the OTP received
 Amplify.Auth.confirmSignUp(
-    "username",
+    "hello@example.com",
     "123456",
     { result ->
         if (result.nextStep.signUpStep == AuthSignUpStep.DONE) {
@@ -673,7 +673,7 @@ val options =
         .builder()
         .userAttributes(attributes)
         .build()
-var result = Amplify.Auth.signUp("username", null, options)
+var result = Amplify.Auth.signUp("hello@example.com", null, options)
 
 if (result.isSignUpComplete) {
     Log.i("AuthQuickstart", "Sign up is complete")
@@ -686,7 +686,7 @@ if (result.isSignUpComplete) {
 
 // Confirm sign up with the OTP received
 result = Amplify.Auth.confirmSignUp(
-    "username",
+    "hello@example.com",
     "123456"
 )
 
@@ -704,7 +704,7 @@ ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
 attributes.add(new AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"));
 
 RxAmplify.Auth.signUp(
-    "username",
+    "hello@example.com",
     null,
     AuthSignUpOptions.builder().userAttributes(attributes).build()
 )
@@ -724,7 +724,7 @@ RxAmplify.Auth.signUp(
 
 // Confirm sign up with the OTP received
 RxAmplify.Auth.confirmSignUp(
-    "username",
+    "hello@example.com",
     "123456"
 )
     .subscribe(
@@ -896,7 +896,7 @@ ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
 attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "hello@example.com"));
 
 Amplify.Auth.signUp(
-    "username",
+    "hello@example.com",
     null,
     AuthSignUpOptions.builder().userAttributes(attributes).build(),
     result -> {
@@ -914,7 +914,7 @@ Amplify.Auth.signUp(
 
 // Confirm sign up with the OTP received
 Amplify.Auth.confirmSignUp(
-    "username",
+    "hello@example.com",
     "123456",
     result -> {
         if (result.isSignUpComplete()) {
@@ -940,7 +940,7 @@ val options =
         .build()
 
 Amplify.Auth.signUp(
-    "username",
+    "hello@example.com",
     null,
     options,
     { result ->
@@ -958,7 +958,7 @@ Amplify.Auth.signUp(
 
 // Confirm sign up with the OTP received
 Amplify.Auth.confirmSignUp(
-    "username",
+    "hello@example.com",
     "123456",
     { result ->
         if (result.nextStep.signUpStep == AuthSignUpStep.DONE) {
@@ -982,7 +982,7 @@ val options =
         .builder()
         .userAttributes(attributes)
         .build()
-var result = Amplify.Auth.signUp("username", null, options)
+var result = Amplify.Auth.signUp("hello@example.com", null, options)
 
 if (result.isSignUpComplete) {
     Log.i("AuthQuickstart", "Sign up is complete")
@@ -995,7 +995,7 @@ if (result.isSignUpComplete) {
 
 // Confirm sign up with the OTP received
 result = Amplify.Auth.confirmSignUp(
-    "username",
+    "hello@example.com",
     "123456"
 )
 
@@ -1013,7 +1013,7 @@ ArrayList<AuthUserAttribute> attributes = new ArrayList<>();
 attributes.add(new AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"));
 
 RxAmplify.Auth.signUp(
-    "username",
+    "hello@example.com",
     null,
     AuthSignUpOptions.builder().userAttributes(attributes).build()
 )
@@ -1033,7 +1033,7 @@ RxAmplify.Auth.signUp(
 
 // Confirm sign up with the OTP received
 RxAmplify.Auth.confirmSignUp(
-    "username",
+    "hello@example.com",
     "123456"
 )
     .subscribe(
@@ -1237,7 +1237,7 @@ fun autoSignIn() {
 suspend fun confirmSignUp(username: String, confirmationCode: String) {
     // Confirm sign up with the OTP received then auto sign in
     val result = Amplify.Auth.confirmSignUp(
-        "username",
+        "hello@example.com",
         "123456"
     )
 
