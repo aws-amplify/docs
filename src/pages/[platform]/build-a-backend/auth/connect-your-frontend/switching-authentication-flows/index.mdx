@@ -102,30 +102,6 @@ func signIn(username: String, password: String) async throws {
 }
 ```
 
-### Set up auth backend
-
-In order to use the authentication flow `USER_PASSWORD_AUTH`, your Cognito app client has to be configured to allow it. Amplify Gen 2 enables SRP auth by default. To enable USER_PASSWORD_AUTH, you can update the `backend.ts` file with the following changes:
-
-```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend'
-import { auth } from './auth/resource'
-import { data } from './data/resource'
-
-const backend = defineBackend({
-  auth,
-  data,
-});
-
-// highlight-start
-backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
-  "ALLOW_USER_PASSWORD_AUTH",
-  "ALLOW_USER_SRP_AUTH",
-  "ALLOW_USER_AUTH",
-  "ALLOW_REFRESH_TOKEN_AUTH"
-];
-// highlight-end
-```
-
 ### Migrate users with Amazon Cognito
 
 Amazon Cognito provides a trigger to migrate users from your existing user directory seamlessly into Cognito. You achieve this by configuring your User Pool's "Migration" trigger which invokes a Lambda function whenever a user that does not already exist in the user pool authenticates, or resets their password.
