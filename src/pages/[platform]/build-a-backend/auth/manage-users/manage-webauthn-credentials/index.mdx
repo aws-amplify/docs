@@ -55,7 +55,55 @@ await associateWebAuthnCredential();
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-{/*  */}
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.associateWebAuthnCredential(
+    activity,
+    () -> Log.i("AuthQuickstart", "Associated credential"),
+    error -> Log.e("AuthQuickstart", "Failed to register credential", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.associateWebAuthnCredential(
+    activity,
+    { Log.i("AuthQuickstart", "Associated credential") },
+    { Log.e("AuthQuickstart", "Failed to register credential", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.associateWebAuthnCredential(activity)
+    Log.i("AuthQuickstart", "Associated credential")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to associate credential", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.associateWebAuthnCredential(activity)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", "Associated credential"), 
+        error -> Log.e("AuthQuickstart", "Failed to associate credential", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+You must supply an `Activity` instance so that Amplify can display the PassKey UI in your Application's [Task](https://developer.android.com/guide/components/activities/tasks-and-back-stack).
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
@@ -94,8 +142,8 @@ func associateWebAuthNCredentials() -> AnyCancellable {
 </BlockSwitcher>
 
 </InlineFilter>
-  
-You will be prompted to register a passkey using your local authenticator. Amplify will then associate that passkey with Cognito.
+
+The user will be prompted to register a passkey using their local authenticator. Amplify will then associate that passkey with Cognito.
 
 ## List WebAuthN credentials
 
@@ -116,11 +164,6 @@ for (const credential of result.credentials) {
 }
 
 ```
-</InlineFilter>
-<InlineFilter filters={["android"]}>
-
-{/*  */}
-
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
@@ -187,6 +230,76 @@ func listWebAuthNCredentials() -> AnyCancellable {
 </BlockSwitcher>
 
 </InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.listWebAuthnCredentials(
+    result -> result.getCredentials().forEach(credential -> {
+        Log.i("AuthQuickstart", "Credential ID: " + credential.getCredentialId());
+        Log.i("AuthQuickstart", "Friendly Name: " + credential.getFriendlyName());
+        Log.i("AuthQuickstart", "Relying Party ID: " + credential.getRelyingPartyId());
+        Log.i("AuthQuickstart", "Created At: " + credential.getCreatedAt());
+    }),
+    error -> Log.e("AuthQuickstart", "Failed to list credentials", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.listWebAuthnCredentials(
+    { result ->
+        result.credentials.forEach { credential ->
+            Log.i("AuthQuickstart", "Credential ID: ${credential.credentialId}")
+            Log.i("AuthQuickstart", "Friendly Name: ${credential.friendlyName}")
+            Log.i("AuthQuickstart", "Relying Party ID: ${credential.relyingPartyId}")
+            Log.i("AuthQuickstart", "Created At: ${credential.createdAt}")
+        }
+    },
+    { error -> Log.e("AuthQuickstart", "Failed to list credentials", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.listWebAuthnCredentials()
+    result.credentials.forEach { credential ->
+        Log.i("AuthQuickstart", "Credential ID: ${credential.credentialId}")
+        Log.i("AuthQuickstart", "Friendly Name: ${credential.friendlyName}")
+        Log.i("AuthQuickstart", "Relying Party ID: ${credential.relyingPartyId}")
+        Log.i("AuthQuickstart", "Created At: ${credential.createdAt}")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to list credentials", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.listWebAuthnCredentials()
+    .subscribe(
+        result -> result.getCredentials().forEach(credential -> {
+            Log.i("AuthQuickstart", "Credential ID: " + credential.getCredentialId());
+            Log.i("AuthQuickstart", "Friendly Name: " + credential.getFriendlyName());
+            Log.i("AuthQuickstart", "Relying Party ID: " + credential.getRelyingPartyId());
+            Log.i("AuthQuickstart", "Created At: " + credential.getCreatedAt());
+        }), 
+        error -> Log.e("AuthQuickstart", "Failed to list credentials", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
 
 ## Delete WebAuthN credentials
 
@@ -203,11 +316,6 @@ await deleteWebAuthnCredential({
   credentialId: id
 });
 ```
-</InlineFilter>
-<InlineFilter filters={["android"]}>
-
-{/*  */}
-
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
@@ -243,6 +351,59 @@ func deleteWebAuthNCredentials(credentialId: String) -> AnyCancellable {
 
 </Block>
 </BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.deleteWebAuthnCredential(
+    credentialId,
+    (result) -> Log.i("AuthQuickstart", "Deleted credential"),
+    error -> Log.e("AuthQuickstart", "Failed to delete credential", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.deleteWebAuthnCredential(
+    credentialId,
+    { Log.i("AuthQuickstart", "Deleted credential") },
+    { Log.e("AuthQuickstart", "Failed to delete credential", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.deleteWebAuthnCredential(credentialId)
+    Log.i("AuthQuickstart", "Deleted credential")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to delete credential", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.deleteWebAuthnCredential(credentialId)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", "Deleted credential"), 
+        error -> Log.e("AuthQuickstart", "Failed to delete credential", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+The delete passkey API has only the required `credentialId` as input, and it does not return a value.
+
 </InlineFilter>
 
 
