@@ -104,6 +104,15 @@ export const data = defineData({
 });
 ```
 
+Amplify will store some values in the resolver context stash that can be accessed in the custom resolver.
+
+| Name              | Description                                 |
+| ----------------- | ------------------------------------------- |
+| awsAppsyncApiId   | The ID of the AppSync API.                  |
+| amplifyBranchName | The Amplify branch name. (`NONE` in sandbox) |
+
+The Amplify generated DynamoDB table names can be constructed from the variables in the context stash. The table name is in the format `<model-name>-<aws-appsync-api-id>-<amplify-branch-name>`. For example, the table name for the `Post` model would be `Post-123456-dev` where `123456` is the AppSync API ID and `dev` is the Amplify branch name.
+
 ```ts title="amplify/data/BatchCreatePostHandler.js"
 import { util } from '@aws-appsync/utils';
 export function request(ctx) {
