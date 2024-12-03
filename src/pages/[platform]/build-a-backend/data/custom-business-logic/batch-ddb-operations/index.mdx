@@ -54,12 +54,6 @@ const schema = a.schema({
     .returns(a.ref("Post").array())
     // only allow signed-in users to call this API
     .authorization(allow => [allow.authenticated()])
-    .handler(
-      a.handler.custom({
-        dataSource: a.ref("Post"),
-        entry: "./BatchCreatePostHandler.js",
-      })
-    )
 });
 
 export type Schema = ClientSchema<typeof schema>;
