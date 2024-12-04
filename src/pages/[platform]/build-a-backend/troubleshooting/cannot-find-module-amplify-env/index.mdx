@@ -25,6 +25,8 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react"]}>
+
 When deploying a Amplify Gen 2 app, you may encounter the error message `Cannot find module $amplify/env/<function-name>` in your frontend build on Amplify Console. This error occurs when your framework `tsconfig.json` configuration picks up the `amplify` directory and tries to resolve it as a module. This module is a placeholder for environment variables that are injected at build time by Amplify. To resolve this error, you need to exclude the `amplify` directory.
 
 To exclude the `amplify` directory in your `tsconfig.json`, add the following lines to the `exclude` section:
@@ -49,3 +51,23 @@ Alternatively, if you work within a monorepo you can move your backend to its ow
   }
 }
 ```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["vue"]}>
+
+When deploying a Amplify Gen 2 app, you may encounter the error message `Cannot find module $amplify/env/<function-name>` in your frontend build on Amplify Console. This error occurs when your framework `tsconfig.json` configuration picks up the `amplify` directory and tries to resolve it as a module. This module is a placeholder for environment variables that are injected at build time by Amplify. To resolve this error, you will need to include the `resource.ts` files in your `tsconfig.app.json` file.
+
+For example, if you have a `function` resource dependent on the `data` resource, you will need to include both the `resource.ts` files in your `tsconfig.app.json` file.
+
+```ts title='tsconfig.app.json'
+{
+  "include": [
+    "amplify/data/resource.ts",
+    "amplify/function/api-function/resource.ts",
+  ]
+}
+```
+
+</InlineFilter>
