@@ -37,7 +37,8 @@ To get started, create a new directory and a resource file, `amplify/auth/pre-si
 import { defineFunction } from '@aws-amplify/backend';
 
 export const preSignUp = defineFunction({
-  name: "pre-sign-up"
+  name: "pre-sign-up",
+  resourceGroupName: 'auth'
 });
 ```
 
