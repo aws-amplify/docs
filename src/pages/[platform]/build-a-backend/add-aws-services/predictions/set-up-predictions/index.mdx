@@ -153,13 +153,13 @@ npm add aws-amplify
 Import and load the configuration file in your app. It is recommended you add the Amplify configuration step to your app's root entry point. For example `main.ts` in React and Angular.
 
 ```ts title="src/main.ts"
-import { Predictions } from "aws-amplify/predictions";
+import { Amplify } from "aws-amplify";
 import outputs from "./amplify_outputs.json";
 
 Amplify.configure(outputs);
 
 Amplify.configure({
   ...Amplify.getConfig(),
-  Predictions: config.custom.Predictions,
+  Predictions: outputs.custom.Predictions,
 });
 ```
