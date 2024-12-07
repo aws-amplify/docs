@@ -139,12 +139,48 @@ Future<void> copy() async {
   }
 }
 ```
+## Specify a bucket or copy across buckets / regions
 
-## More `copy` options
+You can also perform a `copy` operation to a specific bucket by providing the `CopyBuckets` option. 
+This option is an object that takes two `StorageBucket` parameters, which can be constructed by the specified name in the Amplify Backend, or the bucket name and region from the console.
+
+```dart
+final mainBucket = StorageBucket.fromOutputs(
+  'mainBucket',
+);
+final bucket2 = StorageBucket.fromBucketInfo(
+  BucketInfo(
+    bucketName: 'second-bucket-name-from-console',
+    region: 'us-east-2',
+  ),
+),
+try {
+  final result = await Amplify.Storage.copy(
+    source: const StoragePath.fromString('album/2024/1.jpg'),
+    destination: const StoragePath.fromString('shared/2024/1.jpg'),
+    options: StorageCopyOptions(
+      buckets: CopyBuckets(
+        source: bucket1,
+        destination: bucket2,
+      ),
+    ),
+  ).result;
+  safePrint('Copied file: ${result.copiedItem.path}');
+} on StorageException catch (e) {
+  print('Error: $e');
+}
+```
+
+<Callout>
+In order to copy to or from a bucket other than your default, the source and/or destination paths must exist in that bucket
+</Callout>
+
+## `copy` options
 
 Option | Type | Description |
 | -- | -- | ----------- |
 | getProperties | boolean | Whether to retrieve properties for the copied object using theAmplify.Storage.getProperties() after the operation completes. When set to true the returned item will contain additional info such as metadata and content type. |
+| buckets | CopyBuckets | An object that accepts two `StorageBucket` parameters. To copy to and from the same bucket, use the `CopyBuckets.sameBucket(targetBucket)` method, where `targetBucket` is a `StorageBucket`. Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets)|
 
 Example of `copy` with options:
 
@@ -155,6 +191,9 @@ final result = Amplify.Storage.copy(
   options: const StorageCopyOptions(
     pluginOptions: S3CopyPluginOptions(
       getProperties: true,
+    ),
+    buckets: CopyBuckets.sameBucket(
+      StorageBucket.fromOutputs('secondBucket'),
     ),
   ),
 );
