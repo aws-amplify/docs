@@ -57,4 +57,9 @@ export type PageNode = {
    * This is being used for categories like Cli - Legacy and SDK
    */
   hideChildrenOnBase?: boolean;
+
+  /**
+   * This flag indicates that the item is new and will display a pill
+   */
+  isNew?: boolean;
 };
