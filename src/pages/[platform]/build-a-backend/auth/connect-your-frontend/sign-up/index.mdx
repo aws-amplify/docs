@@ -543,7 +543,7 @@ Your application's users can also sign up using passwordless methods. To learn m
 ```typescript
 // Sign up using a phone number
 const { nextStep: signUpNextStep } = await signUp({
-	username: 'james',
+	username: 'hello',
 	options: {
 		userAttributes: {
 			phone_number: '+15555551234',
@@ -566,7 +566,7 @@ if (signUpNextStep.signUpStep === 'CONFIRM_SIGN_UP') {
 
 // Confirm sign up with the OTP received
 const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
-	username: 'james',
+	username: 'hello',
 	confirmationCode: '123456',
 });
 
@@ -852,10 +852,10 @@ func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCa
 ```typescript
 // Sign up using an email address
 const { nextStep: signUpNextStep } = await signUp({
-	username: 'james',
+	username: 'hello',
 	options: {
 		userAttributes: {
-			email: 'james@example.com',
+			email: 'hello@example.com',
 		},
 	},
 });
@@ -875,7 +875,7 @@ if (signUpNextStep.signUpStep === 'CONFIRM_SIGN_UP') {
 
 // Confirm sign up with the OTP received
 const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
-	username: 'james',
+	username: 'hello',
 	confirmationCode: '123456',
 });
 
@@ -1158,19 +1158,44 @@ func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCa
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
 ```typescript
-// Confirm sign up with the OTP received and auto sign in
+// Call `signUp` API with `USER_AUTH` as the authentication flow type for `autoSignIn`
+const { nextStep: signUpNextStep } = await signUp({
+	username: 'hello',
+	options: {
+		userAttributes: {
+			email: 'hello@example.com',
+			phone_number: '+15555551234',
+		},
+		autoSignIn: {
+			authFlowType: 'USER_AUTH',
+		},
+	},
+});
+
+if (signUpNextStep.signUpStep === 'CONFIRM_SIGN_UP') {
+	console.log(
+		`Code Delivery Medium: ${signUpNextStep.codeDeliveryDetails.deliveryMedium}`,
+	);
+	console.log(
+		`Code Delivery Destination: ${signUpNextStep.codeDeliveryDetails.destination}`,
+	);
+}
+
+// Call `confirmSignUp` API with the OTP received
 const { nextStep: confirmSignUpNextStep } = await confirmSignUp({
-	username: 'james',
+	username: 'hello',
 	confirmationCode: '123456',
 });
 
 if (confirmSignUpNextStep.signUpStep === 'COMPLETE_AUTO_SIGN_IN') {
+	// Call `autoSignIn` API to complete the flow
 	const { nextStep } = await autoSignIn();
 
 	if (nextStep.signInStep === 'DONE') {
 		console.log('Successfully signed in.');
 	}
 }
+
 ```
 </InlineFilter>
 <InlineFilter filters={["android"]}>
