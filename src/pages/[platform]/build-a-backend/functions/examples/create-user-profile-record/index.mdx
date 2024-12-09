@@ -89,7 +89,6 @@ import { defineFunction } from '@aws-amplify/backend';
 
 export const postConfirmation = defineFunction({
   name: 'post-confirmation',
-  entry: './handler.ts'
 });
 ```
 
@@ -123,9 +122,7 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
 ```
 
 <Callout warning>
-  When configuring Amplify with `getAmplifyDataClientConfig`, your function consumes schema information from an S3 bucket
-   created during backend deployment with grants for the access your function need to use it. Any changes to this
-   bucket outside of backend deployment may break your function.
+When configuring Amplify with `getAmplifyDataClientConfig`, your function consumes schema information from an S3 bucket created during backend deployment with grants for the access your function need to use it. Any changes to this bucket outside of backend deployment may break your function.
 </Callout>
 
 
