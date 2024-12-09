@@ -100,14 +100,12 @@ export default function App() {
 
 ## Add an Event API to an existing Amplify backend
 
-This guide walks through how you can add an Event API to an existing Amplify backend.
-We'll be using Cognito User Pools for authenticating with Event API from our frontend application. 
-Any signed in user will be able to subscribe to the Event API and publish events.
+This guide walks through how you can add an Event API to an existing Amplify backend. We'll be using Cognito User Pools for authenticating with Event API from our frontend application. Any signed in user will be able to subscribe to the Event API and publish events.
 
 Before you begin, you will need:
 
 - An existing Amplify backend (see [Quickstart](/[platform]/start/quickstart/))
-- Latest versions of `@aws-amplify/backend` and `@aws-amplify/backend-cli` (`npm i @aws-amplify/backend@latest @aws-amplify/backend-cli@latest`)
+- Latest versions of `@aws-amplify/backend` and `@aws-amplify/backend-cli` (`npm add @aws-amplify/backend@latest @aws-amplify/backend-cli@latest`)
 
 ### Update Backend Definition
 
@@ -135,7 +133,7 @@ const backend = defineBackend({
 const customResources = backend.createStack('custom-resources');
 
 // add a new Event API to the stack:
-const cfnEventAPI = new CfnApi(customResources, 'cfnEventAPI', {
+const cfnEventAPI = new CfnApi(customResources, 'CfnEventAPI', {
   name: 'my-event-api',
   eventConfig: {
     authProviders: [
@@ -158,7 +156,7 @@ const cfnEventAPI = new CfnApi(customResources, 'cfnEventAPI', {
 // create a default namespace for our Event API:
 const namespace = new CfnChannelNamespace(
   customResources,
-  'cfnEventAPINamespace',
+  'CfnEventAPINamespace',
   {
     apiId: cfnEventAPI.attrApiId,
     name: 'default',
@@ -204,10 +202,9 @@ npx ampx sandbox
 
 ### Connect your frontend application
 
-After the sandbox deploys, connect your frontend application to the Event API.
-We'll be using the Amplify Authenticator to sign in to our Cognito User Pool.
+After the sandbox deploys, connect your frontend application to the Event API. We'll be using the [Amplify Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) to sign in to our Cognito User Pool.
 
-If you don't already have the Authenticator installed, you can install it by running `npm i @aws-amplify/ui-react`.
+If you don't already have the Authenticator installed, you can install it by running `npm add @aws-amplify/ui-react`.
 
 ```tsx title="src/App.tsx"
 import { useEffect, useState } from 'react';
@@ -215,9 +212,9 @@ import { Amplify } from 'aws-amplify';
 import { events, type EventsChannel } from 'aws-amplify/data';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import config from '@/amplify_outputs.json';
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(config);
+Amplify.configure(outputs);
 
 export default function App() {
   const [myEvents, setMyEvents] = useState<Record<string, any>[]>([]);
