@@ -29,6 +29,7 @@ import type { HeadingInterface } from '@/components/TableOfContents/TableOfConte
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
+import { AIBanner } from '@/components/AIBanner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import {
   NextPrevious,
@@ -71,6 +72,7 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
+  const shouldShowAIBanner = asPathWithNoHash === '/';
   const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
@@ -272,6 +274,7 @@ export const Layout = ({
                         platform={currentPlatform}
                       />
                     ) : null}
+                    {shouldShowAIBanner ? <AIBanner /> : null}
                     {useCustomTitle ? null : (
                       <Heading level={1}>{pageTitle}</Heading>
                     )}
