@@ -87,7 +87,7 @@ Hub.listen('auth', ({ payload }) => {
       console.log('failure while trying to resolve signInWithRedirect API.');
       break;
     case 'customOAuthState':
-      logger.info('custom state returned from CognitoHosted UI');
+      console.log('custom state returned from CognitoHosted UI');
       break;
   }
 });
