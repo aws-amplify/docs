@@ -292,6 +292,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-http-datasource/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/batch-ddb-operations/index.mdx'
                     }
                   ]
                 },
