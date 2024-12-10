@@ -2,13 +2,8 @@ import { Flex, Message, IconsProvider, Text } from '@aws-amplify/ui-react';
 import { IconStar, IconChevron } from '../Icons';
 import { Button } from '@aws-amplify/ui-react';
 
-interface BannerProps {
-  url?: string;
-}
-
-export const Banner: React.FC<BannerProps> = ({
-  url = '/react/ai/set-up-ai/'
-}) => {
+export const AIBanner: React.FC = () => {
+  const URL = '/react/ai/set-up-ai/';
   return (
     <IconsProvider
       icons={{
@@ -31,10 +26,9 @@ export const Banner: React.FC<BannerProps> = ({
 
           <Button
             as="a"
-            href={url}
+            href={URL}
             size="small"
             gap="small"
-            target="_blank"
             colorTheme="overlay"
             rel="noopener noreferrer"
             className="message-banner__button"

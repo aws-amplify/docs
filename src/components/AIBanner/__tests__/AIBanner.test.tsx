@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Banner } from '../index';
+import { AIBanner } from '../index';
 
-describe('Banner', () => {
-  it('should render the Banner component', async () => {
+describe('AIBanner', () => {
+  it('should render the AIBanner component', async () => {
     const bannerText = 'Amplify AI kit is now generally available';
-    render(<Banner />);
+    render(<AIBanner />);
 
     const component = await screen.findByText(bannerText);
     expect(component).toBeInTheDocument();
