@@ -59,7 +59,7 @@ export type PageNode = {
   hideChildrenOnBase?: boolean;
 
   /**
-   * This flag indicates that the item is new and will display a pill
+   * This flag indicates that the item is new and will display a "new" badge
    */
   isNew?: boolean;
 };
