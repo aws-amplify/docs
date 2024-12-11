@@ -51,7 +51,7 @@ const schema = a.schema({
     .arguments({
       content: a.string().array()
     })
-    .returns(a.ref("Post").array())
+    .returns(a.ref('Post').array())
     // only allow signed-in users to call this API
     .authorization(allow => [allow.authenticated()])
 });
@@ -86,13 +86,13 @@ const schema = a.schema({
     .arguments({
       contents: a.string().array()
     })
-    .returns(a.ref("Post").array())
+    .returns(a.ref('Post').array())
     .authorization(allow => [allow.authenticated()])
     // 1. Add the custom handler
     .handler(
       a.handler.custom({
-        dataSource: a.ref("Post"),
-        entry: "./BatchCreatePostHandler.js",
+        dataSource: a.ref('Post'),
+        entry: './BatchCreatePostHandler.js',
       })
     )
 });
@@ -119,7 +119,7 @@ export function request(ctx) {
   var now = util.time.nowISO8601();
 
   return {
-    operation: "BatchPutItem",
+    operation: 'BatchPutItem',
     tables: {
       [`Post-${ctx.stash.awsAppsyncApiId}-${ctx.stash.amplifyBranchName}`]: ctx.args.contents.map((content) =>
         util.dynamodb.toMapValues({
