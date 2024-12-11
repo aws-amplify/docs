@@ -114,7 +114,7 @@ do {
 
 ### Extend API Key Expiration
 
-If the API key has not expired, you can extend the expiration date by deploying your app again. The API key expiration date will be set to `expiresInDays` from the current date when the app is deployed. In the example below, the API key will expire 7 days from the last deployment.
+If the API key has not expired, you can extend the expiration date by deploying your app again. The API key expiration date will be set to `expiresInDays` days from the date when the app is deployed. In the example below, the API key will expire 7 days from the latest deployment.
 
 ```ts title="amplify/data/resource.ts"
 export const data = defineData({
@@ -155,6 +155,8 @@ const backend = defineBackend({
 //   `recoverApiKey${new Date().getTime()}`
 // );
 ```
+
+A new API key will be created for your app.
 
 ## Add public authorization rule using Amazon Cognito identity pool's unauthenticated role
 
