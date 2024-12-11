@@ -27,10 +27,15 @@
   "extends": "./tsconfig.base.json",
   "include": [
     "next-env.d.ts",
+    "mdx-components.tsx",
     "src/**/*.ts",
     "src/**/*.tsx",
+    "src/**/*.mdx",
     "tasks",
     "adobe.d.ts",
     "jest.setup.ts"
-  ]
+  ],
+  "mdx": {
+    "checkMdx": true
+  }
 }
