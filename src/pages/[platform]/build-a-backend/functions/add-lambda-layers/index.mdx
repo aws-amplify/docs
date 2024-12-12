@@ -50,9 +50,23 @@ To add a Lambda layer to your function, follow these steps:
      },
    });
    ```
-
-   The Lambda layer is represented by an object of key/value pairs where the key is the module name that is exported from your layer and the value is the ARN of the layer. The key (module name) is used to externalize the module dependency so it doesn't get bundled with your lambda function. A maximum of 5 layers can be attached to a function, and they must be in the same region as the function.
    
+   The Lambda layer is represented by an object of key/value pairs where the key is the module name that is exported from your layer and the value is the ARN of the layer. The key (module name) is used to externalize the module dependency so it doesn't get bundled with your lambda function. A maximum of 5 layers can be attached to a function, and they must be in the same region as the function.
+   <br/><br/>Alternatively, you can specify the layer as `myLayer:1` where `myLayer` is the name of the layer and `1` is the version of the layer. For example:
+
+   ```ts title="amplify/functions/my-function/resource.ts"
+   import { defineFunction } from "@aws-amplify/backend";
+
+   export const myFunction = defineFunction({
+     name: "my-function",
+     layers: {
+      "module": "myLayer:1"
+     },
+   });
+   ```
+
+   Amplify will automatically convert this to the full layer ARN format `arn:aws:lambda:<region>:<account-id>:layer:myLayer:1` using your existing account id and region.
+  
    <Callout type="warning">
 
    When using layers, be mindful of versioning. The ARN includes a version number (e.g., `:12` in the example). Ensure you're using the appropriate version and have a strategy for updating layers when new versions are released.
