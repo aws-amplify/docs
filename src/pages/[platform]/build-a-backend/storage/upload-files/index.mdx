@@ -1568,9 +1568,11 @@ const result = await uploadData({
     // whether to use accelerate endpoint
     useAccelerateEndpoint: true,
     // the account ID that owns requested bucket
-    expectedBucketOwner: '123456789012',
+    expectedBucketOwner: "123456789012",
     // whether to check if an object with the same key already exists before completing the upload
     preventOverwrite: true,
+    // whether to compute the checksum for the data to be uploaded, so the S3 can verify the data integrity
+    checksumAlgorithm: "crc-32", // only 'crc-32' is supported currently
   },
 });
 ```
@@ -1584,6 +1586,7 @@ Option | Type | Default | Description |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
 | expectedBucketOwner | string | - | The account ID that owns requested bucket. |
 | preventOverwrite | boolean | false | Whether to check if an object with the same key already exists before completing the upload. If exists, a `Precondition Failed` error will be thrown |
+| checksumAlgorithm | "crc-32" | - | Whether to compute the checksum for the data to be uploaded, so the S3 can verify the data integrity. Only 'crc-32' is supported currently |
 
 <Callout>
 
