@@ -240,6 +240,7 @@ const result = await list({
 | nextToken | string | — | Indicates whether the list is being continued on this bucket with a token |
 | subpathStrategy | \{ strategy: 'include' \} \|<br/>\{ 'exclude',<br />delimiter?: string \} | \{ strategy: 'include' \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+| expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
 
 </InlineFilter>
 

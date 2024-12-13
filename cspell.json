@@ -1616,7 +1616,9 @@
     "jamba",
     "webauthn",
     "knowledgebases",
-    "rehype"
+    "rehype",
+    "assetlinks",
+    "AMPLIFYRULES"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

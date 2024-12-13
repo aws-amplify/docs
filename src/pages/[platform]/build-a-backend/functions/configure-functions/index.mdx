@@ -101,3 +101,14 @@ export const myDemoFunction = defineFunction({
   entry: './path/to/handler.ts' // this path should either be absolute or relative to the current file
 });
 ```
+
+## `resourceGroupName`
+
+By default, functions are grouped together in a resource group named `function`. You can override this to group related function with other Amplify resources like `auth`, `data`, `storage`, or separate them into your own custom group.
+This is typically useful when you have resources that depend on each other and you want to group them together.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  resourceGroupName: 'data'
+});
+```

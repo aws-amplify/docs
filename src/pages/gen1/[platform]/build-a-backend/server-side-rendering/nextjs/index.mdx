@@ -246,14 +246,12 @@ You can add the following to your `next.config.js`:
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // highlight-start
-  experimental: {
-    serverComponentsExternalPackages: ['@aws-crypto'],
-  },
+    serverComponentsPackages: ['@aws-crypto'],
   // highlight-end
 };
 ```
 
-See Next.js documentation on [`serverComponentsExternalPackages`](https://nextjs.org/docs/app/api-reference/next-config-js/serverComponentsExternalPackages) for more details.
+See Next.js documentation on [`serverComponentsPackages`](https://nextjs.org/docs/app/api-reference/config/next-config-js/serverExternalPackages) for more details.
 </Callout>
 
 ### With Next.js App Router

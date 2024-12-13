@@ -381,8 +381,17 @@ export default function App() {
 <Block name="Pages router">
 
 ```tsx title="pages/index.tsx"
-import { Flex, TextAreaField, Loader, Text, View } from "@aws-amplify/ui-react"
-import { useAIConversation } from "@/client";
+import { useAIGeneration } from "@/client";
+import {
+  Button,
+  Flex,
+  Heading,
+  Loader,
+  Text,
+  TextAreaField,
+  View,
+} from "@aws-amplify/ui-react";
+import React from "react";
 
 export default function Page() {
   const [description, setDescription] = React.useState("");
@@ -429,8 +438,18 @@ export default function Page() {
 <Block name="App router">
 
 ```tsx title="app/page.tsx"
-'use client'
-import { useAIConversation } from "@/client";
+"use client";
+import { useAIGeneration } from "@/client";
+import {
+  Button,
+  Flex,
+  Heading,
+  Loader,
+  Text,
+  TextAreaField,
+  View,
+} from "@aws-amplify/ui-react";
+import React from "react";
 
 export default function Page() {
   const [description, setDescription] = React.useState("");
