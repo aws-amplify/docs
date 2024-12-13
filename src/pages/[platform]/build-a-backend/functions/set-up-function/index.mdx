@@ -92,6 +92,7 @@ const schema = a.schema({
       name: a.string(),
     })
     .returns(a.string())
+    .authorization(allow => [allow.guest()])
     .handler(a.handler.function(sayHello)),
   // highlight-end
 })
