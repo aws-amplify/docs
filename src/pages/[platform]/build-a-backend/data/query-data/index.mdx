@@ -147,6 +147,8 @@ const {
 });
 ```
 
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
+
 If you're building a React application, you can use the `usePagination` hook in Amplify UI to help with managing the pagination user experience.
 
 ```js
@@ -187,6 +189,8 @@ export const PaginationHasMorePagesExample = () => {
 };
 ```
 
+</InlineFilter>
+
 <Callout>
 
 **Limitations:**
@@ -214,7 +218,11 @@ const { data: blogWithSubsetOfData, errors } = await client.models.Blog.get(
 
 ## TypeScript type helpers for Amplify Data
 
-When using TypeScript, you frequently need to specify data model types for type generics. For instance, with React's `useState`, you provide a type in TypeScript to ensure type-safety in your component code using the state. Use the `Schema["MODEL_NAME"]["type"]` pattern to get TypeScript types for the shapes of data models returned from the backend API. This allows you to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
+When using TypeScript, you frequently need to specify data model types for type generics. 
+
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
+
+For instance, with React's `useState`, you provide a type in TypeScript to ensure type-safety in your component code using the state. Use the `Schema["MODEL_NAME"]["type"]` pattern to get TypeScript types for the shapes of data models returned from the backend API. This allows you to get consumable TypeScript types for the shapes of the data model return values coming from the backend API.
 
 ```ts
 import { type Schema } from '@/amplify/data/resource';
@@ -224,8 +232,21 @@ type Post = Schema['Post']['type'];
 const [posts, setPosts] = useState<Post[]>([]);
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["angular", "vue"]}>
+
+```ts
+import { type Schema } from '@/amplify/data/resource';
+
+type Post = Schema['Post']['type'];
+```
+
+</InlineFilter>
+
 You can combine the `Schema["MODEL_NAME"]["type"]` type with the `SelectionSet` helper type to describe the return type of API requests using the `selectionSet` parameter:
 
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
 ```ts
 import type { SelectionSet } from 'aws-amplify/data';
 import type { Schema } from '../amplify/data/resource';
@@ -244,6 +265,88 @@ const fetchPosts = async () => {
   setPosts(postsWithComments);
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={['vue']}>
+```ts
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { generateClient, type SelectionSet } from 'aws-amplify/data';
+import type { Schema } from '../../../amplify/data/resource';
+
+const client = generateClient<Schema>();
+
+const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
+
+type PostWithComments = SelectionSet<
+  Schema['Post']['type'], 
+  typeof selectionSet
+>;
+
+const posts = ref<PostWithComments[]>([]);
+
+const fetchPosts = async (): Promise<void> => {
+  const { data: postsWithComments } = await client.models.Post.list({
+    selectionSet,
+  });
+  posts.value = postsWithComments;
+};
+
+onMounted(() => {
+  fetchPosts();
+});
+</script>
+
+<template>
+  <div>
+    <!-- Add your template here to display posts -->
+  </div>
+</template>
+```
+</InlineFilter>
+
+<InlineFilter filters={["angular"]}>
+```ts
+import { Component, OnInit } from '@angular/core';
+import { generateClient, type SelectionSet } from 'aws-amplify/data';
+import type { Schema } from '../../../amplify/data/resource';
+import { CommonModule } from '@angular/common';
+
+const client = generateClient<Schema>();
+
+const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
+
+type PostWithComments = SelectionSet<
+  Schema['Post']['type'],
+  typeof selectionSet
+>;
+
+@Component({
+  selector: 'app-todos',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './todos.component.html',
+  styleUrls: ['./todos.component.css'],
+})
+export class TodosComponent implements OnInit {
+  posts: PostWithComments[] = [];
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.fetchPosts();
+  }
+
+  async fetchPosts(): Promise<void> {
+    const { data: postsWithComments } = await client.models.Post.list({
+      selectionSet,
+    });
+    this.posts = postsWithComments;
+  }
+}
+```
+</InlineFilter>
 
 ## Cancel read requests
 
