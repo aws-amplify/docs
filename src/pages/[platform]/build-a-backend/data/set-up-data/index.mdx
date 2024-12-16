@@ -383,8 +383,7 @@ Let's first add a button to create a new todo item. To make a "create Todo" API 
 
 </InlineFilter>
 
-
-<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
 
 ```tsx title="src/TodoList.tsx"
 import type { Schema } from '../amplify/data/resource'
@@ -405,7 +404,6 @@ export default function TodoList() {
   </div>
 }
 ```
-
 </InlineFilter>
 
 
@@ -432,12 +430,9 @@ async function createTodo() {
   </div>
 </template>
 ```
-
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
-
-
 Run the application in local development mode and check your network tab after creating a todo. You should see a successful request to a `/graphql` endpoint.
 
 <Callout>
@@ -448,10 +443,7 @@ Try playing around with the code completion of `.update(...)` and `.delete(...)`
 </InlineFilter>
 
 <InlineFilter filters={["angular"]}>
-
-Let's first add a button to create a new todo item. To make a "create Todo" API request, generate the data client using `generateClient()` in your frontend code, and then call `.create()` operation for the Todo model. The Data client is a fully typed client that gives you in-IDE code completion. To enable this in-IDE code completion capability, pass in the `Schema` type to the `generateClient` function.
-
-```tsx title="todo-list.component.ts"
+```ts title="todo-list.component.ts"
 import { Component } from '@angular/core';
 import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
@@ -673,9 +665,7 @@ Creating Todo successful.
 
 Next, list all your todos and then refetch the todos after a todo has been added:
 
-<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
-
-
+<InlineFilter filters={["react","javascript", "nextjs", "react-native"]}>
 ```tsx title="src/TodoList.tsx"
 import { useState, useEffect } from "react";
 import type { Schema } from "../amplify/data/resource";
@@ -720,7 +710,6 @@ export default function TodoList() {
 </InlineFilter>
 
 <InlineFilter filters={["vue"]}>
-
 ```html title="src/TodoList.vue"
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
@@ -768,7 +757,7 @@ async function createTodo() {
 </InlineFilter>
 
 <InlineFilter filters={["angular"]}>
-```tsx title="todo-list.component.ts"
+```ts title="todo-list.component.ts"
 import { Component, OnInit } from '@angular/core';
 import type { Schema } from '../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
@@ -1064,10 +1053,11 @@ export default function TodoList() {
   );
 }
 ```
-
 </InlineFilter>
 
 <InlineFilter filters={["vue"]}>
+You can also use `observeQuery` to subscribe to a live feed of your backend data. Let's refactor the code to use a real-time observeQuery instead.
+
 ```html title="src/TodoList.vue"
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
@@ -1115,26 +1105,13 @@ async function createTodo() {
   </div>
 </template>
 ```
-
-</InlineFilter>
-
-<InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
-
-Now try to open your app in two browser windows and see how creating a todo in one window automatically adds the todo in the second window as well.
-
-<Callout>
-
-You can also use `.onCreate`, `.onUpdate`, or `.onDelete` to subscribe to specific events. Review [Subscribe to real-time events](/[platform]/build-a-backend/data/subscribe-data) to learn more about subscribing to specific mutation events.
-
-</Callout>
-
 </InlineFilter>
 
 <InlineFilter filters={["angular"]}>
 
 You can also use `observeQuery` to subscribe to a live feed of your backend data. Let's refactor the code to use a real-time observeQuery instead.
 
-```tsx title="todo-list.component.ts"
+```ts title="todo-list.component.ts"
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { generateClient } from 'aws-amplify/data';
