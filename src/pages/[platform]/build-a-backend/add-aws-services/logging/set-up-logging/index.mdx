@@ -82,10 +82,8 @@ For a full example, please follow the [mobile support walkthrough](/swift/start/
 
 <Callout>
 
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
-As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
-
-For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
+visionOS support is currently in **preview** and can be used by using the latest [Amplify Release](https://github.com/aws-amplify/amplify-swift/releases). 
+As new Xcode and visionOS versions are released, the support will be updated with any necessary fixes on a best effort basis.
 
 </Callout>
 
@@ -113,11 +111,11 @@ The `<log-group-name>` and `<region>` configured in the CDK construct will be us
 - `<amplify-authenticated-role-name>` and `<amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.
 
 ```ts
+import * as path from "node:path"
 import * as cdk from "aws-cdk-lib"
-import { Construct } from "constructs"
 import * as logs from "aws-cdk-lib/aws-logs"
-import * as path from "path"
 import * as iam from "aws-cdk-lib/aws-iam"
+import { Construct } from "constructs"
 
 export class RemoteLoggingConstraintsConstruct extends Construct {
   constructor(scope: Construct, id: string, props: RemoteLoggingConstraintProps) {

@@ -372,7 +372,7 @@ const { data, errors } = await client.mutations.likePost({
 ```swift
 struct EchoResponse: Codable {
     public let echo: Echo
-    
+
     struct Echo: Codable {
         public let content: String
         public let executionDuration: Float
@@ -508,3 +508,34 @@ safePrint(echoResponse.echo.content);
 ```
 
 </InlineFilter>
+
+## Async function handlers
+
+Async function handlers allow you to execute long-running operations asynchronously, improving the responsiveness of your API. This is particularly useful for tasks that don't require an immediate response, such as batch processing, putting messages in a queue, and initiating a generative AI model inference.
+
+### Usage
+
+To define an async function handler, use the `.async()` method when defining your handler:
+
+```ts title="amplify/data/resource.ts"
+const signUpForNewsletter = defineFunction({
+  entry: './sign-up-for-newsletter/handler.ts'
+});
+
+const schema = a.schema({
+  someAsyncOperation: a.mutation()
+    .arguments({
+      email: a.email().required()
+    })
+    .handler(a.handler.function(signUpForNewsletter).async())
+    .authorization((allow) => allow.guest()),
+})
+```
+
+### Key Characteristics
+
+1. **Single Return Type**: Async handlers return a static type `EventInvocationResponse` and don't support specifying a return type. The `.returns()` method is not available for operations using async handlers.
+
+2. **Fire and Forget**: The client is informed whether the invocation was successfully queued, but doesn't receive data from the Lambda function execution.
+
+3. **Pipeline Support**: Async handlers can be used in function pipelines. If the final handler is an async function, the return type of the query or mutation is `EventInvocationResponse`.

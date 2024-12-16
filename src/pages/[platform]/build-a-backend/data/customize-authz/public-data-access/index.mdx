@@ -79,7 +79,7 @@ In your application, you can perform CRUD operations against the model by specif
 try {
   final todo = Todo(content: 'My new todo');
   final request = ModelMutations.create(
-    todo,  
+    todo,
     authorizationMode: APIAuthorizationType.apiKey,
   );
   final createdTodo = await Amplify.API.mutations(request: request).response;
@@ -111,6 +111,52 @@ do {
 ```
 
 </InlineFilter>
+
+### Extend API Key Expiration
+
+If the API key has not expired, you can extend the expiration date by deploying your app again. The API key expiration date will be set to `expiresInDays` days from the date when the app is deployed. In the example below, the API key will expire 7 days from the latest deployment.
+
+```ts title="amplify/data/resource.ts"
+export const data = defineData({
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 7,
+    },
+  },
+});
+```
+
+### Rotate an API Key
+
+You can rotate an API key if it was expired, compromised, or deleted. To rotate an API key, you can override the logical ID of the API key resource in the `amplify/backend.ts` file. This will create a new API key with a new logical ID.
+
+```ts title="amplify/backend.ts"
+const backend = defineBackend({
+  auth,
+  data,
+});
+
+backend.data.resources.cfnResources.cfnApiKey?.overrideLogicalId(
+  `recoverApiKey${new Date().getTime()}`
+);
+```
+
+Deploy your app. After the deploy has finished, remove the override to the logical ID and deploy your app again to use the default logical ID.
+
+```ts title="amplify/backend.ts"
+const backend = defineBackend({
+  auth,
+  data,
+});
+
+// backend.data.resources.cfnResources.cfnApiKey?.overrideLogicalId(
+//   `recoverApiKey${new Date().getTime()}`
+// );
+```
+
+A new API key will be created for your app.
 
 ## Add public authorization rule using Amazon Cognito identity pool's unauthenticated role
 
@@ -182,7 +228,7 @@ In your application, you can perform CRUD operations against the model with the 
 try {
   final todo = Todo(content: 'My new todo');
   final request = ModelMutations.create(
-    todo,  
+    todo,
     authorizationMode: APIAuthorizationType.iam,
   );
   final createdTodo = await Amplify.API.mutations(request: request).response;

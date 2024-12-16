@@ -19,11 +19,7 @@
 		"target": "/javascript/tools/cli/plugins/",
 		"status": "301"
 	},
-	{
-		"source": "/<*>",
-		"target": "/404/index.html",
-		"status": "404-200"
-	},
+	{ "source": "/<*>", "target": "/404/index.html", "status": "404-200" },
 	{
 		"source": "/cli/usage/tags/",
 		"target": "/javascript/tools/cli/project/tags/",
@@ -101,7 +97,7 @@
 	},
 	{
 		"source": "/ui/storage/s3-image-picker/q/framework/<platform>/",
-		"target": "https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager",
+		"target": "https://ui.docs.amplify.aws/react/connected-components/storage/fileuploader",
 		"status": "302"
 	},
 	{
@@ -614,11 +610,7 @@
 		"target": "/javascript/tools/cli-legacy/versioned-directive/",
 		"status": "301"
 	},
-	{
-		"source": "/cli/",
-		"target": "/javascript/tools/cli/",
-		"status": "301"
-	},
+	{ "source": "/cli/", "target": "/javascript/tools/cli/", "status": "301" },
 	{
 		"source": "/cli/auth/admin/",
 		"target": "/javascript/build-a-backend/auth/admin-actions/",
@@ -7004,11 +6996,7 @@
 		"target": "/react/how-amplify-works/",
 		"status": "301"
 	},
-	{
-		"source": "/start/",
-		"target": "/react/start",
-		"status": "301"
-	},
+	{ "source": "/start/", "target": "/react/start", "status": "301" },
 	{
 		"source": "/guides/<*>",
 		"target": "/react/build-a-backend/",
@@ -7320,6 +7308,51 @@
 		"status": "301"
 	},
 	{
+		"source": "/react/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/react/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/angular/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/angular/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/react-native/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/next.js/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/next.js/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/vue/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/vue/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/javascript/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/android/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/android/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/flutter/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/flutter/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
+		"source": "/swift/build-a-backend/troubleshooting/stack-cdktoolkit-already-exists/",
+		"target": "/swift/build-a-backend/troubleshooting/cdktoolkit-stack/",
+		"status": "301"
+	},
+	{
 		"source": "/[platform]/build-a-backend/utilities",
 		"target": "/react/build-a-backend/utilities",
 		"status": "301"
@@ -7534,11 +7567,7 @@
 		"target": "/react/sdk/info/app-uninstall",
 		"status": "301"
 	},
-	{
-		"source": "/[platform]/start",
-		"target": "/react/start",
-		"status": "301"
-	},
+	{ "source": "/[platform]/start", "target": "/react/start", "status": "301" },
 	{
 		"source": "/[platform]/start/getting-started/data-model",
 		"target": "/react/start/getting-started/data-model",
@@ -7584,11 +7613,7 @@
 		"target": "/react/tools/console/storage",
 		"status": "301"
 	},
-	{
-		"source": "/Amazon",
-		"target": "/",
-		"status": "301"
-	},
+	{ "source": "/Amazon", "target": "/", "status": "301" },
 	{
 		"source": "/android/build-ui/<*>",
 		"target": "/android/build-ui/",
@@ -7689,11 +7714,7 @@
 		"target": "/react/tools/cli/project/override-iam/",
 		"status": "301"
 	},
-	{
-		"source": "/build-ui/",
-		"target": "/react/build-ui/",
-		"status": "301"
-	},
+	{ "source": "/build-ui/", "target": "/react/build-ui/", "status": "301" },
 	{
 		"source": "/cli-legacy/graphql-t",
 		"target": "/react/tools/cli-legacy/",
@@ -7720,25 +7741,11 @@
 		"status": "301"
 	},
 	{
-		"source": "/flutter/build-ui/<*>",
-		"target": "/flutter/build-ui/",
-		"status": "301"
-	},
-	{
-		"source": "/flutter/deploy-and-host/<*>",
-		"target": "/flutter/deploy-and-host",
-		"status": "301"
-	},
-	{
 		"source": "/flutter/sdk/",
 		"target": "/flutter/build-a-backend/",
 		"status": "301"
 	},
-	{
-		"source": "/flutter/sdk/<*>",
-		"target": "/flutter/",
-		"status": "301"
-	},
+	{ "source": "/flutter/sdk/<*>", "target": "/flutter/", "status": "301" },
 	{
 		"source": "/guides/",
 		"target": "/react/build-a-backend/",
@@ -8259,11 +8266,7 @@
 		"target": "/gen1/react-native/prev/build-a-backend/storage/",
 		"status": "301"
 	},
-	{
-		"source": "/lib/",
-		"target": "/react/build-a-backend/",
-		"status": "301"
-	},
+	{ "source": "/lib/", "target": "/react/build-a-backend/", "status": "301" },
 	{
 		"source": "/lib/analytics/enable-disable/",
 		"target": "/react/build-a-backend/more-features/analytics/enable-disable/",
@@ -8634,11 +8637,7 @@
 		"target": "/react/build-a-backend/utilities/service-worker/",
 		"status": "301"
 	},
-	{
-		"source": "/nextjs/sdk/",
-		"target": "/nextjs/",
-		"status": "301"
-	},
+	{ "source": "/nextjs/sdk/", "target": "/nextjs/", "status": "301" },
 	{
 		"source": "/react-native/build-a-backend/more-features/predictions/[}",
 		"target": "/react-native/build-a-backend/more-features/",
@@ -8649,21 +8648,9 @@
 		"target": "/react-native/start/getting-started/",
 		"status": "301"
 	},
-	{
-		"source": "/react/sdk/",
-		"target": "/react/",
-		"status": "301"
-	},
-	{
-		"source": "/sdk/",
-		"target": "/swift/sdk/",
-		"status": "301"
-	},
-	{
-		"source": "/sdk/api/",
-		"target": "/swift/sdk/api/",
-		"status": "301"
-	},
+	{ "source": "/react/sdk/", "target": "/react/", "status": "301" },
+	{ "source": "/sdk/", "target": "/swift/sdk/", "status": "301" },
+	{ "source": "/sdk/api/", "target": "/swift/sdk/api/", "status": "301" },
 	{
 		"source": "/sdk/auth/custom-auth-flow/q/platform/next/",
 		"target": "/nextjs/",
@@ -9664,16 +9651,8 @@
 		"target": "/react/reference/",
 		"status": "301"
 	},
-	{
-		"source": "/gen2/start/",
-		"target": "/react/start/",
-		"status": "301"
-	},
-	{
-		"source": "/gen2/",
-		"target": "/",
-		"status": "301"
-	},
+	{ "source": "/gen2/start/", "target": "/react/start/", "status": "301" },
+	{ "source": "/gen2/", "target": "/", "status": "301" },
 	{
 		"source": "/gen1/gen2/deploy-and-host/hosting/",
 		"target": "/react/deploy-and-host/hosting/",
@@ -9954,11 +9933,7 @@
 		"target": "/gen1/react/build-ui/formbuilder/overrides/",
 		"status": "301"
 	},
-	{
-		"source": "/react/prev/",
-		"target": "/gen1/react/prev/",
-		"status": "301"
-	},
+	{ "source": "/react/prev/", "target": "/gen1/react/prev/", "status": "301" },
 	{
 		"source": "/react/prev/build-a-backend/troubleshooting/upgrade-amplify-packages/react/prev/",
 		"target": "/gen1/react/prev/build-a-backend/troubleshooting/upgrade-amplify-packages/react/prev/",
@@ -9984,11 +9959,7 @@
 		"target": "/gen1/swift/prev/start/project-setup/create-application/",
 		"status": "301"
 	},
-	{
-		"source": "/vue/prev/",
-		"target": "/gen1/vue/prev/",
-		"status": "301"
-	},
+	{ "source": "/vue/prev/", "target": "/gen1/vue/prev/", "status": "301" },
 	{
 		"source": "/vue/prev/start/project-setup/create-application/",
 		"target": "/gen1/vue/prev/start/project-setup/create-application/",
@@ -10104,11 +10075,7 @@
 		"target": "/react/start/quickstart/",
 		"status": "301"
 	},
-	{
-		"source": "/ios/",
-		"target": "/swift/",
-		"status": "301"
-	},
+	{ "source": "/ios/", "target": "/swift/", "status": "301" },
 	{
 		"source": "/<platform>/build-a-backend/data/custom-business-logic/connect-external-ddb-table/",
 		"target": "/<platform>/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/",
@@ -10149,11 +10116,7 @@
 		"target": "/gen1/nextjs/prev/build-a-backend/auth/",
 		"status": "301"
 	},
-	{
-		"source": "/gen1/js/",
-		"target": "/gen1/javascript",
-		"status": "301"
-	},
+	{ "source": "/gen1/js/", "target": "/gen1/javascript", "status": "301" },
 	{
 		"source": "/gen1/flutter/prev/build-a-backend/graphqlapi/data-modeling/",
 		"target": "/gen1/flutter/tools/console/data/data-model/",
@@ -10179,9 +10142,90 @@
 		"target": "/gen1/react/tools/cli/commands/",
 		"status": "301"
 	},
-  {
-    "source": "/gen1/flutter/build-a-backend/storage/move/",
+	{
+		"source": "/<platform>/build-a-backend/data/custom-business-logic/connect-external-ddb-table/",
+		"target": "/<platform>/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/REACT/build-a-backend/graphqlapi/customize-authz-modes/",
+		"target": "/gen1/react/build-a-backend/graphqlapi/customize-authorization-rules/",
+		"status": "301"
+	},
+	{
+		"source": "/sdk/push-notifications/getting-started/",
+		"target": "/gen1/swift/sdk/push-notifications/getting-started/",
+		"status": "301"
+	},
+	{
+		"source": "/lib/troubleshooting/upgrading/q/platform/flutter/",
+		"target": "/gen1/flutter/build-a-backend/troubleshooting/upgrade-amplify-packages/",
+		"status": "301"
+	},
+	{
+		"source": "/start/getting-started/integrate/q/integration/react-native/",
+		"target": "/gen1/react-native/build-a-backend/more-features/datastore/set-up-datastore/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/react/build-a-backend/auth/connect-your-frontend/sign-up/",
+		"target": "/gen1/react/build-a-backend/auth/enable-sign-up/",
+		"status": "301"
+	},
+	{
+		"source": "/gen1/flutter/build-a-backend/storage/move/",
 		"target": "/gen1/flutter/prev/build-a-backend/storage/move/",
 		"status": "301"
-  }
+	},
+	{
+		"source": "/ai/",
+		"target": "/react/ai/set-up-ai/",
+		"status": "302"
+	},
+	{
+		"source": "/android/start/connect-existing-aws-resources",
+		"target": "/android/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/angular/start/connect-existing-aws-resources",
+		"target": "/angular/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/flutter/start/connect-existing-aws-resources",
+		"target": "/flutter/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/start/connect-existing-aws-resources",
+		"target": "/javascript/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/start/connect-existing-aws-resources",
+		"target": "/nextjs/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/react/start/connect-existing-aws-resources",
+		"target": "/react/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/start/connect-existing-aws-resources",
+		"target": "/react-native/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/swift/start/connect-existing-aws-resources",
+		"target": "/swift/start/connect-to-aws-resources",
+		"status": "301"
+	},
+	{
+		"source": "/vue/start/connect-existing-aws-resources",
+		"target": "/vue/start/connect-to-aws-resources",
+		"status": "301"
+	}
 ]
+  

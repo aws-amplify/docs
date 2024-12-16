@@ -31,11 +31,11 @@ export function getStaticProps(context) {
 
 <InlineFilter filters={["javascript","nextjs","react"]}>
 
-You can implement upload functionality in your app by either using the Storage Manager UI component or further customizing the upload experience using the upload API.
+You can implement upload functionality in your app by either using the File Uploader UI component or further customizing the upload experience using the upload API.
 
-## Storage Manager React UI Component
+## File Uploader React UI Component
 
-Upload files from your app in minutes by using the cloud-connected Storage Manager UI Component.
+Upload files from your app in minutes by using the cloud-connected File Uploader UI Component.
 
 ```bash title="Terminal" showLineNumbers={false}
 npm add @aws-amplify/ui-react-storage aws-amplify
@@ -44,12 +44,12 @@ Then, use the component in your app.
 {/* Let's add explanations for the props - which are mandatory now? I know before it was maxFileCount and accessLevel */}
 
 ```tsx
-import { StorageManager } from '@aws-amplify/ui-react-storage';
+import { FileUploader } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
 
-export const DefaultStorageManagerExample = () => {
+export const DefaultFileUploaderExample = () => {
   return (
-    <StorageManager
+    <FileUploader
       acceptedFileTypes={['image/*']}
       path="public/"
       maxFileCount={1}
@@ -59,9 +59,9 @@ export const DefaultStorageManagerExample = () => {
 };
 ```
 
-![Showing Storage Manager UI component](/images/gen2/storage/upload-ui-component.png)
+![Showing File Uploader UI component](/images/gen2/storage/upload-ui-component.png)
 
-Learn more about how you can further customize the UI component by referring to the [Storage Manager documentation](https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager).
+Learn more about how you can further customize the UI component by referring to the [File Uploader documentation](https://ui.docs.amplify.aws/react/connected-components/storage/fileuploader).
 
 </InlineFilter>
 
@@ -357,7 +357,7 @@ try dataString.write(
 
 let uploadTask = Amplify.Storage.uploadFile(
     path: .fromString("public/example/path/myFile.txt"),
-    local: filename
+    local: fileUrl
 )
 
 ```
@@ -370,7 +370,7 @@ To upload a file from a data object, specify the `path` and the `data` object to
 let dataString = "My Data"
 let data = Data(dataString.utf8)
 let uploadTask = Amplify.Storage.uploadData(
-    path: .fromString("public/example/path"),
+    path: .fromString("public/example/path/myFile.txt"),
     data: data
 )
 ```
@@ -729,6 +729,284 @@ const result = await uploadData({
 ```
 </InlineFilter>
 
+<InlineFilter filters={["android"]}>
+
+### Upload to a specified bucket
+
+You can also perform an upload operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    StorageBucket secondBucket = StorageBucket.fromOutputs("secondBucket");
+    StorageUploadFileOptions options = StorageUploadFileOptions.builder().bucket(secondBucket).build();
+
+    Amplify.Storage.uploadFile(
+            StoragePath.fromString("public/example"),
+            exampleFile,
+            options,
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    val secondBucket = StorageBucket.fromOutputs("secondBucket")
+    val options = StorageUploadFileOptions.builder().bucket(secondBucket).build()
+
+    Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.path}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+private suspend fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    val secondBucket = StorageBucket.fromOutputs("secondBucket")
+    val options = StorageUploadFileOptions.builder().bucket(secondBucket).build()
+
+    val upload = Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options)
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    StorageBucket secondBucket = StorageBucket.fromOutputs("secondBucket");
+    StorageUploadFileOptions options = StorageUploadFileOptions.builder().bucket(secondBucket).build();
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+            RxAmplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options);
+
+    rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    BucketInfo bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+    StorageBucket secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+    StorageUploadFileOptions options = StorageUploadFileOptions.builder().bucket(secondBucket).build();
+
+    Amplify.Storage.uploadFile(
+            StoragePath.fromString("public/example"),
+            exampleFile,
+            options,
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    val bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+    val secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+    val options = StorageUploadFileOptions.builder().bucket(secondBucket).build();
+
+    Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.path}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+private suspend fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "example")
+    exampleFile.writeText("Example file contents")
+
+    val bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+    val secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+    val options = StorageUploadFileOptions.builder().bucket(secondBucket).build();
+
+    val upload = Amplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options)
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.path}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+private void uploadFile() {
+    File exampleFile = new File(getApplicationContext().getFilesDir(), "example");
+
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+        writer.append("Example file contents");
+        writer.close();
+    } catch (Exception exception) {
+        Log.e("MyAmplifyApp", "Upload failed", exception);
+    }
+
+    BucketInfo bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+    StorageBucket secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+    StorageUploadFileOptions options = StorageUploadFileOptions.builder().bucket(secondBucket).build();
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+            RxAmplify.Storage.uploadFile(StoragePath.fromString("public/example"), exampleFile, options);
+
+    rxUploadOperation
+            .observeResult()
+            .subscribe(
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getPath()),
+                error -> Log.e("MyAmplifyApp", "Upload failed", error)
+            );
+}
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+### Upload to a specified bucket
+
+You can perform an upload operation to a specific bucket by providing the `bucket` option.
+
+<BlockSwitcher>
+<Block name="From Outputs">
+You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
+
+```swift
+// Upload from File
+let uploadTask = Amplify.Storage.uploadFile(
+    path: .fromString("public/example/path/myFile.txt"),
+    local: fileUrl,
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+
+// Upload from Data
+let uploadTask = Amplify.Storage.uploadData(
+    path: .fromString("public/example/path/myFile.txt"),
+    data: data,
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+</Block>
+
+<Block name="From Bucket Info">
+You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
+
+```swift
+// Upload from File
+let uploadTask = Amplify.Storage.uploadFile(
+    path: .fromString("public/example/path/myFile.txt"),
+    local: fileUrl,
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+
+// Upload from Data
+let uploadTask = Amplify.Storage.uploadData(
+    path: .fromString("public/example/path/myFile.txt"),
+    data: data,
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )
+    )
+)
+```
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
 <InlineFilter filters={["angular","javascript","nextjs","react","vue","react-native"]}>
 
 ### Monitor upload progress
@@ -898,6 +1176,20 @@ upload
 
 </Block>
 </BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+### All `upload` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| metadata | Map\<String\, String\> | Metadata for the object to store. |
+| contentType | String | The standard MIME type describing the format of the object to store. |
+| bucket | StorageBucket | The bucket in which the object should be stored. |
+| serverSideEncryption | ServerSideEncryption | The server side encryption algorithm. |
+| useAccelerateEndpoint | boolean | Flag to determine whether to use acceleration endpoint. |
+
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
@@ -1184,12 +1476,13 @@ Upload tasks are run using `URLSessionTask` instances internally. You can learn 
 
 <InlineFilter filters={["swift"]}>
 
-## More upload options
+### All `upload` options
 
 Option | Type | Description |
 | -- | -- | ----------- |
-| metadata | Dictionary | Metadata for the object to store. |
+| metadata | [String: String] | Metadata for the object to store. |
 | contentType | String | The standard MIME type describing the format of the object to store. |
+| bucket | StorageBucket | The bucket in which the object should be stored |
 
 </InlineFilter>
 
@@ -1273,7 +1566,13 @@ const result = await uploadData({
     // configure how object is presented
     contentDisposition: "attachment",
     // whether to use accelerate endpoint
-    useAccelerateEndpoint: true
+    useAccelerateEndpoint: true,
+    // the account ID that owns requested bucket
+    expectedBucketOwner: "123456789012",
+    // whether to check if an object with the same key already exists before completing the upload
+    preventOverwrite: true,
+    // whether to compute the checksum for the data to be uploaded, so the S3 can verify the data integrity
+    checksumAlgorithm: "crc-32", // only 'crc-32' is supported currently
   },
 });
 ```
@@ -1285,6 +1584,9 @@ Option | Type | Default | Description |
 | contentDisposition | string | — | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
 | metadata | map\<string\> | — | A map of metadata to store with the object in S3. <br/><br/> Read more at [S3 metadata documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingMetadata.html#UserMetadata) |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
+| expectedBucketOwner | string | - | The account ID that owns requested bucket. |
+| preventOverwrite | boolean | false | Whether to check if an object with the same key already exists before completing the upload. If exists, a `Precondition Failed` error will be thrown |
+| checksumAlgorithm | "crc-32" | - | Whether to compute the checksum for the data to be uploaded, so the S3 can verify the data integrity. Only 'crc-32' is supported currently |
 
 <Callout>
 

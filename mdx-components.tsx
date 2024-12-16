@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { MDXComponents } from 'mdx/types';
 import ExportedImage from 'next-image-export-optimizer';
+import { AIBanner } from './src/components/AIBanner';
 import InlineFilter from './src/components/InlineFilter';
 import { YoutubeEmbed } from './src/components/YoutubeEmbed';
 import { Accordion } from './src/components/Accordion';
@@ -22,6 +23,7 @@ import { InternalLinkButton } from './src/components/InternalLinkButton';
 import { Grid, View } from '@aws-amplify/ui-react';
 import { Columns } from './src/components/Columns';
 import { Video } from './src/components/Video';
+import { ReferencePage } from './src/components/ApiDocs';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -63,6 +65,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     InlineFilter,
     MigrationAlert,
     YoutubeEmbed,
+    AIBanner,
     Overview,
     ExternalLink,
     ExternalLinkButton,
@@ -71,6 +74,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Columns,
     Video,
     View,
+    ReferencePage,
     ...components
   };
 }

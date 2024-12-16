@@ -1,0 +1,704 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Set up AI",
+  description:
+    "Learn how to set up and connect your backend for generative AI with Amplify.",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      showBreadcrumbs: false,
+    },
+  };
+}
+
+
+In this guide, you will learn how to get stared with the Amplify AI kit. This includes defining your AI backend with Conversation and Generation routes, and securely connecting to them from your frontend application.
+
+<Callout>
+
+[An easy way to get started is with one of our samples](https://github.com/aws-samples/amplify-ai-examples)
+
+</Callout>
+
+## Prerequisites
+
+Before you begin, you will need:
+
+- [Node.js](https://nodejs.org/) v18.16.0 or later
+- [npm](https://www.npmjs.com/) v6.14.4 or later
+- [git](https://git-scm.com/) v2.14.1 or later
+
+You will also need an AWS account that is [setup for local development](/[platform]/start/account-setup) and has access to the Bedrock Foundation Model(s) you want to use. You can request access to Bedrock models by going in to the [Bedrock console and requesting access](https://console.aws.amazon.com/bedrock/home#/modelaccess).
+
+<Callout>
+
+Running inference on large language models (LLMs) can be costly. Amazon Bedrock is a serverless service so you only pay for what you use, but be mindful of the costs associated with building generative AI applications. [See Bedrock pricing for more information](https://aws.amazon.com/bedrock/pricing/).
+
+</Callout>
+
+## Create an Amplify backend
+
+Run the create amplify script in your project directory:
+
+```bash title="Terminal"
+npm create amplify@latest
+```
+
+Then run the [Amplify sandbox](/[platform]/deploy-and-host/sandbox-environments/setup/) to start your local cloud sandbox:
+
+```bash title="Terminal"
+npx ampx sandbox
+```
+
+This will provision the cloud resources you define in your amplify folder and watch for updates and redeploy them. 
+
+
+## Build your AI backend
+
+To build an AI backend, you define AI 'routes' in your Amplify Data schema. An AI route is like an API endpoint for interacting with backend AI functionality. There are currently 2 types of routes:
+
+* **Conversation:** A conversation route is a streaming, multi-turn API. Conversations and messages are automatically stored in DynamoDB so users can resume conversations. Examples of this are any chat-based AI experience or conversational UI.
+* **Generation:** A single synchronous request-response API. A generation route is just an AppSync Query. Examples of this are: generating alt text for an image, generating structured data from unstructured input, summarization, etc.
+
+To define AI routes, open your **amplify/data/resource.ts** file and use `a.generation()` and `a.conversation()` in your schema.
+
+```ts title="amplify/data/resources.ts"
+import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  // This will add a new conversation route to your Amplify Data backend.
+  // highlight-start
+  chat: a.conversation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'You are a helpful assistant',
+  })
+  .authorization((allow) => allow.owner()),
+  // highlight-end
+
+  // This adds a new generation route to your Amplify Data backend.
+  // highlight-start
+  generateRecipe: a.generation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'You are a helpful assistant that generates recipes.',
+  })
+  .arguments({
+    description: a.string(),
+  })
+  .returns(
+    a.customType({
+      name: a.string(),
+      ingredients: a.string().array(),
+      instructions: a.string(),
+    })
+  )
+  .authorization((allow) => allow.authenticated()),
+  // highlight-end
+});
+```
+
+<Callout>
+
+Conversation routes currently ONLY support owner-based authorization and generation routes ONLY support non-owner-based authorization (`authenticated`, `guest`, `group`, `publicApiKey`).
+
+</Callout>
+
+If you have the Amplify sandbox running, when you save this file it will pick up the changes and redeploy the necessary resources for you. 
+
+## Connect your frontend
+
+Once the cloud sandbox is up and running, it will also create an `amplify_outputs.json` file, which includes relevant connection information to your AI routes and other Amplify configuration.
+
+To connect your frontend code to your backend, you need to:
+
+1. Configure the Amplify library with the Amplify client configuration file (`amplify_outputs.json`).
+2. Generate a new API client from the Amplify library.
+3. Make an API request with end-to-end type-safety.
+
+### Install the client libraries
+
+Install the Amplify client library to your project:
+
+<InlineFilter filters={["react","nextjs","react-native"]}>
+
+```bash title="Terminal"
+npm add aws-amplify @aws-amplify/ui-react @aws-amplify/ui-react-ai
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["javascript","vue","angular"]}>
+
+```bash title="Terminal"
+npm add aws-amplify
+```
+
+</InlineFilter>
+
+
+### Configure the libraries
+
+<InlineFilter filters={["vue"]}>
+
+Call `Amplify.configure()` with the **amplify_outputs.json** file in your **main.ts** file.
+
+```ts title="src/main.ts"
+import "./assets/main.css";
+import { createApp } from "vue";
+import App from "./App.vue";
+import { Amplify } from "aws-amplify";
+import outputs from "../amplify_outputs.json";
+
+Amplify.configure(outputs);
+
+createApp(App).mount("#app");
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["angular"]}>
+
+Call `Amplify.configure()` with the **amplify_outputs.json** file in your main app component:
+
+```ts
+import { Amplify } from 'aws-amplify';
+import outputs from '../../amplify_outputs.json';
+
+Amplify.configure(outputs);
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["react","react-native"]}>
+
+Call `Amplify.configure()` with the **amplify_outputs.json** file where the React application is mounted.
+
+```tsx title="src/main.tsx"
+import { Amplify } from 'aws-amplify';
+import '@aws-amplify/ui-react/styles.css';
+import outputs from '../amplify_outputs.json';
+
+Amplify.configure(outputs);
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["nextjs"]}>
+
+<BlockSwitcher>
+
+<Block name="Pages router">
+
+```tsx title="pages/_app.tsx"
+import "@/styles/app.css";
+import type { AppProps } from "next/app";
+import { Amplify } from "aws-amplify";
+import outputs from "@/amplify_outputs.json";
+import "@aws-amplify/ui-react/styles.css";
+
+Amplify.configure(outputs);
+
+export default function App({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
+}
+```
+
+</Block>
+
+<Block name="App router">
+
+Create a client component that will configure Amplify:
+
+```tsx title="app/ConfigureAmplify.tsx"
+"use client";
+
+import { Amplify } from "aws-amplify";
+import config from "@/../amplify_outputs.json";
+import "@aws-amplify/ui-react/styles.css";
+
+Amplify.configure(config);
+
+export const ConfigureAmplify = () => {
+  return null;
+};
+```
+
+Then render that component in the root layout:
+
+```tsx title="app/layout.tsx"
+import { ConfigureAmplify } from "./ConfigureAmplify";
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body>
+        <ConfigureAmplify />
+        {children}
+      </body>
+    </html>
+  );
+}
+
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+### Generate the data client
+
+Next, generate a type-safe frontend client to talk to our backend using our backend data schema and the `generateClient()` function provided by the Amplify libraries.
+
+<InlineFilter filters={["javascript","vue","angular"]}>
+
+```ts
+import { generateClient } from "aws-amplify/api";
+import { Schema } from "../amplify/data/resource";
+
+export const client = generateClient<Schema>({ authMode: "userPool" });
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["react","nextjs","react-native"]}>
+
+It can be helpful to create a `client.ts/js` file that exports the generated Amplify data client as well as the generated React hooks.
+
+<BlockSwitcher>
+
+<Block name="TypeScript">
+
+```ts title="src/client.ts"
+import { generateClient } from "aws-amplify/api";
+import { Schema } from "../amplify/data/resource";
+import { createAIHooks } from "@aws-amplify/ui-react-ai";
+
+export const client = generateClient<Schema>({ authMode: "userPool" });
+export const { useAIConversation, useAIGeneration } = createAIHooks(client);
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```ts title="src/client.js"
+import { generateClient } from "aws-amplify/api";
+import { Schema } from "../amplify/data/resource";
+import { createAIHooks } from "@aws-amplify/ui-react-ai";
+
+/**
+ * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
+ */
+export const client = generateClient({ authMode: "userPool" });
+export const { useAIConversation, useAIGeneration } = createAIHooks(client);
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+
+
+### Use a generation
+
+<InlineFilter filters={["react"]}>
+
+```tsx title="src/App.tsx"
+import * as React from 'react';
+import { Flex, TextAreaField, Loader, Text, View, Button } from "@aws-amplify/ui-react"
+import { useAIGeneration } from "./client";
+
+export default function App() {
+  const [description, setDescription] = React.useState("");
+  const [{ data, isLoading }, generateRecipe] =
+    useAIGeneration("generateRecipe");
+
+  const handleClick = async () => {
+    generateRecipe({ description });
+  };
+
+  return (
+    <Flex direction="column">
+      <Flex direction="row">
+        <TextAreaField
+          autoResize
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          label="Description"
+        />
+        <Button onClick={handleClick}>Generate recipe</Button>
+      </Flex>
+      {isLoading ? (
+        <Loader variation="linear" />
+      ) : (
+        <>
+          <Text fontWeight="bold">{data?.name}</Text>
+          <View as="ul">
+            {data?.ingredients?.map((ingredient) => (
+              <View as="li" key={ingredient}>
+                {ingredient}
+              </View>
+            ))}
+          </View>
+          <Text>{data?.instructions}</Text>
+        </>
+      )}
+    </Flex>
+  );
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["nextjs"]}>
+
+<BlockSwitcher>
+
+<Block name="Pages router">
+
+```tsx title="pages/index.tsx"
+import { useAIGeneration } from "@/client";
+import {
+  Button,
+  Flex,
+  Heading,
+  Loader,
+  Text,
+  TextAreaField,
+  View,
+} from "@aws-amplify/ui-react";
+import React from "react";
+
+export default function Page() {
+  const [description, setDescription] = React.useState("");
+  const [{ data, isLoading, hasError }, generateRecipe] =
+    useAIGeneration("generateRecipe");
+
+  const handleClick = async () => {
+    generateRecipe({ description });
+  };
+
+  return (
+    <Flex direction="column">
+      <Flex direction="row">
+        <TextAreaField
+          autoResize
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          label="Description"
+        />
+        <Button onClick={handleClick}>Generate recipe</Button>
+      </Flex>
+      {isLoading ? (
+        <Loader variation="linear" />
+      ) : (
+        <>
+          <Text fontWeight="bold">{data?.name}</Text>
+          <View as="ul">
+            {data?.ingredients?.map((ingredient) => (
+              <View as="li" key={ingredient}>
+                {ingredient}
+              </View>
+            ))}
+          </View>
+          <Text>{data?.instructions}</Text>
+        </>
+      )}
+    </Flex>
+  );
+}
+```
+
+</Block>
+
+<Block name="App router">
+
+```tsx title="app/page.tsx"
+"use client";
+import { useAIGeneration } from "@/client";
+import {
+  Button,
+  Flex,
+  Heading,
+  Loader,
+  Text,
+  TextAreaField,
+  View,
+} from "@aws-amplify/ui-react";
+import React from "react";
+
+export default function Page() {
+  const [description, setDescription] = React.useState("");
+  const [{ data, isLoading, hasError }, generateRecipe] =
+    useAIGeneration("generateRecipe");
+
+  const handleClick = () => {
+    generateRecipe({ description });
+  };
+
+  return (
+    <Flex direction="column">
+      <Flex direction="row">
+        <TextAreaField
+          autoResize
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          label="Description"
+        />
+        <Button onClick={handleClick}>Generate recipe</Button>
+      </Flex>
+      {isLoading ? (
+        <Loader variation="linear" />
+      ) : (
+        <>
+          <Heading level={2}>{data?.name}</Heading>
+          <View as="ul">
+            {data?.ingredients?.map((ingredient) => (
+              <Text as="li" key={ingredient}>
+                {ingredient}
+              </Text>
+            ))}
+          </View>
+          <Text>{data?.instructions}</Text>
+        </>
+      )}
+    </Flex>
+  );
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+
+<InlineFilter filters={["react-native"]}>
+
+```tsx
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { useAIGeneration } from './client';
+
+export default function Screen() {
+  const [description, setDescription] = React.useState("");
+  const [{ data, isLoading, hasError }, generateRecipe] =
+    useAIGeneration("generateRecipe");
+
+  const handleClick = () => {
+    generateRecipe({ description });
+  };
+
+  return (
+    <View>
+        <TextInput
+          autoResize
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          label="Description"
+        />
+        <Button onClick={handleClick}>Generate recipe</Button>
+      {isLoading ? (
+        <Loader variation="linear" />
+      ) : (
+        <>
+          <Heading level={2}>{data?.name}</Heading>
+          <View as="ul">
+            {data?.ingredients?.map((ingredient) => (
+              <Text as="li" key={ingredient}>
+                {ingredient}
+              </Text>
+            ))}
+          </View>
+          <Text>{data?.instructions}</Text>
+        </>
+      )}
+    </Flex>
+  );
+}
+```
+
+</InlineFilter>
+
+
+<InlineFilter filters={["javascript","vue","angular"]}>
+
+```ts
+import { client } from './client';
+
+const { data } = await client.generations.generateRecipe({
+  description: 'A gluten free chocolate cake'
+});
+```
+
+</InlineFilter>
+
+
+
+### Use a conversation
+
+AI conversations are scoped to a user, so your users will need to be logged in with Amplify auth. The easiest way to do this is with the Authenticator component.
+
+<InlineFilter filters={["react"]}>
+
+```tsx title="src/App.tsx"
+import { Authenticator } from "@aws-amplify/ui-react";
+import { AIConversation } from '@aws-amplify/ui-react-ai';
+import { useAIConversation } from './client';
+
+export default function App() {
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    handleSendMessage,
+  ] = useAIConversation('chat');
+  // 'chat' is based on the key for the conversation route in your schema.
+
+  return (
+    <Authenticator>
+      <AIConversation
+        messages={messages}
+        isLoading={isLoading}
+        handleSendMessage={handleSendMessage}
+      />
+    </Authenticator>
+  );
+}
+```
+
+</InlineFilter>
+
+
+
+<InlineFilter filters={["nextjs"]}>
+
+<BlockSwitcher>
+
+<Block name="Pages router">
+
+```tsx title="pages/index.tsx"
+import { Authenticator } from "@aws-amplify/ui-react";
+import { AIConversation } from '@aws-amplify/ui-react-ai';
+import { useAIConversation } from "@/client";
+
+export default function Page() {
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    handleSendMessage,
+  ] = useAIConversation('chat');
+  // 'chat' is based on the key for the conversation route in your schema.
+
+  return (
+    <Authenticator>
+      <AIConversation
+        messages={messages}
+        isLoading={isLoading}
+        handleSendMessage={handleSendMessage}
+      />
+    </Authenticator>
+  );
+}
+```
+</Block>
+
+<Block name="App router">
+
+```tsx title="app/page.tsx"
+'use client'
+import { Authenticator } from "@aws-amplify/ui-react";
+import { AIConversation } from '@aws-amplify/ui-react-ai';
+import { useAIConversation } from "@/client";
+
+export default function Page() {
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    handleSendMessage,
+  ] = useAIConversation('chat');
+  // 'chat' is based on the key for the conversation route in your schema.
+
+  return (
+    <Authenticator>
+      <AIConversation
+        messages={messages}
+        isLoading={isLoading}
+        handleSendMessage={handleSendMessage}
+      />
+    </Authenticator>
+  );
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+
+<InlineFilter filters={["javascript","vue","angular"]}>
+
+```ts
+const { data: conversation } = await client.conversations.chat.create();
+
+// Assistant messages come back as websocket events
+// over a subscription
+conversation.onStreamEvent({
+  next: (event) => {
+    console.log(event);
+  },
+  error: (error) => {
+    console.log(error);
+  }
+});
+
+// When sending user messages you only need to send
+// the latest message, the conversation history
+// is stored in DynamoDB and retrieved in Lambda
+conversation.sendMessage({
+  content: [{ text: "hello" }],
+})
+```
+
+</InlineFilter>
+
+

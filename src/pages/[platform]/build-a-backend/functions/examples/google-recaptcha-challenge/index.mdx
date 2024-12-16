@@ -44,6 +44,7 @@ import { defineFunction } from "@aws-amplify/backend"
 
 export const createAuthChallenge = defineFunction({
   name: "create-auth-challenge",
+  resourceGroupName: 'auth'
 })
 ```
 
@@ -79,6 +80,7 @@ import { defineFunction } from "@aws-amplify/backend"
 
 export const defineAuthChallenge = defineFunction({
   name: "define-auth-challenge",
+  resourceGroupName: 'auth'
 })
 ```
 
@@ -144,6 +146,7 @@ export const verifyAuthChallengeResponse = defineFunction({
   environment: {
     GOOGLE_RECAPTCHA_SECRET_KEY: secret("GOOGLE_RECAPTCHA_SECRET_KEY"),
   },
+  resourceGroupName: 'auth'
 })
 ```
 
