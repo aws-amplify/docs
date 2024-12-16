@@ -298,10 +298,8 @@ onMounted(() => {
 });
 </script>
 
-<template>
-  <div>
-    <!-- Add your template here to display posts -->
-  </div>
+<template v-for="post in posts" :key="post.id">
+  <li>{{ post.content }}</li>
 </template>
 ```
 </InlineFilter>
