@@ -1618,7 +1618,8 @@
     "knowledgebases",
     "rehype",
     "assetlinks",
-    "AMPLIFYRULES"
+    "AMPLIFYRULES",
+    "preconfigured"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
