@@ -1112,10 +1112,10 @@ async function createTodo() {
 You can also use `observeQuery` to subscribe to a live feed of your backend data. Let's refactor the code to use a real-time observeQuery instead.
 
 ```ts title="todo-list.component.ts"
+import type { Schema } from '../../../amplify/data/resource';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 import { Subscription } from 'rxjs';
 
 const client = generateClient<Schema>();
