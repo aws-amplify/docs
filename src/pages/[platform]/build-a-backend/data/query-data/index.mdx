@@ -237,7 +237,7 @@ const [posts, setPosts] = useState<Post[]>([]);
 <InlineFilter filters={["angular", "vue"]}>
 
 ```ts
-import { type Schema } from '@/amplify/data/resource';
+import { type Schema } from '../../../amplify/data/resource';
 
 type Post = Schema['Post']['type'];
 ```
@@ -306,9 +306,9 @@ onMounted(() => {
 
 <InlineFilter filters={["angular"]}>
 ```ts
+import type { Schema } from '../../../amplify/data/resource';
 import { Component, OnInit } from '@angular/core';
 import { generateClient, type SelectionSet } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 import { CommonModule } from '@angular/common';
 
 const client = generateClient<Schema>();
