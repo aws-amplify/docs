@@ -271,9 +271,9 @@ const fetchPosts = async () => {
 <InlineFilter filters={['vue']}>
 ```ts
 <script setup lang="ts">
+import type { Schema } from '../../../amplify/data/resource';
 import { ref, onMounted } from 'vue';
 import { generateClient, type SelectionSet } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 
 const client = generateClient<Schema>();
 
