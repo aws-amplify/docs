@@ -830,7 +830,7 @@ signInWithRedirect({ provider: {
 }})
 ```
 
-### Auto sign-in
+## Auto sign-in
 
 The `autoSignIn` API will automatically sign-in a user when it was previously enabled by the `signUp` API and after any of the following cases has completed:
 
@@ -842,6 +842,9 @@ import { autoSignIn } from 'aws-amplify/auth';
 
 await autoSignIn();
 ```
+<Callout>
+**Note**: When MFA is enabled, your users may be presented with multiple consecutive steps that require them to enter an OTP to proceed with the sign up and subsequent sign in flow. This requirement is not present when using the `USER_AUTH` flow.
+</Callout>
 
 </InlineFilter>
 <InlineFilter filters={['react-native']}
