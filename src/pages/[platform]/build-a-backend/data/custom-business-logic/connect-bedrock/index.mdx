@@ -407,9 +407,9 @@ export default function App() {
 
 <InlineFilter filters={['angular']}>
 ```ts title="app.component.ts"
+import type { Schema } from '../../../amplify/data/resource';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import type { Schema } from '../../../amplify/data/resource';
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
 import outputs from '../../../amplify_outputs.json';
