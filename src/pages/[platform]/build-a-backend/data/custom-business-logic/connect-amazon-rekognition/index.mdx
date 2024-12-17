@@ -286,10 +286,10 @@ export default App;
 </InlineFilter>
 <InlineFilter filters={["angular"]}>
 ```ts title="app.component.ts"
+import type { Schema } from '../../../amplify/data/resource';
 import { Component } from '@angular/core';
 import { generateClient } from 'aws-amplify/api';
 import { uploadData } from 'aws-amplify/storage';
-import { Schema } from '../../../amplify/data/resource';
 import { CommonModule } from '@angular/common';
 
 // Generating the client
