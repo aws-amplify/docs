@@ -444,8 +444,8 @@ Try playing around with the code completion of `.update(...)` and `.delete(...)`
 
 <InlineFilter filters={["angular"]}>
 ```ts title="todo-list.component.ts"
-import { Component } from '@angular/core';
 import type { Schema } from '../amplify/data/resource';
+import { Component } from '@angular/core';
 import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>();
