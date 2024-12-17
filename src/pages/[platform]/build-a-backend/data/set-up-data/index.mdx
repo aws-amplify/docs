@@ -758,8 +758,8 @@ async function createTodo() {
 
 <InlineFilter filters={["angular"]}>
 ```ts title="todo-list.component.ts"
-import { Component, OnInit } from '@angular/core';
 import type { Schema } from '../amplify/data/resource';
+import { Component, OnInit } from '@angular/core';
 import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>();
