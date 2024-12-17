@@ -272,9 +272,9 @@ export default App;
 
 <InlineFilter filters={["angular"]}>
 ```ts title="app.component.ts"
+import type { Schema } from '../../../amplify/data/resource';
 import { Component } from '@angular/core';
 import { generateClient } from 'aws-amplify/api';
-import type { Schema } from '../../../amplify/data/resource';
 import { getUrl } from 'aws-amplify/storage';
 
 const client = generateClient<Schema>();
