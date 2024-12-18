@@ -1,0 +1,56 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Troubleshoot circular dependency issues',
+  description: 'Addressing deployment failures caused by circular dependencies',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+When deploying a Amplify Gen 2 app, you may encounter the error message `The CloudFormation deployment failed due to circular dependency` in your backend build on Amplify Console or while running a sandbox. This error can occur because of circular dependencies between cloudformation nested stacks or between resources in a single cloudformation stack.
+
+## Circular dependency error between nested stacks
+
+If you see this error "The CloudFormation deployment failed due to circular dependency found between nested stacks [data1234ABCD, function6789XYZ]", it means that the nested stack for data and the nested stack for function have circular dependencies. E.g. if you are using the function as a query handler, but the function also needs access to the data (or AppSync) API, you might run into this issue. To resolve, assign this function to the data stack
+
+```ts title="function.ts"
+export const queryFunction = defineFunction({
+  name: 'myFunction',
+  entry: '../handler.ts',
+  resourceGroupName: 'data',
+});
+```
+
+Similarly, if you are using your function as an auth trigger, you can assign your function to the auth stack to break the circular dependency.
+
+```ts title="function.ts"
+export const preSignUpTrigger = defineFunction({
+  name: 'myFunction',
+  entry: '../handler.ts',
+  resourceGroupName: 'auth',
+});
+```
+
+If you are unable to resolve this error using function's `resourceGroupName` property, please create an issue [here](https://github.com/aws-amplify/amplify-backend/issues/new/choose)
+
+## Circular dependency error between resources in the same stack
+
+If you see this error "The CloudFormation deployment failed due to circular dependency found between resources [resource1, resource2] in a single stack", that means the resources themselves have a circular dependency in the same stack. For handling such errors, see https://aws.amazon.com/blogs/infrastructure-and-automation/handling-circular-dependency-errors-in-aws-cloudformation/
