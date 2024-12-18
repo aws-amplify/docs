@@ -707,6 +707,11 @@ if (nextStep.signInStep === "CONTINUE_SIGN_IN_WITH_TOTP_SETUP") {
 }
 
 ```
+<Callout info>
+
+**Note:** The Amplify authentication flow will persist relevant session data throughout the lifespan of a page session, enabling the `confirmSignIn` API to be leveraged even after a full page refresh in a multi-page application, such as when redirecting from a login page to a sign in confirmation page
+
+</Callout>
 
 </InlineFilter>
 
