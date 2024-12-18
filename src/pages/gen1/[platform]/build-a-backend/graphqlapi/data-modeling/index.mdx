@@ -793,6 +793,12 @@ const posts = listPostsResult.data.listPosts;
 const postTags = posts[0].tags; // access tags from post
 ```
 
+<Callout>
+
+**Important**: The authorization rules that Amplify applies to the "join table" it creates are a union of the authorization rules of the individual models in the many-to-many relationship. See [this discussion](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#authorizing-manytomany-relationships) for more context.
+
+</Callout>
+
 ## Assign default values for fields
 
 You can use the `@default` directive to specify a default value for optional [scalar type fields](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html) such as `Int`, `String`, and more.
