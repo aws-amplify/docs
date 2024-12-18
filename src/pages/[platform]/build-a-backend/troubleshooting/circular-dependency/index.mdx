@@ -52,7 +52,7 @@ If you are unable to resolve this error using function's `resourceGroupName` pro
 
 ### Circular dependency error with with a custom stack
 
-If you are creating cdk resources and assigning them to a CustomStack, you might also run into this issue. Your error message would look like "The CloudFormation deployment failed due to circular dependency found between nested stacks [storage1234ABCD, auth5678XYZ, **MYCustomStack0123AB**]
+If you are creating cdk resources and assigning them to a custom stack, you might also run into this issue. Your error message would look like "The CloudFormation deployment failed due to circular dependency found between nested stacks [storage1234ABCD, auth5678XYZ, **MYCustomStack0123AB**]"
 
 To resolve this, try creating your resources in the same stack as the resources you are trying to interact with. For example, if a custom resource such as `sqs` needs to interact with the s3 resource created by `defineStorage`, you can create that `sqs` resource in the stack created by Amplify. You can reference the existing Amplify created stack like
 
