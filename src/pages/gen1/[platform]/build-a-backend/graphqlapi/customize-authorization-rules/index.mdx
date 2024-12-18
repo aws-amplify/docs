@@ -860,6 +860,58 @@ Refer to the [sample code](/gen1/[platform]/build-a-backend/graphqlapi/connect-f
 
 </InlineFilter>
 
+### Authorizing `@manyToMany` relationships
+
+Under the hood, the [`@manyToMany` directive](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#many-to-many-relationship) will create a "join table" named after the `relationName` to facilitate the many-to-many relationship. The authorization rules that Amplify applies to the "join table" it creates are a union of the authorization rules of the individual models in the many-to-many relationship.
+
+For example, consider a schema in which the owner of a `Post` (protected by an `owner` rule) can apply `Tag`s that are created by a system admin (protected by a `groups` rule). Behind the scenes, Amplify creates a `PostTags` table with both `owner` and `groups` auth:
+
+```graphql
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  content: String
+  tags: [Tag] @manyToMany(relationName: "PostTags")
+}
+
+type Tag
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["admins"] }
+    ]
+  ) {
+  id: ID!
+  label: String!
+  posts: [Post] @manyToMany(relationName: "PostTags")
+}
+
+### CREATED BEHIND THE SCENES
+type PostTags
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: groups, groups: ["admins"] }
+    ]
+  ) {
+  id: ID!
+  postId: ID!
+  tagId: ID!
+  post: Post!
+  tag: Tag!
+  owner: String
+}
+```
+
+For more control over the join table's authorization rules, you can create the join table explicitly, linking it to each model with a `hasMany/belongsTo` relationship, and set appropriate auth rules for your application.
+
 ### How it works
 
 Definition of the `@auth` directive:
