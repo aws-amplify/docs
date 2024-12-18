@@ -29,7 +29,7 @@ When deploying a Amplify Gen 2 app, you may encounter the error message `The Clo
 
 ## Circular dependency error between nested stacks
 
-If you see this error "The CloudFormation deployment failed due to circular dependency found between nested stacks [data1234ABCD, function6789XYZ]", it means that the nested stack for `data` and the nested stack for `function` have circular dependencies. E.g. if you are using the function as a query handler, but the function also needs access to the data (or `AppSync`) API, you might run into this issue. To resolve, assign this function to the `data` stack
+If you see this error "The CloudFormation deployment failed due to circular dependency found between nested stacks [data1234ABCD, function6789XYZ]", it means that the nested stack for `data` and the nested stack for `function` have circular dependencies. E.g. if you are using the `function` as a query handler, but the `function` also needs access to the data (or `AppSync`) API, you might run into this issue. To resolve, group this `function` with other resources in the `data` stack
 
 ```ts title="function.ts"
 export const queryFunction = defineFunction({
@@ -39,7 +39,7 @@ export const queryFunction = defineFunction({
 });
 ```
 
-Similarly, if you are using your function as an auth trigger, you can assign your function to the auth stack to break the circular dependency.
+Similarly, if you are using your `function` as an auth trigger, you can group your `function` with other resources in the `auth` stack to break the circular dependency.
 
 ```ts title="function.ts"
 export const preSignUpTrigger = defineFunction({
