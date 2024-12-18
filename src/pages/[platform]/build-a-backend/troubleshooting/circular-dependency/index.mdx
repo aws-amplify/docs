@@ -25,11 +25,11 @@ export function getStaticProps(context) {
   };
 }
 
-When deploying a Amplify Gen 2 app, you may encounter the error message `The CloudFormation deployment failed due to circular dependency` in your backend build on Amplify Console or while running a sandbox. This error can occur because of circular dependencies between CloudFormation nested stacks or between resources in a single CloudFormation stack.
+When deploying a Amplify Gen 2 app, you may encounter the error message `The CloudFormation deployment failed due to circular dependency` in your backend build on Amplify Console or while running a sandbox. This error can occur due to circular dependencies between CloudFormation nested stacks or between resources in a single CloudFormation stack.
 
 ## Circular dependency error between nested stacks
 
-If you see this error "The CloudFormation deployment failed due to circular dependency found between nested stacks [data1234ABCD, function6789XYZ]", it means that the nested stack for data and the nested stack for function have circular dependencies. E.g. if you are using the function as a query handler, but the function also needs access to the data (or AppSync) API, you might run into this issue. To resolve, assign this function to the data stack
+If you see this error "The CloudFormation deployment failed due to circular dependency found between nested stacks [data1234ABCD, function6789XYZ]", it means that the nested stack for `data` and the nested stack for `function` have circular dependencies. E.g. if you are using the function as a query handler, but the function also needs access to the data (or `AppSync`) API, you might run into this issue. To resolve, assign this function to the `data` stack
 
 ```ts title="function.ts"
 export const queryFunction = defineFunction({
