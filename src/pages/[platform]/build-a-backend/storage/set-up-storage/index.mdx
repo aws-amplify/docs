@@ -363,6 +363,54 @@ let downloadTask = Amplify.Storage.downloadData(
 ```
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+### Storage bucket client usage
+
+Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. You can provide a target bucket's name assigned in Amplify Backend.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+try {
+  final result = await Amplify.Storage.downloadData(
+    path: const StoragePath.fromString('album/2024/1.jpg'),
+    options: StorageDownloadDataOptions(
+      // highlight-start
+      // Specify a target bucket using name assigned in Amplify Backend
+      bucket: StorageBucket.fromOutputs('secondBucket'),
+      // highlight-end
+    ),
+  ).result;
+} on Exception catch (e) {
+    print('Error: $e');
+}
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console. See each Amplify Storage API page for additional usage examples.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+try {
+  final result = await Amplify.Storage.downloadData(
+    path: const StoragePath.fromString('album/2024/1.jpg'),
+    options: const StorageDownloadDataOptions(
+      // highlight-start
+      // Alternatively, provide bucket name from console and associated region
+      bucket: StorageBucket.fromBucketInfo(
+        BucketInfo(
+          bucketName: 'second-bucket-name-from-console',
+          region: 'us-east-2',
+        ),
+      ),
+      // highlight-end
+    ),
+  ).result;
+} on Exception catch (e) {
+  print('Error: $e');
+}
+```
+</InlineFilter>
+
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.
