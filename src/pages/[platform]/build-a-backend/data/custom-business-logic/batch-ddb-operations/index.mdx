@@ -33,7 +33,7 @@ Batch DynamoDB operations allow you to add multiple items in single mutation.
 
 ## Step 1 - Define a custom mutation
 
-```ts
+```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
