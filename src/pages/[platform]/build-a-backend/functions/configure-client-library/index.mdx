@@ -1,0 +1,94 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Configure client library',
+  description:
+    'Learn how to configure the aws-amplify client library in function handlers',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+The [`aws-amplify`](https://www.npmjs.com/package/aws-amplify) client library can be configured for use inside function handler files by using the credentials available from the AWS Lambda runtime. To get started, use the `getAmplifyDataClientConfig` from the backend runtime package and pass the generated `env` object to retrieve the preconfigured `resourceConfig` and `libraryOptions`.
+
+```ts title="amplify/my-function/handler.ts"
+import { getAmplifyDataClientConfig } from '@aws-amplify/backend/function/runtime';
+import { env } from '$amplify/env/my-function';
+
+const { resourceConfig, libraryOptions } = await getAmplifyDataClientConfig(
+  env
+);
+```
+
+<Callout warning>
+
+When configuring Amplify with `getAmplifyDataClientConfig`, your function consumes schema information from an Amazon S3 bucket created during backend deployment with grants for the access your function need to use it. Any changes to this bucket outside of backend deployment may break your function.
+
+</Callout>
+
+`resourceConfig` and `libraryOptions` are returned for you to pass into `Amplify.configure`. This will instruct the client library which resources it can interact with, and where to retrieve AWS credentials to use when signing requests to those resources.
+
+```ts title="amplify/my-function/handler.ts"
+import { getAmplifyDataClientConfig } from '@aws-amplify/backend/function/runtime';
+// highlight-next-line
+import { Amplify } from 'aws-amplify';
+import { env } from '$amplify/env/my-function';
+
+const { resourceConfig, libraryOptions } = await getAmplifyDataClientConfig(
+  env
+);
+
+// highlight-next-line
+Amplify.configure(resourceConfig, libraryOptions);
+```
+
+The client library will now have access to perform operations against other AWS resources as specified by the function's IAM role. This is handled for you when [granting access to other resources using the `access` property](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-the-access-property), however it can also be [extended using CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk).
+
+## Under the hood
+
+The `getAmplifyDataClientConfig` function assists with creating the arguments' values to pass to `Amplify.configure`, which reads from the generated `env` object in order to produce configuration for the resources you have granted your function access to interact with. Under the hood this is also generating the configuration that specifies how the client library should behave, namely where the library should read credentials.
+
+```ts title="amplify/my-function/handler.ts"
+import { env } from "$amplify/env/my-function";
+
+Amplify.configure(
+  {/* resource configuration */},
+  {
+    Auth: {
+      credentialsProvider: {
+        // instruct the client library to read credentials from the environment
+        getCredentialsAndIdentityId: async () => ({
+          credentials: {
+            accessKeyId: env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+            sessionToken: env.AWS_SESSION_TOKEN,
+          },
+        }),
+        clearCredentialsAndIdentityId: () => {
+          /* noop */
+        },
+      },
+    },
+  }
+);
+```

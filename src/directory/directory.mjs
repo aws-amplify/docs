@@ -397,6 +397,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/functions/configure-functions/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/functions/configure-client-library/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/functions/scheduling-functions/index.mdx'
                 },
                 {
