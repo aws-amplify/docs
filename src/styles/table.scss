@@ -19,6 +19,10 @@ table:not([class]) {
       background-color: var(--amplify-colors-neutral-10);
     }
   }
+  caption {
+    visibility: hidden;
+    line-height: 0;
+  }
 }
 
 .scrollview {
