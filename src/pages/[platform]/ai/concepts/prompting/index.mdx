@@ -1,0 +1,80 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Prompting",
+  description:
+    "Amplify AI Concepts: Prompting",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+    },
+  };
+}
+
+
+
+
+
+LLM prompting refers to the process of providing a language model, such as Claude or Amazon Titan, with a specific input or "prompt" in order to generate a desired output. The prompt can be a sentence, a paragraph, or even a more complex sequence of instructions that guides the model to produce content that aligns with the user's intent.
+
+The way the prompt is structured and worded can significantly influence the model's response. By crafting the prompt carefully, users can leverage the LLM's extensive knowledge and language understanding capabilities to generate high-quality and relevant text, code, or other types of output.
+
+Effective prompting involves understanding the model's strengths and limitations, as well as experimenting with different prompt formats, styles, and techniques to elicit the desired responses. This can include using specific keywords, providing context, breaking down tasks into steps, and incorporating formatting elements like bullet points or code blocks.
+
+The model APIs have improved beyond providing a single string as input and getting a string as output. Newer models have a more structured API where you define a system prompt, message history, and tool configurations. The Amplify AI kit uses Bedrock's [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html), which has a structured input and output rather than only text in and text out. 
+
+## Prompt structure
+
+* **system prompt:** provides high-level instructions to the LLM about its role and how it should respond
+* **messages:** The conversation history you want the model to respond to. The Amplify AI kit handles saving conversation history and providing it to the model.
+* **tool configuration:** information about the tools the model can choose to invoke. The Amplify AI kit handles creating the tool configuration for you as well as invoking the tools and re-prompting the model with the results. 
+
+
+## How to customize the system prompt
+
+All AI routes in the Amplify AI kit require a system prompt. This will be used in all requests to the LLM. 
+
+```ts
+reviewSummarizer: a.generation({
+  aiModel: a.ai.model("Claude 3.5 Haiku"),
+  systemPrompt: `
+  You are a helpful assistant that summarizes reviews
+  for an ecommerce site. 
+  `
+})
+```
+
+## Tips
+
+**Be as detailed as possible.** Try to give as much background and context as you can. Giving the LLM a role and scope typically helps focus the model's responses.
+
+**Say what it should and shouldn't do.** Sometimes LLMs can be a bit verbose or go on tangents. Giving it specific parameters like "Never use placeholder data".
+
+**Use multiple routes.** You can define as many conversation and generation routes as you like, so you don't need to try to fit all the context and functionality you need in a single route. 
+
+**You don't need to put everything into the system prompt.** The message history or even just a single user message can contain a lot of dynamic information. 
+
+**Prompting strategies differ based on the model.** Always read up on the model itself and what works/doesn't work well with the particular model you are using.
+
+## Prompting resources
+
+* [What is a prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-a-prompt.html)
+* [What is prompt engineering](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-prompt-engineering.html)
+* [Design a prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/design-a-prompt.html)
+* [Anthropic prompt library](https://docs.anthropic.com/en/prompt-library/library)

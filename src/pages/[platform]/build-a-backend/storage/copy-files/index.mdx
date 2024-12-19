@@ -46,12 +46,12 @@ const copyFile = async () => {
   try {
     const response = await copy({
       source: {
-        path: 'album/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+        path: `album/2024/${encodeURIComponent('#1.jpg')}`,
+        // Alternatively, path: ({identityId}) => `album/${identityId}/${encodeURIComponent('#1.jpg')`
       },
       destination: {
-        path: 'shared/2024/1.jpg',
-        // Alternatively, path: ({identityId}) => `shared/{identityId}/1.jpg`
+        path: 'shared/2024/#1.jpg',
+        // Alternatively, path: ({identityId}) => `shared/${identityId}/#1.jpg`
       },
     });
   } catch (error) {
@@ -59,6 +59,12 @@ const copyFile = async () => {
   }
 };
 ```
+<Callout>
+
+The operation can fail if there's a special character in the `source` path. You should URI encode the source
+path with special character. You **don't** need to encode the `destination` path.
+
+</Callout>
 
 <Callout>
 
@@ -80,7 +86,8 @@ const copyFile = async () => {
         path: 'album/2024/1.jpg',
         // Specify a target bucket using name assigned in Amplify Backend
         // or bucket name from console and associated region
-        bucket: 'assignedNameInAmplifyBackend'
+        bucket: 'assignedNameInAmplifyBackend',
+        expectedBucketOwner: '123456789012'
       },
       destination: {
         path: 'shared/2024/1.jpg',
@@ -89,7 +96,8 @@ const copyFile = async () => {
         bucket: {
           bucketName: 'generated-second-bucket-name',
           region: 'us-east-2'
-        }
+        },
+        expectedBucketOwner: '123456789013'
       }
     });
   } catch (error) {
@@ -106,8 +114,11 @@ In order to copy to or from a bucket other than your default, both source and de
 
 Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
-| path | string \| <br/>(\{ identityId \}) => string | Required | A string or callback that represents the path in source and destination bucket to copy the object to or from |
+| path | string \| <br/>(\{ identityId \}) => string | Required | A string or callback that represents the path in source and destination bucket to copy the object to or from. <br /> **Each segment of the path in `source` must by URI encoded.** |
 | bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets). |
+| eTag | string | Optional | The copy **source object** entity tag (ETag) value. Only Copies the object if its ETag matches the specified tag. |
+| notModifiedSince | Date | Optional | Copies the **source object** if it hasn't been modified since the specified time.  <br /><br/> **This is evaluated only when `eTag` is NOT supplied**|
+| expectedBucketOwner | string | Optional | `source.expectedBucketOwner`: The account ID that owns the source bucket. <br /><br /> `destination.expectedBucketOwner`: The account ID that owns the destination bucket. |
 
 </InlineFilter>
 
