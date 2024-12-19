@@ -168,3 +168,19 @@ By default, `group` authorization leverages Amazon Cognito user pool groups but 
    - subscriptions are only supported if the user is part of 20 or fewer groups
    - you can only authorize 20 or fewer user groups per record
 </Callout>
+
+## Access user groups from the session
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+You can access a user's groups from their session using the Auth category:
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+const session = await fetchAuthSession();
+const groups = session.tokens.accessToken.payload['cognito:groups'] || [];
+
+console.log('User groups:', groups);
+```
+</InlineFilter>
