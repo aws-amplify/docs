@@ -178,8 +178,9 @@ You can access a user's groups from their session using the Auth category:
 ```ts
 import { fetchAuthSession } from 'aws-amplify/auth';
 
-const { tokens } = await fetchAuthSession();
-const groups = tokens.accessToken.payload['cognito:groups'] || [];
+const session = await fetchAuthSession();
+const groups = session.tokens.accessToken.payload['cognito:groups'] || [];
+
 console.log('User groups:', groups);
 ```
 </InlineFilter>
