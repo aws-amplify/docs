@@ -153,3 +153,9 @@ console.log('REACT_APP_TEST_VARIABLE', process.env.REACT_APP_TEST_VARIABLE);
 ### Local environment
 
 When working on your local machine, you must manually load the sandbox's environment variables. First, add the environment variable in your `.env.local` file. Then, a library such as [`@dotenvx/dotenvx`](https://www.npmjs.com/package/@dotenvx/dotenvx) can load the environment variables, which you can then reference with `process.env`.
+
+You can run dotenvx to load the environment variables in your local environment:
+
+```bash title="Terminal" showLineNumbers={false}
+npx dotenvx run npx ampx sandbox
+```
