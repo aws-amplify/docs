@@ -34,7 +34,6 @@ If you see this error "The CloudFormation deployment failed due to circular depe
 ```ts title="amplify/functions/my-function/resource.ts"
 export const queryFunction = defineFunction({
   name: 'myFunction',
-  entry: '../handler.ts',
   resourceGroupName: 'data',
 });
 ```
