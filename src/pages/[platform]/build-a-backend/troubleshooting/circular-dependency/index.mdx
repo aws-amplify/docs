@@ -33,32 +33,31 @@ If you see this error "The CloudFormation deployment failed due to circular depe
 
 ```ts title="amplify/functions/my-function/resource.ts"
 export const queryFunction = defineFunction({
-  name: 'myFunction',
+  name: 'query-function',
   resourceGroupName: 'data',
 });
 ```
 
 Similarly, if you are using your `function` as an auth trigger, you can group your `function` with other resources in the `auth` stack to break the circular dependency.
 
-```ts title="function.ts"
+```ts title="amplify/functions/my-function/resource.ts"
 export const preSignUpTrigger = defineFunction({
-  name: 'myFunction',
-  entry: '../handler.ts',
+  name: 'pre-sign-up',
   resourceGroupName: 'auth',
 });
 ```
-If you are unable to resolve this error using function's `resourceGroupName` property, please create an issue [here](https://github.com/aws-amplify/amplify-backend/issues/new/choose)
+If you are unable to resolve this error using function's `resourceGroupName` property, please [create an issue on the GitHub repository for Amplify backend](https://github.com/aws-amplify/amplify-backend/issues/new/choose)
 
 ### Circular dependency error with with a custom stack
 
-If you are creating cdk resources and assigning them to a custom stack, you might also run into this issue. Your error message would look like "The CloudFormation deployment failed due to circular dependency found between nested stacks [storage1234ABCD, auth5678XYZ, **MYCustomStack0123AB**]"
+If you are creating resources using the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/) and assigning them to a custom stack, you might also run into this issue. Your error message would look like "The CloudFormation deployment failed due to circular dependency found between nested stacks [storage1234ABCD, auth5678XYZ, **MYCustomStack0123AB**]"
 
-To resolve this, try creating your resources in the same stack as the resources you are trying to interact with. For example, if a custom resource such as `sqs` needs to interact with the s3 resource created by `defineStorage`, you can create that `sqs` resource in the stack created by Amplify. You can reference the existing Amplify created stack like
+To resolve this, try creating your resources in the same stack as the resources you are trying to interact with. For example, if a custom resource such as `sqs` needs to interact with the underlying Amazon S3 resource created by `defineStorage`, you can create that `sqs` resource in the stack created by Amplify. You can reference the existing Amplify created stack like
 
-```ts title="backend.ts"
+```ts title="amplify/backend.ts"
 const queue = new sqs.Queue(backend.storage.stack, 'MyCustomQueue');
 ```
 
 ## Circular dependency error between resources in the same stack
 
-If you see this error "The CloudFormation deployment failed due to circular dependency found between resources [resource1, resource2] in a single stack", that means the resources themselves have a circular dependency in the same stack. For handling such errors, see https://aws.amazon.com/blogs/infrastructure-and-automation/handling-circular-dependency-errors-in-aws-cloudformation/
+If you see this error "The CloudFormation deployment failed due to circular dependency found between resources [resource1, resource2] in a single stack", that means the resources themselves have a circular dependency in the same stack. For handling such errors, review the [AWS Blog post for handling circular dependency errors](https://aws.amazon.com/blogs/infrastructure-and-automation/handling-circular-dependency-errors-in-aws-cloudformation/).
