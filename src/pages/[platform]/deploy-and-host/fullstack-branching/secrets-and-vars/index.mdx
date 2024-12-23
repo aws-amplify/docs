@@ -136,6 +136,13 @@ build:
     - npm run build
 ```
 
+<Callout warning>
+
+Note: do not store secret values in environment variables. Environment variables values are rendered in plaintext to the build artifacts and can be accessed by anyone with access to the build artifacts or [get-app](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/amplify/get-app.html) command.
+
+</Callout>
+
+
 <Callout info>
 With the implementation above, the environment variable is written in a `.env` file. However, you can write it to any file depending on your platform.
 
