@@ -1479,7 +1479,14 @@ dependencies:
 ```
 
 
-After adding the dependencies, update the `_configureAmplify` method in your `main.dart` file to use the Amplify API:
+After adding the dependencies, import the dependency and the model provider at the top of main.dart.
+
+```
+import 'package:amplify_api/amplify_api.dart';
+import 'models/ModelProvider.dart';
+```
+
+And then update the `_configureAmplify` method in your `main.dart` file to use the Amplify API:
 
 ```dart title="main.dart"
 Future<void> _configureAmplify() async {
