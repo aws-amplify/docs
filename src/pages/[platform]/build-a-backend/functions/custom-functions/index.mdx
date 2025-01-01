@@ -52,8 +52,11 @@ import { DockerImage, Duration } from "aws-cdk-lib";
 import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
 import { execSync } from "child_process";
 import * as path from "path";
+import { fileURLToPath } from "url";
 
-export const sayHello = defineFunction(
+const functionDir = path.dirname(fileURLToPath(import.meta.url));
+
+export const sayHelloFunctionHandler = defineFunction(
   (scope) =>
     new Function(scope, "say-hello", {
       handler: "index.handler",
@@ -77,7 +80,7 @@ export const sayHello = defineFunction(
 );
 ```
 
-Next, create the corresponding handler file at `amplify/functions/say-hello/handler.ts`. This is where your function code will go.
+Next, create the corresponding handler file at `amplify/functions/say-hello/index.py`. This is where your function code will go.
 
 ```ts title="amplify/functions/say-hello/index.py"
 import json
@@ -111,21 +114,36 @@ To get started, install go package from npm. go to your backend directory, you s
 
 ```ts title="amplify/functions/say-hello/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
-import { GoFunction } from "@aws-cdk/aws-lambda-go-alpha";
-import { Runtime } from "aws-cdk-lib/aws-lambda";
+import { DockerImage, Duration } from "aws-cdk-lib";
+import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
+import { execSync } from "child_process";
+import * as path from "path";
+import { fileURLToPath } from "url";
 
-export const sendSmsGoFunctionHandler = defineFunction((scope) => {
-  return new GoFunction(scope, "say-hello", {
-    entry: "./amplify/function/say-hello/",
-    runtime: Runtime.PROVIDED_AL2023,
-    environment: {
-      GOARCH: "amd64",
-    },
-    bundling: {
-      goBuildFlags: ["-tags lambda.norpc"],
-    },
-  });
-});
+const functionDir = path.dirname(fileURLToPath(import.meta.url));
+
+export const sayHelloFunctionHandler = defineFunction(
+  (scope) =>
+    new Function(scope, "say-hello", {
+      handler: "bootstrap",
+      runtime: Runtime.PROVIDED_AL2023, // or any other python version
+      timeout: Duration.seconds(3), //  default is 3 seconds
+      code: Code.fromAsset(functionDir, {
+        bundling: {
+          image: DockerImage.fromRegistry("dummy"),
+          local: {
+            tryBundle(outputDir: string) {
+              execSync(`rsync -rLv ${functionDir}/* ${path.join(outputDir)}`);
+              execSync(
+                `cd ${path.join(outputDir)} && GOARCH=amd64 GOOS=linux go build -tags lambda.norpc -o ${path.join(outputDir)}/bootstrap ${functionDir}/main.go`
+              );
+              return true;
+            },
+          },
+        },
+      }),
+    }),
+);
 ```
 
 Next, create the corresponding handler file at `amplify/functions/say-hello/main.go`. This is where your function code will go.
@@ -181,11 +199,11 @@ Lastly, this function needs to be added to your backend.
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
 // highlight-next-line
-import { sayHello } from './functions/say-hello/resource';
+import { sayHelloFunctionHandler } from './functions/say-hello/resource';
 
 defineBackend({
   // highlight-next-line
-  sayHello
+  sayHelloFunctionHandler,
 });
 ```
 
@@ -195,7 +213,7 @@ To invoke your Function, we recommend adding your [Function as a handler for a c
 
 ```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend"
-import { sayHello } from "../functions/say-hello/resource"
+import { sayHelloFunctionHandler } from "../functions/say-hello/resource"
 
 const schema = a.schema({
   // highlight-start
@@ -205,7 +223,7 @@ const schema = a.schema({
       name: a.string(),
     })
     .returns(a.string())
-    .handler(a.handler.function(sayHello)),
+    .handler(a.handler.function(sayHelloFunctionHandler)),
   // highlight-end
 })
 
