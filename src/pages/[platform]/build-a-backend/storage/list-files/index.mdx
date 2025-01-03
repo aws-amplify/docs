@@ -73,8 +73,10 @@ const loadNextPage = async () => {
   let response = await list({
     path: 'photos/',
     // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
-    pageSize: PAGE_SIZE,
-    nextToken: nextToken
+    options: {
+        pageSize: PAGE_SIZE,
+        nextToken: nextToken
+      }
     }
   });
   if (response.nextToken) {
