@@ -70,20 +70,20 @@ const PAGE_SIZE = 20;
 let nextToken;
 // ...
 const loadNextPage = async () => {
-	const response = await list({
-		path: 'photos/',
-		// Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
-		options: {
-			pageSize: PAGE_SIZE,
-			nextToken,
-		},
-	});
-	if (response.nextToken) {
-		nextToken = response.nextToken;
-	} else {
-		nextToken = undefined;
-	}
-	// render list items from response.items
+  const response = await list({
+    path: 'photos/',
+    // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
+    options: {
+      pageSize: PAGE_SIZE,
+      nextToken,
+    },
+  });
+  if (response.nextToken) {
+    nextToken = response.nextToken;
+  } else {
+    nextToken = undefined;
+  }
+  // render list items from response.items
 };
 ```
 
