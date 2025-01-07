@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Custom functions',
   description:
-    'Use another AWS Lambda runtimes like python, golang to perform tasks and customize workflows.',
+    'Use another AWS Lambda runtimes like Python, Golang to perform tasks and customize workflows.',
   platforms: [
     'android',
     'angular',
@@ -30,29 +30,29 @@ export function getStaticProps(context) {
   };
 }
 
-AWS Amplify Gen 2 Functions are AWS Lambda functions that can be used to perform tasks and customize workflows in your Amplify app.Functions can be written in Node.js, Python, Go, or any other language supported by AWS Lambda:
+AWS Amplify Gen 2 functions are AWS Lambda functions that can be used to perform tasks and customize workflows in your Amplify app. Functions can be written in Node.js, Python, Go, or any [other language supported by AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
 
 <Callout warning>
 
-**Note:** Custom runtimes are not supported in Amplify Functions directly. If you need docker support to use a custom runtime for example in Python, Docker is not supported in Amplify Hosting and Amplify backend auto build. You shouldn't use docker build in your function.There is an example of how to use python in a lambda function in the without Docker section below.
+**Note:** [Fullstack Git-based environments](https://docs.amplify.aws/react/how-amplify-works/concepts/#fullstack-git-based-environments) do not support Docker for functions bundling out of the box.  
 
 </Callout>
 
 Technically, you can use any language supported by AWS Lambda. These are NodeJS, Python, Java, .NET, Ruby.
 To use other languages in Lambda, such as Go or Rust, use an OS-only runtime.
 
-In this guide, you will learn how to create python and golang functions in Amplify Functions.
+In this guide, you will learn how to create Python and Go functions with Amplify functions. The examples shown in this guide do not use Docker to build functions. Instead, the examples use commands that run on your host system to build, and as such require the necessary tooling for the language you are using for your functions.
 
-# Python functions
-To get started, create a new directory and a resource file, `amplify/functions/say-hello/resource.ts`. Then, define the Function with `defineFunction`:
+## Python
 
+To get started, create a new directory and a resource file, `amplify/functions/say-hello/resource.ts`. Then, define the function with `defineFunction`:
 ```ts title="amplify/functions/say-hello/resource.ts"
+import { execSync } from "node:child_process";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineFunction } from "@aws-amplify/backend";
 import { DockerImage, Duration } from "aws-cdk-lib";
 import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
-import { execSync } from "child_process";
-import * as path from "path";
-import { fileURLToPath } from "url";
 
 const functionDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -94,9 +94,9 @@ def handler(event, context):
   }
 ```
 
-The handler file _must_ export a function named "handler". This is the entry point to your function. For more information on writing functions, refer to the [AWS documentation for Lambda function handlers using python](https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html).
+The handler file _must_ export a function named "handler". This is the entry point to your function. For more information on writing functions, refer to the [AWS documentation for Lambda function handlers using Python](https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html).
 
-If you need python packages, you can add them to a `requirements.txt` file in the same directory as your handler file. The `bundling` option in the `Code.fromAsset` method will install these packages for you.
+If you need Python packages, you can add them to a `requirements.txt` file in the same directory as your handler file. The `bundling` option in the `Code.fromAsset` method will install these packages for you.
 Create a `requirements.txt` file in the same directory as your handler file. This file should contain the names of the packages you want to install. For example:
 
 ```txt title="amplify/functions/say-hello/requirements.txt"
@@ -106,22 +106,19 @@ some-other-package>=1.0.0
 
 You're now ready to deploy your python function. Next is the same process as the Node.js/TypeScript function. Go to [Common steps for all languages](#common-steps-for-all-languages) to continue.
 
-# Go functions
-To get started, install go package from npm. go to your backend directory, you should see amplify folder inside it. and run the following command:
-```npm i @aws-cdk/aws-lambda-go-alpha```
-
- create a new directory and a resource file, `amplify/functions/say-hello/resource.ts`. Then, define the Function with `defineFunction`:
+## Go
+To get started, Create a new directory and a resource file, `amplify/functions/say-hello/resource.ts`. Then, define the function with `defineFunction`:  
 
 ```ts title="amplify/functions/say-hello/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
 import { DockerImage, Duration } from "aws-cdk-lib";
 import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
-import { execSync } from "child_process";
-import * as path from "path";
-import { fileURLToPath } from "url";
-
-const functionDir = path.dirname(fileURLToPath(import.meta.url));
-
+import { execSync } from "node:child_process";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
+import { defineFunction } from "@aws-amplify/backend";
+import { DockerImage, Duration } from "aws-cdk-lib";
+import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
 export const sayHelloFunctionHandler = defineFunction(
   (scope) =>
     new Function(scope, "say-hello", {
@@ -182,22 +179,20 @@ func main() {
 ```
 
 Then you should run the following command to build the go function:
-```bash title="terminal"
+```bash title="terminal" showLineNumbers={false}
 go mod init lambda
 ```
 then run to install the dependencies.
 
-```bash title="terminal"
+```bash title="terminal" showLineNumbers={false}
 go mod tidy
 ```
 
 You're now ready to deploy your golang function. Next is the same process as the Node.js/TypeScript function.
 
-# Common steps for all languages
-Lastly, this function needs to be added to your backend.
+## Common steps for all languages  
 
-```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
+Regardless of the language used, your function needs to be added to your backend.
 // highlight-next-line
 import { sayHelloFunctionHandler } from './functions/say-hello/resource';
 
@@ -212,7 +207,7 @@ Now when you run `npx ampx sandbox` or deploy your app on Amplify, it will inclu
 To invoke your Function, we recommend adding your [Function as a handler for a custom query with your Amplify Data resource](/[platform]/build-a-backend/data/custom-business-logic/). This will enable you to strongly type Function arguments and the return statement, and use this to author your Function's business logic. To get started, open your `amplify/data/resource.ts` file and specify a new query in your schema:
 
 ```ts title="amplify/data/resource.ts"
-import { type ClientSchema, a, defineData } from "@aws-amplify/backend"
+Now when you run `npx ampx sandbox` or deploy your app on Amplify, it will include your function.
 import { sayHelloFunctionHandler } from "../functions/say-hello/resource"
 
 const schema = a.schema({
