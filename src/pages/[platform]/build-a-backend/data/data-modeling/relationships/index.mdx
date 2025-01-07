@@ -439,6 +439,29 @@ do {
 
 </InlineFilter>
 
+### Handling orphaned foreign keys on parent record deletion in "Has Many" relationship
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+```ts
+// Get the IDs of the related members.
+const { data: teamWithMembers } = await client.models.Team.get(
+  { id: teamId},
+  { selectionSet: ["id", "members.*"] },
+);
+
+// Delete Team
+await client.models.Team.delete({ id: teamWithMembers.id });
+
+// Delete all members in parallel
+await Promise.all(
+  teamWithMembers.members.map(member => 
+  client.models.Member.delete({ id: member.id }) 
+));
+```
+
+</InlineFilter>
+
 ## Model a "one-to-one" relationship
 
 Create a one-to-one relationship between two models using the `hasOne()` and `belongsTo()` methods. In the example below, a **Customer** has a **Cart** and a *Cart* belongs to a **Customer**.
@@ -791,6 +814,26 @@ val cart = Amplify.API.query(
 ```
 
 </InlineFilter>
+
+</InlineFilter>
+
+### Handling orphaned foreign keys on parent record deletion in "Has One" relationship
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+```ts
+// Get the customer with their associated cart
+const { data: customerWithCart } = await client.models.Customer.get(
+  { id: customerId },
+  { selectionSet: ["id", "activeCart.*"] },
+);
+
+// Delete Cart if exists
+await client.models.Cart.delete({ id: customerWithCart.activeCart.id });
+
+// Delete the customer
+await client.models.Customer.delete({ id: customerWithCart.id });
+```
 
 </InlineFilter>
 
