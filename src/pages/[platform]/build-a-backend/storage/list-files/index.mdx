@@ -67,15 +67,16 @@ If the `pageSize` is set lower than the total file size, a single `list` call on
 import { list } from 'aws-amplify/storage';
 
 const PAGE_SIZE = 20;
-let nextToken = undefined;
-//...
+let nextToken;
+// ...
 const loadNextPage = async () => {
-  let response = await list({
+  const response = await list({
     path: 'photos/',
     // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
-    pageSize: PAGE_SIZE,
-    nextToken: nextToken
-    }
+    options: {
+      pageSize: PAGE_SIZE,
+      nextToken,
+    },
   });
   if (response.nextToken) {
     nextToken = response.nextToken;
