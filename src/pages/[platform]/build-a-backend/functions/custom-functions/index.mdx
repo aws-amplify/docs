@@ -120,7 +120,7 @@ export const sayHelloFunctionHandler = defineFunction(
   (scope) =>
     new Function(scope, "say-hello", {
       handler: "bootstrap",
-      runtime: Runtime.PROVIDED_AL2023, // or any other python version
+      runtime: Runtime.PROVIDED_AL2023,
       timeout: Duration.seconds(3), //  default is 3 seconds
       code: Code.fromAsset(functionDir, {
         bundling: {
