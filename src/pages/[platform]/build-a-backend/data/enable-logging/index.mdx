@@ -79,11 +79,11 @@ export const data = defineData({
 1. **`retention?: LogRetention`**  
    - Number of days to keep the logs.  
    - Defaults to `'1 week'`.  
-   - Possible values include:  
+   - Supported values of [AppSync RetentionDays](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_logs.RetentionDays.html), such as:  
      `'1 day'`, `'3 days'`, `'5 days'`, `'1 week'`, `'2 weeks'`, `'1 month'`,  
      `'2 months'`, `'3 months'`, `'4 months'`, `'5 months'`, `'6 months'`,  
      `'1 year'`, `'13 months'`, `'18 months'`, `'2 years'`, `'5 years'`,  
-     `'10 years'`, `'infinite'`, etc.
+     `'10 years'`, `'infinite'`
 
 2. **`excludeVerboseContent?: boolean`**  
    - Defaults to `true`.  
@@ -91,8 +91,5 @@ export const data = defineData({
 
 3. **`fieldLogLevel?: DataLogLevel`**  
    - Defaults to `'none'`.  
-   - Possible values are `'none'`, `'error'`, `'info'`, `'debug'`, or `'all'`.
-
-## References
-
-For more details on different logging levels, see [AppSync documentation on log levels](https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html#cwl).
+   - Supported values of [AppSync Log Levels](https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html#cwl), such as:
+     `'none'`, `'error'`, `'info'`, `'debug'`, or `'all'`.
