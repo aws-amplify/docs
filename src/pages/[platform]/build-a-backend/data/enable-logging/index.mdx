@@ -1,0 +1,98 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Enable logging for your data resource',
+  description: 'Enable logging for your data resource',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+You can enable logging to debug your GraphQL API using CloudWatch logs.
+
+## Default Logging
+
+Default logging can be enabled by setting the `logging` property to `true` in the call to `defineData`. For example:
+
+```ts title="amplify/data/resource.ts"
+export const data = defineData({
+  some_schema,
+  some_authorizationModes,
+  logging: true
+});
+```
+
+Using `logging: true` applies the default configuration:
+	•	`excludeVerboseContent: true`
+	•	`fieldLogLevel: 'none'`
+	•	`retention: '1 week'`
+
+## Custom Logging
+
+You can override individual fields by providing a DataLogConfig object. For example:
+
+```ts title="amplify/data/resource.ts"
+export const data = defineData({
+  some_schema,
+  some_authorizationModes,
+  logging: {
+    excludeVerboseContent: false,
+    fieldLogLevel: 'all',
+    retention: '1 month'
+  }
+});
+```
+
+<Callout warning>
+**WARNING**: Setting `excludeVerboseContent` to `false` logs full queries and user parameters, which can contain sensitive data. Ensure your IAM policies limit access appropriately.
+</Callout>
+
+## Logging Configuration Reference
+
+### `logging`
+- **`true`**  
+  Enables default logging.
+- **`DataLogConfig` object**  
+  Overrides one or more default fields.
+
+### `DataLogConfig` Fields
+
+1. **`retention?: LogRetention`**  
+   - Number of days to keep the logs.  
+   - Defaults to `'1 week'`.  
+   - Possible values include:  
+     `'1 day'`, `'3 days'`, `'5 days'`, `'1 week'`, `'2 weeks'`, `'1 month'`,  
+     `'2 months'`, `'3 months'`, `'4 months'`, `'5 months'`, `'6 months'`,  
+     `'1 year'`, `'13 months'`, `'18 months'`, `'2 years'`, `'5 years'`,  
+     `'10 years'`, `'infinite'`, etc.
+
+2. **`excludeVerboseContent?: boolean`**  
+   - Defaults to `true`.  
+   - When `false`, logs can contain the full query, response, and mapping templates.
+
+3. **`fieldLogLevel?: DataLogLevel`**  
+   - Defaults to `'none'`.  
+   - Possible values are `'none'`, `'error'`, `'info'`, `'debug'`, or `'all'`.
+
+For more details on different logging levels, see https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html#cwl. 
