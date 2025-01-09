@@ -446,7 +446,7 @@ do {
 ```ts
 // Get the IDs of the related members.
 const { data: teamWithMembers } = await client.models.Team.get(
-  { id: teamId},
+  { id: teamId },
   { selectionSet: ["id", "members.*"] },
 );
 
@@ -818,6 +818,7 @@ val cart = Amplify.API.query(
 </InlineFilter>
 
 <InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 ### Handling orphaned foreign keys on parent record deletion in "Has One" relationship
 
 ```ts
