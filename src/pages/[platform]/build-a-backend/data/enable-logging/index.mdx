@@ -44,13 +44,13 @@ export const data = defineData({
 ```
 
 Using `logging: true` applies the default configuration:
-	•	`excludeVerboseContent: true`
-	•	`fieldLogLevel: 'none'`
-	•	`retention: '1 week'`
+- `excludeVerboseContent: true`
+- `fieldLogLevel: 'none'`
+- `retention: '1 week'`
 
 ## Custom Logging
 
-You can override individual fields by providing a DataLogConfig object. For example:
+You can override individual fields by providing a `DataLogConfig` object. For example:
 
 ```ts title="amplify/data/resource.ts"
 export const data = defineData({
@@ -68,13 +68,11 @@ export const data = defineData({
 **WARNING**: Setting `excludeVerboseContent` to `false` logs full queries and user parameters, which can contain sensitive data. Ensure your IAM policies limit access appropriately.
 </Callout>
 
-## Logging Configuration Reference
+## Configuration Properties
 
 ### `logging`
-- **`true`**  
-  Enables default logging.
-- **`DataLogConfig` object**  
-  Overrides one or more default fields.
+- `true`: Enables default logging.
+- `DataLogConfig` object: Overrides one or more default fields.
 
 ### `DataLogConfig` Fields
 
@@ -94,5 +92,7 @@ export const data = defineData({
 3. **`fieldLogLevel?: DataLogLevel`**  
    - Defaults to `'none'`.  
    - Possible values are `'none'`, `'error'`, `'info'`, `'debug'`, or `'all'`.
+
+## References
 
 For more details on different logging levels, see https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html#cwl. 
