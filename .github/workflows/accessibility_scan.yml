@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Build
-        run: yarn build
+        run: yarn build:actions
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Get changed/new pages to run accessibility tests on
