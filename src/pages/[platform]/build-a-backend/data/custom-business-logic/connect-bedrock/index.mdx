@@ -350,6 +350,7 @@ const { data, errors } = await client.queries.generateHaiku({
 
 Here's an example of a simple UI that prompts a generative AI model to create a haiku based on user input:
 
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native", "vue"]}>
 ```tsx title="App.tsx"
 import type { Schema } from '@/amplify/data/resource';
 import type { FormEvent } from 'react';
@@ -402,6 +403,65 @@ export default function App() {
   );
 }
 ```
+</InlineFilter>
+
+<InlineFilter filters={['angular']}>
+```ts title="app.component.ts"
+import type { Schema } from '../../../amplify/data/resource';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+import outputs from '../../../amplify_outputs.json';
+
+Amplify.configure(outputs);
+
+const client = generateClient<Schema>();
+
+@Component({
+  selector: 'app-haiku',
+  standalone: true,
+  imports: [FormsModule],
+  template: `
+    <main
+      class="flex min-h-screen flex-col items-center justify-center p-24 dark:text-white"
+    >
+      <div>
+        <h1 class="text-3xl font-bold text-center mb-4">Haiku Generator</h1>
+        <form class="mb-4 self-center max-w-[500px]" (ngSubmit)="sendPrompt()">
+          <input
+            class="text-black p-2 w-full"
+            placeholder="Enter a prompt..."
+            name="prompt"
+            [(ngModel)]="prompt"
+          />
+        </form>
+        <div class="text-center">
+          <pre>{{ answer }}</pre>
+        </div>
+      </div>
+    </main>
+  `,
+})
+export class HaikuComponent {
+  prompt: string = '';
+  answer: string | null = null;
+
+  async sendPrompt() {
+    const { data, errors } = await client.queries.generateHaiku({
+      prompt: this.prompt,
+    });
+
+    if (!errors) {
+      this.answer = data;
+      this.prompt = '';
+    } else {
+      console.log(errors);
+    }
+  }
+}
+```
+</InlineFilter>
 
 ![A webpage titled "Haiku Generator" and input field. "Frank Herbert's Dune" is entered and submitted. Shortly after, a haiku is rendered to the page.](/images/haiku-generator.gif)
 
