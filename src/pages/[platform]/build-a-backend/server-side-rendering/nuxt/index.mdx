@@ -153,12 +153,6 @@ const lastAuthUserCookieName = `CognitoIdentityServiceProvider.${userPoolClientI
 // create a GraphQL client that can be used in a server context
 const gqlServerClient = generateClient<Schema>({ config: amplifyConfig });
 
-// extract the model operation function types for creating wrapper function later
-type RemoveFirstParam<Params extends any[]> = Params extends [infer _, ...infer Rest] ? Rest : never; 
-type TodoListInput = RemoveFirstParam<Parameters<typeof gqlServerClient.models.Todo.list>>;
-type TodoCreateInput = RemoveFirstParam<Parameters<typeof gqlServerClient.models.Todo.create>>;
-type TodoUpdateInput = RemoveFirstParam<Parameters<typeof gqlServerClient.models.Todo.update>>;
-
 const getAmplifyAuthKeys = (lastAuthUser: string) =>
   ['idToken', 'accessToken', 'refreshToken', 'clockDrift']
     .map(
@@ -280,6 +274,40 @@ export default defineNuxtPlugin({
       }
     };
 
+    // Create an object containing all operations for each model type
+    // Remove the first parameter of a type
+    type RemoveFirstParam<Params extends any[]> = Params extends [infer _, ...infer Rest] ? Rest : never;
+    // Storage every operation on a type
+    const gqlRecord: Record<string, Record<string, Function>> = {};
+    const models = gqlServerClient.models;
+    // For every model (direct property) of models
+    for (const modelString in models) {
+      if (models.hasOwnProperty(modelString)) {
+        const modelRecord: Record<string, Function> = {};
+        const modelName = modelString as keyof typeof models;
+        const model = models[modelName];
+        // Get every method (direct property) of that model
+        for (const method in model) {
+          if (model.hasOwnProperty(method)) {
+            const methodName = method as keyof typeof models[typeof modelName];
+            const fn = model[methodName];
+            // Add an operation to the model metadata object
+            modelRecord[methodName] = (...input: RemoveFirstParam<Parameters<typeof fn>>): ReturnType<typeof fn> => {
+              return runWithAmplifyServerContext(
+                amplifyConfig,
+                libraryOptions,
+                // Parameters are different per operation type. While this works dynamically in practice, the TypScript compiler does not understand.
+                // @ts-ignore
+                (contextSpec) => fn(contextSpec, ...input)
+              );
+            };
+          }
+        }
+        // Add the model metadata to the overall record
+        gqlRecord[modelString] = modelRecord;
+      }
+    }
+
     return {
       provide: {
         // You can add the Amplify APIs that you will use on the server side of
@@ -324,29 +352,8 @@ export default defineNuxtPlugin({
           GraphQL: {
             client: {
               models: {
-                Todo: {
-                  list(...input: TodoListInput) {
-                    return runWithAmplifyServerContext(
-                      amplifyConfig,
-                      libraryOptions,
-                      (contextSpec) => gqlServerClient.models.Todo.list(contextSpec, ...input)
-                    )
-                  },
-                  create(...input: TodoCreateInput) {
-                    return runWithAmplifyServerContext(
-                      amplifyConfig,
-                      libraryOptions,
-                      (contextSpec) => gqlServerClient.models.Todo.create(contextSpec, ...input)
-                    )
-                  },
-                  update(...input: TodoUpdateInput) {
-                    return runWithAmplifyServerContext(
-                      amplifyConfig,
-                      libraryOptions,
-                      (contextSpec) => gqlServerClient.models.Todo.update(contextSpec, ...input)
-                    )
-                  }
-                }
+                // Just set models to GqlRecord
+                models: gqlRecord
               }
             }
           }
