@@ -341,28 +341,42 @@ let removedObject = try await Amplify.Storage.remove(
 
 <InlineFilter filters={["flutter"]}>
 
-## Remove single file
-
-You can remove a single file using `Amplify.Storage.remove` with the `key` and its associated access level:
+You can also perform a `remove` operation to a specific bucket by providing the `bucket` option. You can pass in a `StorageBucket` object representing the target bucket from the name defined in the Amplify Backend.
 
 ```dart
+final result = await Amplify.Storage.remove(
+  path: const StoragePath.fromString('path/to/file.txt'),
+  options: StorageRemoveOptions(
+    // highlight-start
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: StorageBucket.fromOutputs('secondBucket'),
+    // highlight-end
+  ),
+).result;
+```
 
-Future<void> removeFile() async {
-  try {
-    final result = await Amplify.Storage.remove(
-      path: const StoragePath.fromString('public/file.txt'),
-    ).result;
-    safePrint('Removed file: ${result.removedItem.path}');
-  } on StorageException catch (e) {
-    safePrint(e.message);
-  }
-}
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
 
+```dart
+final result = await Amplify.Storage.remove(
+  path: const StoragePath.fromString('path/to/file.txt'),
+  options: StorageRemoveOption(
+    // highlight-start
+    // Alternatively, provide bucket name from console and associated region
+   bucket: StorageBucket.fromBucketInfo(
+        BucketInfo(
+          bucketName: 'second-bucket-name-from-console',
+          region: 'us-east-2',
+        ),
+      ),
+      // highlight-end
+  ),
+).result;
 ```
 
 ## Remove multiple Files
 
-You can remove multiple files using `Amplify.Storage.removeMany` with the `keys`, the files to be removed in a batch should have the same access level:
+You can remove multiple files using `Amplify.Storage.removeMany`, as well as specify a bucket to target, the files to be removed in a batch should have the same access level:
 
 ```dart
 Future<void> remove() async {
@@ -372,6 +386,18 @@ Future<void> remove() async {
         const StoragePath.fromString('public/file-1.txt'),
         const StoragePath.fromString('public/file-2.txt'),
       ],
+      // if this option is not provided, the default bucket in the Amplify Backend will be used
+      options: StorageRemoveManyOptions(
+        bucket: StorageBucket.fromOutputs('secondBucket'),
+        /* Alternatively, provide bucket name from console and associated region
+        bucket: StorageBucket.fromBucketInfo(
+          BucketInfo(
+            bucketName: 'second-bucket-name-from-console',
+            region: 'us-east-2',
+          ),
+        ),
+        */
+      ),
     ).result;
     safePrint('Removed files: ${result.removedItems}');
   } on StorageException catch (e) {
