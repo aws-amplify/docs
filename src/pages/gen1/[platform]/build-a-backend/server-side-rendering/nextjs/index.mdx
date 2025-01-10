@@ -213,7 +213,11 @@ In this example, if the incoming request is not associated with a valid user ses
 
 <Callout>
 
-**NOTE:** When calling `fetchAuthSession` with a `response` context, it will send the refreshed tokens (if any) back to the client via the `Set-Cookie` header in the response.
+When calling `fetchAuthSession` with a `response` context, it will send the refreshed tokens (if any) back to the client via the `Set-Cookie` header in the response.
+
+**Note:** The Next.js adapter currently doesn't support customization of cookie attributes from the server side, and cookies are always set with [default attribute values](https://github.com/aws-amplify/amplify-js/blob/2447917fb47ff616aca6f5d64f9c635cf738c7e3/packages/aws-amplify/src/adapter-core/storageFactories/createKeyValueStorageFromCookieStorageAdapter.ts#L10-L15).
+
+If you are changing the cookie store on the client side, you may need to manually set the cookie attributes to match the server-side configuration. If you need to customize the cookie attributes, you can use the lower level [`runWithAmplifyServerContext` function](/gen1/[platform]/build-a-backend/server-side-rendering/) instead.
 
 </Callout>
 
