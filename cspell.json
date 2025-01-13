@@ -494,6 +494,7 @@
     "dataaccess",
     "dataacess",
     "databinding",
+    "datalogconfig",
     "dataset",
     "datasource",
     "DataSource",
