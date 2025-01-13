@@ -340,6 +340,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/aws-appsync-apollo-extensions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/enable-logging/index.mdx'
                 }
               ]
             },
