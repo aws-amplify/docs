@@ -322,11 +322,7 @@ You can alternatively download the introspection schema using the [`fetch-schema
 4. Add this file to your project as directed by [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location) 
 
 ### Type Mapping AppSync Scalars
-By default, [AWS AppSync Scalars](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html#graph-ql-aws-appsync-scalars) will default to the `Any` type.
-You can map these scalars to more explicit types by editing the `apollo` block in your `app/build.gradle[.kts]` file. In the example below, we 
-are now mapping a few of our AppSync scalar types to `String` instead of `Any`. Additional improvements could 
-made by writing [custom class adapters](https://www.apollographql.com/docs/kotlin/essentials/custom-scalars#define-class-mapping) to convert date/time scalars 
-into Kotlin date/time class types.
+By default, [AWS AppSync Scalars](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html#graph-ql-aws-appsync-scalars) will default to the `Any` type. You can map these scalars to more explicit types by editing the `apollo` block in your `app/build.gradle[.kts]` file. In the example below, we are now mapping a few of our AppSync scalar types to `String` instead of `Any`. Additional improvements could be made by writing [custom class adapters](https://www.apollographql.com/docs/kotlin/essentials/custom-scalars#define-class-mapping) to convert date/time scalars into Kotlin date/time class types.
 
 ```kotlin
 apollo {
