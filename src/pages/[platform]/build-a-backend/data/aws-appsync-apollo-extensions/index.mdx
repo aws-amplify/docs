@@ -322,7 +322,7 @@ You can alternatively download the introspection schema using the [`fetch-schema
 4. Add this file to your project as directed by [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location) 
 </InlineFilter>
 
-## Type Mapping AppSync Scalars
+### Type Mapping AppSync Scalars
 By default, [AppSync Scalars](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html#graph-ql-aws-appsync-scalars) will default to the `Any` type.
 You can map these scalars to more explicit types by editing the `apollo` block in your `app/build.gradle[.kts]` file. In the example below, we 
 are now mapping a few of our AppSync scalar types to `String` instead of `Any`. Additional improvements could 
