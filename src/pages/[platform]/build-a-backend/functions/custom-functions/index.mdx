@@ -34,7 +34,7 @@ AWS Amplify Gen 2 functions are AWS Lambda functions that can be used to perform
 
 <Callout warning>
 
-**Note:** [Fullstack Git-based environments](https://docs.amplify.aws/react/how-amplify-works/concepts/#fullstack-git-based-environments) do not support Docker for functions bundling out of the box.  
+**Note:** [Fullstack Git-based environments](https://docs.amplify.aws/react/how-amplify-works/concepts/#fullstack-git-based-environments) do not support Docker for functions bundling out of the box. To learn more [skip to the Docker section](#docker).
 
 </Callout>
 
@@ -81,7 +81,7 @@ Next, create the corresponding handler file at `amplify/functions/say-hello/inde
 
 ```ts title="amplify/functions/say-hello/index.py"
 import json
-        
+
 def handler(event, context):
   return {
       "statusCode": 200,
@@ -104,7 +104,7 @@ some-other-package>=1.0.0
 You're now ready to deploy your python function. Next is the same process as the Node.js/TypeScript function. Go to [Common steps for all languages](#common-steps-for-all-languages) to continue.
 
 ## Go
-To get started, Create a new directory and a resource file, `amplify/functions/say-hello/resource.ts`. Then, define the function with `defineFunction`:  
+To get started, Create a new directory and a resource file, `amplify/functions/say-hello/resource.ts`. Then, define the function with `defineFunction`:
 
 ```ts title="amplify/functions/say-hello/resource.ts"
 import { execSync } from "node:child_process";
@@ -187,7 +187,7 @@ go mod tidy
 
 You're now ready to deploy your golang function. Next is the same process as the Node.js/TypeScript function.
 
-## Common steps for all languages  
+## Common steps for all languages
 
 Regardless of the language used, your function needs to be added to your backend.
 ```ts title="amplify/backend.ts"
@@ -228,3 +228,20 @@ export const data = defineData({
   },
 })
 ```
+
+## Docker
+
+Custom function may require [Docker](https://www.docker.com/) in order to build and bundle function's code. A deployment failing with `CustomFunctionProviderDockerError` error indicates that a custom function requires Docker but the Docker daemon was not found. In that case you need to provide a working Docker installation at runtime.
+
+### Personal sandboxes
+
+Ensure that Docker is installed on your computer and that Docker daemon is running. You can check if Docker daemon is running using the following command:
+```bash title="terminal" showLineNumbers={false}
+docker info
+```
+
+### Fullstack Git-based environments
+
+Amplify does not provide Docker daemon out of the box in branch deployments. However, you have an option to provide [your own image that meets Amplify requirements](https://docs.aws.amazon.com/amplify/latest/userguide/custom-build-image.html) and includes a Docker installation.
+
+For example, the `aws/codebuild/amazonlinux-x86_64-standard:5.0` image ([see definition](https://github.com/aws/aws-codebuild-docker-images)) meets Amplify requirements and includes Docker installation.

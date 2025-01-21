@@ -68,6 +68,7 @@
     "amazonaws",
     "amazonaws",
     "amazoncognito",
+    "amazonlinux",
     "AmazonPersonalizeProvider",
     "AmazonS3Client",
     "Amplif",
