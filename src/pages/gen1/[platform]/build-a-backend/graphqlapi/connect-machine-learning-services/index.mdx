@@ -253,6 +253,17 @@ enum PredictionsActions {
 }
 ```
 
+<Callout info>
+
+The `@predictions` directive relies on the following AWS services, which must support the region in which the AppSync API is deployed:
+
+- `identifyText` uses [Amazon Rekognition](https://docs.aws.amazon.com/general/latest/gr/rekognition.html)
+- `identifyLabels` uses [Amazon Rekognition](https://docs.aws.amazon.com/general/latest/gr/rekognition.html)
+- `convertTextToSpeech` uses [Amazon Polly](https://docs.aws.amazon.com/general/latest/gr/pol.html)
+- `translateText` uses [Amazon Translate](https://docs.aws.amazon.com/general/latest/gr/translate-service.html)
+
+</Callout>
+
 `@predictions` creates resources to communicate with Amazon Rekognition, Translate, and Polly. For each action the following is created:
 
 - IAM Policy for each service (e.g. Amazon Rekognition `detectText` Policy)

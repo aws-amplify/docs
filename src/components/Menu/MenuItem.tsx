@@ -1,6 +1,6 @@
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import { ReactElement, useContext, useEffect, useState, useMemo } from 'react';
-import { Link as AmplifyUILink, Flex } from '@aws-amplify/ui-react';
+import { Link as AmplifyUILink, Flex, Badge } from '@aws-amplify/ui-react';
 import { IconExternalLink, IconChevron } from '@/components/Icons';
 import Link from 'next/link';
 import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
@@ -156,6 +156,7 @@ export function MenuItem({
           className={`menu__list-item__link menu__list-item__link--external  ${listItemLinkStyle}`}
           href={pageNode.route}
           isExternal={true}
+          aria-label={pageNode.title + ' (opens in new tab)'}
           onClick={onLinkClick}
         >
           <Flex
@@ -199,6 +200,7 @@ export function MenuItem({
             className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
           >
             {pageNode.title}
+            {pageNode.isNew && <Badge backgroundColor="purple.20">New</Badge>}
             {children && hasVisibleChildren && level !== Levels.Category && (
               <IconChevron className={open ? '' : 'icon-rotate-90-reverse'} />
             )}

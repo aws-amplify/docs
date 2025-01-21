@@ -1,0 +1,227 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Generation",
+  description:
+    "Learn how to use AI to generate data for your application.",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+    },
+  };
+}
+
+
+
+
+AI generation routes are a request-response API used to generate structured output from AI models. Examples of generation routes include:
+- generated structured data from unstructured input
+- summarization
+
+Under the hood, a generation route is an AWS AppSync query that ensures the AI model responds with the response type defined for the route.
+
+## Generate Typed Objects
+
+```ts title="Schema Definition"
+const schema = a.schema({
+  generateRecipe: a.generation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'You are a helpful assistant that generates recipes.',
+  })
+    .arguments({ description: a.string() })
+    .returns(
+      a.customType({
+        name: a.string(),
+        ingredients: a.string().array(),
+        instructions: a.string(),
+      })
+    )
+    .authorization((allow) => allow.authenticated())
+});
+```
+
+<InlineFilter filters={["javascript","angular","vue"]}>
+
+```ts title="Data Client Request"
+const description = 'I would like to bake a birthday cake for my friend. She has celiac disease and loves chocolate.'
+const { data, errors } = await client.generations
+  .generateRecipe({ description })
+
+/**
+Example response:
+{
+  "name": "Gluten-Free Chocolate Birthday Cake",
+  "ingredients": [
+    "gluten-free all-purpose flour",
+    "cocoa powder",
+    "granulated sugar",
+    "baking powder",
+    "baking soda",
+    "salt",
+    "eggs",
+    "milk",
+    "vegetable oil",
+    "vanilla extract"
+  ],
+  "instructions": "1. Preheat oven to 350°F. Grease and flour two 9-inch round baking pans.\n2. In a medium bowl, whisk together the gluten-free flour, cocoa powder, sugar, baking powder, baking soda and salt.\n3. In a separate bowl, beat the eggs. Then add the milk, oil and vanilla and mix well.\n4. Gradually add the wet ingredients to the dry ingredients and mix until just combined. Do not over mix.\n5. Divide the batter evenly between the prepared pans.\n6. Bake for 30-35 minutes, until a toothpick inserted in the center comes out clean.\n7. Allow cakes to cool in pans for 10 minutes, then transfer to a wire rack to cool completely.\n8. Frost with your favorite gluten-free chocolate frosting."
+}
+*/
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['react','react-native','next-js']}>
+
+```tsx
+import { generateClient } from "aws-amplify/api";
+import { createAIHooks } from "@aws-amplify/ui-react-ai";
+import { Schema } from "../amplify/data/resource";
+
+const client = generateClient<Schema>({ authMode: "userPool" });
+const { useAIGeneration } = createAIHooks(client);
+
+export default function Example() {
+  // data is React state and will be populated when the generation is returned
+  const [{ data, isLoading }, generateRecipe] =
+    useAIGeneration("generateRecipe");
+
+  const generateSummary = async () => {
+    generateRecipe({
+      description: 'I would like to bake a birthday cake for my friend. She has celiac disease and loves chocolate.',
+    });
+  };
+}
+```
+
+</InlineFilter>
+
+
+## Generate Scalar Types
+
+```ts title="Schema Definition"
+const schema = ({
+  summarize: a.generation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'Provide an accurate, clear, and concise summary of the input provided'
+  })
+  .arguments({ input: a.string() })
+  .returns(a.string())
+  .authorization((allow) => allow.guest()),
+});
+```
+
+```ts title="Data Client Request"
+const { data: summary, errors } = await client.generations
+  .summarize({ input })
+```
+
+## Setting Inference Parameters
+
+You can influence response generation by setting inference parameters for the AI model.
+This ability to control the randomness and diversity of responses is useful for generating responses that are tailored to your needs.
+
+[More information about inference parameters](/[platform]/ai/concepts/inference-configuration).
+
+```ts title="Inference Parameters"
+const schema = a.schema({
+  generateHaiku: a.generation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'You are a helpful assistant that generates haikus.',
+    // highlight-start
+    inferenceConfiguration: {
+      maxTokens: 1000,
+      temperature: 0.5,
+      topP: 0.9,
+    }
+    // highlight-end
+  }),
+});
+```
+
+## Limitations
+
+### 1. Generation routes do not support referencing models
+
+For example, the following schema defines a `Recipe` model, but this model cannot be used as the return type of a generation route.
+
+```ts title="Invalid Model Reference"
+const schema = a.schema({
+  Recipe: a.model({
+    name: a.string(),
+    ingredients: a.string().array(),
+    instructions: a.string(),
+  }),
+  generateRecipe: a.generation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'You are a helpful assistant that generates recipes.',
+  })
+    .arguments({ description: a.string() })
+    .returns(a.ref('Recipe')) // ❌ Invalid
+    .authorization((allow) => allow.authenticated()),
+});
+```
+
+You can, however, reference custom types. Here's an example of a custom type that can be used as the return type of a generation route.
+
+```ts title="Valid Custom Type Reference"
+const schema = a.schema({
+  Recipe: a.customType({
+    name: a.string(),
+    ingredients: a.string().array(),
+    instructions: a.string(),
+  }),
+  generateRecipe: a.generation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'You are a helpful assistant that generates recipes.',
+  })
+    .arguments({ description: a.string() })
+    .returns(a.ref('Recipe')) // ✅ Valid
+    .authorization((allow) => allow.authenticated()),
+});
+```
+
+### 2. Generation routes do not support some required types.
+
+The following AppSync scalar types are not supported as **required** fields in response types:
+- `AWSEmail`
+- `AWSDate`
+- `AWSTime`
+- `AWSDateTime`
+- `AWSTimestamp`
+- `AWSPhone`
+- `AWSURL`
+- `AWSIPAddress`
+
+```ts title="Unsupported Required Type"
+const schema = a.schema({
+  generateUser: a.generation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'You are a helpful assistant that generates users.',
+  })
+    .arguments({ description: a.string() })
+    .returns(
+      a.customType({
+        name: a.string(),
+        email: a.email().required(), // ❌ Required field with unsupported type
+        dateOfBirth: a.date().required(), // ❌ Required field with unsupported type
+      })
+    )
+    .authorization((allow) => allow.authenticated()),
+});
+

@@ -29,12 +29,15 @@ import type { HeadingInterface } from '@/components/TableOfContents/TableOfConte
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
+import { AIBanner } from '@/components/AIBanner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import {
   NextPrevious,
   NEXT_PREVIOUS_SECTIONS
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
+import { Gen1Banner } from '@/components/Gen1Banner';
+import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
 
 export const Layout = ({
   children,
@@ -69,6 +72,7 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
+  const shouldShowAIBanner = asPathWithNoHash === '/';
   const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
@@ -127,20 +131,35 @@ export const Layout = ({
     }
   }, 20);
 
+  const isGen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//.test(
+    asPathWithNoHash
+  );
+  const isGen1HowAmplifyWorks = /\/gen1\/\w+\/how-amplify-works\//.test(
+    asPathWithNoHash
+  );
+
   useEffect(() => {
     const headings: HeadingInterface[] = [];
 
     const defaultHeadings = '.main > h2, .main > h3';
     const cliCommandHeadings =
       '.commands-list__command > h2, .commands-list__command > .commands-list__command__subcommands > h3';
-    const headingSelectors = [defaultHeadings, cliCommandHeadings];
+    const refHeadings = '.reference-page h2, .reference-page h3';
+    const headingSelectors = [defaultHeadings, cliCommandHeadings, refHeadings];
 
     const pageHeadings = document.querySelectorAll(headingSelectors.join(', '));
 
     pageHeadings.forEach((node) => {
       const { innerText, id, localName } = node as HTMLElement;
-      if (innerText && id && (localName == 'h2' || localName == 'h3')) {
+      if (innerText && id && localName == 'h2') {
         headings.push({
+          linkText: innerText,
+          hash: id,
+          level: localName,
+          subheadings: []
+        });
+      } else if (innerText && id && localName == 'h3') {
+        headings[headings.length - 1].subheadings.push({
           linkText: innerText,
           hash: id,
           level: localName
@@ -214,53 +233,62 @@ export const Layout = ({
           colorMode={colorMode}
         >
           <IconsProvider icons={defaultIcons}>
-            <Modal isGen1={isGen1} />
-            <View
-              className={classNames(
-                'layout-wrapper',
-                `layout-wrapper--${pageType}`,
-                {
-                  'spaceship-layout': isHome,
-                  'spaceship-layout--gen1': isHome && isGen1
-                }
-              )}
-            >
-              {isHome ? <SpaceShip /> : null}
-              <GlobalNav
-                leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-                rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-                currentSite={currentGlobalNavMenuItem}
-                isGen1={isGen1}
-                mainId={mainId}
-              />
-              <LayoutHeader
-                showTOC={showTOC}
-                isGen1={isGen1}
-                currentPlatform={currentPlatform}
-                pageType={pageType}
-                showLastUpdatedDate={showLastUpdatedDate}
-              ></LayoutHeader>
-              <View key={asPathWithNoHash} className="layout-main">
-                <Flex
-                  id={mainId}
-                  as="main"
-                  tabIndex={-1}
-                  aria-label="Main content"
-                  className={`main${showTOC ? ' main--toc' : ''}`}
-                >
-                  {showBreadcrumbs ? (
-                    <Breadcrumbs route={pathname} platform={currentPlatform} />
-                  ) : null}
-                  {useCustomTitle ? null : (
-                    <Heading level={1}>{pageTitle}</Heading>
-                  )}
-                  {children}
-                  {showNextPrev && <NextPrevious />}
-                </Flex>
-                {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+            <ApiModalProvider>
+              <Modal isGen1={isGen1} />
+              <View
+                className={classNames(
+                  'layout-wrapper',
+                  `layout-wrapper--${pageType}`,
+                  {
+                    'spaceship-layout': isHome,
+                    'spaceship-layout--gen1': isHome && isGen1
+                  }
+                )}
+              >
+                {isHome ? <SpaceShip /> : null}
+                <GlobalNav
+                  leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+                  rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+                  currentSite={currentGlobalNavMenuItem}
+                  isGen1={isGen1}
+                  mainId={mainId}
+                />
+                <LayoutHeader
+                  showTOC={showTOC}
+                  isGen1={isGen1}
+                  currentPlatform={currentPlatform}
+                  pageType={pageType}
+                  showLastUpdatedDate={showLastUpdatedDate}
+                ></LayoutHeader>
+                <View key={asPathWithNoHash} className="layout-main">
+                  <Flex
+                    id={mainId}
+                    as="main"
+                    tabIndex={-1}
+                    aria-label="Main content"
+                    className={`main${showTOC ? ' main--toc' : ''}`}
+                  >
+                    {showBreadcrumbs ? (
+                      <Breadcrumbs
+                        route={pathname}
+                        platform={currentPlatform}
+                      />
+                    ) : null}
+                    {shouldShowAIBanner ? <AIBanner /> : null}
+                    {useCustomTitle ? null : (
+                      <Heading level={1}>{pageTitle}</Heading>
+                    )}
+                    {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
+                      <Gen1Banner currentPlatform={currentPlatform} />
+                    )}
+                    {children}
+                    {showNextPrev && <NextPrevious />}
+                  </Flex>
+                  {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+                </View>
+                <Footer hasTOC={showTOC} />
               </View>
-              <Footer hasTOC={showTOC} />
-            </View>
+            </ApiModalProvider>
           </IconsProvider>
         </ThemeProvider>
       </LayoutProvider>

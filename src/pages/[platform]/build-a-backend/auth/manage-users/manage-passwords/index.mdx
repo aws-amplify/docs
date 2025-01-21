@@ -512,27 +512,35 @@ export const auth = defineAuth({
 
 ## Override default password policy
 
-You can customize the password format acceptable by your auth backend. By default your password policy is set to the following:
+By default your password policy is set to the following:
 
 - `MinLength`: 8 characters
 - `requireLowercase`: true
 - `requireUppercase`: true
-- `requireDigits`: true
+- `requireNumbers`: true
+- `requireSymbols`: true
 - `tempPasswordValidity`: 3 days
 
+You can customize the password format acceptable by your auth resource by modifying the underlying `cfnUserPool` resource:
+
 ```ts title="amplify/backend.ts"
-// amplify/backend.ts
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
-import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,
-  data
 });
-
-// extract L1 UserPool construct
+// extract L1 CfnUserPool resources
 const { cfnUserPool } = backend.auth.resources.cfnResources;
-// from the CDK use `addPropertyOverride` to modify properties directly
-cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 32);
+// modify cfnUserPool policies directly
+cfnUserPool.policies = {
+  passwordPolicy: {
+    minimumLength: 32,
+    requireLowercase: true,
+    requireNumbers: true,
+    requireSymbols: true,
+    requireUppercase: true,
+    temporaryPasswordValidityDays: 20,
+  },
+};
 ```

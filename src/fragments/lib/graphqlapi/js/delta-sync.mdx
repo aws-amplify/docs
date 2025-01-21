@@ -33,17 +33,17 @@ subscription.unsubscribe();
   - `query`: A `DocumentNode` for the base data (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
   - `variables` [optional]: An object with the query variables, if any.
   - `baseRefreshIntervalInSeconds` [optional]: Number of seconds after which the base query will be run again. Default value: `86400` (24 hrs)
-  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
+  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/data/mutations#the-update-function)
 
 **subscriptionQuery**
   - `query`: A `DocumentNode` for the subscription (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
   - `variables` [optional]: An object with the query variables, if any.
-  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
+  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/data/mutations#the-update-function)
 
 **deltaQuery**
   - `query`: A `DocumentNode` for the deltas (e.g. as returned by [`gql`](https://github.com/apollographql/graphql-tag#gql))
   - `variables` [optional]: An object with the query variables, if any.
-  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update)
+  - `update` [optional]: A function to update the cache, see: [Apollo's `update` function](https://www.apollographql.com/docs/react/data/mutations#the-update-function)
 
 ## The buildSync helper
 

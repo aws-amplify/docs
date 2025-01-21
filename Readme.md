@@ -37,7 +37,7 @@ We welcome contributions to the documentation site! Here's how to do it:
 
 ## Authoring pages
 
-Our docs are generated using [Next.js](https://nextjs.org/). Refer to their docs on [how to create pages](https://nextjs.org/docs/basic-features/pages) as a primer.
+Our docs are generated using [Next.js](https://nextjs.org/). Refer to their docs on [how to create pages](https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts) as a primer.
 
 The source for each page is in **src**. This folder is the only directory you need to touch to edit or create pages.
 
@@ -175,7 +175,7 @@ let mut a = String::from("a");
 Videos can be added using the `<Video />` component and referencing a path to the video file. The video should be an `.mp4` file and should exist in the `/public` directory
 
 ```jsx
-<Video src="/path/to/video.mp4" />
+<Video src="/path/to/video.mp4" description="Video - [video description]" />
 ```
 
 ## Accessibility testing

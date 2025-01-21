@@ -1,0 +1,371 @@
+import { Card, Text } from '@aws-amplify/ui-react';
+import { AIConversation } from '@aws-amplify/ui-react-ai'
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+import { UIWrapper } from '@/components/UIWrapper'
+import { UserAvatar,AssistantAvatar, MESSAGES, MESSAGES_RESPONSE_COMPONENTS } from '@/components/AI'
+
+export const meta = {
+  title: "<AIConversation>",
+  description:
+    "The AIConversation component is a customizable chat interface built for the Amplify AI kit",
+  platforms: [
+    "nextjs",
+    "react",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+    },
+  };
+}
+
+<UIWrapper>
+<AIConversation
+  allowAttachments
+  messages={MESSAGES}
+  handleSendMessage={() => {}}
+/>
+</UIWrapper>
+*Note: the example is a mocked component and not hooked up to a live backend*
+
+## Introduction
+
+The `<AIConversation>` component is highly customizable to fit into any application. The component is built so that it works with the `useAIConversation` hook. The hook manages the state and lifecycle of the component. The component by itself is just a renderer for the conversation state, which the hook provides. The `<AIConversation>` component requires some props:
+* `messages` an array of the messages in the conversation
+* `handleSendMessage` a handler that is called when a user message is sent. 
+
+The `useAIConversation` hook provides these values and manages the messages state as user messages are sent and assistant responses are streamed back. 
+
+```tsx title="Mock conversation"
+import { AIConversation } from '@aws-amplify/ui-react-ai';
+
+export default function Chat() {
+  return (
+    <AIConversation
+      messages={[]}
+      handleSendMessage={() => {}}
+    />
+  )
+}
+```
+
+The code above won't really do much, but if you wanted to play around with the component or visually test how it will look, you can do that passing in your own set of messages. 
+
+
+## Getting started
+
+Make sure to first follow our [getting started guide for the Amplify AI kit](/[platform]/ai/set-up-ai) to set up your Amplify AI backend.
+
+Conversations required a logged in user, so we recommend using the [`<Authenticator>`](/[platform]/build-a-backend/auth/connect-your-frontend/using-the-authenticator/) component to easily add authentication flows to your app.
+
+<InlineFilter filters={["react"]}>
+
+```tsx title="src/App.tsx"
+import { Amplify } from 'aws-amplify';
+import { generateClient } from "aws-amplify/api";
+import { Authenticator } from "@aws-amplify/ui-react";
+import { AIConversation, createAIHooks } from '@aws-amplify/ui-react-ai';
+import '@aws-amplify/ui-react/styles.css';
+import outputs from "../amplify_outputs.json";
+import { Schema } from "../amplify/data/resource";
+
+Amplify.configure(outputs);
+
+const client = generateClient<Schema>({ authMode: "userPool" });
+const { useAIConversation } = createAIHooks(client);
+
+export default function App() {
+  const [
+    {
+      data: { messages },
+      isLoading,
+    },
+    handleSendMessage,
+  ] = useAIConversation('chat');
+  // 'chat' is based on the key for the conversation route in your schema.
+
+  return (
+    <Authenticator>
+      <AIConversation
+        messages={messages}
+        isLoading={isLoading}
+        handleSendMessage={handleSendMessage}
+      />
+    </Authenticator>
+  );
+}
+```
+
+</InlineFilter>
+
+## Formatting Markdown
+
+LLMs can respond with markdown. The `<AIConversation>` component does not have built-in markdown rendering, but does allow for you to pass in your own markdown renderer.
+
+```tsx
+import ReactMarkdown from 'react-markdown';
+
+<AIConversation
+  messageRenderer={{
+    text: ({ text }) => <ReactMarkdown>{text}</ReactMarkdown>
+  }}
+/>
+```
+
+The `messageRenderer` property lets you customize how markdown is rendered within the chat according to your application's needs. The example below demonstrates how to add code syntax highlighting by using `ReactMarkdown` with `rehypeHighlight`.
+
+```tsx
+import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+
+<AIConversation
+  messageRenderer={{
+    text: ({ text }) => (
+      <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+        {text}
+      </ReactMarkdown>
+    )
+  }}
+/>
+```
+
+## Rendering images
+
+The `<AIConversation>` component renders images in the conversation history by default. You can also customize how images are rendered with `messageRenderer`, similar to the text example above. 
+
+```tsx
+// Note: the image in a message comes in as a byte array
+// you will need to convert this to base64
+function convertBufferToBase64(
+  buffer: ArrayBuffer,
+  format: 'png' | 'jpeg' | 'gif' | 'webp'
+): string {
+  const base64string = Buffer.from(new Uint8Array(buffer)).toString('base64');
+  return `data:image/${format};base64,${base64string}`;
+}
+
+<AIConversation
+  messageRenderer={{
+    image: ({ image }) => (
+      <img
+        className="testing"
+        width={200}
+        height={200}
+        src={convertBufferToBase64(image.source.bytes, image.format)}
+        alt=""
+      />
+    ),
+  }}
+/>
+```
+
+## Welcome message
+
+You can have the `<AIConversation>` component display a welcome message when a user starts a new conversation. 
+
+<UIWrapper>
+<AIConversation
+  messages={[]}
+  handleSendMessage={() => {}}
+  welcomeMessage={
+    <Card variation="outlined">
+      <Text>I am your virtual assistant, ask me any questions you like!</Text>
+    </Card>
+  }
+/>
+</UIWrapper>
+
+```tsx
+<AIConversation
+  welcomeMessage={
+    <Card variation="outlined">
+      <Text>I am your virtual assistant, ask me any questions you like!</Text>
+    </Card>
+  }
+/>
+```
+
+The welcome message will disappear once a message has been sent. 
+
+## Customizing the timestamp
+
+All messages have a timestamp associated with them that are displayed next to the username. To customize how the timestamp displays you can pass a custom text formatter function called `getMessageTimestampText` into the `displayText` property on the `<AIConversation>` component. This function will receive a `Date` object as its argument and should return a string. 
+
+Browsers have a really nice built-in date/time formatter you can use called [`Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat). 
+
+<UIWrapper>
+<AIConversation
+  messages={MESSAGES}
+  handleSendMessage={() => {}}
+  displayText={{
+    getMessageTimestampText: (date) => new Intl.DateTimeFormat('en-US', {
+      timeStyle: 'short',
+      hour12: true,
+      timeZone: 'UTC'
+    }).format(date)
+  }}
+/>
+</UIWrapper>
+
+```tsx
+<AIConversation
+  displayText={{
+    getMessageTimestampText: (date) => new Intl.DateTimeFormat('en-US', {
+      timeStyle: 'short',
+      hour12: true,
+      timeZone: 'UTC'
+    }).format(date)
+  }}
+/>
+```
+
+You could also return an empty string if you wanted to hide the timestamps altogether. 
+
+## Attachments
+
+Some of the newer LLMs like the Claude 3 family of models from Anthropic support multi-modal input, so you can send images in your message to the model and it can respond based on the messages. To enable this functionality in the component, there is an `allowAttachments` prop you can enable. 
+
+There are some limitations on the filetype and size of the images attached. The file size for each file should be below 400kb when base64 encoded. Also the currently supported file types are: png, jpg, gif, and webp. 
+
+
+<UIWrapper>
+<AIConversation
+  messages={MESSAGES}
+  handleSendMessage={() => {}}
+  allowAttachments
+/>
+</UIWrapper>
+
+```tsx
+<AIConversation
+  //...
+  allowAttachments
+/>
+```
+
+
+## Avatars
+
+You can customize the usernames and avatars used in the `AIConversation` component by using the `avatars` prop. This lets you control what your AI assistant looks like in the chat and what your user's username and avatar are. 
+
+There are 2 avatars, `user` and `ai`, and each have a `username` and `avatar` attribute. The `avatar` is a React Node and the `username` is a string.
+
+<UIWrapper>
+<AIConversation
+  messages={MESSAGES}
+  handleSendMessage={() => {}}
+  allowAttachments
+  avatars={{
+    user: {
+      avatar: <UserAvatar />,
+      username: "danny"
+    },
+    ai: {
+      avatar: <AssistantAvatar />,
+      username: "Amplify assistant"
+    }
+  }}
+/>
+</UIWrapper>
+
+
+```tsx
+<AIConversation
+  avatars={{
+    user: {
+      avatar: <Avatar src="/images/user.jpg" />,
+      username: "danny",
+    },
+    ai: {
+      avatar: <Avatar src="/images/ai.jpg" />,
+      username: "Amplify assistant"
+    }
+  }}
+/>
+```
+
+
+## Response components
+
+Response components are a way to define custom UI components that the LLM can respond with in the conversation. This creates a richer experience than just text responses so the conversation can be more interactive and engaging. To define a response component you need any React component and give it a name, description, and define the props the LLM should know. 
+
+<UIWrapper>
+<AIConversation
+  messages={MESSAGES_RESPONSE_COMPONENTS}
+  handleSendMessage={() => {}}
+  responseComponents={{
+    WeatherCard: {
+      description:
+        'Used to display the weather of a given city to the user',
+      component: ({ city }) => {
+        return (
+          <Card variation="outlined">
+            {city}
+          </Card>
+        );
+      },
+      props: {
+        city: {
+          type: 'string',
+          required: true,
+        },
+      },
+    },
+  }}
+/>
+</UIWrapper>
+
+
+```tsx
+<AIConversation
+  responseComponents={{
+    WeatherCard: {
+      description: 'Used to display the weather of a given city to the user',
+      component: ({ city }) => {
+        return <Card>{city}</Card>;
+      },
+      props: {
+        city: {
+          type: 'string',
+          required: true,
+        },
+      },
+    },
+  }}
+/>
+```
+
+Response components are just plain React components; they can have their own interactive state, fetch data, update shared state, or really anything you can think of. You can pair response components with [data tools](/[platform]/ai/conversation/tools), so the LLM can query for some data and then use a component to display that data. Or your response component could fetch data itself. 
+
+### Adding a fallback
+
+Because response components are defined at runtime and conversation histories are stored in a database, there can be times when there is a response component in the message history that the current application does not have. Response components are saved in the message history as a "toolUse" block, similar to how an LLM would respond when it wants to call a tool. The toolUse block contains the name of the component, and the props the LLM wanted to pass to the component. The LLM is never directly sending UI code, but rather an abstract representation of what it wants to render. 
+
+If the AIConversation component receives a response component message for a response component that was not given to it, by default it will just not render anything. However if you want to add a fallback component if no component is found based on the name, you can use the `FallbackResponseComponent` prop. You can think of this like a 404 page for response components. 
+
+<UIWrapper>
+<AIConversation
+  messages={MESSAGES_RESPONSE_COMPONENTS}
+  handleSendMessage={() => {}}
+  FallbackResponseComponent={(props) => <Card variation="outlined">{JSON.stringify(props, null, 2)}</Card>}
+/>
+</UIWrapper>
+
+```tsx
+<AIConversation
+  FallbackResponseComponent={(props) => (
+    <Card variation="outlined">{JSON.stringify(props, null, 2)}</Card>
+  )}
+/>
+```
+
+
+

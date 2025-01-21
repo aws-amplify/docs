@@ -218,6 +218,7 @@ Amplify.configure(outputs);
 
 Example frontend code to create an audio buffer for playback using a text input.
 
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
 ```ts title="App.tsx"
 import "./App.css";
 import { generateClient } from "aws-amplify/api";
@@ -267,4 +268,53 @@ function App() {
 
 export default App;
 ```
+</InlineFilter>
 
+<InlineFilter filters={["angular"]}>
+```ts title="app.component.ts"
+import type { Schema } from '../../../amplify/data/resource';
+import { Component } from '@angular/core';
+import { generateClient } from 'aws-amplify/api';
+import { getUrl } from 'aws-amplify/storage';
+
+const client = generateClient<Schema>();
+
+type PollyReturnType = Schema['convertTextToSpeech']['returnType'];
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div class="flex flex-col">
+      <button (click)="synthesize()">Synth</button>
+      <button (click)="fetchAudio()">Fetch audio</button>
+      <a [href]="src">Get audio file</a>
+    </div>
+  `,
+  styleUrls: ['./app.component.css'],
+})
+export class App {
+  src: string = '';
+  file: PollyReturnType = '';
+
+  async synthesize() {
+    const { data, errors } = await client.mutations.convertTextToSpeech({
+      text: 'Hello World!',
+    });
+
+    if (!errors && data) {
+      this.file = data;
+    } else {
+      console.log(errors);
+    }
+  }
+
+  async fetchAudio() {
+    const res = await getUrl({
+      path: 'public/' + this.file,
+    });
+
+    this.src = res.url.toString();
+  }
+}
+```
+</InlineFilter> 

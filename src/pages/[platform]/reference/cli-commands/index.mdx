@@ -56,6 +56,9 @@ Sandbox enables you to develop your backend alongside your frontend's developmen
 - `--outputs-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
 - `--outputs-version` (_string_) - Version of the configuration. Version 0 represents classic amplify-cli config file amplify-configuration and 1 represents newer config file amplify_outputs (choices: `0`, `1`).
 - `--profile` (_string_) - An AWS profile name.
+- `--stream-function-logs` (_boolean_) - Whether to stream function execution logs. (default: false)
+- `--logs-filter` (_string[]_) - Regex pattern to filter logs from only matched functions. E.g. to stream logs for a function, specify it's name, and to stream logs from all functions starting with auth specify 'auth' (default: Stream all logs)
+- `--logs-out-file` (_string_) - File to append the streaming logs. The file is created if it does not exist. (default: stdout)
 
 ### Usage
 
@@ -233,14 +236,14 @@ npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e108
 
 ## npx ampx generate graphql-client-code
 
-Generate GraphQL statements and types for your frontend application to consume. 
+Generate GraphQL statements and types for your frontend application to consume.
 
 ### Options
 
 The available parameters for `npx ampx generate graphql-client-code` are:
 
 Required parameters:
-- Stack identifier 
+- Stack identifier
   - `--stack`(_string_) - A stack name that contains an Amplify backend.
 - Project identifier
   - `--app-id`(_string_) - The Amplify App ID of the project.
@@ -251,6 +254,7 @@ Optional parameters:
 - `--format`(_string_) (choices: `modelgen`, `graphql-codegen`, `introspection`) - Specifies the format of the GraphQL client code to be generated.
 - `--model-target` (_string_) (choices: `java`, `swift`, `javascript`, `typescript`, `dart`) - Specifies the modelgen export target. Only applies when the --format parameter is set to modelgen.
 - `--statement-target`(_string_) (choices: `javascript`, `graphql`, `flow`, `typescript`, `angular`) - Specifies the graphql-codegen statement export target. Only applies when the --format parameter is set to graphql-codegen.
+- `--statement-max-depth`(_integer_) - Specifies the maximum depth of the generated GraphQL statements. Only applies when the --format parameter is set to graphql-codegen.
 - `--type-target`(_string_) (choices: `json`, `swift`, `typescript`, `flow`, `scala`, `flow-modern`, `angular`) - Specifies the optional graphql-codegen type export target. Only applies when the --format parameter is set to graphql-codegen.
 - `--all`(_boolean_)- Shows hidden options.
 - `--profile`(_string_) - Specifies an AWS profile name.
@@ -300,7 +304,7 @@ Run Amplify codegen command to generate GraphQL codegen:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx generate graphql-client-code --stack Backend --platform ts --out ./src
-```   
+```
 
 #### Generate codegen in specific language and format
 
@@ -336,7 +340,7 @@ Generate React form components derived from your backend data models for your fr
 ### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate forms --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID --out-dir ./src
+npx ampx generate forms --branch $BRANCH_NAME --app-id $AWS_APP_ID --out-dir ./src
 ```
 
 ## npx ampx info
@@ -389,5 +393,5 @@ Deploys the Amplify project in a CI/CD pipeline for a specified Amplify app and 
 ### Usage
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx pipeline-deploy --branch $BRANCH_NAME --app-id $AMPLIFY_APP_ID
+npx ampx pipeline-deploy --branch $BRANCH_NAME --app-id $AWS_APP_ID
 ```

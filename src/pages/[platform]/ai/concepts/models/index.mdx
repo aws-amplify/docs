@@ -1,0 +1,223 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@aws-amplify/ui-react';
+
+export const meta = {
+  title: "Models",
+  description:
+    "Learn about foundation models provided by Amazon Bedrock used for generative AI",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+    },
+  };
+}
+
+
+A foundation model is a large, general-purpose machine learning model that has been pre-trained on a vast amount of data. These models are trained in an unsupervised or self-supervised manner, meaning they learn patterns and representations from the unlabeled training data without being given specific instructions or labels.
+
+Foundation models are useful because they are general-purpose and you don't need to train the models yourself, but are powerful enough to take on a range of applications.
+
+Foundation Models, which Large Language Models are a part of, are inherently stateless. They take input in the form of text or images and generate text or images. They are also inherently non-deterministic. Providing the same input can  generate different output.
+
+## Getting model access
+
+Before you can invoke a foundation model on Bedrock you will need to [request access to the models in the AWS console](https://console.aws.amazon.com/bedrock/home#/modelaccess).
+
+Be sure to check the region you are building your Amplify app in!
+
+## Pricing and Limits
+
+Each foundation model in Amazon Bedrock has its own pricing and throughput limits for on-demand use. On-demand use is serverless, you don't need to provision any AWS resources to use and you only pay for what you use. The Amplify AI kit uses on-demand use for Bedrock.
+
+The cost for using foundation models is calculated by token usage. A token in generative AI refers to chunks of data that were sent as input and how much data was generated. A token is roughly equal to a word, but depends on the model being used. Each foundation model in Bedrock has its own pricing based on input and output tokens used.
+
+When you use the Amplify AI Kit, inference requests are charged to your AWS account based on Bedrock pricing. There is no Amplify markup, you are just using AWS resources in your own account.
+
+Always refer to [Bedrock pricing](https://aws.amazon.com/bedrock/pricing/) for the most up-to-date information on running generative AI with Amplify AI Kit.
+
+<Callout type="info">
+  Your Amplify project must be deployed to a region where the foundation model you specify is available. See [Bedrock model support](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html) for the supported regions per model.
+</Callout>
+
+## Supported Providers and Models
+
+The Amplify AI Kit uses Bedrock's [Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html) to leverage a unified API across models.
+
+<Table
+  caption="Table with supported models for Amplify AI kit"
+  highlightOnHover={false}
+  style={{ border: '1.5px solid' }}>
+  <TableHead>
+    <TableRow>
+      <TableCell as="th">Provider</TableCell>
+      <TableCell as="th">Model</TableCell>
+      <TableCell as="th">Conversation</TableCell>
+      <TableCell as="th">Generation</TableCell>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-ai21.html">AI21 Labs</a></strong></TableCell>
+      <TableCell>Jurassic-2 Large</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-ai21.html">AI21 Labs</a></strong></TableCell>
+      <TableCell>Jurassic-2 Mini</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow style={{ borderTop: '1.5px solid' }}>
+      <TableCell><strong><a href="https://aws.amazon.com/ai/generative-ai/nova/">Amazon</a></strong></TableCell>
+      <TableCell>Amazon Nova Pro</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://aws.amazon.com/ai/generative-ai/nova/">Amazon</a></strong></TableCell>
+      <TableCell>Amazon Nova Lite</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://aws.amazon.com/ai/generative-ai/nova/">Amazon</a></strong></TableCell>
+      <TableCell>Amazon Nova Micro</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow style={{ borderTop: '1.5px solid' }}>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-claude.html">Anthropic</a></strong></TableCell>
+      <TableCell>Claude 3 Haiku</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>✅</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-claude.html">Anthropic</a></strong></TableCell>
+      <TableCell>Claude 3.5 Haiku</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>✅</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-claude.html">Anthropic</a></strong></TableCell>
+      <TableCell>Claude 3 Sonnet</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>✅</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-claude.html">Anthropic</a></strong></TableCell>
+      <TableCell>Claude 3.5 Sonnet</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>✅</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-claude.html">Anthropic</a></strong></TableCell>
+      <TableCell>Claude 3.5 Sonnet v2</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>✅</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-claude.html">Anthropic</a></strong></TableCell>
+      <TableCell>Claude 3 Opus</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>✅</TableCell>
+    </TableRow>
+    <TableRow style={{ borderTop: '1.5px solid' }}>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-cohere.html">Cohere</a></strong></TableCell>
+      <TableCell>Command R</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-cohere.html">Cohere</a></strong></TableCell>
+      <TableCell>Command R+</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow style={{ borderTop: '1.5px solid' }}>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-meta.html">Meta</a></strong></TableCell>
+      <TableCell>Llama 3.1</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow style={{ borderTop: '1.5px solid' }}>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-mistral.html">Mistral AI</a></strong></TableCell>
+      <TableCell>Large</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-mistral.html">Mistral AI</a></strong></TableCell>
+      <TableCell>Large 2</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>❌</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+Amplify AI Kit makes use of ["tools"](/[platform]/ai/concepts/tools) for both generation and conversation routes. [The models used must support tool use in the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html).
+
+Most models have different structures to how they best work with input and how they format their output. Using the Converse API makes it easy to swap different models without having to drastically change how you interact with them.
+
+## Choosing a model
+
+Each model and model provider has their own strengths and weaknesses. We encourage you to try different models for different use-cases to find the right fit. Things to consider when choosing a model:
+
+### Context window
+
+Each model has its own context window size. The context window is how much information you can send to the model. FMs are stateless, but conversation routes manage message history, so the context window can continue to grow as you "chat" with a model. The context window for models is defined by the number of tokens it can receive.
+
+### Latency
+
+Smaller models tend to have a lower latency than larger models, but can also sometimes be less powerful.
+
+### Cost
+
+Each model has its own price and throughput.
+
+### Use-case fit
+
+Some models are trained to be better at certain tasks or with certain languages.
+
+Choosing the right model for your use case is balancing latency, cost, and performance.
+
+
+## Using different models
+
+Using the Amplify AI Kit you can easily use different models for different functionality in your application. Each AI route definition will have an `aiModel` attribute you define in your schema. To use different foundation models in your Amplify AI backend, update the `aiModel` using `a.ai.model()`:
+
+```ts
+const schema = a.schema({
+  summarizer: a.generation({
+    aiModel: a.ai.model("Claude 3.5 Haiku")
+  })
+})
+```
+
+The `a.ai.model()` function gives you access to friendly names for the Bedrock models. We will keep this function up-to-date as new models are added to Bedrock. In case there is a new model that has not yet been added, you can always use the model ID which can be found in the Bedrock console or documentation:
+
+```ts
+const schema = a.schema({
+  summarizer: a.generation({
+    aiModel: {
+      resourcePath: 'meta.llama3-1-405b-instruct-v1:0'
+    }
+  })
+})
+```

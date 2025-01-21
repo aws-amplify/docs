@@ -69,6 +69,17 @@ export const myDemoFunction = defineFunction({
 });
 ```
 
+## `ephemeralStorageSizeMB`
+
+By default, functions have 512MB of ephemeral storage to them. This can be configured from 512 MB upto 10240 MB. Note that this can increase the cost of function invocation. For more pricing information visit the [Lambda pricing documentation](https://aws.amazon.com/lambda/pricing/).
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  // highlight-next-line
+  ephemeralStorageSizeMB: 1024 // allocate 1024 MB of ephemeral storage to the function.
+});
+```
+
 ## `runtime`
 
 Currently, only Node runtimes are supported by `defineFunction`. However, you can change the Node version that is used by the function. The default is the oldest Node LTS version that is supported by AWS Lambda (currently Node 18).
@@ -88,5 +99,16 @@ By default, Amplify will look for your function handler in a file called `handle
 ```ts title="amplify/functions/my-demo-function/resource.ts"
 export const myDemoFunction = defineFunction({
   entry: './path/to/handler.ts' // this path should either be absolute or relative to the current file
+});
+```
+
+## `resourceGroupName`
+
+By default, functions are grouped together in a resource group named `function`. You can override this to group related function with other Amplify resources like `auth`, `data`, `storage`, or separate them into your own custom group.
+This is typically useful when you have resources that depend on each other and you want to group them together.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  resourceGroupName: 'data'
 });
 ```

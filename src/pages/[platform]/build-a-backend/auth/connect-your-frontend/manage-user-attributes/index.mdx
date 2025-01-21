@@ -31,7 +31,7 @@ export function getStaticProps() {
 User attributes such as email address, phone number help you identify individual users. Defining the user attributes you include for your user profiles makes user data easy to manage at scale. This information will help you personalize user journeys, tailor content, provide intuitive account control, and more. You can capture information upfront during sign-up or enable customers to update their profile after sign-up. In this section we take a closer look at working with user attributes, how to set them up and manage them.
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
-### Pass user attributes during sign-up
+## Pass user attributes during sign-up
 
 You can create user attributes during sign-up or when the user is authenticated. To do this as part of sign-up you can pass them in the `userAttributes` object of the `signUp` API:
 
@@ -55,28 +55,28 @@ await signUp({
 </InlineFilter>
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs', 'flutter', 'swift']}>
-### Configure custom user attributes during sign-up
+
+## Configure custom user attributes during sign-up
 
 Custom attributes can be passed in with the `userAttributes` option of the `signUp` API:
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
-```javascript
+
+```ts
 import { signUp } from "aws-amplify/auth";
 
 await signUp({
-  username: 'jdoe',
-  password: 'mysecurerandompassword#123',
+  username: 'john.doe@example.com',
+  password: 'hunter2',
   options: {
     userAttributes: {
-      'custom:attribute_name_1': 'attribute_value_1',
-      'custom:attribute_name_2': 'attribute_value_2',
-      'custom:attribute_name_3': 'attribute_value_3'
+      'custom:display_name': 'john_doe123',
     }
   }
 });
 ```
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['flutter']}>
 
 ```dart
@@ -100,8 +100,8 @@ Future<void> _signUp({
   );
 }
 ```
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['swift']}>
 
 ```swift
@@ -127,25 +127,26 @@ func signUp(username: String, password: String, email: String) async {
     }
 }
 ```
+
 </InlineFilter>
 </InlineFilter>
 
-### Retrieve user attributes
+## Retrieve user attributes
 
 You can retrieve user attributes for your users to read in their profile using the `fetchUserAttributes` API. This helps you personalize their frontend experience as well as control what they will see.
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
-```javascript
+
+```ts
 import { fetchUserAttributes } from 'aws-amplify/auth';
 
 await fetchUserAttributes();
 ```
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['swift']}>
 
 <BlockSwitcher>
-
 <Block name="Async/Await">
 
 ```swift
@@ -162,7 +163,6 @@ func fetchAttributes() async {
 ```
 
 </Block>
-
 <Block name="Combine">
 
 ```swift
@@ -181,11 +181,11 @@ func fetchAttributes() -> AnyCancellable {
 ```
 
 </Block>
-
 </BlockSwitcher>
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['android']}>
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -201,7 +201,7 @@ Amplify.Auth.fetchUserAttributes(
 
 ```kotlin
 Amplify.Auth.fetchUserAttributes(
-    { Log.i("AuthDemo", "User attributes = $attributes") },
+    { Log.i("AuthDemo", "User attributes = $it") },
     { Log.e("AuthDemo", "Failed to fetch user attributes", it) }
 )
 ```
@@ -233,9 +233,10 @@ RxAmplify.Auth.fetchUserAttributes()
 
 </Block>
 </BlockSwitcher>
-</InlineFilter>
 
+</InlineFilter>
 <InlineFilter filters={['flutter']}>
+
 ```dart
 Future<void> fetchCurrentUserAttributes() async {
   try {
@@ -248,10 +249,10 @@ Future<void> fetchCurrentUserAttributes() async {
   }
 }
 ```
+
 </InlineFilter>
 
-
-### Update user attribute
+## Update user attribute
 
 You can use the `updateUserAttribute` API to create or update existing user attributes.
 
@@ -538,7 +539,7 @@ Future<void> updateUserAttributes() async {
 </InlineFilter>
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs', 'android']}>
-### Update user attributes
+## Update user attributes
 
 You can use the `updateUserAttributes` API to create or update multiple existing user attributes.
 
@@ -608,7 +609,7 @@ RxAmplify.Auth.updateUserAttributes(attributes)
 </InlineFilter>
 </InlineFilter>
 
-### Verify user attribute
+## Verify user attribute
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs', 'flutter', 'android']}>
 Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, part of the result of the `updateUserAttribute` or `updateUserAttributes` APIs will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
@@ -744,7 +745,7 @@ Future<void> verifyAttributeUpdate() async {
 </InlineFilter>
 
 
-### Send user attribute verification code
+## Send user attribute verification code
 
 If an attribute needs to be verified while the user is authenticated, invoke the `sendUserAttributeVerificationCode` API as shown below:
 
@@ -877,7 +878,7 @@ Future<void> resendVerificationCode() async {
 </InlineFilter>
 
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
-### Delete user attributes
+## Delete user attributes
 
 The `deleteUserAttributes` API allows to delete one or more user attributes.
 
@@ -901,7 +902,7 @@ async function handleDeleteUserAttributes(
 ```
 </InlineFilter>
 
-#### Next Steps 
+## Next Steps 
 
-- [Set up password change and recovery](/[platform]/build-a-backend/auth/manage-users/manage-passwords/)
-- [Set up custom attributes](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#custom-attributes)
+- [Learn how to set up password change and recovery](/[platform]/build-a-backend/auth/manage-users/manage-passwords/)
+- [Learn how to set up custom attributes](/[platform]/build-a-backend/auth/concepts/user-attributes#custom-attributes)

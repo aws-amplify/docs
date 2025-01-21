@@ -18,10 +18,15 @@ describe('ExternalLinkButton', () => {
   it('should render the ExternalLinkButton component', async () => {
     render(component);
 
-    const externalLinkButtonNode = await screen.findByRole('link', {
-      name: 'Click Here!'
+    const externalLinkButtonNode = await screen.getByRole('link', {
+      name: '(opens in new tab)'
     });
-    expect(externalLinkButtonNode).toBeInTheDocument();
+    const externalLinkButtonNodeText = await screen.findByText('Click Here!');
+
+    await waitFor(() => {
+      expect(externalLinkButtonNode).toBeInTheDocument();
+      expect(externalLinkButtonNodeText).toBeInTheDocument();
+    });
   });
 
   it('should render the ExternalLink icon', async () => {

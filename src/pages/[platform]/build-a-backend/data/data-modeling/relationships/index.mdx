@@ -62,17 +62,15 @@ const schema = a.schema({
     teamId: a.id(),
     // 2. Create a belongsTo relationship with the reference field
     team: a.belongsTo('Team', 'teamId'),
-  })
-  .authorization(allow => [allow.publicApiKey()]),
+  }),
 
   Team: a.model({
     mantra: a.string().required(),
     // 3. Create a hasMany relationship with the reference field
     //    from the `Member`s model.
     members: a.hasMany('Member', 'teamId'),
-  })
-  .authorization(allow => [allow.publicApiKey()]),
-});
+  }),
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ### Create a "Has Many" relationship between records
@@ -441,6 +439,29 @@ do {
 
 </InlineFilter>
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+### Handling orphaned foreign keys on parent record deletion in "Has Many" relationship
+
+```ts
+// Get the IDs of the related members.
+const { data: teamWithMembers } = await client.models.Team.get(
+  { id: teamId },
+  { selectionSet: ["id", "members.*"] },
+);
+
+// Delete Team
+await client.models.Team.delete({ id: teamWithMembers.id });
+
+// Delete all members in parallel
+await Promise.all(
+  teamWithMembers.members.map(member => 
+  client.models.Member.delete({ id: member.id }) 
+));
+```
+
+</InlineFilter>
+
 ## Model a "one-to-one" relationship
 
 Create a one-to-one relationship between two models using the `hasOne()` and `belongsTo()` methods. In the example below, a **Customer** has a **Cart** and a *Cart* belongs to a **Customer**.
@@ -464,7 +485,7 @@ const schema = a.schema({
     //    from the Cart model
     activeCart: a.hasOne('Cart', 'customerId')
   }),
-});
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ### Create a "Has One" relationship between records
@@ -796,6 +817,26 @@ val cart = Amplify.API.query(
 
 </InlineFilter>
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+### Handling orphaned foreign keys on parent record deletion in "Has One" relationship
+
+```ts
+// Get the customer with their associated cart
+const { data: customerWithCart } = await client.models.Customer.get(
+  { id: customerId },
+  { selectionSet: ["id", "activeCart.*"] },
+);
+
+// Delete Cart if exists
+await client.models.Cart.delete({ id: customerWithCart.activeCart.id });
+
+// Delete the customer
+await client.models.Customer.delete({ id: customerWithCart.id });
+```
+
+</InlineFilter>
+
 
 ## Model a "many-to-many" relationship
 In order to create a many-to-many relationship between two models, you have to create a model that serves as a "join table". This "join table" should contain two one-to-many relationships between the two related entities. For example, to model a **Post** that has many **Tags** and a **Tag** has many **Posts**, you'll need to create a new **PostTag** model that represents the relationship between these two entities.
@@ -832,7 +873,7 @@ const schema = a.schema({
     // highlight-next-line
     posts: a.hasMany('PostTag', 'tagId'),
   }),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ## Model multiple relationships between two models
@@ -858,7 +899,7 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', 'authorId'),
     // highlight-end
   }),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 On the client-side, you can fetch the related data with the following code:
@@ -921,7 +962,7 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', ['authorName', 'authorDoB']),
     // highlight-next-line
   }).identifier(['name', 'dateOfBirth']),
-}).authorization(allow => [allow.publicApiKey()]);
+}).authorization((allow) => allow.publicApiKey());
 ```
 
 ## Make relationships required or optional
@@ -951,5 +992,5 @@ const schema = a.schema({
     authoredPosts: a.hasMany('Post', 'authorId'),
     // highlight-end
   }),
-})
+}).authorization((allow) => allow.publicApiKey());
 ```

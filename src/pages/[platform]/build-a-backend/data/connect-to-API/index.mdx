@@ -694,3 +694,42 @@ await Amplify.addPlugins([
 ```
 
 </InlineFilter>
+
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
+## Use an additional Data endpoint
+
+If you have an additional Data endpoint that you're managing with a different Amplify project or through other means, this section will show you how to utilize that endpoint in your frontend code.
+
+This is done by specifying the `endpoint` parameter on the `generateClient` function.
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+
+const client = generateClient({
+  endpoint: 'https://my-other-endpoint.com/graphql',
+});
+```
+
+If this Data endpoint shares its authorization configuration (for example, both endpoints share the same user pool and/or identity pool as the one in your `amplify_outputs.json` file), you can specify the `authMode` parameter on `generateClient`.
+
+```ts
+const client = generateClient({
+  endpoint: 'https://my-other-endpoint.com/graphql',
+  authMode: 'userPool',
+});
+```
+
+If the endpoint uses API Key authorization, you can pass in the `apiKey` parameter on `generateClient`.
+
+```ts
+const client = generateClient({
+  endpoint: 'https://my-other-endpoint.com/graphql',
+  authMode: 'apiKey',
+  apiKey: 'my-api-key',
+});
+``` 
+
+If the endpoint uses a different authorization configuration, you can manually pass in the authorization header using the instructions in the [Set custom request headers](#set-custom-request-headers) section.
+
+</InlineFilter>

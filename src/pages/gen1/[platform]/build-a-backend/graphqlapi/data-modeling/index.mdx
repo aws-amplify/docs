@@ -793,6 +793,12 @@ const posts = listPostsResult.data.listPosts;
 const postTags = posts[0].tags; // access tags from post
 ```
 
+<Callout>
+
+**Important**: The authorization rules that Amplify applies to the "join table" it creates are a union of the authorization rules of the individual models in the many-to-many relationship. See [this discussion](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#authorizing-manytomany-relationships) for more context.
+
+</Callout>
+
 ## Assign default values for fields
 
 You can use the `@default` directive to specify a default value for optional [scalar type fields](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html) such as `Int`, `String`, and more.
@@ -907,7 +913,7 @@ type Query {
 
 The example above creates a custom query that utilizes the `@function` directive to call a Lambda function for this query.
 
-For the type definitions of queries, mutations, and subscriptions, see [Type Definitions of the `@model` Directive](#type-definition-of-the-`@model`-directive).
+For the type definitions of queries, mutations, and subscriptions, see [Type Definitions of the `@model` Directive](#type-definition-of-the-model-directive).
 
 ### Customize creation and update timestamps
 
@@ -1151,7 +1157,7 @@ The `@model` directive will generate:
 - Filter input objects that allow you to filter objects in list queries and relationship fields.
 - For list queries the default number of objects returned is 100. You can override this behavior by setting the limit argument.
 
-**Type definition of the `@model` directive**
+#### Type definition of the `@model` directive
 
 ```graphql
 directive @model(

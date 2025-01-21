@@ -75,12 +75,10 @@ export const storage = defineStorage({
 To use the Amazon Rekognition service, you need to add Amazon Rekognition as an HTTP Data Source and configure the proper IAM policy for Lambda to effectively utilize the desired feature and grant permission to access the storage. In this case, you can add the `rekognition:DetectText` and `rekognition:DetectLabels` actions to the policy. Update the `amplify/backend.ts` file as shown below.
 
  ```ts title= "amplify/backend.ts"
-
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
-import { Stack } from 'aws-cdk-lib';
-import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { storage } from './storage/resource';
 
 const backend = defineBackend({
@@ -89,8 +87,6 @@ const backend = defineBackend({
   storage
 });
 
-const dataStack = Stack.of(backend.data)
-
 // Set environment variables for the S3 Bucket name
 backend.data.resources.cfnResources.cfnGraphqlApi.environmentVariables = {
   S3_BUCKET_NAME: backend.storage.resources.bucket.bucketName,
@@ -98,10 +94,10 @@ backend.data.resources.cfnResources.cfnGraphqlApi.environmentVariables = {
 
 const rekognitionDataSource = backend.data.addHttpDataSource(
   "RekognitionDataSource",
-  `https://rekognition.${dataStack.region}.amazonaws.com`,
+  `https://rekognition.${backend.data.stack.region}.amazonaws.com`,
   {
     authorizationConfig: {
-      signingRegion: dataStack.region,
+      signingRegion: backend.data.stack.region,
       signingServiceName: "rekognition",
     },
   }
@@ -223,6 +219,7 @@ Amplify.configure(outputs);
 
 This code sets up a React app to upload an image to an S3 bucket and then use Amazon Rekognition to recognize the text in the uploaded image.
 
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
 ```ts title="App.tsx"
 import { type ChangeEvent, useState } from "react";
 import { generateClient } from "aws-amplify/api";
@@ -286,3 +283,71 @@ function App() {
 
 export default App;
 ```
+</InlineFilter>
+<InlineFilter filters={["angular"]}>
+```ts title="app.component.ts"
+import type { Schema } from '../../../amplify/data/resource';
+import { Component } from '@angular/core';
+import { generateClient } from 'aws-amplify/api';
+import { uploadData } from 'aws-amplify/storage';
+import { CommonModule } from '@angular/common';
+
+// Generating the client
+const client = generateClient<Schema>();
+
+type IdentifyTextReturnType = Schema['identifyText']['returnType'];
+
+@Component({
+  selector: 'app-text-recognition',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div>
+      <h1>Amazon Rekognition Text Recognition</h1>
+      <div>
+        <input type="file" (change)="handleTranslate($event)" />
+        <button (click)="recognizeText()">Recognize Text</button>
+        <div>
+          <h3>Recognized Text:</h3>
+          {{ textData }}
+        </div>
+      </div>
+    </div>
+  `,
+})
+export class TodosComponent {
+  // Component properties instead of React state
+  path: string = '';
+  textData?: IdentifyTextReturnType;
+
+  // Function to handle file upload to S3 bucket
+  async handleTranslate(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      const file = target.files[0];
+      const s3Path = 'public/' + file.name;
+
+      try {
+        await uploadData({
+          path: s3Path,
+          data: file,
+        });
+
+        this.path = s3Path;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
+  // Function to recognize text from the uploaded image
+  async recognizeText() {
+    // Identifying text in the uploaded image
+    const { data } = await client.queries.identifyText({
+      path: this.path, // File name
+    });
+    this.textData = data;
+  }
+}
+```
+</InlineFilter>

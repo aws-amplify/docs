@@ -144,6 +144,44 @@ const schema = a.schema({
 });
 ```
 
+### Non-model authorization rules
+
+**Non-model** types are any types added to the schema without using `a.model()`. These consist of modifiers such as `a.customType()`, `a.enum()`,`a.query()`, `a.mutation()`, or `a.subscription()`.
+
+Dynamic authorization rules such as `allow.owner()`, `allow.ownerDefinedIn()`, `allow.groupDefinedIn()` are not supported for **non-model** types.
+
+```ts
+const schema = a.schema({
+  // ...
+  listCustomType: a
+    .query()
+    .returns(a.ref("CustomType").array())
+    .handler(
+      a.handler.custom({
+        entry: "./handler.js",
+      })
+    )
+    .authorization((allow) => [
+      // Static auth rules - Supported
+      allow.guest(),
+      allow.publicApiKey(),
+      allow.authenticated(),
+      allow.group("Admin"),
+      allow.groups(["Teacher", "Student"]),
+
+      // Dynamic auth rules - Not supported
+      allow.owner(),
+      allow.ownerDefinedIn("owner"),
+      allow.ownersDefinedIn("otherOwners"),
+      allow.groupDefinedIn("group"),
+      allow.groupsDefinedIn("otherGroups"),
+    ]),
+});
+```
+
+There are TS warnings and validation checks in place that will cause a sandbox deployment to fail if unsupported auth rules are defined on custom queries and mutations.
+
+
 ### Configure multiple authorization rules
 
 When combining multiple authorization rules, they are "logically OR"-ed. In the following example:
@@ -218,9 +256,49 @@ do {
 
 </InlineFilter>
 
+## IAM authorization
+
+All Amplify Gen 2 projects enable IAM authorization for data access. This ensures that the Amplify console's [data manager](/[platform]/build-a-backend/data/manage-with-amplify-console/) will be able to access your API. It also allows you to authorize other administrative or machine-to-machine access using your own IAM policies. See the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/security_iam_service-with-iam.html) for details on how AWS AppSync works with IAM.
+
+## Authorization on custom types
+
+Authorization rules are only supported on data models (model-level and field-level) and custom operations (queries, mutations and subscriptions). They are not fully supported on custom types, including custom types returned by custom operations. For example, consider a custom query that returns a custom type:
+
+```ts
+const schema = a.schema({
+  Counter: a.customType({
+    value: a.integer(),
+  })
+  .authorization(...), // <-- not supported
+  getCounter: a
+    .mutation()
+    .arguments({
+      id: a.string().required(),
+    })
+    .returns(a.ref("Counter"))
+    .handler(
+      a.handler.custom({
+        entry: "./getCounter.js",
+      })
+    )
+    .authorization((allow) => [allow.authenticated()]),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema: schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "userPool",
+  },
+});
+```
+
+As you can see, the custom `Counter` type does not support the `.authorization()` modifier. Instead, behind the scenes, Amplify will add appropriate authorization rules to `Counter` to allow authenticated users to access it. That means that any signed-in user will be able to access the custom operation and all fields of the custom type.
+
 <Callout info>
 
-**Note**: Authorization rules are only supported on data models (model-level and field-level) and custom operations (queries, mutations and subscriptions). They are not fully supported on custom types.
+**Note**: IAM authorization is not currently supported for custom operations that return custom types if `defaultAuthorizationMode` is not `iam`. See [GitHub issue #2929](https://github.com/aws-amplify/amplify-category-api/issues/2929) for details and suggested workarounds.
 
 </Callout>
 

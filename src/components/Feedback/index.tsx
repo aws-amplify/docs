@@ -189,7 +189,12 @@ const Feedback = function Feedback(router) {
 
   return (
     <Flex className="feedback" key={router?.router?.asPath}>
-      <div id="start-state" aria-labelledby="feedbackGroupTitle" role="group">
+      <div
+        id="start-state"
+        aria-labelledby="feedbackGroupTitle"
+        role="group"
+        aria-live="polite"
+      >
         <Text className="feedback-text" id="feedbackGroupTitle">
           {c.feedbackQuestion}
         </Text>
