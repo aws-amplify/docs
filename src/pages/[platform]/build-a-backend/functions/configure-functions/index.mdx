@@ -32,6 +32,12 @@ export function getStaticProps() {
 
 `defineFunction` comes out-of-the-box with sensible but minimal defaults. The following options are provided to tweak the function configuration.
 
+<Callout info>
+
+**Note:** The following options are not supported for [Custom Functions](/[platform]/build-a-backend/functions/custom-functions/) except for `resourceGroupName`.
+
+</Callout>
+
 ## `name`
 
 By default, functions are named based on the directory the `defineFunction` call is placed in. In the above example, defining the function in `amplify/functions/my-demo-function/resource.ts` will cause the function to be named `my-demo-function` by default.
