@@ -31,6 +31,12 @@ export function getStaticProps() {
 
 Amplify offers the ability to schedule Functions to run on specific intervals using natural language or [cron expressions](https://en.wikipedia.org/wiki/Cron). To get started, specify the `schedule` property in `defineFunction`:
 
+<Callout info>
+
+**Note:** Configuring the schedule in `defineFunction` is not supported for [Custom Functions](/[platform]/build-a-backend/functions/custom-functions/).
+
+</Callout>
+
 ```ts title="amplify/jobs/weekly-digest/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
 

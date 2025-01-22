@@ -31,6 +31,12 @@ export function getStaticProps() {
 
 Amplify offers the ability to add layers to your functions which contain your library dependencies. Lambda layers allow you to separate your function code from its dependencies, enabling easier management of shared components across multiple functions and reducing deployment package sizes.
 
+<Callout info>
+
+**Note:** Configuring or adding layers in `defineFunction` is not supported for [Custom Functions](/[platform]/build-a-backend/functions/custom-functions/).
+
+</Callout>
+
 To add a Lambda layer to your function, follow these steps:
 
 1. First, create and set up your Lambda layer in AWS. You can do this through the AWS Console or using the AWS CLI. For guidance on creating layers, refer to the [AWS documentation on creating Lambda layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html#configuration-layers-create).
