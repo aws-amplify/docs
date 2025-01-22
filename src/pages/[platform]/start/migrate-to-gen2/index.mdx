@@ -16,7 +16,7 @@ export const meta = {
   ]
 };
 
-export function getStaticPaths () {
+export async function getStaticPaths() {
   return getCustomStaticPath(meta.platforms);
 }
 
@@ -29,174 +29,113 @@ export function getStaticProps(context) {
   };
 }
 
-## Starting point
+Amplify migration tooling is available! In this guide we will walk through how to perform migrations for your backends from Amplify Gen 1 to Amplify Gen 2. The steps you will perform will be against a new Amplify Gen 1 backend environment, and a new Amplify Gen 2 environment. After the steps are performed, you will be able to merge the migration branch onto your existing branches to individually migrate with zero downtime.
 
-My app
+## Preparing for migration
 
-- main branch --> prod BE
-- dev branch ---> dev BE
-- custom domain setup
-  - main.myapp.com and dev.myapp.com
+The most notable change between Amplify Gen 1 backends and Gen 2 backends is the use of infrastructure as code with TypeScript. Preparing your environment for migration involves converting the configuration of your live Gen 1 backend resources to their Gen 2 equivalent written using TypeScript.
 
-## Set up migration environment
+To get started, create a new git branch and Amplify backend:
 
-1. git clone my-app
-2. git checkout -b migrate-to-gen2
-3. amplify init --envName prod to initialize the app locally
-4. amplify env add --envName migrate to create a temporary migration env
-   1. this should prompt for any OAuth credentials, Function env vars, secrets, etc.
-5. amplify push to create the new environment
-6. deploy `migrate-to-gen2` branch in Console and connect it to `migrate` env.
-7. amplify migrate to initiate the migration
-
-## Generate Gen 2 codegen
-
-```console title="Terminal" showLineNumbers={false}
-> amplify migrate
-You are about to migrate to Amplify Gen 2: <Docs URL>
-✓ Move project/amplify to project/.amplify/gen-1
-✓ Transforming your auth and data backend definition to Gen 2 configuration:
-   ✔ amplify/auth/resource.ts
-   ✔ amplify/data/resource.ts
-✔ Updating .gitignore to remove Gen1 files
-✔ Update package.json with Gen 2 dependencies
-   ✔ Installing @aws-amplify/backend
-   ✔ Installing @aws-amplify/backend-cli
-
-Run `npx ampx sandbox` to test whether your Gen 2 backend works.
+```bash title="Terminal" showLineNumbers={false}
+git checkout --branch migrate
 ```
 
-## Test whether Gen2 codegen works as expected in sandbox
-
-```console title="Terminal" showLineNumbers={false}
-> npx ampx sandbox
-
-# starts a cloudformation deploy
-
-# new tab
-> npm run dev
-
-# starts localhost
-
+```bash title="Terminal" showLineNumbers={false}
+amplify add env migrate
 ```
 
-optionally run validation tool to compare resource configurations from live Gen 1 stack to CFN artifacts from Gen 2 synth
+<Callout info>
 
-Now let's add an `amplify.yml` to your project. If you already have a YAML stored in the Console, go to the console and download the file and add it to the root of your project. Update the amplify.yml to look like
+**Note:** at any moment up until the migration is executed on your Gen 1 and Gen 2 backends, you can revert by discarding changes tracked by git.
 
-```diff title="amplify.yml"
-version: 1
-backend:
-  phases:
-    build:
-      commands:
--       - "# Execute Amplify CLI with the helper script"
--       - amplifyPush --simple
-+       - npm ci
-+       - npx ampx pipeline-deploy --app-id $AWS_APP_ID --branch $AWS_BRANCH
-frontend:
-  phases:
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: build
-    files:
-      - "**/*"
-  cache:
-    paths:
-      - node_modules/**/*
+</Callout>
+
+Then push your newly-created `migrate` environment to create a set of resources matching the configuration of your live environments:
+
+```bash title="Terminal" showLineNumbers={false}
+amplify push --yes
 ```
 
-## Now deploy the migrate-to-gen2 branch
-
-First push this code to a Git branch
+After the push is successful, commit and push the changes to your git provider:
 
 ```bash title="Terminal" showLineNumbers={false}
 git add .
-git commit -m "migrate to gen2"
-git push -u origin migrate-to-gen2
+git commit -m "create migration env"
+git push --upstream origin migrate
 ```
 
-Now deploy the `migrate-to-gen2` branch in the Amplify Console as a new branch in the Gen 2 console. Now you should see:
+During the migration for the new `migrate` environment, it is recommended to connect the new git branch to your build system to ensure changes continuously integrate with your live environment.
 
-- main branch --> prod BE
-- dev branch ---> dev BE
-- migrate-to-gen2 branch (gen2 stack) --> migrate BE (Gen 1 CF stack)
-
-- custom domain setup
-  - main.myapp.com and dev.myapp.com and migrate-to-gen2.myapp.com (with autosubdomains enabled)
-
-Remove backend assooication between migrate-to-gen2 branch (gen2 stack) --> migrate BE (Gen 1 CF stack)
-Now you have a Gen 1 backend environment called "migrate" and a Gen 2 branch called "migrate-to-gen2". Go back to your terminal and execute:
+Next, prepare your local codebase for migration execution by running the following command:
 
 ```bash title="Terminal" showLineNumbers={false}
-# some command to generate the logical ID mapping, and any other prep
-amplify migrate --generate-mapping --from amplifymigratesoemgen1stackname --to amplify-gen1togen2-branch-12345
-# this --continue can error if we don't have gen 2 artifacts
+npx @aws-amplify/migrate@latest to-gen-2 prepare
 ```
 
+After this command completes successfully your `amplify/` directory is converted to an Amplify Gen 2 backend authored in TypeScript. In the next section we will walk through how to validate the generated code using [Amplify Gen 2's sandbox feature](/[platform]/deploy-and-host/sandbox-environments/setup/).
+
+## Validating the preparation
+
+{/* how to handle the thrown errors in the code */}
+
 ```bash title="Terminal" showLineNumbers={false}
-# validate resource configurations between the stacks match
-amplify migrate --compare auth --from amplifymigratesoemgen1stackname --to amplify-gen1togen2-branch-12345
-amplify migrate --compare auth,data,storage --from amplifymigratesoemgen1stackname --to amplify-gen1togen2-branch-12345
+npm install
 ```
 
 ```bash title="Terminal" showLineNumbers={false}
-# some command to execute CFN stack refactoring with map
-amplify migrate --from amplifymigratesoemgen1stackname --to amplify-gen1togen2-branch-12345
+npx ampx sandbox
 ```
 
-## Apply changes to real environments
-
-1. Remove backend association in console
-
-1. Locally checkout branch you want to migrate
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox delete --yes
+```
 
 ```bash title="Terminal" showLineNumbers={false}
-git checkout dev #apply to whatever branch
-
-git merge migrate-to-gen2 -X theirs
-
 git push
 ```
 
-```bash title="Terminal" showLineNumbers={false}
-# some command to generate the logical ID mapping, and any other prep
-amplify migrate --generate-mapping --from amplifymigratesoemgen1stackname --to amplify-gen1togen2-branch-12345
-# this --continue can error if we don't have gen 2 artifacts
-```
+## Deploying your temporary migration branch
+
+In order to execute the migration you will need to first deploy the Amplify Gen 2 backend, scaffolded by the TypeScript code generated by the preparation command. This will create a new CloudFormation stack with live resources, which will then be used to execute the migration against to migrate resources from your Amplify Gen 1 backend stack to the new stack.
+
+{/* picture of amplify console connecting new `migrate` branch */}
+
+{/* how to handle CDK bootstrap */}
+{/* how to handle updating service role BEFORE AND AFTER migrations */}
+
+### Ensure validity of `amplify.yml`
+
+{/* maybe move this section up before deploying the branch -- otherwise it will likely error for frontend builds */}
+{/* ensure package manager is correct */}
+{/* tweak frontend build settings */}
+
+## Executing migration
 
 ```bash title="Terminal" showLineNumbers={false}
-# validate resource configurations between the stacks match
-amplify migrate --compare auth --from amplifymigratesoemgen1stackname --to amplify-gen1togen2-branch-12345
-amplify migrate --compare auth,data,storage --from amplifymigratesoemgen1stackname --to amplify-gen1togen2-branch-12345
+npx @aws-amplify/migrate@latest to-gen-2 execute \
+  --from <amplify-gen-1-stack-name> \
+  --to <amplify-gen-2-stack-name>
 ```
+
+## Post-migration tasks
+
+{/* a note about s3 bucket names */}
+{/* ... anything else */}
+
+## Verify continuous deployment
+
+After performing the post-migration tasks, commit your changes and allow your deployment pipeline to deploy changes without error. 
+
+{/* what happens when you experience an error */}
 
 ---
 
-If anything fails in the flow above, customers can always run `git reset --hard HEAD` and they are back to Gen 2.
+## Migrating from Gen 1 to Gen 2
 
-1.  this prints a message about migrating to gen 2, including a link to migration docs
-2.  this moves amplify/ to .amplify/gen-1 (this shouldn't be impacted by subsequent gen2 deployments)
-3.  this codegen's gen2 backend resources — Auth, Data, Storage, Function resources
-4.  this modifies gitignore, removes Gen 1 gitignore block, adds Gen 2 gitignore (e.g. .amplify/)
-    1. print diff and prompt for confirmation
-5.  this installs gen 2 tooling with package manager of choice
-    1. print list of dependencies and prompt for confirmation
-    2. Note: Gen 1 CLI does not have this detection built in, however we can always prompt with a list of package managers
-    3. (see create-amplify for list of dependencies https://github.com/aws-amplify/amplify-backend/blob/main/packages/create-amplify/src/amplify_project_creator.ts#L15-L26)
-6.  this writes amplify.yml with the default gen 2 template
-    1. print diff and prompt for confirmation
-    2. how do we handle existing, customized yml files?
-    3. how do we handle complex frontend builds? should this get carried from the existing file?
-7.  this prepares any artifacts needed for stack refactoring
-    1. print a notice
-    2. do we need to deploy gen 2 first?
-8.  customer confirms changes by manually inspecting generated outputs, then commits to git
-9.  ...
+My app
 
-## Feature matrix
+## Gen 1 vs. Gen 2 feature matrix
 
 The tables below present a feature matrix for Gen 1 customers who are considering Gen 2 for their apps. This will help determine the support availability for various features.
 
