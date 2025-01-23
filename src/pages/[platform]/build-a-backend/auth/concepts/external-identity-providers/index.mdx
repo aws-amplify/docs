@@ -116,7 +116,7 @@ Secrets must be created manually with [`ampx sandbox secret`](/[platform]/refere
 
 </Callout>
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -154,7 +154,7 @@ export const auth = defineAuth({
 ```
 
 </InlineFilter>
-<InlineFilter filters={["android", "flutter", "swift"]}>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -260,7 +260,7 @@ You need to now inform your external provider of the newly configured authentica
 
 You can determine the pieces of data you want to retrieve from each external provider when setting them up in the `amplify/auth/resource.ts` file using `scopes`.
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -286,7 +286,7 @@ export const auth = defineAuth({
 ```
 
 </InlineFilter>
-<InlineFilter filters={["android", "flutter", "swift"]}>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -320,7 +320,7 @@ If you specify an attribute in your authentication resource as required, and it 
 
 </Callout>
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -349,7 +349,7 @@ export const auth = defineAuth({
 ```
 
 </InlineFilter>
-<InlineFilter filters={["android", "flutter", "swift"]}>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -385,7 +385,7 @@ export const auth = defineAuth({
 
 To setup a OIDC provider, you can configure them in your `amplify/auth/resource.ts` file. For example, if you would like to setup a Microsoft EntraID provider, you can do so as follows:
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -413,7 +413,7 @@ export const auth = defineAuth({
 ```
 
 </InlineFilter>
-<InlineFilter filters={["android", "flutter", "swift"]}>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -459,7 +459,7 @@ await signInWithRedirect({
 
 To setup a SAML provider, you can configure them in your `amplify/auth/resource.ts` file. For example, if you would like to setup a Microsoft EntraID provider, you can do so as follows:
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -486,7 +486,7 @@ export const auth = defineAuth({
 ```
 
 </InlineFilter>
-<InlineFilter filters={["android", "flutter", "swift"]}>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
