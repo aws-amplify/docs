@@ -23,18 +23,29 @@ export function getStaticProps(context) {
   };
 }
 
-AWS AppSync Apollo Extensions provide a seamless way to connect to your AWS AppSync backend using Apollo client, an open-source GraphQL client. The included AWS AppSync authorizers make it simple to apply the correct authorization payloads to your GraphQL operations within the Apollo client. The library allows you to connect directly to your AWS AppSync backend, including AppSync backends managed through Amplify Data.
+AWS AppSync Apollo Extensions provide a seamless way to connect to your AWS AppSync backend using Apollo client, an open-source GraphQL client.
 <InlineFilter filters={["swift"]}>
 
 To learn more about Apollo, see https://www.apollographql.com/docs/ios/.
 
 </InlineFilter>
 
-
 <InlineFilter filters={["android"]}>
 
 To learn more about Apollo, see https://www.apollographql.com/docs/kotlin.
 
+</InlineFilter>
+
+## Features
+
+AWS AppSync Apollo Extensions provide AWS AppSync authorizers to be used with the Apollo client to make it simple to apply the correct authorization payloads to your GraphQL operations.
+
+<InlineFilter filters={["android"]}>
+Additionally, we publish an optional Amplify extension that allows Amplify to provide auth tokens and signing logic for the corresponding Authorizers.
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+Additionally, the included Amplify components allow Amplify to provide auth tokens and signing logic for the corresponding Authorizers.
 </InlineFilter>
 
 ## Install the AWS AppSync Apollo Extensions library
@@ -43,7 +54,7 @@ To learn more about Apollo, see https://www.apollographql.com/docs/kotlin.
 
 <BlockSwitcher>
 
-<Block name=" Amplify Data">
+<Block name="With Amplify">
 
 Add the `apollo-appsync-amplify` dependency to your app/build.gradle.kts file.
 
@@ -58,7 +69,7 @@ dependencies {
 
 </Block>
 
-<Block name="AppSync">
+<Block name="Without Amplify">
 
 Add the `apollo-appsync` dependency to your app/build.gradle.kts file.
 
@@ -93,7 +104,7 @@ Enter its GitHub URL (`https://github.com/aws-amplify/aws-appsync-apollo-extensi
 
 <BlockSwitcher>
 
-<Block name=" Amplify Data">
+<Block name="With Amplify">
 Before you begin, you will need an Amplify Data backend deploy. To get started, see [Set up Data](/[platform]/build-a-backend/data/set-up-data/). 
 
 Once you have deployed your backend and created the `amplify_outputs.json` file, you can use Amplify library to read and retrieve your configuration values with the following steps:
@@ -108,7 +119,7 @@ val apolloClient = ApolloClient.Builder()
 
 ### AppSync Authorizers
 
-Depending on the authorization strategy defined on your schema, you can use the corresponding Authorizer. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/build-a-backend/data/customize-authz/#available-authorization-strategies).
+The AWS AppSync Apollo Extensions library provides a number of Authorizer classes to match the various authorization strategies that may be in use in your schema. You should choose the appropriate Authorizer type for your authorization strategy. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/build-a-backend/data/customize-authz/#available-authorization-strategies).
 
 Some common ones are
 
@@ -194,7 +205,9 @@ val authorizer = IamAuthorizer {
 
 </Block>
 
-<Block name="AppSync">
+<Block name="Without Amplify">
+
+You can create your Apollo client by using our provided AWS AppSync endpoint and authorizer classes. 
 
 ```kotlin
 val endpoint = AppSyncEndpoint("<your_appsync_endpoint>")
@@ -363,7 +376,7 @@ func createApolloClient() throws -> ApolloClient {
 }
 ```
 
-Depending on the authorization strategy defined on your schema, you can use the corresponding Authorizer. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/build-a-backend/data/customize-authz/#available-authorization-strategies).
+The AWS AppSync Apollo Extensions library provides a number of Authorizer classes to match the various authorization strategies that may be in use in your schema. You should choose the appropriate Authorizer type for your authorization strategy. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/build-a-backend/data/customize-authz/#available-authorization-strategies).
 
 Some common ones are
 
@@ -382,7 +395,7 @@ The schema is used by Apollo’s code generation tool to generate API code that 
 <InlineFilter filters={["swift"]}>
 1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
 2. On the left side, select Schema
-3. When viewing your schema, there should a “Export schema” drop down. Select this and download the `schema.json` file.
+3. Select the "Export schema" dropdown and download the `schema.json` file.
 4. Add this file to your project as directed by [Apollo Code Generation documentation](https://www.apollographql.com/docs/ios/code-generation/introduction). 
 
 You can alternatively download the introspection schema using the [`fetch-schema`](https://www.apollographql.com/docs/ios/code-generation/codegen-cli#fetch-schema) command with the `amplify-ios-cli` tool.
@@ -393,7 +406,7 @@ You can alternatively download the introspection schema using the [`fetch-schema
 
 1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
 2. On the left side, select Schema
-3. When viewing your schema, there should a “Export schema” drop down. Select this and download the `schema.json` file.
+3. Select the "Export schema" dropdown and download the `schema.json` file.
 4. Add this file to your project as directed by [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location) 
 
 </InlineFilter>
@@ -404,7 +417,7 @@ You can alternatively download the introspection schema using the [`fetch-schema
 
 <BlockSwitcher>
 
-<Block name=" Amplify Data">
+<Block name="With Amplify">
 ### Amplify provided .graphql files
 1. Within your Amplify Gen2 backend, run: `npx ampx generate graphql-client-code --format graphql-codegen --statement-target graphql --out graphql`
 2. Copy the generated files (`mutations.graphql`, `queries.graphql`, `subscriptions.graphql`) to your `{app}/src/main/graphql` folder as shown in the [Apollo documentation](https://www.apollographql.com/docs/kotlin#getting-started)
@@ -417,7 +430,7 @@ You can alternatively download the introspection schema using the [`fetch-schema
 
 </Block>
 
-<Block name="AppSync">
+<Block name="Without Amplify">
 
 1. Navigate to the **Queries** tab in your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home). Here, you can test queries, mutations, and subscriptions in the GraphQL playground.
 2. Enter your GraphQL operation (query, mutation, or subscription) in the editor and click **Run** to execute it.
