@@ -116,7 +116,7 @@ Some common ones are
 *  `guest` strategy, `identityPool` authMode, **IAMAuthorizer**
 *  `owner` strategy, `userPool` authMode, **AuthTokenAuthorizer**
 
-If you define multiple authorization strategies on a single model, you will have to create separate Apollo client instances for each Authorizer that you want to use in your app.
+If you define multiple authorization strategies within your schema, you will have to create separate Apollo client instances for each Authorizer that you want to use in your app.
 
 #### API_KEY
 
@@ -208,7 +208,15 @@ val apolloClient = ApolloClient.Builder()
 
 ### AppSync Authorizers
 
-AWS AppSync supports the following [authorization modes](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html):
+AWS AppSync supports the following [authorization modes](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html). Use the corresponding Authorizer that matches the chosen authorization type. 
+
+Some common ones are
+
+*  API Key Authorization -> **APIKeyAuthorizer**
+*  IAM Authorization -> **IAMAuthorizer**
+*  Cognito User Pools -> **AuthTokenAuthorizer**
+
+If you apply multiple authorization directives in your schema, you will have to create separate Apollo client instances for each Authorizer that you want to use in your app.
 
 #### API_KEY
 
@@ -239,6 +247,18 @@ val authorizer = AuthTokenAuthorizer {
   fetchLatestAuthToken()
 }
 //highlight-end
+```
+
+#### AWS_IAM
+
+When working directly with AppSync, you must implement the request signing yourself.
+
+```kotlin
+// highlight-start
+// Provide an implementation of the signing function. This function should implement the 
+// AWS Sig-v4 signing logic and return the authorization headers containing the token and signature.
+val authorizer = IamAuthorizer { signRequestAndReturnHeaders(it) }
+// highlight-end
 ```
 </Block>
 
@@ -351,7 +371,7 @@ Some common ones are
 *  `guest` strategy, `identityPool` authMode, **IAMAuthorizer**
 *  `owner` strategy, `userPool` authMode, **AuthTokenAuthorizer**
 
-If you define multiple authorization strategies on a single model, you will have to create separate Apollo client instances for each Authorizer that you want to use in your app.
+If you define multiple authorization strategies within your schema, you will have to create separate Apollo client instances for each Authorizer that you want to use in your app.
 
 </InlineFilter>
 
