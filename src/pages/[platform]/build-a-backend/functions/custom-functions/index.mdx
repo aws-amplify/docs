@@ -40,7 +40,13 @@ AWS Amplify Gen 2 functions are AWS Lambda functions that can be used to perform
 
 <Callout info>
 
-**Note:** [Environment variables and secrets](/[platform]/build-a-backend/functions/environment-variables-and-secrets/), [scheduling configuration](/[platform]/build-a-backend/functions/scheduling-functions/), [lambda layers](/[platform]/build-a-backend/functions/add-lambda-layers/) and [functions-options](/[platform]/build-a-backend/functions/configure-functions/) in `defineFunction` are not supported for Custom Functions. You can specify these configurations directly in your CDK Function definition.
+**Note:** The following options in `defineFunction` are not supported for Custom Functions:
+- [Environment variables and secrets](/[platform]/build-a-backend/functions/environment-variables-and-secrets/)
+- [Scheduling configuration](/[platform]/build-a-backend/functions/scheduling-functions/) 
+- [Lambda layers](/[platform]/build-a-backend/functions/add-lambda-layers/)
+- [Function options](/[platform]/build-a-backend/functions/configure-functions/)
+
+You'll need to configure these options directly in your CDK Function definition instead. However, `resourceGroupName` property is supported and can be used to group related resources together in your `defineFunction` definition.
 
 </Callout>
 
@@ -79,7 +85,10 @@ export const sayHelloFunctionHandler = defineFunction(
           },
         },
       }),
-    })
+    }),
+    {
+      resourceGroupName: "auth" // Optional: Groups this function with auth resource
+    }
 );
 ```
 
@@ -143,6 +152,9 @@ export const sayHelloFunctionHandler = defineFunction(
         },
       }),
     }),
+    {
+      resourceGroupName: "auth" // Optional: Groups this function with auth resource
+    }
 );
 ```
 
