@@ -291,7 +291,7 @@ val authorizer = IamAuthorizer { signRequestAndReturnHeaders(it) }
 <InlineFilter filters={["swift"]}>
 AWS AppSync supports the following [authorization modes](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html):
 
-#### API_KEY
+### API_KEY
 
 ```swift
 import AWSAppSyncApolloExtensions
@@ -300,7 +300,7 @@ let authorizer = APIKeyAuthorizer(apiKey: "[API_KEY]")
 let interceptor = AppSyncInterceptor(authorizer)
 ```
 
-#### AMAZON_COGNITO_USER_POOLS
+### AMAZON_COGNITO_USER_POOLS
 
 If you are using Amplify Auth, you can create a method that retrieves the Cognito access token
 
@@ -330,7 +330,7 @@ let authorizer = AuthTokenAuthorizer(fetchLatestAuthToken: getUserPoolAccessToke
 let interceptor = AppSyncInterceptor(authorizer)
 ```
 
-#### AWS_IAM
+### AWS_IAM
 
 If you are using Amplify Auth, you can use the following method for AWS_IAM auth
 
@@ -426,11 +426,11 @@ You can alternatively download the introspection schema using the [`fetch-schema
 <BlockSwitcher>
 
 <Block name="With Amplify">
-#### Amplify provided .graphql files
+**Amplify provided .graphql files**
 1. Within your Amplify Gen2 backend, run: `npx ampx generate graphql-client-code --format graphql-codegen --statement-target graphql --out graphql`
 2. Copy the generated files (`mutations.graphql`, `queries.graphql`, `subscriptions.graphql`) to your `{app}/src/main/graphql` folder as shown in the [Apollo documentation](https://www.apollographql.com/docs/kotlin#getting-started)
 
-#### Manual
+**Manual**
 1. Navigate to the **Queries** tab in your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home). Here, you can test queries, mutations, and subscriptions in the GraphQL playground.
 2. Enter your GraphQL operation (query, mutation, or subscription) in the editor and select **Run** to execute it.
 3. Observe the request and response structure in the results. This gives you insight into the exact call patterns and structure that Apollo will use.
