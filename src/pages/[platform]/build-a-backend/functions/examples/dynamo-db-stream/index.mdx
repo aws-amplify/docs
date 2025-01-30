@@ -36,7 +36,8 @@ In this guide, lets configure a Lambda function with an Amazon DynamoDB stream a
 To get started, install the AWS Lambda Powertools Logger, which provides structured logging capabilities for your Lambda function, and the `aws-lambda` package, which is used to define the handler type.
 
 ```bash title="Terminal" showLineNumbers={false}
-npm add --save-dev @aws-lambda-powertools/logger @types/aws-lambda
+npm add --save @aws-lambda-powertools/logger
+npm add --save-dev @types/aws-lambda
 ```
 
 Second, create a new directory and a resource file, `amplify/functions/dynamoDB-function/resource.ts`. Then, define the function with `defineFunction`:
