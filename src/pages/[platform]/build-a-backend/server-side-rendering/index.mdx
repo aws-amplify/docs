@@ -228,7 +228,7 @@ In this example, if the incoming request is not associated with a valid user ses
 To authenticate users on the server side, you must enable either Amazon Cognito Managed Login or Hosted UI in your Amazon Cognito User Pool client.
 
 
-**Step 1: Specify the origin of your app in environment variables**
+**Step 1 - Specify the origin of your app in environment variables**
 
 Add the following environment variables to your Next.js app. For example in a `.env` file:
 
@@ -242,11 +242,11 @@ Ensure this environment variables is accessible in your Next.js app's server run
 
 **Step 2 - Export the `createAuthRouteHandlers` function**
 
-`createAuthRouteHandlers` function is created by the `createServerRunner` function call when you configure Amplify for server-side usage. You can export this function from your `amplifyServerUtils.ts` file. You can also configure cookie attributes with the `runtimeOptions` parameter.
+The `createAuthRouteHandlers` function is created by the `createServerRunner` function call when you configure Amplify for server-side usage. You can export this function from your `amplifyServerUtils.ts` file. You can also configure cookie attributes with the `runtimeOptions` parameter.
 
 ```typescript title="utils/amplifyServerUtils.ts"
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
-import config from '@/amplifyconfiguration.json';
+import config from '@/amplify_outputs.json';
 
 export const {
   runWithAmplifyServerContext
@@ -272,7 +272,7 @@ export const {
 Create an API route using the `createAuthRouteHandlers` function. For example:
 
 <BlockSwitcher>
-<Block name="With the App router">
+<Block name="App router">
 ```typescript title="src/app/api/auth/[slug].ts"
 import { createAuthRouteHandlers } from "@/amplifyServerUtils";
 
@@ -282,7 +282,7 @@ export const GET = createAuthRouteHandlers({
 });
 ```
 </Block>
-<Block name="With Pages router">
+<Block name="Pages router">
 ```typescript title="src/pages/api/auth/[slug].ts"
 import { createAuthRouteHandlers } from "@/amplifyServerUtils";
 
@@ -298,12 +298,12 @@ With the above example, Amplify generates the following API routes:
 
 | API Routes                                          | What it does                                                 |
 | --------------------------------------------------- | ------------------------------------------------------------ |
-| `/api/auth/sign-up`                                 | Upon navigating an end user to this route, they’ll be redirected to the Amazon Cognito Managed Login sign-up form. After sign-up and sign-in, they’ll be redirected back to the route specified by the `redirectOnSignInComplete` parameter. |
-| `/api/auth/sign-in`                                 | Upon navigating an end user to this route, they’ll be redirected to the Amazon Cognito Managed Login sign-in form. After sign-in, they’ll be redirected back to the route specified by the `redirectOnSignInComplete` parameter. |
-| `/api/auth/sign-in?provider=<social-provider-name>` | Upon navigating an end user to this route, they’ll be redirected to Amazon Cognito Managed Login. Then, they’ll be redirected to the specified social provider sign-in page. After sign-in, they’ll be redirected back to the route specified by the `redirectOnSignOutComplete` parameter. |
-| `/api/auth/sign-out`                                | Upon navigating an end user to this route, the end user will be signed out and redirected to the route specified by the redirectOnSignOutComplete parameter. |
-| `/api/auth/sign-in-callback`                        | Amazon Cognito Managed Login redirects users back to this route after signing in. Amplify exchanges auth tokens and stores them as HTTP-only cookies in the browser cookie store. |
-| `/api/auth/sign-out-callback`                       | Amazon Cognito Managed Login redirects an end user back to this router after signing out, Amplify revokes access token and refresh token and removes token cookies from browser cookie store. |
+| `/api/auth/sign-up`                                 | Upon navigating an end user to this route, they’ll be redirected to the Amazon Cognito Managed Login sign-up form. After sign-up and sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
+| `/api/auth/sign-in`                                 | Upon navigating an end user to this route, they’ll be redirected to the Amazon Cognito Managed Login sign-in form. After sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
+| `/api/auth/sign-in?provider=<social-provider-name>` | Upon navigating an end user to this route, they’ll be redirected to first to the Amazon Cognito Managed Login and then the specified social provider sign-in page. After sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
+| `/api/auth/sign-out`                                | Upon navigating an end user to this route, the end user will be signed out and redirected to the route `/api/auth/sign-out-callback`. |
+| `/api/auth/sign-in-callback`                        | Amazon Cognito Managed Login redirects an end user back to this route after signing in. Amplify exchanges auth tokens and stores them as HTTP-only cookies in the browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignInComplete` parameter. |
+| `/api/auth/sign-out-callback`                       | Amazon Cognito Managed Login redirects an end user back to this route after signing out, Amplify revokes access token and refresh token and removes token cookies from browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignOutComplete` parameter. |
 
 > **Note:** A signing-out call involves multiple steps, including signing out from Amazon Cognito Managed Login, revoking tokens, and removing cookies. If the user closes the browser during the process, the following may occur:
 >
@@ -346,10 +346,10 @@ export const SignInButton() {
 </Block>
 <Block name="Sign in with Google button">
 ```tsx title="src/components/SignInWithGoogleButton.tsx"
-export const SignInButton() {
+export const SignInWithGoogleButton() {
   return (
     <a href="/api/auth/sign-in?provider=Google">
-      Sign In
+      Sign In with Google
     </a>
   );
 }
@@ -357,10 +357,10 @@ export const SignInButton() {
 </Block>
 <Block name="Sign up button">
 ```tsx title="src/components/SignUpButton.tsx"
-export const SignInButton() {
+export const SignUpButton() {
   return (
     <a href="/api/auth/sign-up">
-      Sign In
+      Sign Up
     </a>
   );
 }
@@ -368,10 +368,10 @@ export const SignInButton() {
 </Block>
 <Block name="Sign out button">
 ```tsx title="src/components/SignOutButton.tsx"
-export const SignInButton() {
+export const SignOutButton() {
   return (
     <a href="/api/auth/sign-out">
-      Sign In
+      Sign Out
     </a>
   );
 }
