@@ -116,11 +116,14 @@ Secrets must be created manually with [`ampx sandbox secret`](/[platform]/refere
 
 </Callout>
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth, secret } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
+    email: true,
     externalProviders: {
       google: {
         clientId: secret('GOOGLE_CLIENT_ID'),
@@ -149,6 +152,43 @@ export const auth = defineAuth({
   }
 });
 ```
+
+</InlineFilter>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth, secret } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      google: {
+        clientId: secret('GOOGLE_CLIENT_ID'),
+        clientSecret: secret('GOOGLE_CLIENT_SECRET')
+      },
+      signInWithApple: {
+        clientId: secret('SIWA_CLIENT_ID'),
+        keyId: secret('SIWA_KEY_ID'),
+        privateKey: secret('SIWA_PRIVATE_KEY'),
+        teamId: secret('SIWA_TEAM_ID')
+      },
+      loginWithAmazon: {
+        clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
+        clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET')
+      },
+      facebook: {
+        clientId: secret('FACEBOOK_CLIENT_ID'),
+        clientSecret: secret('FACEBOOK_CLIENT_SECRET')
+      },
+      callbackUrls: ["myapp://callback/"],
+      logoutUrls: ["myapp://signout/"],
+    }
+  }
+});
+```
+
+</InlineFilter>
 
 You need to now inform your external provider of the newly configured authentication resource and its OAuth redirect URI:
 
@@ -216,21 +256,26 @@ You need to now inform your external provider of the newly configured authentica
 </Block>
 </BlockSwitcher>
 
+Learn more about using social identity providers with user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)
+
 ### Customizing scopes for retrieving user data from external providers
 
 You can determine the pieces of data you want to retrieve from each external provider when setting them up in the `amplify/auth/resource.ts` file using `scopes`.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
-    externalAuthProviders: {
+    email: true,
+    externalProviders: {
       loginWithAmazon: {
         clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
         clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
         // highlight-next-line
-        scopes: ['email']
+        scopes: ['profile']
       },
       callbackUrls: [
         'http://localhost:3000/profile',
@@ -242,6 +287,31 @@ export const auth = defineAuth({
 });
 ```
 
+</InlineFilter>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      loginWithAmazon: {
+        clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
+        clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
+        // highlight-next-line
+        scopes: ['email']
+      },
+      callbackUrls: ["myapp://callback/"],
+      logoutUrls: ["myapp://signout/"],
+    }
+  }
+});
+```
+
+</InlineFilter>
+
 ### Attribute mapping
 
 You can map which attributes are mapped between your external identity provider and your users created in Cognito. We will be able to have the best level of protection for developers if we ensure that attribute mappings that would not work are called out by the type system.
@@ -252,11 +322,14 @@ If you specify an attribute in your authentication resource as required, and it 
 
 </Callout>
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
+
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({
   loginWith: {
+    email: true,
     externalAuthProviders: {
       loginWithAmazon: {
         clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
@@ -276,13 +349,45 @@ export const auth = defineAuth({
   }
 });
 ```
+
+</InlineFilter>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalAuthProviders: {
+      loginWithAmazon: {
+        clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
+        clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
+        // highlight-start
+        attributeMapping: {
+          email: 'email'
+        }
+        // highlight-end
+      },
+      callbackUrls: ["myapp://callback/"],
+      logoutUrls: ["myapp://signout/"],
+    }
+  }
+});
+```
+
+</InlineFilter>
+
+
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
-- [Learn more about configuring the React Authenticator component for external providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers)
+[Learn more about configuring the React Authenticator component for external providers](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#external-providers)
 </InlineFilter>
 
 ## Configure OIDC provider
 
 To setup a OIDC provider, you can configure them in your `amplify/auth/resource.ts` file. For example, if you would like to setup a Microsoft EntraID provider, you can do so as follows:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth, secret } from '@aws-amplify/backend';
@@ -309,6 +414,34 @@ export const auth = defineAuth({
 });
 ```
 
+</InlineFilter>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth, secret } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      oidc: [
+        {
+          name: 'MicrosoftEntraID',
+          clientId: secret('MICROSOFT_ENTRA_ID_CLIENT_ID'),
+          clientSecret: secret('MICROSOFT_ENTRA_ID_CLIENT_SECRET'),
+          issuerUrl: '<your-issuer-url>',
+        },
+      ],
+      callbackUrls: ["myapp://callback/"],
+      logoutUrls: ["myapp://signout/"],
+    },
+  },
+});
+```
+
+</InlineFilter>
+
+
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 Use the `signInWithRedirect` API to initiate sign-in with an OIDC identity provider.
@@ -327,6 +460,8 @@ await signInWithRedirect({
 ## Configure SAML provider
 
 To setup a SAML provider, you can configure them in your `amplify/auth/resource.ts` file. For example, if you would like to setup a Microsoft EntraID provider, you can do so as follows:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
 ```ts title="amplify/auth/resource.ts"
 import { defineAuth } from '@aws-amplify/backend';
@@ -351,6 +486,33 @@ export const auth = defineAuth({
   },
 });
 ```
+
+</InlineFilter>
+<InlineFilter filters={["android", "flutter", "swift", "react-native"]}>
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    externalProviders: {
+      saml: {
+        name: 'MicrosoftEntraIDSAML',
+        metadata: {
+          metadataContent: '<your-url-hosting-saml-metadata>', // or content of the metadata file
+          metadataType: 'URL', // or 'FILE'
+        },
+      },
+      callbackUrls: ["myapp://callback/"],
+      logoutUrls: ["myapp://signout/"],
+    },
+  },
+});
+```
+
+</InlineFilter>
+
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "vue"]}>
 
@@ -472,7 +634,6 @@ import { signInWithRedirect } from 'aws-amplify/auth';
 signInWithRedirect({
   provider: 'Apple'
 });
-
 ```
 
 ### Redirect URLs
@@ -483,7 +644,6 @@ _Sign in_ & _Sign out_ redirect URL(s) are used to redirect end users after the 
 If you have multiple sign out redirect URLs configured, you may choose to override the default behavior of selecting a redirect URL and provide the one of your choosing when calling `signOut`. The provided redirect URL should match at least one of the configured redirect URLs. If no redirect URL is provided to `signOut`, the first item from the the configured redirect URLs list that does not contain a HTTP nor HTTPS prefix will be picked.
 
 ```ts
-import { Amplify } from 'aws-amplify';
 import { signOut } from 'aws-amplify/auth';
 
 // Assuming the following URLS were provided manually or via the Amplify configuration file,
@@ -492,10 +652,9 @@ import { signOut } from 'aws-amplify/auth';
 signOut({
   global: false,
   oauth: {
-    redirectUrl: 'https://authProvider/logout?logout_uri=myDevApp://'
+    redirectUrl: 'https://authProvider/logout?logout_uri=myapp://'
   }
 });
-
 ```
 <Callout> Irrespective of whether a `redirectUrl` is provided to `signOut`, a URL that does not contain http or https is expected to be present in the configured redirect URL list. This is because iOS requires an appScheme when creating the web session. </Callout>
 

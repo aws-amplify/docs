@@ -68,6 +68,7 @@
     "amazonaws",
     "amazonaws",
     "amazoncognito",
+    "amazonlinux",
     "AmazonPersonalizeProvider",
     "AmazonS3Client",
     "Amplif",
@@ -494,6 +495,7 @@
     "dataaccess",
     "dataacess",
     "databinding",
+    "datalogconfig",
     "dataset",
     "datasource",
     "DataSource",
@@ -1616,14 +1618,27 @@
     "jamba",
     "webauthn",
     "knowledgebases",
-    "rehype"
+    "rehype",
+    "assetlinks",
+    "AMPLIFYRULES",
+    "manylinux",
+    "GOARCH",
+    "norpc"
   ],
-  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
+  "flagWords": [
+    "hte",
+    "full-stack",
+    "Full-stack",
+    "Full-Stack",
+    "sudo"
+  ],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": ["youtube-embed-ids"]
+  "ignoreRegExpList": [
+    "youtube-embed-ids"
+  ]
 }

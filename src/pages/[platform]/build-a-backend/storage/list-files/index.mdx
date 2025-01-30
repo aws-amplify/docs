@@ -67,15 +67,16 @@ If the `pageSize` is set lower than the total file size, a single `list` call on
 import { list } from 'aws-amplify/storage';
 
 const PAGE_SIZE = 20;
-let nextToken = undefined;
-//...
+let nextToken;
+// ...
 const loadNextPage = async () => {
-  let response = await list({
+  const response = await list({
     path: 'photos/',
     // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
-    pageSize: PAGE_SIZE,
-    nextToken: nextToken
-    }
+    options: {
+      pageSize: PAGE_SIZE,
+      nextToken,
+    },
   });
   if (response.nextToken) {
     nextToken = response.nextToken;
@@ -240,6 +241,7 @@ const result = await list({
 | nextToken | string | — | Indicates whether the list is being continued on this bucket with a token |
 | subpathStrategy | \{ strategy: 'include' \} \|<br/>\{ 'exclude',<br />delimiter?: string \} | \{ strategy: 'include' \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/build-a-backend/storage/list-files/#excluding-subpaths) |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+| expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
 
 </InlineFilter>
 
@@ -1010,11 +1012,47 @@ Future<void> listAllUnderPublicPath() async {
 }
 
 ```
+<InlineFilter filters={["flutter"]}>
+
+### List files from a specified bucket
+You can also perform a `list` operation to a specific bucket by providing the `bucket` option. You can pass in a `StorageBucket` object representing the target bucket from the name defined in the Amplify Backend.
+
+```dart
+final result = await Amplify.Storage.list(
+  path: const StoragePath.fromString('path/to/dir'),
+  options: StorageListOptions(
+    // highlight-start
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: StorageBucket.fromOutputs('secondBucket'),
+    // highlight-end
+  ),
+).result;
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+```dart
+final result = await Amplify.Storage.list(
+  path: const StoragePath.fromString('path/to/dir'),
+  options: StorageListOptions(
+    // highlight-start
+    // Alternatively, provide bucket name from console and associated region
+   bucket: StorageBucket.fromBucketInfo(
+        BucketInfo(
+          bucketName: 'second-bucket-name-from-console',
+          region: 'us-east-2',
+        ),
+      ),
+      // highlight-end
+  ),
+).result;
+```
+</InlineFilter>
 
 ### More `list` options
 
 | Option | Type | Description |
 | --- | --- | --- |
+| bucket | StorageBucket | The target bucket from the assigned name in the Amplify Backend or from the bucket name and region in the console<br/><br/>Defaults to the default bucket and region from the Amplify configuration if this option is not provided.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | excludeSubPaths | boolean | Whether to exclude objects under the sub paths of the path to list. Defaults to false. |
 | delimiter | String | The delimiter to use when evaluating sub paths. If excludeSubPaths is false, this value has no impact on behavior. |
 
@@ -1085,6 +1123,35 @@ Future<void> getFileProperties() async {
   try {
     final result = await Amplify.Storage.getProperties(
       path: const StoragePath.fromString('example.txt'),
+    ).result;
+    safePrint('File size: ${result.storageItem.size}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+As well as specify a bucket to target to view properties of a file
+
+```dart
+Future<void> getFileProperties() async {
+  try {
+    final result = await Amplify.Storage.getProperties(
+      path: const StoragePath.fromString('example.txt'),
+      options: StorageGetPropertiesOptions(
+        StorageBucket.fromOutputs('secondBucket'),
+      ),
+      // Alternatively, provide bucket name from console and associated region
+      /*
+      options: StorageGetPropertiesOptions( 
+        bucket: StorageBucket.fromBucketInfo(
+          BucketInfo(
+            bucketName: 'second-bucket-name-from-console',
+            region: 'us-east-2',
+          ),
+        ),
+      ),
+      */
     ).result;
     safePrint('File size: ${result.storageItem.size}');
   } on StorageException catch (e) {

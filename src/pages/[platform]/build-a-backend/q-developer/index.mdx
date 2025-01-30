@@ -90,3 +90,36 @@ import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 </Callout>
 
 **Step 4:** Make any required changes to the schema and save the `amplify/data/resource.ts` file. This will trigger a sandbox deployment and your new data model will be deployed
+
+## Use Q Developer - workspace in your Amplify project
+
+
+Adding `@workspace` to your question in Amazon Q automatically incorporates the most relevant parts of your workspace code as context, using an index that updates periodically. For more information on `@workspace` functionality, please visit [Amazon Q Developer - Workspace Context](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/workspace-context.html). 
+
+The files below provide detailed guides that can be included as context with the `@workspace` command, enhancing Amazon Q's accuracy in generating AWS Amplify Gen 2 code.
+
+Download the files and follow the steps below to use the `@workspace` in your Amplify project
+
+- <a href="/images/gen2/q-developer/general.md" download>general.md</a>
+- <a href="/images/gen2/q-developer/authentication.md" download>authentication.md</a>
+- <a href="/images/gen2/q-developer/modeling-relationships.md" download>modeling-relationships.md</a>
+- <a href="/images/gen2/q-developer/modeling-schema.md" download>modeling-schema.md</a>
+
+
+**Step 1:** Create a folder in the root of your project and give a descriptive name such as `context`. Add the files downloaded above to this folder.
+
+**Step 2:** Open Amazon Q Developer Chat in your IDE and type `@workspace` to enable workspace indexing. Follow Amazon Q's prompts to set up indexing for your project directory.
+
+**Step 3:** After successful indexing, reference the markdown file content in your queries to Amazon Q. Examples:
+
+```bash title="Terminal" 
+
+@workspace follow AMPLIFYRULES to develop a data model schema for a freelance marketplace using Amplify Gen 2. Include models for freelancers, clients, projects, bids, and reviews. Use Amplify Gen 2 to fetch a list of projects
+
+```
+
+```bash title="Terminal" 
+
+@workspace follow AMPLIFYRULES to design a data schema for an event management application using Amplify Gen 2. Include models for users, events, and tickets. Show me how to use Amplify Gen 2 to fetch a list of events.
+
+```

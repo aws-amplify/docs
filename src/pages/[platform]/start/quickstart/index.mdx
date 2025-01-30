@@ -1051,7 +1051,7 @@ Now move the `amplify_outputs.json` file you downloaded above to the root of you
 ```
 
 <Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library.
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `app.component.ts` file and then passed into the `Amplify.configure(...)` function of the Amplify client library.
 </Accordion>
 
 
@@ -2723,7 +2723,7 @@ npm add \
   aws-amplify \
   @react-native-community/netinfo \
   @react-native-async-storage/async-storage \
-  react-native-safe-area-context \
+  react-native-safe-area-context@^4.2.5 \
   react-native-get-random-values \
   react-native-url-polyfill
 ```
@@ -2738,7 +2738,7 @@ Next, update the `App.tsx` file with the following:
 
 ```typescript
 import React from "react";
-import { Button, View, StyleSheet, SafeAreaView } from "react-native";
+import { Button, View, StyleSheet } from "react-native";
 
 import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
@@ -2761,9 +2761,7 @@ const App = () => {
   return (
     <Authenticator.Provider>
       <Authenticator>
-        <SafeAreaView>
-          <SignOutButton />
-        </SafeAreaView>
+        <SignOutButton />
       </Authenticator>
     </Authenticator.Provider>
   );
