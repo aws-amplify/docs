@@ -59,9 +59,13 @@ After a successful deployment, `sandbox` watches for file changes in your `ampli
 
 ### Terminating a sandbox environment
 
-After testing all the changes associated with the backend, you can terminate the sandbox session via <kbd>Ctrl</kbd>+<kbd>c</kbd> and can then choose whether you want to keep or delete all the resources in the sandbox environment.
+After testing all the changes associated with the backend, you can terminate the sandbox session via <kbd>Ctrl</kbd>+<kbd>c</kbd>.
 
-![terminal output after exiting sandbox with ctrl+c and prompt for resource deletion](/images/gen2/sandbox/sandbox3.png)
+To delete all the resources in the sandbox environment, run the following command:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox delete
+```
 
 ## Manage sandbox environments
 
