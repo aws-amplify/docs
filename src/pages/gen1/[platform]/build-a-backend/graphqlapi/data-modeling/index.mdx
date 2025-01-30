@@ -1119,33 +1119,31 @@ Amplify GraphQL schemas support the `extend` keyword, which allows you to extend
 
 2. In one of the files (e.g., `schema1.graphql`), declare your type normally:
 
-```graphql
+```graphql title="schema1.graphql"
 type Query {
   # initial custom queries
+  myQuery: String @function(name: "myQueryFunction-${env}")
 }
 ```
 
 3. In other schema files (e.g., `schema2.graphql`), use the `extend` keyword to add to the type:
 
-```graphql
+```graphql title="schema2.graphql"
 extend type Query {
   # additional custom queries
+  myQuery2: String @function(name: "myQuery2Function-${env}")
 }
 ```
 <Callout info>
-The order in which the Query types are extended does not affect the compilation of separate schema files.
-</Callout>
-
-<Callout info>
-Declaring custom Query, Mutation, and/or Subscription with the same field names in another schema file will result in schema validation errors similar to the following:
+The order in which the Query types are extended does not affect the compilation of separate schema files. However, declaring custom Query, Mutation, and/or Subscription extensions with the same field names in another schema file will result in schema validation errors similar to the following:
 
 `🛑 Object type extension 'Query' cannot redeclare field getBlogById`
 </Callout>
 
-<Callout info>
-Amplify directives are currently not supported on the extended type definitions. You can use the extend keyword to organize custom queries, mutations, and subscriptions that use [custom resolvers](https://docs.amplify.aws/gen1/react/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/).
+4. Add functionality to the fields of the extended type using Amplify directives. Amplify supports the `@auth`, `@function`, and `@http` directives on fields of `Query`, `Mutation`, and `Subscription` type extensions. Alternately, you can use the `extend` keyword to organize custom queries, mutations, and subscriptions that use [custom resolvers](https://docs.amplify.aws/gen1/react/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/) rather than Amplify directives.
 
-For the latest updates and potential future enhancements, please track the ongoing discussion in [GitHub Issue #3036](https://github.com/aws-amplify/amplify-category-api/issues/3036).
+<Callout info>
+Amplify directives are not supported on extended type definitions themselves (e.g., `extend type Todo @auth...`), or on fields of types other than `Query`, `Mutation`, and `Subscription`.
 </Callout>
 
 ## How it works
