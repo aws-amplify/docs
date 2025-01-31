@@ -28,6 +28,7 @@ const { API_CATEGORIES, API_SUB_CATEGORIES, ROOT_PACKAGE } =
   packageCategories[packageName];
 
 const references = processReferences(JSON.parse(referencesFile), ROOT_PACKAGE);
+console.log(JSON.stringify(references));
 const cleanReferences = {};
 const categoryNodes = [];
 
