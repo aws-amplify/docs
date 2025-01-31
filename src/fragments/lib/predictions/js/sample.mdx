@@ -319,7 +319,7 @@ function TextTranslation() {
 
   const translate = async () => {
     try {
-      const result = Predictions.convert({
+      const result = await Predictions.convert({
         translateText: {
           source: {
             text: textToTranslate,
