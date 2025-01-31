@@ -1,0 +1,325 @@
+{
+	"id": 2,
+	"name": "Amplify Data API Documentation",
+	"variant": "project",
+	"kind": 1,
+	"flags": {},
+	"children": [
+		{
+			"id": 3,
+			"name": "@aws-amplify/data-schema",
+			"variant": "declaration",
+			"kind": 2,
+			"flags": {},
+			"readme": [
+				{
+					"kind": "text",
+					"text": "# AWS Amplify Data Schema Builder\n\nThis repository contains the implementation for the Amplify Data Schema Builder package "
+				},
+				{
+					"kind": "code",
+					"text": "`@aws-amplify/data-schema`"
+				},
+				{
+					"kind": "text",
+					"text": ", the Amplify Data Client "
+				},
+				{
+					"kind": "code",
+					"text": "`generateClient()`"
+				},
+				{
+					"kind": "text",
+					"text": ", as well as supporting utilities, automated tests, and performance benchmarks.\n\nThese packages are dependencies of "
+				},
+				{
+					"kind": "code",
+					"text": "`@aws-amplify/backend`"
+				},
+				{
+					"kind": "text",
+					"text": " and "
+				},
+				{
+					"kind": "code",
+					"text": "`aws-amplify`"
+				},
+				{
+					"kind": "text",
+					"text": " (Amplify JS). _They are not intended to be installed and used directly._\n\n## Quickstart\n\nTo get started with AWS Amplify, visit [AWS Amplify Quickstart](https://docs.amplify.aws/react/start).\n\n"
+				},
+				{
+					"kind": "code",
+					"text": "```bash\nnpm create amplify@latest\n```"
+				},
+				{
+					"kind": "text",
+					"text": "\n\n## Package Description\n\n"
+				},
+				{
+					"kind": "code",
+					"text": "`@aws-amplify/data-schema`"
+				},
+				{
+					"kind": "text",
+					"text": " contains:\n\n1. Schema Builder API implementation ("
+				},
+				{
+					"kind": "code",
+					"text": "`a.schema()`"
+				},
+				{
+					"kind": "text",
+					"text": ", "
+				},
+				{
+					"kind": "code",
+					"text": "`a.model()`"
+				},
+				{
+					"kind": "text",
+					"text": ", "
+				},
+				{
+					"kind": "code",
+					"text": "`a.string()`"
+				},
+				{
+					"kind": "text",
+					"text": ", etc.)\n1. Type mapping that emits client-side types from the schema definition\n1. "
+				},
+				{
+					"kind": "code",
+					"text": "`generateClient()`"
+				},
+				{
+					"kind": "text",
+					"text": " factory for generating a strongly-typed client from the schema definition\n\n## Security\n\nIf you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public GitHub issue.\n\n## Code of Conduct\n\nThis project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct).\nFor more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq) or contact\nopensource-codeofconduct@amazon.com with any additional questions or comments.\n\n## Community\n\nJoin the [Discord Server](https://discord.com/invite/amplify).\n\n## Contributing Guidelines\n\nThank you for your interest in contributing to our project. Please visit [CONTRIBUTING]("
+				},
+				{
+					"kind": "relative-link",
+					"text": "CONTRIBUTING.md",
+					"target": 1
+				},
+				{
+					"kind": "text",
+					"text": ") for additional information on contributing to this project.\n\n## License\n\nThis project is licensed under the Apache-2.0 License."
+				}
+			]
+		},
+		{
+			"id": 4,
+			"name": "@aws-amplify/data-schema-types",
+			"variant": "declaration",
+			"kind": 2,
+			"flags": {},
+			"readme": [
+				{
+					"kind": "text",
+					"text": "# AWS Amplify Data Schema Builder\n\nThis repository contains the implementation for the Amplify Data Schema Builder package "
+				},
+				{
+					"kind": "code",
+					"text": "`@aws-amplify/data-schema`"
+				},
+				{
+					"kind": "text",
+					"text": ", the Amplify Data Client "
+				},
+				{
+					"kind": "code",
+					"text": "`generateClient()`"
+				},
+				{
+					"kind": "text",
+					"text": ", as well as supporting utilities, automated tests, and performance benchmarks.\n\nThese packages are dependencies of "
+				},
+				{
+					"kind": "code",
+					"text": "`@aws-amplify/backend`"
+				},
+				{
+					"kind": "text",
+					"text": " and "
+				},
+				{
+					"kind": "code",
+					"text": "`aws-amplify`"
+				},
+				{
+					"kind": "text",
+					"text": " (Amplify JS). _They are not intended to be installed and used directly._\n\n## Quickstart\n\nTo get started with AWS Amplify, visit [AWS Amplify Quickstart](https://docs.amplify.aws/react/start).\n\n"
+				},
+				{
+					"kind": "code",
+					"text": "```bash\nnpm create amplify@latest\n```"
+				},
+				{
+					"kind": "text",
+					"text": "\n\n## Package Description\n\n"
+				},
+				{
+					"kind": "code",
+					"text": "`@aws-amplify/data-schema`"
+				},
+				{
+					"kind": "text",
+					"text": " contains:\n\n1. Schema Builder API implementation ("
+				},
+				{
+					"kind": "code",
+					"text": "`a.schema()`"
+				},
+				{
+					"kind": "text",
+					"text": ", "
+				},
+				{
+					"kind": "code",
+					"text": "`a.model()`"
+				},
+				{
+					"kind": "text",
+					"text": ", "
+				},
+				{
+					"kind": "code",
+					"text": "`a.string()`"
+				},
+				{
+					"kind": "text",
+					"text": ", etc.)\n1. Type mapping that emits client-side types from the schema definition\n1. "
+				},
+				{
+					"kind": "code",
+					"text": "`generateClient()`"
+				},
+				{
+					"kind": "text",
+					"text": " factory for generating a strongly-typed client from the schema definition\n\n## Security\n\nIf you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public GitHub issue.\n\n## Code of Conduct\n\nThis project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct).\nFor more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq) or contact\nopensource-codeofconduct@amazon.com with any additional questions or comments.\n\n## Community\n\nJoin the [Discord Server](https://discord.com/invite/amplify).\n\n## Contributing Guidelines\n\nThank you for your interest in contributing to our project. Please visit [CONTRIBUTING]("
+				},
+				{
+					"kind": "relative-link",
+					"text": "CONTRIBUTING.md",
+					"target": 1
+				},
+				{
+					"kind": "text",
+					"text": ") for additional information on contributing to this project.\n\n## License\n\nThis project is licensed under the Apache-2.0 License."
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Modules",
+			"children": [
+				3,
+				4
+			]
+		}
+	],
+	"packageName": "amplify-data-monorepo",
+	"readme": [
+		{
+			"kind": "text",
+			"text": "# AWS Amplify Data Schema Builder\n\nThis repository contains the implementation for the Amplify Data Schema Builder package "
+		},
+		{
+			"kind": "code",
+			"text": "`@aws-amplify/data-schema`"
+		},
+		{
+			"kind": "text",
+			"text": ", the Amplify Data Client "
+		},
+		{
+			"kind": "code",
+			"text": "`generateClient()`"
+		},
+		{
+			"kind": "text",
+			"text": ", as well as supporting utilities, automated tests, and performance benchmarks.\n\nThese packages are dependencies of "
+		},
+		{
+			"kind": "code",
+			"text": "`@aws-amplify/backend`"
+		},
+		{
+			"kind": "text",
+			"text": " and "
+		},
+		{
+			"kind": "code",
+			"text": "`aws-amplify`"
+		},
+		{
+			"kind": "text",
+			"text": " (Amplify JS). _They are not intended to be installed and used directly._\n\n## Quickstart\n\nTo get started with AWS Amplify, visit [AWS Amplify Quickstart](https://docs.amplify.aws/react/start).\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\nnpm create amplify@latest\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n## Package Description\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "`@aws-amplify/data-schema`"
+		},
+		{
+			"kind": "text",
+			"text": " contains:\n\n1. Schema Builder API implementation ("
+		},
+		{
+			"kind": "code",
+			"text": "`a.schema()`"
+		},
+		{
+			"kind": "text",
+			"text": ", "
+		},
+		{
+			"kind": "code",
+			"text": "`a.model()`"
+		},
+		{
+			"kind": "text",
+			"text": ", "
+		},
+		{
+			"kind": "code",
+			"text": "`a.string()`"
+		},
+		{
+			"kind": "text",
+			"text": ", etc.)\n1. Type mapping that emits client-side types from the schema definition\n1. "
+		},
+		{
+			"kind": "code",
+			"text": "`generateClient()`"
+		},
+		{
+			"kind": "text",
+			"text": " factory for generating a strongly-typed client from the schema definition\n\n## Security\n\nIf you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public GitHub issue.\n\n## Code of Conduct\n\nThis project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct).\nFor more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq) or contact\nopensource-codeofconduct@amazon.com with any additional questions or comments.\n\n## Community\n\nJoin the [Discord Server](https://discord.com/invite/amplify).\n\n## Contributing Guidelines\n\nThank you for your interest in contributing to our project. Please visit [CONTRIBUTING]("
+		},
+		{
+			"kind": "relative-link",
+			"text": "CONTRIBUTING.md",
+			"target": 1
+		},
+		{
+			"kind": "text",
+			"text": ") for additional information on contributing to this project.\n\n## License\n\nThis project is licensed under the Apache-2.0 License."
+		}
+	],
+	"symbolIdMap": {},
+	"files": {
+		"entries": {
+			"1": "CONTRIBUTING.md"
+		},
+		"reflections": {}
+	}
+}

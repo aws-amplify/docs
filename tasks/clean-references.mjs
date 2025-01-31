@@ -1,9 +1,6 @@
 import { writeFileSync, readFileSync } from 'fs';
-import {
-  API_CATEGORIES,
-  API_SUB_CATEGORIES
-} from '../src/data/api-categories.mjs';
-
+import { packageCategories } from '../src/data/api-categories.mjs';
+import { processReferences } from '../src/data/process-typedoc.mjs';
 /**
  * The purpose of this script is to create generate an object that only contains
  * the desired category nodes and every node needed to generate the api documentation
@@ -15,21 +12,22 @@ console.log(JSON.stringify(process.argv));
 
 const packageIndex = process.argv.indexOf('-p');
 
-if (packageIndex === NaN) {
+if (packageIndex === -1) {
   throw new Error(
     'No package name provided please provide a package name in -p.'
   );
 }
 
 const packageName = process.argv[packageIndex + 1];
-console.log(packageName);
 
 const referencesFile = readFileSync(
-  `./src/references/${packageName}/raw-references.json`
+  `./src/references/${packageName}/reference.json`
 );
 
-const references = JSON.parse(referencesFile);
+const { API_CATEGORIES, API_SUB_CATEGORIES, ROOT_PACKAGE } =
+  packageCategories[packageName];
 
+const references = processReferences(JSON.parse(referencesFile), ROOT_PACKAGE);
 const cleanReferences = {};
 const categoryNodes = [];
 
