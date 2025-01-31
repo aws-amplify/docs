@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { FunctionReference } from './FunctionReference';
 import { Divider, View, Flex } from '@aws-amplify/ui-react';
 import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories.mjs';
-import references from '@/directory/apiReferences.json';
+import references from '@/directory/apiReferences/amplify-js.json';
 import { MDXHeading } from '../MDXComponents';
 
 export const ReferencePage = ({ category }) => {

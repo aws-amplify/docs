@@ -40,7 +40,7 @@ jobs:
         run: |
           git checkout -b ${{ env.BRANCH_NAME }}
           curl -L -o ${{ vars.REF_LOC }} ${{ vars.REMOTE_REF }}
-          node tasks/clean-references.mjs
+          node tasks/clean-references.mjs -- -p amplify-js
           git add ${{ vars.REF_LOC }} ${{ vars.CLEAN_LOC }}
           git commit -m "updating references"
           git push -u origin ${{ env.BRANCH_NAME }}

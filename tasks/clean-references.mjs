@@ -1,5 +1,4 @@
-import references from '../src/references/raw-references.json' assert { type: 'json' };
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
 import {
   API_CATEGORIES,
   API_SUB_CATEGORIES
@@ -11,6 +10,25 @@ import {
  * for these nodes.  This is done by iterating over the needed category nodes and
  * then recursively adding every node found into cleanReferences.
  */
+// Read the -p flag from the cli params
+console.log(JSON.stringify(process.argv));
+
+const packageIndex = process.argv.indexOf('-p');
+
+if (packageIndex === NaN) {
+  throw new Error(
+    'No package name provided please provide a package name in -p.'
+  );
+}
+
+const packageName = process.argv[packageIndex + 1];
+console.log(packageName);
+
+const referencesFile = readFileSync(
+  `./src/references/${packageName}/raw-references.json`
+);
+
+const references = JSON.parse(referencesFile);
 
 const cleanReferences = {};
 const categoryNodes = [];
@@ -157,7 +175,7 @@ cleanReferences['categories'] = categoryNodes;
 // update_references workflow and will be committed.
 try {
   writeFileSync(
-    'src/directory/apiReferences.json',
+    `src/directory/apiReferences/${packageName}.json`,
     JSON.stringify(cleanReferences, null, 2),
     'utf8'
   );
