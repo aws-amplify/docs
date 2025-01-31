@@ -1143,7 +1143,7 @@ The order in which the Query types are extended does not affect the compilation 
 4. Add functionality to the fields of the extended type using Amplify directives. Amplify supports the `@auth`, `@function`, and `@http` directives on fields of `Query`, `Mutation`, and `Subscription` type extensions. Alternately, you can use the `extend` keyword to organize custom queries, mutations, and subscriptions that use [custom resolvers](https://docs.amplify.aws/gen1/react/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/) rather than Amplify directives.
 
 <Callout info>
-Amplify directives are not supported on extended type definitions themselves (e.g., `extend type Todo @auth...`), or on fields of types other than `Query`, `Mutation`, and `Subscription`.
+Amplify directives are not supported on extended type definitions themselves (e.g., `extend type Todo @auth...`), or on fields of extended types other than `Query`, `Mutation`, and `Subscription`.
 </Callout>
 
 ## How it works
