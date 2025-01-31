@@ -2,7 +2,7 @@ import { View } from '@aws-amplify/ui-react';
 import { MDXHeading, MDXTable } from '../MDXComponents';
 import { ApiComment } from './ApiComment';
 import { ParameterType } from './display';
-import references from '@/directory/apiReferences.json';
+import references from '@/directory/apiReferences/amplify-js.json';
 
 export const Parameters = ({ parameters, sigName }) => {
   const paramObjects = parameters.map((id) => references[id]);

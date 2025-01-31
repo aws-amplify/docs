@@ -4,7 +4,7 @@ import { ApiComment } from './ApiComment';
 import { Parameters } from './Parameters';
 import { Throws } from './Throws';
 import { FunctionReturn } from './FunctionReturn';
-import references from '@/directory/apiReferences.json';
+import references from '@/directory/apiReferences/amplify-js.json';
 
 export const FunctionSignature = ({ sig }) => {
   const sigObject = references[sig];

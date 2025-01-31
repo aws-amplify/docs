@@ -119,6 +119,7 @@
     "prepare": "husky install",
     "analyze": "ANALYZE=true yarn next-build",
     "prebuild": "node src/directory/generateDirectory.mjs && node src/directory/generateFlatDirectory.mjs",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean-references": "node tasks/clean-references.mjs"
   }
 }

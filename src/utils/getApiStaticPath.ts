@@ -1,5 +1,7 @@
-import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories';
+import { packageCategories } from '@/data/api-categories';
 import { JS_PLATFORMS } from '@/data/platforms';
+
+const { API_CATEGORIES, API_SUB_CATEGORIES } = packageCategories['amplify-js'];
 
 export const getApiStaticPath = (sub) => {
   const paths: any = [];
