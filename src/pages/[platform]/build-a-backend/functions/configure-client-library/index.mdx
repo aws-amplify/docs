@@ -42,7 +42,7 @@ const { resourceConfig, libraryOptions } = await getAmplifyDataClientConfig(
 
 <Callout warning>
 
-When configuring Amplify with `getAmplifyDataClientConfig`, your function consumes schema information from an Amazon S3 bucket created during backend deployment with grants for the access your function need to use it. Any changes to this bucket outside of backend deployment may break your function.
+When using `getAmplifyDataClientConfig`, your function requires schema information stored in an Amplify deployed Amazon S3 bucket. This bucket is created during backend deployment and includes necessary access grants for your function. Modifying this bucket outside of the backend deployment process may cause unexpected failures on your function.
 
 </Callout>
 
