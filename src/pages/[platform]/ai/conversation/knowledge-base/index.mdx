@@ -125,7 +125,7 @@ const backend = defineBackend({
 const KnowledgeBaseDataSource =
   backend.data.resources.graphqlApi.addHttpDataSource(
     "KnowledgeBaseDataSource",
-    `https://bedrock-runtime.${cdk.Stack.of(backend.data).region}.amazonaws.com`,
+    `https://bedrock-agent-runtime.${cdk.Stack.of(backend.data).region}.amazonaws.com`,
     {
       authorizationConfig: {
         signingRegion: cdk.Stack.of(backend.data).region,
