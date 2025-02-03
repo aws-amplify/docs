@@ -108,7 +108,7 @@ If you're using the Next.js App Router, you can create a client component to con
 
 `ConfigureAmplifyClientSide.ts`:
 
-```typescript title="src/components/ConfigureAmplifyClientSide.tsx"
+```tsx title="src/components/ConfigureAmplifyClientSide.tsx"
 'use client';
 
 import { Amplify } from 'aws-amplify';
@@ -123,7 +123,7 @@ export default function ConfigureAmplifyClientSide() {
 
 `layout.tsx`:
 
-```jsx title="src/app/layout.tsx"
+```tsx title="src/app/layout.tsx"
 import ConfigureAmplifyClientSide from '@/components/ConfigureAmplifyClientSide';
 import './globals.css';
 
@@ -215,11 +215,11 @@ In this example, if the incoming request is not associated with a valid user ses
 
 </Callout>
 
-### (Preview) Perform authentication on the server side and enable HTTP-only cookies
+### (Experimental) Perform authentication on the server side and enable HttpOnly cookies
 
 <Callout warning>
 
-**NOTE:** Once you enable the server-side sign-in feature, auth tokens are stored in HTTP-only cookies and you may not change the HTTP-only attribute. Since these cookies are inaccessible from client-side scripts, you won’t be able to use any Amplify JS APIs on the client side. Therefore, you don’t need to configure Amplify on the client side.
+**NOTE:** Once you enable the server-side sign-in feature, auth tokens are stored in HttpOnly cookies and you may not change the HttpOnly attribute. Since these cookies are inaccessible from client-side scripts, you won’t be able to use any Amplify JS APIs on the client side. Therefore, you don’t need to configure Amplify on the client side. You can keep using [these Amplify JS server-side APIs](/[platform]/build-a-backend/server-side-rendering/#supported-apis-for-nextjs-server-side-usage) on the server side.
 
 </Callout>
 
@@ -228,11 +228,11 @@ In this example, if the incoming request is not associated with a valid user ses
 To authenticate users on the server side, you must enable either Amazon Cognito Managed Login or Hosted UI in your Amazon Cognito User Pool client.
 
 
-**Step 1 - Specify the origin of your app in environment variables**
+#### Step 1 - Specify the origin of your app in environment variables
 
 Add the following environment variables to your Next.js app. For example in a `.env` file:
 
-```shell title=".env"
+```shell title=".env" showLineNumbers={false}
 AMPLIFY_APP_ORIGIN=https://myapp.com
 ```
 
@@ -240,13 +240,13 @@ Ensure this environment variables is accessible in your Next.js app's server run
 
 > **Note:** Token cookies are transmitted via server-side authentication flows. In production environments, it is recommended to use HTTPS as the origin for enhanced security.
 
-**Step 2 - Export the `createAuthRouteHandlers` function**
+#### Step 2 - Export the `createAuthRouteHandlers` function
 
 The `createAuthRouteHandlers` function is created by the `createServerRunner` function call when you configure Amplify for server-side usage. You can export this function from your `amplifyServerUtils.ts` file. You can also configure cookie attributes with the `runtimeOptions` parameter.
 
 ```typescript title="utils/amplifyServerUtils.ts"
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
-import config from '@/amplify_outputs.json';
+import outputs from '@/amplify_outputs.json';
 
 export const {
   runWithAmplifyServerContext
@@ -254,7 +254,7 @@ export const {
   createAuthRouteHandlers,
   // highlight-end
 } = createServerRunner({
-  config,
+  config: outputs,
   // highlight-start
   runtimeOptions: {
     cookies: {
@@ -267,7 +267,7 @@ export const {
 });
 ```
 
-**Step 3 - Set up the Auth API routes**
+#### Step 3 - Set up the Auth API routes
 
 Create an API route using the `createAuthRouteHandlers` function. For example:
 
@@ -302,7 +302,7 @@ With the above example, Amplify generates the following API routes:
 | `/api/auth/sign-in`                                 | Upon navigating an end user to this route, they’ll be redirected to the Amazon Cognito Managed Login sign-in form. After sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
 | `/api/auth/sign-in?provider=<social-provider-name>` | Upon navigating an end user to this route, they’ll be redirected to first to the Amazon Cognito Managed Login and then the specified social provider sign-in page. After sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
 | `/api/auth/sign-out`                                | Upon navigating an end user to this route, the end user will be signed out and redirected to the route `/api/auth/sign-out-callback`. |
-| `/api/auth/sign-in-callback`                        | Amazon Cognito Managed Login redirects an end user back to this route after signing in. Amplify exchanges auth tokens and stores them as HTTP-only cookies in the browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignInComplete` parameter. |
+| `/api/auth/sign-in-callback`                        | Amazon Cognito Managed Login redirects an end user back to this route after signing in. Amplify exchanges auth tokens and stores them as HttpOnly cookies in the browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignInComplete` parameter. |
 | `/api/auth/sign-out-callback`                       | Amazon Cognito Managed Login redirects an end user back to this route after signing out, Amplify revokes access token and refresh token and removes token cookies from browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignOutComplete` parameter. |
 
 > **Note:** A signing-out call involves multiple steps, including signing out from Amazon Cognito Managed Login, revoking tokens, and removing cookies. If the user closes the browser during the process, the following may occur:
@@ -310,7 +310,7 @@ With the above example, Amplify generates the following API routes:
 > 1. auth token have not been revoked - user remains signed in
 > 2. auth token have been revoked but cookies have not been removed - cookies will be removed when the user visits the app again
 
-**Step 4 - Provide the redirect URLs to the Auth Resource in Amplify**
+#### Step 4 - Provide the redirect URLs to the Auth Resource in Amplify
 
 You can provide the callback API routes as the redirect URLs in the Auth resource configuration. For example:
 
@@ -319,7 +319,7 @@ export const auth = defineAuth({
   loginWith: {
     email: true,
     externalProviders: {
-      google: {...},
+      google: {/* ... */},
       // highlight-start
       callbackUrls: ["https://myapp.com/api/auth/sign-in-callback"],
       logoutUrls: ["https://myapp.com/api/auth/sign-out-callback"],
@@ -328,7 +328,8 @@ export const auth = defineAuth({
   },
 });
 ```
-**Step 5 - Use Anchor link for initiating server-side authentication flows**
+
+#### Step 5 - Use Anchor link for initiating server-side authentication flows
 
 Use HTML anchor links to navigate users to the sign-in and sign-up routes. For example:
 
