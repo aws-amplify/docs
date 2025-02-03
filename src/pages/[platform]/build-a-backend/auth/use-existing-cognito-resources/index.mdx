@@ -150,6 +150,24 @@ export const auth = referenceAuth({
 });
 ```
 
+Additionally, you can also use the `groups` property to define groups created in the user pool. This is useful if you want to work with groups in your application and provide access to resources such as storage based on group membership.
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+import { getUser } from "../functions/get-user/resource";
+
+export const auth = referenceAuth({
+  userPoolId: 'us-east-1_xxxx',
+  identityPoolId: 'us-east-1:b57b7c3b-9c95-43e4-9266-xxxx',
+  authRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthauthenticatedU-xxxx',
+  unauthRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthunauthenticate-xxxx',
+  userPoolClientId: 'xxxx',
+  groups: {
+    admin: "arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthadminGroupRole-xxxx",
+  },
+});
+```
+
 In a team setting you may want to reference a different set of auth resources depending on the deployment context. For instance if you have a `staging` branch that should reuse resources from a separate "staging" environment compared to a `production` branch that should reuse resources from the separate "production" environment. In this case we recommend using environment variables.
 
 ```ts title="amplify/auth/resource.ts"
