@@ -246,12 +246,12 @@ Ensure this environment variables is accessible in your Next.js app's server run
 
 The `createAuthRouteHandlers` function is created by the `createServerRunner` function call when you configure Amplify for server-side usage. You can export this function from your `amplifyServerUtils.ts` file. You can also configure cookie attributes with the `runtimeOptions` parameter.
 
-```typescript title="utils/amplifyServerUtils.ts"
+```typescript title="src/utils/amplifyServerUtils.ts"
 import { createServerRunner } from '@aws-amplify/adapter-nextjs';
 import config from '@/amplifyconfiguration.json';
 
 export const {
-  runWithAmplifyServerContext
+  runWithAmplifyServerContext,
   // highlight-start
   createAuthRouteHandlers,
   // highlight-end
@@ -276,7 +276,7 @@ Create an API route using the `createAuthRouteHandlers` function. For example:
 <BlockSwitcher>
 <Block name="App router">
 ```typescript title="src/app/api/auth/[slug].ts"
-import { createAuthRouteHandlers } from "@/amplifyServerUtils";
+import { createAuthRouteHandlers } from "@/utils/amplifyServerUtils";
 
 export const GET = createAuthRouteHandlers({
   redirectOnSignInComplete: "/home",
@@ -286,7 +286,7 @@ export const GET = createAuthRouteHandlers({
 </Block>
 <Block name="Pages router">
 ```typescript title="src/pages/api/auth/[slug].ts"
-import { createAuthRouteHandlers } from "@/amplifyServerUtils";
+import { createAuthRouteHandlers } from "@/utils/amplifyServerUtils";
 
 export default createAuthRouteHandlers({
   redirectOnSignInComplete: "/home",
