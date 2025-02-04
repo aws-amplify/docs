@@ -150,7 +150,7 @@ export const auth = referenceAuth({
 });
 ```
 
-Additionally, you can also use the `groups` property to define groups created in the user pool. This is useful if you want to work with groups in your application and provide access to resources such as storage based on group membership.
+Additionally, you can also use the `groups` property to reference groups in your user pool. This is useful if you want to work with groups in your application and provide access to resources such as storage based on group membership.
 
 ```ts title="amplify/auth/resource.ts"
 import { referenceAuth } from '@aws-amplify/backend';
