@@ -41,7 +41,7 @@ import { remove } from 'aws-amplify/storage';
 try {
   await remove({ 
     path: 'album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
     bucket: 'assignedNameInAmplifyBackend', // Specify a target bucket using name assigned in Amplify Backend
   });
 } catch (error) {
