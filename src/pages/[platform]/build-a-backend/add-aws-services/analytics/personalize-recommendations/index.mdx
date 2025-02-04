@@ -57,8 +57,12 @@ Configure Amazon Personalize:
 
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+
+const amplifyConfig = parseAmplifyConfig(outputs);
+
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...amplifyConfig,
   Analytics: {
     Personalize: {
       // REQUIRED - The trackingId to track the events
