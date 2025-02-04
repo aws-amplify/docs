@@ -219,7 +219,7 @@ In this example, if the incoming request is not associated with a valid user ses
 
 <Callout warning>
 
-**NOTE:** Once you enable the server-side sign-in feature, auth tokens are stored in HttpOnly cookies and you may not change the HttpOnly attribute. Since these cookies are inaccessible from client-side scripts, you won’t be able to use any Amplify JS APIs on the client side. Therefore, you don’t need to configure Amplify on the client side. You can keep using [these Amplify JS server-side APIs](/[platform]/build-a-backend/server-side-rendering/#supported-apis-for-nextjs-server-side-usage) on the server side.
+**Warning:** Once you enable the server-side sign-in feature, auth tokens are stored in HttpOnly cookies and you may not change the HttpOnly attribute. Since these cookies are inaccessible from client-side scripts, you won’t be able to use any Amplify JS APIs on the client side. Therefore, you don’t need to configure Amplify on the client side. You can keep using [these Amplify JS server-side APIs](/[platform]/build-a-backend/server-side-rendering/#supported-apis-for-nextjs-server-side-usage) on the server side.
 
 </Callout>
 
@@ -238,7 +238,11 @@ AMPLIFY_APP_ORIGIN=https://myapp.com
 
 Ensure this environment variables is accessible in your Next.js app's server runtime.
 
-> **Note:** Token cookies are transmitted via server-side authentication flows. In production environments, it is recommended to use HTTPS as the origin for enhanced security.
+<Callout info>
+
+**Note:** Token cookies are transmitted via server-side authentication flows. In production environments, it is recommended to use HTTPS as the origin for enhanced security.
+
+</Callout>
 
 #### Step 2 - Export the `createAuthRouteHandlers` function
 
@@ -273,7 +277,7 @@ Create an API route using the `createAuthRouteHandlers` function. For example:
 
 <BlockSwitcher>
 <Block name="App router">
-```typescript title="src/app/api/auth/[slug].ts"
+```typescript title="src/app/api/auth/[slug]/route.ts"
 import { createAuthRouteHandlers } from "@/utils/amplifyServerUtils";
 
 export const GET = createAuthRouteHandlers({
@@ -300,7 +304,7 @@ With the above example, Amplify generates the following API routes:
 | --------------------------------------------------- | ------------------------------------------------------------ |
 | `/api/auth/sign-up`                                 | Upon navigating an end user to this route, they’ll be redirected to the Amazon Cognito Managed Login sign-up form. After sign-up and sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
 | `/api/auth/sign-in`                                 | Upon navigating an end user to this route, they’ll be redirected to the Amazon Cognito Managed Login sign-in form. After sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
-| `/api/auth/sign-in?provider=<social-provider-name>` | Upon navigating an end user to this route, they’ll be redirected to first to the Amazon Cognito Managed Login and then the specified social provider sign-in page. After sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
+| `/api/auth/sign-in?provider=<social-provider-name>` | Upon navigating an end user to this route, they’ll be redirected first to the Amazon Cognito Managed Login and then the specified social provider sign-in page. After sign-in, they’ll be redirected back to the route `/api/auth/sign-in-callback`. |
 | `/api/auth/sign-out`                                | Upon navigating an end user to this route, the end user will be signed out and redirected to the route `/api/auth/sign-out-callback`. |
 | `/api/auth/sign-in-callback`                        | Amazon Cognito Managed Login redirects an end user back to this route after signing in. Amplify exchanges auth tokens and stores them as HttpOnly cookies in the browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignInComplete` parameter. |
 | `/api/auth/sign-out-callback`                       | Amazon Cognito Managed Login redirects an end user back to this route after signing out, Amplify revokes access token and refresh token and removes token cookies from browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignOutComplete` parameter. |
