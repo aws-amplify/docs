@@ -65,7 +65,7 @@
     "lint-staged": "^15.2.7",
     "next-bundle-analyzer": "^0.6.7",
     "prettier": "^3.0.3",
-    "puppeteer": "^22.8.0",
+    "puppeteer": "^24.2.0",
     "rehype": "^11.0.0",
     "rehype-img-size": "^1.0.1",
     "rehype-mdx-code-props": "^2.0.0",
