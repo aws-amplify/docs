@@ -1,8 +1,7 @@
 name: LinkChecker
 on:
-  schedule:
-    - cron: '0 17 * * 1-5'
-  workflow_dispatch:
+  pull_request:
+    branches: [fix/link-checker-action]
 permissions:
   contents: read
   id-token: write
