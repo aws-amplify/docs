@@ -35,7 +35,14 @@ You can use a personal cloud sandbox environment that provides an isolated devel
 
 Cloud sandbox environments are not intended for production workloads.
 
+DynamoDB GSI operations are long-running. Therefore in a sandbox, when a customer deletes or modifies an index on a DynamoDB table, we drop the table and recreate it rather than modifying the GSI.
+
+Where supported, we use CDK hot swapping to speed deployment of resources such as Lambda functions and AppSync resolver templates.
+
+When the customer makes an unsupported change to their Cognito User Pool (e.g., deleting a required field), we drop the user pool and recreate it.
+
 </Callout>
+
 
 ![How cloud sandbox environments work](/images/gen2/how-amplify-works/sandbox.png)
 
