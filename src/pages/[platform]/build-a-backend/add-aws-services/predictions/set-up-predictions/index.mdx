@@ -154,12 +154,7 @@ Import and load the configuration file in your app. It is recommended you add th
 
 ```ts title="src/main.ts"
 import { Amplify } from "aws-amplify";
-import outputs from "./amplify_outputs.json";
+import outputs from '../amplify_outputs.json';
 
 Amplify.configure(outputs);
-
-Amplify.configure({
-  ...Amplify.getConfig(),
-  Predictions: outputs.custom.Predictions,
-});
 ```

@@ -183,26 +183,18 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={["javascript", "angular", "react", "vue", "react-native"]}>
 ```js title="src/index.js"
 import { Amplify } from 'aws-amplify';
-import { record } from 'aws-amplify/analytics';
 import outputs from '../amplify_outputs.json';
 
-Amplify.configure({
-  ...Amplify.getConfig(),
-  Analytics: amplifyconfig.Analytics,
-});
+Amplify.configure(outputs);
 ```
 </InlineFilter>
 
 <InlineFilter filters={['nextjs']}>
 ```js title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
-import { record } from 'aws-amplify/analytics';
 import outputs from '@/amplify_outputs.json';
 
-Amplify.configure({
-  ...Amplify.getConfig(),
-  Analytics: amplifyconfig.Analytics,
-});
+Amplify.configure(outputs);
 ```
 </InlineFilter>
 

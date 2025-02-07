@@ -53,11 +53,15 @@ Alternatively, you can configure the client library directly using `Amplify.conf
 
 ```ts title="src/main.ts"
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
+import outputs from '../amplify_outputs.json';
+
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...amplifyConfig,
   Analytics: {
-    ...Amplify.getConfig().Analytics,
+    ...amplifyConfig.Analytics,
     Pinpoint: {
       // REQUIRED -  Amazon Pinpoint App Client ID
       appId: 'XXXXXXXXXXabcdefghij1234567890ab',
