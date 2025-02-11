@@ -33,10 +33,12 @@ You can use a personal cloud sandbox environment that provides an isolated devel
 
 <Callout>
 
-- **Cloud sandbox environments** are intended for development purposes and are not designed for production workloads.  
-- **DynamoDB GSI operations** are time-consuming, so when you delete or modify an index in a sandbox, Amplify drops and recreates the table instead of modifying the GSI.  
-- **CDK hot swapping** is used where supported to accelerate the deployment of resources such as Lambda functions and AppSync resolver templates.  
-- **Cognito User Pool changes:** If you make an unsupported change, such as deleting a required field, Amplify drops and recreates the user pool in the sandbox environment.
+Cloud sandbox environments are designed for development purposes and are not intended for production workloads. To accelerate deployments, Amplify utilizes **CDK hot swapping** where supported, enabling rapid updates to resources such as Lambda functions and AppSync resolver templates without requiring a full redeployment.  
+
+However, certain operations cannot be hot-swapped and require resource recreation to proceed:  
+
+- **DynamoDB GSI Operations:** In sandbox environments (but not in production), modifying or deleting a Global Secondary Index (GSI) is a time-intensive process. To simplify this, Amplify drops and recreates the table instead of modifying the index.  
+- **Cognito User Pool Changes:** Unsupported modifications, such as deleting a required field, result in Amplify dropping and recreating the user pool to ensure a consistent and functional configuration.
 
 </Callout>
 
