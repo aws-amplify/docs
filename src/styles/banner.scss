@@ -1,0 +1,22 @@
+.message-banner {
+  align-items: start;
+  /* Specificity to override Amplify UI color theme */
+  &.amplify-message--info {
+    border: 1px solid var(--amplify-colors-purple-20);
+    background-color: var(--amplify-colors-purple-10);
+    @include darkMode {
+      background-color: var(--amplify-colors-purple-20);
+    }
+  }
+  .amplify-message__icon {
+    color: var(--amplify-colors-purple-80);
+  }
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  &__heading {
+    font-weight: 700;
+  }
+}

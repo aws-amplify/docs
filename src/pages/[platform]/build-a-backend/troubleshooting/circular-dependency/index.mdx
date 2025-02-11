@@ -1,0 +1,63 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Troubleshoot circular dependency issues',
+  description: 'Addressing deployment failures caused by circular dependencies',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+When deploying a Amplify Gen 2 app, you may encounter the error message `The CloudFormation deployment failed due to circular dependency` in your backend build on Amplify Console or while running a sandbox. This error can occur due to circular dependencies between CloudFormation nested stacks or between resources in a single CloudFormation stack.
+
+## Circular dependency error between nested stacks
+
+If you see this error "The CloudFormation deployment failed due to circular dependency found between nested stacks [data1234ABCD, function6789XYZ]", it means that the nested stack for `data` and the nested stack for `function` have circular dependencies. E.g. if you are using the `function` as a query handler, but the `function` also needs access to the data (or `AppSync`) API, you might run into this issue. To resolve, group this `function` with other resources in the `data` stack
+
+```ts title="amplify/functions/my-function/resource.ts"
+export const queryFunction = defineFunction({
+  name: 'query-function',
+  resourceGroupName: 'data',
+});
+```
+
+Similarly, if you are using your `function` as an auth trigger, you can group your `function` with other resources in the `auth` stack to break the circular dependency.
+
+```ts title="amplify/functions/my-function/resource.ts"
+export const preSignUpTrigger = defineFunction({
+  name: 'pre-sign-up',
+  resourceGroupName: 'auth',
+});
+```
+If you are unable to resolve this error using function's `resourceGroupName` property, please [create an issue on the GitHub repository for Amplify backend](https://github.com/aws-amplify/amplify-backend/issues/new/choose)
+
+### Circular dependency error with with a custom stack
+
+If you are creating resources using the [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/) and assigning them to a custom stack, you might also run into this issue. Your error message would look like "The CloudFormation deployment failed due to circular dependency found between nested stacks [storage1234ABCD, auth5678XYZ, **MYCustomStack0123AB**]"
+
+To resolve this, try creating your resources in the same stack as the resources you are trying to interact with. For example, if a custom resource such as `sqs` needs to interact with the underlying Amazon S3 resource created by `defineStorage`, you can create that `sqs` resource in the stack created by Amplify. You can reference the existing Amplify created stack like
+
+```ts title="amplify/backend.ts"
+const queue = new sqs.Queue(backend.storage.stack, 'MyCustomQueue');
+```
+
+## Circular dependency error between resources in the same stack
+
+If you see this error "The CloudFormation deployment failed due to circular dependency found between resources [resource1, resource2] in a single stack", that means the resources themselves have a circular dependency in the same stack. For handling such errors, review the [AWS Blog post for handling circular dependency errors](https://aws.amazon.com/blogs/infrastructure-and-automation/handling-circular-dependency-errors-in-aws-cloudformation/).

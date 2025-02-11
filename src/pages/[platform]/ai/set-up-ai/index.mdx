@@ -86,7 +86,7 @@ const schema = a.schema({
   // This will add a new conversation route to your Amplify Data backend.
   // highlight-start
   chat: a.conversation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant',
   })
   .authorization((allow) => allow.owner()),
@@ -95,7 +95,7 @@ const schema = a.schema({
   // This adds a new generation route to your Amplify Data backend.
   // highlight-start
   generateRecipe: a.generation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
     systemPrompt: 'You are a helpful assistant that generates recipes.',
   })
   .arguments({
@@ -381,8 +381,17 @@ export default function App() {
 <Block name="Pages router">
 
 ```tsx title="pages/index.tsx"
-import { Flex, TextAreaField, Loader, Text, View } from "@aws-amplify/ui-react"
-import { useAIConversation } from "@/client";
+import { useAIGeneration } from "@/client";
+import {
+  Button,
+  Flex,
+  Heading,
+  Loader,
+  Text,
+  TextAreaField,
+  View,
+} from "@aws-amplify/ui-react";
+import React from "react";
 
 export default function Page() {
   const [description, setDescription] = React.useState("");
@@ -429,8 +438,18 @@ export default function Page() {
 <Block name="App router">
 
 ```tsx title="app/page.tsx"
-'use client'
-import { useAIConversation } from "@/client";
+"use client";
+import { useAIGeneration } from "@/client";
+import {
+  Button,
+  Flex,
+  Heading,
+  Loader,
+  Text,
+  TextAreaField,
+  View,
+} from "@aws-amplify/ui-react";
+import React from "react";
 
 export default function Page() {
   const [description, setDescription] = React.useState("");

@@ -80,6 +80,21 @@ if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP') {
 	});
 }
 
+if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_PASSWORD') {
+    // collect password from user
+    await confirmSignIn({
+        challengeResponse: 'hunter2',
+    });
+}
+
+if (nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION') {
+    // present nextStep.availableChallenges to user
+    // collect user selection
+    await confirmSignIn({
+        challengeResponse: 'SMS_OTP', // or 'EMAIL_OTP', 'WEB_AUTHN', 'PASSWORD', 'PASSWORD_SRP'
+    });
+}
+
 if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
 	// collect custom challenge answer from user
 	await confirmSignIn({
@@ -355,6 +370,78 @@ type MfaType = 'SMS' | 'TOTP' | 'EMAIL';
 
 async function handleMfaSelection(mfaType: MfaType) {
 	const result = await confirmSignIn({ challengeResponse: mfaType });
+
+	return handleSignInResult(result);
+}
+
+```
+
+## Confirm sign-in with Password
+
+If the next step is `CONFIRM_SIGN_IN_WITH_PASSWORD`, the user must provide their password as the first factor authentication method. To handle this step, your implementation should prompt the user to enter their password. After the user enters the password, pass the value to the `confirmSignIn` API.
+
+```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
+async function handleSignInResult(result: SignInOutput) {
+    switch (result.nextStep.signInStep) {
+        case 'CONFIRM_SIGN_IN_WITH_PASSWORD': {
+            // Prompt user to enter their password
+            console.log(`Please enter your password.`);
+            break;
+        }
+    }
+}
+
+async function confirmWithPassword(password: string) {
+    const result = await confirmSignIn({ challengeResponse: password });
+
+    return handleSignInResult(result);
+}
+```
+
+## Continue sign-in with First Factor Selection
+
+If the next step is `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`, the user must select a first factor method for authentication. After the user selects an option, your implementation should pass the selected method to the `confirmSignIn` API.
+
+The first factor types which are currently supported by Amplify Auth are:
+- `SMS_OTP`
+- `EMAIL_OTP`
+- `WEB_AUTHN`
+- `PASSWORD`
+- `PASSWORD_SRP`
+
+Depending on your configuration and what factors the user has previously setup, not all options may be available. Only the available options will be presented in `availableChallenges` for selection.
+
+Once Amplify receives the user's selection via the `confirmSignIn` API, you can expect to handle a follow up `nextStep` corresponding with the first factor type selected:
+- If `SMS_OTP` is selected, `CONFIRM_SIGN_IN_WITH_SMS_CODE` will be the next step.
+- If `EMAIL_OTP` is selected, `CONFIRM_SIGN_IN_WITH_EMAIL_CODE` will be the next step.
+- If `PASSWORD` or `PASSWORD_SRP` is selected, `CONFIRM_SIGN_IN_WITH_PASSWORD` will be the next step.
+- If `WEB_AUTHN` is selected, Amplify Auth will initiate the authentication ceremony on the user's device. If successful, the next step will be `DONE`.
+
+
+```ts
+import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
+
+async function handleSignInResult(result: SignInOutput) {
+	switch (result.nextStep.signInStep) {
+		case 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION': {
+			const { availableChallenges } = result.nextStep;
+			// Present available first factor options to user
+			// Prompt for selection
+			console.log(
+				`There are multiple first factor options available for sign in.`,
+			);
+			console.log(
+				`Select a first factor type from the availableChallenges list.`,
+			);
+			break;
+		}
+	}
+}
+
+async function handleFirstFactorSelection(firstFactorType: string) {
+	const result = await confirmSignIn({ challengeResponse: firstFactorType });
 
 	return handleSignInResult(result);
 }
@@ -1067,304 +1154,9 @@ The `nextStep` property is of enum type `AuthSignInStep`. Depending on its value
 
 ```java
 try {
-      AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder().authFlowType(AuthFlowType.USER_SRP_AUTH).build();
-      Amplify.Auth.signIn(
-              "username",
-              "password",
-              options,
-              result ->
-              {
-                  AuthNextSignInStep nextStep = result.getNextStep();
-                  switch (nextStep.getSignInStep()) {
-                      case CONFIRM_SIGN_IN_WITH_TOTP_CODE: {
-                          Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code");
-                          // Prompt the user to enter the TOTP code generated in their authenticator app
-                          // Then invoke `confirmSignIn` api with the code
-                          break;
-                      }
-                      case CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION: {
-                          Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup");
-                          Log.i("AuthQuickstart", "Allowed MFA types for setup" + nextStep.getAllowedMFATypes());
-                          // Prompt the user to select the MFA type they want to setup
-                          // Then invoke `confirmSignIn` api with the MFA type
-                          break;
-                      }
-                      case CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP: {
-                          Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA");
-                          // Prompt the user to enter the email address they would like to use to receive OTPs
-                          // Then invoke `confirmSignIn` api with the email address
-                          break;
-                      }
-                      case CONTINUE_SIGN_IN_WITH_TOTP_SETUP: {
-                          Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP");
-                          Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app" + nextStep.getTotpSetupDetails().getSharedSecret());
-                          // Prompt the user to enter the TOTP code generated in their authenticator app
-                          // Then invoke `confirmSignIn` api with the code
-                          break;
-                      }
-                      case CONTINUE_SIGN_IN_WITH_MFA_SELECTION: {
-                          Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type");
-                          Log.i("AuthQuickstart", "Allowed MFA type" + nextStep.getAllowedMFATypes());
-                          // Prompt the user to select the MFA type they want to use
-                          // Then invoke `confirmSignIn` api with the MFA type
-                          break;
-                      }
-                      case CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE: {
-                          Log.i("AuthQuickstart", "SMS code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
-                          Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
-                          // Prompt the user to enter the SMS MFA code they received
-                          // Then invoke `confirmSignIn` api with the code
-                          break;
-                      }
-                      case CONFIRM_SIGN_IN_WITH_OTP: {
-                          Log.i("AuthQuickstart", "OTP code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
-                          Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
-                          // Prompt the user to enter the OTP MFA code they received
-                          // Then invoke `confirmSignIn` api with the code
-                          break;
-                      }
-                      case CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE: {
-                          Log.i("AuthQuickstart", "Custom challenge, additional info: " + nextStep.getAdditionalInfo());
-                          // Prompt the user to enter custom challenge answer
-                          // Then invoke `confirmSignIn` api with the answer
-                          break;
-                      }
-                      case CONFIRM_SIGN_IN_WITH_NEW_PASSWORD: {
-                          Log.i("AuthQuickstart", "Sign in with new password, additional info: " + nextStep.getAdditionalInfo());
-                          // Prompt the user to enter a new password
-                          // Then invoke `confirmSignIn` api with new password
-                          break;
-                      }
-                      case DONE: {
-                          Log.i("AuthQuickstart", "SignIn complete");
-                          // User has successfully signed in to the app
-                          break;
-                      }
-                  }
-              },
-              error -> {
-                  if (error instanceof UserNotConfirmedException) {
-                      // User was not confirmed during the signup process.
-                      // Invoke `confirmSignUp` api to confirm the user if
-                      // they have the confirmation code. If they do not have the
-                      // confirmation code, invoke `resendSignUpCode` to send the
-                      // code again.
-                      // After the user is confirmed, invoke the `signIn` api again.
-                      Log.i("AuthQuickstart", "Signup confirmation required" + error);
-                  } else if (error instanceof PasswordResetRequiredException) {
-                      // User needs to reset their password.
-                      // Invoke `resetPassword` api to start the reset password
-                      // flow, and once reset password flow completes, invoke
-                      // `signIn` api to trigger signIn flow again.
-                      Log.i("AuthQuickstart", "Password reset required" + error);
-                  } else {
-                      Log.e("AuthQuickstart", "SignIn failed: " + error);
-                  }
-              }
-
-      );
-} catch (Exception error) {
-    Log.e("AuthQuickstart", "Unexpected error occurred: " + error);
-}
-```
-
-</Block>
-
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-val options = AWSCognitoAuthSignInOptions.builder().authFlowType(AuthFlowType.USER_SRP_AUTH).build()
-try {
-      Amplify.Auth.signIn(
-          "username",
-          "password",
-          options,
-          { result ->
-              val nextStep  = result.nextStep
-              when(nextStep.signInStep){
-                 AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE -> {
-                      Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code")
-                      // Prompt the user to enter the TOTP code generated in their authenticator app
-                      // Then invoke `confirmSignIn` api with the code
-                  }
-                  AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION -> {
-                      Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup");
-                      Log.i("AuthQuickstart", "Allowed MFA types for setup" + nextStep.getAllowedMFATypes());
-                      // Prompt the user to select the MFA type they want to setup
-                      // Then invoke `confirmSignIn` api with the MFA type
-                  }
-                  AuthSignInStep.CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP -> {
-                      Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA");
-                      // Prompt the user to enter the email address they would like to use to receive OTPs
-                      // Then invoke `confirmSignIn` api with the email address
-                  }
-                  AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
-                      Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
-                      Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app ${nextStep.totpSetupDetails.sharedSecret}")
-                      // Prompt the user to enter the TOTP code generated in their authenticator app
-                      // Then invoke `confirmSignIn` api with the code
-                  }
-                  AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
-                      Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type")
-                      Log.i("AuthQuickstart", "Allowed MFA types ${nextStep.allowedMFATypes}")
-                      // Prompt the user to select the MFA type they want to use
-                      // Then invoke `confirmSignIn` api with the MFA type
-                  }
-                  AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE -> {
-                      Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
-                      Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
-                      // Prompt the user to enter the SMS MFA code they received
-                      // Then invoke `confirmSignIn` api with the code
-                  }
-                  AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP -> {
-                      Log.i("AuthQuickstart", "OTP code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
-                      Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
-                      // Prompt the user to enter the OTP MFA code they received
-                      // Then invoke `confirmSignIn` api with the code
-                  }
-                  AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
-                      Log.i("AuthQuickstart","Custom challenge, additional info: ${nextStep.additionalInfo}")
-                      // Prompt the user to enter custom challenge answer
-                      // Then invoke `confirmSignIn` api with the answer
-                  }
-                  AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD -> {
-                      Log.i("AuthQuickstart", "Sign in with new password, additional info: ${nextStep.additionalInfo}")
-                      // Prompt the user to enter a new password
-                      // Then invoke `confirmSignIn` api with new password
-                  }
-                  AuthSignInStep.DONE -> {
-                      Log.i("AuthQuickstart", "SignIn complete")
-                      // User has successfully signed in to the app
-                  }
-              }
-
-          }
-      ) { error ->
-          if (error is UserNotConfirmedException) {
-              // User was not confirmed during the signup process.
-              // Invoke `confirmSignUp` api to confirm the user if
-              // they have the confirmation code. If they do not have the
-              // confirmation code, invoke `resendSignUpCode` to send the
-              // code again.
-              // After the user is confirmed, invoke the `signIn` api again.
-              Log.i("AuthQuickstart", "Signup confirmation required", error)
-          } else if (error is PasswordResetRequiredException) {
-              // User needs to reset their password.
-              // Invoke `resetPassword` api to start the reset password
-              // flow, and once reset password flow completes, invoke
-              // `signIn` api to trigger signIn flow again.
-              Log.i("AuthQuickstart", "Password reset required", error)
-          } else {
-              Log.e("AuthQuickstart", "Unexpected error occurred: $error")
-          }
-         }
-} catch (error: Exception) {
-    Log.e("AuthQuickstart", "Unexpected error occurred: $error")
-}
-```
-
-</Block>
-
-<Block name="Kotlin - Coroutines">
-
-```kotlin
-val options =
-            AWSCognitoAuthSignInOptions.builder().authFlowType(AuthFlowType.USER_SRP_AUTH).build()
-try {
-    val result = Amplify.Auth.signIn(
-        "username",
+    Amplify.Auth.signIn(
+        "hello@example.com",
         "password",
-        options
-    )
-    val nextStep = result.nextStep
-    when (nextStep.signInStep) {
-        AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE -> {
-            Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code")
-            // Prompt the user to enter the TOTP code generated in their authenticator app
-            // Then invoke `confirmSignIn` api with the code
-        }
-        AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION -> {
-            Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup");
-            Log.i("AuthQuickstart", "Allowed MFA types for setup" + nextStep.getAllowedMFATypes());
-            // Prompt the user to select the MFA type they want to setup
-            // Then invoke `confirmSignIn` api with the MFA type
-        }
-        AuthSignInStep.CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP -> {
-            Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA");
-            // Prompt the user to enter the email address they would like to use to receive OTPs
-            // Then invoke `confirmSignIn` api with the email address
-        }
-        AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
-            Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
-            Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app ${nextStep.totpSetupDetails.sharedSecret}")
-            // Prompt the user to enter the TOTP code generated in their authenticator app
-            // Then invoke `confirmSignIn` api with the code
-        }
-        AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
-            Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type")
-            Log.i("AuthQuickstart", "Allowed MFA types ${nextStep.allowedMFATypes}")
-            // Prompt the user to select the MFA type they want to use
-            // Then invoke `confirmSignIn` api with the MFA type
-        }
-        AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE -> {
-            Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
-            Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
-            // Prompt the user to enter the SMS MFA code they received
-            // Then invoke `confirmSignIn` api with the code
-        }
-        AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP -> {
-            Log.i("AuthQuickstart", "OTP code sent to ${nextStep.codeDeliveryDetails?.destination}")
-            Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
-            // Prompt the user to enter the OTP MFA code they received
-            // Then invoke `confirmSignIn` api with the code
-        }
-        AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
-            Log.i("AuthQuickstart", "Custom challenge, additional info: ${nextStep.additionalInfo}")
-            // Prompt the user to enter custom challenge answer
-            // Then invoke `confirmSignIn` api with the answer
-        }
-        AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD -> {
-            Log.i(
-                "AuthQuickstart",
-                "Sign in with new password, additional info: ${nextStep.additionalInfo}"
-            )
-            // Prompt the user to enter a new password
-            // Then invoke `confirmSignIn` api with new password
-        }
-        AuthSignInStep.DONE -> {
-            Log.i("AuthQuickstart", "SignIn complete")
-            // User has successfully signed in to the app
-        }
-    }
-} catch (error: Exception) {
-   if (error is UserNotConfirmedException) {
-       // User was not confirmed during the signup process.
-       // Invoke `confirmSignUp` api to confirm the user if
-       // they have the confirmation code. If they do not have the
-       // confirmation code, invoke `resendSignUpCode` to send the
-       // code again.
-       // After the user is confirmed, invoke the `signIn` api again.
-       Log.i("AuthQuickstart", "Signup confirmation required", error)
-   } else if (error is PasswordResetRequiredException) {
-       // User needs to reset their password.
-       // Invoke `resetPassword` api to start the reset password
-       // flow, and once reset password flow completes, invoke
-       // `signIn` api to trigger signIn flow again.
-       Log.i("AuthQuickstart", "Password reset required", error)
-   } else {
-       Log.e("AuthQuickstart", "Unexpected error occurred: $error")
-   }
-}
-```
-
-</Block>
-
-<Block name="RxJava">
-
-```java
-
-AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder().authFlowType(AuthFlowType.USER_SRP_AUTH).build();
-RxAmplify.Auth.signIn("username", "password", options).subscribe(
         result ->
         {
             AuthNextSignInStep nextStep = result.getNextStep();
@@ -1402,6 +1194,12 @@ RxAmplify.Auth.signIn("username", "password", options).subscribe(
                     // Then invoke `confirmSignIn` api with the MFA type
                     break;
                 }
+                case CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION: {
+                    Log.i("AuthQuickstart", "Available authentication factors for this user: " + result.getNextStep().getAvailableFactors());
+                    // Prompt the user to select which authentication factor they want to use to sign-in
+                    // Then invoke `confirmSignIn` api with that selection
+                    break;
+                }
                 case CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE: {
                     Log.i("AuthQuickstart", "SMS code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
                     Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
@@ -1415,6 +1213,12 @@ RxAmplify.Auth.signIn("username", "password", options).subscribe(
                     // Prompt the user to enter the OTP MFA code they received
                     // Then invoke `confirmSignIn` api with the code
                     break;
+                }
+              	case CONFIRM_SIGN_IN_WITH_PASSWORD: {
+                		Log.i("AuthQuickstart", "Received next step as confirm sign in with password");
+                		// Prompt the user to enter their password
+                		// Then invoke `confirmSignIn` api with that password
+                		break;
                 }
                 case CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE: {
                     Log.i("AuthQuickstart", "Custom challenge, additional info: " + nextStep.getAdditionalInfo());
@@ -1436,24 +1240,346 @@ RxAmplify.Auth.signIn("username", "password", options).subscribe(
             }
         },
         error -> {
-          if (error instanceof UserNotConfirmedException) {
-              // User was not confirmed during the signup process.
-              // Invoke `confirmSignUp` api to confirm the user if
-              // they have the confirmation code. If they do not have the
-              // confirmation code, invoke `resendSignUpCode` to send the
-              // code again.
-              // After the user is confirmed, invoke the `signIn` api again.
-              Log.i("AuthQuickstart", "Signup confirmation required" + error);
-          } else if (error instanceof PasswordResetRequiredException) {
-              // User needs to reset their password.
-              // Invoke `resetPassword` api to start the reset password
-              // flow, and once reset password flow completes, invoke
-              // `signIn` api to trigger signIn flow again.
-              Log.i("AuthQuickstart", "Password reset required" + error);
-          } else {
-              Log.e("AuthQuickstart", "SignIn failed: " + error);
-          }
+            if (error instanceof UserNotConfirmedException) {
+                // User was not confirmed during the signup process.
+                // Invoke `confirmSignUp` api to confirm the user if
+                // they have the confirmation code. If they do not have the
+                // confirmation code, invoke `resendSignUpCode` to send the
+                // code again.
+                // After the user is confirmed, invoke the `signIn` api again.
+                Log.i("AuthQuickstart", "Signup confirmation required" + error);
+            } else if (error instanceof PasswordResetRequiredException) {
+                // User needs to reset their password.
+                // Invoke `resetPassword` api to start the reset password
+                // flow, and once reset password flow completes, invoke
+                // `signIn` api to trigger signIn flow again.
+                Log.i("AuthQuickstart", "Password reset required" + error);
+            } else {
+                Log.e("AuthQuickstart", "SignIn failed: " + error);
+            }
         }
+    );
+} catch (Exception error) {
+    Log.e("AuthQuickstart", "Unexpected error occurred: " + error);
+}
+```
+
+</Block>
+
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+try {
+    Amplify.Auth.signIn(
+        "hello@example.com",
+        "password",
+        { result ->
+            val nextStep  = result.nextStep
+            when(nextStep.signInStep){
+                AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE -> {
+                    Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code")
+                    // Prompt the user to enter the TOTP code generated in their authenticator app
+                    // Then invoke `confirmSignIn` api with the code
+                }
+                AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION -> {
+                    Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup")
+                    Log.i("AuthQuickstart", "Allowed MFA types for setup ${nextStep.allowedMFATypes}")
+                    // Prompt the user to select the MFA type they want to setup
+                    // Then invoke `confirmSignIn` api with the MFA type
+                }
+                AuthSignInStep.CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP -> {
+                    Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA")
+                    // Prompt the user to enter the email address they would like to use to receive OTPs
+                    // Then invoke `confirmSignIn` api with the email address
+                }
+                AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
+                    Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
+                    Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app ${nextStep.totpSetupDetails?.sharedSecret}")
+                    // Prompt the user to enter the TOTP code generated in their authenticator app
+                    // Then invoke `confirmSignIn` api with the code
+                }
+                AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
+                    Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type")
+                    Log.i("AuthQuickstart", "Allowed MFA types ${nextStep.allowedMFATypes}")
+                    // Prompt the user to select the MFA type they want to use
+                    // Then invoke `confirmSignIn` api with the MFA type
+                }
+                AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION -> {
+                    Log.i("AuthQuickstart", "Available authentication factors for this user:  ${result.nextStep.availableFactors}")
+                    // Prompt the user to select which authentication factor they want to use to sign-in
+                    // Then invoke `confirmSignIn` api with that selection
+                }
+                AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE -> {
+                    Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
+                    Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
+                    // Prompt the user to enter the SMS MFA code they received
+                    // Then invoke `confirmSignIn` api with the code
+                }
+                AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP -> {
+                    Log.i("AuthQuickstart", "OTP code sent to ${nextStep.codeDeliveryDetails?.destination}")
+                    Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
+                    // Prompt the user to enter the OTP MFA code they received
+                    // Then invoke `confirmSignIn` api with the code
+                }
+                AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD -> {
+                    Log.i("AuthQuickstart", "Received next step as confirm sign in with password")
+                    // Prompt the user to enter their password
+                    // Then invoke `confirmSignIn` api with that password
+                }
+                AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
+                    Log.i("AuthQuickstart","Custom challenge, additional info: ${nextStep.additionalInfo}")
+                    // Prompt the user to enter custom challenge answer
+                    // Then invoke `confirmSignIn` api with the answer
+                }
+                AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD -> {
+                    Log.i("AuthQuickstart", "Sign in with new password, additional info: ${nextStep.additionalInfo}")
+                    // Prompt the user to enter a new password
+                    // Then invoke `confirmSignIn` api with new password
+                }
+                AuthSignInStep.DONE -> {
+                    Log.i("AuthQuickstart", "SignIn complete")
+                    // User has successfully signed in to the app
+                }
+            }
+
+        }
+    ) { error ->
+        when (error) {
+            is UserNotConfirmedException -> {
+                // User was not confirmed during the signup process.
+                // Invoke `confirmSignUp` api to confirm the user if
+                // they have the confirmation code. If they do not have the
+                // confirmation code, invoke `resendSignUpCode` to send the
+                // code again.
+                // After the user is confirmed, invoke the `signIn` api again.
+                Log.e("AuthQuickstart", "Signup confirmation required", error)
+            }
+            is PasswordResetRequiredException -> {
+                // User needs to reset their password.
+                // Invoke `resetPassword` api to start the reset password
+                // flow, and once reset password flow completes, invoke
+                // `signIn` api to trigger signIn flow again.
+                Log.e("AuthQuickstart", "Password reset required", error)
+            }
+            else -> {
+                Log.e("AuthQuickstart", "Unexpected error occurred: $error")
+            }
+        }
+    }
+} catch (error: Exception) {
+    Log.e("AuthQuickstart", "Unexpected error occurred: $error")
+}
+```
+
+</Block>
+
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.signIn(
+        "hello@example.com",
+        "password"
+    )
+    val nextStep = result.nextStep
+    when (nextStep.signInStep) {
+        AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE -> {
+            Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code")
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION -> {
+            Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup")
+            Log.i("AuthQuickstart", "Allowed MFA types for setup ${nextStep.allowedMFATypes}")
+            // Prompt the user to select the MFA type they want to setup
+            // Then invoke `confirmSignIn` api with the MFA type
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP -> {
+            Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA")
+            // Prompt the user to enter the email address they would like to use to receive OTPs
+            // Then invoke `confirmSignIn` api with the email address
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
+            Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
+            Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app ${nextStep.totpSetupDetails?.sharedSecret}")
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
+            Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type")
+            Log.i("AuthQuickstart", "Allowed MFA types ${nextStep.allowedMFATypes}")
+            // Prompt the user to select the MFA type they want to use
+            // Then invoke `confirmSignIn` api with the MFA type
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION -> {
+            Log.i("AuthQuickstart", "Available authentication factors for this user:  ${result.nextStep.availableFactors}")
+            // Prompt the user to select which authentication factor they want to use to sign-in
+            // Then invoke `confirmSignIn` api with that selection
+        }
+        AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE -> {
+            Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
+            Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
+            // Prompt the user to enter the SMS MFA code they received
+            // Then invoke `confirmSignIn` api with the code
+        }
+        AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP -> {
+            Log.i("AuthQuickstart", "OTP code sent to ${nextStep.codeDeliveryDetails?.destination}")
+            Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
+            // Prompt the user to enter the OTP MFA code they received
+            // Then invoke `confirmSignIn` api with the code
+        }
+        AuthSignInStep.CONFIRM_SIGN_IN_WITH_PASSWORD -> {
+            Log.i("AuthQuickstart", "Received next step as confirm sign in with password")
+            // Prompt the user to enter their password
+            // Then invoke `confirmSignIn` api with that password
+        }
+        AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE -> {
+            Log.i("AuthQuickstart","Custom challenge, additional info: ${nextStep.additionalInfo}")
+            // Prompt the user to enter custom challenge answer
+            // Then invoke `confirmSignIn` api with the answer
+        }
+        AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD -> {
+            Log.i("AuthQuickstart", "Sign in with new password, additional info: ${nextStep.additionalInfo}")
+            // Prompt the user to enter a new password
+            // Then invoke `confirmSignIn` api with new password
+        }
+        AuthSignInStep.DONE -> {
+            Log.i("AuthQuickstart", "SignIn complete")
+            // User has successfully signed in to the app
+        }
+    }
+} catch (error: Exception) {
+    when (error) {
+        is UserNotConfirmedException -> {
+            // User was not confirmed during the signup process.
+            // Invoke `confirmSignUp` api to confirm the user if
+            // they have the confirmation code. If they do not have the
+            // confirmation code, invoke `resendSignUpCode` to send the
+            // code again.
+            // After the user is confirmed, invoke the `signIn` api again.
+            Log.e("AuthQuickstart", "Signup confirmation required", error)
+        }
+        is PasswordResetRequiredException -> {
+            // User needs to reset their password.
+            // Invoke `resetPassword` api to start the reset password
+            // flow, and once reset password flow completes, invoke
+            // `signIn` api to trigger signIn flow again.
+            Log.e("AuthQuickstart", "Password reset required", error)
+        }
+        else -> {
+            Log.e("AuthQuickstart", "Unexpected error occurred: $error")
+        }
+    }
+}
+```
+
+</Block>
+
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.signIn("hello@example.com", "password").subscribe(
+    result ->
+    {
+        AuthNextSignInStep nextStep = result.getNextStep();
+        switch (nextStep.getSignInStep()) {
+            case CONFIRM_SIGN_IN_WITH_TOTP_CODE: {
+                Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code");
+                // Prompt the user to enter the TOTP code generated in their authenticator app
+                // Then invoke `confirmSignIn` api with the code
+                break;
+            }
+            case CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION: {
+                Log.i("AuthQuickstart", "Received next step as continue sign in by selecting an MFA method to setup");
+                Log.i("AuthQuickstart", "Allowed MFA types for setup" + nextStep.getAllowedMFATypes());
+                // Prompt the user to select the MFA type they want to setup
+                // Then invoke `confirmSignIn` api with the MFA type
+                break;
+            }
+            case CONTINUE_SIGN_IN_WITH_EMAIL_MFA_SETUP: {
+                Log.i("AuthQuickstart", "Received next step as continue sign in by setting up email MFA");
+                // Prompt the user to enter the email address they would like to use to receive OTPs
+                // Then invoke `confirmSignIn` api with the email address
+                break;
+            }
+            case CONTINUE_SIGN_IN_WITH_TOTP_SETUP: {
+                Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP");
+                Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app" + nextStep.getTotpSetupDetails().getSharedSecret());
+                // Prompt the user to enter the TOTP code generated in their authenticator app
+                // Then invoke `confirmSignIn` api with the code
+                break;
+            }
+            case CONTINUE_SIGN_IN_WITH_MFA_SELECTION: {
+                Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type");
+                Log.i("AuthQuickstart", "Allowed MFA type" + nextStep.getAllowedMFATypes());
+                // Prompt the user to select the MFA type they want to use
+                // Then invoke `confirmSignIn` api with the MFA type
+                break;
+            }
+            case CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION: {
+                Log.i("AuthQuickstart", "Available authentication factors for this user: " + result.getNextStep().getAvailableFactors());
+                // Prompt the user to select which authentication factor they want to use to sign-in
+                // Then invoke `confirmSignIn` api with that selection
+                break;
+            }
+            case CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE: {
+                Log.i("AuthQuickstart", "SMS code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
+                Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
+                // Prompt the user to enter the SMS MFA code they received
+                // Then invoke `confirmSignIn` api with the code
+                break;
+            }
+            case CONFIRM_SIGN_IN_WITH_OTP: {
+                Log.i("AuthQuickstart", "OTP code sent to " + nextStep.getCodeDeliveryDetails().getDestination());
+                Log.i("AuthQuickstart", "Additional Info :" + nextStep.getAdditionalInfo());
+                // Prompt the user to enter the OTP MFA code they received
+                // Then invoke `confirmSignIn` api with the code
+                break;
+            }
+            case CONFIRM_SIGN_IN_WITH_PASSWORD: {
+                Log.i("AuthQuickstart", "Received next step as confirm sign in with password");
+                // Prompt the user to enter their password
+                // Then invoke `confirmSignIn` api with that password
+                break;
+            }
+            case CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE: {
+                Log.i("AuthQuickstart", "Custom challenge, additional info: " + nextStep.getAdditionalInfo());
+                // Prompt the user to enter custom challenge answer
+                // Then invoke `confirmSignIn` api with the answer
+                break;
+            }
+            case CONFIRM_SIGN_IN_WITH_NEW_PASSWORD: {
+                Log.i("AuthQuickstart", "Sign in with new password, additional info: " + nextStep.getAdditionalInfo());
+                // Prompt the user to enter a new password
+                // Then invoke `confirmSignIn` api with new password
+                break;
+            }
+            case DONE: {
+                Log.i("AuthQuickstart", "SignIn complete");
+                // User has successfully signed in to the app
+                break;
+            }
+        }
+    },
+    error -> {
+        if (error instanceof UserNotConfirmedException) {
+            // User was not confirmed during the signup process.
+            // Invoke `confirmSignUp` api to confirm the user if
+            // they have the confirmation code. If they do not have the
+            // confirmation code, invoke `resendSignUpCode` to send the
+            // code again.
+            // After the user is confirmed, invoke the `signIn` api again.
+            Log.i("AuthQuickstart", "Signup confirmation required" + error);
+        } else if (error instanceof PasswordResetRequiredException) {
+            // User needs to reset their password.
+            // Invoke `resetPassword` api to start the reset password
+            // flow, and once reset password flow completes, invoke
+            // `signIn` api to trigger signIn flow again.
+            Log.i("AuthQuickstart", "Password reset required" + error);
+        } else {
+            Log.e("AuthQuickstart", "SignIn failed: " + error);
+        }
+    }
 );
 ```
 
@@ -1465,7 +1591,11 @@ RxAmplify.Auth.signIn("username", "password", options).subscribe(
 
 If the next step is `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`, Amplify Auth has sent the user a random code over SMS, and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
-Note: the signIn result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial phone number of the SMS recipient.
+<Callout>
+
+**Note:** The result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial phone number of the SMS recipient.
+
+</Callout>
 
 <BlockSwitcher>
 
@@ -1572,7 +1702,21 @@ After the user enters the code, your implementation must pass the value to Ampli
 
 If the next step is `CONFIRM_SIGN_IN_WITH_EMAIL_MFA_CODE`, Amplify Auth has sent the user a random code to their email address and is waiting to find out if the user successfully received it. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
-Note: the signIn result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial email address of the recipient.
+<Callout>
+
+**Note:** The result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial email address of the recipient.
+
+</Callout>
+
+## Confirm sign-in with OTP
+
+If the next step is `CONFIRM_SIGN_IN_WITH_OTP`, Amplify Auth has sent the user a random code to the medium of the user's choosing (e.g. SMS or email) and is waiting for the user to verify that code. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
+
+<Callout>
+
+**Note:** The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery, such as the partial email address of the recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
 
 ## Continue sign-in with MFA Selection
 
@@ -1591,6 +1735,12 @@ Once the authenticator app is set up, the user can generate a TOTP code and prov
 ## Continue sign-in with MFA Setup Selection
 
 If the next step is `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION`, the user must select the MFA method to setup. Amplify Auth currently supports SMS, TOTP, and email as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+
+## Continue sign-in with First Factor Selection
+
+If the next step is `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`, the user must select an authentication factor to use either because they did not specify one or because the one they chose is not supported (e.g. selecting SMS when they don't have a phone number registered to their account). Amplify Auth currently supports SMS, email, password, and webauthn as authentication factors. After the user selects an authentication method, your implementation must pass the selected authentication method to Amplify Auth using `confirmSignIn` API.
+
+Visit the [sign-in documentation](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sign-in-with-passwordless-methods) to see examples on how to call the `confirmSignIn` API.
 
 ## Confirm sign-in with custom challenge
 
@@ -1933,7 +2083,10 @@ RxAmplify.Auth.confirmSignUp(
 
 This call fetches the current logged in user and should be used after a user has been successfully signed in.
 If the user is signed in, it will return the current userId and username.
-Note: An empty string will be assigned to userId and/or username, if the values are not present in the accessToken.
+
+<Callout>
+**Note:** An empty string will be assigned to userId and/or username, if the values are not present in the accessToken.
+</Callout>
 
 <BlockSwitcher>
 
@@ -2030,6 +2183,19 @@ func signIn(username: String, password: String) async {
 
             // Prompt the user to enter the Email MFA code they received
             // Then invoke `confirmSignIn` api with the code
+
+        case .continueSignInWithFirstFactorSelection(let allowedFactors):
+            print("Received next step as continue sign in by selecting first factor")
+            print("Allowed factors \(allowedFactors)")
+
+            // Prompt the user to select the first factor they want to use
+            // Then invoke `confirmSignIn` api with the factor
+
+        case .confirmSignInWithPassword:
+            print("Received next step as confirm sign in with password")
+
+            // Prompt the user to enter the password
+            // Then invoke `confirmSignIn` api with the password
         
         case .continueSignInWithTOTPSetup(let setUpDetails):
             print("Received next step as continue sign in by setting up TOTP")

@@ -32,7 +32,7 @@ This guide walks through how to use Amplify Auth, GraphQL API, REST API, and Sto
 
 <Callout warning>
 
-**NOTE:** Amplify JS v6 supports Next.js with the version range: `>=13.5.0 <15.0.0`.
+**NOTE:** Amplify JS v6 supports Next.js with the version range: `>=13.5.0 <16.0.0`.
 Ensure you have the correct version to integrate with Amplify.
 
 </Callout>
@@ -246,14 +246,12 @@ You can add the following to your `next.config.js`:
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // highlight-start
-  experimental: {
-    serverComponentsExternalPackages: ['@aws-crypto'],
-  },
+    serverComponentsPackages: ['@aws-crypto'],
   // highlight-end
 };
 ```
 
-See Next.js documentation on [`serverComponentsExternalPackages`](https://nextjs.org/docs/app/api-reference/next-config-js/serverComponentsExternalPackages) for more details.
+See Next.js documentation on [`serverComponentsPackages`](https://nextjs.org/docs/app/api-reference/config/next-config-js/serverExternalPackages) for more details.
 </Callout>
 
 ### With Next.js App Router

@@ -106,6 +106,8 @@ const linkToStorageFile = await getUrl({
     expiresIn: 300,
     // whether to use accelerate endpoint
     useAccelerateEndpoint: true,
+    // The account ID that owns the requested bucket.
+    expectedBucketOwner: '123456789012',
   }
 });
 ```
@@ -116,6 +118,7 @@ Option | Type | Default | Description |
 | validateObjectExistence | boolean | false | Whether to head object to make sure the object existence before downloading. |
 | expiresIn | number | 900 | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+| expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
 
 </InlineFilter>
 
@@ -1188,6 +1191,7 @@ Option | Type | Default | Description |
 | onProgress | callback | — | Callback function tracking the upload/download progress. |
 | bytesRange |  \{ start: number; end:number; \} | — | Bytes range parameter to download a part of the file. |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint.<br/><br/>Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+| expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
 
 ## Frequently Asked Questions
 

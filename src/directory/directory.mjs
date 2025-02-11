@@ -74,6 +74,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/phone/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/passwordless/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/user-attributes/index.mdx'
                     },
                     {
@@ -136,6 +139,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-passwords/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
@@ -442,6 +448,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/modify-resources-with-cdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/custom-functions/index.mdx'
                 }
               ]
             },
@@ -716,6 +725,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/circular-dependency/index.mdx'
                 }
               ]
             }
@@ -754,6 +766,12 @@ export const directory = {
               path: 'src/pages/[platform]/ai/conversation/index.mdx',
               children: [
                 {
+                  path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
                 },
                 {
@@ -771,7 +789,12 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/ai/generation/index.mdx'
+              path: 'src/pages/[platform]/ai/generation/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
+                }
+              ]
             }
           ]
         },
