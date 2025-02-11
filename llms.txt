@@ -7,7 +7,7 @@
 - [Getting started - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/contribute/getting-started/): Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps. AWS Amplify Documentation
 - [AWS Amplify Contributor Program - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/contribute/): Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps. AWS Amplify Documentation
 
-## Gen1
+## AWS Amplify Gen1
 
 - [Start - React - AWS Amplify Gen 1 Documentation](https://docs.amplify.aws/gen1/react/prev/start/): Start AWS Amplify Documentation
 - [Amplify tools - Swift - AWS Amplify Gen 1 Documentation](https://docs.amplify.aws/gen1/swift/prev/tools/): Tools AWS Amplify Documentation
@@ -1300,7 +1300,7 @@
 - [Overview - Vue - AWS Amplify Gen 1 Documentation](https://docs.amplify.aws/gen1/vue/): This is a description for the overview page. AWS Amplify Documentation
 - [Amplify Docs (Gen 1) - AWS Amplify Gen 1 Documentation](https://docs.amplify.aws/gen1/): This is a description for the overview page. AWS Amplify Documentation
 
-## Android
+## AWS Amplify Gen 2 - Android
 
 - [Set up Logging - Android - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/android/build-a-backend/add-aws-services/logging/set-up-logging/): Learn how to set up Amplify logging AWS Amplify Documentation
 - [Change local storage - Android - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/android/build-a-backend/add-aws-services/logging/change-local-storage/): Change log local storage on a device AWS Amplify Documentation
@@ -1372,7 +1372,7 @@
 - [Get started - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/android/start/): Learn how to get started with AWS Amplify Gen 2. AWS Amplify Documentation
 - [Amplify Docs - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/android/): AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps. AWS Amplify Documentation
 
-## React
+## AWS Amplify Gen 2 - React
 
 - [Overriding resources - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/react/build-a-backend/add-aws-services/overriding-resources/): Learn how to override resources. AWS Amplify Documentation
 - [Tagging resources - React - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/react/build-a-backend/add-aws-services/tagging-resources/): Decorate resources with tags for categorization. AWS Amplify Documentation
@@ -1616,7 +1616,7 @@
 - [Quickstart - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/react/start/quickstart/): Get started with AWS Amplify Gen 2 and React, Next.js, Angular, Vue, Flutter, React Native, Swift, Android, and JavaScript. AWS Amplify Documentation
 - [Amplify Docs - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/react/): AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps. AWS Amplify Documentation
 
-## Swift
+## AWS Amplify Gen 2 - Swift
 
 - [Automatically track sessions - Swift - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/swift/build-a-backend/add-aws-services/analytics/auto-track-sessions/): The Amplify analytics plugin records when an application opens and closes. This session information can be viewed either from your local computer’s terminal or the AWS Console for Pinpoint. AWS Amplify Documentation
 - [Use existing AWS resources - Swift - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/swift/build-a-backend/add-aws-services/analytics/existing-resources/): Configure the Amplify Libraries to use existing Amazon Pinpoint resources by referencing them in your configuration. AWS Amplify Documentation
@@ -1720,7 +1720,7 @@
 - [Quickstart - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/swift/start/quickstart/): Get started with AWS Amplify Gen 2 and React, Next.js, Angular, Vue, Flutter, React Native, Swift, Android, and JavaScript. AWS Amplify Documentation
 - [Amplify Docs - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/swift/): AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps. AWS Amplify Documentation
 
-## Flutter
+## AWS Amplify Gen 2 - Flutter
 
 - [Add fields to data model - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/flutter/build-a-backend/data/data-modeling/add-fields/): Configure built-in and custom field types. AWS Amplify Documentation
 - [Working with files/attachments - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/flutter/build-a-backend/data/working-with-files/): Working with files/attachments. AWS Amplify Documentation
@@ -1789,7 +1789,7 @@
 - [Get started - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/flutter/start/): Learn how to get started with AWS Amplify Gen 2. AWS Amplify Documentation
 - [Amplify Docs - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/flutter/): AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps. AWS Amplify Documentation
 
-## Javascript
+## AWS Amplify Gen 2 - Javascript
 
 - [Conversation History - JavaScript - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/javascript/ai/conversation/history/): Learn how Amplify AI kit takes care of conversation history AWS Amplify Documentation
 - [Context - JavaScript - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/javascript/ai/conversation/context/): How to pass client-side context to the LLM to help it respond. AWS Amplify Documentation
@@ -1824,7 +1824,7 @@
 - [Quickstart - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/angular/start/quickstart/): Get started with AWS Amplify Gen 2 and React, Next.js, Angular, Vue, Flutter, React Native, Swift, Android, and JavaScript. AWS Amplify Documentation
 - [Amplify Docs - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/angular/): AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps. AWS Amplify Documentation
 
-## React-native
+## AWS Amplify Gen 2 - React-native
 
 - [Sign-out - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/react-native/build-a-backend/auth/connect-your-frontend/sign-out/): Learn how to sign out AWS Amplify Documentation
 - [Using the Authenticator - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/react-native/build-a-backend/auth/connect-your-frontend/using-the-authenticator/): Learn how to use the Authenticator connected component from the Amplify UI library AWS Amplify Documentation
@@ -1853,7 +1853,7 @@
 - [Quickstart - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/react-native/start/quickstart/): Get started with AWS Amplify Gen 2 and React, Next.js, Angular, Vue, Flutter, React Native, Swift, Android, and JavaScript. AWS Amplify Documentation
 - [Amplify Docs - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/react-native/): AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps. AWS Amplify Documentation
 
-## Nextjs
+## AWS Amplify Gen 2 - Nextjs
 
 - [<AIConversation> - Next.js - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/nextjs/ai/conversation/ai-conversation/): The AIConversation component is a customizable chat interface built for the Amplify AI kit AWS Amplify Documentation
 - [Generation - Next.js - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/nextjs/ai/generation/): Learn how to use AI to generate data for your application. AWS Amplify Documentation
@@ -1870,7 +1870,7 @@
 - [Quickstart - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/nextjs/start/quickstart/): Get started with AWS Amplify Gen 2 and React, Next.js, Angular, Vue, Flutter, React Native, Swift, Android, and JavaScript. AWS Amplify Documentation
 - [Amplify Docs - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/nextjs/): AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps. AWS Amplify Documentation
 
-## Vue
+## AWS Amplify Gen 2 - Vue
 
 - [Set up AI - Vue - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/vue/ai/set-up-ai/): Learn how to set up and connect your backend for generative AI with Amplify. AWS Amplify Documentation
 - [Set up Amplify Auth - AWS Amplify Gen 2 Documentation](https://docs.amplify.aws/vue/build-a-backend/auth/set-up-auth/): Learn how to set up and connect your backend resources for authentication in Amplify. AWS Amplify Documentation
