@@ -266,16 +266,20 @@ With the above example, Amplify generates the following API routes:
 | `/api/auth/sign-in-callback`                        | Amazon Cognito Managed Login redirects an end user back to this route after signing in. Amplify exchanges auth tokens and stores them as HttpOnly cookies in the browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignInComplete` parameter. |
 | `/api/auth/sign-out-callback`                       | Amazon Cognito Managed Login redirects an end user back to this route after signing out, Amplify revokes access token and refresh token and removes token cookies from browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignOutComplete` parameter. |
 
-> **Note:** A signing-out call involves multiple steps, including signing out from Amazon Cognito Managed Login, revoking tokens, and removing cookies. If the user closes the browser during the process, the following may occur:
->
-> 1. auth token have not been revoked - user remains signed in
-> 2. auth token have been revoked but cookies have not been removed - cookies will be removed when the user visits the app again
+<Callout info>
+
+**Note:** A signing-out call involves multiple steps, including signing out from Amazon Cognito Managed Login, revoking tokens, and removing cookies. If the user closes the browser during the process, the following may occur:
+
+1. auth token have not been revoked - user remains signed in
+2. auth token have been revoked but cookies have not been removed - cookies will be removed when the user visits the app again
+
+</Callout>
 
 #### Step 4 - Provide the redirect URLs to the Auth Resource in Amplify
 
 You can run `amplify add auth` or `amplify update auth` to provide the callback API routes as the redirect URLs. See [Configure the Auth category](/gen1/[platform]/build-a-backend/auth/add-social-provider/#configure-the-auth-category) for more details. With the above example, you can provide the following redirect URLs:
 
-```
+```text showLineNumbers={false}
 // redirect signin URI:
 https://myapp.com/api/auth/sign-in-callback
 
