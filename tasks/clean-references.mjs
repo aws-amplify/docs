@@ -1,17 +1,34 @@
-import references from '../src/references/raw-references.json' assert { type: 'json' };
-import { writeFileSync } from 'fs';
-import {
-  API_CATEGORIES,
-  API_SUB_CATEGORIES
-} from '../src/data/api-categories.mjs';
-
+import { writeFileSync, readFileSync } from 'fs';
+import { packageCategories } from '../src/data/api-categories.mjs';
+import { processReferences } from '../src/data/process-typedoc.mjs';
 /**
  * The purpose of this script is to create generate an object that only contains
  * the desired category nodes and every node needed to generate the api documentation
  * for these nodes.  This is done by iterating over the needed category nodes and
  * then recursively adding every node found into cleanReferences.
  */
+// Read the -p flag from the cli params
+console.log(JSON.stringify(process.argv));
 
+const packageIndex = process.argv.indexOf('-p');
+
+if (packageIndex === -1) {
+  throw new Error(
+    'No package name provided please provide a package name in -p.'
+  );
+}
+
+const packageName = process.argv[packageIndex + 1];
+
+const referencesFile = readFileSync(
+  `./src/references/${packageName}/reference.json`
+);
+
+const { API_CATEGORIES, API_SUB_CATEGORIES, ROOT_PACKAGE } =
+  packageCategories[packageName];
+
+const references = processReferences(JSON.parse(referencesFile), ROOT_PACKAGE);
+console.log(JSON.stringify(references));
 const cleanReferences = {};
 const categoryNodes = [];
 
@@ -157,7 +174,7 @@ cleanReferences['categories'] = categoryNodes;
 // update_references workflow and will be committed.
 try {
   writeFileSync(
-    'src/directory/apiReferences.json',
+    `src/directory/apiReferences/${packageName}.json`,
     JSON.stringify(cleanReferences, null, 2),
     'utf8'
   );

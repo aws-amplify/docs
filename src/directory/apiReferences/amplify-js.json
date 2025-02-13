@@ -1,0 +1,74 @@
+{
+  "20": {
+    "id": 20,
+    "name": "analytics",
+    "variant": "declaration",
+    "kind": 2,
+    "flags": {}
+  },
+  "25": {
+    "id": 25,
+    "name": "api",
+    "variant": "declaration",
+    "kind": 2,
+    "flags": {}
+  },
+  "27": {
+    "id": 27,
+    "name": "auth",
+    "variant": "declaration",
+    "kind": 2,
+    "flags": {}
+  },
+  "32": {
+    "id": 32,
+    "name": "in-app-messaging",
+    "variant": "declaration",
+    "kind": 2,
+    "flags": {}
+  },
+  "46": {
+    "id": 46,
+    "name": "storage",
+    "variant": "declaration",
+    "kind": 2,
+    "flags": {}
+  },
+  "categories": [
+    {
+      "id": 27,
+      "name": "auth",
+      "variant": "declaration",
+      "kind": 2,
+      "flags": {}
+    },
+    {
+      "id": 46,
+      "name": "storage",
+      "variant": "declaration",
+      "kind": 2,
+      "flags": {}
+    },
+    {
+      "id": 20,
+      "name": "analytics",
+      "variant": "declaration",
+      "kind": 2,
+      "flags": {}
+    },
+    {
+      "id": 25,
+      "name": "api",
+      "variant": "declaration",
+      "kind": 2,
+      "flags": {}
+    },
+    {
+      "id": 32,
+      "name": "in-app-messaging",
+      "variant": "declaration",
+      "kind": 2,
+      "flags": {}
+    }
+  ]
+}
