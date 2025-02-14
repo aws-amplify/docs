@@ -3,12 +3,6 @@
 /* $mq-mobile is the min-width we flip to 'desktop' layout */
 $mq-mobile: 1000px;
 
-/** 
- * $toc-min is the min-width we show the table of 
- * contents on the right 
-*/
-$toc-min: 1360px;
-
 :root {
   --content-max-width: 1000px;
   --docs-dev-center-nav: 4rem;
