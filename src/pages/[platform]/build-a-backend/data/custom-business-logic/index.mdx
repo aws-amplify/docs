@@ -60,12 +60,23 @@ const schema = a.schema({
     executionDuration: a.float()
   }),
 
+  Status: a.enum({
+    values: ['ACCEPTED', 'REJECTED']
+  })
+
   // 2. Define your query with the return type and, optionally, arguments
   echo: a
     .query()
-    // arguments that this query accepts
+    // arguments that this query accepts - scalar, custom types, reference to custom types & enums
     .arguments({
-      content: a.string()
+      // scalar field
+      content: a.string(),
+      // inline custom type
+      config: a.customType({
+        filter: a.string(),
+        // reference to enum
+        status: a.ref('Status')
+      }),
     })
     // return type of the query
     .returns(a.ref('EchoResponse'))
