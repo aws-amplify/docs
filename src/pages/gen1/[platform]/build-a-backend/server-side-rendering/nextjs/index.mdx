@@ -296,7 +296,7 @@ Use HTML anchor links to navigate users to the sign-in and sign-up routes. For e
 <BlockSwitcher>
 <Block name="Sign in button">
 ```tsx title="src/components/SignInButton.tsx"
-export const SignInButton() {
+export default function SignInButton() {
   return (
     <a href="/api/auth/sign-in">
       Sign In
@@ -307,7 +307,7 @@ export const SignInButton() {
 </Block>
 <Block name="Sign in with Google button">
 ```tsx title="src/components/SignInWithGoogleButton.tsx"
-export const SignInWithGoogleButton() {
+export default function SignInWithGoogleButton() {
   return (
     <a href="/api/auth/sign-in?provider=Google">
       Sign In with Google
@@ -318,7 +318,7 @@ export const SignInWithGoogleButton() {
 </Block>
 <Block name="Sign up button">
 ```tsx title="src/components/SignUpButton.tsx"
-export const SignUpButton() {
+export default function SignUpButton() {
   return (
     <a href="/api/auth/sign-up">
       Sign Up
@@ -329,7 +329,7 @@ export const SignUpButton() {
 </Block>
 <Block name="Sign out button">
 ```tsx title="src/components/SignOutButton.tsx"
-export const SignOutButton() {
+export default function SignOutButton() {
   return (
     <a href="/api/auth/sign-out">
       Sign Out
