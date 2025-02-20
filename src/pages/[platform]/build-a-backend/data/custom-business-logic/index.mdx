@@ -60,23 +60,12 @@ const schema = a.schema({
     executionDuration: a.float()
   }),
 
-  Status: a.enum({
-    values: ['ACCEPTED', 'REJECTED']
-  })
-
   // 2. Define your query with the return type and, optionally, arguments
   echo: a
     .query()
-    // arguments that this query accepts - scalar, custom types, reference to custom types & enums
+    // arguments that this query accepts
     .arguments({
-      // scalar field
-      content: a.string(),
-      // inline custom type
-      config: a.customType({
-        filter: a.string(),
-        // reference to enum
-        status: a.ref('Status')
-      }),
+      content: a.string()
     })
     // return type of the query
     .returns(a.ref('EchoResponse'))
@@ -521,6 +510,40 @@ safePrint(echoResponse.echo.content);
 ```
 
 </InlineFilter>
+## Supported Argument Types in Custom Operations
+
+Custom operations can accept different types of arguments. Understanding these options helps define flexible and well-structured APIs.
+
+### Defining Arguments in Custom Operations
+
+When defining a custom operation, you can specify arguments using different types:
+
+- **Scalar Fields**: Basic types such as `string`, `integer`, `float`, etc.
+- **Custom Types**: Define inline `customType`.
+- **Reference Types**: Use `a.ref()` to reference enums and custom types.
+
+```ts title="amplify/data/resource.ts"
+const schema = a.schema({
+  Status: a.enum({
+    values: ['ACCEPTED', 'REJECTED']
+  }),
+
+  echo: a
+    .query()
+    .arguments({
+      // scalar field
+      content: a.string(),
+      // inline custom type
+      config: a.customType({
+        filter: a.string(),
+        // reference to enum
+        status: a.ref('Status')
+      }),
+    })
+    .returns(a.string())
+    .authorization(allow => [allow.authenticated()])
+});
+```
 
 ## Async function handlers
 
