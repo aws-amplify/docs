@@ -47,18 +47,18 @@ Existing Amazon API Gateway resources can be used with the Amplify Libraries by 
 
 ```javascript
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import amplifyconfig from './src/amplifyconfiguration.json';
-Amplify.configure(amplifyconfig):
 
-const existingConfig = Amplify.getConfig();
+const resourceConfig = parseAmplifyConfig(amplifyconfig);
 
 // Add existing resource to the existing configuration.
 Amplify.configure({
-  ...existingConfig,
+  ...resourceConfig,
   API: {
-    ...existingConfig.API,
+    ...resourceConfig.API,
     REST: {
-      ...existingConfig.API?.REST,
+      ...resourceConfig.API?.REST,
       YourAPIName: {
         endpoint:
           'https://abcdefghij1234567890.execute-api.us-east-1.amazonaws.com/stageName',

@@ -59,11 +59,11 @@ If you are not using the Amplify CLI, an existing Amazon S3 bucket can be used b
 </Callout>
 ```javascript
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from './amplifyconfiguration.json';
+import { parseAmplifyConfig } from "aws-amplify/utils";
+import resourceConfig from './amplifyconfiguration.json';
 
-Amplify.configure(amplifyconfig);
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...parseAmplifyConfig(resourceConfig),
   Storage: {
     S3: {
       region: '[REGION]', // (required) - Amazon S3 bucket region
