@@ -518,9 +518,9 @@ Custom operations can accept different types of arguments. Understanding these o
 
 When defining a custom operation, you can specify arguments using different types:
 
-- **Scalar Fields**: Basic types such as `string`, `integer`, `float`, etc.
-- **Custom Types**: Define inline `customType`.
-- **Reference Types**: Use `a.ref()` to reference enums and custom types.
+- **Scalar Fields**: Basic types such as `string`, `integer`, `float`, etc
+- **Custom Types**: Define inline `customType`
+- **Reference Types**: Use `a.ref()` to reference enums and custom types
 
 ```ts title="amplify/data/resource.ts"
 const schema = a.schema({
@@ -528,7 +528,7 @@ const schema = a.schema({
     values: ['ACCEPTED', 'REJECTED']
   }),
 
-  echo: a
+  getPost: a
     .query()
     .arguments({
       // scalar field
