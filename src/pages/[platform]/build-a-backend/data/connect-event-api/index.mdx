@@ -83,6 +83,10 @@ export default function App() {
 
   async function publishEvent() {
     await events.post('default/channel', { some: 'data' });
+
+    //Alternative way to publish events through the channel
+    const channel = await events.connect('default/channel');
+    await channel.publish({ some: 'data' });
   }
 
   return (
@@ -241,6 +245,10 @@ export default function App() {
 
   async function publishEvent() {
     await events.post('default/channel', { some: 'data' });
+
+    //Alternative way to publish events through the channel
+    const channel = await events.connect('default/channel');
+    await channel.publish({ some: 'data' });
   }
 
   return (
