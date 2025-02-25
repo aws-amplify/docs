@@ -524,10 +524,8 @@ When defining a custom operation, you can specify arguments using different type
 
 ```ts title="amplify/data/resource.ts"
 const schema = a.schema({
-  Status: a.enum({
-    values: ['ACCEPTED', 'REJECTED']
-  }),
-
+  Status: a.enum(['ACCEPTED', 'REJECTED']),
+  
   getPost: a
     .query()
     .arguments({
