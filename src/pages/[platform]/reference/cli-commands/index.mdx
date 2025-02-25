@@ -332,6 +332,26 @@ npx ampx generate graphql-client-code --format modelgen --type-target angular
 | Modelgen | Amplify Flutter | `amplify codegen model` | `npx ampx generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/AmplifyModels` | `<path_to_flutter_project>/AmplifyModels` |
 
 
+## npx ampx generate schema-from-database
+
+Generates typescript data schema from a SQL database.
+
+### Options
+
+- `--stack`(_string_) - A stack name that contains an Amplify backend.
+- `--branch` (_string_) - Name of the git branch being deployed.
+- `--app-id` (_string_) - The app id of the target Amplify app.
+- `--out`(_string_) - A path to directory where generated schema is written [default: `./amplify/data/schema.sql.ts`].
+- `--connection-uri-secret`(_string_) - Amplify secret name for the database connection uri.
+- `--ssl-cert-secret`(_string_) - Amplify secret name for the database ssl certificate.
+- `--profile`(_string_) - An AWS profile name.
+
+### Usage
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_STRING --out amplify/data/schema.sql.ts
+```
+
 ## npx ampx generate forms
 
 Generate React form components derived from your backend data models for your frontend application to consume.
