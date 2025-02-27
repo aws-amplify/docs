@@ -20,15 +20,12 @@ if (packageIndex === -1) {
 
 const packageName = process.argv[packageIndex + 1];
 
-const referencesFile = readFileSync(
-  `./src/references/${packageName}/reference.json`
-);
+const referencesFile = readFileSync(`../${packageName}/docs/reference.json`);
 
 const { API_CATEGORIES, API_SUB_CATEGORIES, ROOT_PACKAGE } =
   packageCategories[packageName];
 
 const references = processReferences(JSON.parse(referencesFile), ROOT_PACKAGE);
-console.log(JSON.stringify(references));
 const cleanReferences = {};
 const categoryNodes = [];
 
@@ -158,7 +155,7 @@ const categories = Object.values(API_CATEGORIES).concat(
 
 // iterate over all categories and populate all nodes
 categories.forEach((catName) => {
-  const catNode = references.categories.filter((cat) => {
+  const catNode = references.categories?.filter((cat) => {
     return cat.name === catName;
   })[0];
 

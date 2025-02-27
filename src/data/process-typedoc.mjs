@@ -1,5 +1,3 @@
-import { writeFileSync } from 'fs';
-
 export const processReferences = (references, rootPackage) => {
   // build flat object for easier faster lookups
   const flatReferences = {};
@@ -54,7 +52,7 @@ export const processReferences = (references, rootPackage) => {
     (id) => flatReferences[id].name == rootPackage
   );
 
-  flatReferences['categories'] = flatReferences[rootId].children.map(
+  flatReferences['categories'] = flatReferences[rootId]?.children?.map(
     (catId) => {
       const cat = structuredClone(flatReferences[catId]);
       if (cat.children && Array.isArray(cat.children)) {
@@ -67,17 +65,6 @@ export const processReferences = (references, rootPackage) => {
       return cat;
     }
   );
-
-  try {
-    writeFileSync(
-      './parsedJson.json',
-      JSON.stringify(flatReferences, null, 2),
-      'utf8'
-    );
-    console.log('Successfully saved parsed API information');
-  } catch (error) {
-    console.log('An error has occurred ', error);
-  }
 
   return flatReferences;
 };
