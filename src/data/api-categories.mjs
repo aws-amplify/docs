@@ -11,16 +11,5 @@ export const packageCategories = {
       'rest-api': 'api',
       'in-app-messaging': 'in-app-messaging'
     }
-  },
-  'amplify-data': {
-    API_CATEGORIES: {
-      auth: 'auth',
-      storage: 'storage'
-    },
-    API_SUB_CATEGORIES: {
-      analytics: 'analytics',
-      'rest-api': 'api',
-      'in-app-messaging': 'in-app-messaging'
-    }
   }
 };
