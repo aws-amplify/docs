@@ -1,15 +1,14 @@
 import { writeFileSync, readFileSync } from 'fs';
 import { packageCategories } from '../src/data/api-categories.mjs';
 import { processReferences } from '../src/data/process-typedoc.mjs';
-/**
- * The purpose of this script is to create generate an object that only contains
- * the desired category nodes and every node needed to generate the api documentation
- * for these nodes.  This is done by iterating over the needed category nodes and
- * then recursively adding every node found into cleanReferences.
- */
-// Read the -p flag from the cli params
-console.log(JSON.stringify(process.argv));
 
+/**
+ * Read the -p flag from the cli params
+ *
+ * This flag tells is which package is adjacent with a references file to read from
+ * eg. `-p amplify-js` means that `../amplify-js/docs/reference.json` exists and is
+ *   ready to be transformed into `src/directory/apiReferences/amplify-js.json`
+ */
 const packageIndex = process.argv.indexOf('-p');
 
 if (packageIndex === -1) {
