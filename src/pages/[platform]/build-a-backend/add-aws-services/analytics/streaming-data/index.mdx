@@ -93,9 +93,12 @@ Configure Kinesis:
 ```javascript title="src/index.js"
 // Configure the plugin after adding it to the Analytics module
 import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...amplifyConfig,
   Analytics: {
     Kinesis: {
       // REQUIRED -  Amazon Kinesis service region

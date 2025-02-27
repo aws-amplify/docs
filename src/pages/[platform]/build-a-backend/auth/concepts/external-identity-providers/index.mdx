@@ -256,7 +256,7 @@ You need to now inform your external provider of the newly configured authentica
 </Block>
 </BlockSwitcher>
 
-Learn more about using social identity providers with user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)
+[Learn more about using social identity providers with user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)
 
 ### Customizing scopes for retrieving user data from external providers
 
@@ -314,11 +314,13 @@ export const auth = defineAuth({
 
 ### Attribute mapping
 
-You can map which attributes are mapped between your external identity provider and your users created in Cognito. We will be able to have the best level of protection for developers if we ensure that attribute mappings that would not work are called out by the type system.
+Identity provider (IdP) services store user attributes in different formats. When using external IdPs with Amazon Cognito user pools, attribute mapping allows you to standardize these varying formats into a consistent schema. 
 
-<Callout>
+Learn more about [mapping IdP attributes to user pool profiles and tokens](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
 
-If you specify an attribute in your authentication resource as required, and it is not allowed for your external providers, signing in with that external provider will cause an error.
+<Callout warning>
+
+**Note:** When a federated user signs in to your application, a mapping must be present for each attribute that your user pool requires. Additionally, you must also ensure that the target of each attribute mapping is mutable. Amazon Cognito will attempt to update each mapped attribute when a user signs in regardless of whether the latest value already matches the existing information. If these criteria are not met, Amazon Cognito will return an error and the sign in attempt will fail.
 
 </Callout>
 
@@ -330,7 +332,7 @@ import { defineAuth } from '@aws-amplify/backend';
 export const auth = defineAuth({
   loginWith: {
     email: true,
-    externalAuthProviders: {
+    externalProviders: {
       loginWithAmazon: {
         clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
         clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),
@@ -359,7 +361,7 @@ import { defineAuth } from '@aws-amplify/backend';
 export const auth = defineAuth({
   loginWith: {
     email: true,
-    externalAuthProviders: {
+    externalProviders: {
       loginWithAmazon: {
         clientId: secret('LOGINWITHAMAZON_CLIENT_ID'),
         clientSecret: secret('LOGINWITHAMAZON_CLIENT_SECRET'),

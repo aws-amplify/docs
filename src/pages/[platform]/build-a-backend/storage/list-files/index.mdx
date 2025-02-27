@@ -39,7 +39,7 @@ import { list } from 'aws-amplify/storage';
 
 const result = await list({
 	path: 'album/photos/',
-  // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`
+  // Alternatively, path: ({identityId}) => `album/${identityId}/photos/`
 });
 ```
 
@@ -72,7 +72,7 @@ let nextToken;
 const loadNextPage = async () => {
   const response = await list({
     path: 'photos/',
-    // Alternatively, path: ({ identityId }) => `album/{identityId}/photos/`
+    // Alternatively, path: ({ identityId }) => `album/${identityId}/photos/`
     options: {
       pageSize: PAGE_SIZE,
       nextToken,
@@ -93,7 +93,7 @@ import { list } from 'aws-amplify/storage';
 
 const result = await list({
 	path: 'album/photos/',
-  // Alternatively, path: ({identityId}) => `album/{identityId}/photos/`,
+  // Alternatively, path: ({identityId}) => `album/${identityId}/photos/`,
   options: {
     listAll: true,
   }
@@ -1070,7 +1070,7 @@ import { getProperties } from 'aws-amplify/storage';
 try {
   const result = await getProperties({
     path: 'album/2024/1.jpg',
-    // Alternatively, path: ({ identityId }) => `album/{identityId}/1.jpg`
+    // Alternatively, path: ({ identityId }) => `album/${identityId}/1.jpg`
     options: {
       // Specify a target bucket using name assigned in Amplify Backend
       bucket: 'assignedNameInAmplifyBackend'

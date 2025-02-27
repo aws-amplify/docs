@@ -101,15 +101,17 @@ There are two roles created by Cognito: an "authenticated role" that grants sign
 <InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
 ## Configure client library directly
 
-You can first import and configure the generated `amplify_outputs.json`. You can then manually configure Amplify Geo like this:
+You can first import and parse the generated `amplify_outputs.json`. You can then manually configure Amplify Geo like this:
 
 ```js
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import outputs from '../amplify_outputs.json';
 
-Amplify.configure(outputs);
+const amplifyConfig = parseAmplifyConfig(outputs);
+
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...amplifyConfig,
   Geo: {
     LocationService: {
       maps: {

@@ -112,6 +112,12 @@ Configuring the mobile client libraries directly is not supported, however you c
 
 ## Use auth resources with an Amplify backend
 
+<Callout warning>
+
+Amplify cannot modify the configuration of your referenced resources and only captures the resource configuration at the time of reference, any subsequent changes made to the referenced resources will not be automatically reflected in your Amplify backend.
+
+</Callout>
+
 If you have created Amazon Cognito resources outside of the context of your Amplify app such as creating resources through the AWS Console or consuming resources created by a separate team, you can use `referenceAuth` to reference the existing resources. It requires a user pool, a user pool client, identity pool, and an authenticated & unauthenticated IAM role configured on your identity pool.
 
 ```ts title="amplify/auth/resource.ts"
@@ -128,7 +134,7 @@ export const auth = referenceAuth({
 
 <Callout info>
 
-The configuration of your referenced resources cannot be modified. IAM policies specific to your Amplify application will be appended to your authenticated and unauthenticated roles, and applications using the referenced resource will be able to create users in the Cognito user pool and identities in the Cognito identity pool.
+IAM policies specific to your Amplify application will be appended to your authenticated and unauthenticated roles, and applications using the referenced resource will be able to create users in the Cognito user pool and identities in the Cognito identity pool.
 
 </Callout>
 
@@ -147,6 +153,24 @@ export const auth = referenceAuth({
   access: (allow) => [
     allow.resource(getUser).to(["getUser"]),
   ],
+});
+```
+
+Additionally, you can also use the `groups` property to reference groups in your user pool. This is useful if you want to work with groups in your application and provide access to resources such as storage based on group membership.
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+import { getUser } from "../functions/get-user/resource";
+
+export const auth = referenceAuth({
+  userPoolId: 'us-east-1_xxxx',
+  identityPoolId: 'us-east-1:b57b7c3b-9c95-43e4-9266-xxxx',
+  authRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthauthenticatedU-xxxx',
+  unauthRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthunauthenticate-xxxx',
+  userPoolClientId: 'xxxx',
+  groups: {
+    admin: "arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthadminGroupRole-xxxx",
+  },
 });
 ```
 
