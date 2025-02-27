@@ -17,6 +17,39 @@ npx pod-install
 
 ### Update your Application Delegate
 
+Depending on the React Native version you’re using, you need to use Objective-C or Swift code snippets to update your Application.
+
+<BlockSwitcher>
+
+<Block name=">= 0.77.0">
+
+Locate and open your `AppDelegate.swift` file in your text editor. You should find it in your React Native project under `/ios/<your-project-name>`.
+
+At the top of your `AppDelegate`, import Amplify Push Notifications:
+
+```swift
+import ReactAppDependencyProvider
+import AmplifyRTNPushNotification // <- add this line
+
+...
+```
+
+In the body of your `AppDelegate`, add the following two methods:
+
+```swift
+override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+  AmplifyPushNotification.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+}
+
+override func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+  AmplifyPushNotification.didReceiveRemoteNotification(userInfo, withCompletionHandler: completionHandler)
+}
+```
+
+</Block>
+
+<Block name="< 0.77.0">
+
 Locate and open your `AppDelegate.m` or `AppDelegate.mm` file in your text editor. You should find it in your React Native project under `/ios/<your-project-name>`
 
 At the top of your `AppDelegate`, import Amplify Push Notifications:
@@ -39,3 +72,7 @@ In the body of your `AppDelegate`, add the following two methods:
   [AmplifyPushNotification didReceiveRemoteNotification:userInfo withCompletionHandler:completionHandler];
 }
 ```
+
+</Block>
+
+</BlockSwitcher>
