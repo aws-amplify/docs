@@ -44,7 +44,7 @@ export const schema = a.schema({
       accountRepresentativeId: a.id().required(),
     })
       // highlight-next-line
-    .disableOperations(["mutations","subscriptions","queries"])
+    .disableOperations(["mutations", "subscriptions", "queries"])
     .authorization(allow => [allow.publicApiKey()]),
 });
 ```
