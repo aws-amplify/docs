@@ -49,30 +49,30 @@ export const schema = a.schema({
 });
 ```
 
-##Available Operation Types
+## Available Operation Types
 
 The disableOperations method accepts an array of operation types that you want to disable:
 
-###General Operation Categories
+### General Operation Categories
 
 "mutations": Disables all mutation operations (create, update, delete)
 "subscriptions": Disables all real-time subscription operations (onCreate, onUpdate, onDelete)
 "queries": Disables all query operations (get, list)
 
-###Specific Operations
+### Specific Operations
 You can also disable more granular operations:
 Query Operations
 
 "get": Disables the ability to fetch a single item by ID
 "list": Disables the ability to fetch multiple items
 
-###Mutation Operations
+### Mutation Operations
 
 "create": Disables the ability to create new items
 "update": Disables the ability to update existing items
 "delete": Disables the ability to delete items
 
-###Subscription Operations
+### Subscription Operations
 
 "onCreate": Disables real-time notifications when items are created
 "onUpdate": Disables real-time notifications when items are updated
