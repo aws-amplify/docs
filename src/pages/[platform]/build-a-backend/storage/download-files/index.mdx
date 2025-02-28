@@ -1240,5 +1240,7 @@ Option | Type | Default | Description |
 ## Frequently Asked Questions
 
 - [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
+- `downloadData` does not provide a cache control option and it replies on runtime HTTP caching behavior. If you need to bypass the cache, you can use the `getUrl` API to create a presigned URL for downloading the file.
+- `downloadData` does not support S3 object versioning, it always downloads the latest version.
 
 </InlineFilter>

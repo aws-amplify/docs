@@ -368,5 +368,6 @@ Users can run into unexpected issues, so we are giving you advance notice in doc
 
 - [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
 - There is currently [no API for getting the identityId of other users](https://github.com/aws-amplify/amplify-js/issues/5177); you have to retrieve this from elsewhere before calling `downloadData`.
+- `downloadData` does not provide a cache control option and it replies on runtime HTTP caching behavior. If you need to bypass the cache, you can use the `getUrl` API to create a presigned URL for downloading the file.
 
 </InlineFilter>
