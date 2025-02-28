@@ -54,7 +54,9 @@ Amplify Flutter supports API level 24+ (Android 7.0+), and requires Gradle 8+, K
 The steps below are intended for Flutter apps created with Flutter version 3.16+. If your app was created prior to version 3.16, please follow the guide [here](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply) to migrate to Gradle's declarative plugins block before following the steps below.
 </Callout>
 
-1. Open `android/settings.gradle` and update the Android Gradle plugin and kotlin versions:
+<BlockSwitcher>
+<Block name="Gradle Kotlin">
+1. Open `android/settings.gradle.kts` and update the Android Gradle plugin and kotlin versions:
 
 ```diff title="android/settings.gradle.kts"
 plugins {
@@ -77,7 +79,7 @@ zipStorePath=wrapper/dists
 +distributionUrl=https\://services.gradle.org/distributions/gradle-8.0-all.zip
 ```
 
-3. Open `android/app/build.gradle` and update the Java version and minimum Android SDK version.
+3. Open `android/app/build.gradle.kts` and update the Java version and minimum Android SDK version.
 
 ```diff title="android/app/build.gradle.kts"
 android {
@@ -117,6 +119,68 @@ android {
     }
 }
 ```
+</Block>
+<Block name="Gradle Groovy">
+1. Open `android/settings.gradle` and update the Android Gradle plugin and kotlin versions:
+
+```diff title="android/settings.gradle"
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+-   id "com.android.application" version "7.3.0" apply false
+-   id "org.jetbrains.kotlin.android" version "1.7.10" apply false
++   id "com.android.application" version "8.1.0" apply false
++   id "org.jetbrains.kotlin.android" version "1.9.10" apply false
+}
+```
+
+2. Open `android/gradle/wrapper/gradle-wrapper.properties` and update the Gradle `distributionUrl`.
+
+```diff title="android/gradle/wrapper/gradle-wrapper.properties"
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-7.0-all.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-8.0-all.zip
+```
+
+3. Open `android/app/build.gradle` and update the Java version and minimum Android SDK version.
+
+```diff title="android/app/build.gradle"
+android {
+    namespace = "com.example.myapp"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+    compileOptions {
+-       sourceCompatibility = JavaVersion.VERSION_1_8
+-       targetCompatibility = JavaVersion.VERSION_1_8
++       sourceCompatibility = JavaVersion.VERSION_17
++       targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId = "com.example.myapp"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+-       minSdk = flutter.minSdkVersion
++       minSdk = 24
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
+    }
+    
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig = signingConfigs.debug
+        }
+    }
+}
+```
+</Block>
+</BlockSwitcher>
 
 <Callout info>
 If you would like to use a higher version of Gradle or Android Gradle plugin see the compatibility matrix [here](https://developer.android.com/build/releases/gradle-plugin#updating-gradle).
