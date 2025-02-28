@@ -30,9 +30,8 @@ export function getStaticProps(context) {
   };
 }
 
-The `disableOperations` method allows you to selectively disable specific GraphQL operations for a model in your Amplify application. This can be useful for enforcing access control patterns, optimizing performance, or implementing specialized API designs.
+The `disableOperations` method allows you to selectively disable specific GraphQL operations for a model in your Amplify application. This can be useful for implementing specialized API designs and reduce the number of resources being deployed.
 
-## Usage
 You can disable operations by adding the `disableOperations` method to your model definition:
 
 ```ts title="amplify/data/resource.ts"
