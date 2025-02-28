@@ -1,0 +1,98 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Disable Operations',
+  description:
+    'Disable Operations for your data model',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The `disableOperations` method allows you to selectively disable specific GraphQL operations for a model in your Amplify application. This can be useful for enforcing access control patterns, optimizing performance, or implementing specialized API designs.
+
+## Usage
+You can disable operations by adding the `disableOperations` method to your model definition:
+
+```ts title="amplify/data/resource.ts"
+export const schema = a.schema({
+  Customer: a
+    .model({
+      name: a.string(),
+      phoneNumber: a.phone(),
+      accountRepresentativeId: a.id().required(),
+    })
+      // highlight-next-line
+    .disableOperations(["mutations","subcriptions","queries"])
+    .authorization(allow => [allow.publicApiKey()]),
+});
+```
+
+##Available Operation Types
+
+The disableOperations method accepts an array of operation types that you want to disable:
+
+###General Operation Categories
+
+"mutations": Disables all mutation operations (create, update, delete)
+"subscriptions": Disables all real-time subscription operations (onCreate, onUpdate, onDelete)
+"queries": Disables all query operations (get, list)
+
+###Specific Operations
+You can also disable more granular operations:
+Query Operations
+
+"get": Disables the ability to fetch a single item by ID
+"list": Disables the ability to fetch multiple items
+
+###Mutation Operations
+
+"create": Disables the ability to create new items
+"update": Disables the ability to update existing items
+"delete": Disables the ability to delete items
+
+###Subscription Operations
+
+"onCreate": Disables real-time notifications when items are created
+"onUpdate": Disables real-time notifications when items are updated
+"onDelete": Disables real-time notifications when items are deleted
+
+You can specify one or more operation types in the array to disable them:
+
+```
+// Disable all mutations
+disableOperations: ["mutations"]
+
+// Disable both subscriptions and queries
+disableOperations: ["subscriptions", "queries"]
+
+// Disable specific operations
+disableOperations: ["create", "update", "list"]
+
+// Disable specific subscription types
+disableOperations: ["onCreate", "onUpdate"]
+
+// Mix general categories with specific operations
+disableOperations: ["queries", "create", "onDelete"]
+```
