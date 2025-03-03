@@ -15,7 +15,6 @@ export const ReferencePage = ({ category }) => {
   );
   return (
     <View className={'reference-page'}>
-      asd
       {cat?.children?.map((child, idx) => (
         <Fragment key={`reference-${idx}`}>
           {idx !== 0 && <Divider marginTop={'medium'} />}
