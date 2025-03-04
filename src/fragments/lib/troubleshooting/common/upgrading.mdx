@@ -177,7 +177,7 @@ Wherever you called `Amplify.configure({ aws-exports });` previously (usually in
 </Columns>
 
 <Callout>
-  `Amplify.configure()` accepts either the config JSON file or a `ResourcesConfig` configuration object. You can use the `parseAmplifyConfig` util to parse the contents of the config JSON file **amplifyconfiguration.json** into the `ResourcesConfig` configuration object and override properties as needed. Keep in mind that any call to configuration will fully override previous configurations, so pay special attention to nested configurations.
+  `Amplify.configure()` accepts either the config JSON file or a [ResourceConfig configuration object](/gen1/[platform]/tools/libraries/configure-categories/). You can use the `parseAmplifyConfig` util to parse the contents of the config JSON file **amplifyconfiguration.json** into the ResourceConfig configuration object and override properties as needed. Keep in mind that any call to configuration will fully override previous configurations, so pay special attention to nested configurations.
 </Callout>
 
 If you have previously configured Amplify by passing the configuration object literal when calling the `Amplify.configure()` function, you can now configure Amplify manually with type safety. Please refer to the documentation of each category that you are using for migration.
