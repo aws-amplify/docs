@@ -1,6 +1,9 @@
 import { writeFileSync, readFileSync } from 'fs';
-import { packageCategories } from '../src/data/api-categories.mjs';
-import { processReferences } from '../src/data/process-typedoc.mjs';
+import {
+  API_CATEGORIES,
+  API_SUB_CATEGORIES,
+  ROOT_PACKAGE
+} from '../src/data/api-categories.mjs';
 
 /**
  * The purpose of this script is to create generate an object that only contains
@@ -27,9 +30,6 @@ if (packageIndex === -1) {
 const packageName = process.argv[packageIndex + 1];
 
 const referencesFile = readFileSync(`../${packageName}/docs/reference.json`);
-
-const { API_CATEGORIES, API_SUB_CATEGORIES, ROOT_PACKAGE } =
-  packageCategories[packageName];
 
 const references = processReferences(JSON.parse(referencesFile), ROOT_PACKAGE);
 const cleanReferences = {};
@@ -153,6 +153,77 @@ function recursivelyPopulateNodes(node) {
       }
     });
   }
+}
+
+function processReferences(references, rootPackage) {
+  // build flat object for easier faster lookups
+  const flatReferences = {};
+
+  const recursivelyPopulateFlatObject = (referenceObject) => {
+    if (!referenceObject) return;
+    if (referenceObject['id']) {
+      const copy = recursivelyStripObject(structuredClone(referenceObject));
+      flatReferences[referenceObject['id']] = copy;
+    }
+
+    for (let key in referenceObject) {
+      if (referenceObject.hasOwnProperty(key)) {
+        if (Array.isArray(referenceObject[key])) {
+          referenceObject[key].forEach((child) => {
+            recursivelyPopulateFlatObject(child);
+          });
+        } else if (
+          typeof referenceObject[key] === 'object' &&
+          referenceObject[key] !== null
+        ) {
+          recursivelyPopulateFlatObject(referenceObject[key]);
+        }
+      }
+    }
+  };
+
+  const recursivelyStripObject = (referenceObject) => {
+    for (let key in referenceObject) {
+      if (referenceObject.hasOwnProperty(key)) {
+        if (Array.isArray(referenceObject[key])) {
+          referenceObject[key] = referenceObject[key].map((child) => {
+            return child.id || child;
+          });
+        } else if (
+          typeof referenceObject[key] === 'object' &&
+          referenceObject[key] !== null
+        ) {
+          recursivelyStripObject(referenceObject[key]);
+        }
+      }
+    }
+    return referenceObject;
+  };
+
+  const isFunctionObject = (obj) => {
+    return obj.kind === 64 && obj.variant === 'declaration';
+  };
+  recursivelyPopulateFlatObject(references);
+
+  const rootId = Object.keys(flatReferences).find(
+    (id) => flatReferences[id].name == rootPackage
+  );
+
+  flatReferences['categories'] = flatReferences[rootId]?.children?.map(
+    (catId) => {
+      const cat = structuredClone(flatReferences[catId]);
+      if (cat.children && Array.isArray(cat.children)) {
+        cat.children = cat.children
+          .map((childId) => flatReferences[childId])
+          .filter((child) => {
+            return isFunctionObject(child);
+          });
+      }
+      return cat;
+    }
+  );
+
+  return flatReferences;
 }
 
 const categories = Object.values(API_CATEGORIES).concat(

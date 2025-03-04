@@ -6,9 +6,7 @@ import JSON5 from 'json5';
 import { directory } from './directory.mjs';
 import { writeFile } from 'fs/promises';
 import { getLastModifiedDate } from 'git-jiggy';
-import { packageCategories } from '../data/api-categories.mjs';
-
-const { API_CATEGORIES, API_SUB_CATEGORIES } = packageCategories['amplify-js'];
+import { API_CATEGORIES, API_SUB_CATEGORIES } from '../data/api-categories.mjs';
 
 // Set up the root path so that we can get the correct path from the current working directory
 const rootPath = path.resolve(cwd(), 'src/pages');

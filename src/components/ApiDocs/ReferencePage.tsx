@@ -2,11 +2,9 @@ import { Fragment } from 'react';
 
 import { FunctionReference } from './FunctionReference';
 import { Divider, View, Flex } from '@aws-amplify/ui-react';
-import { packageCategories } from '@/data/api-categories.mjs';
+import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories.mjs';
 import references from '@/directory/apiReferences/amplify-js.json';
 import { MDXHeading } from '../MDXComponents';
-
-const { API_CATEGORIES, API_SUB_CATEGORIES } = packageCategories['amplify-js'];
 
 export const ReferencePage = ({ category }) => {
   category = API_CATEGORIES[category] || API_SUB_CATEGORIES[category];
