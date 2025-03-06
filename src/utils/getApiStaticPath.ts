@@ -1,4 +1,4 @@
-import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories';
+import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories.mjs';
 import { JS_PLATFORMS } from '@/data/platforms';
 
 export const getApiStaticPath = (sub) => {

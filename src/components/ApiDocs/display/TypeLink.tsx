@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { TypeContext } from '@/components/ApiDocs/ApiModalProvider';
 import { View } from '@aws-amplify/ui-react';
-import references from '@/directory/apiReferences.json';
+import references from '@/directory/apiReferences/amplify-js.json';
 
 export interface LinkDataType {
   name: string;

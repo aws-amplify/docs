@@ -71,6 +71,7 @@ public/**/**/nextImageExportOptimizer/
 public/next-image-export-optimizer-hashes.json
 src/directory/directory.json
 src/directory/flatDirectory.json
+src/references/raw-references.json
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend

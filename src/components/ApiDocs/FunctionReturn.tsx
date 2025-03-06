@@ -2,7 +2,7 @@ import { View } from '@aws-amplify/ui-react';
 import { MDXHeading } from '../MDXComponents';
 import { Promise } from './display/Promise';
 import { ApiComment } from './ApiComment';
-import references from '@/directory/apiReferences.json';
+import references from '@/directory/apiReferences/amplify-js.json';
 import { ParameterType } from './display';
 
 export const FunctionReturn = ({ functionReturn, sigName }) => {
