@@ -234,6 +234,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/data-modeling/secondary-index/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/data-modeling/disable-operations/index.mdx'
                     }
                   ]
                 },

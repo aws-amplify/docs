@@ -287,7 +287,7 @@ npm add \
   aws-amplify \
   @react-native-community/netinfo \
   @react-native-async-storage/async-storage \
-  react-native-safe-area-context \
+  react-native-safe-area-context@^4.2.5 \
   react-native-get-random-values
 ```
 
@@ -316,7 +316,7 @@ Next, update the `App.tsx` file with the following to set up the authentication 
 
 ```typescript
 import React from "react";
-import { Button, View, StyleSheet, SafeAreaView } from "react-native";
+import { Button, View, StyleSheet } from "react-native";
 import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
 import outputs from "./amplify_outputs.json";
@@ -337,9 +337,7 @@ const App = () => {
   return (
     <Authenticator.Provider>
       <Authenticator>
-        <SafeAreaView>
-          <SignOutButton />
-        </SafeAreaView>
+        <SignOutButton />
       </Authenticator>
     </Authenticator.Provider>
   );

@@ -115,6 +115,7 @@ import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import * as cdk from 'aws-cdk-lib';
 
 const backend = defineBackend({
   auth,
@@ -124,7 +125,7 @@ const backend = defineBackend({
 const KnowledgeBaseDataSource =
   backend.data.resources.graphqlApi.addHttpDataSource(
     "KnowledgeBaseDataSource",
-    `https://bedrock-runtime.${cdk.Stack.of(backend.data).region}.amazonaws.com`,
+    `https://bedrock-agent-runtime.${cdk.Stack.of(backend.data).region}.amazonaws.com`,
     {
       authorizationConfig: {
         signingRegion: cdk.Stack.of(backend.data).region,

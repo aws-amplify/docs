@@ -67,7 +67,7 @@ Then run the [Amplify sandbox](/[platform]/deploy-and-host/sandbox-environments/
 npx ampx sandbox
 ```
 
-This will provision the cloud resources you define in your amplify folder and watch for updates and redeploy them. 
+This will provision the cloud resources you define in your amplify folder and watch for updates and redeploy them.
 
 
 ## Build your AI backend
@@ -76,6 +76,10 @@ To build an AI backend, you define AI 'routes' in your Amplify Data schema. An A
 
 * **Conversation:** A conversation route is a streaming, multi-turn API. Conversations and messages are automatically stored in DynamoDB so users can resume conversations. Examples of this are any chat-based AI experience or conversational UI.
 * **Generation:** A single synchronous request-response API. A generation route is just an AppSync Query. Examples of this are: generating alt text for an image, generating structured data from unstructured input, summarization, etc.
+
+<Callout type="info">
+See [Supported Providers and Models](/[platform]/ai/concepts/models/#supported-providers-and-models) for a list of supported AI models.
+</Callout>
 
 To define AI routes, open your **amplify/data/resource.ts** file and use `a.generation()` and `a.conversation()` in your schema.
 
@@ -119,7 +123,7 @@ Conversation routes currently ONLY support owner-based authorization and generat
 
 </Callout>
 
-If you have the Amplify sandbox running, when you save this file it will pick up the changes and redeploy the necessary resources for you. 
+If you have the Amplify sandbox running, when you save this file it will pick up the changes and redeploy the necessary resources for you.
 
 ## Connect your frontend
 
