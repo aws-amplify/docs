@@ -292,6 +292,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-http-datasource/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/batch-ddb-operations/index.mdx'
                     }
                   ]
                 },
@@ -337,6 +340,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/aws-appsync-apollo-extensions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/enable-logging/index.mdx'
                 }
               ]
             },
