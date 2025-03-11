@@ -57,7 +57,7 @@ The most notable change between Amplify Gen 1 backends and Gen 2 backends is the
 Prerequisites: 
 
 - Node.js v18.17.1 or higher
-- [Local AWS CLI profile](/gen1/[platform]/start/getting-started/installation/) with `AdministratorAccess-Amplify` and `theAmplifyBackendDeployFullAccess` policies attached.
+- [Local AWS CLI profile](/gen1/[platform]/start/getting-started/installation/) with `AdministratorAccess-Amplify` and the `AmplifyBackendDeployFullAccess` policies attached.
 - Existing Gen 1 backend or a [new Gen 1 app created](/gen1/[platform]/start/getting-started/) with some backend resources.
 - Git
 - Package manager (npm, yarn, pnpm)
@@ -98,7 +98,7 @@ Then push your newly-created `migrate` environment to create a set of resources 
 
 **Testers Only** 
 
-if you have API resources, you will need to enable the following feature flag in your `amplify/cli.json` file:
+If you have API resources, you will need to enable the following feature flag in your `amplify/cli.json` file:
 
 ```json
 {
@@ -192,7 +192,7 @@ npm install @aws-amplify/backend@0.0.0-test-20250307211308 @aws-amplify/backend-
 
 **Auth**
 
-We will need to add the following manually to `backend.ts` file to set up the additional user pool client for your `Identity providers`. This is needed since Gen2 only supports 1 user pool client out-of-the box:
+We will need to add the following manually to `backend.ts` file to set up the additional user pool client for your `Identity providers`. This is needed since Gen 2 only supports 1 user pool client out-of-the-box:
 
 ```typescript
 const userPoolClient = userPool.addClient("NativeAppClient", {
@@ -257,7 +257,7 @@ todoTable.addOverride('Properties.sseSpecification', { sseEnabled: false });
 
 In order to provide a smoother experience with the migration tooling, we have added `throw new Error` messages to the generated code. This is to ensure that resources requiring manual changes are modified in your sandbox environment before the migration is executed.
 
-For example, if you have a NodeJS Lambda function In Gen 1, you will see the following error in your sandbox run:
+For example, if you have a Node.js Lambda function in Gen 1, you will see the following error in your sandbox run:
 
 ```bash title="Terminal" showLineNumbers={false} 
 Source code for this function can be found in your Amplify Gen 1 Directory. See .amplify/migration/amplify/backend/function/app81ff331aPostConfirmation/src
@@ -275,8 +275,9 @@ npx ampx sandbox
 
 <Callout info>
 
-If you have not deployed a Amplify Gen 2 backend before, the process will redirect you the Amplify Console to bootstrap your region. Ensure you are logged with Admin credentials.
-If you do experience any errors, refer to the [troubleshooting section]([platform]/build-a-backend/troubleshooting/).
+If you have not deployed a Amplify Gen 2 backend before, the process will redirect you the Amplify Console to bootstrap your AWS account and region. Ensure you are signed in with Admin credentials.
+
+If you experience any errors, refer to the [troubleshooting section]([platform]/build-a-backend/troubleshooting/).
 
 </Callout>
 
