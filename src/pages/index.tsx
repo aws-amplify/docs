@@ -4,10 +4,8 @@ import {
   GetStartedPopover,
   generateGetStartedLinks
 } from '@/components/GetStartedPopover';
-import { IconChevron } from '@/components/Icons';
 import { Video } from '@/components/Video';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
-import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { FeatureItem, FeatureList } from '@/components/FeatureLists';
 import { MDXCode } from '@/components/MDXComponents';
 import { Columns } from '@/components/Columns';
@@ -16,6 +14,7 @@ import {
   gen2GetStartedHref,
   gen2HowAmplifyWorksPathname
 } from '@/data/index-page-data';
+import { ExternalLinkButton } from '@/components/ExternalLinkButton';
 
 const meta = {
   title: 'Amplify Documentation',
@@ -44,31 +43,32 @@ export default function Page() {
           Amplify Documentation
         </Heading>
         <Text className="home-intro__text">
-          AWS Amplify is everything frontend developers need to develop and
-          deploy cloud-powered fullstack applications without hassle. Easily
-          connect your frontend to the cloud for data modeling, authentication,
-          storage, serverless functions, SSR app deployment, and more.
+          AWS Amplify is everything you need to build web and mobile apps. Easy
+          to start, easy to scale.
+          <br></br>
+          <br></br>
+          You can build a fullstack app using Amplify backend building
+          capabilities and deploy your web app using Amplify Hosting.
         </Text>
         <Flex className="home-cta">
           <GetStartedPopover
             platform={DEFAULT_PLATFORM}
             getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
           />
-          <InternalLinkButton
+          <ExternalLinkButton
             size="large"
-            href={{
-              pathname: gen2HowAmplifyWorksPathname,
-              query: { platform: DEFAULT_PLATFORM }
-            }}
+            href="https://console.aws.amazon.com/amplify/create/repo-branch"
           >
-            How Amplify Works
-            <IconChevron
-              aria-hidden="true"
-              className="icon-rotate-270"
-              fontSize=".875em"
-            />
-          </InternalLinkButton>
+            Deploy your app
+          </ExternalLinkButton>
         </Flex>
+        <FeatureItem
+          linkText="How Amplify works >"
+          href={{
+            pathname: gen2HowAmplifyWorksPathname,
+            query: { platform: DEFAULT_PLATFORM }
+          }}
+        ></FeatureItem>
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>
@@ -130,9 +130,7 @@ export default function Page() {
             href={{
               pathname: '/[platform]/how-amplify-works/concepts',
               hash: 'build-fullstack-apps-with-typescript',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Write TypeScript across your app&pos;s frontend and backend. Get
@@ -143,9 +141,7 @@ export default function Page() {
             linkText="Real-time data for modern apps"
             href={{
               pathname: '/[platform]/build-a-backend/data/set-up-data/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Sync frontend state to real-time backend updates. Just write
@@ -155,9 +151,7 @@ export default function Page() {
             linkText="Authn and authz for secure apps"
             href={{
               pathname: '/[platform]/build-a-backend/auth/set-up-auth/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Choose the auth strategy (such as passwords, social, email links)
@@ -167,9 +161,7 @@ export default function Page() {
             linkText="Auto-generate CRUD forms wired to data"
             href={{
               pathname: '/[platform]/build-ui/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Map CRUD forms to your data model with form-level validations and
@@ -197,9 +189,7 @@ export default function Page() {
             linkText="SSR/SSG/ISR hosting support"
             href={{
               pathname: '/[platform]/deploy-and-host/hosting/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Deploy Next.js, Nuxt, React, Vue.js, Angular (and more) apps by
@@ -210,9 +200,7 @@ export default function Page() {
             href={{
               pathname:
                 '/[platform]/deploy-and-host/sandbox-environments/setup/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Per-developer cloud sandboxes provide high fidelity and faster
@@ -223,9 +211,7 @@ export default function Page() {
             href={{
               pathname:
                 '/[platform]/deploy-and-host/fullstack-branching/branch-deployments/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Fullstack deployments from your Git branch. Autodeploy Git branches
@@ -236,9 +222,7 @@ export default function Page() {
             href={{
               pathname: '/[platform]/how-amplify-works/concepts',
               hash: 'unified-management-console',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Manage your app data, users and groups, and files in a single
@@ -251,9 +235,7 @@ export default function Page() {
             linkText="Add any AWS service with CDK"
             href={{
               pathname: '/[platform]/build-a-backend/add-aws-services/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Extend or customize with the AWS CDK to access 200+ AWS services.
@@ -263,9 +245,7 @@ export default function Page() {
             href={{
               pathname:
                 '/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Use your own pipelines to set up cross-account or multi-region,
@@ -276,9 +256,7 @@ export default function Page() {
             href={{
               pathname:
                 '/[platform]/deploy-and-host/fullstack-branching/mono-and-multi-repos/',
-              query: {
-                platform: DEFAULT_PLATFORM
-              }
+              query: { platform: DEFAULT_PLATFORM }
             }}
           >
             Enable support for all types of fullstack team workflows: monorepos,
