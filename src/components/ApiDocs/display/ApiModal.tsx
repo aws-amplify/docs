@@ -5,7 +5,7 @@ import { IconX } from '../../Icons';
 import { ParameterType } from './ParameterType';
 import { ApiComment } from '../ApiComment';
 import { LinkDataType, TypeLinkInterface } from './TypeLink';
-import references from '@/directory/apiReferences.json';
+import references from '@/directory/apiReferences/amplify-js.json';
 import { useRef } from 'react';
 
 interface ApiModalInterface {

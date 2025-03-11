@@ -2,7 +2,7 @@ import { View } from '@aws-amplify/ui-react';
 import { TypeLink } from './TypeLink';
 import { LinkDataType } from './TypeLink';
 import React from 'react';
-import references from '@/directory/apiReferences.json';
+import references from '@/directory/apiReferences/amplify-js.json';
 
 interface typeDataType {
   typeArguments?: LinkDataType[];

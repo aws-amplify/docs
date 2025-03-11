@@ -1,8 +1,8 @@
-import references from '../src/references/raw-references.json' assert { type: 'json' };
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
 import {
   API_CATEGORIES,
-  API_SUB_CATEGORIES
+  API_SUB_CATEGORIES,
+  ROOT_PACKAGE
 } from '../src/data/api-categories.mjs';
 
 /**
@@ -12,6 +12,30 @@ import {
  * then recursively adding every node found into cleanReferences.
  */
 
+/**
+ * Read the -p flag from the cli params
+ *
+ * This flag tells us the next arg is the name of a package with a references file to read from
+ * eg. `-p amplify-js` means that `../amplify-js/docs/reference.json` exists and is
+ *   ready to be transformed into `src/directory/apiReferences/amplify-js.json`
+ */
+const packageIndex = process.argv.indexOf('-p');
+
+if (packageIndex === -1) {
+  throw new Error('No package name provided with -p.');
+}
+
+const packageName = process.argv[packageIndex + 1];
+
+let referencesFile;
+
+try {
+  referencesFile = readFileSync(`../${packageName}/docs/reference.json`);
+} catch (e) {
+  throw new Error(`No references file found for ${packageName}`);
+}
+
+const references = processReferences(JSON.parse(referencesFile), ROOT_PACKAGE);
 const cleanReferences = {};
 const categoryNodes = [];
 
@@ -135,13 +159,84 @@ function recursivelyPopulateNodes(node) {
   }
 }
 
+function processReferences(references, rootPackage) {
+  // build flat object for easier faster lookups
+  const flatReferences = {};
+
+  const recursivelyPopulateFlatObject = (referenceObject) => {
+    if (!referenceObject) return;
+    if (referenceObject['id']) {
+      const copy = recursivelyStripObject(structuredClone(referenceObject));
+      flatReferences[referenceObject['id']] = copy;
+    }
+
+    for (let key in referenceObject) {
+      if (referenceObject.hasOwnProperty(key)) {
+        if (Array.isArray(referenceObject[key])) {
+          referenceObject[key].forEach((child) => {
+            recursivelyPopulateFlatObject(child);
+          });
+        } else if (
+          typeof referenceObject[key] === 'object' &&
+          referenceObject[key] !== null
+        ) {
+          recursivelyPopulateFlatObject(referenceObject[key]);
+        }
+      }
+    }
+  };
+
+  const recursivelyStripObject = (referenceObject) => {
+    for (let key in referenceObject) {
+      if (referenceObject.hasOwnProperty(key)) {
+        if (Array.isArray(referenceObject[key])) {
+          referenceObject[key] = referenceObject[key].map((child) => {
+            return child.id || child;
+          });
+        } else if (
+          typeof referenceObject[key] === 'object' &&
+          referenceObject[key] !== null
+        ) {
+          recursivelyStripObject(referenceObject[key]);
+        }
+      }
+    }
+    return referenceObject;
+  };
+
+  const isFunctionObject = (obj) => {
+    return obj.kind === 64 && obj.variant === 'declaration';
+  };
+  recursivelyPopulateFlatObject(references);
+
+  const rootId = Object.keys(flatReferences).find(
+    (id) => flatReferences[id].name == rootPackage
+  );
+
+  flatReferences['categories'] = flatReferences[rootId]?.children?.map(
+    (catId) => {
+      const cat = structuredClone(flatReferences[catId]);
+      if (cat.children && Array.isArray(cat.children)) {
+        cat.children = cat.children
+          .map((childId) => flatReferences[childId])
+          .filter((child) => {
+            return isFunctionObject(child);
+          });
+      }
+      return cat;
+    }
+  );
+
+  return flatReferences;
+}
+
 const categories = Object.values(API_CATEGORIES).concat(
   Object.values(API_SUB_CATEGORIES)
 );
 
 // iterate over all categories and populate all nodes
 categories.forEach((catName) => {
-  const catNode = references.categories.filter((cat) => {
+  const catNode = references.categories?.filter((cat) => {
     return cat.name === catName;
   })[0];
 
@@ -157,7 +252,7 @@ cleanReferences['categories'] = categoryNodes;
 // update_references workflow and will be committed.
 try {
   writeFileSync(
-    'src/directory/apiReferences.json',
+    `src/directory/apiReferences/${packageName}.json`,
     JSON.stringify(cleanReferences, null, 2),
     'utf8'
   );
