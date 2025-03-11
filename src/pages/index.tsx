@@ -10,6 +10,7 @@ import { FeatureItem, FeatureList } from '@/components/FeatureLists';
 import { MDXCode } from '@/components/MDXComponents';
 import { Columns } from '@/components/Columns';
 import ExportedImage from 'next-image-export-optimizer';
+import Link from 'next/link';
 import {
   gen2GetStartedHref,
   gen2HowAmplifyWorksPathname
@@ -62,13 +63,14 @@ export default function Page() {
             Deploy your app
           </ExternalLinkButton>
         </Flex>
-        <FeatureItem
-          linkText="How Amplify works >"
+        <Link
           href={{
             pathname: gen2HowAmplifyWorksPathname,
             query: { platform: DEFAULT_PLATFORM }
           }}
-        ></FeatureItem>
+        >
+          How Amplify works &gt;
+        </Link>
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>

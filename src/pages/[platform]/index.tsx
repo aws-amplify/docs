@@ -1,5 +1,6 @@
 import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
 import ExportedImage from 'next-image-export-optimizer';
+import Link from 'next/link';
 import { MDXCode } from '@/components/MDXComponents/';
 import { IconChevron } from '@/components/Icons';
 import { Video } from '@/components/Video';
@@ -61,6 +62,7 @@ const Gen2Overview = () => {
   );
   const isFlutter = currentPlatform == 'flutter';
   const isReactNative = currentPlatform == 'react-native';
+  const isNextJs = currentPlatform == 'nextjs';
 
   return (
     <Flex className="home-content">
@@ -82,6 +84,16 @@ const Gen2Overview = () => {
             your cross-platform applications to the cloud for data modeling,
             authentication, storage, serverless functions, and more.
           </Text>
+        ) : isNextJs ? (
+          <Text className="home-intro__text">
+            AWS Amplify is everything you need to build web and mobile apps.
+            Easy to start, easy to scale.
+            <br></br>
+            <br></br>
+            You can build a fullstack app using Amplify backend building
+            capabilities, or you can deploy your React and Next.js web apps
+            using Amplify Hosting.
+          </Text>
         ) : (
           <Text className="home-intro__text">
             AWS Amplify is everything you need to build web and mobile apps.
@@ -89,7 +101,7 @@ const Gen2Overview = () => {
             <br></br>
             <br></br>
             You can build a fullstack app using Amplify backend building
-            capabilities and deploy your web app using Amplify Hosting.
+            capabilities, or you can deploy your web app using Amplify Hosting.
           </Text>
         )}
         <Flex className="home-cta">
@@ -122,13 +134,14 @@ const Gen2Overview = () => {
           )}
         </Flex>
         {!isMobilePlatform && !isReactNative && (
-          <FeatureItem
-            linkText="How Amplify works >"
+          <Link
             href={{
-              pathname: '/[platform]/how-amplify-works/concepts/',
+              pathname: gen2HowAmplifyWorksPathname,
               query: { platform: currentPlatform }
             }}
-          ></FeatureItem>
+          >
+            How Amplify works &gt;
+          </Link>
         )}
       </Flex>
       <Flex className="home-section">
