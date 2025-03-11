@@ -69,7 +69,7 @@ import {
 } from 'aws-amplify/auth';
 import { list } from 'aws-amplify/storage';
 import { generateClient } from 'aws-amplify/api';
-import outputs from '../amplify_outputs.json';
+import config from '../amplify_outputs.json';
 
 const client = generateClient<Schema>();
 
@@ -122,10 +122,6 @@ Example implementation:
 import type { CookieRef } from 'nuxt/app';
 import type { Schema } from '~/amplify/data/resource';
 import type { ListPaginateWithPathInput } from 'aws-amplify/storage';
-import type {
-  LibraryOptions,
-  FetchAuthSessionOptions
-} from '@aws-amplify/core';
 import {
   createKeyValueStorageFromCookieStorageAdapter,
   createUserPoolsTokenProvider,
@@ -133,6 +129,7 @@ import {
   runWithAmplifyServerContext
 } from 'aws-amplify/adapter-core';
 import { parseAmplifyConfig } from 'aws-amplify/utils';
+import type { FetchAuthSessionOptions } from 'aws-amplify/auth';
 import {
   fetchAuthSession,
   fetchUserAttributes,
@@ -141,10 +138,10 @@ import {
 import { list } from 'aws-amplify/storage/server';
 import { generateClient } from 'aws-amplify/api/server';
 
-import outputs from '../amplify_outputs.json';
+import config from '../amplify_outputs.json';
 
 // parse the content of `amplify_outputs.json` into the shape of ResourceConfig
-const amplifyConfig = parseAmplifyConfig(outputs);
+const amplifyConfig = parseAmplifyConfig(config);
 
 // create the Amplify used token cookies names array
 const userPoolClientId = amplifyConfig.Auth!.Cognito.userPoolClientId;
@@ -273,7 +270,7 @@ export default defineNuxtPlugin({
     );
 
     // Create the libraryOptions object
-    const libraryOptions: LibraryOptions = {
+    const libraryOptions = {
       Auth: {
         tokenProvider,
         credentialsProvider
@@ -423,7 +420,7 @@ Example implementation:
 
 ```ts title="plugins/02.authRedirect.ts"
 import { Amplify } from 'aws-amplify';
-import outputs from '~/amplify_outputs.json';
+import config from '~/amplify_outputs.json';
 
 // Amplify.configure() only needs to be called on the client side
 if (process.client) {
@@ -494,8 +491,7 @@ import {
 } from 'aws-amplify/adapter-core';
 import { parseAmplifyConfig } from 'aws-amplify/utils';
 
-import type { LibraryOptions } from '@aws-amplify/core';
-import outputs from '~/amplify_outputs.json';
+import config from '~/amplify_outputs.json';
 
 const amplifyConfig = parseAmplifyConfig(config);
 
@@ -527,7 +523,7 @@ const createCookieStorageAdapter = (
 
 const createLibraryOptions = (
   event: H3Event<EventHandlerRequest>
-): LibraryOptions => {
+) => {
   const cookieStorage = createCookieStorageAdapter(event);
   const keyValueStorage =
     createKeyValueStorageFromCookieStorageAdapter(cookieStorage);
