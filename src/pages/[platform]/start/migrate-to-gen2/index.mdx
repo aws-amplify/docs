@@ -192,19 +192,9 @@ npm install @aws-amplify/backend@0.0.0-test-20250307211308 @aws-amplify/backend-
 
 **Auth**
 
-We will need to add the following manually to `backend.ts` file to set up the additional user pool client for your `Identity providers`. This is needed since Gen 2 only supports 1 user pool client out-of-the-box:
+We will need to add the following manually to `backend.ts` file to set up the `Identity providers` on the `User pool client`. This is needed since Gen 2 only supports 1 user pool client out-of-the-box. Add the following code to `backend.ts` file after the `User pool client` is defined:
 
 ```typescript
-const userPoolClient = userPool.addClient("NativeAppClient", {
-    disableOAuth: true,
-    authSessionValidity: Duration.minutes(3),
-    userPoolClientName: "basica6acef4d2_app_client",
-    enablePropagateAdditionalUserContextData: false,
-    enableTokenRevocation: true,
-    refreshTokenValidity: Duration.days(30),
-    generateSecret: false
-});
-// COPY BELOW SECTION
 const providerSetupResult = (backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).providerSetupResult;
 for (const provider in providerSetupResult) {
     const providerSetupPropertyValue = providerSetupResult[provider];
@@ -367,7 +357,7 @@ Then copy the `amplify/` directory from the `.amplify/migration` directory back 
 Delete Cognito User pool custom domain from `amplify/backend.ts` as the domain already exists (This will not delete the domain from Cognito User pool):
 
 ```typescript
-(backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).domainPrefix;
+delete (backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).domainPrefix;
 ```
 
 Open `.amplify/migration/README.md` and follow the instructions to complete the post-migration tasks.
