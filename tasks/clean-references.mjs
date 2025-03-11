@@ -15,21 +15,25 @@ import {
 /**
  * Read the -p flag from the cli params
  *
- * This flag tells is which package is adjacent with a references file to read from
+ * This flag tells us the next arg is the name of a package with a references file to read from
  * eg. `-p amplify-js` means that `../amplify-js/docs/reference.json` exists and is
  *   ready to be transformed into `src/directory/apiReferences/amplify-js.json`
  */
 const packageIndex = process.argv.indexOf('-p');
 
 if (packageIndex === -1) {
-  throw new Error(
-    'No package name provided please provide a package name in -p.'
-  );
+  throw new Error('No package name provided with -p.');
 }
 
 const packageName = process.argv[packageIndex + 1];
 
-const referencesFile = readFileSync(`../${packageName}/docs/reference.json`);
+let referencesFile;
+
+try {
+  referencesFile = readFileSync(`../${packageName}/docs/reference.json`);
+} catch (e) {
+  throw new Error(`No references file found for ${packageName}`);
+}
 
 const references = processReferences(JSON.parse(referencesFile), ROOT_PACKAGE);
 const cleanReferences = {};

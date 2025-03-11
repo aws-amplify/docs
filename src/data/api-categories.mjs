@@ -10,4 +10,4 @@ export const API_SUB_CATEGORIES = {
   'in-app-messaging': 'in-app-messaging'
 };
 
-export const ROOT_PACKAGE = 'amplify-js';
+export const ROOT_PACKAGE = 'aws-amplify';
