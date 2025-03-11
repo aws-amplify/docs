@@ -1,3 +1,5 @@
+{/* cspell:ignore enablegen basica acef xnibcobqircidcckd uzxgq */}
+
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
@@ -48,6 +50,20 @@ Please note not all resource configuration properties are supported, however the
 
 The most notable change between Amplify Gen 1 backends and Gen 2 backends is the use of infrastructure as code with TypeScript. Preparing your environment for migration involves converting the configuration of your live Gen 1 backend resources to their Gen 2 equivalent written using TypeScript.
 
+<Callout info>
+
+**Testers Only**
+
+Prerequisites: 
+
+- Node.js v18.17.1 or higher
+- [Local AWS CLI profile](/gen1/[platform]/start/getting-started/installation/) with `AdministratorAccess-Amplify` and the `AmplifyBackendDeployFullAccess` policies attached.
+- Existing Gen 1 backend or a [new Gen 1 app created](/gen1/[platform]/start/getting-started/) with some backend resources.
+- Git
+- Package manager (npm, yarn, pnpm)
+
+</Callout>
+
 To get started, create a new git branch and Amplify backend:
 
 ```bash title="Terminal" showLineNumbers={false}
@@ -64,10 +80,52 @@ amplify add env migrate
 
 </Callout>
 
+<Callout info>
+
+**Testers Only** 
+
+For testing purposes, you will need to additionally install the tagged versions of the `@aws-amplify/cli` package.
+
+```bash title="Terminal" showLineNumbers={false}
+npm install @aws-amplify/cli@12.15.0-next-3.0
+```
+
+</Callout>
+
 Then push your newly-created `migrate` environment to create a set of resources matching the configuration of your live environments:
+
+<Callout info>
+
+**Testers Only** 
+
+If you have API resources, you will need to enable the following feature flag in your `amplify/cli.json` file:
+
+```json
+{
+  "features": {
+    "graphqltransformer": {
+       "enablegen2migration": true
+     }
+  }
+}
+```
+</Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
 amplify push --yes
+```
+
+Next, make a note of the stack name of your Gen 1 migrate backend, this should be in your `amplify/team-provider-info.json` file.
+
+```json
+{
+  "migrate": {
+    "awscloudformation": {
+      //... other fields
+      "StackName": "amplify-your-app-migrate-1234567890",
+    }
+  }
+}
 ```
 
 After the push is successful, commit and push the changes to your git provider:
@@ -82,27 +140,126 @@ During the migration for the new `migrate` environment, it is recommended to con
 
 Next, prepare your local codebase for migration execution by running the following command:
 
+<Callout info>
+
+**Testers Only**
+
+If you are using a names AWS CLI profile other than `default`, you will need to set the `AWS_PROFILE` environment variable to the name of the profile.
+
+```bash title="Terminal" showLineNumbers={false}
+export AWS_PROFILE=your-profile-name
+```
+
+then run the following command to prepare your local codebase for migration execution:
+
+```bash title="Terminal" showLineNumbers={false}
+npx @aws-amplify/migrate@0.1.0-next-3.0 to-gen-2 prepare
+```
+
+</Callout>
+
 ```bash title="Terminal" showLineNumbers={false}
 npx @aws-amplify/migrate@latest to-gen-2 prepare
 ```
 
 After this command completes successfully your `amplify/` directory is converted to an Amplify Gen 2 backend authored in TypeScript. In the next section we will walk through how to validate the generated code using [Amplify Gen 2's sandbox feature](/[platform]/deploy-and-host/sandbox-environments/setup/).
 
+
 ## Validating the preparation
 
 The preparation command will add npm dependencies relevant to your Gen 2 backend in the root `package.json`. Before you begin with the validation, install dependencies:
+
 
 ```bash title="Terminal" showLineNumbers={false}
 npm install
 ```
 
+<Callout info>
+
+**Testers Only** 
+
+For testing purposes, you will need to additionally install the tagged versions of the `@aws-amplify/backend` and `@aws-amplify/backend-data` packages.
+
+```bash title="Terminal" showLineNumbers={false}
+npm install @aws-amplify/backend@0.0.0-test-20250307211308 @aws-amplify/backend-data@0.0.0-test-20250307211308
+```
+
+</Callout>
+
+<Callout info>
+
+**Testers Only**
+
+**Auth**
+
+We will need to add the following manually to `backend.ts` file to set up the `Identity providers` on the `User pool client`. This is needed since Gen 2 only supports 1 user pool client out-of-the-box. Add the following code to `backend.ts` file after the `User pool client` is defined:
+
+```typescript
+const providerSetupResult = (backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).providerSetupResult;
+for (const provider in providerSetupResult) {
+    const providerSetupPropertyValue = providerSetupResult[provider];
+    if (providerSetupPropertyValue.node && providerSetupPropertyValue.node.id.endsWith('IDP')) {
+        userPoolClient.node.addDependency(providerSetupPropertyValue);
+    }
+}
+```
+
+**Data**
+
+If you have GraphQL API, you would need to manually input your schema in `data/resource.ts` file.
+
+```typescript
+import { defineData } from "@aws-amplify/backend";
+export const data = defineData({
+  migratedAmplifyGen1DynamoDbTableMap: [
+    {
+      branchName: "sandbox",
+      modelTableNameMap: {
+        Post: "Post-xnibcobqircidcckd2zx2uzxgq-dev",
+        Comment: "Comment-xnibcobqircidcckd2zx2uzxgq-dev",
+      },
+    },
+  ],
+  schema: `
+// Copy your Gen 1 schema here
+  `,
+});
+```
+
+</Callout>
+
+
 {/* how to handle the thrown errors in the code */}
 {/* porting custom resolvers, overridden resolvers */}
 {/* porting custom resources themselves */}
 
+<Callout info>
+
+In order to provide a smoother experience with the migration tooling, we have added `throw new Error` messages to the generated code. This is to ensure that resources requiring manual changes are modified in your sandbox environment before the migration is executed.
+
+For example, if you have a Node.js Lambda function in Gen 1, you will see the following error in your sandbox run:
+
+```bash title="Terminal" showLineNumbers={false} 
+Source code for this function can be found in your Amplify Gen 1 Directory. See .amplify/migration/amplify/backend/function/app81ff331aPostConfirmation/src
+```
+
+you will need to copy the code from your Gen 1 backend and make any necessary changes to the code such as updating to TypeScript and updating the import statements. 
+
+**Note:** You will need to install the Lambda dependencies in the project root `package.json` file.
+
+</Callout>
+
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox
 ```
+
+<Callout info>
+
+If you have not deployed a Amplify Gen 2 backend before, the process will redirect you the Amplify Console to bootstrap your AWS account and region. Ensure you are signed in with Admin credentials.
+
+If you experience any errors, refer to the [troubleshooting section]([platform]/build-a-backend/troubleshooting/).
+
+</Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox delete --yes
@@ -115,6 +272,22 @@ git push
 ## Deploying your temporary migration branch
 
 In order to execute the migration you will need to first deploy the Amplify Gen 2 backend, scaffolded by the TypeScript code generated by the preparation command. This will create a new CloudFormation stack with live resources, which will then be used to execute the migration against to migrate resources from your Amplify Gen 1 backend stack to the new stack.
+
+<Callout info>
+
+**Testers Only**
+
+Deploy a new Amplify App with your repository and select the `migrate` branch.
+
+<Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Deploy the starter app" />
+
+</Callout>
+
+Next, make a note of the stack name of your Gen 2 backend, you can find this in the build logs or the CloudFormation stack console:
+
+1. Open the [CloudFormation stack console](https://console.aws.amazon.com/cloudformation/).
+2. Find the stack with the Amplify AppID. The name should be in the format `amplify-<app-id>-<branch-name>-<random-id>`
+3. Make a note of the stack name.
 
 {/* picture of amplify console connecting new `migrate` branch */}
 
@@ -129,11 +302,46 @@ In order to execute the migration you will need to first deploy the Amplify Gen 
 
 ## Executing migration
 
+<Callout info>
+
+**Testers Only**
+
+```bash title="Terminal" showLineNumbers={false}
+npx @aws-amplify/migrate@0.1.0-next-3.0 to-gen-2 execute \
+  --from <amplify-gen-1-stack-name> \
+  --to <amplify-gen-2-stack-name>
+```
+
+</Callout>
+
 ```bash title="Terminal" showLineNumbers={false}
 npx @aws-amplify/migrate@latest to-gen-2 execute \
   --from <amplify-gen-1-stack-name> \
   --to <amplify-gen-2-stack-name>
 ```
+
+## Reverting the migration
+
+<Callout info>
+
+**Testers Only**
+
+```bash title="Terminal" showLineNumbers={false}
+npx @aws-amplify/migrate@0.1.0-next-3.0 to-gen-2 revert \
+  --from <amplify-gen-2-stack-name> \
+  --to <amplify-gen-1-stack-name>
+```
+
+</Callout>
+
+```bash title="Terminal" showLineNumbers={false}
+npx @aws-amplify/migrate@latest to-gen-2 revert \
+  --from <amplify-gen-2-stack-name> \
+  --to <amplify-gen-1-stack-name>
+```
+
+Then copy the `amplify/` directory from the `.amplify/migration` directory back into your project.
+
 
 ## Post-migration tasks
 
@@ -141,6 +349,22 @@ npx @aws-amplify/migrate@latest to-gen-2 execute \
 {/* ... anything else */}
 {/* set up CI/CD */}
 {/* deploy using backend-cli manually (for those not using Amplify to deploy today) */}
+
+<Callout info>
+
+**Testers Only**
+
+Delete Cognito User pool custom domain from `amplify/backend.ts` as the domain already exists (This will not delete the domain from Cognito User pool):
+
+```typescript
+delete (backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).domainPrefix;
+```
+
+Open `.amplify/migration/README.md` and follow the instructions to complete the post-migration tasks.
+
+Then redeploy the application by committing the changes to Git.
+
+</Callout>
 
 ## Verify continuous deployment
 
@@ -355,5 +579,3 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Interactions| Yes|	Yes with custom CDK
 
 </InlineFilter>
-
-
