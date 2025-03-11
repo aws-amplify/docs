@@ -67,9 +67,10 @@ import {
   signIn,
   signOut
 } from 'aws-amplify/auth';
-import { list } from 'aws-amplify/storage';
 import { generateClient } from 'aws-amplify/api';
-import config from '../amplify_outputs.json';
+import { list } from 'aws-amplify/storage';
+
+import outputs from '../amplify_outputs.json';
 
 const client = generateClient<Schema>();
 
@@ -79,7 +80,7 @@ export default defineNuxtPlugin({
 
   setup() {
     // This configures Amplify on the client side of your Nuxt app
-    Amplify.configure(config, { ssr: true });
+    Amplify.configure(outputs, { ssr: true });
 
     return {
       provide: {
@@ -119,29 +120,30 @@ Make sure you call `Amplify.configure` as early as possible in your applicationâ
 Example implementation:
 
 ```ts title="plugins/01.amplifyApis.server.ts"
+import type { FetchAuthSessionOptions } from 'aws-amplify/auth';
+import type { ListPaginateWithPathInput } from 'aws-amplify/storage';
 import type { CookieRef } from 'nuxt/app';
 import type { Schema } from '~/amplify/data/resource';
-import type { ListPaginateWithPathInput } from 'aws-amplify/storage';
+
 import {
+  createAWSCredentialsAndIdentityIdProvider,
   createKeyValueStorageFromCookieStorageAdapter,
   createUserPoolsTokenProvider,
-  createAWSCredentialsAndIdentityIdProvider,
   runWithAmplifyServerContext
 } from 'aws-amplify/adapter-core';
-import { parseAmplifyConfig } from 'aws-amplify/utils';
-import type { FetchAuthSessionOptions } from 'aws-amplify/auth';
+import { generateClient } from 'aws-amplify/api/server';
 import {
   fetchAuthSession,
   fetchUserAttributes,
   getCurrentUser
 } from 'aws-amplify/auth/server';
 import { list } from 'aws-amplify/storage/server';
-import { generateClient } from 'aws-amplify/api/server';
+import { parseAmplifyConfig } from 'aws-amplify/utils';
 
-import config from '../amplify_outputs.json';
+import outputs from '../amplify_outputs.json';
 
 // parse the content of `amplify_outputs.json` into the shape of ResourceConfig
-const amplifyConfig = parseAmplifyConfig(config);
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 // create the Amplify used token cookies names array
 const userPoolClientId = amplifyConfig.Auth!.Cognito.userPoolClientId;
@@ -420,11 +422,12 @@ Example implementation:
 
 ```ts title="plugins/02.authRedirect.ts"
 import { Amplify } from 'aws-amplify';
-import config from '~/amplify_outputs.json';
+
+import outputs from '~/amplify_outputs.json';
 
 // Amplify.configure() only needs to be called on the client side
 if (process.client) {
-  Amplify.configure(config, { ssr: true });
+  Amplify.configure(outputs, { ssr: true });
 }
 
 export default defineNuxtPlugin({
@@ -481,19 +484,20 @@ Example implementation:
 
 ```ts title="utils/amplifyUtils.ts"
 import type { H3Event, EventHandlerRequest } from 'h3';
+
 import {
+  AmplifyServer,
+  CookieStorage,
+  createAWSCredentialsAndIdentityIdProvider,
   createKeyValueStorageFromCookieStorageAdapter,
   createUserPoolsTokenProvider,
-  createAWSCredentialsAndIdentityIdProvider,
   runWithAmplifyServerContext,
-  AmplifyServer,
-  CookieStorage
 } from 'aws-amplify/adapter-core';
 import { parseAmplifyConfig } from 'aws-amplify/utils';
 
-import config from '~/amplify_outputs.json';
+import outputs from '~/amplify_outputs.json';
 
-const amplifyConfig = parseAmplifyConfig(config);
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 const createCookieStorageAdapter = (
   event: H3Event<EventHandlerRequest>
@@ -567,6 +571,7 @@ Take implementing an API route `GET /api/current-user` , in `server/api/current-
 
 ```ts title="server/api/current-user.ts"
 import { getCurrentUser } from 'aws-amplify/auth/server';
+
 import { runAmplifyApi } from '~/server/utils/amplifyUtils';
 
 export default defineEventHandler(async (event) => {
