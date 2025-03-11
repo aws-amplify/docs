@@ -236,16 +236,6 @@ export const data = defineData({
 });
 ```
 
-The add the following to `backend.ts` file; you will need to disable the `sseSpecification` override for each table configured in Gen 1. If the table does have a `sseSpecification` enabled in Gen 1, you can skip this step.
-
-```typescript
-// do for each table
-// default for SSE changed to from false -> true in gen 2
-// Set the gen 2 table to sseEnabled: false so that the table definitions match
-const todoTable = backend.data.resources.cfnResources.additionalCfnResources['Todo'];
-todoTable.addOverride('Properties.sseSpecification', { sseEnabled: false });
-```
-
 </Callout>
 
 
