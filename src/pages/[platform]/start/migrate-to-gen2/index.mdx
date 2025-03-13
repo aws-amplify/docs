@@ -277,17 +277,18 @@ In order to execute the migration you will need to first deploy the Amplify Gen 
 
 **Testers Only**
 
-Deploy a new Amplify App with your repository and select the `migrate` branch.
+- Deploy a new Amplify App with your repository and select the `migrate` branch.
 
 <Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Deploy the starter app" />
+
+- Create a [environment variable](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-environment-variables) `AMPLIFY_GEN_1_ENV_NAME` with the name of your Gen 1 environment as the value.
 
 </Callout>
 
 Next, make a note of the stack name of your Gen 2 backend, you can find this in the build logs or the CloudFormation stack console:
-
-1. Open the [CloudFormation stack console](https://console.aws.amazon.com/cloudformation/).
-2. Find the stack with the Amplify AppID. The name should be in the format `amplify-<app-id>-<branch-name>-<random-id>`
-3. Make a note of the stack name.
+    - Open the [CloudFormation stack console](https://console.aws.amazon.com/cloudformation/).
+    - Find the stack with the Amplify AppID. The name should be in the format `amplify-<app-id>-<branch-name>-<random-id>`
+    - Make a note of the stack name.
 
 {/* picture of amplify console connecting new `migrate` branch */}
 
