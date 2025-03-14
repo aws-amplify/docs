@@ -206,26 +206,32 @@ for (const provider in providerSetupResult) {
 
 **Data**
 
-If you have GraphQL API, you would need to manually input your schema in `data/resource.ts` file.
+If you have GraphQL API and would like to test the tables in sandbox environment, you would need to set the `branchName` to `sandbox` in `data/resource.ts` file. 
+Note: on a branch deploy, the `branchName` should be the name of the Gen 2 branch you created in the previous steps when deploying.
 
 ```typescript
 import { defineData } from "@aws-amplify/backend";
 export const data = defineData({
   migratedAmplifyGen1DynamoDbTableMap: [
     {
-      branchName: "sandbox",
+      branchName: "sandbox", // Set the branch name to sandbox for testing in sandbox environment
       modelTableNameMap: {
-        Post: "Post-xnibcobqircidcckd2zx2uzxgq-dev",
-        Comment: "Comment-xnibcobqircidcckd2zx2uzxgq-dev",
+        Todo: "Todo-xnibcobqircidcckd2zx2uzxgq-dev",
       },
     },
   ],
   schema: `
-// Copy your Gen 1 schema here
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
   `,
 });
 ```
-
 </Callout>
 
 
@@ -321,6 +327,29 @@ npx @aws-amplify/migrate@latest to-gen-2 execute \
   --to <amplify-gen-2-stack-name>
 ```
 
+## Post-migration tasks
+
+{/* a note about s3 bucket names */}
+{/* ... anything else */}
+{/* set up CI/CD */}
+{/* deploy using backend-cli manually (for those not using Amplify to deploy today) */}
+
+<Callout info>
+
+**Testers Only**
+
+Delete Cognito User pool custom domain from `amplify/backend.ts` as the domain already exists (This will not delete the domain from Cognito User pool):
+
+```typescript
+delete (backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).domainPrefix;
+```
+
+Open `.amplify/migration/README.md` and follow the instructions to complete the post-migration tasks.
+
+Then redeploy the application by committing the changes to Git.
+
+</Callout>
+
 ## Reverting the migration
 
 <Callout info>
@@ -344,28 +373,6 @@ npx @aws-amplify/migrate@latest to-gen-2 revert \
 Then copy the `amplify/` directory from the `.amplify/migration` directory back into your project.
 
 
-## Post-migration tasks
-
-{/* a note about s3 bucket names */}
-{/* ... anything else */}
-{/* set up CI/CD */}
-{/* deploy using backend-cli manually (for those not using Amplify to deploy today) */}
-
-<Callout info>
-
-**Testers Only**
-
-Delete Cognito User pool custom domain from `amplify/backend.ts` as the domain already exists (This will not delete the domain from Cognito User pool):
-
-```typescript
-delete (backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).domainPrefix;
-```
-
-Open `.amplify/migration/README.md` and follow the instructions to complete the post-migration tasks.
-
-Then redeploy the application by committing the changes to Git.
-
-</Callout>
 
 ## Verify continuous deployment
 
