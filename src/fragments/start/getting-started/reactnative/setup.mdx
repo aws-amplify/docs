@@ -126,6 +126,14 @@ When you initialize a new Amplify project, a few things happen:
 - It modifies the **.gitignore** file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
 
+<InlineFilter filters={['react-native']}>
+<Callout>
+
+**Note:** if you are using Expo EAS build, you will need to force commit the `amplifyconfiguration.json` file to local git repository before running `eas build` command. This is because the `amplifyconfiguration.json` file is not included in the default `.gitignore`, and the `eas build` command will not include untracked files in the build.
+
+</Callout>
+</InlineFilter>
+
 ## Set up frontend
 
 Next, configure Amplify so it can interact with backend services by adding the following code below the last import:
