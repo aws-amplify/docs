@@ -346,6 +346,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/enable-logging/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/field-level-validation/index.mdx'
                 }
               ]
             },
