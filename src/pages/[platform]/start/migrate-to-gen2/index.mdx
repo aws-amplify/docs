@@ -54,7 +54,7 @@ The most notable change between Amplify Gen 1 backends and Gen 2 backends is the
 
 **Testers Only**
 
-Prerequisites: 
+Prerequisites:
 
 - Node.js v18.17.1 or higher
 - [Local AWS CLI profile](/gen1/[platform]/start/getting-started/installation/) with `AdministratorAccess-Amplify` and the `AmplifyBackendDeployFullAccess` policies attached.
@@ -82,7 +82,7 @@ amplify add env migrate
 
 <Callout info>
 
-**Testers Only** 
+**Testers Only**
 
 For testing purposes, you will need to additionally install the tagged versions of the `@aws-amplify/cli` package.
 
@@ -96,7 +96,7 @@ Then push your newly-created `migrate` environment to create a set of resources 
 
 <Callout info>
 
-**Testers Only** 
+**Testers Only**
 
 If you have API resources, you will need to enable the following feature flag in your `amplify/cli.json` file:
 
@@ -176,12 +176,12 @@ npm install
 
 <Callout info>
 
-**Testers Only** 
+**Testers Only**
 
 For testing purposes, you will need to additionally install the tagged versions of the `@aws-amplify/backend` and `@aws-amplify/backend-data` packages.
 
 ```bash title="Terminal" showLineNumbers={false}
-npm install @aws-amplify/backend@0.0.0-test-20250307211308 @aws-amplify/backend-data@0.0.0-test-20250307211308
+npm install @aws-amplify/backend@0.0.0-test-20250314161305 @aws-amplify/backend-data@0.0.0-test-20250314161305
 ```
 
 </Callout>
@@ -211,10 +211,10 @@ If you have GraphQL API, you would need to manually input your schema in `data/r
 ```typescript
 import { defineData } from "@aws-amplify/backend";
 export const data = defineData({
-  migratedAmplifyGen1DynamoDbTableMap: [
+  migratedAmplifyGen1DynamoDbTableMappings: [
     {
       branchName: "sandbox",
-      modelTableNameMap: {
+      modelNameToTableNameMapping: {
         Post: "Post-xnibcobqircidcckd2zx2uzxgq-dev",
         Comment: "Comment-xnibcobqircidcckd2zx2uzxgq-dev",
       },
@@ -239,11 +239,11 @@ In order to provide a smoother experience with the migration tooling, we have ad
 
 For example, if you have a Node.js Lambda function in Gen 1, you will see the following error in your sandbox run:
 
-```bash title="Terminal" showLineNumbers={false} 
+```bash title="Terminal" showLineNumbers={false}
 Source code for this function can be found in your Amplify Gen 1 Directory. See .amplify/migration/amplify/backend/function/app81ff331aPostConfirmation/src
 ```
 
-you will need to copy the code from your Gen 1 backend and make any necessary changes to the code such as updating to TypeScript and updating the import statements. 
+you will need to copy the code from your Gen 1 backend and make any necessary changes to the code such as updating to TypeScript and updating the import statements.
 
 **Note:** You will need to install the Lambda dependencies in the project root `package.json` file.
 
@@ -369,7 +369,7 @@ Then redeploy the application by committing the changes to Git.
 
 ## Verify continuous deployment
 
-After performing the post-migration tasks, commit your changes and allow your deployment pipeline to deploy changes without error. 
+After performing the post-migration tasks, commit your changes and allow your deployment pipeline to deploy changes without error.
 
 {/* what happens when you experience an error */}
 
