@@ -82,7 +82,12 @@ export default function App() {
   }, []);
 
   async function publishEvent() {
+    // Publish via HTTP POST
     await events.post('default/channel', { some: 'data' });
+
+    // Alternatively, publish events through the WebSocket channel
+    const channel = await events.connect('default/channel');
+    await channel.publish({ some: 'data' });
   }
 
   return (
@@ -240,7 +245,12 @@ export default function App() {
   }, []);
 
   async function publishEvent() {
+    // Publish via HTTP POST
     await events.post('default/channel', { some: 'data' });
+
+    // Alternatively, publish events through the WebSocket channel
+    const channel = await events.connect('default/channel');
+    await channel.publish({ some: 'data' });
   }
 
   return (
