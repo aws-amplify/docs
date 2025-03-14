@@ -211,6 +211,16 @@ Note: on a branch deploy, the `branchName` should be the name of the Gen 2 branc
 
 ```typescript
 import { defineData } from "@aws-amplify/backend";
+const schema = `
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+  `;
 export const data = defineData({
   migratedAmplifyGen1DynamoDbTableMap: [
     {
@@ -220,16 +230,7 @@ export const data = defineData({
       },
     },
   ],
-  schema: `
-input AMPLIFY {
-  globalAuthRule: AuthRule = { allow: public }
-} # FOR TESTING ONLY!
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-}
-  `,
+  schema
 });
 ```
 </Callout>
