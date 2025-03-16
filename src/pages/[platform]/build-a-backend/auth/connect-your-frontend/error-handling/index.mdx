@@ -1,0 +1,66 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Error handling',
+  description:
+    'Handling errors from Amplify Auth',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The runtime errors thrown by the Amplify Auth APIs may contains additional information to help root-causing the problems. These information are available if the error is an instance of `AuthError`.
+
+```javascript
+import { AuthError, confirmSignUp } from 'aws-amplify/auth';
+
+try {
+  const result = await confirmSignUp({
+    username: "hello@mycompany.com",
+    confirmationCode: "123456"
+  });
+} catch (error) {
+  if (error instanceof AuthError) {
+    console.error('Auth error', error.name);
+    if (error.metadata) {
+      console.error('request ID: ', error.metadata.requestId);
+    }
+  } 
+  // Further error handling...
+}
+```
+
+`AuthError` may also be thrown by the Storage APIs.
+
+## All `AuthError` properties
+
+Property | Type | Required | Description |
+| -- | -- | -- | ----------- |
+| name | String | Required | Client-side error name or server-side error code. |
+| message | String | Required | Error message. |
+| stack | String | Optional | Stack trace. |
+| recoverySuggestion | String | Optional | Common cause of the error and human-readable recommendation to fix the error.|
+| metadata | Object | Optional | Bag of additional error information. |
+| metadata.httpStatusCode | number | Optional | The response HTTP status code if the error is caused by erroneous HTTP response. |
+| metadata.requestId | String | Optional | The request ID useful to contact AWS Support. |
+| metadata.extendedRequestId | String | Optional | The request ID useful to contact AWS Support. |
+
+
