@@ -27,7 +27,7 @@ export function getStaticProps(context) {
   };
 }
 
-The runtime errors thrown by the Amplify Storage APIs may contains additional information to help root-causing the problems. These information are available if the error is an instance of `StorageError`.
+The runtime errors thrown by the Amplify Storage APIs may contain additional information helpful with identifying root-causes of problems. This information is available if the error is an instance of `StorageError`.
 
 ```javascript
 import { StorageError, uploadData } from 'aws-amplify/storage';
@@ -61,7 +61,7 @@ Property | Type | Required | Description |
 | recoverySuggestion | String | Optional | Common cause of the error and human-readable recommendation to fix the error.|
 | metadata | Object | Optional | Bag of additional error information. |
 | metadata.httpStatusCode | number | Optional | The response HTTP status code if the error is caused by erroneous HTTP response. |
-| metadata.requestId | String | Optional | The request ID useful to [contact AWS Support](https://docs.aws.amazon.com/AmazonS3/latest/API/get-request-ids.html). |
-| metadata.extendedRequestId | String | Optional | The request ID useful to [contact AWS Support](https://docs.aws.amazon.com/AmazonS3/latest/API/get-request-ids.html). |
+| metadata.requestId | String | Optional | The request ID used by AWS when [contacting AWS Support](https://docs.aws.amazon.com/AmazonS3/latest/API/get-request-ids.html). |
+| metadata.extendedRequestId | String | Optional | The extended request ID used by AWS when [contacting AWS Support](https://docs.aws.amazon.com/AmazonS3/latest/API/get-request-ids.html). |
 
 
