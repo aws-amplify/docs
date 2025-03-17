@@ -44,36 +44,41 @@ To do this, go to **Amazon S3 console** > **Select the S3 bucket** > **Permissio
 
 ![Showing Amplify console showing Storage tab selected](/images/gen2/storage/s3-console-permissions.png)
 
-The policy will look something like this
+The policy will look something like this:
 
 ```json
 {
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "Statement1",
-			"Principal": { "AWS": "arn:aws:iam::<AWS-account-ID>:role/<role-name>" },
-			"Effect": "Allow",
-			"Action": [
-				"s3:PutObject",
-				"s3:GetObject",
-				"s3:DeleteObject",
-				"s3:ListBucket"
-			],
-			"Resource": [
-				"arn:aws:s3:::<bucket-name>/*"
-			]
-		}
-	]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Principal": { "AWS": "arn:aws:iam::<AWS-account-ID>:role/<role-name>" },
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::<bucket-name>/",
+        "arn:aws:s3:::<bucket-name>/*"
+      ]
+    }
+  ]
 }
 ```
 Replace `<AWS-account-ID>` with your AWS account ID and `<role-name>` with the IAM role associated with your Amplify Auth setup. Replace `<bucket-name>` with the S3 bucket name.
 
 You can refer to [Amazon S3's Policies and Permissions documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html) for more ways to customize access to the bucket.
 
+<Callout warning>
+In order to make calls to your S3 bucket from your application, you must also set up a CORS Policy for your S3 bucket. This applies only to manually-configured S3 buckets. Learn more about [setting up a CORS Policy for your S3 bucket](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources). 
+</Callout>
+
 ### Specify S3 bucket in Amplify's backend config
 
-Next, use the `addOutput` method from the backend definition object to define a custom s3 bucket by specifying the name and region of the bucket in your **amplify/backend.ts** file.
+Next, use the `addOutput` method from the backend definition object to define a custom S3 bucket by specifying the name and region of the bucket in your **amplify/backend.ts** file.
 
 <Callout>
 
@@ -85,7 +90,10 @@ If you specify a custom S3 bucket, no sandbox storage resource will be created. 
 
 </Callout>
 
-```javascript
+Below is an example of configuring the backend to define a custom S3 bucket:
+
+{/* cSpell:disable */}
+```ts title="amplify/backend.ts"
 
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
@@ -100,12 +108,119 @@ const backend = defineBackend({
 backend.addOutput({
   storage: {
     aws_region: "<region>",
-    bucket_name: "<bucket-name>"
+    bucket_name: "<bucket-name>",
+    // optional: `buckets` can be used when setting up more than one existing bucket
+    buckets: [
+      {
+        aws_region: "<region>",
+        bucket_name: "<bucket-name>",
+        name: "<bucket-name>",
+        // optional: `paths` can be used to set up access to specific bucket prefixes,
+        // and configure access to those prefixes for different user types
+        // @ts-expect-error: Amplify backend type issue — https://github.com/aws-amplify/amplify-backend/issues/2569
+        paths: {
+          "public/*": {
+            guest: ["get", "list"],
+            authenticated: ["get", "list", "write", "delete"],
+          },
+          "admin/*": {
+            groupsadmin: ["get", "list", "write", "delete"],
+            authenticated: ["get", "list", "write", "delete"],
+          },
+        },
+      }
+    ]
   },
 });
-//highlight-end
 
+// Define an inline policy to attach to Amplify's un-auth role
+// This policy defines how unauthenticated users can access your existing bucket
+const unauthPolicy = new Policy(backend.stack, 'customBucketUnauthPolicy', {
+  statements: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ['s3:GetObject'],
+      resources: [`arn:aws:s3:::${customBucketName}/public/*`],
+    }),
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ['s3:ListBucket'],
+      resources: [`arn:aws:s3:::${customBucketName}`],
+      conditions: {
+        StringLike: {
+          's3:prefix': ['public/', 'public/*'],
+        },
+      },
+    }),
+  ],
+});
+
+// Define an inline policy to attach to Amplify's auth role
+// This policy defines how authenticated users can access your existing bucket
+const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
+  statements: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      resources: [
+        `arn:aws:s3:::${customBucketName}/public/*`,
+        `arn:aws:s3:::${customBucketName}/admin/*`,
+      ],
+    }),
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:ListBucket"],
+      resources: [
+        `arn:aws:s3:::${customBucketName}`,
+        `arn:aws:s3:::${customBucketName}/*`,
+      ],
+      conditions: {
+        StringLike: {
+          "s3:prefix": ["public/*", "public/", "admin/*", "admin/"],
+        },
+      },
+    }),
+  ],
+});
+
+// Define an inline policy to attach to Admin user group role
+// This policy defines how authenticated users with "admin" user group role can access your existing bucket
+const adminPolicy = new Policy(backend.stack, "customBucketAdminPolicy", {
+  statements: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      resources: [`arn:aws:s3:::${customBucketName}/admin/*`],
+    }),
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:ListBucket"],
+      resources: [
+        `arn:aws:s3:::${customBucketName}`,
+        `arn:aws:s3:::${customBucketName}/*`,
+      ],
+      conditions: {
+        StringLike: {
+          "s3:prefix": ["admin/*", "admin/"],
+        },
+      },
+    }),
+  ],
+});
+
+// Add the policies to the unauthenticated user role
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
+  unauthPolicy,
+);
+
+// Add the policies to the authenticated user role
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
+
+// Add the policies to the admin user group role
+backend.auth.resources.groups["admin"].role.attachInlinePolicy(adminPolicy);
+//highlight-end
 ```
+{/* cSpell:enable */}
 
 <InlineFilter filters={["javascript", "nextjs", "react", "angular", "vue", "react-native", "android", "swift"]}>
 
@@ -137,7 +252,7 @@ In addition to manually configuring your storage options, you will also need to 
 ### Using Amplify configure
 Existing storage resource setup can be accomplished by passing the resource metadata to `Amplify.configure`. This will configure the Amplify Storage client library to interact with the additional resources. It's recommended to add the Amplify configuration step as early as possible in the application lifecycle, ideally at the root entry point.
 
-
+{/* cSpell:disable */}
 ```ts
 import { Amplify } from 'aws-amplify';
 
@@ -153,22 +268,40 @@ Amplify.configure({
       buckets: {
         '<your-default-bucket-friendly-name>': {
           bucketName: '<your-default-bucket-name>',
-          region: '<your-default-bucket-region>'
+          region: '<your-default-bucket-region>',
+          // required: `paths` is needed to set up access to specific bucket prefixes,
+          // and configure access to those prefixes for different user types
+          // @ts-expect-error: Amplify backend type issue — https://github.com/aws-amplify/amplify-backend/issues/2569
+          paths: {
+            'public/*': {
+              guest: ["get", "list"],
+              authenticated: ["get", "list", "write", "delete"],
+            },
+            "admin/*": {
+              groupsadmin: ["get", "list", "write", "delete"],
+              authenticated: ["get", "list", "write", "delete"],
+            },
+          }
         },
         '<your-additional-bucket-friendly-name>': {
           bucketName: '<your-additional-bucket-name>',
-          region: '<your-additional-bucket-region>'
+          region: '<your-additional-bucket-region>',
+          paths: {
+            // add more paths for the bucket
+          }
         }
       }
     }
   }
 });
-
 ```
+{/* cSpell:enable */}
+
 ### Using Amplify outputs
 
 Alternatively, existing storage resources can be used by creating or modifying the `amplify_outputs.json` file directly.
 
+{/* cSpell:disable */}
 ```ts title="amplify_outputs.json"
 {
   "auth": {
@@ -182,15 +315,49 @@ Alternatively, existing storage resources can be used by creating or modifying t
       {
         "name": "<your-default-bucket-friendly-name>", 
         "bucket_name": "<your-default-bucket-name>", 
-        "aws_region": "<your-default-bucket-region>" 
+        "aws_region": "<your-default-bucket-region>",
+        // required: `paths` is needed to set up access to specific bucket prefixes,
+        // and configure access to those prefixes for different user types
+        "paths": {
+          "public/*": {
+            "guest": [
+              "get",
+              "list"
+            ],
+            "authenticated": [
+              "get",
+              "list",
+              "write",
+              "delete"
+            ]
+          },
+          "admin/*": {
+            "authenticated": [
+              "get",
+              "list",
+              "write",
+              "delete"
+            ],
+            "groupsadmin": [
+              "get",
+              "list",
+              "write",
+              "delete"
+            ]
+          }
+        }
       },
       {
         "name": "<your-additional-bucket-friendly-name>",
         "bucket_name": "<your-additional-bucket-name>",
-        "aws_region": "<your-additional-bucket-region>"
+        "aws_region": "<your-additional-bucket-region>",
+        "paths": {
+          // add more paths for the bucket
+        }
       }
     ]
   }
 }
 ```
+{/* cSpell:enable */}
 </InlineFilter>
