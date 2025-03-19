@@ -231,19 +231,27 @@ npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e108
 Similar to `sandbox`, you can specify an alternate outputs file format by using `--format`:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
+npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b --format dart
+```
+
+#### Use with pre-existing branch
+
+If you have a pre-existing branch that you want to generate outputs for, you can use the `--branch` with the `--app-id` flag:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --branch staging --app-id <your-amplify-app-id>
 ```
 
 ## npx ampx generate graphql-client-code
 
-Generate GraphQL statements and types for your frontend application to consume. 
+Generate GraphQL statements and types for your frontend application to consume.
 
 ### Options
 
 The available parameters for `npx ampx generate graphql-client-code` are:
 
 Required parameters:
-- Stack identifier 
+- Stack identifier
   - `--stack`(_string_) - A stack name that contains an Amplify backend.
 - Project identifier
   - `--app-id`(_string_) - The Amplify App ID of the project.
@@ -254,6 +262,7 @@ Optional parameters:
 - `--format`(_string_) (choices: `modelgen`, `graphql-codegen`, `introspection`) - Specifies the format of the GraphQL client code to be generated.
 - `--model-target` (_string_) (choices: `java`, `swift`, `javascript`, `typescript`, `dart`) - Specifies the modelgen export target. Only applies when the --format parameter is set to modelgen.
 - `--statement-target`(_string_) (choices: `javascript`, `graphql`, `flow`, `typescript`, `angular`) - Specifies the graphql-codegen statement export target. Only applies when the --format parameter is set to graphql-codegen.
+- `--statement-max-depth`(_integer_) - Specifies the maximum depth of the generated GraphQL statements. Only applies when the --format parameter is set to graphql-codegen.
 - `--type-target`(_string_) (choices: `json`, `swift`, `typescript`, `flow`, `scala`, `flow-modern`, `angular`) - Specifies the optional graphql-codegen type export target. Only applies when the --format parameter is set to graphql-codegen.
 - `--all`(_boolean_)- Shows hidden options.
 - `--profile`(_string_) - Specifies an AWS profile name.
@@ -265,7 +274,7 @@ Optional parameters:
 #### Generate GraphQL client code using the Amplify App ID and branch. 
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate graphql-client-code --app-id <your-amplify-app-id>	--branch staging
+npx ampx generate graphql-client-code --app-id <your-amplify-app-id> --branch staging
 ```
 
 #### Generate GraphQL client code for a branch that is connected to Amplify
@@ -303,7 +312,7 @@ Run Amplify codegen command to generate GraphQL codegen:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx generate graphql-client-code --stack Backend --platform ts --out ./src
-```   
+```
 
 #### Generate codegen in specific language and format
 
@@ -322,6 +331,26 @@ npx ampx generate graphql-client-code --format modelgen --type-target angular
 | Modelgen | Amplify Swift | `amplify codegen model` | `npx ampx generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels` | `<path_to_swift_project>/AmplifyModels` |
 | Modelgen | Amplify Flutter | `amplify codegen model` | `npx ampx generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/AmplifyModels` | `<path_to_flutter_project>/AmplifyModels` |
 
+
+## npx ampx generate schema-from-database
+
+Generates typescript data schema from a SQL database.
+
+### Options
+
+- `--stack`(_string_) - A stack name that contains an Amplify backend.
+- `--branch` (_string_) - Name of the git branch being deployed.
+- `--app-id` (_string_) - The app id of the target Amplify app.
+- `--out`(_string_) - A path to directory where generated schema is written [default: `./amplify/data/schema.sql.ts`].
+- `--connection-uri-secret`(_string_) - Amplify secret name for the database connection uri.
+- `--ssl-cert-secret`(_string_) - Amplify secret name for the database ssl certificate.
+- `--profile`(_string_) - An AWS profile name.
+
+### Usage
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_STRING --out amplify/data/schema.sql.ts
+```
 
 ## npx ampx generate forms
 

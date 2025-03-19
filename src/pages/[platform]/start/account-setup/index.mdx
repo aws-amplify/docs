@@ -73,7 +73,11 @@ You can use temporary security credentials to make programmatic requests for AWS
 
 ## Set up Identity Center
 
-Follow the steps below if **you have never set up AWS profiles before**. If you already have a profile, attach the `AmplifyBackendDeployFullAccess` managed policy to your [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_attach-policy.html).
+Follow the steps below if **you have never set up AWS profiles before**. 
+<YoutubeEmbed embedId="LhRa_kZmmVY" />
+
+If you already have a profile, attach the [`AmplifyBackendDeployFullAccess`](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmplifyBackendDeployFullAccess.html) managed policy to your [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-add-console).
+
 
 ### 1. Create user with Amplify permissions
 
@@ -301,9 +305,13 @@ Bootstrapping is the process of provisioning resources for the AWS CDK before yo
 
 </Accordion>
 
-![Bootstrap status message indicating that the given Region has not been bootstrapped and that the user needs to sign in to the console and re-run the npx ampx sandbox command to complete the bootstrap process.](/images/gen2/account-setup/profile4.png)
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox --profile amplify-admin
+The region us-east-1 has not been bootstrapped. Sign in to the AWS console as a Root user or Admin to complete the bootstrap process, then restart the sandbox.
+If this is not the region you are expecting to bootstrap, check for any AWS environment variables that may be set in your shell or use --profile <profile-name> to specify a profile with the correct region.
+```
 
-During the first-time setup, `npx ampx sandbox` will ask you to sign in to the AWS Management Console. You must sign in as the account root user or as a user that has AdministratorAccess. Once signed in, you will be redirected to the Amplify console. On the **Create new app** page, choose **Initialize setup now**. It may take a few minutes for the bootstrapping process to complete.
+During the first-time setup, `npx ampx sandbox` will ask you to sign in to the AWS Management Console. You must sign in as the account **root user** or as a user that has **AdministratorAccess** permissions. Once signed in, you will be redirected to the Amplify console. On the **Create new app** page, choose **Initialize setup now**. It may take a few minutes for the bootstrapping process to complete.
 
 ![](/images/gen2/account-setup/profile5.png)
 

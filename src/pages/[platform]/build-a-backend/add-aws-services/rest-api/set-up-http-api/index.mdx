@@ -228,14 +228,15 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
 ```ts title="src/main.ts"
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import outputs from '../amplify_outputs.json';
 
-Amplify.configure(outputs);
-const existingConfig = Amplify.getConfig();
+const amplifyConfig = parseAmplifyConfig(outputs);
+
 Amplify.configure({
-  ...existingConfig,
+  ...amplifyConfig,
   API: {
-    ...existingConfig.API,
+    ...amplifyConfig.API,
     REST: outputs.custom.API,
   },
 });
@@ -245,14 +246,15 @@ Amplify.configure({
 <InlineFilter filters={["nextjs"]}>
 ```tsx title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import outputs from '@/amplify_outputs.json';
 
-Amplify.configure(outputs);
-const existingConfig = Amplify.getConfig();
+const amplifyConfig = parseAmplifyConfig(outputs);
+
 Amplify.configure({
-  ...existingConfig,
+  ...amplifyConfig,
   API: {
-    ...existingConfig.API,
+    ...amplifyConfig.API,
     REST: outputs.custom.API,
   },
 });

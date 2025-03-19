@@ -19,7 +19,7 @@ import flutter0 from '/src/fragments/lib/auth/flutter/signin_next_steps/10_signi
 
 <Fragments fragments={{ flutter: flutter0 }} />
 
-### Confirm signin with SMS MFA
+## Confirm signin with SMS MFA
 
 import ios1 from '/src/fragments/lib/auth/ios/signin_next_steps/20_confirm_sms_mfa.mdx';
 
@@ -33,15 +33,111 @@ import flutter1 from '/src/fragments/lib/auth/flutter/signin_next_steps/20_confi
 
 <Fragments fragments={{ flutter: flutter1 }} />
 
-### Confirm signin with TOTP MFA
+## Confirm signin with TOTP MFA
 
+<InlineFilter filters={['android']}>
+If the next step is `CONFIRM_SIGN_IN_WITH_TOTP_CODE`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
+</InlineFilter>
+<InlineFilter filters={['swift', 'flutter']}>
 If the next step is `confirmSignInWithTOTPCode`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
+</InlineFilter>
 
 After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
 
 import iosConfirmSignInTotpMFA from '/src/fragments/lib/auth/ios/signin_next_steps/80_confirm_totp_mfa.mdx';
 
 <Fragments fragments={{ swift: iosConfirmSignInTotpMFA }} />
+
+<InlineFilter filters={['android']}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignIn(
+    "TOTP confirmation code",
+    result -> {
+        if (result.isSignedIn()) {
+            Log.i("AuthQuickstart", "Confirm signIn succeeded");
+        } else {
+            Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+            // Switch on the next step to take appropriate actions.
+            // If `signInResult.isSignedIn` is true, the next step
+            // is 'done', and the user is now signed in.
+        }
+    },
+    error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+</Block>
+
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignIn(
+    "TOTP confirmation code",
+    { result ->
+        if (result.isSignedIn) {
+            Log.i("AuthQuickstart", "Confirm signIn succeeded")
+        } else {
+            Log.i(
+                "AuthQuickstart",
+                "Confirm sign in not complete. There might be additional steps: ${result.nextStep}"
+            )
+            // Switch on the next step to take appropriate actions.
+            // If `signInResult.isSignedIn` is true, the next step
+            // is 'done', and the user is now signed in.
+        }
+    },
+    { error -> Log.e("AuthQuickstart", "Confirm sign in failed: $error") }
+)
+```
+</Block>
+
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.confirmSignIn(
+        "TOTP confirmation code"
+    )
+    if (result.isSignedIn) {
+        Log.i("AuthQuickstart", "Confirm signIn succeeded")
+    } else {
+        Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}")
+        // Switch on the next step to take appropriate actions.
+        // If `signInResult.isSignedIn` is true, the next step
+        // is 'done', and the user is now signed in.
+    }
+} catch (error: Exception) {
+    Log.e("AuthQuickstart", "Unexpected error: $error")
+}
+```
+</Block>
+
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignIn(
+    "TOTP confirmation code"
+).subscribe(
+    result -> {
+        if (result.isSignedIn()) {
+            Log.i("AuthQuickstart", "Confirm signIn succeeded");
+        } else {
+            Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+            // Switch on the next step to take appropriate actions.
+            // If `signInResult.isSignedIn` is true, the next step
+            // is 'done', and the user is now signed in.
+        }
+    },
+    error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
 
 <InlineFilter filters={['flutter']}>
 
@@ -71,13 +167,89 @@ Future<void> confirmTotpUser(String totpCode) async {
 
 </InlineFilter>
 
-### Continue signin with MFA Selection
+## Continue signin with MFA Selection
 
+<InlineFilter filters={['android']}>
+If the next step is `CONTINUE_SIGN_IN_WITH_MFA_SELECTION`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+</InlineFilter>
+<InlineFilter filters={['swift', 'flutter']}>
 If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+</InlineFilter>
 
 import iosContinueSignInWithMFASelectionCode from 'src/fragments/lib/auth/ios/signin_next_steps/91_continue_mfa_selection_code.mdx';
 
 <Fragments fragments={{ swift: iosContinueSignInWithMFASelectionCode }} />
+
+<InlineFilter filters={['android']}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignIn(
+    MFATypeUtil.getChallengeResponse(MFAType.TOTP),
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+          Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+        }
+        // ...
+    },
+    error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignIn(
+    MFAType.TOTP.challengeResponse,
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+          Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+        }
+        // ...
+    },
+    { error -> Log.e("AuthQuickstart", "Confirm sign in failed: $error") }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+  val result = Amplify.Auth.confirmSignIn(MFAType.TOTP.challengeResponse)
+  if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+    Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+  }
+  // ...
+} catch(error: Exception) {
+  Log.e("AuthQuickstart", "Confirm sign in failed: $error")
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignIn(
+  MFATypeUtil.getChallengeResponse(MFAType.TOTP)
+).subscribe(
+  result -> {
+    if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE) {
+      Log.i("AuthQuickStart", "Received next step as confirm sign in with TOTP");
+    }
+    // ...
+  },
+  error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
 
 <InlineFilter filters={['flutter']}>
 
@@ -116,15 +288,163 @@ Future<void> _handleMfaSelection(MfaType selection) async {
 
 </InlineFilter>
 
-### Continue signin with TOTP Setup
+## Continue signin with TOTP Setup
 
+<InlineFilter filters={['android']}>
+If the next step is `CONTINUE_SIGN_IN_WITH_TOTP_SETUP`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
+</InlineFilter>
+<InlineFilter filters={['swift', 'flutter']}>
 If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
+</InlineFilter>
 
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
 import iosContinueSignInWithMFASetup from 'src/fragments/lib/auth/ios/signin_next_steps/100_continue_mfa_setup.mdx';
 
 <Fragments fragments={{ swift: iosContinueSignInWithMFASetup }} />
+
+<InlineFilter filters={['android']}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+
+void handleSignInResult(AuthSignInResult result) {
+    switch(result.getNextStep().getSignInStep()) {
+        // ...
+        case CONTINUE_SIGN_IN_WITH_TOTP_SETUP:
+            final TOTPSetupDetails totpSetupDetails = result.getNextStep().getTotpSetupDetails();
+            final Uri setupUri = totpSetupDetails.getSetupURI("MyAppName");
+            Log.i("AuthQuickStart", "Open URI to complete setup: " + setupUri);
+            break;
+    }
+}
+
+// Then, pass the TOTP code to `confirmSignIn`
+
+Amplify.Auth.confirmSignIn(
+    totpCodeFromAuthenticatorApp,
+    result -> {
+      if (result.isSignedIn()) {
+          Log.i("AuthQuickstart", "Confirm signIn succeeded");
+      } else {
+          Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+          // Switch on the next step to take appropriate actions.
+          // If `signInResult.isSignedIn` is true, the next step
+          // is 'done', and the user is now signed in.
+      }
+    },
+    error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+
+fun handleSignInResult(result: AuthSignInResult) {
+    when (result.nextStep.signInStep) {
+        // ...
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
+            val totpSetupDetails = result.nextStep.totpSetupDetails
+            val setupUri = totpSetupDetails!!.getSetupURI("MyAppName")
+            Log.i("AuthQuickStart", "Open URI to complete setup: $setupUri")
+        }
+    }
+}
+
+// Then, pass the TOTP code to `confirmSignIn`
+
+Amplify.Auth.confirmSignIn(
+    totpCodeFromAuthenticatorApp,
+    { result ->
+      if (result.isSignedIn) {
+          Log.i("AuthQuickstart", "Confirm signIn succeeded")
+      } else {
+          Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}")
+          // Switch on the next step to take appropriate actions.
+          // If `signInResult.isSignedIn` is true, the next step
+          // is 'done', and the user is now signed in.
+      }
+    },
+    { error -> Log.e("AuthQuickstart", "Confirm sign in failed: $error") }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+
+fun handleSignInResult(result: AuthSignInResult) {
+    when (result.nextStep.signInStep) {
+        // ...
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
+            val totpSetupDetails = result.nextStep.totpSetupDetails
+            val setupUri = totpSetupDetails!!.getSetupURI("MyAppName")
+            Log.i("AuthQuickStart", "Open URI to complete setup: $setupUri")
+        }
+    }
+}
+
+// Then, pass the TOTP code to `confirmSignIn`
+
+try {
+  val result = Amplify.Auth.confirmSignIn(totpCodeFromAuthenticatorApp)
+  if (result.isSignedIn) {
+      Log.i("AuthQuickstart", "Confirm signIn succeeded")
+  } else {
+      Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}")
+      // Switch on the next step to take appropriate actions.
+      // If `signInResult.isSignedIn` is true, the next step
+      // is 'done', and the user is now signed in.
+  }
+} catch(error: Exception) {
+  Log.e("AuthQuickstart", "Confirm sign in failed: $error")
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+    void handleSignInResult(AuthSignInResult result) {
+        switch(result.getNextStep().getSignInStep()) {
+            // ...
+            case CONTINUE_SIGN_IN_WITH_TOTP_SETUP:
+                final TOTPSetupDetails totpSetupDetails = result.getNextStep().getTotpSetupDetails();
+                final Uri setupUri = totpSetupDetails.getSetupURI("MyAppName");
+                Log.i("AuthQuickStart", "Open URI to complete setup: " + setupUri);
+                break;
+        }
+    }
+
+
+// Then, pass the TOTP code to `confirmSignIn`
+
+RxAmplify.Auth.confirmSignIn(
+  totpCodeFromAuthenticatorApp
+).subscribe(
+  result -> {
+    if (result.isSignedIn()) {
+        Log.i("AuthQuickstart", "Confirm signIn succeeded");
+    } else {
+        Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+        // Switch on the next step to take appropriate actions.
+        // If `signInResult.isSignedIn` is true, the next step
+        // is 'done', and the user is now signed in.
+    }
+  },
+  error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
 
 <InlineFilter filters={['flutter']}>
 
@@ -156,7 +476,7 @@ Future<void> confirmTotpUser(String totpCode) async {
 
 </InlineFilter>
 
-### Confirm signin with custom challenge
+## Confirm signin with custom challenge
 
 import ios2 from '/src/fragments/lib/auth/ios/signin_next_steps/30_confirm_custom_challenge.mdx';
 
@@ -170,7 +490,7 @@ import flutter2 from '/src/fragments/lib/auth/flutter/signin_next_steps/30_confi
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-### Confirm signin with new password
+## Confirm signin with new password
 
 import ios3 from '/src/fragments/lib/auth/ios/signin_next_steps/40_confirm_new_password.mdx';
 
@@ -184,7 +504,7 @@ import flutter3 from '/src/fragments/lib/auth/flutter/signin_next_steps/40_confi
 
 <Fragments fragments={{ flutter: flutter3 }} />
 
-### Reset password
+## Reset password
 
 import ios4 from '/src/fragments/lib/auth/ios/signin_next_steps/50_reset_password.mdx';
 
@@ -198,7 +518,7 @@ import flutter4 from '/src/fragments/lib/auth/flutter/signin_next_steps/50_reset
 
 <Fragments fragments={{ flutter: flutter4 }} />
 
-### Confirm Signup
+## Confirm Signup
 
 import ios5 from '/src/fragments/lib/auth/ios/signin_next_steps/60_confirm_signup.mdx';
 
@@ -216,7 +536,7 @@ import flutter5 from '/src/fragments/lib/auth/flutter/signin_next_steps/60_confi
 
 <Fragments fragments={{ flutter: flutter5 }} />
 
-### Done
+## Done
 
 import ios6 from '/src/fragments/lib/auth/ios/signin_next_steps/70_done.mdx';
 

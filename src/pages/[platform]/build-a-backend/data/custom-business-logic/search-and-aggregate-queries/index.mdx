@@ -36,12 +36,12 @@ DynamoDB users gain access to advanced OpenSearch features like full-text search
 Amazon OpenSearch Ingestion, combined with S3 exports and DynamoDB streams, facilitates seamless data input from DynamoDB tables and automatic ingestion into OpenSearch. Additionally, the pipeline can back up data to S3 for potential future re-ingestion as needed.
 
 ## Step 1: Setup the project
+
 Begin by setting up your project by following the instructions in the [Quickstart guide](/[platform]/start/quickstart/). For the purpose of this guide, we'll sync a Todo table from DynamoDB to OpenSearch.
 
 Firstly, add the Todo model to your schema:
 
 ```ts title="amplify/data/resource.ts"
-
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 const schema = a.schema({
@@ -79,96 +79,109 @@ Enable DynamoDB streams to capture item changes that will be ingested into OpenS
 </Callout>
 
 ```ts title="amplify/backend.ts"
-
-import { defineBackend } from "@aws-amplify/backend";
-import { auth } from "./auth/resource";
-import { data } from "./data/resource";
 // highlight-start
-import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 // highlight-end
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
 
 const backend = defineBackend({
   auth,
-  data,
+  data
 });
 
 // highlight-start
 const todoTable =
-  backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
+  backend.data.resources.cfnResources.amplifyDynamoDbTables['Todo'];
 
 // Update table settings
 todoTable.pointInTimeRecoveryEnabled = true;
 
 todoTable.streamSpecification = {
-  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE
 };
 
 // Get the DynamoDB table ARN
-const tableArn = backend.data.resources.tables["Todo"].tableArn;
+const tableArn = backend.data.resources.tables['Todo'].tableArn;
 // Get the DynamoDB table name
-const tableName = backend.data.resources.tables["Todo"].tableName;
-// highlight-end 
-
+const tableName = backend.data.resources.tables['Todo'].tableName;
+// highlight-end
 ```
 
 ## Step 2: Setting Up the OpenSearch Instance
 
 Create an OpenSearch instance with encryption.
 
-``` ts title="amplify/backend.ts"
-
-import { defineBackend } from "@aws-amplify/backend";
-import { auth } from "./auth/resource";
-import { data } from "./data/resource";
+```ts title="amplify/backend.ts"
 // highlight-start
-import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
-import {  Stack } from "aws-cdk-lib";
+import * as opensearch from 'aws-cdk-lib/aws-opensearchservice';
+import { RemovalPolicy } from "aws-cdk-lib";
 // highlight-end
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+
+const backend = defineBackend({
+  auth,
+  data
+});
 
 const todoTable =
-  backend.data.resources.cfnResources.amplifyDynamoDbTables["Todo"];
+  backend.data.resources.cfnResources.amplifyDynamoDbTables['Todo'];
 
 // Update table settings
 todoTable.pointInTimeRecoveryEnabled = true;
 
 todoTable.streamSpecification = {
-  streamViewType: dynamodb.StreamViewType.NEW_IMAGE,
+  streamViewType: dynamodb.StreamViewType.NEW_IMAGE
 };
 
 // Get the DynamoDB table ARN
-const tableArn = backend.data.resources.tables["Todo"].tableArn;
+const tableArn = backend.data.resources.tables['Todo'].tableArn;
 // Get the DynamoDB table name
-const tableName = backend.data.resources.tables["Todo"].tableName;
-
-// highlight-start
-// Get the data stack
-const dataStack = Stack.of(backend.data);
+const tableName = backend.data.resources.tables['Todo'].tableName;
 
 // Create the OpenSearch domain
 const openSearchDomain = new opensearch.Domain(
-  dataStack,
-  "OpenSearchDomain",
+  backend.data.stack,
+  'OpenSearchDomain',
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
-    nodeToNodeEncryption: true,
-    encryptionAtRest: {
-      enabled: true,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
     },
+    nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
+    encryptionAtRest: {
+      enabled: true
+    }
   }
 );
 // highlight-end
-
 ```
+<Callout warning>
+
+**Important considerations:**
+
+We recommend configuring the `removalPolicy` to destroy resources for sandbox environments. By default, OpenSearch instances are not deleted when you run `npx ampx sandbox delete`, as the default removal policy for stateful resources is set to retain the resource.
+
+</Callout>
+
 
 ## Step 3: Setting Up Zero ETL from DynamoDB to OpenSearch
 
 ### Step 3a: Setup Storage and IAM Role
+
 Establish Storage to back up raw events consumed by the OpenSearch pipeline. 
 Generate a file named `amplify/storage/resource.ts` and insert the provided content to set up a storage resource. Tailor your storage configurations to regulate access to different paths within your storage bucket.
 
-
 ```ts title="amplify/storage/resource.ts"
-
 import { defineStorage } from "@aws-amplify/backend"
 
 export const storage = defineStorage({
@@ -179,22 +192,21 @@ export const storage = defineStorage({
     ]
   })
 })
-
 ```
+
 Get the `s3BucketArn` and `s3BucketName` values from storage resource as shown below. Additionally, configure an IAM role for the pipeline and assign the roles as indicated below. For further information on the required IAM roles, please refer to the [Setting up roles and users](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html#pipeline-security-create) documentation.
 
-``` ts title="amplify/backend.ts"
+```ts title="amplify/backend.ts"
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { RemovalPolicy } from "aws-cdk-lib";
+// highlight-next-line
+import * as iam from "aws-cdk-lib/aws-iam";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
-import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
-import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
-import { Stack } from "aws-cdk-lib";
-
-//highlight-start  
+// highlight-next-line
 import { storage } from "./storage/resource";
-import * as iam from "aws-cdk-lib/aws-iam";
-//highlight-end  
 
 // Define backend resources
 const backend = defineBackend({
@@ -220,16 +232,22 @@ const tableArn = backend.data.resources.tables["Todo"].tableArn;
 // Get the DynamoDB table name
 const tableName = backend.data.resources.tables["Todo"].tableName;
 
-// Get the data stack
-const dataStack = Stack.of(backend.data);
-
 // Create the OpenSearch domain
 const openSearchDomain = new opensearch.Domain(
-  dataStack,
+  backend.data.stack,
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
     },
@@ -241,12 +259,9 @@ const s3BucketArn = backend.storage.resources.bucket.bucketArn;
 // Get the S3Bucket Name
 const s3BucketName = backend.storage.resources.bucket.bucketName;
 
-//Get the region
-const region = dataStack.region;
-
 // Create an IAM role for OpenSearch integration
 const openSearchIntegrationPipelineRole = new iam.Role(
-  dataStack,
+  backend.data.stack,
   "OpenSearchIntegrationPipelineRole",
   {
     assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
@@ -302,8 +317,9 @@ const openSearchIntegrationPipelineRole = new iam.Role(
     ],
   }
 );
-//highlight-end
+// highlight-end
 ```
+
 For the S3 bucket, follow standard security practices: block public access, encrypt data at rest, and enable versioning.
 
 The IAM role should allow the OpenSearch Ingestion Service (OSIS) pipelines to assume it. Grant specific OpenSearch Service permissions and also provide DynamoDB and S3 access. You may customize permissions to follow the principle of least privilege.
@@ -316,15 +332,15 @@ When using OpenSearch, you can define the index template or mapping in advance b
 
 Customize the `template_content` JSON-representation to define the data structure for the ingestion pipeline.
 
-``` ts title="amplify/backend.ts"
+```ts title="amplify/backend.ts"
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { RemovalPolicy } from "aws-cdk-lib";
+import * as iam from "aws-cdk-lib/aws-iam";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
-import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
-import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
-import { Stack } from "aws-cdk-lib"; 
 import { storage } from "./storage/resource";
-import * as iam from "aws-cdk-lib/aws-iam";
  
 // Define backend resources
 const backend = defineBackend({
@@ -348,16 +364,22 @@ const tableArn = backend.data.resources.tables["Todo"].tableArn;
 // Get the DynamoDB table name
 const tableName = backend.data.resources.tables["Todo"].tableName;
 
-// Get the data stack
-const dataStack = Stack.of(backend.data);
-
 // Create the OpenSearch domain
 const openSearchDomain = new opensearch.Domain(
-  dataStack,
+  backend.data.stack,
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
     },
@@ -369,12 +391,9 @@ const s3BucketArn = backend.storage.resources.bucket.bucketArn;
 // Get the S3Bucket Name
 const s3BucketName = backend.storage.resources.bucket.bucketName;
 
-//Get the region
-const region = dataStack.region;
-
 // Create an IAM role for OpenSearch integration
 const openSearchIntegrationPipelineRole = new iam.Role(
-  dataStack,
+  backend.data.stack,
   "OpenSearchIntegrationPipelineRole",
   {
     assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
@@ -432,7 +451,6 @@ const openSearchIntegrationPipelineRole = new iam.Role(
 );
 
 // highlight-start
-
 // Define OpenSearch index mappings
 const indexName = "todo";
 
@@ -446,7 +464,7 @@ const indexMapping = {
       id: {
         type: "keyword",
       },
-      isDone: {
+      done: {
         type: "boolean",
       },
       content: {
@@ -456,21 +474,20 @@ const indexMapping = {
   },
 };
 // highlight-end
-
 ```
 
 The configuration is a data-prepper feature of OpenSearch. For specific documentation on DynamoDB configuration, refer to [OpenSearch data-prepper documentation](https://opensearch.org/docs/latest/data-prepper/pipelines/configuration/sources/dynamo-db/).
 
 
-``` ts title="amplify/backend.ts"
+```ts title="amplify/backend.ts"
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
+import { RemovalPolicy } from "aws-cdk-lib";
+import * as iam from "aws-cdk-lib/aws-iam";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
-import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
-import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
-import { Stack } from "aws-cdk-lib"; 
 import { storage } from "./storage/resource";
-import * as iam from "aws-cdk-lib/aws-iam";
  
 // Define backend resources
 const backend = defineBackend({
@@ -494,16 +511,22 @@ const tableArn = backend.data.resources.tables["Todo"].tableArn;
 // Get the DynamoDB table name
 const tableName = backend.data.resources.tables["Todo"].tableName;
 
-// Get the data stack
-const dataStack = Stack.of(backend.data);
-
 // Create the OpenSearch domain
 const openSearchDomain = new opensearch.Domain(
-  dataStack,
+  backend.data.stack,
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,  
     encryptionAtRest: {
       enabled: true,
     },
@@ -515,12 +538,9 @@ const s3BucketArn = backend.storage.resources.bucket.bucketArn;
 // Get the S3Bucket Name
 const s3BucketName = backend.storage.resources.bucket.bucketName;
 
-//Get the region
-const region = dataStack.region;
-
 // Create an IAM role for OpenSearch integration
 const openSearchIntegrationPipelineRole = new iam.Role(
-  dataStack,
+  backend.data.stack,
   "OpenSearchIntegrationPipelineRole",
   {
     assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
@@ -618,11 +638,11 @@ dynamodb-pipeline:
             start_position: "LATEST"
           export:
             s3_bucket: "${s3BucketName}"
-            s3_region: "${region}"
+            s3_region: "${backend.storage.stack.region}"
             s3_prefix: "${tableName}/"
       aws:
         sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
-        region: "${region}"
+        region: "${backend.data.stack.region}"
   sink:
     - opensearch:
         hosts:
@@ -638,7 +658,7 @@ dynamodb-pipeline:
         bulk_size: 4
         aws:
           sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
-          region: "${region}"
+          region: "${backend.data.stack.region}"
 `;
 // highlight-end
 ```
@@ -654,25 +674,28 @@ The sink configuration is an array. To create a different index on the same tabl
 To index multiple tables, you'll need to configure multiple pipelines in the configuration. For further guidance, please consult the [pipeline section](https://opensearch.org/docs/latest/data-prepper/pipelines/pipelines/) of the OpenSearch documentation.
 
 <Callout>
-NOTE: An OpenSearch Ingestion pipeline supports only one DynamoDB table as its source. For more details on current limitations, Please refer to [Amazon OpenSearch Limitation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/configure-client-ddb.html#ddb-pipeline-limitations) section.
+
+**Note**: An OpenSearch Ingestion pipeline supports only one DynamoDB table as its source. For more details on current limitations, Please refer to [Amazon OpenSearch Limitation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/configure-client-ddb.html#ddb-pipeline-limitations) section.
+
 </Callout>
+
 Now, create the OSIS pipeline resource:
 
-
-``` ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend";
-import { auth } from "./auth/resource";
-import { data } from "./data/resource";
+```ts title="amplify/backend.ts"
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as opensearch from "aws-cdk-lib/aws-opensearchservice";
-import { Stack } from "aws-cdk-lib"; 
-import { storage } from "./storage/resource";
+import { RemovalPolicy } from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
- //highlight-start
+// highlight-start
 import * as osis from "aws-cdk-lib/aws-osis";
 import * as logs from "aws-cdk-lib/aws-logs";
 import { RemovalPolicy } from "aws-cdk-lib"; 
- //highlight-end
+// highlight-end
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { storage } from "./storage/resource";
+
 // Define backend resources
 const backend = defineBackend({
   auth,
@@ -695,16 +718,22 @@ const tableArn = backend.data.resources.tables["Todo"].tableArn;
 // Get the DynamoDB table name
 const tableName = backend.data.resources.tables["Todo"].tableName;
 
-// Get the data stack
-const dataStack = Stack.of(backend.data);
-
 // Create the OpenSearch domain
 const openSearchDomain = new opensearch.Domain(
-  dataStack,
+  backend.data.stack,
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
+    removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
     },
@@ -716,12 +745,9 @@ const s3BucketArn = backend.storage.resources.bucket.bucketArn;
 // Get the S3Bucket Name
 const s3BucketName = backend.storage.resources.bucket.bucketName;
 
-//Get the region
-const region = dataStack.region;
-
 // Create an IAM role for OpenSearch integration
 const openSearchIntegrationPipelineRole = new iam.Role(
-  dataStack,
+  backend.data.stack,
   "OpenSearchIntegrationPipelineRole",
   {
     assumedBy: new iam.ServicePrincipal("osis-pipelines.amazonaws.com"),
@@ -817,11 +843,11 @@ dynamodb-pipeline:
             start_position: "LATEST"
           export:
             s3_bucket: "${s3BucketName}"
-            s3_region: "${region}"
+            s3_region: "${backend.storage.stack.region}"
             s3_prefix: "${tableName}/"
       aws:
         sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
-        region: "${region}"
+        region: "${backend.data.stack.region}"
   sink:
     - opensearch:
         hosts:
@@ -837,19 +863,19 @@ dynamodb-pipeline:
         bulk_size: 4
         aws:
           sts_role_arn: "${openSearchIntegrationPipelineRole.roleArn}"
-          region: "${region}"
+          region: "${backend.data.stack.region}"
 `;
 
 // highlight-start
 // Create a CloudWatch log group
-const logGroup = new logs.LogGroup(dataStack, "LogGroup", {
-  logGroupName: "/aws/vended-logs/OpenSearchService/pipelines/1",
+const logGroup = new logs.LogGroup(backend.data.stack, "LogGroup", {
+  logGroupName: "/aws/vendedlogs/OpenSearchService/pipelines/1",
   removalPolicy: RemovalPolicy.DESTROY,
 });
 
 // Create an OpenSearch Integration Service pipeline
 const cfnPipeline = new osis.CfnPipeline(
-  dataStack,
+  backend.data.stack,
   "OpenSearchIntegrationPipeline",
   {
     maxUnits: 4,
@@ -864,9 +890,7 @@ const cfnPipeline = new osis.CfnPipeline(
     },
   }
 );
-
 //highlight-end
-
 ```
 
 After deploying the resources, you can test the data ingestion process by adding an item to the `Todo` table. However, before doing that, let's verify that the pipeline has been set up correctly.
@@ -881,11 +905,11 @@ You can also check this in the DynamoDB console by going to the Integrations sec
 
 ## Step 4: Expose new queries on OpenSearch
 
-### Step 4a:Add OpenSearch Datasource to backend
+### Step 4a: Add OpenSearch Datasource to backend
 
 First, Add the OpenSearch data source to the data backend. Add the following code to the end of the `amplify/backend.ts` file.
 
-``` ts title="amplify/backend.ts"
+```ts title="amplify/backend.ts"
 // Add OpenSearch data source 
 const osDataSource = backend.data.addOpenSearchDataSource(
   "osDataSource",
@@ -898,7 +922,6 @@ const osDataSource = backend.data.addOpenSearchDataSource(
 Let's create the search resolver. Create a new file named `amplify/data/searchTodoResolver.js` and paste the following code. For additional details please refer to [Amazon OpenSearch Service Resolvers](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-elasticsearch-resolvers-js.html)
 
 ```ts title="amplify/data/searchTodoResolver.js"
-
 import { util } from "@aws-appsync/utils";
 
 /**
@@ -906,7 +929,6 @@ import { util } from "@aws-appsync/utils";
  * @param {import('@aws-appsync/utils').Context} ctx the context
  * @returns {*} the request
  */
-
 export function request(ctx) {
   return {
     operation: "GET",
@@ -919,23 +941,19 @@ export function request(ctx) {
  * @param {import('@aws-appsync/utils').Context} ctx the context
  * @returns {*} the result
  */
-
 export function response(ctx) {
   if (ctx.error) {
     util.error(ctx.error.message, ctx.error.type);
   }
   return ctx.result.hits.hits.map((hit) => hit._source);
 }
-
-
 ```
 
 ### Step 4c: Add the AppSync Resolver for the Search Query
 
 Update the schema and add a searchTodo query.
 
-``` ts title="amplify/data/resource.ts"
-
+```ts title="amplify/data/resource.ts"
 const schema = a.schema({
   Todo: a
     .model({
@@ -963,5 +981,5 @@ const schema = a.schema({
 
 Once you've deployed the resources, you can verify the changes by checking the AppSync console. Run the 'searchTodo' query and review the results to confirm their accuracy.
 
-![A screenshot from the AppSync console displaying a generated query for 'searchTodo' with the results fetched from OpenSearch on the right side.](/images/gen2/opensearch-integration/opensearch_appsync_console.png)
+![AppSync console displaying a generated query for 'searchTodo' with the results fetched from OpenSearch on the right side.](/images/gen2/opensearch-integration/opensearch_appsync_console.png)
 

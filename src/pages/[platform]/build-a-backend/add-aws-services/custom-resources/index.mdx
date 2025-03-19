@@ -170,7 +170,7 @@ const client = new SNSClient({ region: process.env.AWS_REGION });
 export const handler: Handler<Message, void> = async (event) => {
   const { subject, body, recipient } = event;
   const command = new PublishCommand({
-    TopicArn: process.env.TOPIC_ARN,
+    TopicArn: process.env.SNS_TOPIC_ARN,
     Message: JSON.stringify({
       subject,
       body,

@@ -37,6 +37,12 @@ Amplify Functions support setting environment variables and secrets on the `envi
 
 </Callout>
 
+<Callout info>
+
+**Note:** Environment variables and secrets configuration in `defineFunction` is not supported for [Custom Functions](/[platform]/build-a-backend/functions/custom-functions/).
+
+</Callout>
+
 ## Environment variables
 
 Environment variables can be configured in `defineFunction` using the `environment` property.
@@ -72,7 +78,7 @@ Within your function handler, you can access environment variables using the nor
 
 ```ts title="amplify/functions/say-hello/handler.ts"
 // highlight-next-line
-import { env } from '$amplify/env/say-hello'; // the import is '$amplify/env/<function name>'
+import { env } from '$amplify/env/say-hello'; // the import is '$amplify/env/<function-name>'
 
 export const handler = async (event) => {
   // the env object has intellisense for all environment variables that are available to the function
@@ -99,6 +105,48 @@ If you did not, you will need to manually configure your project. Within your `a
 ```
 
 </Accordion>
+
+### Generated env files
+
+When you configure your function with environment variables or secrets, Amplify's backend tooling generates a file using the function's `name` in `.amplify/generated` with references to your environment variables and secrets, as well as [environment variables predefined by the Lambda runtime](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime). This provides a type-safe experience for working with environment variables that does not require typing `process.env` manually.
+
+<Callout info>
+
+**Note:** generated files are created before deployments when executing `ampx sandbox` or `ampx pipeline-deploy`
+
+</Callout>
+
+For example, if you have a function with the following definition:
+
+```ts title="amplify/functions/say-hello/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const sayHello = defineFunction({
+  name: "say-hello",
+  environment: {
+    NAME: "World",
+  },
+});
+```
+
+Upon starting your next deployment, Amplify will create a file at the following location:
+
+```
+.amplify/generated/env/say-hello.ts
+```
+
+Using the TypeScript path alias, `$amplify`, you can import the file in your function's handler:
+
+```ts title="amplify/functions/say-hello/handler.ts"
+import { env } from "$amplify/env/say-hello"
+
+export const handler = async (event) => {
+  // the env object has intellisense for all environment variables that are available to the function
+  return `Hello, ${env.NAME}!`;
+};
+```
+
+Encountering issues with this file? [Visit the troubleshooting guide for `Cannot find module $amplify/env/<function-name>`](/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/)
 
 ## Secrets
 

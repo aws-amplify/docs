@@ -136,7 +136,7 @@ npm install aws-amplify@6 @aws-amplify/adapter-nextjs
 
 The `@aws-amplify/adapter-nextjs` package provides adapter functions to enable use of Amplify APIs on the server side of your Next.js app for use cases such as Server Side Rendering (SSR) with the App Router.
 
-Note that v6 supports NextJS v13.5.0 through 14. We recommend upgrading if you are using a version below  13.5.0.
+Note that v6 supports NextJS v13.5.0 through 15. We recommend upgrading if you are using a version below  13.5.0.
 
 <Callout>NextJS v13.5.0 requires Node v16.14.0 or later and NextJS v14+ requires Node v18.17.0 or later</Callout>
 
@@ -151,7 +151,7 @@ amplify upgrade
 amplify push
 ```
 
-This will generate a new configuration file called `amplifyconfiguration.json`
+This will generate a new configuration file called `amplifyconfiguration.json` (You may need to use `amplify pull` if there are no changes in your environment).
 
 Wherever you called `Amplify.configure({ aws-exports });` previously (usually in the root of your project) update your code as shown below
 
@@ -177,7 +177,7 @@ Wherever you called `Amplify.configure({ aws-exports });` previously (usually in
 </Columns>
 
 <Callout>
-  `Amplify.configure()` will now accept either the config JSON file or a strongly typed configuration object. Therefore, if you need to add additional configuration, you will call configure twice: once with the contents of **amplifyconfiguration.json**, and then again using `Amplify.getConfig()` plus any additions. Keep in mind that any call to configuration will fully override previous configurations, so pay special attention to nested configurations.
+  `Amplify.configure()` accepts either the config JSON file or a [ResourceConfig configuration object](/gen1/[platform]/tools/libraries/configure-categories/). You can use the `parseAmplifyConfig` util to parse the contents of the config JSON file **amplifyconfiguration.json** into the ResourceConfig configuration object and override properties as needed. Keep in mind that any call to configuration will fully override previous configurations, so pay special attention to nested configurations.
 </Callout>
 
 If you have previously configured Amplify by passing the configuration object literal when calling the `Amplify.configure()` function, you can now configure Amplify manually with type safety. Please refer to the documentation of each category that you are using for migration.
@@ -635,9 +635,8 @@ In v6, the `AWSLexV2Provider` provider will be included by default and you are n
   <Block name="V6">
     ```
     import { Amplify } from 'aws-amplify';
+    import { parseAmplifyConfig } from "aws-amplify/utils";
     import amplifyconfig from './amplifyconfiguration.json';
-
-    Amplify.configure(amplifyconfig);
 
     const interactionsConfig = {
       LexV2: {
@@ -651,7 +650,7 @@ In v6, the `AWSLexV2Provider` provider will be included by default and you are n
     }
 
     Amplify.configure({
-      ...Amplify.getConfig(),
+      ...parseAmplifyConfig(amplifyconfig),
       Interactions: interactionsConfig
     });
     ```

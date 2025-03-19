@@ -31,6 +31,12 @@ export function getStaticProps() {
 
 Amplify offers the ability to schedule Functions to run on specific intervals using natural language or [cron expressions](https://en.wikipedia.org/wiki/Cron). To get started, specify the `schedule` property in `defineFunction`:
 
+<Callout info>
+
+**Note:** Configuring the schedule in `defineFunction` is not supported for [Custom Functions](/[platform]/build-a-backend/functions/custom-functions/).
+
+</Callout>
+
 ```ts title="amplify/jobs/weekly-digest/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
 
@@ -51,7 +57,7 @@ Their handlers can be typed using the `EventBridgeHandler` type:
 ```ts title="amplify/jobs/weekly-digest/handler.ts"
 import type { EventBridgeHandler } from "aws-lambda";
 
-export const handler: EventBridgeHandler = async (event) => {
+export const handler: EventBridgeHandler<"Scheduled Event", null, void> = async (event) => {
   console.log("event", JSON.stringify(event, null, 2))
 }
 ```
@@ -61,7 +67,7 @@ export const handler: EventBridgeHandler = async (event) => {
 **Note**: AWS Lambda types can be installed with
 
 ```bash title="Terminal" showLineNumbers={false}
-npm install --save-dev @types/aws-lambda
+npm add --save-dev @types/aws-lambda
 ```
 
 </Callout>
@@ -99,13 +105,13 @@ export const remindMe = defineFunction({
     // every sunday at midnight
     "every week",
     // every tuesday at 5pm
-    "0 17 * * 2",
+    "0 17 ? * 3 *",
     // every wednesday at 5pm
-    "0 17 * * 3",
+    "0 17 ? * 4 *",
     // every thursday at 5pm
-    "0 17 * * 4",
+    "0 17 ? * 5 *",
     // every friday at 5pm
-    "0 17 * * 5",
+    "0 17 ? * 6 *",
   ]
 })
 ```
@@ -143,9 +149,9 @@ export const remindMe = defineFunction({
   name: "remind-me-to-take-the-trash-out",
   schedule: [
     // every tuesday at 9am
-    "0 9 * * 2",
+    "0 9 ? * 3 *",
     // every friday at 9am
-    "0 9 * * 5",
+    "0 9 ? * 6 *",
   ]
 })
 ```

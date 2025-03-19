@@ -1,0 +1,153 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Batch DynamoDB Operations',
+  description:
+    'Batch DynamoDB Operations',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Batch DynamoDB operations allow you to add multiple items in single mutation.
+
+## Step 1 - Define a custom mutation
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  // 1. Define your return type as a custom type or model
+  Post: a.model({
+    id: a.id(),
+    content: a.string(),
+    likes: a.integer()
+  }),
+
+  // 2. Define your mutation with the return type and, optionally, arguments
+  BatchCreatePost: a
+    .mutation()
+    // arguments that this query accepts
+    .arguments({
+      content: a.string().array()
+    })
+    .returns(a.ref('Post').array())
+    // only allow signed-in users to call this API
+    .authorization(allow => [allow.authenticated()])
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema
+});
+```
+
+## Step 2 - Configure custom business logic handler code
+
+After your query or mutation is defined, you need to author your custom business logic using a [custom resolver powered by AppSync JavaScript resolver](https://docs.aws.amazon.com/appsync/latest/devguide/tutorials-js.html).
+
+Custom resolvers work on a "request/response" basis. You choose a data source, map your request to the data source's input parameters, and then map the data source's response back to the query/mutation's return type. Custom resolvers provide the benefit of no cold starts, less infrastructure to manage, and no additional charge for Lambda function invocations. Review [Choosing between custom resolver and function](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-reference-overview-js.html#choosing-data-source).
+
+In your `amplify/data/resource.ts` file, define a custom handler using `a.handler.custom`.
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+
+const schema = a.schema({
+  Post: a.model({
+    id: a.id(),
+    content: a.string(),
+    likes: a.integer()
+  }),
+
+  BatchCreatePost: a
+    .mutation()
+    .arguments({
+      contents: a.string().array()
+    })
+    .returns(a.ref('Post').array())
+    .authorization(allow => [allow.authenticated()])
+    // 1. Add the custom handler
+    .handler(
+      a.handler.custom({
+        dataSource: a.ref('Post'),
+        entry: './BatchCreatePostHandler.js',
+      })
+    )
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  schema
+});
+```
+
+Amplify will store some values in the resolver context stash that can be accessed in the custom resolver.
+
+| Name                      | Description                                  |
+| ------------------------- | -------------------------------------------- |
+| awsAppsyncApiId           | The ID of the AppSync API.                   |
+| amplifyApiEnvironmentName | The Amplify api environment name. (`NONE` in sandbox) |
+
+The Amplify generated DynamoDB table names can be constructed from the variables in the context stash. The table name is in the format `<model-name>-<aws-appsync-api-id>-<amplify-api-environment-name>`. For example, the table name for the `Post` model would be `Post-123456-dev` where `123456` is the AppSync API ID and `dev` is the Amplify API environment name.
+
+```ts title="amplify/data/BatchCreatePostHandler.js"
+import { util } from '@aws-appsync/utils';
+
+export function request(ctx) {
+  var now = util.time.nowISO8601();
+
+  return {
+    operation: 'BatchPutItem',
+    tables: {
+      [`Post-${ctx.stash.awsAppsyncApiId}-${ctx.stash.amplifyApiEnvironmentName}`]: ctx.args.contents.map((content) =>
+        util.dynamodb.toMapValues({
+          content,
+          id: util.autoId(),
+          createdAt: now,
+          updatedAt: now,
+        })
+      ),
+    },
+  };
+}
+
+export function response(ctx) {
+  if (ctx.error) {
+    util.error(ctx.error.message, ctx.error.type);
+  }
+  return ctx.result.data[`Post-${ctx.stash.awsAppsyncApiId}-${ctx.stash.amplifyApiEnvironmentName}`];
+}
+```
+
+## Step 3 - Invoke the custom query or mutation
+
+From your generated Data client, you can find all your custom queries and mutations under the `client.queries.` and `client.mutations.` APIs respectively.
+
+```ts
+const { data, errors } = await client.mutations.BatchCreatePost({
+  contents: ['Post 1', 'Post 2', 'Post 3']
+});
+```

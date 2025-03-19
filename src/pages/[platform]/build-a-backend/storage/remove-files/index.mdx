@@ -29,9 +29,11 @@ export function getStaticProps(context) {
   };
 }
 
-Files can be removed from a storage bucket using the 'remove' API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
+Files can be removed from a storage bucket using the `remove` API. If a file is protected by an identity Id, only the user who owns the file will be able to remove it.
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+You can also perform a remove operation from a specific bucket by providing the target bucket's assigned name from Amplify Backend in `bucket` option.
 
 ```javascript
 import { remove } from 'aws-amplify/storage';
@@ -39,13 +41,35 @@ import { remove } from 'aws-amplify/storage';
 try {
   await remove({ 
     path: 'album/2024/1.jpg',
-    // Alternatively, path: ({identityId}) => `album/{identityId}/1.jpg`
+    // Alternatively, path: ({identityId}) => `album/${identityId}/1.jpg`
+    bucket: 'assignedNameInAmplifyBackend', // Specify a target bucket using name assigned in Amplify Backend
+  });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ 
+    path: 'album/2024/1.jpg',
+    // Alternatively, provide bucket name from console and associated region
+    bucket: {
+      bucketName: 'bucket-name-from-console',
+      region: 'us-east-2'
+    }
+
   });
 } catch (error) {
   console.log('Error ', error);
 }
 ```
 </InlineFilter>
+
 
 <InlineFilter filters={["android"]}>
 <BlockSwitcher>
@@ -94,6 +118,152 @@ RxAmplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt")
 
 </Block>
 </BlockSwitcher>
+
+## Remove files from a specified bucket
+
+You can also perform a remove operation to a specific bucket by providing the `bucket` option. You can pass in a string representing the target bucket's assigned name in Amplify Backend.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+StorageBucket secondBucket = StorageBucket.fromOutputs("secondBucket");
+StorageRemoveOptions options = StorageRemoveOptions.builder()
+    .bucket(secondBucket)
+    .build();
+
+Amplify.Storage.remove(
+    StoragePath.fromString("public/myUploadedFileName.txt"), 
+    options,
+    result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getPath()),
+    error -> Log.e("MyAmplifyApp", "Remove failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val secondBucket = StorageBucket.fromOutputs("secondBucket")
+val options = StorageRemoveOptions.builder()
+    .bucket(secondBucket)
+    .build()
+
+Amplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"), options,
+    { Log.i("MyAmplifyApp", "Successfully removed: ${it.path}") },
+    { Log.e("MyAmplifyApp", "Remove failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val secondBucket = StorageBucket.fromOutputs("secondBucket")
+val options = StorageRemoveOptions.builder()
+    .bucket(secondBucket)
+    .build()
+
+try {
+    val result = Amplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"), options)
+    Log.i("MyAmplifyApp", "Successfully removed: ${result.path}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Remove failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java     
+StorageBucket secondBucket = StorageBucket.fromOutputs("secondBucket");
+StorageRemoveOptions options = StorageRemoveOptions.builder()
+    .bucket(secondBucket)
+    .build(); 
+RxAmplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"), options)
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getPath()),
+            error -> Log.e("MyAmplifyApp", "Remove failure", error)
+        );
+```
+
+</Block>
+</BlockSwitcher>
+
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+BucketInfo bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+StorageBucket secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+StorageRemoveOptions options = StorageRemoveOptions.builder()
+    .bucket(secondBucket)
+    .build(); 
+
+Amplify.Storage.remove(
+    StoragePath.fromString("public/myUploadedFileName.txt"),
+    options,
+    result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getPath()),
+    error -> Log.e("MyAmplifyApp", "Remove failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val bucketInfo = BucketInfo("second-bucket-name-from-console", "us-east-2")
+val secondBucket = StorageBucket.fromBucketInfo(bucketInfo)
+val options = StorageRemoveOptions.builder()
+    .bucket(secondBucket)
+    .build()
+
+Amplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"), options,
+    { Log.i("MyAmplifyApp", "Successfully removed: ${it.path}") },
+    { Log.e("MyAmplifyApp", "Remove failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val bucketInfo = BucketInfo("second-bucket-name-from-console", "us-east-2")
+val secondBucket = StorageBucket.fromBucketInfo(bucketInfo)
+val options = StorageRemoveOptions.builder()
+    .bucket(secondBucket)
+    .build()
+
+try {
+    val result = Amplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"), options)
+    Log.i("MyAmplifyApp", "Successfully removed: ${result.path}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Remove failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+BucketInfo bucketInfo = new BucketInfo("second-bucket-name-from-console", "us-east-2");
+StorageBucket secondBucket = StorageBucket.fromBucketInfo(bucketInfo);
+StorageRemoveOptions options = StorageRemoveOptions.builder()
+    .bucket(secondBucket)
+    .build(); 
+
+RxAmplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt"), options)
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getPath()),
+            error -> Log.e("MyAmplifyApp", "Remove failure", error)
+        );
+```
+
+</Block>
+</BlockSwitcher>
+
 </InlineFilter>
 
 <InlineFilter filters={["swift"]}>
@@ -103,7 +273,9 @@ RxAmplify.Storage.remove(StoragePath.fromString("public/myUploadedFileName.txt")
 <Block name="Async/Await">
 
 ```swift
-let removedObject = try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+let removedObject = try await Amplify.Storage.remove(
+    path: .fromString("public/example/path")
+)
 print("Deleted \(removedObject)")
 ```
 
@@ -113,7 +285,9 @@ print("Deleted \(removedObject)")
 
 ```swift
 let sink = Amplify.Publisher.create {
-    try await Amplify.Storage.remove(path: .fromString("public/example/path"))
+    try await Amplify.Storage.remove(
+        path: .fromString("public/example/path")
+    )
 }.sink {
     if case let .failure(error) = $0 {
         print("Failed: \(error)")
@@ -128,32 +302,81 @@ receiveValue: { removedObject in
 
 </BlockSwitcher>
 
+## Remove files from a specified bucket
+
+You can perform a remove operation from a specific bucket by providing the `bucket` option.
+
+<BlockSwitcher>
+<Block name="From Outputs">
+You can use `.fromOutputs(name:)` to provide a string representing the target bucket's assigned name in the Amplify Backend.
+
+```swift
+let removedObject = try await Amplify.Storage.remove(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromOutputs(name: "secondBucket")
+    )
+)
+```
+</Block>
+
+<Block name="From Bucket Info">
+You can also use `.fromBucketInfo(_:)` to provide a bucket name and region directly.
+
+```swift
+let removedObject = try await Amplify.Storage.remove(
+    path: .fromString("public/example/path"),
+    options: .init(
+        bucket: .fromBucketInfo(.init(
+            bucketName: "another-bucket-name",
+            region: "another-bucket-region")
+        )    
+    )
+)
+```
+</Block>
+</BlockSwitcher>
+
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
 
-## Remove single file
-
-You can remove a single file using `Amplify.Storage.remove` with the `key` and its associated access level:
+You can also perform a `remove` operation to a specific bucket by providing the `bucket` option. You can pass in a `StorageBucket` object representing the target bucket from the name defined in the Amplify Backend.
 
 ```dart
+final result = await Amplify.Storage.remove(
+  path: const StoragePath.fromString('path/to/file.txt'),
+  options: StorageRemoveOptions(
+    // highlight-start
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: StorageBucket.fromOutputs('secondBucket'),
+    // highlight-end
+  ),
+).result;
+```
 
-Future<void> removeFile() async {
-  try {
-    final result = await Amplify.Storage.remove(
-      path: const StoragePath.fromString('public/file.txt'),
-    ).result;
-    safePrint('Removed file: ${result.removedItem.path}');
-  } on StorageException catch (e) {
-    safePrint(e.message);
-  }
-}
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
 
+```dart
+final result = await Amplify.Storage.remove(
+  path: const StoragePath.fromString('path/to/file.txt'),
+  options: StorageRemoveOption(
+    // highlight-start
+    // Alternatively, provide bucket name from console and associated region
+   bucket: StorageBucket.fromBucketInfo(
+        BucketInfo(
+          bucketName: 'second-bucket-name-from-console',
+          region: 'us-east-2',
+        ),
+      ),
+      // highlight-end
+  ),
+).result;
 ```
 
 ## Remove multiple Files
 
-You can remove multiple files using `Amplify.Storage.removeMany` with the `keys`, the files to be removed in a batch should have the same access level:
+You can remove multiple files using `Amplify.Storage.removeMany`, as well as specify a bucket to target, the files to be removed in a batch should have the same access level:
 
 ```dart
 Future<void> remove() async {
@@ -163,6 +386,18 @@ Future<void> remove() async {
         const StoragePath.fromString('public/file-1.txt'),
         const StoragePath.fromString('public/file-2.txt'),
       ],
+      // if this option is not provided, the default bucket in the Amplify Backend will be used
+      options: StorageRemoveManyOptions(
+        bucket: StorageBucket.fromOutputs('secondBucket'),
+        /* Alternatively, provide bucket name from console and associated region
+        bucket: StorageBucket.fromBucketInfo(
+          BucketInfo(
+            bucketName: 'second-bucket-name-from-console',
+            region: 'us-east-2',
+          ),
+        ),
+        */
+      ),
     ).result;
     safePrint('Removed files: ${result.removedItems}');
   } on StorageException catch (e) {
@@ -171,4 +406,14 @@ Future<void> remove() async {
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+## More `remove` options
+
+Option | Type | Default | Description |
+| -- | :--: | :--: | ----------- |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
 </InlineFilter>

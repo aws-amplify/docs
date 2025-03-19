@@ -25,8 +25,6 @@ export function getStaticProps() {
   };
 }
 
-### Set up the backend
-
 To enable Predictions we need to set up the appropriate IAM policy for Roles in your Cognito Identity Pool in order to use an appropriate feature. Additionally, we need to use the ```addOutput``` method to patch the custom Predictions resource to the expected output configuration.
 
 <Callout informational>
@@ -38,11 +36,9 @@ To learn more, check the docs of [Amazon Translate](https://docs.aws.amazon.com/
 
 
 ```ts title="amplify/backend.ts"
-
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
-import { Stack } from "aws-cdk-lib";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 const backend = defineBackend({
   auth,
@@ -88,24 +84,21 @@ backend.addOutput({
             targetLanguage: "es",
           },
           proxy: false,
-          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
-            .region,
+          region: backend.auth.stack.region,
         },
         speechGenerator: {
           defaults: {
             voiceId: "Ivy",
           },
           proxy: false,
-          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
-            .region,
+          region: backend.auth.stack.region,
         },
         transcription: {
           defaults: {
             language: "en-US",
           },
           proxy: false,
-          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
-            .region,
+          region: backend.auth.stack.region,
         },
       },
       identify: {
@@ -116,24 +109,21 @@ backend.addOutput({
           },
           celebrityDetectionEnabled: true,
           proxy: false,
-          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
-            .region,
+          region: backend.auth.stack.region,
         },
         identifyLabels: {
           defaults: {
             type: "ALL",
           },
           proxy: false,
-          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
-            .region,
+          region: backend.auth.stack.region,
         },
         identifyText: {
           defaults: {
             format: "ALL",
           },
           proxy: false,
-          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
-            .region,
+          region: backend.auth.stack.region,
         },
       },
       interpret: {
@@ -142,23 +132,20 @@ backend.addOutput({
             type: "ALL",
           },
           proxy: false,
-          region: Stack.of(backend.auth.resources.unauthenticatedUserIamRole)
-            .region,
+          region: backend.auth.stack.region,
         },
       },
     },
   },
 });
-
-
-
 ```
+
 ## Install Amplify Libraries
 
 To install the Amplify library to use predictions features, run the following commands in your project's root folder:
 
 ```bash title="Terminal" showLineNumbers={false}
-npm add aws-amplify
+npm add aws-amplify @aws-amplify/predictions
 ```
 
 ## Configure the frontend
@@ -166,13 +153,14 @@ npm add aws-amplify
 Import and load the configuration file in your app. It is recommended you add the Amplify configuration step to your app's root entry point. For example `main.ts` in React and Angular.
 
 ```ts title="src/main.ts"
-import { Predictions } from "aws-amplify/predictions";
-import outputs from "./amplify_outputs.json";
+import { Amplify } from "aws-amplify";
+import { parseAmplifyConfig } from "aws-amplify/utils";
+import outputs from '../amplify_outputs.json';
 
-Amplify.configure(outputs);
+const amplifyConfig = parseAmplifyConfig(outputs);
 
 Amplify.configure({
-  ...Amplify.getConfig(),
-  Predictions: config.custom.Predictions,
+  ...amplifyConfig,
+  Predictions: outputs.custom.Predictions,
 });
 ```
