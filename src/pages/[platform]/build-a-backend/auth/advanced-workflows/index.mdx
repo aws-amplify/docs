@@ -387,7 +387,7 @@ To use a shared keychain:
 4. Add a keychain group
 5. Repeat for all apps for which you want to share auth state, adding the same keychain group for all of them
 
-To move to the shared keychain using this new keychain access group, specify the accessGroup parameter when instantiating the `AWSCognitoAuthPlugin`. If a user is currently signed-in, they will be logged out when first using the access group:
+To move to the shared keychain using this new keychain access group, specify the `accessGroup` parameter when instantiating the `AWSCognitoAuthPlugin`. If a user is currently signed in, they will be signed out when first using the access group:
 
 ```swift
 let accessGroup = AccessGroup(name: "\(teamID)com.example.sharedItems")
