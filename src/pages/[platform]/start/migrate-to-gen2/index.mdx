@@ -153,7 +153,7 @@ export AWS_PROFILE=your-profile-name
 then run the following command to prepare your local codebase for migration execution:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@0.1.0-next-4.0 to-gen-2 prepare
+npx @aws-amplify/migrate@0.1.0-next-5.0 to-gen-2 prepare
 ```
 
 </Callout>
@@ -315,7 +315,7 @@ Next, make a note of the stack name of your Gen 2 backend, you can find this in 
 **Testers Only**
 
 ```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@0.1.0-next-4.0 to-gen-2 execute \
+npx @aws-amplify/migrate@0.1.0-next-5.0 to-gen-2 execute \
   --from <amplify-gen-1-stack-name> \
   --to <amplify-gen-2-stack-name>
 ```
@@ -358,7 +358,7 @@ Then redeploy the application by committing the changes to Git.
 **Testers Only**
 
 ```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@0.1.0-next-4.0 to-gen-2 revert \
+npx @aws-amplify/migrate@0.1.0-next-5.0 to-gen-2 revert \
   --from <amplify-gen-2-stack-name> \
   --to <amplify-gen-1-stack-name>
 ```
