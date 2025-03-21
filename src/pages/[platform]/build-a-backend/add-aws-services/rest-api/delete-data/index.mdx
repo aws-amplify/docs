@@ -37,7 +37,10 @@ async function deleteItem() {
   try {
     const restOperation = del({
       apiName: 'myRestApi',
-      path: 'items/1'
+      path: 'items/1',
+      retryStrategy: {
+        strategy: 'no-retry'
+      },
     });
     await restOperation.response;
     console.log('DELETE call succeeded');
