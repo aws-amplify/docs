@@ -1,0 +1,396 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Sandbox Seed',
+  description:
+    'Seed your sandbox with data to get started quickly.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+The Sandbox Seed feature allows you to populate your Amplify sandbox environment with initial data, making it easier to test and develop your application with realistic data.
+
+## Setting Up Your Seed Script
+
+To use the Sandbox Seed feature, you need to create a seed script. This script will be executed when you deploy your sandbox environment.
+
+1. Create a folder named `seed` under your `amplify` directory
+2. Create a file named `seed.ts` inside the `seed` folder
+
+```bash title="Folders" showLineNumbers={false}
+amplify/
+  └── seed/
+      └── seed.ts
+
+```
+
+## Setting up required permissions
+
+To seed your sandbox environment, you will need to add the necessary permissions to your sandbox environment. Amplify will generate the necessary permissions which you can attach to your role currently containing `AmplifyBackendDeployFullAccess`.
+
+1. Have an active sandbox environment deployed. You can deploy your sandbox environment using `npx ampx sandbox`.
+2. Generate the required permissions policy template
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed generate-policy > seed-policy.json
+```
+3. Then attach this policy to your role (example using AWS CLI):
+
+```bash title="Terminal" showLineNumbers={false}
+aws iam put-role-policy --role-name <your-role-name> --policy-name <policy-name> --policy-document file://seed-policy.json
+```
+
+{/* aws cli call to update SSO user permission set*/}
+
+## Writing your seed script
+
+Once your permissions are set up, you can write your seed script. The `@aws-amplify/seed` package provides a set of API's to help you seed your sandbox environment. 
+
+### Auth
+
+For example, if you like to seed your auth with a user and add them to the `admin` group, lets start by creating an auth resource:
+
+```typescript title="amplify/auth/resource.ts" 
+import { defineAuth } from "@aws-amplify/backend";
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  groups: ["admin"],
+});
+```
+
+Create 2 secrets using `npx ampx sandbox secret set`
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret set username
+npx ampx sandbox secret set password
+```
+
+Now to create a user and add to group `admin`, you can write the following script:
+
+```typescript title="amplify/seed/seed.ts" 
+import {
+  addToUserGroup,
+  createAndSignUpUser,
+  getSecret,
+} from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+import outputs from "../../amplify_outputs.json";
+
+Amplify.configure(outputs);
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+
+const user = await createAndSignUpUser({
+  username: username,
+  password: password,
+  signInAfterCreation: false,
+  signInFlow: "Password",
+});
+
+await addToUserGroup(user, "admin");
+```
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+This will create a user with the username and password you provided and add them to the `admin` group.
+
+The `getSecret` function will fetch the secret you have created using `npx ampx sandbox secret set`. This is useful when you have a public repository and don't want to commit secrets to the repository. Alternatively, you can set the username and password directly as a `string` in the `createAndSignUpUser` function but we recommend using secrets to avoid exposing sensitive information.
+
+{/* MFA example */}
+
+### Data
+
+For example, if you like to seed your Data API, lets start by creating a GraphQL API with a `Todo` model with authorization mode set to `userPool`:
+
+```typescript title="amplify/data/resource.ts"
+import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean(),
+    })
+    .authorization((allow) => [allow.authenticated()]),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  name: "TodoApi",
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "userPool",
+  },
+});
+```
+
+Now to seed your todo table with a todo, you can write the following script:
+
+```typescript title="amplify/seed/seed.ts"
+import { getSecret, signInUser } from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+import * as auth from "aws-amplify/auth";
+import type { Schema } from "./../data/resource";
+
+import { generateClient } from "aws-amplify/api";
+import outputs from "../../amplify_outputs.json";
+
+Amplify.configure(outputs);
+
+const dataClient = generateClient<Schema>();
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+
+await signInUser({
+  username: username,
+  password: password,
+  signInFlow: "Password",
+});
+
+const response = await dataClient.models.Todo.create(
+  {
+    content: `My first todo`,
+    isDone: false,
+  },
+  {
+    authMode: "userPool",
+  }
+);
+if (response.errors && response.errors.length > 0) {
+  throw response.errors;
+}
+
+auth.signOut();
+```
+
+The script uses the Amplify Data API client to interact with the API tables and the `signInUser` function to sign in the authenticated user.
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+This will create a todo with the content `My first todo` and set the `isDone` field to `false` using the authenticated user.
+
+### Storage
+
+```typescript title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend";
+
+export const storage = defineStorage({
+  name: "myStorage",
+  isDefault: true,
+  access: (allow) => ({
+    "pictures/*": [allow.authenticated.to(["write", "list"])],
+  }),
+});
+```
+
+Now to seed your storage with a picture, you can write the following script:
+
+```typescript title="amplify/seed/seed.ts"
+import { getSecret, signInUser } from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+import * as auth from "aws-amplify/auth";
+
+import * as storage from "aws-amplify/storage";
+import outputs from "../../amplify_outputs.json";
+
+Amplify.configure(outputs);
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+
+await signInUser({
+  username: username,
+  password: password,
+  signInFlow: "Password",
+});
+
+const uploadTask = storage.uploadData({
+  data: `My first content created by ${username}`,
+  path: `pictures/${Math.random().toString()}`,
+});
+
+await uploadTask.result;
+
+const s3Items = await storage.list({
+  path: "pictures/",
+  options: {
+    pageSize: 1000,
+  },
+});
+
+console.log(s3Items.items);
+
+auth.signOut();
+```
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+This will create a picture with the content `My first content created by ${username}` and save it to the `pictures` folder in your storage.
+
+## Best Practices
+
+### Secure Credential Management
+
+When using usernames and passwords in your seed script, use Amplify secret manager to securely store credentials:
+
+1. Set secrets using the CLI:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret set username
+npx ampx sandbox secret set password
+```
+
+2. Retrieve secrets in your seed script:
+
+```typescript title="amplify/seed/seed.ts"
+import { getSecret } from '@aws-amplify/seed';
+   
+const username = await getSecret('username');
+const password = await getSecret('password');
+```
+
+### User Session Management
+
+Always sign out users when you are with the operations, this is to avoid any potential issues with the user session: 
+
+```typescript title="amplify/seed/seed.ts"
+import * as auth from "aws-amplify/auth";
+
+auth.signOut();
+```
+
+When creating users with `createAndSignUpUser`, the `signInAfterCreation` parameter controls whether the user is automatically signed in after creation. This parameter has important implications for managing user sessions:
+
+```typescript title="amplify/seed/seed.ts"
+// Create and sign in first user
+const user1 = await createAndSignUpUser({
+    username: 'user1@example.com',
+    password: 'Password123!',
+    signInAfterCreation: true
+});
+// At this point, user1 is signed in
+
+// Create second user
+const user2 = await createAndSignUpUser({
+    username: 'user2@example.com',
+    password: 'Password123!',
+    signInAfterCreation: true
+});
+// Now user2 is signed in, and user1 has been signed out
+
+// Create third user without auto sign-in
+const user3 = await createAndSignUpUser({
+    username: 'user3@example.com',
+    password: 'Password123!',
+    signInAfterCreation: false
+});
+// No user is signed in, as user2 was signed out during user3's creation
+// and user3 wasn't automatically signed in
+```
+
+**Important behaviors to note:**
+- Setting `signInAfterCreation: true` will automatically sign in the newly created user and sign out any previously signed-in user.
+- If `signInAfterCreation: false`, the user will not be signed in after creation
+- Only one user can be signed in at a time
+
+This behavior is particularly important when seeding multiple users in your application, as you'll need to carefully manage which user should be signed out at the end of your seeding process.
+
+
+## Seed APIs
+
+The `@aws-amplify/seed` package provides a set of APIs to help you seed your sandbox environment.
+
+### Secret APIs
+
+Secret APIs use AWS Parameter Store and are compatible with `ampx sandbox secret` commands.
+
+- **getSecret** - Takes in the name of a secret and returns the secret's value
+  ```typescript
+  const secretValue = await getSecret('secretName');
+  ```
+
+- **setSecret** - Takes in the name of a secret and its value, returns the secret's name
+  ```typescript
+  const secretName = await setSecret('secretName', 'secretValue');
+  ```
+
+### Auth APIs
+
+Auth APIs allow you to create and manage users in your sandbox environment and are compatible with Amplify JS Auth APIs.
+
+- **createAndSignUpUser** - Creates a user based on the properties passed in, returns the created user's username and the sign-up flow they were created with
+  ```typescript
+  const user = await createAndSignUpUser({
+    username: 'username',
+    password: 'password',
+    signInAfterCreation: true,
+    signInFlow: 'Password'
+  });
+  ```
+  
+  **MFA Support:**
+  - Can be used with MFA by passing a `signUpChallenge` callback function to automate the response to MFA challenges
+  - If no `signUpChallenge` is provided, SMS and EMAIL MFA will prompt for input via command line, while TOTP will throw an error
+  - Each MFA type has its own challenge callback (e.g., `totpSignUpChallenge` for TOTP)
+  - The `totpSignUpChallenge` receives a `totpSetup` argument to help set up TOTP devices
+  - When MFA is set to "Optional" in a user pool, users will be sent through the Password flow
+
+- **addToUserGroup** - Adds a user to an existing user group
+  ```typescript
+  await addToUserGroup(user, 'GroupName');
+  ```
+
+- **signInUser** - Signs in a user using their username, password, and sign-in flow
+  ```typescript
+  await signInUser({
+    username: 'username',
+    password: 'password',
+    signInFlow: 'Password'
+  });
+  ```
+  
+  **MFA Support:**
+  - Can pass a `signInChallenge` callback to automate MFA responses
+  - If no callback is provided, the user will be prompted for input via command line
+
+
