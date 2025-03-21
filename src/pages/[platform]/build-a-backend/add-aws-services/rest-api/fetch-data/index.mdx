@@ -36,9 +36,12 @@ import { get } from 'aws-amplify/api';
 async function getItem() {
   try {
     const restOperation = get({ 
-      apiName: 'myRestApi',
-      path: 'items' 
-    });
+        apiName: 'myRestApi',
+        path: 'items' 
+        retryStrategy: {
+          strategy: 'no-retry'
+        },
+      });
     const response = await restOperation.response;
     console.log('GET call succeeded: ', response);
   } catch (error) {

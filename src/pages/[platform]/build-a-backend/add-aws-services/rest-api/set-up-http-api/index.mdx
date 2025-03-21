@@ -233,13 +233,22 @@ import outputs from '../amplify_outputs.json';
 
 const amplifyConfig = parseAmplifyConfig(outputs);
 
-Amplify.configure({
-  ...amplifyConfig,
-  API: {
-    ...amplifyConfig.API,
-    REST: outputs.custom.API,
+Amplify.configure(
+  {
+    ...amplifyConfig,
+    API: {
+      ...amplifyConfig.API,
+      REST: outputs.custom.API,
+    },
   },
-});
+  {
+    API: {
+      retryStrategy: {
+        strategy: 'no-retry'
+      },
+    },
+  }
+);
 ```
 </InlineFilter>
 
@@ -251,13 +260,22 @@ import outputs from '@/amplify_outputs.json';
 
 const amplifyConfig = parseAmplifyConfig(outputs);
 
-Amplify.configure({
-  ...amplifyConfig,
-  API: {
-    ...amplifyConfig.API,
-    REST: outputs.custom.API,
+Amplify.configure(
+  {
+    ...amplifyConfig,
+    API: {
+      ...amplifyConfig.API,
+      REST: outputs.custom.API,
+    },
   },
-});
+  {
+    API: {
+      retryStrategy: {
+        strategy: 'no-retry'
+      },
+    }
+  }
+);
 ```
 </InlineFilter>
 

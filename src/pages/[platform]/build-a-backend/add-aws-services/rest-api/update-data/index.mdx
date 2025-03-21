@@ -41,7 +41,10 @@ async function updateItems() {
       path: 'items/1',
       options: {
         body: Item
-      }
+      },
+      retryStrategy: {
+        strategy: 'no-retry'
+      },
     });
     const response = await restOperation.response;
     console.log('PUT call succeeded: ', response);
