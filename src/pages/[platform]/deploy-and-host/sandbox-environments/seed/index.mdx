@@ -126,7 +126,71 @@ This will create a user with the username and password you provided and add them
 
 The `getSecret` function will fetch the secret you have created using `npx ampx sandbox secret set`. This is useful when you have a public repository and don't want to commit secrets to the repository. Alternatively, you can set the username and password directly as a `string` in the `createAndSignUpUser` function but we recommend using secrets to avoid exposing sensitive information.
 
-{/* MFA example */}
+### Auth with TOTP MFA
+
+For example, if you would like to seed your auth with a user with TOTP MFA enabled, lets start by configuring the auth resource:
+
+```typescript title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend";
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+
+  multifactor: {
+    mode: "REQUIRED",
+    totp: true,
+  },
+});
+```
+
+Now to create a user with TOTP MFA enabled, you can write the following script:
+For this example, we will use the `otpauth` library to generate TOTP codes.
+
+```typescript title="amplify/seed/seed.ts"
+import {
+  ChallengeResponse,
+  createAndSignUpUser,
+  getSecret,
+} from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+import * as auth from "aws-amplify/auth";
+import * as otpauth from "otpauth";
+import outputs from "../../amplify_outputs.json";
+Amplify.configure(outputs);
+const username = await getSecret("username1");
+const password = await getSecret("password1");
+const setUpTOTPAndChallenge = async (
+  totpSetup: auth.SetUpTOTPOutput
+): Promise<ChallengeResponse> => {
+  // Using otpauth library to generate TOTP codes
+  const totp = new otpauth.TOTP({ secret: totpSetup.sharedSecret });
+  const answer = totp.generate();
+  return { challengeResponse: answer };
+};
+const user = await createAndSignUpUser({
+  username: username,
+  password: password,
+  signInAfterCreation: true,
+  signInFlow: "MFA",
+  mfaPreference: "TOTP",
+  totpSignUpChallenge: async (totpSetup) => {
+    return await setUpTOTPAndChallenge(totpSetup);
+  },
+});
+
+console.log(`User ${user.username} was created`);
+auth.signOut();
+```
+
+This will create a user with the username and password with TOTP MFA enabled. The TOTP code is generated using the `otpauth` library.
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
 
 ### Data
 
