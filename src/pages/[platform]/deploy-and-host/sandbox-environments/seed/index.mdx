@@ -79,6 +79,12 @@ export const auth = defineAuth({
   loginWith: {
     email: true,
   },
+  userAttributes: {
+    locale: {
+      required: false,
+      mutable: true,
+    },
+  },
   groups: ["admin"],
 });
 ```
@@ -99,6 +105,7 @@ import {
   getSecret,
 } from "@aws-amplify/seed";
 import { Amplify } from "aws-amplify";
+// @ts-expect-error this file will not exist until sandbox is created
 import outputs from "../../amplify_outputs.json";
 
 Amplify.configure(outputs);
@@ -111,6 +118,9 @@ const user = await createAndSignUpUser({
   password: password,
   signInAfterCreation: false,
   signInFlow: "Password",
+  userAttributes: {
+    locale: "en",
+  },
 });
 
 await addToUserGroup(user, "admin");
@@ -157,10 +167,14 @@ import {
 import { Amplify } from "aws-amplify";
 import * as auth from "aws-amplify/auth";
 import * as otpauth from "otpauth";
+// @ts-expect-error this file will not exist until sandbox is created
 import outputs from "../../amplify_outputs.json";
+
 Amplify.configure(outputs);
-const username = await getSecret("username1");
-const password = await getSecret("password1");
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+
 const setUpTOTPAndChallenge = async (
   totpSetup: auth.SetUpTOTPOutput
 ): Promise<ChallengeResponse> => {
@@ -228,6 +242,7 @@ import * as auth from "aws-amplify/auth";
 import type { Schema } from "./../data/resource";
 
 import { generateClient } from "aws-amplify/api";
+// @ts-expect-error this file will not exist until sandbox is created
 import outputs from "../../amplify_outputs.json";
 
 Amplify.configure(outputs);
@@ -289,8 +304,8 @@ Now to seed your storage with a picture, you can write the following script:
 import { getSecret, signInUser } from "@aws-amplify/seed";
 import { Amplify } from "aws-amplify";
 import * as auth from "aws-amplify/auth";
-
 import * as storage from "aws-amplify/storage";
+// @ts-expect-error this file will not exist until sandbox is created
 import outputs from "../../amplify_outputs.json";
 
 Amplify.configure(outputs);
