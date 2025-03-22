@@ -189,6 +189,48 @@ npx ampx sandbox secret get LOGINWITHAMAZON_CLIENT_ID
  lastUpdated: Fri Nov 17 2023 12:00:00 GMT-0800 (Pacific Standard Time)
 ```
 
+## npx ampx sandbox seed
+
+Seeds your sandbox environment with data using the seed script defined in your project.
+
+### Options
+
+- `--debug` (_boolean_) - Print debug logs to the console. [default: false]
+- `--identifier` (_string_) - An optional identifier to distinguish between different sandboxes. Default is the name of the system user executing the process.
+- `--profile` (_string_) - An AWS profile name.
+- `-h, --help` (_boolean_) - Show help information.
+
+### Usage
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+## npx ampx sandbox seed generate-policy
+
+Generates the IAM policy required for seeding operations.
+
+### Options
+
+- `--debug` (_boolean_) - Print debug logs to the console. [default: false]
+- `--identifier` (_string_) - An optional identifier to distinguish between different sandboxes. Default is the name of the system user executing the process.
+- `--profile` (_string_) - An AWS profile name.
+- `-h, --help` (_boolean_) - Show help information.
+
+### Usage
+
+Output the policy to the terminal:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed generate-policy
+```
+
+Save the policy to a file:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed generate-policy > seed-policy.json
+```
+
 ## npx ampx generate
 
 Generate is not intended to be used standalone; however, it does offer a few subcommands to generate information or code that is supplemental to your frontend development.
