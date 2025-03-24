@@ -134,7 +134,7 @@ npx ampx sandbox seed
 
 This will create a user with the username and password you provided and add them to the `admin` group.
 
-The `getSecret` function will fetch the secret you have created using `npx ampx sandbox secret set`. This is useful when you have a public repository and don't want to commit secrets to the repository. Alternatively, you can set the username and password directly as a `string` in the `createAndSignUpUser` function but we recommend using secrets to avoid exposing sensitive information.
+The `getSecret` function will fetch the secret you created using `npx ampx sandbox secret set`. This allows you to avoid hardcoding credentials in your code. Alternatively, the username and password can be set directly as a `string` in the `createAndSignUpUser` function, but we highly recommend using `getSecret` to avoid exposing sensitive information in your repository.
 
 ### Auth with TOTP MFA
 
