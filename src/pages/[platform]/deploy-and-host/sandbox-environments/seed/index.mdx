@@ -34,7 +34,7 @@ The Sandbox Seed feature allows you to populate your Amplify sandbox environment
 
 ## Setting Up Your Seed Script
 
-To use the Sandbox Seed feature, you need to create a seed script. This script will be executed when you deploy your sandbox environment.
+To get started, you need to create a seed script. This script will be executed when you deploy your sandbox environment and execute the `ampx sandbox seed` command.
 
 1. Create a folder named `seed` under your `amplify` directory
 2. Create a file named `seed.ts` inside the `seed` folder
@@ -48,7 +48,7 @@ amplify/
 
 ## Setting up required permissions
 
-To seed your sandbox environment, you will need to add the necessary permissions to your sandbox environment. Amplify will generate the necessary permissions which you can attach to your role currently containing `AmplifyBackendDeployFullAccess`.
+In order to seed your sandbox environment you will need to add the necessary permissions to your AWS profile user or execution role. Amplify will generate the necessary permissions which you can attach to your permission set or role containing `AmplifyBackendDeployFullAccess`.
 
 1. Have an active sandbox environment deployed. You can deploy your sandbox environment using `npx ampx sandbox`.
 2. Generate the required permissions policy template
