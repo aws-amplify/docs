@@ -226,9 +226,11 @@ Amplify.configure(
   },
   {
     API: {
-      retryStrategy: {
-        strategy: 'no-retry'
-      },
+      REST: {
+        retryStrategy: {
+          strategy: 'no-retry'
+        },
+      }
     }
   }
 );
@@ -253,9 +255,11 @@ Amplify.configure(
   }, 
   {
     API: {
-      retryStrategy: {
-        strategy: 'no-retry'
-      },
+      REST: {
+        retryStrategy: {
+          strategy: 'no-retry'
+        },
+      }
     }
   }
 );
