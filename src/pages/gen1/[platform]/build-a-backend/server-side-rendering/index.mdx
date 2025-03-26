@@ -112,6 +112,11 @@ const amplifyConfig = parseAmplifyConfig(config);
 const keyValueStorage = createKeyValueStorageFromCookieStorageAdapter({
   get(name) {
     const value = ...; // use framework cookie API to get the value by name
+    // NOTE: When you call `Amplify.configure()` with `{ ssr: true }`,
+    // the token cookie value strings are encoded. You need to decode
+    // the value here if the framework cookie API does not decode the value
+    // strings. For example, you can use `decodeURIComponent(value)` 
+    // to decode the value.
     return { name, value };
   },
   getAll() {
