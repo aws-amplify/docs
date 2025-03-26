@@ -570,7 +570,7 @@ When you initialize a new Amplify project, a few things happen:
 <InlineFilter filters={['react-native']}>
 <Callout>
 
-**Note:** if you are using Expo EAS build, you will need to force commit the `amplifyconfiguration.json` file to local git repository before running `eas build` command. This is because the `amplifyconfiguration.json` file is not included in the default `.gitignore`, and the `eas build` command will not include untracked files in the build.
+**Note:** if you are using Expo EAS build, you will need to force commit the `amplifyconfiguration.json` file to local git repository before running the `eas build` command. This is because the `amplifyconfiguration.json` file is excluded in the default `.gitignore`, and the `eas build` command will not include untracked files in the build. <b>When build completes you must remove the `amplifyconfiguration.json` file from the git repository and never commit and push it to the remote repository</b>.
 
 </Callout>
 </InlineFilter>
