@@ -43,9 +43,6 @@ async function postItem() {
           message: 'Mow the lawn'
         }
       },
-      retryStrategy: {
-        strategy: 'no-retry'
-      },
     });
 
     const { body } = await restOperation.response;
