@@ -43,7 +43,6 @@ To get started, you need to create a seed script. This script will be executed w
 amplify/
   └── seed/
       └── seed.ts
-
 ```
 
 ## Setting up required permissions
@@ -105,9 +104,11 @@ import {
   getSecret,
 } from "@aws-amplify/seed";
 import { Amplify } from "aws-amplify";
-// @ts-expect-error this file will not exist until sandbox is created
-import outputs from "../../amplify_outputs.json";
+import { readFile } from 'node:fs/promises';
 
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: "utf8" }));
 Amplify.configure(outputs);
 
 const username = await getSecret("username");
@@ -155,8 +156,12 @@ export const auth = defineAuth({
 });
 ```
 
-Now to create a user with TOTP MFA enabled, you can write the following script:
+To create and sign in a user with TOTP MFA enabled, you can write the following script:
 For this example, we will use the `otpauth` library to generate TOTP codes.
+
+```bash title="Terminal" showLineNumbers={false}
+npm install otpauth
+```
 
 ```typescript title="amplify/seed/seed.ts"
 import {
@@ -167,38 +172,72 @@ import {
 import { Amplify } from "aws-amplify";
 import * as auth from "aws-amplify/auth";
 import * as otpauth from "otpauth";
-// @ts-expect-error this file will not exist until sandbox is created
-import outputs from "../../amplify_outputs.json";
+import { readFile } from 'node:fs/promises';
 
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: "utf8" }));
 Amplify.configure(outputs);
 
 const username = await getSecret("username");
 const password = await getSecret("password");
+let totpSecret: string;
 
-const setUpTOTPAndChallenge = async (
+const createTOTP = (secret: string) => {
+  return new otpauth.TOTP({
+    secret,
+    algorithm: "SHA1",
+    digits: 6,
+    period: 30,
+  });
+};
+
+const generateTOTPCode = (secret: string): string => {
+  const totp = createTOTP(secret);
+  return totp.generate();
+};
+
+const challengeWithTOTP = async (
   totpSetup: auth.SetUpTOTPOutput
 ): Promise<ChallengeResponse> => {
-  // Using otpauth library to generate TOTP codes
-  const totp = new otpauth.TOTP({ secret: totpSetup.sharedSecret });
-  const answer = totp.generate();
+  totpSecret = totpSetup.sharedSecret;
+  const answer = generateTOTPCode(totpSetup.sharedSecret);
   return { challengeResponse: answer };
 };
+
 const user = await createAndSignUpUser({
-  username: username,
-  password: password,
-  signInAfterCreation: true,
+  username,
+  password,
+  signInAfterCreation: false,
   signInFlow: "MFA",
   mfaPreference: "TOTP",
   totpSignUpChallenge: async (totpSetup) => {
-    return await setUpTOTPAndChallenge(totpSetup);
+    return await challengeWithTOTP(totpSetup);
   },
 });
 
 console.log(`User ${user.username} was created`);
+
+// Wait for a moment to ensure we get a fresh TOTP code
+await new Promise((resolve) => setTimeout(resolve, 35000));
+
+const signIn = await signInUser({
+  username,
+  password,
+  signInFlow: "MFA",
+  signInChallenge: async () => {
+    const answer = generateTOTPCode(totpSecret);
+    return { challengeResponse: answer };
+  },
+});
+
+console.log(`User was signed in: ${signIn}`);
+
 auth.signOut();
 ```
 
-This will create a user with the username and password with TOTP MFA enabled. The TOTP code is generated using the `otpauth` library.
+This will create a user with the username and password with TOTP MFA enabled. The TOTP code is generated using the `otpauth` library. The user will then be signed in and the TOTP code will be generated.
+The timeout ensures the previous TOTP code expires before generating a new code for sign-in. This prevents potential conflicts that could occur if the same TOTP code were used for both user creation and authentication.
 
 Run the seed script
 
@@ -240,10 +279,12 @@ import { getSecret, signInUser } from "@aws-amplify/seed";
 import { Amplify } from "aws-amplify";
 import * as auth from "aws-amplify/auth";
 import type { Schema } from "./../data/resource";
-
 import { generateClient } from "aws-amplify/api";
-// @ts-expect-error this file will not exist until sandbox is created
-import outputs from "../../amplify_outputs.json";
+import { readFile } from 'node:fs/promises';
+
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: 'utf8' }));
 
 Amplify.configure(outputs);
 
@@ -305,9 +346,11 @@ import { getSecret, signInUser } from "@aws-amplify/seed";
 import { Amplify } from "aws-amplify";
 import * as auth from "aws-amplify/auth";
 import * as storage from "aws-amplify/storage";
-// @ts-expect-error this file will not exist until sandbox is created
-import outputs from "../../amplify_outputs.json";
+import { readFile } from 'node:fs/promises';
 
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: 'utf8' }));
 Amplify.configure(outputs);
 
 const username = await getSecret("username");
@@ -414,10 +457,32 @@ const user3 = await createAndSignUpUser({
 
 This behavior is particularly important when seeding multiple users in your application, as you'll need to carefully manage which user should be signed out at the end of your seeding process.
 
+### MFA Challenge Handling
+
+- For sign-up challenges, each MFA type has its specific challenge callback:
+  - TOTP: `totpSignUpChallenge`
+  - Email: `emailSignUpChallenge`
+  
+- For sign-in, there's a single `signInChallenge` callback that works for all MFA types
+
+- Command line prompts work with all forms of MFA during sign-in
+- For sign-up, command line prompts work with EMAIL and SMS, but not with TOTP
+- When MFA is set to "Optional" in a user pool, users will be sent through the Password flow
+
+### TOTP Considerations
+
+When working with TOTP MFA, be aware of these behaviors:
+
+- Using the same TOTP setup secret multiple times for different TOTP instances will result in an error
+- Using the same 6-digit passcode for both sign-up and sign-in (before it expires) will cause an error
+- When creating multiple users or performing multiple sign-ins with TOTP:
+  - Wait for the previous passcode to expire before generating a new one
+  - The example includes a timeout to handle this: `await new Promise((resolve) => setTimeout(resolve, 35000));`
+
 
 ## Seed APIs
 
-The `@aws-amplify/seed` package provides a set of APIs to help you seed your sandbox environment.
+The `@aws-amplify/seed` package provides a set of APIs that are compatible with the Amplify JS Auth APIs to help you seed your sandbox environment.
 
 ### Secret APIs
 
@@ -437,26 +502,15 @@ Secret APIs use AWS Parameter Store and are compatible with `ampx sandbox secret
 
 Auth APIs allow you to create and manage users in your sandbox environment and are compatible with Amplify JS Auth APIs.
 
-- **createAndSignUpUser** - Creates a user based on the properties passed in, returns the created user's username and the sign-up flow they were created with
+- **createAndSignUpUser** - Creates a user based on the properties passed in
   ```typescript
   const user = await createAndSignUpUser({
     username: 'username',
     password: 'password',
     signInAfterCreation: true,
-    signInFlow: 'Password'
+    signInFlow: 'Password',
+    userAttributes?: StandardUserAttributes // Optional user attributes
   });
-  ```
-  
-  **MFA Support:**
-  - Can be used with MFA by passing a `signUpChallenge` callback function to automate the response to MFA challenges
-  - If no `signUpChallenge` is provided, SMS and EMAIL MFA will prompt for input via command line, while TOTP will throw an error
-  - Each MFA type has its own challenge callback (e.g., `totpSignUpChallenge` for TOTP)
-  - The `totpSignUpChallenge` receives a `totpSetup` argument to help set up TOTP devices
-  - When MFA is set to "Optional" in a user pool, users will be sent through the Password flow
-
-- **addToUserGroup** - Adds a user to an existing user group
-  ```typescript
-  await addToUserGroup(user, 'GroupName');
   ```
 
 - **signInUser** - Signs in a user using their username, password, and sign-in flow
@@ -464,12 +518,36 @@ Auth APIs allow you to create and manage users in your sandbox environment and a
   await signInUser({
     username: 'username',
     password: 'password',
-    signInFlow: 'Password'
+    signInFlow: 'Password' | 'MFA',
+    signInChallenge?: () => Promise<ChallengeResponse> // Optional for MFA
   });
   ```
-  
-  **MFA Support:**
-  - Can pass a `signInChallenge` callback to automate MFA responses
-  - If no callback is provided, the user will be prompted for input via command line
 
+- **addToUserGroup** - Adds a user to an existing user group
+  ```typescript
+  await addToUserGroup({
+    username: 'username' // User to add to group
+  }, 'GroupName');
+  ```
+
+### Additional APIs
+
+The `@aws-amplify/seed` package additionally provides the following APIs:
+
+- `AuthSignUp` - API for user sign-up configuration
+- `AuthUser` - API for user authentication information
+- `ChallengeResponse` - API for MFA challenge responses
+- `StandardUserAttributes` - API for managing user attributes during sign-up
+- `PasswordSignInFlow` - API for password-based authentication
+- `MfaSignUpFlow` - API for MFA during sign-up
+- `MfaSignInFlow` - API for MFA during sign-in
+- `MfaWithTotpSignUpFlow` - API for TOTP-specific MFA during sign-up
+
+The following challenge callback APIs are available for MFA flows:
+- `emailSignUpChallenge` - Handles Email MFA during sign-up
+- `smsSignUpChallenge` - Handles SMS MFA during sign-up
+- `totpSignUpChallenge` - Handles TOTP MFA during sign-up
+- `signInChallenge` - Universal handler for all MFA types during sign-in
+
+For information on using these APIs, refer to the [Amplify JS Auth API documentation](/[platform]/build-a-backend/auth/connect-your-frontend/).
 
