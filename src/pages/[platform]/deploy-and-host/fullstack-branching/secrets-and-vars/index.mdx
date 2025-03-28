@@ -48,7 +48,7 @@ You can add secrets for branch deployments in the Amplify console. From the App 
 Secrets are stored in AWS Systems Manager Parameter Store under the following naming conventions:
 
 - Secrets that apply to all branches: `/amplify/shared/<app-id>/<secret-key>`
-- Secrets that apply to a specific branch: `/amplify/<app-id>/<branchname>/<secret-key>`
+- Secrets that apply to a specific branch: `/amplify/<app-id>/<branchname>-branch-<unique-hash>/<secret-key>`
 
 ### Local environment
 
