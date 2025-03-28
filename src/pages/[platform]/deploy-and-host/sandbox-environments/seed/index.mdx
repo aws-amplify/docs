@@ -137,6 +137,10 @@ This will create a user with the username and password you provided and add them
 
 The `getSecret` function will fetch the secret you created using `npx ampx sandbox secret set`. This allows you to avoid hardcoding credentials in your code. Alternatively, the username and password can be set directly as a `string` in the `createAndSignUpUser` function, but we highly recommend using `getSecret` to avoid exposing sensitive information in your repository.
 
+### Multi-Factor Authentication (MFA)
+
+Amplify seed supports multiple types of MFA including TOTP (Time-based One-Time Password), Email, and SMS. Below are examples of how to implement MFA in your seed script.
+
 ### Auth with TOTP MFA
 
 For example, if you would like to seed your auth with a user with TOTP MFA enabled, lets start by configuring the auth resource:
@@ -288,13 +292,10 @@ auth.signOut();
 
 This will create a user with the username and password with Email MFA enabled. The user will then be signed in and prompted for the MFA code in the command line.
 
+Run the seed script
+
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox seed
-seed is running...
-✔ Please input one-time password from EMAIL for myUser@test.com:
-User myUser@test.com was created
-✔ Please input one-time password from EMAIL for myUser@test.com:
-User was signed in: true
 ```
 
 SMS MFA follows the same pattern as Email MFA, using command line prompts for verification. Just replace `mfaPreference: "EMAIL"` with `mfaPreference: "SMS"` in your configuration. The command line experience will be identical, prompting for the SMS code instead of the email code.
@@ -597,7 +598,7 @@ Auth APIs allow you to create and manage users in your sandbox environment and a
 The `@aws-amplify/seed` package provides these essential types:
 
 - `AuthSignUp` - Type for user sign-up configuration
-- `AuthUser` - Type for user authentication information
+- `AuthUser` - Type for user sign in
 - `ChallengeResponse` - Type for MFA challenge responses
 - `StandardUserAttributes` - Type for managing user attributes during sign-up
 - `AuthOutputs` - Type for user sign-up output
