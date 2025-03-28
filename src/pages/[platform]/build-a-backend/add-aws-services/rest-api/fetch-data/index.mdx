@@ -38,9 +38,11 @@ async function getItem() {
     const restOperation = get({ 
         apiName: 'myRestApi',
         path: 'items' 
-        retryStrategy: {
-          strategy: 'no-retry' // Overrides default jittered exponential backoff retry strategy
-        },
+        options: {
+          retryStrategy: {
+            strategy: 'no-retry' // Overrides default jittered exponential backoff retry strategy
+          },
+        }
     });
     const response = await restOperation.response;
     console.log('GET call succeeded: ', response);
