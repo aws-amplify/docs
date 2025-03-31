@@ -228,7 +228,7 @@ Amplify.configure(
     API: {
       REST: {
         retryStrategy: {
-          strategy: 'no-retry', // Overrides default jittered exponential backoff retry strategy
+          strategy: 'no-retry', // Overrides default retry strategy
         },
       }
     }
@@ -257,7 +257,7 @@ Amplify.configure(
     API: {
       REST: {
         retryStrategy: {
-          strategy: 'no-retry' // Overrides default jittered exponential backoff retry strategy
+          strategy: 'no-retry' // Overrides default retry strategy
         },
       }
     }
