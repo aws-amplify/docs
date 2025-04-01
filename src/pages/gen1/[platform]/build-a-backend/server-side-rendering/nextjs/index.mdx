@@ -266,6 +266,8 @@ With the above example, Amplify generates the following API routes:
 | `/api/auth/sign-in-callback`                        | Amazon Cognito Managed Login redirects an end user back to this route after signing in. Amplify exchanges auth tokens and stores them as HttpOnly cookies in the browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignInComplete` parameter. |
 | `/api/auth/sign-out-callback`                       | Amazon Cognito Managed Login redirects an end user back to this route after signing out, Amplify revokes access token and refresh token and removes token cookies from browser cookie store, then redirects the end user back to the route specified by the `redirectOnSignOutComplete` parameter. |
 
+To customize the language of the Amazon Cognito Managed Login pages, you can add the `lang` query parameter to the `/api/auth/sign-in` and `/api/auth/sign-up` routes. For example, `/api/auth/sign-in?lang=fr`. Refer to the [Managed login localization documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html#managed-login-localization) for more information on the supported languages.
+
 <Callout info>
 
 **Note:** A signing-out call involves multiple steps, including signing out from Amazon Cognito Managed Login, revoking tokens, and removing cookies. If the user closes the browser during the process, the following may occur:
