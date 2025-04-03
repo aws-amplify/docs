@@ -93,103 +93,45 @@ If you specify a custom S3 bucket, no sandbox storage resource will be created. 
 Below are several examples of configuring the backend to define a custom S3 bucket:
 
 <BlockSwitcher>
-<Block name="Authenticated Users">
-Below is an example of expanding the original backend object to grant all authenticated (i.e. signed in) users with full access to files under `public/`:
+<Block name="Guest Users">
+Below is an example of expanding the original backend object to grant all guest (i.e. not signed in) users read access to files under `public/`:
+
 ```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend";
+import { defineBackend } from '@aws-amplify/backend';
+import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { auth } from "./auth/resource";
 
 const backend = defineBackend({
   auth,
 });
 // highlight-start
+const customBucketStack = backend.createStack("custom-bucket-stack");
+
+// Import existing bucket
+const customBucket = Bucket.fromBucketAttributes(bucketStack, "MyCustomBucket", {
+  bucketArn: "arn:aws:s3:::<bucket-name>",
+  region: "<region>"
+});
+
 backend.addOutput({
   storage: {
-    aws_region: "<region>",
-    bucket_name: "<bucket-name>",
+    aws_region: customBucket.env.region,
+    bucket_name: customBucket.bucketName,
     // optional: `buckets` can be used when setting up more than one existing bucket
     buckets: [
       {
-        aws_region: "<region>",
-        bucket_name: "<bucket-name>",
-        name: "<bucket-name>",
+        aws_region: customBucket.env.region,
+        bucket_name: customBucket.bucketName,
+        name: customBucket.bucketName,
         /*
           optional: `paths` can be used to set up access to specific 
           bucket prefixes and configure user access types to them
         */ 
         paths: {
           "public/*": {
-            authenticated: ["get", "list", "write", "delete"],
-          },
-        },
-      }
-    ]
-  },
-});
-
-/*
-  Define an inline policy to attach to Amplify's auth role
-  This policy defines how authenticated users can access your existing bucket
-*/ 
-const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
-  statements: [
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: [
-        "s3:GetObject",
-        "s3:PutObject", 
-        "s3:DeleteObject"
-      ],
-      resources: ["arn:aws:s3:::<bucket-name>/public/*",],
-    }),
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["s3:ListBucket"],
-      resources: [
-        "arn:aws:s3:::<bucket-name>",
-        "arn:aws:s3:::<bucket-name>/*"
-        ],
-      conditions: {
-        StringLike: {
-          "s3:prefix": ["public/*", "public/"],
-        },
-      },
-    }),
-  ],
-});
-
-// Add the policies to the authenticated user role
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
-// highlight-end
-```
-</Block>
-<Block name="Guest Users">
-Below is an example of expanding the original backend object to grant all guest (i.e. not signed in) users read access to files under `public/`:
-
-```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend";
-import { auth } from "./auth/resource";
-
-const backend = defineBackend({
-  auth,
-});
-
-backend.addOutput({
-  storage: {
-    aws_region: "<region>",
-    bucket_name: "<bucket-name>",
-    buckets: [
-      {
-        aws_region: "<region>",
-        bucket_name: "<bucket-name>",
-        name: "<bucket-name>",
-        paths: {
-          "public/*": {
-            // highlight-start
             // "write" and "delete" can also be added depending on your use case
             guest: ["get", "list"], 
-            // highlight-end
-            authenticated: ["get", "list", "write", "delete"],
           },
         },
       }
@@ -197,10 +139,8 @@ backend.addOutput({
   },
 });
 
-// ... Authenticated user policy and role attachment goes here ...
-// highlight-start
 /*
-  Define an inline policy to attach to Amplify's un-auth role
+  Define an inline policy to attach to Amplify's unauth role
   This policy defines how unauthenticated/guest users can access your existing bucket
 */ 
 const unauthPolicy = new Policy(backend.stack, "customBucketUnauthPolicy", {
@@ -208,14 +148,14 @@ const unauthPolicy = new Policy(backend.stack, "customBucketUnauthPolicy", {
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:GetObject"],
-      resources: ["arn:aws:s3:::<bucket-name>/public/*"],
+      resources: [`${customBucket.bucketArn}/public/*`],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:ListBucket"],
       resources: [
-        "arn:aws:s3:::<bucket-name>",
-        "arn:aws:s3:::<bucket-name>/*"
+        `${customBucket.bucketArn}`,
+        `${customBucket.bucketArn}/*`
       ],
       conditions: {
         StringLike: {
@@ -233,26 +173,116 @@ backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
 // highlight-end
 ```
 </Block>
-<Block name="User Groups">
-Below is an example of expanding the original backend object to have an `admin/` folder that authenticated users can read, but only users belonging to the "admin" user group can manage:
-{/* cSpell:disable */}
+<Block name="Authenticated Users">
+Below is an example of expanding the original backend object to grant all authenticated (i.e. signed in) users with full access to files under `public/`:
 ```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend";
+import { defineBackend } from '@aws-amplify/backend';
+import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { auth } from "./auth/resource";
 
 const backend = defineBackend({
   auth,
 });
 
+const customBucketStack = backend.createStack("custom-bucket-stack");
+
+// Import existing bucket
+const customBucket = Bucket.fromBucketAttributes(bucketStack, "MyCustomBucket", {
+  bucketArn: "arn:aws:s3:::<bucket-name>",
+  region: "<region>"
+});
+
 backend.addOutput({
   storage: {
-    aws_region: "<region>",
-    bucket_name: "<bucket-name>",
+    aws_region: customBucket.env.region,
+    bucket_name: customBucket.bucketName,
     buckets: [
       {
-        aws_region: "<region>",
-        bucket_name: "<bucket-name>",
-        name: "<bucket-name>",
+        aws_region: customBucket.env.region,
+        bucket_name: customBucket.bucketName,
+        name: customBucket.bucketName,
+        paths: {
+          "public/*": {
+            guest: ["get", "list"],
+            // highlight-start
+            authenticated: ["get", "list", "write", "delete"],
+            // highlight-end
+          },
+        },
+      }
+    ]
+  },
+});
+
+// ... Unauthenticated/guest user policies and role attachments go here ...
+// highlight-start
+/*
+  Define an inline policy to attach to Amplify's auth role
+  This policy defines how authenticated users can access your existing bucket
+*/ 
+const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
+  statements: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [
+        "s3:GetObject",
+        "s3:PutObject", 
+        "s3:DeleteObject"
+      ],
+      resources: [`${customBucket.bucketArn}/public/*`,],
+    }),
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:ListBucket"],
+      resources: [
+        `${customBucket.bucketArn}`,
+        `${customBucket.bucketArn}/*`
+        ],
+      conditions: {
+        StringLike: {
+          "s3:prefix": ["public/*", "public/"],
+        },
+      },
+    }),
+  ],
+});
+
+// Add the policies to the authenticated user role
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
+// highlight-end
+```
+</Block>
+<Block name="User Groups">
+Below is an example of expanding the original backend object to have an `admin/` folder that authenticated users can read, but only users belonging to the "admin" user group can manage:
+{/* cSpell:disable */}
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { auth } from './auth/resource';
+
+const backend = defineBackend({
+  auth,
+});
+
+const customBucketStack = backend.createStack("custom-bucket-stack");
+
+// Import existing bucket
+const customBucket = Bucket.fromBucketAttributes(bucketStack, "MyCustomBucket", {
+  bucketArn: "arn:aws:s3:::<bucket-name>",
+  region: "<region>"
+});
+
+backend.addOutput({
+  storage: {
+    aws_region: customBucket.env.region,
+    bucket_name: customBucket.bucketName,
+    buckets: [
+      {
+        aws_region: customBucket.env.region,
+        bucket_name: customBucket.bucketName,
+        name: customBucket.bucketName,
         /*
           @ts-expect-error: Amplify backend type issue
           https://github.com/aws-amplify/amplify-backend/issues/2569
@@ -289,14 +319,14 @@ const adminPolicy = new Policy(backend.stack, "customBucketAdminPolicy", {
         "s3:PutObject", 
         "s3:DeleteObject"
       ],
-      resources: ["arn:aws:s3:::<bucket-name>/admin/*"],
+      resources: [ `${customBucket.bucketArn}/admin/*`],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:ListBucket"],
       resources: [
-        "arn:aws:s3:::<bucket-name>",
-        "arn:aws:s3:::<bucket-name>/*",
+        `${customBucket.bucketArn}`
+        `${customBucket.bucketArn}/*`
       ],
       conditions: {
         StringLike: {
@@ -320,22 +350,32 @@ Below is an example of expanding the original backend object to define read acce
 
 {/* cSpell:disable */}
 ```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend";
+import { defineBackend } from '@aws-amplify/backend';
+import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { auth } from "./auth/resource";
 
 const backend = defineBackend({
   auth,
 });
 
+const customBucketStack = backend.createStack("custom-bucket-stack");
+
+// Import existing bucket
+const customBucket = s3.Bucket.fromBucketAttributes(bucketStack, "MyCustomBucket", {
+  bucketArn: "arn:aws:s3:::<bucket-name>",
+  region: "<region>"
+});
+
 backend.addOutput({
   storage: {
-    aws_region: "<region>",
-    bucket_name: "<bucket-name>",
+    aws_region: customBucket.env.region,
+    bucket_name: customBucket.bucketName,
     buckets: [
       {
-        aws_region: "<region>",
-        bucket_name: "<bucket-name>",
-        name: "<bucket-name>",
+        aws_region: customBucket.env.region,
+        bucket_name: customBucket.bucketName,
+        name: customBucket.bucketName,
         /*
           @ts-expect-error: Amplify backend type issue
           https://github.com/aws-amplify/amplify-backend/issues/2569
@@ -361,11 +401,9 @@ backend.addOutput({
     ]
   },
 });
-
 // highlight-start
-
 /*
-  Define an inline policy to attach to Amplify's un-auth role
+  Define an inline policy to attach to Amplify's unauth role
   This policy defines how unauthenticated users/guests 
   can access your existing bucket
 */ 
@@ -375,16 +413,16 @@ const unauthPolicy = new Policy(backend.stack, "customBucketUnauthPolicy", {
       effect: Effect.ALLOW,
       actions: ["s3:GetObject"],
       resources: [
-        "arn:aws:s3:::<bucket-name>/public/*",
-        "arn:aws:s3:::<bucket-name>/protected/*"
+        `${customBucket.bucketArn}/public/*`
+        `${customBucket.bucketArn}/protected/*`
       ],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:ListBucket"],
       resources: [
-        "arn:aws:s3:::<bucket-name>",
-        "arn:aws:s3:::<bucket-name>/*"
+        `${customBucket.bucketArn}`
+        `${customBucket.bucketArn}/*`
       ],
       conditions: {
         StringLike: {
@@ -411,16 +449,16 @@ const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
       effect: Effect.ALLOW,
       actions: ["s3:GetObject"],
       resources: [
-        "arn:aws:s3:::<bucket-name>/public/*",
-        "arn:aws:s3:::<bucket-name>/protected/*"
+        `${customBucket.bucketArn}/public/*`
+        `${customBucket.bucketArn}/protected/*`
       ],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:ListBucket"],
       resources: [
-        "arn:aws:s3:::<bucket-name>",
-        "arn:aws:s3:::<bucket-name>/*"
+        `${customBucket.bucketArn}`
+        `${customBucket.bucketArn}/*`
       ],
       conditions: {
         StringLike: {
@@ -437,15 +475,15 @@ const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
       effect: Effect.ALLOW,
       actions: ["s3:PutObject"],
       resources: [
-        "arn:aws:s3:::<bucket-name>/public/*", 
-        "arn:aws:s3:::<bucket-name>/protected/${cognito-identity.amazonaws.com:sub}/*"
+        `${customBucket.bucketArn}/public/*`
+        `${customBucket.bucketArn}/protected/${cognito-identity.amazonaws.com:sub}/*`
       ],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:DeleteObject"],
       resources: [
-        "arn:aws:s3:::<bucket-name>/protected/${cognito-identity.amazonaws.com:sub}/*"
+        `${customBucket.bucketArn}/protected/${cognito-identity.amazonaws.com:sub}/*`
       ],
     }),
   ],
