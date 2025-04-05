@@ -83,11 +83,7 @@ In order to make calls to your manually configured S3 bucket from your applicati
 Next, use the `addOutput` method from the backend definition object to define a custom S3 bucket by specifying the name and region of the bucket in your `amplify/backend.ts` file. You must also set up the appropriate resources and IAM policies to be attached to the backend.
 
 <Callout>
-
-**Important:** You cannot use both a storage backend configured through Amplify and a custom S3 bucket at the same time. 
-
-If you specify a custom S3 bucket, no sandbox storage resource will be created. The provided custom S3 bucket will be used, even in the sandbox environment.
-
+**Important:** You can use a storage backend configured through Amplify and a custom S3 bucket at the same time using this method. However, the Amplify-configured storage will be used as the default bucket, and automatically provide its name and region to `addOutput`.
 </Callout>
 
 Below are several examples of configuring the backend to define a custom S3 bucket:
@@ -254,7 +250,7 @@ backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
 ```
 </Block>
 <Block name="User Groups">
-Below is an example of expanding the original backend object to have an `admin/` folder that authenticated users can read, but only users belonging to the "admin" user group can manage:
+Below is an example of expanding the original backend object with user group permissions. Here, any authenticated users can read from `admin/` and `public/` and authenticated users belonging to the "admin" user group can only manage `admin/`:
 {/* cSpell:disable */}
 ```ts title="amplify/backend.ts"
 import { defineBackend } from '@aws-amplify/backend';
@@ -344,8 +340,9 @@ backend.auth.resources.groups["admin"].role.attachInlinePolicy(adminPolicy);
 {/* cSpell:enable */}
 </Block>
 <Block name="Owners">
+<Callout>
 Amplify allows scoping file access to individual users via the user's identity ID. To specify the user's identity ID, you can use the token `${cognito-identity.amazonaws.com:sub}`.
-
+</Callout>
 Below is an example of expanding the original backend object to define read access for guests to the `public/` folder, as well as defining a `protected/` folder where anyone can view uploaded files, but only the file owner can modify/delete them: 
 
 {/* cSpell:disable */}
@@ -391,7 +388,7 @@ backend.addOutput({
             guest: ["get", "list"],
             authenticated: ["get", "list"],
           },
-          // allow owners to get/modify/delete their own files in assigned subfolder
+          // allow owners to read, write and delete their own files in assigned subfolder
           "protected/${cognito-identity.amazonaws.com:sub}/*": {
             entityidentity: ["get", "list", "write", "delete"]
           }
@@ -503,7 +500,7 @@ backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
 </BlockSwitcher>
 
 <Callout>
-The custom authorization rules defined in the examples are able to be combined, and follow the same rules used when working with Amplify-defined storage. For more information about the access types and access definition rules supported by Amplify, please refer to our documentation on [customizing authorization rules](/[platform]/build-a-backend/storage/authorization/). 
+The custom authorization rules defined in the examples can be combined, and follow the same rules as Amplify-defined storage. Please refer to our documentation on [customizing authorization rules](/[platform]/build-a-backend/storage/authorization/) for more information.
 </Callout>
 
 <InlineFilter filters={["javascript", "nextjs", "react", "angular", "vue", "react-native", "android", "swift"]}>
