@@ -78,13 +78,15 @@ You can refer to [Amazon S3's Policies and Permissions documentation](https://do
 In order to make calls to your manually configured S3 bucket from your application, you must also set up a [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources) for the bucket. 
 </Callout>
 
-### Specify S3 bucket in Amplify's backend config
+### Specify the S3 bucket in Amplify's backend config
 
 Next, use the `addOutput` method from the backend definition object to define a custom S3 bucket by specifying the name and region of the bucket in your `amplify/backend.ts` file. You must also set up the appropriate resources and IAM policies to be attached to the backend.
 
 <Callout>
 **Important:** You can use a storage backend configured through Amplify and a custom S3 bucket at the same time using this method. However, the Amplify-configured storage will be used as the **default bucket** and the custom S3 bucket will only be used as an additional bucket.
 </Callout>
+
+#### Configure the S3 bucket
 
 Below are several examples of configuring the backend to define a custom S3 bucket:
 
@@ -93,9 +95,9 @@ Below are several examples of configuring the backend to define a custom S3 buck
 Below is an example of expanding the original backend object to grant all guest (i.e. not signed in) users read access to files under `public/`:
 
 ```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
-import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { defineBackend } from "@aws-amplify/backend";
+import { Effect, Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Bucket } from "aws-cdk-lib/aws-s3";
 import { auth } from "./auth/resource";
 
 const backend = defineBackend({
@@ -172,9 +174,9 @@ backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
 <Block name="Authenticated Users">
 Below is an example of expanding the original backend object to grant all authenticated (i.e. signed in) users with full access to files under `public/`:
 ```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
-import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { defineBackend } from "@aws-amplify/backend";
+import { Effect, Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Bucket } from "aws-cdk-lib/aws-s3";
 import { auth } from "./auth/resource";
 
 const backend = defineBackend({
@@ -253,10 +255,10 @@ backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
 Below is an example of expanding the original backend object with user group permissions. Here, any authenticated users can read from `admin/` and `public/` and authenticated users belonging to the "admin" user group can only manage `admin/`:
 {/* cSpell:disable */}
 ```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
-import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
-import { auth } from './auth/resource';
+import { defineBackend } from "@aws-amplify/backend";
+import { Effect, Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Bucket } from "aws-cdk-lib/aws-s3";
+import { auth } from "./auth/resource";
 
 const backend = defineBackend({
   auth,
@@ -346,9 +348,9 @@ Below is an example of expanding the original backend object to define read acce
 
 {/* cSpell:disable */}
 ```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
-import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { defineBackend } from "@aws-amplify/backend";
+import { Effect, Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Bucket } from "aws-cdk-lib/aws-s3";
 import { auth } from "./auth/resource";
 
 const backend = defineBackend({
