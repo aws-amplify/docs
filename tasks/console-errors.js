@@ -83,15 +83,28 @@ const checkPage = async (url) => {
   return errorsFound;
 };
 
+function chunkArray(array, chunkSize) {
+  const result = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    result.push(array.slice(i, i + chunkSize));
+  }
+  return result;
+}
+
 const consoleErrors = async (domain) => {
   const pagesToCheck = await getSitemapUrls(domain);
+  const pagesToCheckChunks = chunkArray(pagesToCheck, 20);
   let errorMessage = '';
-  for (let i = 0; i < pagesToCheck.length; i++) {
-    const url = pagesToCheck[i];
-    console.log(`checking page ${url}`);
-    const errorsFound = await checkPage(url);
-    errorsFound.forEach((error) => {
-      errorMessage += `${error.message} found on ${error.page}\n`;
+  for (let i = 0; i < pagesToCheckChunks.length; i++) {
+    const urls = pagesToCheck[i];
+    const errorsFoundGroups = urls.map((url) => {
+      console.log(`checking page ${url}`);
+      return checkPage(url);
+    });
+    await Promise.all(errorsFoundGroups).then((errorsFound) => {
+      errorsFound.forEach((error) => {
+        errorMessage += `${error.message} found on ${error.page}\n`;
+      });
     });
   }
   if (errorMessage != '') {
