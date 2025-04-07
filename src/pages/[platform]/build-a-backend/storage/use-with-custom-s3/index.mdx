@@ -83,7 +83,7 @@ In order to make calls to your manually configured S3 bucket from your applicati
 Next, use the `addOutput` method from the backend definition object to define a custom S3 bucket by specifying the name and region of the bucket in your `amplify/backend.ts` file. You must also set up the appropriate resources and IAM policies to be attached to the backend.
 
 <Callout>
-**Important:** You can use a storage backend configured through Amplify and a custom S3 bucket at the same time using this method. However, the Amplify-configured storage will be used as the default bucket, and automatically provide its name and region to `addOutput`.
+**Important:** You can use a storage backend configured through Amplify and a custom S3 bucket at the same time using this method. However, the Amplify-configured storage will be used as the **default bucket** and the custom S3 bucket will only be used as an additional bucket.
 </Callout>
 
 Below are several examples of configuring the backend to define a custom S3 bucket:
@@ -340,9 +340,8 @@ backend.auth.resources.groups["admin"].role.attachInlinePolicy(adminPolicy);
 {/* cSpell:enable */}
 </Block>
 <Block name="Owners">
-<Callout>
 Amplify allows scoping file access to individual users via the user's identity ID. To specify the user's identity ID, you can use the token `${cognito-identity.amazonaws.com:sub}`.
-</Callout>
+
 Below is an example of expanding the original backend object to define read access for guests to the `public/` folder, as well as defining a `protected/` folder where anyone can view uploaded files, but only the file owner can modify/delete them: 
 
 {/* cSpell:disable */}
