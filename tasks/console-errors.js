@@ -96,7 +96,7 @@ const consoleErrors = async (domain) => {
   const pagesToCheckChunks = chunkArray(pagesToCheck, 20);
   let errorMessage = '';
   for (let i = 0; i < pagesToCheckChunks.length; i++) {
-    const urls = pagesToCheck[i];
+    const urls = pagesToCheckChunks[i];
     const errorsFoundGroups = urls.map((url) => {
       console.log(`checking page ${url}`);
       return checkPage(url);
