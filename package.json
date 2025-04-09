@@ -113,7 +113,7 @@
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
     "build": "next build",
     "postbuild": "node tasks/postBuildTasks.mjs",
-    "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
+    "build:release": "yarn build && next-image-export-optimizer --nextConfigPath ./next.config.mjs --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
     "prepare": "husky install",
