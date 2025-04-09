@@ -1,5 +1,6 @@
 import { Flex, View, Link, Heading } from '@aws-amplify/ui-react';
 import { IconTOC } from '@/components/Icons';
+
 export interface HeadingInterface {
   linkText: string;
   hash: string;
@@ -8,11 +9,18 @@ export interface HeadingInterface {
 }
 interface TableOfContents {
   headers?: HeadingInterface[];
+  forDesktop?: boolean;
 }
 
-export const TableOfContents = ({ headers }) => {
+export const TableOfContents = ({ headers, forDesktop }) => {
+  const hideOnMobile = forDesktop ? 'desktop-toc' : '';
+
   return (
-    <Flex as="nav" className="toc" aria-labelledby="tocHeader">
+    <Flex
+      as="nav"
+      className={`toc ${hideOnMobile}`}
+      aria-labelledby="tocHeader"
+    >
       {headers ? (
         <Heading level={2} id="tocHeader" className="toc-header">
           <IconTOC /> On this page
