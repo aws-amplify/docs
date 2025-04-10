@@ -1,7 +1,7 @@
 name: CheckPRLinks
 on:
   pull_request:
-    branches: [main]
+    branches: [main, pre-prod/main]
     types: [opened, synchronize]
 env:
   BUILD_DIR: 'client/www/next-build'
