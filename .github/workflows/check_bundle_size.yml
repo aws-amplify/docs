@@ -17,6 +17,8 @@ jobs:
         uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: 20.x
+      - name: Set Yarn Berry
+        uses: ./.github/actions/set_yarn_berry
       - name: Install dependencies
         run: yarn
       - name: Run build and analyze base bundle sizes
@@ -41,6 +43,8 @@ jobs:
         uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: 20.x
+      - name: Set Yarn Berry
+        uses: ./.github/actions/set_yarn_berry
       - name: Install dependencies
         run: yarn
       - name: Run build and analyze head bundle sizes
