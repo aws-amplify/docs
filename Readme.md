@@ -6,15 +6,15 @@
 
 ### Prerequisites
 
-- [Node.js 18.17.0 or later, but below 22.0.0](https://nodejs.org/en/)
-- [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
+- [Node.js 20+, but below 22.0.0](https://nodejs.org/en/)
 
 ## Set up the docs repo
 
 1. [Fork this repo](/fork) and `git clone` it.
 2. In your terminal, navigate to the repo from where it was just cloned. This should be located at the `/docs` directory.
-3. From your command line, run `yarn && yarn dev`.
-4. <http://localhost:3000/> should open automatically.
+3. Set yarn version to the modern latest version, run `corepack enable && yarn set version berry`.
+4. From your command line, run `yarn && yarn dev`.
+5. <http://localhost:3000/> should open automatically.
 
 ## How to contribute
 

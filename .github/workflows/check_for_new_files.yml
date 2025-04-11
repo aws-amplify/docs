@@ -20,6 +20,8 @@ jobs:
           script: |
             const { getAddedFiles } = require('./.github/workflows/scripts/check_for_new_files.js');
             return await getAddedFiles({github, context, core});
+      - name: Set yarn Berry
+        uses: ./.github/actions/set_yarn_berry
       - name: Install npm package ignore
         if: ${{ steps.set-added-files-count.outputs.result > 0 }}
         run: yarn add ignore@5.2.4 -W # help verify CODEOWNERS
