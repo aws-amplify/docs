@@ -518,6 +518,37 @@ const user3 = await createAndSignUpUser({
 
 This behavior is particularly important when seeding multiple users in your application, as you'll need to carefully manage which user should be signed out at the end of your seeding process.
 
+### User Management Between Multiple Runs of Seed
+
+Seed attempts to create a new user for every instance of `createAndSignUpUser` every time it is run. 
+You may want to use the same user(s) over multiple runs of seed. In this case, using this would avoid any errors that may arise from `createAndSignUpUser` attempting to create duplicate users:
+
+```typescript title="amplify/seed/seed.ts"
+const username = await getSecret('username');
+const password = await getSecret('password');
+
+try{
+  const user = await createAndSignUpUser({
+    username: username,
+    password: password,
+    signInFlow: 'Password',
+    signInAfterCreation: true
+  });
+} catch(err) {
+    const error = err as Error;
+    if(error.name === 'UsernameExistsError') {
+        await signInUser({
+            username: username,
+            password: password,
+            signInFlow: 'Password',
+        });
+    }
+    else {
+        throw err;
+    }
+}
+```
+
 ### MFA Challenge Handling
 
 - For sign-up challenges, each MFA type has its own specific challenge callback:
