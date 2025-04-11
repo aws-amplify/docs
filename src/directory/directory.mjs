@@ -966,6 +966,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/deploy-and-host/sandbox-environments/features/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/sandbox-environments/seed/index.mdx'
                 }
               ]
             },
