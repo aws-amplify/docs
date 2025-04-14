@@ -301,7 +301,7 @@ Also notice that `userConfirmed` is no longer returned, and instead we return `n
     const handleConfirmSignUp = async ({
       username,
       confirmationCode
-    }) {
+    }) => {
       await Auth.confirmSignUp(username, confirmationCode);
     }
 
@@ -455,7 +455,7 @@ In v6, `confirmSignUp` now takes named parameters instead of positional paramete
     const handleConfirmSignUp = async ({
       username,
       confirmationCode
-    }) {
+    }) => {
       const {
         isSignUpComplete,
         userId,
@@ -475,7 +475,7 @@ In v6, `confirmSignUp` now takes named parameters instead of positional paramete
     const handleConfirmSignUp = async ({
       username,
       confirmationCode
-    }) {
+    }) => {
       await Auth.confirmSignUp(
         username,
         confirmationCode
@@ -498,7 +498,7 @@ In v6, `confirmSignUp` now takes named parameters instead of positional paramete
     const handleConfirmSignUp = async ({
       username,
       confirmationCode
-    }) {
+    }) => {
       const {
         isSignUpComplete,
         userId,
@@ -522,7 +522,7 @@ In v6, `confirmSignUp` now takes named parameters instead of positional paramete
     const handleConfirmSignUp = async ({
       username,
       confirmationCode
-    }) {
+    }) => {
       await Auth.confirmSignUp(
         username,
         confirmationCode,
