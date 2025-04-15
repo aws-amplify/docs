@@ -1,7 +1,7 @@
 name: Test
 on:
   pull_request:
-    branches: [main, next-release/main]
+    branches: [main, next-release/main, pre-prod/main]
     types: [opened, synchronize]
 env:
   BUILD_DIR: 'client/www/next-build'

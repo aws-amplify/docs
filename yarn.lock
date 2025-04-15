@@ -5349,14 +5349,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.1, axios@npm:^1.7.4":
-  version: 1.7.4
-  resolution: "axios@npm:1.7.4"
+"axios@npm:^1.8.2, axios@npm:^1.8.4":
+  version: 1.8.4
+  resolution: "axios@npm:1.8.4"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/5ea1a93140ca1d49db25ef8e1bd8cfc59da6f9220159a944168860ad15a2743ea21c5df2967795acb15cbe81362f5b157fdebbea39d53117ca27658bab9f7f17
+  checksum: 10c0/450993c2ba975ffccaf0d480b68839a3b2435a5469a71fa2fb0b8a55cdb2c2ae47e609360b9c1e2b2534b73dfd69e2733a1cf9f8215bee0bcd729b72f801b0ce
   languageName: node
   linkType: hard
 
@@ -6831,7 +6831,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.13.1"
     ajv: "npm:^8.16.0"
     aws-amplify: "npm:^6.0.9"
-    axios: "npm:^1.7.4"
+    axios: "npm:^1.8.4"
     cheerio: "npm:^1.0.0-rc.12"
     classnames: "npm:^2.3.2"
     cross-env: "npm:^7.0.3"
@@ -6848,7 +6848,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-cli: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
-    jest-puppeteer: "npm:^10.0.1"
+    jest-puppeteer: "npm:^10.1.4"
     json5: "npm:^2.2.3"
     lint-staged: "npm:^15.2.7"
     next: "npm:^14.2.25"
@@ -7787,10 +7787,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect-puppeteer@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "expect-puppeteer@npm:10.0.0"
-  checksum: 10c0/69b58f23988a1a50443226c7383406c59208f74ef6a8e709a1206b059b3a777dedfc33888896c41d6ec17e457538e8c80a550fdba16a95a18105450191623d24
+"expect-puppeteer@npm:^10.1.4":
+  version: 10.1.4
+  resolution: "expect-puppeteer@npm:10.1.4"
+  checksum: 10c0/5428c81cb17904871a5709fc112d68b81c0da4b0da7d69ebd541fcc76720fc7d7d03c76f11880a052104fb7e4410e4156ec0ebd5eecdc0db70cd81a187beca53
   languageName: node
   linkType: hard
 
@@ -9779,18 +9779,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-dev-server@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "jest-dev-server@npm:10.0.0"
+"jest-dev-server@npm:^10.1.4":
+  version: 10.1.4
+  resolution: "jest-dev-server@npm:10.1.4"
   dependencies:
     chalk: "npm:^4.1.2"
     cwd: "npm:^0.10.0"
     find-process: "npm:^1.4.7"
     prompts: "npm:^2.4.2"
-    spawnd: "npm:^10.0.0"
+    spawnd: "npm:^10.1.4"
     tree-kill: "npm:^1.2.2"
-    wait-on: "npm:^7.2.0"
-  checksum: 10c0/aab940c854a8cfe15874af9c5a5b5aef7ef199a29b04d853228502af10ac8cd6272e0241ea6e4fe12e2784cca3f1e5694fde1ff0aea1af4d5df8b63b7705c03d
+    wait-on: "npm:^8.0.1"
+  checksum: 10c0/cd13e2509fd5f63d4ec58b717a57759590a989c600a4496ba102928611c40ea914b14217b73ce62b5cc63692918a1a13e6723ffc1f689a9934428e91b08e1848
   languageName: node
   linkType: hard
 
@@ -9875,16 +9875,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-environment-puppeteer@npm:^10.0.1":
-  version: 10.0.1
-  resolution: "jest-environment-puppeteer@npm:10.0.1"
+"jest-environment-puppeteer@npm:^10.1.4":
+  version: 10.1.4
+  resolution: "jest-environment-puppeteer@npm:10.1.4"
   dependencies:
     chalk: "npm:^4.1.2"
     cosmiconfig: "npm:^8.3.6"
     deepmerge: "npm:^4.3.1"
-    jest-dev-server: "npm:^10.0.0"
+    jest-dev-server: "npm:^10.1.4"
     jest-environment-node: "npm:^29.7.0"
-  checksum: 10c0/17e370dc280964c86e58f335c7f9a134603f2e3322b1fe36192fce156e4ef33f6f4cf2612788a8fe394ce825886259f13e2c79b610c492016c296497c4008c73
+  checksum: 10c0/fb957e8c9ba204f4205c52c4ae4bd28bb3ce895e4a98a049169c8c01be8a114aa7d5311a062d2f102179e714a55676da173e4c90607bfefedb76b082996061fc
   languageName: node
   linkType: hard
 
@@ -9987,15 +9987,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-puppeteer@npm:^10.0.1":
-  version: 10.0.1
-  resolution: "jest-puppeteer@npm:10.0.1"
+"jest-puppeteer@npm:^10.1.4":
+  version: 10.1.4
+  resolution: "jest-puppeteer@npm:10.1.4"
   dependencies:
-    expect-puppeteer: "npm:^10.0.0"
-    jest-environment-puppeteer: "npm:^10.0.1"
+    expect-puppeteer: "npm:^10.1.4"
+    jest-environment-puppeteer: "npm:^10.1.4"
   peerDependencies:
     puppeteer: ">=19"
-  checksum: 10c0/cd603bc7a4deb95d85f954a4d82bba19aeb6e9dfd638198658bb365682529c0677a06033f2123a5622c0e9951da5fc42ab7f2aa166a90107130b37d021616088
+  checksum: 10c0/95b5d3c84571e410024246f7bbb932f07cd01c2941a4ccf6f72569974f6c6e8d82f8b8ccba38cd87fc90ae63a08935d70e2ec16388fa482294b580fb8c454ca1
   languageName: node
   linkType: hard
 
@@ -10195,16 +10195,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^17.11.0":
-  version: 17.13.1
-  resolution: "joi@npm:17.13.1"
+"joi@npm:^17.13.3":
+  version: 17.13.3
+  resolution: "joi@npm:17.13.3"
   dependencies:
     "@hapi/hoek": "npm:^9.3.0"
     "@hapi/topo": "npm:^5.1.0"
     "@sideway/address": "npm:^4.1.5"
     "@sideway/formula": "npm:^3.0.1"
     "@sideway/pinpoint": "npm:^2.0.0"
-  checksum: 10c0/485627809c5e424fc4af4310e06bc31a34fe10635b0bdbfcc425336db5e06b1da3ff8b35101878ffcbcd94c0187e7134c935fb2d1aeba641c92d7f505e6ffd8d
+  checksum: 10c0/9262aef1da3f1bec5b03caf50c46368899fe03b8ff26cbe3d53af4584dd1049079fc97230bbf1500b6149db7cc765b9ee45f0deb24bb6fc3fa06229d7148c17f
   languageName: node
   linkType: hard
 
@@ -13599,6 +13599,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rxjs@npm:^7.8.2":
+  version: 7.8.2
+  resolution: "rxjs@npm:7.8.2"
+  dependencies:
+    tslib: "npm:^2.1.0"
+  checksum: 10c0/1fcd33d2066ada98ba8f21fcbbcaee9f0b271de1d38dc7f4e256bfbc6ffcdde68c8bfb69093de7eeb46f24b1fb820620bf0223706cff26b4ab99a7ff7b2e2c45
+  languageName: node
+  linkType: hard
+
 "sade@npm:^1.7.3":
   version: 1.8.1
   resolution: "sade@npm:1.8.1"
@@ -14020,13 +14029,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"spawnd@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "spawnd@npm:10.0.0"
+"spawnd@npm:^10.1.4":
+  version: 10.1.4
+  resolution: "spawnd@npm:10.1.4"
   dependencies:
     signal-exit: "npm:^4.1.0"
     tree-kill: "npm:^1.2.2"
-  checksum: 10c0/3937f4f5e934989a2f0ac11eeb1fc06492069c244ca6d45f79abbe8b672bca6c01efc24c765fdd68a2961789591724cbb5bc13495900d0a2da4cc70f2d670512
+  checksum: 10c0/fcdc0c692a4ac7cde0e47f57de82769e58c74d055725ec7d026c5897079ebe113bcc0fa5a309ae36ad0713fd447e2ac6ad0877d9c6d5b42c824cd702b853a29c
   languageName: node
   linkType: hard
 
@@ -15453,18 +15462,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wait-on@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "wait-on@npm:7.2.0"
+"wait-on@npm:^8.0.1":
+  version: 8.0.3
+  resolution: "wait-on@npm:8.0.3"
   dependencies:
-    axios: "npm:^1.6.1"
-    joi: "npm:^17.11.0"
+    axios: "npm:^1.8.2"
+    joi: "npm:^17.13.3"
     lodash: "npm:^4.17.21"
     minimist: "npm:^1.2.8"
-    rxjs: "npm:^7.8.1"
+    rxjs: "npm:^7.8.2"
   bin:
     wait-on: bin/wait-on
-  checksum: 10c0/1eff2189b3e4b0975889f3e480c75ca2a0d4275072779a6329e7cae8b729620594aa044509ddd89967de6ab2162169501b67b8d9562c16cac517837ffce17337
+  checksum: 10c0/7f14086c3bb6fc055207ab591d2faefc045f718aa7c959353a54af05cf08c53c25d9af80d4d5f6934a169cc0d97ebd1dcf024b13583d09b9a935c36bd745bd7b
   languageName: node
   linkType: hard
 
