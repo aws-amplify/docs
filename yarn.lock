@@ -6874,7 +6874,7 @@ __metadata:
     parse-imports: "npm:^1.1.0"
     prettier: "npm:^3.0.3"
     prism-react-renderer: "npm:^2.1.0"
-    prismjs: "npm:^1.27.0"
+    prismjs: "npm:^1.30.0"
     puppeteer: "npm:^22.15.0"
     react: "npm:^18.3.1"
     react-copy-to-clipboard: "npm:^5.1.0"
