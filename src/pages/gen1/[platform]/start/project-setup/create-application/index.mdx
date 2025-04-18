@@ -49,7 +49,7 @@ import reactnative_getting_started from '/src/fragments/start/getting-started/re
 
 <Callout warning>
 
-**NOTE:** Amplify JS v6 supports Next.js with the version range: `>=13.5.0 <15.0.0`.
+**NOTE:** Amplify JS v6 supports Next.js with the version range: `>=13.5.0 <16.0.0`.
 Ensure you have the correct version to integrate with Amplify.
 
 </Callout>
@@ -59,7 +59,7 @@ To set up the project, you will need to create a new Next.js app with the [`crea
 Run the following command and following the instructions to create a Next.js app.
 
 ```shellscript
-npx create-next-app@">=13.5.0 <15.0.0" next-amplified
+npx create-next-app@">=13.5.0 <16.0.0" next-amplified
 ```
 
 Then run the following command to enter the root of your Next.js app.
@@ -257,6 +257,14 @@ When you initialize a new Amplify project, a few things happen:
 - It creates a file called `amplifyconfiguration.json` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources.
+
+<InlineFilter filters={['react-native']}>
+<Callout>
+
+**Note:** if you are using Expo EAS build, you will need to force commit the `amplifyconfiguration.json` file to local git repository before running the `eas build` command. This is because the `amplifyconfiguration.json` file is excluded in the default `.gitignore`, and the `eas build` command will not include untracked files in the build. <b>When build completes you must remove the `amplifyconfiguration.json` file from the git repository and never commit and push it to the remote repository</b>.
+
+</Callout>
+</InlineFilter>
 
 As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in `amplifyconfiguration.json` will update automatically.
 

@@ -793,6 +793,12 @@ const posts = listPostsResult.data.listPosts;
 const postTags = posts[0].tags; // access tags from post
 ```
 
+<Callout>
+
+**Important**: The authorization rules that Amplify applies to the "join table" it creates are a union of the authorization rules of the individual models in the many-to-many relationship. See [this discussion](/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/#authorizing-manytomany-relationships) for more context.
+
+</Callout>
+
 ## Assign default values for fields
 
 You can use the `@default` directive to specify a default value for optional [scalar type fields](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html) such as `Int`, `String`, and more.
@@ -1113,29 +1119,32 @@ Amplify GraphQL schemas support the `extend` keyword, which allows you to extend
 
 2. In one of the files (e.g., `schema1.graphql`), declare your type normally:
 
-```graphql
+```graphql title="schema1.graphql"
 type Query {
   # initial custom queries
+  myQuery: String @function(name: "myQueryFunction-${env}")
 }
 ```
 
 3. In other schema files (e.g., `schema2.graphql`), use the `extend` keyword to add to the type:
 
-```graphql
+```graphql title="schema2.graphql"
 extend type Query {
   # additional custom queries
+  myQuery2: String @function(name: "myQuery2Function-${env}")
 }
 ```
 <Callout info>
-The order in which the Query types are extended does not affect the compilation of separate schema files.
-</Callout>
-
-<Callout info>
-Declaring custom Query, Mutation, and/or Subscription with the same field names in another schema file will result in schema validation errors similar to the following:
+The order in which the Query types are extended does not affect the compilation of separate schema files. However, declaring custom Query, Mutation, and/or Subscription extensions with the same field names in another schema file will result in schema validation errors similar to the following:
 
 `🛑 Object type extension 'Query' cannot redeclare field getBlogById`
 </Callout>
 
+4. Add functionality to the fields of the extended type using Amplify directives. Amplify supports the `@auth`, `@function`, and `@http` directives on fields of `Query`, `Mutation`, and `Subscription` type extensions. Alternately, you can use the `extend` keyword to organize custom queries, mutations, and subscriptions that use [custom resolvers](https://docs.amplify.aws/gen1/react/build-a-backend/graphqlapi/best-practice/batch-put-custom-resolver/) rather than Amplify directives.
+
+<Callout info>
+Amplify directives are not supported on extended type definitions themselves (e.g., `extend type Todo @auth...`), or on fields of extended types other than `Query`, `Mutation`, and `Subscription`.
+</Callout>
 
 ## How it works
 

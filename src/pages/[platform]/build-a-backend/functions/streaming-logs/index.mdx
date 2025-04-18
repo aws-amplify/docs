@@ -30,7 +30,7 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify enables you to stream logs from your Function directly to your terminal while running [`ampx sandbox`](/[platform]/reference/cli-commands/#npx-ampx-sandbox). To get started, specify the `--stream-function-logs` option when starting sandbox:
+Amplify enables you to stream logs from your AWS Lambda functions directly to your terminal while running [`ampx sandbox`](/[platform]/reference/cli-commands/#npx-ampx-sandbox). To get started, specify the `--stream-function-logs` option when starting sandbox:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox --stream-function-logs
@@ -42,11 +42,17 @@ npx ampx sandbox --stream-function-logs
 
 </Callout>
 
-Streaming Function logs directly to your terminal enable faster debug iterations, and greater insight into your Functions' executions.
+Streaming function logs directly to your terminal enable faster debug iterations, and greater insight into your functions' executions.
 
 ## Filtering
 
-By default, Amplify will stream all of your Functions' logs. If you wish to only stream a subset of Functions you can specify a filter by Function name or a regular expression for Function names. For example, if you have a collection of [Auth triggers](/[platform]/build-a-backend/auth/customize-auth-lifecycle/triggers/) where the Function names include "auth"
+By default, Amplify will stream all of your functions' logs. If you wish to only stream a subset of functions you can specify a filter by function name or a regular expression for function names. For example, if you have a collection of [Auth triggers](/[platform]/build-a-backend/auth/customize-auth-lifecycle/triggers/) where the function names include "auth".
+
+<Callout info>
+
+When working with more than 5 functions, we recommend using the `--logs-filter` flag to filter the log output to specific functions.
+
+</Callout>
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox --stream-function-logs --logs-filter auth
@@ -89,7 +95,7 @@ By default, Amplify will print logs to the terminal where sandbox is running, ho
 npx ampx sandbox --stream-function-logs --logs-out-file sandbox.log
 ```
 
-This can be combined with `--logs-filter` to create a log file of just your Auth-related Functions, for example:
+This can be combined with `--logs-filter` to create a log file of just your Auth-related functions, for example:
 
 ```bash title="Terminal" showLineNumbers={false}
 npx ampx sandbox --stream-function-logs --logs-filter auth --logs-out-file sandbox-auth.log

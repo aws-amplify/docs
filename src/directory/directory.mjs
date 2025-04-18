@@ -234,6 +234,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/data-modeling/secondary-index/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/data-modeling/disable-operations/index.mdx'
                     }
                   ]
                 },
@@ -292,6 +295,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-http-datasource/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/batch-ddb-operations/index.mdx'
                     }
                   ]
                 },
@@ -337,6 +343,12 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/aws-appsync-apollo-extensions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/enable-logging/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/field-level-validation/index.mdx'
                 }
               ]
             },
@@ -451,6 +463,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/modify-resources-with-cdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/custom-functions/index.mdx'
                 }
               ]
             },
@@ -725,6 +740,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/circular-dependency/index.mdx'
                 }
               ]
             }

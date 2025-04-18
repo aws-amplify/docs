@@ -440,7 +440,7 @@ First, ensure you've provisioned an Amazon Location Service Map resource and con
 <InlineFilter filters={['android']}>
 ### Select your user interface
 
-There are two UI components available to render maps on an Android app, the `MapLibreView` and the `AmplifyMapView`. The `MapLibreView` is an extension of the standard [Android MapLibre MapView](https://docs.maptiler.com/maplibre-gl-native-android/android-basic-get-started/) that is integrated with the `Amplify.Geo` APIs, while the `AmplifyMapView` is a wrapper with built-in location search, map controls, markers and a few standard UX interactions.
+There are two UI components available to render maps on an Android app, the `MapLibreView` and the `AmplifyMapView`. The `MapLibreView` is an extension of the standard [Android MapLibre MapView](https://docs.maptiler.com/maplibre-gl-native-android/) that is integrated with the `Amplify.Geo` APIs, while the `AmplifyMapView` is a wrapper with built-in location search, map controls, markers and a few standard UX interactions.
 
 #### `MapLibreView` vs `AmplifyMapView`
 
@@ -450,7 +450,7 @@ Note that even though the extensibility of `AmplifyMapView` is limited, you have
 
 ## MapLibreView
 
-The `MapLibreView` is an extension of the standard `MapView` provided by the MapLibre library. The implementation adds the `Amplify.Geo` integration behind the scenes to enable developers to focus on their UI instead of the library integration. That also means all MapLibre APIs are available and will work as expected. Check the [official MapLibre SDK for Android documentation](https://docs.maptiler.com/maplibre-gl-native-android/android-basic-get-started/) for the API reference and guides.
+The `MapLibreView` is an extension of the standard `MapView` provided by the MapLibre library. The implementation adds the `Amplify.Geo` integration behind the scenes to enable developers to focus on their UI instead of the library integration. That also means all MapLibre APIs are available and will work as expected. Check the [official MapLibre SDK for Android documentation](https://docs.maptiler.com/maplibre-gl-native-android/) for the API reference and guides.
 
 ### Add a map to your app
 
@@ -613,11 +613,11 @@ mapView.getMapAsync { map ->
 
 </BlockSwitcher>
 
-Updating `cameraPosition` moves the camera to the passed coordinates without any animation. If animation is needed, use `map.animateCamera()` instead. See the [official reference](https://docs.maptiler.com/maplibre-gl-native-android/com.mapbox.mapboxsdk.camera/) for more details.
+Updating `cameraPosition` moves the camera to the passed coordinates without any animation. If animation is needed, use `map.animateCamera()` instead. See the [official reference](https://docs.mapbox.com/android/maps/guides/camera-and-animation/camera/) for more details.
 
 ### Add markers to your map
 
-The MapLibre SDK for Android relies on the [MapLibre Annotation Plugin](https://docs.maptiler.com/maplibre-gl-native-android/android-annotation/) in order to display markers on a map.
+The MapLibre SDK for Android relies on the [MapLibre Annotation Plugin](https://docs.mapbox.com/android/maps/guides/annotations/) in order to display markers on a map.
 
 <BlockSwitcher>
 
@@ -667,7 +667,7 @@ mapView.getStyle { map, style ->
 
 **Notes:**
 
-- The `mapView.symbolManager` is a built-in reference of `SymbolManager` from the [MapLibre Annotation Plugin](https://docs.maptiler.com/maplibre-gl-native-android/android-annotation/) with some standard configuration.
+- The `mapView.symbolManager` is a built-in reference of `SymbolManager` from the [MapLibre Annotation Plugin](https://docs.mapbox.com/android/maps/guides/annotations/) with some standard configuration.
 - If customized icons or render other types of shapes and layers are needed, an instance of `SymbolManager` can be created and used to manage the different types of custom use-cases.
 
 ### MapLibreView configuration parameters

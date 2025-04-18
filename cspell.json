@@ -68,6 +68,7 @@
     "amazonaws",
     "amazonaws",
     "amazoncognito",
+    "amazonlinux",
     "AmazonPersonalizeProvider",
     "AmazonS3Client",
     "Amplif",
@@ -246,6 +247,7 @@
     "aws-sdk-ios",
     "aws.cognito.signin.user.admin",
     "aws",
+    "Authadmin",
     "AWSAPI",
     "AWSAPIGateway",
     "AWSAPIPlugin",
@@ -494,6 +496,7 @@
     "dataaccess",
     "dataacess",
     "databinding",
+    "datalogconfig",
     "dataset",
     "datasource",
     "DataSource",
@@ -638,6 +641,7 @@
     "frontend",
     "frontends",
     "fullheight",
+    "fullname",
     "Gapi",
     "ge",
     "geo_point",
@@ -1620,13 +1624,24 @@
     "assetlinks",
     "AMPLIFYRULES",
     "preconfigured"
+    "manylinux",
+    "GOARCH",
+    "norpc"
   ],
-  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
+  "flagWords": [
+    "hte",
+    "full-stack",
+    "Full-stack",
+    "Full-Stack",
+    "sudo"
+  ],
   "patterns": [
     {
       "name": "youtube-embed-ids",
       "pattern": "/embedId=\".*\" /"
     }
   ],
-  "ignoreRegExpList": ["youtube-embed-ids"]
+  "ignoreRegExpList": [
+    "youtube-embed-ids"
+  ]
 }

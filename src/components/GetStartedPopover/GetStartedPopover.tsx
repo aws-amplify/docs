@@ -37,7 +37,9 @@ export const GetStartedPopover = ({
           query: { platform: platform }
         }}
       >
-        Get started
+        {['swift', 'android', 'flutter', 'react-native'].includes(platform)
+          ? 'Get started'
+          : 'Build a new app'}
       </InternalLinkButton>
       <Popover>
         <Popover.Trigger

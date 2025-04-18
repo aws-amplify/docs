@@ -47,18 +47,23 @@ All commands can be prefixed with [AWS CLI environment variables](https://docs.a
 
 Sandbox enables you to develop your backend alongside your frontend's development server. Run `npx ampx sandbox` to deploy to your personal cloud sandbox, this command will automatically watch for changes in the `amplify/` folder, and redeploy each time you save a file.
 
+### Logs Streaming
+
+- `--stream-function-logs` (_boolean_) - Whether to stream function execution logs. (default: false)
+- `--logs-filter` (_array_) - Regex pattern to filter logs from only matched functions. E.g. to stream logs for a function, specify it's name, and to stream logs from all functions starting with auth specify 'auth' (default: Stream all logs)
+- `--logs-out-file` (_string_) - File to append the streaming logs. The file is created if it does not exist. (default: stdout)
+
 ### Options
 
+- `--debug` (_boolean_) - Print debug logs to the console (default: false)
 - `--dir-to-watch` (_string_) - Directory to watch for file changes. All subdirectories and files will be included. Defaults to the amplify directory.
 - `--exclude` (_string[]_) - An array of paths or glob patterns to ignore. Paths can be relative or absolute and can either be files or directories.
 - `--identifier` (_string_) - An optional name to distinguish between different sandbox environments. Default is the name of the system user executing the process
+- `--once` (_boolean_) - Execute a single sandbox deployment without watching for future file changes.
 - `--outputs-out-dir` (_string_) - A path to a directory where the client config file is written. If not provided, defaults to the working directory of the current process.
 - `--outputs-format` (_string_) - Format in which the client config file is written (choices: `json`, `dart`).
 - `--outputs-version` (_string_) - Version of the configuration. Version 0 represents classic amplify-cli config file amplify-configuration and 1 represents newer config file amplify_outputs (choices: `0`, `1`).
 - `--profile` (_string_) - An AWS profile name.
-- `--stream-function-logs` (_boolean_) - Whether to stream function execution logs. (default: false)
-- `--logs-filter` (_string[]_) - Regex pattern to filter logs from only matched functions. E.g. to stream logs for a function, specify it's name, and to stream logs from all functions starting with auth specify 'auth' (default: Stream all logs)
-- `--logs-out-file` (_string_) - File to append the streaming logs. The file is created if it does not exist. (default: stdout)
 
 ### Usage
 
@@ -169,6 +174,14 @@ If you want to remove a secret you previously set, use `sandbox secret remove`:
 npx ampx sandbox secret remove LOGINWITHAMAZON_CLIENT_ID
 ```
 
+#### Removing all secrets
+
+If you want to remove all secrets you previously set, use `sandbox secret remove --all`:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret remove --all
+```
+
 #### Listing secrets
 
 List all available secrets for your personal sandbox in the default AWS profile and Region:
@@ -231,7 +244,15 @@ npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e108
 Similar to `sandbox`, you can specify an alternate outputs file format by using `--format`:
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b
+npx ampx generate outputs --stack amplify-nextamplifygen2-josef-sandbox-ca85e1081b --format dart
+```
+
+#### Use with pre-existing branch
+
+If you have a pre-existing branch that you want to generate outputs for, you can use the `--branch` with the `--app-id` flag:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --branch staging --app-id <your-amplify-app-id>
 ```
 
 ## npx ampx generate graphql-client-code
@@ -266,7 +287,7 @@ Optional parameters:
 #### Generate GraphQL client code using the Amplify App ID and branch. 
 
 ```bash title="Terminal" showLineNumbers={false}
-npx ampx generate graphql-client-code --app-id <your-amplify-app-id>	--branch staging
+npx ampx generate graphql-client-code --app-id <your-amplify-app-id> --branch staging
 ```
 
 #### Generate GraphQL client code for a branch that is connected to Amplify
@@ -323,6 +344,26 @@ npx ampx generate graphql-client-code --format modelgen --type-target angular
 | Modelgen | Amplify Swift | `amplify codegen model` | `npx ampx generate graphql-client-code --format modelgen --model-target swift --out <path_to_swift_project>/AmplifyModels` | `<path_to_swift_project>/AmplifyModels` |
 | Modelgen | Amplify Flutter | `amplify codegen model` | `npx ampx generate graphql-client-code --format modelgen --model-target dart --out <path_to_flutter_project>/AmplifyModels` | `<path_to_flutter_project>/AmplifyModels` |
 
+
+## npx ampx generate schema-from-database
+
+Generates typescript data schema from a SQL database.
+
+### Options
+
+- `--stack`(_string_) - A stack name that contains an Amplify backend.
+- `--branch` (_string_) - Name of the git branch being deployed.
+- `--app-id` (_string_) - The app id of the target Amplify app.
+- `--out`(_string_) - A path to directory where generated schema is written [default: `./amplify/data/schema.sql.ts`].
+- `--connection-uri-secret`(_string_) - Amplify secret name for the database connection uri.
+- `--ssl-cert-secret`(_string_) - Amplify secret name for the database ssl certificate.
+- `--profile`(_string_) - An AWS profile name.
+
+### Usage
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_STRING --out amplify/data/schema.sql.ts
+```
 
 ## npx ampx generate forms
 

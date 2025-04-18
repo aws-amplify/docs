@@ -707,6 +707,11 @@ if (nextStep.signInStep === "CONTINUE_SIGN_IN_WITH_TOTP_SETUP") {
 }
 
 ```
+<Callout info>
+
+**Note:** The Amplify authentication flow will persist relevant session data throughout the lifespan of a page session. This enables the `confirmSignIn` API to be leveraged even after a full page refresh in a multi-page application, such as when redirecting from a login page to a sign in confirmation page.
+
+</Callout>
 
 </InlineFilter>
 
@@ -807,6 +812,12 @@ func confirmSignIn() -> AnyCancellable {
 
 To sign in using an external identity provider such as Google, use the `signInWithRedirect` function.
 
+<Callout info>
+
+For guidance on configuring an external Identity Provider with Amplify see [External Identity Providers](/[platform]/build-a-backend/auth/concepts/external-identity-providers/)
+
+</Callout>
+
 ```ts
 import { signInWithRedirect } from "aws-amplify/auth"
 
@@ -830,7 +841,7 @@ signInWithRedirect({ provider: {
 }})
 ```
 
-### Auto sign-in
+## Auto sign-in
 
 The `autoSignIn` API will automatically sign-in a user when it was previously enabled by the `signUp` API and after any of the following cases has completed:
 
@@ -842,6 +853,9 @@ import { autoSignIn } from 'aws-amplify/auth';
 
 await autoSignIn();
 ```
+<Callout>
+**Note**: When MFA is enabled, your users may be presented with multiple consecutive steps that require them to enter an OTP to proceed with the sign up and subsequent sign in flow. This requirement is not present when using the `USER_AUTH` flow.
+</Callout>
 
 </InlineFilter>
 <InlineFilter filters={['react-native']}

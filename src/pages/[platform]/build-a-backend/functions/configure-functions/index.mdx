@@ -32,6 +32,12 @@ export function getStaticProps() {
 
 `defineFunction` comes out-of-the-box with sensible but minimal defaults. The following options are provided to tweak the function configuration.
 
+<Callout info>
+
+**Note:** The following options are not supported for [Custom Functions](/[platform]/build-a-backend/functions/custom-functions/) except for `resourceGroupName`.
+
+</Callout>
+
 ## `name`
 
 By default, functions are named based on the directory the `defineFunction` call is placed in. In the above example, defining the function in `amplify/functions/my-demo-function/resource.ts` will cause the function to be named `my-demo-function` by default.
@@ -66,6 +72,17 @@ By default, functions have 512 MB of memory allocated to them. This can be confi
 export const myDemoFunction = defineFunction({
   // highlight-next-line
   memoryMB: 256 // allocate 256 MB of memory to the function.
+});
+```
+
+## `ephemeralStorageSizeMB`
+
+By default, functions have 512MB of ephemeral storage to them. This can be configured from 512 MB upto 10240 MB. Note that this can increase the cost of function invocation. For more pricing information visit the [Lambda pricing documentation](https://aws.amazon.com/lambda/pricing/).
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  // highlight-next-line
+  ephemeralStorageSizeMB: 1024 // allocate 1024 MB of ephemeral storage to the function.
 });
 ```
 

@@ -48,7 +48,7 @@ You can add secrets for branch deployments in the Amplify console. From the App 
 Secrets are stored in AWS Systems Manager Parameter Store under the following naming conventions:
 
 - Secrets that apply to all branches: `/amplify/shared/<app-id>/<secret-key>`
-- Secrets that apply to a specific branch: `/amplify/<app-id>/<branchname>/<secret-key>`
+- Secrets that apply to a specific branch: `/amplify/<app-id>/<branchname>-branch-<unique-hash>/<secret-key>`
 
 ### Local environment
 
@@ -112,6 +112,12 @@ npx ampx sandbox secret remove foo
 
 ## Set environment variables
 
+<Callout warning>
+
+Note: do not store secret values in environment variables. Environment variables values are rendered in plaintext to the build artifacts and can be accessed by anyone with access to the build artifacts or [get-app](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/amplify/get-app.html) command.
+
+</Callout>
+
 Environment variables work like key-value pairs to help manage configurable settings across different deployment environments, including development, staging, and production. Unlike secrets, which store sensitive data, environment variables are typically nonconfidential and are used for controlling application behavior in different environments. Another key difference is that environment variables are stored and managed by the Amplify managed service. You can set environment variables in the Amplify console (view the [AWS Amplify Hosting User Guide](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#setting-env-vars) for detailed instructions).
 
 <Video src="/images/gen2/secrets-and-vars/env-vars.mp4" description="Video - Secrets" />
@@ -153,3 +159,7 @@ console.log('REACT_APP_TEST_VARIABLE', process.env.REACT_APP_TEST_VARIABLE);
 ### Local environment
 
 When working on your local machine, you must manually load the sandbox's environment variables. First, add the environment variable in your `.env.local` file. Then, a library such as [`@dotenvx/dotenvx`](https://www.npmjs.com/package/@dotenvx/dotenvx) can load the environment variables, which you can then reference with `process.env`.
+
+```bash title="Terminal" showLineNumbers={false}
+npx dotenvx run --env-file=.env.local -- ampx sandbox
+```

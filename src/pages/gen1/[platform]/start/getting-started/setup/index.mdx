@@ -223,7 +223,7 @@ cd amplify-app
 
 This tutorial is built using the [Next.js App Router](https://nextjs.org/docs/app/building-your-application/routing).
 
-**NOTE:** Amplify JS v6 supports Next.js with the version range: `>=13.5.0 <15.0.0`.
+**NOTE:** Amplify JS v6 supports Next.js with the version range: `>=13.5.0 <16.0.0`.
 Ensure you have the correct version to integrate with Amplify.
 
 </Callout>
@@ -566,6 +566,14 @@ When you initialize a new Amplify project, a few things happen:
 - It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add cloud capabilities, such as GraphQL API and web hosting. As you add these features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
 - It creates a file called `amplifyconfiguration.json` in your designated **Source Directory Path** that holds all the configuration for the services you create with Amplify. This is how the Amplify JavaScript client library is able to get the necessary information to connect to your backend services.
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
+
+<InlineFilter filters={['react-native']}>
+<Callout>
+
+**Note:** if you are using Expo EAS build, you will need to force commit the `amplifyconfiguration.json` file to local git repository before running the `eas build` command. This is because the `amplifyconfiguration.json` file is excluded in the default `.gitignore`, and the `eas build` command will not include untracked files in the build. <b>When build completes you must remove the `amplifyconfiguration.json` file from the git repository and never commit and push it to the remote repository</b>.
+
+</Callout>
+</InlineFilter>
 
 ## Install Amplify Libraries
 

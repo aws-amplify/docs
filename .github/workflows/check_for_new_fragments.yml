@@ -1,7 +1,7 @@
 name: Block PRs with New Fragments
 on:
   pull_request:
-    branches: [main]
+    branches: [main, pre-prod/main]
 jobs:
   checkForNewFragments:
     name: Check for new fragments

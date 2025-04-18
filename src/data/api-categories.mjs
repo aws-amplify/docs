@@ -9,3 +9,5 @@ export const API_SUB_CATEGORIES = {
   'rest-api': 'api',
   'in-app-messaging': 'in-app-messaging'
 };
+
+export const ROOT_PACKAGE = 'aws-amplify';

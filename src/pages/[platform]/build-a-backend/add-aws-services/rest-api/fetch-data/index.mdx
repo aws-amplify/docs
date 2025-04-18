@@ -36,8 +36,13 @@ import { get } from 'aws-amplify/api';
 async function getItem() {
   try {
     const restOperation = get({ 
-      apiName: 'myRestApi',
-      path: 'items' 
+        apiName: 'myRestApi',
+        path: 'items' 
+        options: {
+          retryStrategy: {
+            strategy: 'no-retry' // Overrides default retry strategy
+          },
+        }
     });
     const response = await restOperation.response;
     console.log('GET call succeeded: ', response);
@@ -46,6 +51,10 @@ async function getItem() {
   }
 }
 ```
+
+The `retryStrategy` can be configured with:
+- `no-retry`: Single attempt, fails immediately on error
+- `jittered-exponential-backoff`: Default strategy that retries with increasing delays, maximum 3 attempts
 
 ## Accessing response payload
 
