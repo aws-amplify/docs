@@ -1,61 +1,61 @@
 #Other
-/src/pages/gen1/\[platform\]/build-a-backend/existing-resources/ @josefaidt @hdworld11 @dbanksdesign 
-/src/pages/gen1/\[platform\]/build-a-backend/functions/ @josefaidt
-/src/pages/gen1/\[platform\]/how-amplify-works/ @aws-amplify/amplify-pms
+/src/pages/gen1/\[platform\]/build-a-backend/existing-resources/ @hdworld11 @ShadowCat567
+/src/pages/gen1/\[platform\]/build-a-backend/functions/ @hdworld11 @ShadowCat567
+/src/pages/gen1/\[platform\]/how-amplify-works/ @hdworld11 @ShadowCat567
 /src/pages/gen1/\[platform\]/sdk/api/ @hdworld11
 /src/pages/gen1/\[platform\]/sdk/info @hdworld11
 /src/pages/gen1/\[platform\]/sdk/configuration/ @hdworld11
-/src/pages/\[platform\]/how-amplify-works/ @aws-amplify/amplify-pms
-/src/pages/\[platform\]/build-a-backend/functions/ @josefaidt
-/src/pages/\[platform\]/build-a-backend/functions/ @josefaidt
-/src/pages/\[platform\]/build-a-backend/add-aws-services/custom-resources/ @josefaidt @hdworld11 @dbanksdesign 
-/src/pages/\[platform\]/build-a-backend/add-aws-services/delete-backup-resources/ @josefaidt @hdworld11 @dbanksdesign 
-/src/pages/\[platform\]/build-a-backend/add-aws-services/environment-variables-and-secrets/ @swaminator @josefaidt
+/src/pages/\[platform\]/how-amplify-works/ @hdworld11 @ShadowCat567
+/src/pages/\[platform\]/build-a-backend/functions/ @hdworld11 @ShadowCat567
+/src/pages/\[platform\]/build-a-backend/functions/ @hdworld11 @ShadowCat567
+/src/pages/\[platform\]/build-a-backend/add-aws-services/custom-resources/ @hdworld11 @ShadowCat567
+/src/pages/\[platform\]/build-a-backend/add-aws-services/delete-backup-resources/ @hdworld11 @ShadowCat567
+/src/pages/\[platform\]/build-a-backend/add-aws-services/environment-variables-and-secrets/ @swaminator @hdworld11 @ShadowCat567
 /src/pages/\[platform\]/build-a-backend/q-developer/ @arundna
 
 #CLI
-/src/fragments/cli/ @josefaidt
-/src/pages/gen1/\[platform\]/tools/cli/ @josefaidt
-/src/pages/gen1/\[platform\]/tools/cli-legacy/ @josefaidt
-/src/pages/\[platform\]/reference/cli-commands/ @josefaidt
+/src/fragments/cli/ @ShadowCat567
+/src/pages/gen1/\[platform\]/tools/cli/ @ShadowCat567
+/src/pages/gen1/\[platform\]/tools/cli-legacy/ @ShadowCat567
+/src/pages/\[platform\]/reference/cli-commands/ @ShadowCat567
 
 #Studio
-/src/pages/gen1/\[platform\]/tools/console/ @dbanksdesign 
+/src/pages/gen1/\[platform\]/tools/console/ @mauerbac
  
 #Analytics
-/src/fragments/**/analytics/ @hdworld11
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/analytics/ @hdworld11
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/analytics/ @hdworld11
-/src/pages/gen1/\[platform\]/sdk/analytics/ @hdworld11
-/src/pages/\[platform\]/build-a-backend/add-aws-services/analytics/ @hdworld11
-/src/pages/gen1/\[platform\]/build-a-backend/existing-resources/cli @hdworld11
+/src/fragments/**/analytics/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/analytics/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/analytics/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/sdk/analytics/ @hdworld11 @harsh62
+/src/pages/\[platform\]/build-a-backend/add-aws-services/analytics/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/build-a-backend/existing-resources/cli @hdworld11 @harsh62
 
 #Auth
-/src/fragments/**/auth/ @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/auth/ @josefaidt
-/src/pages/gen1/\[platform\]/prev/build-a-backend/auth/ @josefaidt
-/src/pages/gen1/\[platform\]/sdk/auth/ @josefaidt
-/src/pages/gen1/\[platform\]/start/getting-started/auth/ @josefaidt
-/src/pages/\[platform\]/build-a-backend/auth/ @josefaidt
+/src/fragments/**/auth/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/build-a-backend/auth/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/prev/build-a-backend/auth/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/sdk/auth/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/start/getting-started/auth/ @hdworld11 @harsh62
+/src/pages/\[platform\]/build-a-backend/auth/ @hdworld11 @harsh62
 
 #Client Configuration
-/src/fragments/**/client-configuration @josefaidt @hdworld11
-/src/fragments/**/configuration @josefaidt @hdworld11
+/src/fragments/**/client-configuration @hdworld11
+/src/fragments/**/configuration @hdworld11
 
 #Common
-/src/fragments/common @hdworld11 @josefaidt @dbanksdesign 
-/src/fragments/**/common @hdworld11 @josefaidt @dbanksdesign 
+/src/fragments/common @hdworld11 
+/src/fragments/**/common @hdworld11 
 
 #Data
-/src/fragments/**/datastore @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/datastore @josefaidt
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/datastore/ @josefaidt
-/src/pages/\[platform\]/build-a-backend/data/ @josefaidt
+/src/fragments/**/datastore @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/datastore @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/datastore/ @hdworld11 @harsh62
+/src/pages/\[platform\]/build-a-backend/data/ @hdworld11 @harsh62
 
 #Debugging
-/src/fragments/**/debugging @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/debugging/ @josefaidt
-/src/pages/gen1/\[platform\]/prev/build-a-backend/debugging/ @josefaidt
+/src/fragments/**/debugging @ShadowCat567
+/src/pages/gen1/\[platform\]/build-a-backend/debugging/ @ShadowCat567
+/src/pages/gen1/\[platform\]/prev/build-a-backend/debugging/ @ShadowCat567
 
 #Geo
 /src/fragments/**/geo @hdworld11
@@ -64,22 +64,22 @@
 /src/pages/\[platform\]/build-a-backend/add-aws-services/geo/ @hdworld11
 
 #Getting Started
-/src/fragments/start @aws-amplify/amplify-pms
-/src/fragments/gen2/quickstart/ @aws-amplify/amplify-pms
-/src/fragments/**/start/ @aws-amplify/amplify-pms
-/src/fragments/**/project-setup @aws-amplify/amplify-pms
-/src/pages/gen1/\[platform\]/prev/start/ @aws-amplify/amplify-pms
-/src/pages/gen1/\[platform\]/start/ @aws-amplify/amplify-pms
-/src/pages/\[platform\]/start/ @aws-amplify/amplify-pms
+/src/fragments/start @hdworld11 @ShadowCat567 @harsh62
+/src/fragments/gen2/quickstart/ @hdworld11 @ShadowCat567 @harsh62
+/src/fragments/**/start/ @hdworld11 @ShadowCat567 @harsh62
+/src/fragments/**/project-setup @hdworld11 @ShadowCat567 @harsh62
+/src/pages/gen1/\[platform\]/prev/start/ @hdworld11 @ShadowCat567 @harsh62
+/src/pages/gen1/\[platform\]/start/ @hdworld11 @ShadowCat567 @harsh62
+/src/pages/\[platform\]/start/ @hdworld11 @ShadowCat567 @harsh62
 
 #GraphQL API
-/src/fragments/**/api-graphql @josefaidt
-/src/fragments/**/graphqlapi @josefaidt
-/src/fragments/sdk/api/**/graphql.mdx @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/functions/graphql-from-lambda/ @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/graphqlapi/ @josefaidt
-/src/pages/gen1/\[platform\]/prev/build-a-backend/graphqlapi/ @josefaidt
-/src/pages/gen1/\[platform\]/sdk/api/graphql/ @josefaidt
+/src/fragments/**/api-graphql @hdworld11 @harsh62
+/src/fragments/**/graphqlapi @hdworld11 @harsh62
+/src/fragments/sdk/api/**/graphql.mdx @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/build-a-backend/functions/graphql-from-lambda/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/build-a-backend/graphqlapi/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/prev/build-a-backend/graphqlapi/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/sdk/api/graphql/ @hdworld11 @harsh62
 
 #In-App Messaging
 /src/fragments/**/in-app-messaging @hdworld11
@@ -88,88 +88,88 @@
 /src/pages/\[platform\]/build-a-backend/add-aws-services/in-app-messaging/ @hdworld11
 
 #Info
-/src/fragments/**/info @hdworld11 @josefaidt @dbanksdesign
+/src/fragments/**/info @hdworld11
 
 #Interactions
-/src/fragments/**/interactions @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/interactions/ @josefaidt
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/interactions/ @josefaidt
-/src/pages/\[platform\]/build-a-backend/add-aws-services/interactions/ @josefaidt
+/src/fragments/**/interactions @hdworld11
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/interactions/ @hdworld11
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/interactions/ @hdworld11
+/src/pages/\[platform\]/build-a-backend/add-aws-services/interactions/ @hdworld11
 
 #Logging
-/src/fragments/**/logging @hdworld11 
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/logging/ @hdworld11 
-/src/pages/\[platform\]/build-a-backend/add-aws-services/logging/ @hdworld11 
+/src/fragments/**/logging @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/logging/ @hdworld11 @harsh62
+/src/pages/\[platform\]/build-a-backend/add-aws-services/logging/ @hdworld11 @harsh62
 
 #Predictions
-/src/fragments/**/predictions @hdworld11 @dbanksdesign
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/predictions/ @hdworld11 @dbanksdesign
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/predictions/ @hdworld11 @dbanksdesign
-/src/pages/\[platform\]/build-a-backend/add-aws-services/predictions/ @hdworld11 @dbanksdesign
+/src/fragments/**/predictions @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/predictions/ @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/predictions/ @hdworld11 @harsh62 
+/src/pages/\[platform\]/build-a-backend/add-aws-services/predictions/ @hdworld11 @harsh62 
 
 #PubSub
-/src/fragments/**/pubsub @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/pubsub/ @josefaidt
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/pubsub/ @josefaidt
-/src/pages/gen1/\[platform\]/sdk/pubsub/ @josefaidt
-/src/pages/\[platform\]/build-a-backend/add-aws-services/pubsub/ @josefaidt
+/src/fragments/**/pubsub @hdworld11
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/pubsub/ @hdworld11
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/pubsub/ @hdworld11
+/src/pages/gen1/\[platform\]/sdk/pubsub/ @hdworld11
+/src/pages/\[platform\]/build-a-backend/add-aws-services/pubsub/ @hdworld11
 
 #Push Notifications
-/src/fragments/**/push-notifications @hdworld11 @dbanksdesign
-/src/pages/gen1/\[platform\]/build-a-backend/push-notifications/ @hdworld11 @dbanksdesign
-/src/pages/gen1/\[platform\]/prev/build-a-backend/push-notifications/ @hdworld11 @dbanksdesign
-/src/pages/gen1/\[platform\]/sdk/push-notifications/ @hdworld11 @dbanksdesign
+/src/fragments/**/push-notifications @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/build-a-backend/push-notifications/ @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/prev/build-a-backend/push-notifications/ @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/sdk/push-notifications/ @hdworld11 @harsh62 
 
 #Rest API
-/src/fragments/**/api-rest @josefaidt  
-/src/fragments/**/restapi @josefaidt  
-/src/fragments/sdk/api/**/rest.mdx @josefaidt 
-/src/pages/gen1/\[platform\]/build-a-backend/restapi/ @josefaidt 
-/src/pages/gen1/\[platform\]/prev/build-a-backend/restapi/ @josefaidt 
-/src/pages/gen1/\[platform\]/sdk/api/rest/ @josefaidt 
-/src/pages/\[platform\]/build-a-backend/add-aws-services/rest-api/ @josefaidt 
+/src/fragments/**/api-rest @hdworld11 @harsh62 
+/src/fragments/**/restapi @hdworld11 @harsh62 
+/src/fragments/sdk/api/**/rest.mdx @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/build-a-backend/restapi/ @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/prev/build-a-backend/restapi/ @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/sdk/api/rest/ @hdworld11 @harsh62 
+/src/pages/\[platform\]/build-a-backend/add-aws-services/rest-api/ @hdworld11 @harsh62 
 
 #SSR
-/src/fragments/**/ssr @josefaidt @dbanksdesign
-/src/pages/gen1/\[platform\]/build-a-backend/server-side-rendering/ @josefaidt @dbanksdesign
-/src/pages/gen1/\[platform\]/prev/build-a-backend/server-side-rendering/ @josefaidt @dbanksdesign
-/src/pages/\[platform\]/build-a-backend/server-side-rendering/ @josefaidt @dbanksdesign
+/src/fragments/**/ssr @hdworld11
+/src/pages/gen1/\[platform\]/build-a-backend/server-side-rendering/ @hdworld11
+/src/pages/gen1/\[platform\]/prev/build-a-backend/server-side-rendering/ @hdworld11
+/src/pages/\[platform\]/build-a-backend/server-side-rendering/ @hdworld11
 
 #Storage
-/src/fragments/**/storage @hdworld11
-/src/pages/gen1/\[platform\]/build-a-backend/storage/ @hdworld11
-/src/pages/gen1/\[platform\]/prev/build-a-backend/storage/ @hdworld11
-/src/pages/gen1/\[platform\]/sdk/storage/ @hdworld11
-/src/pages/\[platform\]/build-a-backend/storage/ @hdworld11
+/src/fragments/**/storage @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/build-a-backend/storage/ @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/prev/build-a-backend/storage/ @hdworld11 @harsh62 
+/src/pages/gen1/\[platform\]/sdk/storage/ @hdworld11 @harsh62 
+/src/pages/\[platform\]/build-a-backend/storage/ @hdworld11 @harsh62 
 
 #Troubleshooting
-/src/fragments/**/troubleshooting @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/troubleshooting/ @josefaidt
-/src/pages/gen1/\[platform\]/prev/build-a-backend/troubleshooting/ @josefaidt
-/src/pages/\[platform\]/build-a-backend/troubleshooting/ @josefaidt
+/src/fragments/**/troubleshooting @hdworld11
+/src/pages/gen1/\[platform\]/build-a-backend/troubleshooting/ @hdworld11
+/src/pages/gen1/\[platform\]/prev/build-a-backend/troubleshooting/ @hdworld11
+/src/pages/\[platform\]/build-a-backend/troubleshooting/ @hdworld11
 
 #UI
-/src/fragments/ui/auth/react/ @dbanksdesign
-/src/pages/gen1/\[platform\]/build-ui/ @dbanksdesign
-/src/pages/gen1/\[platform\]/prev/build-ui/ @dbanksdesign
-/src/pages/\[platform\]/build-ui/ @dbanksdesign
+/src/fragments/ui/auth/react/ @hdworld11
+/src/pages/gen1/\[platform\]/build-ui/ @hdworld11
+/src/pages/gen1/\[platform\]/prev/build-ui/ @hdworld11
+/src/pages/\[platform\]/build-ui/ @hdworld11
 
 #Utilities
-/src/fragments/**/utilities @josefaidt
-/src/pages/gen1/\[platform\]/build-a-backend/utilities/ @josefaidt
-/src/pages/gen1/\[platform\]/prev/build-a-backend/utilities/ @josefaidt
+/src/fragments/**/utilities @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/build-a-backend/utilities/ @hdworld11 @harsh62
+/src/pages/gen1/\[platform\]/prev/build-a-backend/utilities/ @hdworld11 @harsh62
 
 #Deploy and Host 
-/src/pages/gen1/\[platform\]/deploy-and-host/ @mauerbac @josefaidt
-/src/pages/gen1/\[platform\]/prev/deploy-and-host/ @mauerbac @josefaidt
-/src/pages/\[platform\]/deploy-and-host/ @mauerbac @josefaidt
+/src/pages/gen1/\[platform\]/deploy-and-host/ @mauerbac
+/src/pages/gen1/\[platform\]/prev/deploy-and-host/ @mauerbac
+/src/pages/\[platform\]/deploy-and-host/ @mauerbac
 
 #Docs Engineering
 /src/components @aws-amplify/documentation-team
 /src/constants @aws-amplify/documentation-team 
 /src/data @aws-amplify/documentation-team
 /src/directory  @aws-amplify/documentation-team
-/src/directory/directory.mjs @aws-amplify/amplify-pms
+/src/directory/directory.mjs @hdworld11 @ShadowCat567
 /src/pages/contribute/ @aws-amplify/documentation-team
 /src/pages/_app.tsx @aws-amplify/documentation-team 
 /src/pages/_document.tsx @aws-amplify/documentation-team 
