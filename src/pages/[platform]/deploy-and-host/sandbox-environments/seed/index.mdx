@@ -527,25 +527,24 @@ You may want to use the same user(s) over multiple runs of seed. In this case, u
 const username = await getSecret('username');
 const password = await getSecret('password');
 
-try{
+try {
   const user = await createAndSignUpUser({
     username: username,
     password: password,
     signInFlow: 'Password',
     signInAfterCreation: true
   });
-} catch(err) {
-    const error = err as Error;
-    if(error.name === 'UsernameExistsError') {
-        await signInUser({
-            username: username,
-            password: password,
-            signInFlow: 'Password',
-        });
-    }
-    else {
-        throw err;
-    }
+} catch (err) {
+  const error = err as Error;
+  if (error.name === 'UsernameExistsError') {
+    await signInUser({
+      username: username,
+      password: password,
+      signInFlow: 'Password'
+    });
+  } else {
+    throw err;
+  }
 }
 ```
 
