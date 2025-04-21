@@ -168,15 +168,15 @@ npm install otpauth
 ```
 
 ```typescript title="amplify/seed/seed.ts"
+import type { ChallengeResponse } from "@aws-amplify/seed";
+import { readFile } from "node:fs/promises";
 import {
-  ChallengeResponse,
   createAndSignUpUser,
   getSecret,
 } from "@aws-amplify/seed";
 import { Amplify } from "aws-amplify";
 import * as auth from "aws-amplify/auth";
 import * as otpauth from "otpauth";
-import { readFile } from 'node:fs/promises';
 
 // this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
 const url = new URL("../../amplify_outputs.json", import.meta.url);
