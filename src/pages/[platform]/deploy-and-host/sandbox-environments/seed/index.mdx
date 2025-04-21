@@ -336,12 +336,12 @@ export const data = defineData({
 Now to seed your todo table with a todo, you can write the following script:
 
 ```typescript title="amplify/seed/seed.ts"
+import type { Schema } from "../data/resource";
+import { readFile } from "node:fs/promises";
 import { getSecret, signInUser } from "@aws-amplify/seed";
 import { Amplify } from "aws-amplify";
 import * as auth from "aws-amplify/auth";
-import type { Schema } from "./../data/resource";
 import { generateClient } from "aws-amplify/api";
-import { readFile } from 'node:fs/promises';
 
 // this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
 const url = new URL("../../amplify_outputs.json", import.meta.url);
