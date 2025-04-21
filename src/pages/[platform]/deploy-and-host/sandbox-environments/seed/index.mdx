@@ -254,6 +254,7 @@ npx ampx sandbox seed
 For example, if you would like to seed your auth with a user with Email MFA enabled:
 
 ```typescript title="amplify/seed/seed.ts"
+import { readFile } from "node:fs/promises";
 import {
   createAndSignUpUser,
   getSecret,
@@ -261,7 +262,6 @@ import {
 } from "@aws-amplify/seed";
 import { Amplify } from "aws-amplify";
 import * as auth from "aws-amplify/auth";
-import { readFile } from 'node:fs/promises';
 
 // this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
 const url = new URL("../../amplify_outputs.json", import.meta.url);
