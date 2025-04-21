@@ -101,11 +101,13 @@ Import and load the configuration file in your app. It's recommended you add the
 
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import outputs from '../amplify_outputs.json';
 
-Amplify.configure(outputs);
+const amplifyConfig = parseAmplifyConfig(outputs);
+
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...amplifyConfig,
   Interactions: {
     LexV2: {
       '<your-bot-name>': {

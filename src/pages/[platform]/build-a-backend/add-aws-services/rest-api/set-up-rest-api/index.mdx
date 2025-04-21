@@ -211,34 +211,58 @@ Import and load the configuration file in your app. It's recommended you add the
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native"]}>
 ```javascript title="src/main.ts"
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import outputs from '../amplify_outputs.json';
 
-Amplify.configure(outputs);
-const existingConfig = Amplify.getConfig();
-Amplify.configure({
-  ...existingConfig,
-  API: {
-    ...existingConfig.API,
-    REST: outputs.custom.API,
+const amplifyConfig = parseAmplifyConfig(outputs);
+
+Amplify.configure(
+  {
+    ...amplifyConfig,
+    API: {
+      ...amplifyConfig.API,
+      REST: outputs.custom.API,
+    },
   },
-});
+  {
+    API: {
+      REST: {
+        retryStrategy: {
+          strategy: 'no-retry', // Overrides default retry strategy
+        },
+      }
+    }
+  }
+);
 ```
 </InlineFilter>
 
 <InlineFilter filters={["nextjs"]}>
 ```tsx title="pages/_app.tsx"
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import outputs from '@/amplify_outputs.json';
 
-Amplify.configure(outputs);
-const existingConfig = Amplify.getConfig();
-Amplify.configure({
-  ...existingConfig,
-  API: {
-    ...existingConfig.API,
-    REST: outputs.custom.API,
-  },
-});
+const amplifyConfig = parseAmplifyConfig(outputs);
+
+Amplify.configure(
+  {
+    ...amplifyConfig,
+    API: {
+      ...amplifyConfig.API,
+      REST: outputs.custom.API,
+    },
+  }, 
+  {
+    API: {
+      REST: {
+        retryStrategy: {
+          strategy: 'no-retry' // Overrides default retry strategy
+        },
+      }
+    }
+  }
+);
 ```
 </InlineFilter>
 

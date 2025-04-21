@@ -82,32 +82,33 @@ Learn more about how you can further customize the UI component by referring to 
 The following is an example of how you would upload a file from a file object, this could be retrieved from the local machine or a different source.
 
 <InlineFilter filters={["react", "react-native"]}>
-```javascript
+```jsx
 import React from 'react';
 import { uploadData } from 'aws-amplify/storage';
 
 function App() {
-    const [file, setFile] = React.useState();
+  const [file, setFile] = React.useState();
 
-    const handleChange = (event: any) => {
-        setFile(event.target.files[0]);
-    };
+  const handleChange = (event) => {
+    setFile(event.target.files?.[0]);
+  };
 
-    return (
-        <div>
-            <input type="file" onChange={handleChange} />
-            <button
-                onClick={() =>
-                    uploadData({
-                        path: `photos/${file.name}`,
-                        data: file,
-                    })
-                }
-            >
-                Upload
-            </button>
-        </div>
-    );
+  const handleClick = () => {
+    if (!file) {
+      return;
+    }
+    uploadData({
+      path: `photos/${file.name}`,
+      data: file,
+    });
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleChange} />
+      <button onClick={handleClick}>Upload</button>
+    </div>
+  );
 }
 ```
 </InlineFilter>
@@ -647,10 +648,52 @@ Future<void> upload() async {
 
 <InlineFilter filters={["flutter"]}>
 
+### Upload to a specified bucket
+
+You can also perform an `upload` operation to a specific bucket by providing the `bucket` option. You can pass in a `StorageBucket` object representing the target bucket from the name defined in the Amplify Backend.
+
+```dart
+final data = 'multi bucket upload data byte'.codeUnits;
+final result = await Amplify.Storage.uploadData(
+  data: StorageDataPayload.bytes(data),
+  path: const StoragePath.fromString('path/to/file.txt'),
+  options: StorageUploadDataOptions(
+    // highlight-start
+    // Specify a target bucket using name assigned in Amplify Backend
+    bucket: StorageBucket.fromOutputs('secondBucket'),
+    // highlight-end
+  ),
+).result;
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console.
+
+```dart
+final data = 'multi bucket upload data byte'.codeUnits;
+final result = await Amplify.Storage.uploadData(
+  data: StorageDataPayload.bytes(data),
+  path: const StoragePath.fromString('path/to/file.txt'),
+  options: StorageUploadDataOptions(
+    // highlight-start
+    // Alternatively, provide bucket name from console and associated region
+   bucket: StorageBucket.fromBucketInfo(
+        BucketInfo(
+          bucketName: 'second-bucket-name-from-console',
+          region: 'us-east-2',
+        ),
+      ),
+      // highlight-end
+  ),
+).result;
+```
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
 ### More upload options
 
 Option | Type | Description |
 | -- | -- | ----------- |
+| bucket | StorageBucket | The target bucket from the assigned name in the Amplify Backend or from the bucket name and region in the console<br/><br/>Defaults to default bucket and region from the Amplify configuration if this option is not provided.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | getProperties | boolean | Whether to retrieve properties for the uploaded object using theAmplify.Storage.getProperties() after the operation completes. When set to true the returned item will contain additional info such as metadata and content type. |
 | useAccelerateEndpoint | boolean | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
 
@@ -1566,7 +1609,13 @@ const result = await uploadData({
     // configure how object is presented
     contentDisposition: "attachment",
     // whether to use accelerate endpoint
-    useAccelerateEndpoint: true
+    useAccelerateEndpoint: true,
+    // the account ID that owns requested bucket
+    expectedBucketOwner: "123456789012",
+    // whether to check if an object with the same key already exists before completing the upload
+    preventOverwrite: true,
+    // whether to compute the checksum for the data to be uploaded, so the S3 can verify the data integrity
+    checksumAlgorithm: "crc-32", // only 'crc-32' is supported currently
   },
 });
 ```
@@ -1578,6 +1627,9 @@ Option | Type | Default | Description |
 | contentDisposition | string | — | Specifies presentational information for the object. <br/><br/> Read more at [Content-Disposition documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) |
 | metadata | map\<string\> | — | A map of metadata to store with the object in S3. <br/><br/> Read more at [S3 metadata documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingMetadata.html#UserMetadata) |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/upload-files/#transfer-acceleration) |
+| expectedBucketOwner | string | - | The account ID that owns requested bucket. |
+| preventOverwrite | boolean | false | Whether to check if an object with the same key already exists before completing the upload. If exists, a `Precondition Failed` error will be thrown |
+| checksumAlgorithm | "crc-32" | - | Whether to compute the checksum for the data to be uploaded, so the S3 can verify the data integrity. Only 'crc-32' is supported currently |
 
 <Callout>
 

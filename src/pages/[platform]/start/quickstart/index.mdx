@@ -1051,7 +1051,7 @@ Now move the `amplify_outputs.json` file you downloaded above to the root of you
 ```
 
 <Accordion title='amplify_outputs.json' headingLevel='4' eyebrow='Learn more'>
-The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `main.tsx` file and then passed into the `Amplify.configure(...)` function of the Amplify client library.
+The **amplify_outputs.json** file contains backend endpoint information, publicly-viewable API keys, authentication flow information, and more. The Amplify client library uses this outputs file to connect to your Amplify Backend.  You can review how the outputs file is imported within the `app.component.ts` file and then passed into the `Amplify.configure(...)` function of the Amplify client library.
 </Accordion>
 
 
@@ -2650,7 +2650,13 @@ Before you get started, make sure you have the following installed:
 
 This Quickstart guide will walk you through how to build a Todo application for Android or iOS using [Expo](https://expo.dev/)'s TypeScript template.
 
-  <Callout>
+<Callout warning>
+
+**Warning:** React Native for Web is not officially supported yet, but we are working towards official support. We are tracking the progress in [issue #13918 on GitHub](https://github.com/aws-amplify/amplify-js/issues/13918)
+
+</Callout>
+
+<Callout>
 
 Amplify now requires native modules not available through the Expo SDK. As a result, Expo Go is no longer supported but you should still be able to use Expo. [Learn more about dropping support for Expo Go in Amplify v6](/gen1/react-native/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/).
 
@@ -2717,7 +2723,7 @@ npm add \
   aws-amplify \
   @react-native-community/netinfo \
   @react-native-async-storage/async-storage \
-  react-native-safe-area-context \
+  react-native-safe-area-context@^4.2.5 \
   react-native-get-random-values \
   react-native-url-polyfill
 ```
@@ -2732,7 +2738,7 @@ Next, update the `App.tsx` file with the following:
 
 ```typescript
 import React from "react";
-import { Button, View, StyleSheet, SafeAreaView } from "react-native";
+import { Button, View, StyleSheet } from "react-native";
 
 import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
@@ -2755,9 +2761,7 @@ const App = () => {
   return (
     <Authenticator.Provider>
       <Authenticator>
-        <SafeAreaView>
-          <SignOutButton />
-        </SafeAreaView>
+        <SignOutButton />
       </Authenticator>
     </Authenticator.Provider>
   );

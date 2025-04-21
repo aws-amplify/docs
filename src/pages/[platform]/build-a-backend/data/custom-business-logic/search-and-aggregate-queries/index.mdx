@@ -148,8 +148,15 @@ const openSearchDomain = new opensearch.Domain(
   'OpenSearchDomain',
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
-    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
     removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true
@@ -231,8 +238,15 @@ const openSearchDomain = new opensearch.Domain(
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
-    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
     removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
@@ -356,8 +370,15 @@ const openSearchDomain = new opensearch.Domain(
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
-    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
     removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
@@ -496,8 +517,15 @@ const openSearchDomain = new opensearch.Domain(
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
-    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
     removalPolicy: RemovalPolicy.DESTROY,  
     encryptionAtRest: {
       enabled: true,
@@ -696,8 +724,15 @@ const openSearchDomain = new opensearch.Domain(
   "OpenSearchDomain",
   {
     version: opensearch.EngineVersion.OPENSEARCH_2_11,
+    capacity: {
+      // upgrade instance types for production use
+      masterNodeInstanceType: "t3.small.search",
+      masterNodes: 0,
+      dataNodeInstanceType: "t3.small.search",
+      dataNodes: 1,
+    },
     nodeToNodeEncryption: true,
-    // set removalPolicy to DESTROY to make sure the open search domain is deleted on stack deletion.
+    // set removalPolicy to DESTROY to make sure the OpenSearch domain is deleted on stack deletion.
     removalPolicy: RemovalPolicy.DESTROY,
     encryptionAtRest: {
       enabled: true,
@@ -870,7 +905,7 @@ You can also check this in the DynamoDB console by going to the Integrations sec
 
 ## Step 4: Expose new queries on OpenSearch
 
-### Step 4a:Add OpenSearch Datasource to backend
+### Step 4a: Add OpenSearch Datasource to backend
 
 First, Add the OpenSearch data source to the data backend. Add the following code to the end of the `amplify/backend.ts` file.
 
@@ -946,5 +981,5 @@ const schema = a.schema({
 
 Once you've deployed the resources, you can verify the changes by checking the AppSync console. Run the 'searchTodo' query and review the results to confirm their accuracy.
 
-![A screenshot from the AppSync console displaying a generated query for 'searchTodo' with the results fetched from OpenSearch on the right side.](/images/gen2/opensearch-integration/opensearch_appsync_console.png)
+![AppSync console displaying a generated query for 'searchTodo' with the results fetched from OpenSearch on the right side.](/images/gen2/opensearch-integration/opensearch_appsync_console.png)
 

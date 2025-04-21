@@ -38,17 +38,22 @@ npm add --save-dev @types/aws-lambda
 ```
 
 
-Next, create a new directory and a resource file, `amplify/auth/custom-message/resource.ts`. Then, define the function with defineFunction:
+Next, create a new directory and a resource file, `amplify/auth/custom-message/resource.ts`. Then, define the function with `defineFunction`:
 
 ```ts title="amplify/auth/custom-message/resource.ts"
 import { defineFunction } from '@aws-amplify/backend';
 
 export const customMessage = defineFunction({
   name: "custom-message",
+  resourceGroupName: 'auth'
 });
 ```
 
 Next, create the corresponding handler file, `amplify/auth/custom-message/handler.ts`, file with the following contents:
+
+<Callout>
+The input event for the `CustomMessage_AdminCreateUser` trigger source includes both a username and verification code. Admin-created users must receive both their username and code in order to sign in and thus you must include both the `usernameParameter` and `codeParameter` in your message template.
+</Callout>
 
 {/* spell-checker: disable */}
 ```ts title="amplify/auth/custom-message/handler.ts" 
@@ -66,10 +71,17 @@ export const handler: CustomMessageTriggerHandler = async (event) => {
     }
   }
 
+  if (event.triggerSource === "CustomMessage_AdminCreateUser") {
+    event.response.emailMessage = `Your username is ${event.request.usernameParameter} and your temporary password is ${event.request.codeParameter}`;
+    event.response.emailSubject = 'Welcome to Example App';
+  }
+
   return event;
 };
 ```
 {/* spellchecker: enable */} 
+
+
 
 
 Lastly, set the newly created function resource on your auth resource:

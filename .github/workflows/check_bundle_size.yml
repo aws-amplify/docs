@@ -14,9 +14,11 @@ jobs:
         with:
           ref: main
       - name: Setup Node.js 20
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: 20.x
+      - name: Set Yarn Berry
+        uses: ./.github/actions/set_yarn_berry
       - name: Install dependencies
         run: yarn
       - name: Run build and analyze base bundle sizes
@@ -38,9 +40,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Setup Node.js 20
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: 20.x
+      - name: Set Yarn Berry
+        uses: ./.github/actions/set_yarn_berry
       - name: Install dependencies
         run: yarn
       - name: Run build and analyze head bundle sizes

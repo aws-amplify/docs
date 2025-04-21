@@ -317,7 +317,7 @@ npm add \
   aws-amplify \
   @react-native-community/netinfo \
   @react-native-async-storage/async-storage \
-  react-native-safe-area-context \
+  react-native-safe-area-context@^4.2.5 \
   react-native-get-random-values
 ```
 
@@ -372,9 +372,7 @@ const App = () => {
   return (
     <Authenticator.Provider>
       <Authenticator>
-        <SafeAreaView>
-          <SignOutButton />
-        </SafeAreaView>
+        <SignOutButton />
       </Authenticator>
     </Authenticator.Provider>
   );

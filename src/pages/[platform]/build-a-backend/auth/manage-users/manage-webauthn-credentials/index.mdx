@@ -1,0 +1,441 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Manage WebAuthn credentials',
+  description: 'Learn how to manage WebAuthn credentials',
+  platforms: [
+    'android',
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}
+
+<InlineFilter filters={["react-native"]}>
+<Callout warning>
+
+WebAuthn registration and authentication are not currently supported on React Native, other passwordless features are fully supported.
+
+</Callout>
+</InlineFilter>
+
+Amplify Auth enables your users to associate, keep track of, and delete passkeys.
+
+## Associate WebAuthN credentials
+  
+Note that users must be authenticated to register a passkey. That also means users cannot create a passkey during sign up; consequently, they must have at least one other first factor authentication mechanism associated with their account to use WebAuthn.
+
+You can associate a passkey using the following API:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { associateWebAuthnCredential} from 'aws-amplify/auth';
+
+await associateWebAuthnCredential();
+
+```
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.associateWebAuthnCredential(
+    activity,
+    () -> Log.i("AuthQuickstart", "Associated credential"),
+    error -> Log.e("AuthQuickstart", "Failed to register credential", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.associateWebAuthnCredential(
+    activity,
+    { Log.i("AuthQuickstart", "Associated credential") },
+    { Log.e("AuthQuickstart", "Failed to register credential", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.associateWebAuthnCredential(activity)
+    Log.i("AuthQuickstart", "Associated credential")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to associate credential", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.associateWebAuthnCredential(activity)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", "Associated credential"), 
+        error -> Log.e("AuthQuickstart", "Failed to associate credential", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+You must supply an `Activity` instance so that Amplify can display the PassKey UI in your Application's [Task](https://developer.android.com/guide/components/activities/tasks-and-back-stack).
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func associateWebAuthNCredentials() async {
+    do {
+        try await Amplify.Auth.associateWebAuthnCredential()
+        print("WebAuthn credential was associated")
+    } catch {
+        print("Associate WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func associateWebAuthNCredentials() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.associateWebAuthnCredential()
+    }.sink {
+        print("Associate WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { _ in
+        print("WebAuthn credential was associated")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+The user will be prompted to register a passkey using their local authenticator. Amplify will then associate that passkey with Cognito.
+
+## List WebAuthN credentials
+
+You can list registered passkeys using the following API:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { listWebAuthnCredentials } from 'aws-amplify/auth';
+
+const result = await listWebAuthnCredentials();
+
+for (const credential of result.credentials) {
+	console.log(`Credential ID: ${credential.credentialId}`);
+	console.log(`Friendly Name: ${credential.friendlyCredentialName}`);
+	console.log(`Relying Party ID: ${credential.relyingPartyId}`);
+	console.log(`Created At: ${credential.createdAt}`);
+}
+
+```
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func listWebAuthNCredentials() async {
+    do {
+        let result = try await Amplify.Auth.listWebAuthnCredentials(
+          options: .init(pageSize: 5))
+          
+        for credential in result.credentials {  
+          print("Credential ID: \(credential.credentialId)")  
+          print("Created At: \(credential.createdAt)")  
+          print("Relying Party Id: \(credential.relyingPartyId)")  
+          if let friendlyName = credential.friendlyName {    
+            print("Friendly name: \(friendlyName)")    
+          }
+        }
+          
+        // Fetch the next page
+        if let nextToken = result.nextToken {  
+          let nextResult = try await Amplify.Auth.listWebAuthnCredentials(
+            options: .init(
+              pageSize: 5,
+              nextToken: nextToken))
+        }
+    } catch {
+        print("Associate WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func listWebAuthNCredentials() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.listWebAuthnCredentials(
+          options: .init(pageSize: 5))
+    }.sink {
+        print("List WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { result in
+        for credential in result.credentials {  
+          print("Credential ID: \(credential.credentialId)")  
+          print("Created At: \(credential.createdAt)")  
+          print("Relying Party Id: \(credential.relyingPartyId)")  
+          if let friendlyName = credential.friendlyName {    
+            print("Friendly name: \(friendlyName)")    
+          }
+        }
+          
+        if let nextToken = result.nextToken {  
+          // Fetch the next page
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.listWebAuthnCredentials(
+    result -> result.getCredentials().forEach(credential -> {
+        Log.i("AuthQuickstart", "Credential ID: " + credential.getCredentialId());
+        Log.i("AuthQuickstart", "Friendly Name: " + credential.getFriendlyName());
+        Log.i("AuthQuickstart", "Relying Party ID: " + credential.getRelyingPartyId());
+        Log.i("AuthQuickstart", "Created At: " + credential.getCreatedAt());
+    }),
+    error -> Log.e("AuthQuickstart", "Failed to list credentials", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.listWebAuthnCredentials(
+    { result ->
+        result.credentials.forEach { credential ->
+            Log.i("AuthQuickstart", "Credential ID: ${credential.credentialId}")
+            Log.i("AuthQuickstart", "Friendly Name: ${credential.friendlyName}")
+            Log.i("AuthQuickstart", "Relying Party ID: ${credential.relyingPartyId}")
+            Log.i("AuthQuickstart", "Created At: ${credential.createdAt}")
+        }
+    },
+    { error -> Log.e("AuthQuickstart", "Failed to list credentials", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.listWebAuthnCredentials()
+    result.credentials.forEach { credential ->
+        Log.i("AuthQuickstart", "Credential ID: ${credential.credentialId}")
+        Log.i("AuthQuickstart", "Friendly Name: ${credential.friendlyName}")
+        Log.i("AuthQuickstart", "Relying Party ID: ${credential.relyingPartyId}")
+        Log.i("AuthQuickstart", "Created At: ${credential.createdAt}")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to list credentials", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.listWebAuthnCredentials()
+    .subscribe(
+        result -> result.getCredentials().forEach(credential -> {
+            Log.i("AuthQuickstart", "Credential ID: " + credential.getCredentialId());
+            Log.i("AuthQuickstart", "Friendly Name: " + credential.getFriendlyName());
+            Log.i("AuthQuickstart", "Relying Party ID: " + credential.getRelyingPartyId());
+            Log.i("AuthQuickstart", "Created At: " + credential.getCreatedAt());
+        }), 
+        error -> Log.e("AuthQuickstart", "Failed to list credentials", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+## Delete WebAuthN credentials
+
+You can delete a passkey with the following API:
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+```ts
+import { deleteWebAuthnCredential } from 'aws-amplify/auth';
+
+const id = "credential-id-to-delete";
+
+await deleteWebAuthnCredential({
+  credentialId: id
+});
+```
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func deleteWebAuthNCredentials(credentialId: String) async {
+    do {
+        try await Amplify.Auth.deleteWebAuthnCredential(credentialId: credentialId)
+        print("WebAuthn credential was deleted")
+    } catch {
+        print("Delete WebAuthn Credential failed: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func deleteWebAuthNCredentials(credentialId: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.deleteWebAuthnCredential(credentialId: credentialId)
+    }.sink {
+        print("Delete WebAuthn Credential failed: \($0)")
+    }
+    receiveValue: { _ in
+        print("WebAuthn credential was deleted")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.deleteWebAuthnCredential(
+    credentialId,
+    (result) -> Log.i("AuthQuickstart", "Deleted credential"),
+    error -> Log.e("AuthQuickstart", "Failed to delete credential", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.deleteWebAuthnCredential(
+    credentialId,
+    { Log.i("AuthQuickstart", "Deleted credential") },
+    { Log.e("AuthQuickstart", "Failed to delete credential", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.deleteWebAuthnCredential(credentialId)
+    Log.i("AuthQuickstart", "Deleted credential")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to delete credential", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.deleteWebAuthnCredential(credentialId)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", "Deleted credential"), 
+        error -> Log.e("AuthQuickstart", "Failed to delete credential", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+The delete passkey API has only the required `credentialId` as input, and it does not return a value.
+
+</InlineFilter>
+
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+## Practical example
+
+Here is a code example that uses the list and delete APIs together. In this example, the user has 3 passkeys registered. They want to list all passkeys while using a `pageSize` of 2 as well as delete the first passkey in the list.
+
+```ts
+import { 
+  listWebAuthnCredentials,
+  deleteWebAuthnCredential
+} from 'aws-amplify/auth';
+
+let passkeys = [];
+
+const result = await listWebAuthnCredentials({ pageSize: 2 });
+
+passkeys.push(...result.credentials);
+
+const nextPage = await listWebAuthnCredentials({
+  pageSize: 2,
+  nextToken: result.nextToken,
+});
+
+passkeys.push(...nextPage.credentials);
+
+const id = passkeys[0].credentialId;
+
+await deleteWebAuthnCredential({
+  credentialId: id
+});
+```
+
+</InlineFilter>

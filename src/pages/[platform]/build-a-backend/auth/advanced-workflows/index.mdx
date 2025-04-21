@@ -375,6 +375,77 @@ func federateToIdentityPoolsUsingCustomIdentityId() async throws {
 }
 ```
 
+## Keychain Sharing
+
+### Migrating to a Shared Keychain
+
+To use a shared keychain:
+
+1. In Xcode, go to Project Settings → Your Target → Signing & Capabilities
+2. Select +Capability
+3. Add Keychain Sharing capability
+4. Add a keychain group
+5. Repeat for all apps for which you want to share auth state, adding the same keychain group for all of them
+
+To move to the shared keychain using this new keychain access group, specify the `accessGroup` parameter when instantiating the `AWSCognitoAuthPlugin`. If a user is currently signed in, they will be signed out when first using the access group:
+
+```swift
+let accessGroup = AccessGroup(name: "\(teamID)com.example.sharedItems")
+let secureStoragePreferences = AWSCognitoSecureStoragePreferences(
+  accessGroup: accessGroup)
+try Amplify.add(
+  plugin: AWSCognitoAuthPlugin(
+    secureStoragePreferences: secureStoragePreferences))
+try Amplify.configure()
+```
+
+If you would prefer the user session to be migrated (which will allow the user to continue to be signed in), then specify the `migrateKeychainItemsOfUserSession` boolean in the AccessGroup to be true like so:
+
+```swift
+let accessGroup = AccessGroup(
+  name: "\(teamID)com.example.sharedItems",
+  migrateKeychainItemsOfUserSession: true)
+let secureStoragePreferences = AWSCognitoSecureStoragePreferences(
+  accessGroup: accessGroup)
+try Amplify.add(
+  plugin: AWSCognitoAuthPlugin(
+    secureStoragePreferences: secureStoragePreferences))
+try Amplify.configure()
+```
+
+Sign in a user with any sign-in method within one app that uses this access group. After reloading another app that uses this access group, the user will be signed in. Likewise, signing out of one app will sign out the other app after reloading it.
+
+### Migrating to another Shared Keychain
+
+To move to a different access group, update the name parameter of the AccessGroup to be the new access group. Set `migrateKeychainItemsOfUserSession` to `true` to migrate an existing user session under the previously used access group.
+
+### Migrating from a Shared Keychain
+
+If you'd like to stop sharing state between this app and other apps, you can set the access group to be `AccessGroup.none` or `AccessGroup.none(migrateKeychainItemsOfUserSession: true)` if you'd like the session to be migrated.
+
+### Retrieving Team ID
+
+First, ensure your Info.plist has the `AppIdentifierPrefix` key:
+
+```xml title="Info.plist"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>AppIdentifierPrefix</key>
+    <string>$(AppIdentifierPrefix)</string>
+</dict>
+</plist>
+```
+
+Then, you can retrieve the team ID from your Info.plist:
+
+```swift
+guard let teamID = Bundle.main.infoDictionary?["AppIdentifierPrefix"] as? String else {
+    fatalError("AppIdentifierPrefix key not found in Info.plist")
+}
+```
+
 </InlineFilter>
 <InlineFilter filters={['javascript','react-native','angular','nextjs','react','vue']}>
 ## Subscribing to Events
@@ -396,7 +467,7 @@ import {
 } from 'aws-amplify/auth';
 
 // Note: This example requires installing `@aws-sdk/client-cognito-identity` to obtain Cognito credentials
-// npm i @aws-sdk/client-cognito-identity
+// npm add @aws-sdk/client-cognito-identity
 import { CognitoIdentity } from '@aws-sdk/client-cognito-identity';
 
 // You can make use of the sdk to get identityId and credentials

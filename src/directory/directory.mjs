@@ -74,6 +74,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/phone/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/auth/concepts/passwordless/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/user-attributes/index.mdx'
                     },
                     {
@@ -122,6 +125,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/delete-user-account/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/multi-step-sign-in/index.mdx'
                     }
                   ]
                 },
@@ -133,6 +139,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-passwords/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials/index.mdx'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/manage-devices/index.mdx'
@@ -155,9 +164,6 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/triggers/index.mdx'
                     }
                   ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/multi-step-sign-in/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
@@ -228,6 +234,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/data-modeling/secondary-index/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/data-modeling/disable-operations/index.mdx'
                     }
                   ]
                 },
@@ -286,6 +295,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/connect-http-datasource/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/data/custom-business-logic/batch-ddb-operations/index.mdx'
                     }
                   ]
                 },
@@ -328,6 +340,15 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/manage-with-amplify-console/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/aws-appsync-apollo-extensions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/enable-logging/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/data/field-level-validation/index.mdx'
                 }
               ]
             },
@@ -388,6 +409,9 @@ export const directory = {
                   path: 'src/pages/[platform]/build-a-backend/functions/configure-functions/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/functions/configure-client-library/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/functions/scheduling-functions/index.mdx'
                 },
                 {
@@ -439,6 +463,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/modify-resources-with-cdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/functions/custom-functions/index.mdx'
                 }
               ]
             },
@@ -713,6 +740,74 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/troubleshooting/circular-dependency/index.mdx'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          path: 'src/pages/[platform]/ai/index.mdx',
+          children: [
+            {
+              path: 'src/pages/[platform]/ai/set-up-ai/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/ai/concepts/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/concepts/architecture/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/models/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/prompting/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/inference-configuration/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/streaming/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/tools/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/ai/conversation/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/tools/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/context/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/response-components/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/conversation/knowledge-base/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/ai/generation/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
                 }
               ]
             }
@@ -1745,6 +1840,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/gen1/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/gen1/[platform]/build-a-backend/troubleshooting/apikey-not-found/index.mdx'
                     }
                   ]
                 }

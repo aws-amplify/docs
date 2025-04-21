@@ -1,0 +1,149 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Passwordless',
+  description: 'Learn how to configure passwordless sign-in flows',
+  platforms: [
+    'android',
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Amplify supports the use of passwordless authentication flows using the following methods:
+
+- [SMS-based one-time password (SMS OTP)](#sms-otp)
+- [Email-based one-time password (Email OTP)](#email-otp)
+- [WebAuthn passkey](#webauthn-passkey)
+
+Passwordless authentication removes the security risks and user friction associated with traditional passwords.
+{/* add more color */}
+
+<Callout warning>
+
+**Warning:** Passwordless configuration is currently not available in `defineAuth`. We are currently working towards enabling support for passwordless configurations. [Visit the GitHub issue to track the progress](https://github.com/aws-amplify/amplify-backend/issues/2276)
+
+</Callout>
+
+Learn how to implement passwordless sign-in flows by [overriding the Cognito UserPool to enable the sign-in methods below](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#override-cognito-userpool-to-enable-passwordless-sign-in-methods).
+
+{/* need a section about what a "preferred" factor is */}
+
+## SMS OTP
+
+SMS-based authentication uses phone numbers as the identifier and text messages as the verification channel. At a high level end users will perform the following steps to authenticate:
+
+1. User enters their phone number to sign up/sign in
+2. They receive a text message with a time-limited code
+3. After the user enters their code they are authenticated
+
+{/* quick blurb of basic usage */}
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+{/*  */}
+
+</InlineFilter>
+
+<Callout info>
+
+SMS-based one-time password requires your Amazon Cognito user pool to be configured to use Amazon Simple Notification Service (SNS) to send text messages. [Learn how to configure your auth resource with SNS](/[platform]/build-a-backend/auth/moving-to-production/#sms).
+
+{/* NOTE the linked page will need to be updated with sns instructions */}
+
+</Callout>
+
+[Learn more about using SMS OTP in your application code](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sms-otp).
+
+## Email OTP
+
+Email-based authentication uses email addresses for identification and verification. At a high level end users will perform the following steps to authenticate:
+
+1. User enters their email address to sign up/sign in
+2. They receive an email message with a time-limited code
+3. After the users enters their code they are authenticated
+
+{/* quick blurb of basic usage */}
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+{/*  */}
+
+</InlineFilter>
+
+<Callout info>
+
+Email-based one-time password requires your Amazon Cognito user pool to be configured to use Amazon Simple Email Service (SES) to send email messages. [Learn how to configure your auth resource with SES](/[platform]/build-a-backend/auth/moving-to-production/#email).
+
+</Callout>
+
+[Learn more about using email OTP in your application code](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#email-otp).
+
+## WebAuthn Passkey
+
+WebAuthn uses biometrics or security keys for authentication, leveraging device-specific security features. At a high level end users will perform the following steps to authenticate:
+
+1. User chooses to register a passkey
+2. Their device prompts for biometric/security key verification
+3. For future logins, they'll authenticate using the same method
+
+{/* quick blurb of basic usage */}
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["android"]}>
+
+{/*  */}
+
+</InlineFilter>
+<InlineFilter filters={["swift"]}>
+
+{/*  */}
+
+</InlineFilter>
+
+[Learn more about using WebAuthn passkeys in your application code](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#webauthn-passkeys).
+
+### Managing credentials
+
+{/* quick blurb then segue over to "manage WebAuthn credentials" page */}
+
+[Learn more about managing WebAuthn credentials](/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials).

@@ -565,7 +565,7 @@ Subscribe to mutations for creating real-time clients.
 
 ## Setup subscription with callbacks
 
-When creating subscriptions, a [`Stream`](https://api.dart.dev/stable/dart-async/Stream-class.html) object will be returned to you. This `Stream` will continue producing events until either the subscription encounters an error or you cancel the subscription. In the case of need for limiting the amount of data that is omitted, you can take advantage of the Stream's helper functions such as `take`. The cancellation occurs when the defined amount of event has occurred:
+When creating subscriptions, a [`Stream`](https://api.dart.dev/dart-async/Stream-class.html) object will be returned to you. This `Stream` will continue producing events until either the subscription encounters an error or you cancel the subscription. In the case of need for limiting the amount of data that is omitted, you can take advantage of the Stream's helper functions such as `take`. The cancellation occurs when the defined amount of event has occurred:
 
 ```dart
 Stream<GraphQLResponse<Todo>> subscribe() {
@@ -586,7 +586,7 @@ Stream<GraphQLResponse<Todo>> subscribe() {
 }
 ```
 
-Alternatively, you can call [`Stream.listen`](https://api.dart.dev/stable/dart-async/Stream/listen.html) to create a [`StreamSubscription`](https://api.dart.dev/stable/dart-async/StreamSubscription-class.html) object which can be programmatically canceled.
+Alternatively, you can call [`Stream.listen`](https://api.dart.dev/dart-async/Stream/listen.html) to create a [`StreamSubscription`](https://api.dart.dev/dart-async/StreamSubscription-class.html) object which can be programmatically canceled.
 
 ```dart
 // Be sure to import this

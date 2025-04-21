@@ -35,11 +35,11 @@ For adding IAM permissions, find you IAM role and attach the policy below (_reme
 
 ```javascript
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(amplifyconfig);
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...parseAmplifyConfig(amplifyconfig),
   Interactions: {
     LexV2: {
       '<V2BotName>': {
@@ -125,11 +125,11 @@ Configuring bot details in your web app like this:
 
 ```javascript
 import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from "aws-amplify/utils";
 import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(amplifyconfig);
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...parseAmplifyConfig(amplifyconfig),
   Interactions: {
     LexV1: {
       '<V1BotName>': {
