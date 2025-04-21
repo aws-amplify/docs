@@ -107,7 +107,7 @@ const backend = defineBackend({
 const customBucketStack = backend.createStack("custom-bucket-stack");
 
 // Import existing bucket
-const customBucket = Bucket.fromBucketAttributes(bucketStack, "MyCustomBucket", {
+const customBucket = Bucket.fromBucketAttributes(customBucketStack, "MyCustomBucket", {
   bucketArn: "arn:aws:s3:::<bucket-name>",
   region: "<region>"
 });
@@ -186,7 +186,7 @@ const backend = defineBackend({
 const customBucketStack = backend.createStack("custom-bucket-stack");
 
 // Import existing bucket
-const customBucket = Bucket.fromBucketAttributes(bucketStack, "MyCustomBucket", {
+const customBucket = Bucket.fromBucketAttributes(customBucketStack, "MyCustomBucket", {
   bucketArn: "arn:aws:s3:::<bucket-name>",
   region: "<region>"
 });
@@ -267,7 +267,7 @@ const backend = defineBackend({
 const customBucketStack = backend.createStack("custom-bucket-stack");
 
 // Import existing bucket
-const customBucket = Bucket.fromBucketAttributes(bucketStack, "MyCustomBucket", {
+const customBucket = Bucket.fromBucketAttributes(customBucketStack, "MyCustomBucket", {
   bucketArn: "arn:aws:s3:::<bucket-name>",
   region: "<region>"
 });
@@ -360,7 +360,7 @@ const backend = defineBackend({
 const customBucketStack = backend.createStack("custom-bucket-stack");
 
 // Import existing bucket
-const customBucket = s3.Bucket.fromBucketAttributes(bucketStack, "MyCustomBucket", {
+const customBucket = Bucket.fromBucketAttributes(customBucketStack, "MyCustomBucket", {
   bucketArn: "arn:aws:s3:::<bucket-name>",
   region: "<region>"
 });
