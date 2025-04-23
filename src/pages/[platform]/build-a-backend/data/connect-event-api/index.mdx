@@ -42,7 +42,7 @@ Before you begin, you will need:
 
 ```tsx title="src/App.tsx"
 import type { EventsChannel } from 'aws-amplify/data';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Amplify } from 'aws-amplify';
 import { events } from 'aws-amplify/data';
 
@@ -53,13 +53,15 @@ Amplify.configure({
         'https://abcdefghijklmnopqrstuvwxyz.appsync-api.us-east-1.amazonaws.com/event',
       region: 'us-east-1',
       defaultAuthMode: 'apiKey',
-      apiKey: 'da2-abcdefghijklmnopqrstuvwxyz'
-    }
-  }
+      apiKey: 'da2-abcdefghijklmnopqrstuvwxyz',
+    },
+  },
 });
 
 export default function App() {
-  const [myEvents, setMyEvents] = useState<unknown[]>([]);
+ const [myEvents, setMyEvents] = useState<unknown[]>([]);
+
+  const sub = useRef<ReturnType<EventsChannel['subscribe']>>(null);
 
   useEffect(() => {
     let channel: EventsChannel;
@@ -67,18 +69,24 @@ export default function App() {
     const connectAndSubscribe = async () => {
       channel = await events.connect('default/channel');
 
-      channel.subscribe({
-        next: (data) => {
-          console.log('received', data);
-          setMyEvents((prev) => [data, ...prev]);
-        },
-        error: (err) => console.error('error', err)
-      });
+      if (!sub.current) {
+        sub.current = channel.subscribe({
+          next: (data) => {
+            console.log('received', data);
+            setMyEvents((prev) => [data, ...prev]);
+          },
+          error: (err) => console.error('error', err),
+        });
+      }
     };
 
     connectAndSubscribe();
 
-    return () => channel && channel.close();
+    return () => {
+      sub.current?.unsubscribe();
+      sub.current = null;
+      return channel?.close();
+    };
   }, []);
 
   async function publishEvent() {
@@ -94,8 +102,8 @@ export default function App() {
     <>
       <button onClick={publishEvent}>Publish Event</button>
       <ul>
-        {myEvents.map((data) => (
-          <li key={data.id}>{JSON.stringify(data.event)}</li>
+        {myEvents.map((data, idx) => (
+          <li key={idx}>{JSON.stringify(data.event, null, 2)}</li>
         ))}
       </ul>
     </>
