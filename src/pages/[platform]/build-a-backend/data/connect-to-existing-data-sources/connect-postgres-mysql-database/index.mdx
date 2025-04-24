@@ -203,13 +203,12 @@ const { data: events } = await client.models.event.list()
 
 When deploying your app to production, you need to [add the database connection string as a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). Make sure to add the appropriate database connection string with the same secret name you used in the sandbox environment. For example, we used `SQL_CONNECTION_STRING` above.
 
-<Video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true} description="Video - Configuring database connection for production">
-  <source src="/images/gen2/secrets-and-vars/secrets.mp4" />
+<Video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true} description="Video - Configuring database connection for production" src="/images/gen2/secrets-and-vars/secrets.mp4">
 </Video>
 
 ## Rename generated models and fields
 
-To improve the ergonomics of your API, you might want to rename the generate fields or types to better accommodate your use case. Use the `renameModels()` and `renameModelFields()` modifiers to rename the auto-inferred data models and their fields.
+To improve the ergonomics of your API, you might want to rename the generate fields or types to better accommodate your use case. Use the `renameModels()` modifier to rename the auto-inferred data models.
 
 ```ts
 // Rename models or fields to be more idiomatic for frontend code

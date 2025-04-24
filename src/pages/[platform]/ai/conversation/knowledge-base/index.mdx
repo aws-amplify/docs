@@ -1,0 +1,149 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Knowledge Base",
+  description:
+    "Knowledge bases can be used for retrieval augmented generation or RAG",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      showBreadcrumbs: false,
+    },
+  };
+}
+
+[Amazon Bedrock knowledge bases](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html) are a great way to implement Retrieval Augmented Generation, or RAG for short. RAG is a common pattern in building generative AI applications that involves storing a lot of content, like documentation, in a vector database like Postgres with pg_vector or OpenSearch.
+
+
+<Callout warning>
+
+The default setup for an Amazon Bedrock knowledge base is OpenSearch Serverless which has a default cost whether or not you use it. You can get a large AWS bill if you are not careful. If you are just testing this out make sure to turn off the OpenSearch Serverless instance when you are done. 
+
+</Callout>
+
+## Create a knowledge base
+
+To integrate Bedrock knowledge base with your conversation route, first [create an Amazon Bedrock knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create.html) in the console, CLI, or with CDK. 
+
+## Create a custom query and tool
+
+```ts title="amplify/data/resource.ts"
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  // highlight-start
+  knowledgeBase: a
+    .query()
+    .arguments({ input: a.string() })
+    .handler(
+      a.handler.custom({
+        dataSource: "KnowledgeBaseDataSource",
+        entry: "./resolvers/kbResolver.js",
+      }),
+    )
+    .returns(a.string())
+    .authorization((allow) => allow.authenticated()),
+  // highlight-end
+
+  chat: a.conversation({
+    aiModel: a.ai.model("Claude 3.5 Haiku"),
+    systemPrompt: `You are a helpful assistant.`,
+    // highlight-start
+    tools: [
+      a.ai.dataTool({
+        name: 'searchDocumentation',
+        description: 'Performs a similarity search over the documentation for ...',
+        query: a.ref('knowledgeBase'),
+      }),
+    ]
+    // highlight-end
+  })
+})
+```
+
+## Write an AWS AppSync resolver
+
+Then you'll need to create a JavaScript AWS AppSync resolver to connect the query to the knowledge base. You'll need to know the ID of the knowledge base you want to use, which you can find in the Amazon Bedrock console or with the AWS CLI.
+
+```javascript title="amplify/data/resolvers/kbResolver.js"
+export function request(ctx) {
+  const { input } = ctx.args;
+  return {
+    resourcePath: "/knowledgebases/[KNOWLEDGE_BASE_ID]/retrieve",
+    method: "POST",
+    params: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        retrievalQuery: {
+          text: input,
+        },
+      }),
+    },
+  };
+}
+
+export function response(ctx) {
+  return JSON.stringify(ctx.result.body);
+}
+
+```
+
+## Define the data source
+
+Then in the amplify backend file you will need to create the data source for the knowledge base query and give it permission to call the knowledge base. 
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource';
+import { data } from './data/resource';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import * as cdk from 'aws-cdk-lib';
+
+const backend = defineBackend({
+  auth,
+  data,
+});
+
+const KnowledgeBaseDataSource =
+  backend.data.resources.graphqlApi.addHttpDataSource(
+    "KnowledgeBaseDataSource",
+    `https://bedrock-agent-runtime.${cdk.Stack.of(backend.data).region}.amazonaws.com`,
+    {
+      authorizationConfig: {
+        signingRegion: cdk.Stack.of(backend.data).region,
+        signingServiceName: "bedrock",
+      },
+    },
+  );
+
+KnowledgeBaseDataSource.grantPrincipal.addToPrincipalPolicy(
+  new PolicyStatement({
+    resources: [
+      `arn:aws:bedrock:${cdk.Stack.of(backend.data).region}:[account ID]:knowledge-base/[knowledge base ID]`
+    ],
+    actions: ["bedrock:Retrieve"],
+  }),
+);
+```
+
+That's it!
+
+

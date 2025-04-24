@@ -1,5 +1,6 @@
 import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
 import ExportedImage from 'next-image-export-optimizer';
+import Link from 'next/link';
 import { MDXCode } from '@/components/MDXComponents/';
 import { IconChevron } from '@/components/Icons';
 import { Video } from '@/components/Video';
@@ -8,6 +9,8 @@ import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
+import { ExternalLinkButton } from '@/components/ExternalLinkButton';
+
 import {
   GetStartedPopover,
   generateGetStartedLinks
@@ -58,6 +61,8 @@ const Gen2Overview = () => {
     currentPlatform
   );
   const isFlutter = currentPlatform == 'flutter';
+  const isReactNative = currentPlatform == 'react-native';
+  const isNextJs = currentPlatform == 'nextjs';
 
   return (
     <Flex className="home-content">
@@ -72,20 +77,31 @@ const Gen2Overview = () => {
             your Flutter applications to the cloud for data modeling,
             authentication, storage, serverless functions, and more.
           </Text>
-        ) : isMobilePlatform ? (
+        ) : isMobilePlatform || isReactNative ? (
           <Text className="home-intro__text">
             AWS Amplify is everything mobile developers need to develop
             cloud-powered fullstack applications without hassle. Easily connect
             your cross-platform applications to the cloud for data modeling,
             authentication, storage, serverless functions, and more.
           </Text>
+        ) : isNextJs ? (
+          <Text className="home-intro__text">
+            AWS Amplify is everything you need to build web and mobile apps.
+            Easy to start, easy to scale.
+            <br></br>
+            <br></br>
+            You can build a fullstack app using Amplify backend building
+            capabilities, or you can deploy your React and Next.js web apps
+            using Amplify Hosting.
+          </Text>
         ) : (
           <Text className="home-intro__text">
-            AWS Amplify is everything frontend developers need to develop and
-            deploy cloud-powered fullstack applications without hassle. Easily
-            connect your frontend to the cloud for data modeling,
-            authentication, storage, serverless functions, SSR app deployment,
-            and more.
+            AWS Amplify is everything you need to build web and mobile apps.
+            Easy to start, easy to scale.
+            <br></br>
+            <br></br>
+            You can build a fullstack app using Amplify backend building
+            capabilities, or you can deploy your web app using Amplify Hosting.
           </Text>
         )}
         <Flex className="home-cta">
@@ -93,21 +109,40 @@ const Gen2Overview = () => {
             platform={currentPlatform}
             getStartedLinks={generateGetStartedLinks(gen2GetStartedHref)}
           />
-          <InternalLinkButton
-            size="large"
+          {isMobilePlatform || isReactNative ? (
+            <InternalLinkButton
+              size="large"
+              href={{
+                pathname: gen2HowAmplifyWorksPathname,
+                query: { platform: currentPlatform }
+              }}
+            >
+              How Amplify Works
+              <IconChevron
+                aria-hidden="true"
+                className="icon-rotate-270"
+                fontSize=".875em"
+              />
+            </InternalLinkButton>
+          ) : (
+            <ExternalLinkButton
+              size="large"
+              href="https://console.aws.amazon.com/amplify/create/repo-branch"
+            >
+              Deploy your app
+            </ExternalLinkButton>
+          )}
+        </Flex>
+        {!isMobilePlatform && !isReactNative && (
+          <Link
             href={{
               pathname: gen2HowAmplifyWorksPathname,
               query: { platform: currentPlatform }
             }}
           >
-            How Amplify Works
-            <IconChevron
-              aria-hidden="true"
-              className="icon-rotate-270"
-              fontSize=".875em"
-            />
-          </InternalLinkButton>
-        </Flex>
+            How Amplify works &gt;
+          </Link>
+        )}
       </Flex>
       <Flex className="home-section">
         <Heading level={2}>
@@ -186,9 +221,7 @@ const Gen2Overview = () => {
               href={{
                 pathname: '/[platform]/how-amplify-works/concepts',
                 hash: 'build-fullstack-apps-with-typescript',
-                query: {
-                  platform: currentPlatform
-                }
+                query: { platform: currentPlatform }
               }}
             >
               Write TypeScript across your app&apos;s frontend and backend. Get
@@ -201,9 +234,7 @@ const Gen2Overview = () => {
               linkText="Generate and use your data without hassle"
               href={{
                 pathname: '/[platform]/build-a-backend/data/set-up-data/',
-                query: {
-                  platform: currentPlatform
-                }
+                query: { platform: currentPlatform }
               }}
             >
               Use TypeScript to define your data and let us handle the model and
@@ -214,9 +245,7 @@ const Gen2Overview = () => {
               linkText="Real-time data for modern apps"
               href={{
                 pathname: '/[platform]/build-a-backend/data/set-up-data/',
-                query: {
-                  platform: currentPlatform
-                }
+                query: { platform: currentPlatform }
               }}
             >
               Sync frontend state to real-time backend updates. Just write
@@ -227,9 +256,7 @@ const Gen2Overview = () => {
             linkText="Authn and authz for secure apps"
             href={{
               pathname: '/[platform]/build-a-backend/auth/set-up-auth/',
-              query: {
-                platform: currentPlatform
-              }
+              query: { platform: currentPlatform }
             }}
           >
             Choose the auth strategy (such as passwords, social, email links)
@@ -240,9 +267,7 @@ const Gen2Overview = () => {
               linkText="Auto-generate CRUD forms wired to data"
               href={{
                 pathname: '/[platform]/build-ui/',
-                query: {
-                  platform: currentPlatform
-                }
+                query: { platform: currentPlatform }
               }}
             >
               Map CRUD forms to your data model with form-level validations and
@@ -272,9 +297,7 @@ const Gen2Overview = () => {
               linkText="SSR/SSG/ISR hosting support"
               href={{
                 pathname: '/[platform]/deploy-and-host/hosting/',
-                query: {
-                  platform: currentPlatform
-                }
+                query: { platform: currentPlatform }
               }}
             >
               Deploy Next.js, Nuxt, React, Vue.js, Angular (and more) apps by
@@ -286,9 +309,7 @@ const Gen2Overview = () => {
             href={{
               pathname:
                 '/[platform]/deploy-and-host/sandbox-environments/setup/',
-              query: {
-                platform: currentPlatform
-              }
+              query: { platform: currentPlatform }
             }}
           >
             Per-developer cloud sandboxes provide high fidelity and faster
@@ -299,9 +320,7 @@ const Gen2Overview = () => {
             href={{
               pathname:
                 '/[platform]/deploy-and-host/fullstack-branching/branch-deployments/',
-              query: {
-                platform: currentPlatform
-              }
+              query: { platform: currentPlatform }
             }}
           >
             Fullstack deployments from your Git branch. Autodeploy Git branches
@@ -312,9 +331,7 @@ const Gen2Overview = () => {
             href={{
               pathname: '/[platform]/how-amplify-works/concepts',
               hash: 'unified-management-console',
-              query: {
-                platform: currentPlatform
-              }
+              query: { platform: currentPlatform }
             }}
           >
             Manage your app data, users and groups, and files in a single
@@ -327,9 +344,7 @@ const Gen2Overview = () => {
             linkText="Add any AWS service with CDK"
             href={{
               pathname: '/[platform]/build-a-backend/add-aws-services/',
-              query: {
-                platform: currentPlatform
-              }
+              query: { platform: currentPlatform }
             }}
           >
             Extend or customize with the AWS CDK to access 200+ AWS services.
@@ -339,9 +354,7 @@ const Gen2Overview = () => {
             href={{
               pathname:
                 '/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/',
-              query: {
-                platform: currentPlatform
-              }
+              query: { platform: currentPlatform }
             }}
           >
             Use your own pipelines to set up cross-account or multi-region,
@@ -352,9 +365,7 @@ const Gen2Overview = () => {
             href={{
               pathname:
                 '/[platform]/deploy-and-host/fullstack-branching/mono-and-multi-repos/',
-              query: {
-                platform: currentPlatform
-              }
+              query: { platform: currentPlatform }
             }}
           >
             Enable support for all types of fullstack team workflows: monorepos,

@@ -53,7 +53,7 @@ type Todo
 
 In the example above, everyone (`public`) can read every Todo but owner (authenticated users) can create, read, update, and delete their own Todos.
 
-### Global authorization rule (only for getting started)
+## Global authorization rule (only for getting started)
 
 To help you get started, there's a global authorization rule defined when you create a new GraphQL schema. For production environments, remove the global authorization rule and apply rules on each model instead.
 
@@ -859,6 +859,58 @@ These "Admin Roles" have special access privileges that are scoped based on thei
 Refer to the [sample code](/gen1/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime/#iam-authorization) to learn how to sign the request to call the GraphQL API using IAM authorization.
 
 </InlineFilter>
+
+### Authorizing `@manyToMany` relationships
+
+Under the hood, the [`@manyToMany` directive](/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#many-to-many-relationship) will create a "join table" named after the `relationName` to facilitate the many-to-many relationship. The authorization rules that Amplify applies to the "join table" it creates are a union of the authorization rules of the individual models in the many-to-many relationship.
+
+For example, consider a schema in which the owner of a `Post` (protected by an `owner` rule) can apply `Tag`s that are created by a system admin (protected by a `groups` rule). Behind the scenes, Amplify creates a `PostTags` table with both `owner` and `groups` auth:
+
+```graphql
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  content: String
+  tags: [Tag] @manyToMany(relationName: "PostTags")
+}
+
+type Tag
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["admins"] }
+    ]
+  ) {
+  id: ID!
+  label: String!
+  posts: [Post] @manyToMany(relationName: "PostTags")
+}
+
+### CREATED BEHIND THE SCENES
+type PostTags
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: groups, groups: ["admins"] }
+    ]
+  ) {
+  id: ID!
+  postId: ID!
+  tagId: ID!
+  post: Post!
+  tag: Tag!
+  owner: String
+}
+```
+
+For more control over the join table's authorization rules, you can create the join table explicitly, linking it to each model with a `@hasMany`/`@belongsTo` relationship, and set appropriate auth rules for your application.
 
 ### How it works
 

@@ -16,10 +16,7 @@ import {
 const routerMock = {
   __esModule: true,
   useRouter: () => {
-    return {
-      query: { platform: 'react' },
-      asPath: '/'
-    };
+    return { query: { platform: 'react' }, asPath: '/' };
   }
 };
 
@@ -32,82 +29,55 @@ describe('GetStartedPopover', () => {
   const getStartedLinks = [
     {
       title: 'React',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'react' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'react' } },
       icon: <IconReact />,
       platform: 'react'
     },
     {
       title: 'JavaScript',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'javascript' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'javascript' } },
       icon: <IconJS />,
       platform: 'javascript'
     },
     {
       title: 'Flutter',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'flutter' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'flutter' } },
       icon: <IconFlutter />,
       platform: 'flutter'
     },
     {
       title: 'Swift',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'swift' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'swift' } },
       icon: <IconSwift />,
       platform: 'swift'
     },
     {
       title: 'Android',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'android' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'android' } },
       icon: <IconAndroid />,
       platform: 'android'
     },
     {
       title: 'React Native',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'react-native' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'react-native' } },
       icon: <IconReact />,
       platform: 'react-native'
     },
     {
       title: 'Angular',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'angular' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'angular' } },
       icon: <IconAngular />,
       platform: 'angular'
     },
     {
       title: 'Next.js',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'nextjs' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'nextjs' } },
       icon: <IconNext />,
       platform: 'nextjs'
     },
     {
       title: 'Vue',
-      href: {
-        pathname: getStartedHref,
-        query: { platform: 'vue' }
-      },
+      href: { pathname: getStartedHref, query: { platform: 'vue' } },
       icon: <IconVue />,
       platform: 'vue'
     }
@@ -132,6 +102,24 @@ describe('GetStartedPopover', () => {
     render(component);
 
     const gettingStartedBtn = await screen.findByRole('link', {
+      name: 'Build a new app'
+    });
+
+    expect(gettingStartedBtn).toBeInTheDocument();
+  });
+
+  const mobileComponent = (
+    <GetStartedPopover
+      testId={testId}
+      platform={'swift'}
+      getStartedLinks={getStartedLinks}
+    />
+  );
+
+  it('should render the GetStartedPopover mobile frameworks', async () => {
+    render(mobileComponent);
+
+    const gettingStartedBtn = await screen.findByRole('link', {
       name: 'Get started'
     });
 
@@ -142,7 +130,7 @@ describe('GetStartedPopover', () => {
     render(component);
 
     const popoverNode = await screen.findByRole('link', {
-      name: 'Get started'
+      name: 'Build a new app'
     });
     expect(popoverNode.getAttribute('href')).toContain(
       '/react/start/quickstart'
@@ -244,10 +232,7 @@ describe('GetStartedPopover', () => {
     });
 
     routerMock.useRouter = () => {
-      return {
-        query: { platform: 'vue' },
-        asPath: '/gen1'
-      };
+      return { query: { platform: 'vue' }, asPath: '/gen1' };
     };
 
     const gen1GetStartedPopover = (
@@ -260,7 +245,7 @@ describe('GetStartedPopover', () => {
     render(gen1GetStartedPopover);
 
     const popoverNode = await screen.findByRole('link', {
-      name: 'Get started'
+      name: 'Build a new app'
     });
 
     expect(popoverNode.getAttribute('href')).toContain(

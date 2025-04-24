@@ -114,9 +114,81 @@ Configuring the mobile client libraries directly is not supported, however you c
 
 <Callout warning>
 
-**Warning:** Amplify resources do not support including auth configurations by referencing with CDK. We are currently working to improve this experience by providing first-class support for referencing existing auth resources. [View the RFC for `referenceAuth` for more details](https://github.com/aws-amplify/amplify-backend/issues/1548)
+Amplify cannot modify the configuration of your referenced resources and only captures the resource configuration at the time of reference, any subsequent changes made to the referenced resources will not be automatically reflected in your Amplify backend.
 
 </Callout>
+
+If you have created Amazon Cognito resources outside of the context of your Amplify app such as creating resources through the AWS Console or consuming resources created by a separate team, you can use `referenceAuth` to reference the existing resources. It requires a user pool, a user pool client, identity pool, and an authenticated & unauthenticated IAM role configured on your identity pool.
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+
+export const auth = referenceAuth({
+  userPoolId: 'us-east-1_xxxx',
+  identityPoolId: 'us-east-1:b57b7c3b-9c95-43e4-9266-xxxx',
+  authRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthauthenticatedU-xxxx',
+  unauthRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthunauthenticate-xxxx',
+  userPoolClientId: 'xxxx',
+});
+```
+
+<Callout info>
+
+IAM policies specific to your Amplify application will be appended to your authenticated and unauthenticated roles, and applications using the referenced resource will be able to create users in the Cognito user pool and identities in the Cognito identity pool.
+
+</Callout>
+
+You can also use the [`access` property](/[platform]/build-a-backend/auth/grant-access-to-auth-resources/) to grant permissions to your auth resource from other Amplify backend resources. For example, if you have a function that needs to retrieve details about a user:
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+import { getUser } from "../functions/get-user/resource";
+
+export const auth = referenceAuth({
+  userPoolId: 'us-east-1_xxxx',
+  identityPoolId: 'us-east-1:b57b7c3b-9c95-43e4-9266-xxxx',
+  authRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthauthenticatedU-xxxx',
+  unauthRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthunauthenticate-xxxx',
+  userPoolClientId: 'xxxx',
+  access: (allow) => [
+    allow.resource(getUser).to(["getUser"]),
+  ],
+});
+```
+
+Additionally, you can also use the `groups` property to reference groups in your user pool. This is useful if you want to work with groups in your application and provide access to resources such as storage based on group membership.
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+import { getUser } from "../functions/get-user/resource";
+
+export const auth = referenceAuth({
+  userPoolId: 'us-east-1_xxxx',
+  identityPoolId: 'us-east-1:b57b7c3b-9c95-43e4-9266-xxxx',
+  authRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthauthenticatedU-xxxx',
+  unauthRoleArn: 'arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthunauthenticate-xxxx',
+  userPoolClientId: 'xxxx',
+  groups: {
+    admin: "arn:aws:iam::xxxx:role/amplify-xxxx-mai-amplifyAuthadminGroupRole-xxxx",
+  },
+});
+```
+
+In a team setting you may want to reference a different set of auth resources depending on the deployment context. For instance if you have a `staging` branch that should reuse resources from a separate "staging" environment compared to a `production` branch that should reuse resources from the separate "production" environment. In this case we recommend using environment variables.
+
+```ts title="amplify/auth/resource.ts"
+import { referenceAuth } from '@aws-amplify/backend';
+
+export const auth = referenceAuth({
+  userPoolId: process.env.MY_USER_POOL_ID,
+  identityPoolId: process.env.MY_IDENTITY_POOL_ID,
+  authRoleArn: process.env.MY_AUTH_ROLE_ARN,
+  unauthRoleArn: process.env.MY_UNAUTH_ROLE_ARN,
+  userPoolClientId: process.env.MY_USER_POOL_CLIENT_ID,
+});
+```
+
+Environment variables must be configured separately on your machine for sandbox deployments and Amplify console for branch deployments.
 
 ## Next steps
 

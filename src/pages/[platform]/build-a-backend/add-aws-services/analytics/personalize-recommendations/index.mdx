@@ -35,7 +35,7 @@ To record event data, you need the following:
 
 For more information, see [Record Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
 
-### Installation and Configuration
+## Installation and Configuration
 
 After creating the Amazon Personalize dataset group, you need to add the `personalize:PutEvents` permission to your AWS Identity and Access Management (IAM) user roles.
 
@@ -57,8 +57,12 @@ Configure Amazon Personalize:
 
 ```javascript title="src/index.js"
 import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+
+const amplifyConfig = parseAmplifyConfig(outputs);
+
 Amplify.configure({
-  ...Amplify.getConfig(),
+  ...amplifyConfig,
   Analytics: {
     Personalize: {
       // REQUIRED - The trackingId to track the events
@@ -73,7 +77,7 @@ Amplify.configure({
   }
 });
 ```
-### Working with the API
+## Working with the API
 
 You can use the `Identify` event type to track a user identity. This lets you connect a user to their actions and record traits about them. To identify a user, specify a unique identifier for the userId property.
  Consider the following user interactions when choosing when and how often to call record with the Identify eventType:

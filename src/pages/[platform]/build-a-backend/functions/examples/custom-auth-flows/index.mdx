@@ -53,6 +53,7 @@ import { defineFunction } from "@aws-amplify/backend"
 
 export const createAuthChallenge = defineFunction({
   name: "create-auth-challenge",
+  resourceGroupName: 'auth'
 })
 ```
 
@@ -89,6 +90,7 @@ import { defineFunction } from "@aws-amplify/backend"
 
 export const defineAuthChallenge = defineFunction({
   name: "define-auth-challenge",
+  resourceGroupName: 'auth'
 })
 ```
 
@@ -183,6 +185,7 @@ import { defineFunction, secret } from "@aws-amplify/backend"
 
 export const verifyAuthChallengeResponse = defineFunction({
   name: "verify-auth-challenge-response",
+  resourceGroupName: 'auth'
 })
 ```
 

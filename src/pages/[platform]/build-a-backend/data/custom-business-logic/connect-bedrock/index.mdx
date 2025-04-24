@@ -85,11 +85,10 @@ backend.generateHaikuFunction.resources.lambda.addToRolePolicy(
 In your `amplify/backend.ts` file, replace the content with the following code to add an HTTP data source for Amazon Bedrock to your API and grant it permissions to invoke a generative AI model:
 
 ```ts title="amplify/backend.ts"
+import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
-import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { Stack } from "aws-cdk-lib";
 
 export const backend = defineBackend({
   auth,
@@ -103,7 +102,7 @@ const bedrockDataSource = backend.data.addHttpDataSource(
   "https://bedrock-runtime.us-east-1.amazonaws.com",
   {
     authorizationConfig: {
-      signingRegion: Stack.of(backend.data).region,
+      signingRegion: backend.data.stack.region,
       signingServiceName: "bedrock",
     },
   }
@@ -114,7 +113,7 @@ bedrockDataSource.grantPrincipal.addToPrincipalPolicy(
     effect: Effect.ALLOW,
     actions: ["bedrock:InvokeModel"],
     resources: [
-      `arn:aws:bedrock:${Stack.of(backend.data).region}::foundation-model/${MODEL_ID}`,
+      `arn:aws:bedrock:${backend.data.stack.region}::foundation-model/${MODEL_ID}`,
     ],
   })
 );
@@ -351,33 +350,33 @@ const { data, errors } = await client.queries.generateHaiku({
 
 Here's an example of a simple UI that prompts a generative AI model to create a haiku based on user input:
 
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native", "vue"]}>
 ```tsx title="App.tsx"
-import { FormEvent, useState } from "react";
-
-import { generateClient } from "aws-amplify/api";
-import { Schema } from "@/amplify/data/resource";
-
-import { Amplify } from "aws-amplify";
-import outputs from "@/amplify_outputs.json";
+import type { Schema } from '@/amplify/data/resource';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+import outputs from '@/amplify_outputs.json';
 
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
 
 export default function App() {
-  const [prompt, setPrompt] = useState<string>("");
+  const [prompt, setPrompt] = useState<string>('');
   const [answer, setAnswer] = useState<string | null>(null);
 
-  const sendPrompt = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const sendPrompt = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const { data, errors } = await client.queries.generateHaiku({
-      prompt,
+      prompt
     });
 
     if (!errors) {
       setAnswer(data);
-      setPrompt("");
+      setPrompt('');
     } else {
       console.log(errors);
     }
@@ -387,17 +386,15 @@ export default function App() {
     <main className="flex min-h-screen flex-col items-center justify-center p-24 dark:text-white">
       <div>
         <h1 className="text-3xl font-bold text-center mb-4">Haiku Generator</h1>
-
         <form className="mb-4 self-center max-w-[500px]" onSubmit={sendPrompt}>
           <input
             className="text-black p-2 w-full"
             placeholder="Enter a prompt..."
             name="prompt"
             value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
+            onChange={(event) => setPrompt(event.target.value)}
           />
         </form>
-
         <div className="text-center">
           <pre>{answer}</pre>
         </div>
@@ -406,8 +403,67 @@ export default function App() {
   );
 }
 ```
+</InlineFilter>
 
-![GIF of a webpage titled "Haiku Generator" and input field. "Frank Herbert's Dune" is entered and submitted. Shortly after, a haiku is rendered to the page.](/images/haiku-generator.gif)
+<InlineFilter filters={['angular']}>
+```ts title="app.component.ts"
+import type { Schema } from '../../../amplify/data/resource';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+import outputs from '../../../amplify_outputs.json';
+
+Amplify.configure(outputs);
+
+const client = generateClient<Schema>();
+
+@Component({
+  selector: 'app-haiku',
+  standalone: true,
+  imports: [FormsModule],
+  template: `
+    <main
+      class="flex min-h-screen flex-col items-center justify-center p-24 dark:text-white"
+    >
+      <div>
+        <h1 class="text-3xl font-bold text-center mb-4">Haiku Generator</h1>
+        <form class="mb-4 self-center max-w-[500px]" (ngSubmit)="sendPrompt()">
+          <input
+            class="text-black p-2 w-full"
+            placeholder="Enter a prompt..."
+            name="prompt"
+            [(ngModel)]="prompt"
+          />
+        </form>
+        <div class="text-center">
+          <pre>{{ answer }}</pre>
+        </div>
+      </div>
+    </main>
+  `,
+})
+export class HaikuComponent {
+  prompt: string = '';
+  answer: string | null = null;
+
+  async sendPrompt() {
+    const { data, errors } = await client.queries.generateHaiku({
+      prompt: this.prompt,
+    });
+
+    if (!errors) {
+      this.answer = data;
+      this.prompt = '';
+    } else {
+      console.log(errors);
+    }
+  }
+}
+```
+</InlineFilter>
+
+![A webpage titled "Haiku Generator" and input field. "Frank Herbert's Dune" is entered and submitted. Shortly after, a haiku is rendered to the page.](/images/haiku-generator.gif)
 
 ## Conclusion
 

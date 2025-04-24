@@ -48,7 +48,7 @@ If you're running into the error above during `amplify push`, it is likely that 
 
 When you add `@searchable` to a `@model` type with existing data, then you need to backfill the OpenSearch index. Download the following Python script to help you backfill your OpenSearch index:
 
-[DynamoDB to OpenSearch backfill script](https://raw.githubusercontent.com/aws-amplify/amplify-category-api/api-plugin-stable/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py)
+[DynamoDB to OpenSearch backfill script](https://raw.githubusercontent.com/aws-amplify/amplify-category-api/release-api-plugin-stable/packages/graphql-elasticsearch-transformer/scripts/ddb_to_es.py)
 
 The script creates an event stream of your DynamoDB records and sends them to your OpenSearch Index. Execute the script with the following parameters to initiate the backfill:
 

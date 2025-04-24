@@ -363,6 +363,54 @@ let downloadTask = Amplify.Storage.downloadData(
 ```
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+### Storage bucket client usage
+
+Additional storage buckets can be referenced from application code by passing the `bucket` option to Amplify Storage APIs. You can provide a target bucket's name assigned in Amplify Backend.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+try {
+  final result = await Amplify.Storage.downloadData(
+    path: const StoragePath.fromString('album/2024/1.jpg'),
+    options: StorageDownloadDataOptions(
+      // highlight-start
+      // Specify a target bucket using name assigned in Amplify Backend
+      bucket: StorageBucket.fromOutputs('secondBucket'),
+      // highlight-end
+    ),
+  ).result;
+} on Exception catch (e) {
+    print('Error: $e');
+}
+```
+Alternatively, you can also pass in an object by specifying the bucket name and region from the console. See each Amplify Storage API page for additional usage examples.
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+try {
+  final result = await Amplify.Storage.downloadData(
+    path: const StoragePath.fromString('album/2024/1.jpg'),
+    options: const StorageDownloadDataOptions(
+      // highlight-start
+      // Alternatively, provide bucket name from console and associated region
+      bucket: StorageBucket.fromBucketInfo(
+        BucketInfo(
+          bucketName: 'second-bucket-name-from-console',
+          region: 'us-east-2',
+        ),
+      ),
+      // highlight-end
+    ),
+  ).result;
+} on Exception catch (e) {
+  print('Error: $e');
+}
+```
+</InlineFilter>
+
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.
@@ -404,11 +452,9 @@ An application with Amplify libraries integrated and a minimum target of any of 
 For a full example, please follow the [project setup walkthrough](/[platform]/start/quickstart/).
 
 <Callout>
-{/* is the visionOS support callout relevant here? */}
-visionOS support is currently in **preview** and can be used by targeting the [`visionos-preview`](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview) branch.
-As new Xcode 15 beta versions are released, the branch will be updated with any necessary fixes on a best effort basis.
 
-For more information on how to use the `visionos-preview` branch, see [Platform Support](https://github.com/aws-amplify/amplify-swift/tree/visionos-preview#platform-support).
+visionOS support is currently in **preview** and can be used by using the latest [Amplify Release](https://github.com/aws-amplify/amplify-swift/releases). 
+As new Xcode and visionOS versions are released, the support will be updated with any necessary fixes on a best effort basis.
 
 </Callout>
 
@@ -744,30 +790,31 @@ class MyApp extends StatefulWidget {
 Next, let's a photo to the `picture-submissions/` path.
 
 <InlineFilter filters={["react", "react-native"]}>
-```javascript
+```jsx
 import React from 'react';
 import { uploadData } from 'aws-amplify/storage';
 
 function App() {
   const [file, setFile] = React.useState();
 
-  const handleChange = (event: any) => {
-    setFile(event.target.files[0]);
+  const handleChange = (event) => {
+    setFile(event.target.files?.[0]);
+  };
+
+  const handleClick = () => {
+    if (!file) {
+      return;
+    }
+    uploadData({
+      path: `picture-submissions/${file.name}`,
+      data: file,
+    });
   };
 
   return (
     <div>
       <input type="file" onChange={handleChange} />
-        <button
-          onClick={() =>
-            uploadData({
-              path: `picture-submissions/${file.name}`,
-              data: file,
-          })
-        }
-      >
-        Upload
-      </button>
+      <button onClick={handleClick}>Upload</button>
     </div>
   );
 }

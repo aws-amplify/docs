@@ -13,6 +13,29 @@ dependencies:
 
 ### Update The Android Project
 
+<BlockSwitcher>
+<Block name="Gradle Kotlin">
+1. Open `android/app/build.gradle.kts` and enable `isCoreLibraryDesugaringEnabled` in `compileOptions` to support the Java8 feature used in the DataStore plugin.
+
+```diff title="android/app/build.gradle.kts"
+compileOptions {
++    isCoreLibraryDesugaringEnabled = true
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+```
+
+2. Add the following dependency in `dependencies`.
+
+```diff title="android/app/build.gradle.kts"
+dependencies {
++    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
++    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10")
+}
+```
+</Block>
+<Block name="Gradle Groovy">
 Open `build.gradle` located under `android/app`, and enable `coreLibraryDesugaringEnabled` in `compileOptions` to support the Java8 feature used in the DataStore plugin.
 
 ```groovy
@@ -35,3 +58,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 ```
+</Block>
+</BlockSwitcher>
