@@ -5,7 +5,7 @@
 /src/pages/gen1/\[platform\]/sdk/api/ @hdworld11 @harsh62
 /src/pages/gen1/\[platform\]/sdk/info @hdworld11 @harsh62
 /src/pages/gen1/\[platform\]/sdk/configuration/ @hdworld11 @harsh62
-/src/pages/\[platform\]/how-amplify-works/ @hdworld11 @ShadowCat567 @amplify-documentation-admins
+/src/pages/\[platform\]/how-amplify-works/ @hdworld11 @ShadowCat567 @aws-amplify/amplify-documentation-admins
 /src/pages/\[platform\]/build-a-backend/functions/ @hdworld11 @ShadowCat567
 /src/pages/\[platform\]/build-a-backend/functions/ @hdworld11 @ShadowCat567
 /src/pages/\[platform\]/build-a-backend/add-aws-services/custom-resources/ @hdworld11 @ShadowCat567
@@ -23,34 +23,34 @@
 /src/pages/gen1/\[platform\]/tools/console/ @mauerbac
  
 #Analytics
-/src/fragments/**/analytics/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/analytics/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/analytics/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/sdk/analytics/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/add-aws-services/analytics/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/existing-resources/cli @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/analytics/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/analytics/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/analytics/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/sdk/analytics/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/add-aws-services/analytics/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/existing-resources/cli @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #Auth
-/src/fragments/**/auth/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/auth/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/auth/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/sdk/auth/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/start/getting-started/auth/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/auth/ @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/auth/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/auth/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/auth/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/sdk/auth/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/start/getting-started/auth/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/auth/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #Client Configuration
-/src/fragments/**/client-configuration @hdworld11 @amplify-documentation-admins
-/src/fragments/**/configuration @hdworld11 @amplify-documentation-admins
+/src/fragments/**/client-configuration @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/fragments/**/configuration @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Common
-/src/fragments/common @hdworld11 @amplify-documentation-admins
-/src/fragments/**/common @hdworld11 @amplify-documentation-admins
+/src/fragments/common @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/fragments/**/common @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Data
-/src/fragments/**/datastore @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/datastore @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/datastore/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/data/ @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/datastore @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/datastore @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/datastore/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/data/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #Debugging
 /src/fragments/**/debugging @ShadowCat567
@@ -58,43 +58,43 @@
 /src/pages/gen1/\[platform\]/prev/build-a-backend/debugging/ @ShadowCat567
 
 #Geo
-/src/fragments/**/geo @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/geo/ @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/geo/ @hdworld11 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/add-aws-services/geo/ @hdworld11 @amplify-documentation-admins
+/src/fragments/**/geo @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/geo/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/geo/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/add-aws-services/geo/ @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Getting Started
-/src/fragments/start @hdworld11 @ShadowCat567 @harsh62 @amplify-documentation-admins
-/src/fragments/gen2/quickstart/ @hdworld11 @ShadowCat567 @harsh62 @amplify-documentation-admins
-/src/fragments/**/start/ @hdworld11 @ShadowCat567 @harsh62 @amplify-documentation-admins
-/src/fragments/**/project-setup @hdworld11 @ShadowCat567 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/start/ @hdworld11 @ShadowCat567 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/start/ @hdworld11 @ShadowCat567 @harsh62 @amplify-documentation-admins
-/src/pages/\[platform\]/start/ @hdworld11 @ShadowCat567 @harsh62 @amplify-documentation-admins
+/src/fragments/start @hdworld11 @ShadowCat567 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/fragments/gen2/quickstart/ @hdworld11 @ShadowCat567 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/fragments/**/start/ @hdworld11 @ShadowCat567 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/fragments/**/project-setup @hdworld11 @ShadowCat567 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/start/ @hdworld11 @ShadowCat567 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/start/ @hdworld11 @ShadowCat567 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/start/ @hdworld11 @ShadowCat567 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #GraphQL API
-/src/fragments/**/api-graphql @hdworld11 @harsh62 @amplify-documentation-admins
-/src/fragments/**/graphqlapi @hdworld11 @harsh62 @amplify-documentation-admins
-/src/fragments/sdk/api/**/graphql.mdx @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/functions/graphql-from-lambda/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/graphqlapi/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/graphqlapi/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/sdk/api/graphql/ @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/api-graphql @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/fragments/**/graphqlapi @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/fragments/sdk/api/**/graphql.mdx @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/functions/graphql-from-lambda/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/graphqlapi/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/graphqlapi/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/sdk/api/graphql/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #In-App Messaging
-/src/fragments/**/in-app-messaging @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/in-app-messaging/ @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/in-app-messaging/ @hdworld11 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/add-aws-services/in-app-messaging/ @hdworld11 @amplify-documentation-admins
+/src/fragments/**/in-app-messaging @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/in-app-messaging/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/in-app-messaging/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/add-aws-services/in-app-messaging/ @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Info
-/src/fragments/**/info @hdworld11 @amplify-documentation-admins
+/src/fragments/**/info @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Interactions
-/src/fragments/**/interactions @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/interactions/ @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/interactions/ @hdworld11 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/add-aws-services/interactions/ @hdworld11 @amplify-documentation-admins
+/src/fragments/**/interactions @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/interactions/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/interactions/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/add-aws-services/interactions/ @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Logging
 /src/fragments/**/logging @hdworld11 @harsh62
@@ -102,45 +102,45 @@
 /src/pages/\[platform\]/build-a-backend/add-aws-services/logging/ @hdworld11 @harsh62
 
 #Predictions
-/src/fragments/**/predictions @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/predictions/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/predictions/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/add-aws-services/predictions/ @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/predictions @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/predictions/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/predictions/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/add-aws-services/predictions/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #PubSub
-/src/fragments/**/pubsub @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/more-features/pubsub/ @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/pubsub/ @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/sdk/pubsub/ @hdworld11 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/add-aws-services/pubsub/ @hdworld11 @amplify-documentation-admins
+/src/fragments/**/pubsub @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/more-features/pubsub/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/more-features/pubsub/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/sdk/pubsub/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/add-aws-services/pubsub/ @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Push Notifications
-/src/fragments/**/push-notifications @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/push-notifications/ @hdworld11 @harsh62 @amplify-documentation-admins 
-/src/pages/gen1/\[platform\]/prev/build-a-backend/push-notifications/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/sdk/push-notifications/ @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/push-notifications @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/push-notifications/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins 
+/src/pages/gen1/\[platform\]/prev/build-a-backend/push-notifications/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/sdk/push-notifications/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #Rest API
-/src/fragments/**/api-rest @hdworld11 @harsh62 @amplify-documentation-admins
-/src/fragments/**/restapi @hdworld11 @harsh62 @amplify-documentation-admins
-/src/fragments/sdk/api/**/rest.mdx @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/restapi/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/restapi/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/sdk/api/rest/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/add-aws-services/rest-api/ @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/api-rest @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/fragments/**/restapi @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/fragments/sdk/api/**/rest.mdx @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/restapi/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/restapi/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/sdk/api/rest/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/add-aws-services/rest-api/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #SSR
-/src/fragments/**/ssr @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/server-side-rendering/ @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/server-side-rendering/ @hdworld11 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/server-side-rendering/ @hdworld11 @amplify-documentation-admins
+/src/fragments/**/ssr @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/server-side-rendering/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/server-side-rendering/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/server-side-rendering/ @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Storage
-/src/fragments/**/storage @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/storage/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/storage/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/sdk/storage/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/\[platform\]/build-a-backend/storage/ @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/storage @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/storage/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/storage/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/sdk/storage/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-a-backend/storage/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #Troubleshooting
 /src/fragments/**/troubleshooting @hdworld11
@@ -149,15 +149,15 @@
 /src/pages/\[platform\]/build-a-backend/troubleshooting/ @hdworld11
 
 #UI
-/src/fragments/ui/auth/react/ @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-ui/ @hdworld11 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-ui/ @hdworld11 @amplify-documentation-admins
-/src/pages/\[platform\]/build-ui/ @hdworld11 @amplify-documentation-admins
+/src/fragments/ui/auth/react/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-ui/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-ui/ @hdworld11 @aws-amplify/amplify-documentation-admins
+/src/pages/\[platform\]/build-ui/ @hdworld11 @aws-amplify/amplify-documentation-admins
 
 #Utilities
-/src/fragments/**/utilities @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/build-a-backend/utilities/ @hdworld11 @harsh62 @amplify-documentation-admins
-/src/pages/gen1/\[platform\]/prev/build-a-backend/utilities/ @hdworld11 @harsh62 @amplify-documentation-admins
+/src/fragments/**/utilities @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/build-a-backend/utilities/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
+/src/pages/gen1/\[platform\]/prev/build-a-backend/utilities/ @hdworld11 @harsh62 @aws-amplify/amplify-documentation-admins
 
 #Deploy and Host 
 /src/pages/gen1/\[platform\]/deploy-and-host/ @mauerbac
@@ -169,7 +169,7 @@
 /src/constants @aws-amplify/documentation-team 
 /src/data @aws-amplify/documentation-team
 /src/directory @aws-amplify/documentation-team
-/src/directory/directory.mjs @hdworld11 @ShadowCat567 @harsh62 @amplify-documentation-admins
+/src/directory/directory.mjs @hdworld11 @ShadowCat567 @harsh62 @aws-amplify/amplify-documentation-admins
 /src/pages/contribute/ @aws-amplify/documentation-team
 /src/pages/_app.tsx @aws-amplify/documentation-team 
 /src/pages/_document.tsx @aws-amplify/documentation-team 
@@ -184,4 +184,4 @@
 .github @aws-amplify/documentation-team
 
 #Protected Content
-/src/protected @srquinn21 @swaminator @amplify-documentation-admins
+/src/protected @srquinn21 @swaminator @aws-amplify/amplify-documentation-admins
