@@ -154,7 +154,7 @@ export function response(ctx) {
 
 ## Step 6 - Define the custom query
 
-After adding Amazon Rekognition as a data source, you can reference it in custom query using the `a.handler.custom()` modifier, which takes the name of the data source and an entry point for your resolvers. In your `amplify/data/resource.ts` file, specify `RekognitionDataSource` as the data source and `identifyText.js` as the entry point, as shown below.
+After adding Amazon Rekognition as a data source, you can reference it in custom query using the `a.handler.custom()` modifier, which takes the name of the data source and an entry point for your resolvers. In your `amplify/data/resource.ts` file, specify `RekognitionDataSource` as the data source and `identifyText.ts` as the entry point, as shown below.
 
 ```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
@@ -169,7 +169,7 @@ const schema = a.schema({
     .authorization((allow) => [allow.publicApiKey()])
     .handler(
       a.handler.custom({
-        entry: "./identifyText.js",
+        entry: "./identifyText.ts",
         dataSource: "RekognitionDataSource",
       })
     ),
