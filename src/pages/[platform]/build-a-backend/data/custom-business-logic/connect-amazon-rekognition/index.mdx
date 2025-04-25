@@ -117,9 +117,9 @@ backend.storage.resources.bucket.grantReadWrite(
 ```
 ## Step 5 - Configure the function handler
 
-Define the function handler by creating a new file, `amplify/data/identifyText.ts`. This function analyzes the image and extracts text using the Amazon Rekognition DetectText service.
+Define the function handler by creating a new file, `amplify/data/identifyText.js`. This function analyzes the image and extracts text using the Amazon Rekognition DetectText service.
 
-```ts title="amplify/data/identifyText.ts"
+```ts title="amplify/data/identifyText.js"
 
 export function request(ctx) {
   return {
