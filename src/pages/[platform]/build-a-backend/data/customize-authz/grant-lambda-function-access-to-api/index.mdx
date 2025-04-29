@@ -120,7 +120,8 @@ When configuring Amplify with `getAmplifyDataClientConfig`, your function consum
 
 Once you have generated the client code, update the function to access the data. The following code creates a todo and then lists all todos.
 
-```ts title="amplify/functions/data-access.ts"
+```ts title="amplify/functions/data-access/handler.ts"
+//...
 const client = generateClient<Schema>();
 
 export const handler: Handler = async (event) => {

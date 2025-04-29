@@ -303,11 +303,12 @@ const { data: message, errors } = await chat.sendMessage({
 The `aiContext` argument allows you to optionally attach arbitrary data to the message. This is useful for passing additional information, like user information or current state of your application, in a user message to the AI assistant.
 
 ```ts
-const { data: message, errors } = await chat.sendMessage('Hello, world!', {
+const { data: message, errors } = await chat.sendMessage({
+  content: [{ text: 'Hello, world!' }],
   aiContext: {
     user: {
-      name: 'Ian',
-    },
+      name: "Dan"
+    }
   },
 });
 ```

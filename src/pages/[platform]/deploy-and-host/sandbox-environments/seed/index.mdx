@@ -1,0 +1,643 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Sandbox Seed',
+  description:
+    'Seed your sandbox with data to get started quickly.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+The Sandbox Seed feature allows you to populate your Amplify sandbox environment with initial data, making it easier to test and develop your application with realistic data.
+
+## Setting Up Your Seed Script
+
+To get started, you need to create a seed script. This script will be executed when you deploy your sandbox environment and execute the `ampx sandbox seed` command.
+
+1. Create a folder named `seed` under your `amplify` directory
+2. Create a file named `seed.ts` inside the `seed` folder
+
+```bash title="Folders" showLineNumbers={false}
+amplify/
+  └── seed/
+      └── seed.ts
+```
+
+## Setting up required permissions
+
+In order to seed your sandbox environment you will need to add the necessary permissions to your AWS profile user or execution role. Amplify will generate the necessary permissions which you can attach to your permission set or role containing `AmplifyBackendDeployFullAccess`.
+
+1. Have an active sandbox environment deployed. You can deploy your sandbox environment using `npx ampx sandbox`.
+2. Generate the required permissions policy template
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed generate-policy > seed-policy.json
+```
+3. Then attach this policy to your role (example using AWS CLI):
+
+```bash title="Terminal" showLineNumbers={false}
+aws iam put-role-policy --role-name <your-role-name> --policy-name <policy-name> --policy-document file://seed-policy.json
+```
+
+{/* aws cli call to update SSO user permission set*/}
+
+## Writing your seed script
+
+Once your permissions are set up, you can write your seed script. The `@aws-amplify/seed` package provides a set of API's to help you seed your sandbox environment. 
+
+### Auth
+
+For example, if you like to seed your auth with a user and add them to the `admin` group, lets start by creating an auth resource:
+
+```typescript title="amplify/auth/resource.ts" 
+import { defineAuth } from "@aws-amplify/backend";
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  userAttributes: {
+    locale: {
+      required: false,
+      mutable: true,
+    },
+  },
+  groups: ["admin"],
+});
+```
+
+Create 2 secrets using `npx ampx sandbox secret set`
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret set username
+npx ampx sandbox secret set password
+```
+
+Now to create a user and add to group `admin`, you can write the following script:
+
+```typescript title="amplify/seed/seed.ts" 
+import { readFile } from "node:fs/promises";
+import {
+  addToUserGroup,
+  createAndSignUpUser,
+  getSecret,
+} from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: "utf8" }));
+Amplify.configure(outputs);
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+
+const user = await createAndSignUpUser({
+  username: username,
+  password: password,
+  signInAfterCreation: false,
+  signInFlow: "Password",
+  userAttributes: {
+    locale: "en",
+  },
+});
+
+await addToUserGroup(user, "admin");
+```
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+This will create a user with the username and password you provided and add them to the `admin` group.
+
+The `getSecret` function will fetch the secret you created using `npx ampx sandbox secret set`. This allows you to avoid hardcoding credentials in your code. Alternatively, the username and password can be set directly as a `string` in the `createAndSignUpUser` function, but we highly recommend using `getSecret` to avoid exposing sensitive information in your repository.
+
+### Multi-Factor Authentication (MFA)
+
+Amplify seed supports multiple types of MFA including TOTP (Time-based One-Time Password), Email, and SMS. Below are examples of how to implement MFA in your seed script.
+
+### Auth with TOTP MFA
+
+For example, if you would like to seed your auth with a user with TOTP MFA enabled, lets start by configuring the auth resource:
+
+```typescript title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend";
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+
+  multifactor: {
+    mode: "REQUIRED",
+    totp: true,
+  },
+});
+```
+
+To create and sign in a user with TOTP MFA enabled, you can write the following script:
+For this example, we will use the `otpauth` library to generate TOTP codes.
+
+```bash title="Terminal" showLineNumbers={false}
+npm install otpauth
+```
+
+```typescript title="amplify/seed/seed.ts"
+import type { ChallengeResponse } from "@aws-amplify/seed";
+import { readFile } from "node:fs/promises";
+import {
+  createAndSignUpUser,
+  getSecret,
+} from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+import * as auth from "aws-amplify/auth";
+import * as otpauth from "otpauth";
+
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: "utf8" }));
+Amplify.configure(outputs);
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+let totpSecret: string;
+
+const createTOTP = (secret: string) => {
+  return new otpauth.TOTP({
+    secret,
+    algorithm: "SHA1",
+    digits: 6,
+    period: 30,
+  });
+};
+
+const generateTOTPCode = (secret: string): string => {
+  const totp = createTOTP(secret);
+  return totp.generate();
+};
+
+const challengeWithTOTP = async (
+  totpSetup: auth.SetUpTOTPOutput
+): Promise<ChallengeResponse> => {
+  totpSecret = totpSetup.sharedSecret;
+  const answer = generateTOTPCode(totpSetup.sharedSecret);
+  return { challengeResponse: answer };
+};
+
+const user = await createAndSignUpUser({
+  username,
+  password,
+  signInAfterCreation: false,
+  signInFlow: "MFA",
+  mfaPreference: "TOTP",
+  totpSignUpChallenge: async (totpSetup) => {
+    return await challengeWithTOTP(totpSetup);
+  },
+});
+
+console.log(`User ${user.username} was created`);
+
+// Wait for a moment to get a fresh TOTP code
+await new Promise((resolve) => setTimeout(resolve, 35000));
+
+const signIn = await signInUser({
+  username,
+  password,
+  signInFlow: "MFA",
+  signInChallenge: async () => {
+    const answer = generateTOTPCode(totpSecret);
+    return { challengeResponse: answer };
+  },
+});
+
+console.log(`User was signed in: ${signIn}`);
+
+auth.signOut();
+```
+
+This will create a user with the username and password with TOTP MFA enabled. The TOTP code is generated using the `otpauth` library. The user will then be signed in and the TOTP code will be generated.
+The timeout ensures the previous TOTP code expires before generating a new code for sign-in. This prevents potential conflicts that could occur if the same TOTP code were used for both user creation and authentication.
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+### Auth with Email MFA
+
+For example, if you would like to seed your auth with a user with Email MFA enabled:
+
+```typescript title="amplify/seed/seed.ts"
+import { readFile } from "node:fs/promises";
+import {
+  createAndSignUpUser,
+  getSecret,
+  signInUser
+} from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+import * as auth from "aws-amplify/auth";
+
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: "utf8" }));
+Amplify.configure(outputs);
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+
+// Set mfaPreference to EMAIL when using email-only MFA
+const user = await createAndSignUpUser({
+  username: username,
+  password: password,
+  signInAfterCreation: false,
+  signInFlow: "MFA",
+  mfaPreference: "EMAIL",
+});
+
+// Sign in will prompt for MFA code in command line
+await signInUser({
+  username: username,
+  password: password,
+  signInFlow: "MFA",
+});
+
+auth.signOut();
+```
+
+This will create a user with the username and password with Email MFA enabled. The user will then be signed in and prompted for the MFA code in the command line.
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+SMS MFA follows the same pattern as Email MFA, using command line prompts for verification. Just replace `mfaPreference: "EMAIL"` with `mfaPreference: "SMS"` in your configuration. The command line experience will be identical, prompting for the SMS code instead of the email code.
+
+<Callout info>
+**Note:** Email-based MFA is currently not supported with `defineAuth`. We are working towards supporting this feature. For more information, visit the [feature request in GitHub](https://github.com/aws-amplify/amplify-backend/issues/2159).
+
+To take advantage of this feature with an Amplify generated backend, the underlying CDK construct can be extended manually. See [overriding Cognito User Pool multi-factor authentication options](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#override-cognito-userpool-multi-factor-authentication-options) for more information.
+</Callout>
+
+### Data
+
+For example, if you like to seed your Data API, lets start by creating a GraphQL API with a `Todo` model with authorization mode set to `userPool`:
+
+```typescript title="amplify/data/resource.ts"
+import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
+
+const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+      isDone: a.boolean(),
+    })
+    .authorization((allow) => [allow.authenticated()]),
+});
+
+export type Schema = ClientSchema<typeof schema>;
+
+export const data = defineData({
+  name: "TodoApi",
+  schema,
+  authorizationModes: {
+    defaultAuthorizationMode: "userPool",
+  },
+});
+```
+
+Now to seed your todo table with a todo, you can write the following script:
+
+```typescript title="amplify/seed/seed.ts"
+import type { Schema } from "../data/resource";
+import { readFile } from "node:fs/promises";
+import { getSecret, signInUser } from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+import * as auth from "aws-amplify/auth";
+import { generateClient } from "aws-amplify/api";
+
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: 'utf8' }));
+
+Amplify.configure(outputs);
+
+const dataClient = generateClient<Schema>();
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+
+await signInUser({
+  username: username,
+  password: password,
+  signInFlow: "Password",
+});
+
+const response = await dataClient.models.Todo.create(
+  {
+    content: `My first todo`,
+    isDone: false,
+  },
+  {
+    authMode: "userPool",
+  }
+);
+if (response.errors && response.errors.length > 0) {
+  throw response.errors;
+}
+
+auth.signOut();
+```
+
+The script uses the Amplify Data API client to interact with the API tables and the `signInUser` function to sign in the authenticated user.
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+This will create a todo with the content `My first todo` and set the `isDone` field to `false` using the authenticated user.
+
+### Storage
+
+```typescript title="amplify/storage/resource.ts"
+import { defineStorage } from "@aws-amplify/backend";
+
+export const storage = defineStorage({
+  name: "myStorage",
+  isDefault: true,
+  access: (allow) => ({
+    "pictures/*": [allow.authenticated.to(["write", "list"])],
+  }),
+});
+```
+
+Now to seed your storage with a picture, you can write the following script:
+
+```typescript title="amplify/seed/seed.ts"
+import { getSecret, signInUser } from "@aws-amplify/seed";
+import { Amplify } from "aws-amplify";
+import * as auth from "aws-amplify/auth";
+import * as storage from "aws-amplify/storage";
+import { readFile } from 'node:fs/promises';
+
+// this is used to get the amplify_outputs.json file as the file will not exist until sandbox is created
+const url = new URL("../../amplify_outputs.json", import.meta.url);
+const outputs = JSON.parse(await readFile(url, { encoding: 'utf8' }));
+Amplify.configure(outputs);
+
+const username = await getSecret("username");
+const password = await getSecret("password");
+
+await signInUser({
+  username: username,
+  password: password,
+  signInFlow: "Password",
+});
+
+const uploadTask = storage.uploadData({
+  data: `My first content created by ${username}`,
+  path: `pictures/${Math.random().toString()}`,
+});
+
+await uploadTask.result;
+
+const s3Items = await storage.list({
+  path: "pictures/",
+  options: {
+    pageSize: 1000,
+  },
+});
+
+console.log(s3Items.items);
+
+auth.signOut();
+```
+
+Run the seed script
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox seed
+```
+
+This will create a picture with the content `My first content created by ${username}` and save it to the `pictures` folder in your storage.
+
+## Best Practices
+
+### Secure Credentials
+
+When using usernames and passwords in your seed script, use Amplify sandbox secrets to securely store credentials:
+
+1. Set secrets using the CLI:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret set username
+npx ampx sandbox secret set password
+```
+
+2. Retrieve secrets in your seed script:
+
+```typescript title="amplify/seed/seed.ts"
+import { getSecret } from '@aws-amplify/seed';
+   
+const username = await getSecret('username');
+const password = await getSecret('password');
+```
+
+### User Session Management
+
+Always sign out users when you are with the operations, this is to avoid any potential issues with the user session: 
+
+```typescript title="amplify/seed/seed.ts"
+import * as auth from "aws-amplify/auth";
+
+auth.signOut();
+```
+
+When creating users with `createAndSignUpUser`, the `signInAfterCreation` parameter controls whether the user is automatically signed in after creation. This parameter has important implications for managing user sessions:
+
+```typescript title="amplify/seed/seed.ts"
+// Create and sign in first user
+const user1 = await createAndSignUpUser({
+    username: 'user1@example.com',
+    password: 'Password123!',
+    signInAfterCreation: true
+});
+// At this point, user1 is signed in
+
+// Create second user
+const user2 = await createAndSignUpUser({
+    username: 'user2@example.com',
+    password: 'Password123!',
+    signInAfterCreation: true
+});
+// Now user2 is signed in, and user1 has been signed out
+
+// Create third user without auto sign-in
+const user3 = await createAndSignUpUser({
+    username: 'user3@example.com',
+    password: 'Password123!',
+    signInAfterCreation: false
+});
+// No user is signed in, as user2 was signed out during user3's creation
+// and user3 wasn't automatically signed in
+```
+
+**Important behaviors to note:**
+- Setting `signInAfterCreation: true` will automatically sign in the newly created user and sign out any previously signed-in user.
+- If `signInAfterCreation: false`, the user will not be signed in after creation
+- Only one user can be signed in at a time
+
+This behavior is particularly important when seeding multiple users in your application, as you'll need to carefully manage which user should be signed out at the end of your seeding process.
+
+### User Management Between Multiple Runs of Seed
+
+Seed attempts to create a new user for every instance of `createAndSignUpUser` every time it is run. 
+You may want to use the same user(s) over multiple runs of seed. In this case, using this would avoid any errors that may arise from `createAndSignUpUser` attempting to create duplicate users:
+
+```typescript title="amplify/seed/seed.ts"
+const username = await getSecret('username');
+const password = await getSecret('password');
+
+try {
+  const user = await createAndSignUpUser({
+    username: username,
+    password: password,
+    signInFlow: 'Password',
+    signInAfterCreation: true
+  });
+} catch (err) {
+  const error = err as Error;
+  if (error.name === 'UsernameExistsError') {
+    await signInUser({
+      username: username,
+      password: password,
+      signInFlow: 'Password'
+    });
+  } else {
+    throw err;
+  }
+}
+```
+
+### MFA Challenge Handling
+
+- For sign-up challenges, each MFA type has its own specific challenge callback:
+  - TOTP: `totpSignUpChallenge`
+  - Email: `emailSignUpChallenge`
+  - SMS: `smsSignUpChallenge`
+
+- For sign-in, there's a single universal `signInChallenge` callback that works with all MFA types (TOTP, Email, or SMS)
+
+Important behaviors:
+- Command line prompts work with all MFA types during sign-in
+- During sign-up, command line will prompt for EMAIL and SMS MFA, but not for TOTP MFA
+- When MFA is set to "Optional" in a user pool, users will be sent through the Password flow
+
+### TOTP Considerations
+
+When working with TOTP MFA, be aware of these behaviors:
+
+- Using the same TOTP setup secret multiple times for different TOTP instances will result in an error
+- Using the same 6-digit passcode for both sign-up and sign-in (before it expires) will cause an error
+- When creating multiple users or performing multiple sign-ins with TOTP:
+  - Wait for the previous passcode to expire before generating a new one
+  - The example includes a timeout to handle this: `await new Promise((resolve) => setTimeout(resolve, 35000));`
+
+
+## Seed APIs
+
+The `@aws-amplify/seed` package provides a set of APIs that are compatible with the Amplify JS Auth APIs to help you seed your sandbox environment.
+
+### Secret APIs
+
+Secret APIs use AWS Parameter Store and are compatible with `ampx sandbox secret` commands.
+
+- **getSecret** - Takes in the name of a secret and returns the secret's value
+  ```typescript
+  const secretValue = await getSecret('secretName');
+  ```
+
+- **setSecret** - Takes in the name of a secret and its value, returns the secret's name
+  ```typescript
+  const secretName = await setSecret('secretName', 'secretValue');
+  ```
+
+### Auth APIs
+
+Auth APIs allow you to create and manage users in your sandbox environment and are compatible with Amplify JS Auth APIs.
+
+- **createAndSignUpUser** - Creates a user based on the properties passed in
+  ```typescript
+  const user = await createAndSignUpUser({
+    username: 'username',
+    password: 'password',
+    signInAfterCreation: true,
+    signInFlow: 'Password',
+    userAttributes?: StandardUserAttributes // Optional user attributes
+  });
+  ```
+
+- **signInUser** - Signs in a user using their username, password, and sign-in flow
+  ```typescript
+  await signInUser({
+    username: 'username',
+    password: 'password',
+    signInFlow: 'Password' | 'MFA',
+    signInChallenge?: () => Promise<ChallengeResponse> // Optional for MFA
+  });
+  ```
+
+- **addToUserGroup** - Adds a user to an existing user group
+  ```typescript
+  await addToUserGroup({
+    username: 'username' // User to add to group
+  }, 'GroupName');
+  ```
+
+### Additional Types
+
+The `@aws-amplify/seed` package provides these essential types:
+
+- `AuthSignUp` - Type for user sign-up configuration
+- `AuthUser` - Type for user sign in
+- `ChallengeResponse` - Type for MFA challenge responses
+- `StandardUserAttributes` - Type for managing user attributes during sign-up
+- `AuthOutputs` - Type for user sign-up output
+
+MFA challenge callback types:
+- `emailSignUpChallenge` - Handles Email MFA during sign-up
+- `smsSignUpChallenge` - Handles SMS MFA during sign-up
+- `totpSignUpChallenge` - Handles TOTP MFA during sign-up
+- `signInChallenge` - Universal handler for all MFA types during sign-in
+
+For information on using these APIs, refer to the [Amplify JS Auth API documentation](/[platform]/build-a-backend/auth/connect-your-frontend/).
+
