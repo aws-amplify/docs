@@ -32,6 +32,8 @@ export function getStaticProps(context) {
 
 For LLMs to provide high-quality answers to users' questions, they need to have the right information. Sometimes this information is contextual, based on the user or the state of the application. To allow for this, you can send `aiContext` with any user message to the LLM, which can be any unstructured or structured data that might be useful.
 
+> Note: `aiContext` is available during the chat and is passed to the LLM, however `metadata` is not available to the chat or passed to the LLM.
+
 <InlineFilter filters={["javascript","vue","angular"]}>
 
 ```ts
