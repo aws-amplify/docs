@@ -1,8 +1,8 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Amplify library releases',
-  description: 'Reference for Amplify library releases',
+  title: 'Amplify libraries version & support',
+  description: 'Reference for Amplify libraries version & support',
   platforms: [
     'angular',
     'javascript',
@@ -29,19 +29,20 @@ export async function getStaticProps() {
 
 ## Amplify JS versioning
 
-Amplify JS follows [semantic versioning](https://semver.org/) for releases. You may learn about the potential impact when you update to a newer version via a the version numbers.
+Amplify JS follows [semantic versioning](https://semver.org/) for releases. This specification for version numbers imparts meaning to the underlying code changes between versions and the potential impact when you perform an update.
 
-- **Major version release:** contains significant new features, necessary breaking changes for supporting new features or architecture changes, supported peer dependencies version range changes. When updating to a new major version, you may need to follow Amplify JS published migration guide to adapt new changes, and learn about new APIs.
-- **Minor version release:** contains new small and additive features. A minor version is backwards-compatible, you are not required to make any changes in your projects to update to a new minor version. 
+- **Major version release:** contains significant new features, necessary breaking changes to support new features, or changes to supported peer dependencies versions. Updating to the latest major version is almost always recommended, however you may need to follow Amplify JS migration guides to integrate new changes into existing projects and discover new APIs.
+- **Minor version release:** contains new small, additive features. A minor version is backwards-compatible; you are not required to make any changes in your projects to update to a newer minor version.
 - **Patch version release:** contains bug fixes.
 
 ## Version support
 
 ### Support policy
 
-- **Active:** receives regular bug fixes, new additive features, security patches
-- **LTS:** receives regression fixes, impactful bug fixes, security patches
-- **Deprecated:** end of life
+- **Active:** receives regular bug fixes, new additive features, security patches.
+- **LTS:** receives regression fixes, impactful bug fixes, security patches.
+- **Deprecated:** end of life; no longer officially supported.
+
 
 | Versions      | Release Date | Status     | LTS Ends        |
 | ------------- | ------------ | ---------- | --------------- |
@@ -53,4 +54,7 @@ Amplify JS follows [semantic versioning](https://semver.org/) for releases. You 
 | ^1.0.0        | 2018-07-13   | LTS        | 2025-08-15      |
 | 0.x (Preview) | 2017-11-17   | Deprecated |                 |
 
+### Migration guides
+
+- [Migration from Amplify JS v5 to Amplify JS v6](https://hui-chore-js-lts.d1ywzrxfkb9wgg.amplifyapp.com/gen1/react/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/)
 </InlineFilter>
