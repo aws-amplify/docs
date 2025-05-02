@@ -1,0 +1,56 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Amplify library releases',
+  description: 'Reference for Amplify library releases',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export async function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}
+
+<InlineFilter filters={['javascript', "angular", "nextjs", "react", "vue"]}>
+
+## Amplify JS versioning
+
+Amplify JS follows [semantic versioning](https://semver.org/) for releases. You may learn about the potential impact when you update to a newer version via a the version numbers.
+
+- **Major version release:** contains significant new features, necessary breaking changes for supporting new features or architecture changes, supported peer dependencies version range changes. When updating to a new major version, you may need to follow Amplify JS published migration guide to adapt new changes, and learn about new APIs.
+- **Minor version release:** contains new small and additive features. A minor version is backwards-compatible, you are not required to make any changes in your projects to update to a new minor version. 
+- **Patch version release:** contains bug fixes.
+
+## Version support
+
+### Support policy
+
+- **Active:** receives regular bug fixes, new additive features, security patches
+- **LTS:** receives regression fixes, impactful bug fixes, security patches
+- **Deprecated:** end of life
+
+| Versions      | Release Date | Status     | LTS Ends        |
+| ------------- | ------------ | ---------- | --------------- |
+| ^6.0.0        | 2023-10-27   | Active     | To be announced |
+| ^5.0.0        | 2022-11-08   | LTS        | To be announced |
+| ^4.0.0        | 2021-05-11   | LTS        | 2025-11-15      |
+| ^3.0.0        | 2020-03-31   | LTS        | 2025-08-15      |
+| ^2.0.0        | 2019-11-14   | LTS        | 2025-08-15      |
+| ^1.0.0        | 2018-07-13   | LTS        | 2025-08-15      |
+| 0.x (Preview) | 2017-11-17   | Deprecated |                 |
+
+</InlineFilter>
