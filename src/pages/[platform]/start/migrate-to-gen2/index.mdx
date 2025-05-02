@@ -40,7 +40,7 @@ The migration tooling supports all major categories of Amplify Gen 2:
 - Storage
 - Functions
 
-Please note not all resource configuration properties are supported, however the migration tooling will generate code with errors signaling where manual intervention is required.
+Please note [not all resource categories or configuration properties are supported](#unsupported-categories), however the migration tooling will generate code with errors signaling where manual intervention is required.
 
 {/* ## Feature Support Matrix */}
 
@@ -56,7 +56,7 @@ The most notable change between Amplify Gen 1 backends and Gen 2 backends is the
 
 Prerequisites:
 
-- Node.js v18.17.1 or higher
+- Node.js v18.19.x or higher
 - [Local AWS CLI profile](/gen1/[platform]/start/getting-started/installation/) with `AdministratorAccess-Amplify` and the `AmplifyBackendDeployFullAccess` policies attached.
 - Existing Gen 1 backend or a [new Gen 1 app created](/gen1/[platform]/start/getting-started/) with some backend resources.
 - Git
@@ -92,16 +92,11 @@ npm install @aws-amplify/cli@12.15.0-next-3.0
 
 </Callout>
 
-Then push your newly-created `migrate` environment to create a set of resources matching the configuration of your live environments:
-
-<Callout info>
-
-**Testers Only**
-
-If you have API resources, you will need to enable the following feature flag in your `amplify/cli.json` file:
+In your `amplify/cli.json` file, enable the feature flag to prepare your GraphQL API's resources for migration.
 
 ```json title="amplify/cli.json" showLineNumbers={false}
 {
+  // ...
   "features": {
     "graphqltransformer": {
        "enablegen2migration": true
@@ -109,10 +104,11 @@ If you have API resources, you will need to enable the following feature flag in
   }
 }
 ```
-</Callout>
+
+Then push your newly-created `migrate` environment to create a set of resources matching the configuration of your live environments:
 
 ```bash title="Terminal" showLineNumbers={false}
-amplify push --yes
+amplify push
 ```
 
 Next, make a note of the stack name of your Gen 1 migrate backend, this should be in your `amplify/team-provider-info.json` file.
@@ -140,35 +136,81 @@ During the migration for the new `migrate` environment, it is recommended to con
 
 Next, prepare your local codebase for migration execution by running the following command:
 
-<Callout info>
-
-**Testers Only**
-
-If you are using a names AWS CLI profile other than `default`, you will need to set the `AWS_PROFILE` environment variable to the name of the profile.
-
 ```bash title="Terminal" showLineNumbers={false}
-export AWS_PROFILE=your-profile-name
-```
-
-then run the following command to prepare your local codebase for migration execution:
-
-```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@0.1.0-next-6.0 to-gen-2 prepare
-```
-
-</Callout>
-
-```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@latest to-gen-2 prepare
+npx @aws-amplify/migrate@0.1.0-next-11.0 to-gen-2 prepare
 ```
 
 After this command completes successfully your `amplify/` directory is converted to an Amplify Gen 2 backend authored in TypeScript. In the next section we will walk through how to validate the generated code using [Amplify Gen 2's sandbox feature](/[platform]/deploy-and-host/sandbox-environments/setup/).
 
+## Unsupported Categories
+
+Some resource categories from Amplify Gen 1 are not supported in Amplify Gen 2. The migration preparation will add errors to your generated backend TypeScript code where manual intervention is required. For example,
+
+```ts title="amplify/backend.ts"
+throw new Error("Geo category is not supported and must be ported to CDK manually. Follow the guide https://docs.amplify.aws/react/migrate-to-gen2#unsupported-categories")
+```
+
+### Analytics
+
+Analytics resources were created using the AWS SDK in Amplify Gen 1. For Gen 2 backends we recommend using CDK to reference the existing Pinpoint applications:
+
+```ts title="amplify/backend.ts"
+import { CfnApplication } from "aws-cdk-lib/aws-pinpoint"
+
+// reference the existing resource
+const analytics = CfnApplication.fromArn("...")
+
+// add resource information to the outputs file
+backend.addOutputs({
+  custom: {
+    analytics: {
+      id: "..."
+    }
+  }
+})
+```
+
+Then configure the Amplify client library to use the reference from the "custom" section of your outputs file:
+
+```ts title="src/amplify.ts"
+import { Amplify } from "aws-amplify"
+import outputs from "../amplify_outputs.json"
+
+Amplify.configure({
+  Analytics: {
+    id: outputs.custom.analytics.id,
+  }
+})
+```
+
+### Custom
+
+{/* a note about how custom resources are ported for you but you must create the resource map */}
+{/* sample snippets and resource map example */}
+
+### Geo
+
+Amplify Gen 2 does not have a native Geo integration, however you can migrate your existing Geo resources by porting the configuration into CDK. To learn more about creating Geo resources with CDK, visit the [set up guide for Geo](/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/).
+
+After porting the resourcce configuration you must include the Geo resources in the [resource map](#executing-migration).
+
+{/* sample json of resource map for geo */}
+
+### Notifications
+
+Amplify Gen 2 does not have a native Notifications integration, however you can migrate your Notifications resources by porting the configuration into CDK. To learn more about creating Notifications resources with CDK, visit the [set up guide for In-App Messaging](/[platform]/build-a-backend/add-aws-services/in-app-messaging/set-up-in-app-messaging/).
+
+After porting the resourcce configuration you must include the Geo resources in the [resource map](#executing-migration).
+
+{/* sample json of resource map for Notifications */}
+
+### REST APIs
+
+Amplify Gen 2 leverages AWS AppSync's GraphQL API for its data layer. REST APIs created with Amplify Gen 1 must be recreated using CDK. To learn more about creating REST APIs in Amplify Gen 2, visit the [REST API guides](/[platform]/build-a-backend/add-aws-services/rest-api/)
 
 ## Validating the preparation
 
 The preparation command will add npm dependencies relevant to your Gen 2 backend in the root `package.json`. Before you begin with the validation, install dependencies:
-
 
 ```bash title="Terminal" showLineNumbers={false}
 npm install
@@ -181,7 +223,7 @@ npm install
 For testing purposes, you will need to additionally install the tagged versions of the `@aws-amplify/backend` and `@aws-amplify/backend-data` packages.
 
 ```bash title="Terminal" showLineNumbers={false}
-npm install @aws-amplify/backend@0.0.0-test-20250314161305 @aws-amplify/backend-data@0.0.0-test-20250314161305
+npm install @aws-amplify/backend@0.0.0-test-20250416182614 @aws-amplify/backend-data@0.0.0-test-20250416182614
 ```
 
 </Callout>
@@ -190,26 +232,13 @@ npm install @aws-amplify/backend@0.0.0-test-20250314161305 @aws-amplify/backend-
 
 **Testers Only**
 
-**Auth**
-
-We will need to add the following manually to `backend.ts` file to set up the `Identity providers` on the `User pool client`. This is needed since Gen 2 only supports 1 user pool client out-of-the-box. Add the following code to `backend.ts` file after the `User pool client` is defined:
-
-```typescript
-const providerSetupResult = (backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).providerSetupResult;
-for (const provider in providerSetupResult) {
-    const providerSetupPropertyValue = providerSetupResult[provider];
-    if (providerSetupPropertyValue.node && providerSetupPropertyValue.node.id.endsWith('IDP')) {
-        userPoolClient.node.addDependency(providerSetupPropertyValue);
-    }
-}
-```
-
 **Data**
 
 If you have GraphQL API and would like to test the tables in sandbox environment, you would need to set the `branchName` to `sandbox` in `data/resource.ts` file. 
+
 Note: on a branch deploy, the `branchName` should be the name of the Gen 2 branch you created in the previous steps when deploying.
 
-```typescript
+```ts title="amplify/data/resource.ts"
 import { defineData } from "@aws-amplify/backend";
 const schema = `
 input AMPLIFY {
@@ -280,22 +309,12 @@ git push
 
 In order to execute the migration you will need to first deploy the Amplify Gen 2 backend, scaffolded by the TypeScript code generated by the preparation command. This will create a new CloudFormation stack with live resources, which will then be used to execute the migration against to migrate resources from your Amplify Gen 1 backend stack to the new stack.
 
-<Callout info>
-
-**Testers Only**
-
-- Deploy a new Amplify App with your repository and select the `migrate` branch.
-
 <Video src="/images/gen2/getting-started/react/deploy.mp4" description="Video - Deploy the starter app" />
 
-- Create a [environment variable](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-environment-variables) `AMPLIFY_GEN_1_ENV_NAME` with the name of your Gen 1 environment as the value.
-
-</Callout>
-
-Next, make a note of the stack name of your Gen 2 backend, you can find this in the build logs or the CloudFormation stack console:
-    - Open the [CloudFormation stack console](https://console.aws.amazon.com/cloudformation/).
-    - Find the stack with the Amplify AppID. The name should be in the format `amplify-<app-id>-<branch-name>-<random-id>`
-    - Make a note of the stack name.
+Next, make a note of the stack name of your Gen 2 backend, you can find this in the build logs or the CloudFormation console:
+  1. Open the [CloudFormation console](https://console.aws.amazon.com/cloudformation/).
+  2. Find the stack with the Amplify AppID. The name should be in the format `amplify-<app-id>-<branch-name>-<random-id>`
+  3. Make a note of the stack name.
 
 {/* picture of amplify console connecting new `migrate` branch */}
 
@@ -310,22 +329,21 @@ Next, make a note of the stack name of your Gen 2 backend, you can find this in 
 
 ## Executing migration
 
-<Callout info>
+The migration tooling orchestrates [AWS CloudFormation stack refactor](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-refactoring.html) operations on your behalf. However, if your Gen 1 backend environment contains custom resources or makes use of categories such as Geo, REST APIs, you will need to create a mapping of resources from both CloudFormation stacks to extend the stack refactor operation.
 
-**Testers Only**
-
-```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@0.1.0-next-6.0 to-gen-2 execute \
-  --from <amplify-gen-1-stack-name> \
-  --to <amplify-gen-2-stack-name>
+```json title="my-map.json"
+{
+  "": {}
+}
 ```
 
-</Callout>
+{/* resource map */}
 
 ```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@latest to-gen-2 execute \
+npx @aws-amplify/migrate@0.1.0-next-11.0 to-gen-2 execute \
   --from <amplify-gen-1-stack-name> \
-  --to <amplify-gen-2-stack-name>
+  --to <amplify-gen-2-stack-name> \
+  --resource-map my-map.json
 ```
 
 ## Post-migration tasks
@@ -353,27 +371,24 @@ Then redeploy the application by committing the changes to Git.
 
 ## Reverting the migration
 
-<Callout info>
-
-**Testers Only**
+If you need to revert the migration/stack refactor operation, you can use the `revert` command to revert the migration from your Gen 2 stack to your Gen 1 stack.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@0.1.0-next-6.0 to-gen-2 revert \
+npx @aws-amplify/migrate@0.1.0-next-11.0 to-gen-2 revert \
   --from <amplify-gen-2-stack-name> \
   --to <amplify-gen-1-stack-name>
 ```
 
-</Callout>
+When using a resource map for custom resources or resource categories from Gen 1, you can pass a resource mapping to this command.
 
 ```bash title="Terminal" showLineNumbers={false}
-npx @aws-amplify/migrate@latest to-gen-2 revert \
+npx @aws-amplify/migrate@0.1.0-next-11.0 to-gen-2 revert \
   --from <amplify-gen-2-stack-name> \
-  --to <amplify-gen-1-stack-name>
+  --to <amplify-gen-1-stack-name> \
+  --resource-map my-map.json
 ```
 
 Then copy the `amplify/` directory from the `.amplify/migration` directory back into your project.
-
-
 
 ## Verify continuous deployment
 
@@ -382,10 +397,6 @@ After performing the post-migration tasks, commit your changes and allow your de
 {/* what happens when you experience an error */}
 
 ---
-
-## Migrating from Gen 1 to Gen 2
-
-My app
 
 ## Gen 1 vs. Gen 2 feature matrix
 
