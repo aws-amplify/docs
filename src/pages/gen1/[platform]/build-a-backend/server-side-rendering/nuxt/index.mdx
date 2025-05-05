@@ -328,15 +328,15 @@ export default defineNuxtPlugin({
                   options: Parameters<typeof gqlServerClient.graphql>[1],
                   additionalHeaders?: Record<string, string>
               ) =>
-                  runWithAmplifyServerContext<
-                      ReturnType<typeof gqlServerClient.graphql>
-                  >(amplifyConfig, libraryOptions, (contextSpec) =>
-                      gqlServerClient.graphql(
-                          contextSpec,
-                          options,
-                          additionalHeaders
-                      )
-                  ),
+                runWithAmplifyServerContext<
+                  ReturnType<typeof gqlServerClient.graphql>
+                >(amplifyConfig, libraryOptions, (contextSpec) =>
+                  gqlServerClient.graphql(
+                    contextSpec,
+                    options,
+                    additionalHeaders
+                  )
+                ),
             },
           },
         }
