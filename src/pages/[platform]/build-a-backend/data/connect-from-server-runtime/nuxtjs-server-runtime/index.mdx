@@ -134,10 +134,6 @@ import type {
   LibraryOptions,
   FetchAuthSessionOptions,
 } from "@aws-amplify/core";
-import type {
-  GraphQLOptionsV6,
-  GraphQLResponseV6,
-} from "@aws-amplify/api-graphql";
 
 import outputs from "../amplify_outputs.json";
 
@@ -309,22 +305,19 @@ export default defineNuxtPlugin({
             client: {
               // Follow this typing to ensure the`graphql` API return type can
               // be inferred correctly according to your queries and mutations
-              graphql: <
-                FALLBACK_TYPES = unknown,
-                TYPED_GQL_STRING extends string = string
-              >(
-                options: GraphQLOptionsV6<FALLBACK_TYPES, TYPED_GQL_STRING>,
-                additionalHeaders?: Record<string, string>
+              graphql:(
+                  options: Parameters<typeof gqlServerClient.graphql>[1],
+                  additionalHeaders?: Record<string, string>
               ) =>
-                runWithAmplifyServerContext<
-                  GraphQLResponseV6<FALLBACK_TYPES, TYPED_GQL_STRING>
-                >(amplifyConfig, libraryOptions, (contextSpec) =>
-                  gqlServerClient.graphql(
-                    contextSpec,
-                    options,
-                    additionalHeaders
-                  )
-                ),
+                  runWithAmplifyServerContext<
+                      ReturnType<typeof gqlServerClient.graphql>
+                  >(amplifyConfig, libraryOptions, (contextSpec) =>
+                      gqlServerClient.graphql(
+                          contextSpec,
+                          options,
+                          additionalHeaders
+                      )
+                  ),
             },
           },
         },
