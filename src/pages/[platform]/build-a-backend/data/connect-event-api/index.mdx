@@ -54,7 +54,7 @@ Add the `aws-sdk-appsync-events` dependency to your app/build.gradle.kts file.
 dependencies {
     // highlight-start
     // Adds the AWS AppSync Events library without adding any Amplify dependencies
-    implementation("com.amazonaws:aws-sdk-appsync-events:1.0.0")    
+    implementation("com.amazonaws:aws-sdk-appsync-events:ANDROID_APPSYNC_SDK_VERSION")    
     // highlight-end
 }
 ```
@@ -69,9 +69,9 @@ Add the `aws-sdk-appsync-events` and `aws-sdk-appsync-amplify` dependencies to y
 dependencies {
     // highlight-start
     // Adds the AWS AppSync Events library
-    implementation("com.amazonaws:aws-sdk-appsync-events:1.0.0")    
+    implementation("com.amazonaws:aws-sdk-appsync-events:ANDROID_APPSYNC_SDK_VERSION")    
     // Contains AppSync Authorizers which connect to Amplify Auth
-    implementation("com.amazonaws:aws-sdk-appsync-amplify:1.0.0")
+    implementation("com.amazonaws:aws-sdk-appsync-amplify:ANDROID_APPSYNC_SDK_VERSION")
     // highlight-end
 }
 ```
@@ -684,7 +684,7 @@ when(publishResult) {
 You can publish up to 5 events at a time.
 
 ```kotlin
-val webSocketClient: EventsWebSocketClient // Your configured EveEventsWebSocketClientntsRestClient
+val webSocketClient: EventsWebSocketClient // Your configured EventsWebSocketClient
 // List of kotlinx.serialization.json.[JsonElement, JsonPrimitive, JsonArray, JsonObject]
 val jsonEvents = listOf(
   JsonObject(mapOf("some" to JsonPrimitive("data1"))),
@@ -730,14 +730,14 @@ when(publishResult) {
 When subscribing to a channel, you can subscribe to a specific namespace/channel (ex: "default/channel"), or you can specify a wildcard (`*`) at the end of a channel path to receive events published to all channels that match (ex: "default/*").
 
 Choosing the proper Coroutine Scope for the subscription Flow is critical. You should choose a scope to live for the lifetime in which you need the subscription. For example, if you want a subscription to be tied to a screen, you should consider using `viewModelScope` from an AndroidX `ViewModel`. The subscription Flow would persist configuration changes and be cancelled when `onCleared()` is triggered on the ViewModel.
-When the Flow's Corutine Scope is cancelled, the library will unsubscribe from the channel.
+When the Flow's Coroutine Scope is cancelled, the library will unsubscribe from the channel.
 
 ```kotlin
 coroutineScope.launch {
   val subscription: Flow<EventsMessage> = webSocketClient.subscribe("default/channel").onCompletion {
     // Subscription has been unsubscribed
   }.catch { throwable ->
-    // Subsciption encountered an error and has been unsubscribed
+    // Subscription encountered an error and has been unsubscribed
     // See throwable for cause
   }
 
@@ -760,7 +760,7 @@ coroutineScope.launch {
   ).onCompletion {
     // Subscription has been unsubscribed
   }.catch { throwable ->
-    // Subsciption encountered an error and has been unsubscribed
+    // Subscription encountered an error and has been unsubscribed
     // See throwable for cause
   }
 
@@ -779,7 +779,7 @@ When you are done using the WebSocket and do not intend to call publish/subscrib
 ```kotlin
 val webSocketClient: EventsWebSocketClient // Your configured EventsWebSocketClient
 // set flushEvents to true if you want to wait for any pending publish operations to post to the WebSocket
-// set flushEvents to false to immediately disconnect, discarding any pending posts to the WebSocet
+// set flushEvents to false to immediately disconnect, discarding any pending posts to the WebSocket
 webSocketClient.disconnect(flushEvents = true) // or false to immediately disconnect
 ```
 
