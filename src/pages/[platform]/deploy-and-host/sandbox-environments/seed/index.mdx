@@ -34,7 +34,13 @@ The Sandbox Seed feature allows you to populate your Amplify sandbox environment
 
 ## Setting Up Your Seed Script
 
-To get started, you need to create a seed script. This script will be executed when you deploy your sandbox environment and execute the `ampx sandbox seed` command.
+To get started, install the `@aws-amplify/seed` package.
+
+```bash title="Terminal"
+npm install @aws-amplify/seed --save-dev
+```
+
+Then, you need to create a seed script. This script will be executed when you deploy your sandbox environment and execute the `ampx sandbox seed` command.
 
 1. Create a folder named `seed` under your `amplify` directory
 2. Create a file named `seed.ts` inside the `seed` folder
