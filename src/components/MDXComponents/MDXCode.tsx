@@ -31,6 +31,10 @@ const addVersions = (code: string) => {
     /ANDROID_AUTHENTICATOR_VERSION/g,
     versions.ANDROID_AUTHENTICATOR_VERSION
   );
+  code = code.replace(
+    /ANDROID_APPSYNC_SDK_VERSION/g,
+    versions.ANDROID_APPSYNC_SDK_VERSION
+  );
   return code;
 };
 
