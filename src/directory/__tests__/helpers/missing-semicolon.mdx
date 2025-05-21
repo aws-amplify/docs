@@ -1,0 +1,35 @@
+{/* This page has an invalid meta object for our test because there is no
+semicolon at the end of the meta object */}
+
+export const meta = {
+  title: 'Build & connect backend',
+  description: 'Learn more about how you can build the backend for your app or connect with existing resources.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/[platform]/build-a-backend',
+  canonicalObjects: [
+    {
+      platforms: [
+        'vue',
+        'javascript',
+        'react',
+        'angular',
+        'nextjs'
+      ],
+      canonicalPath: '/javascript/build-a-backend/'
+    }
+  ]
+}
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
