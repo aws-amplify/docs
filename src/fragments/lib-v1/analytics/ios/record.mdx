@@ -23,6 +23,14 @@ However, it can take upwards of 30 minutes for the event to display in the Filte
 
 </Callout>
 
+<Callout>
+
+Security Notice: Amplify Analytics temporarily stores event data locally in an unencrypted format before sending it to Pinpoint. 
+
+To protect your sensitive information, please do not include any passwords, API keys, or other confidential information in your analytic events.
+
+</Callout>
+
 ## Flush Events
 
 Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so:
