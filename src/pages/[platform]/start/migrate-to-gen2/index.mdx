@@ -367,14 +367,6 @@ npx @aws-amplify/migrate@0.1.0-next-11.0 to-gen-2 execute \
 
 <Callout info>
 
-**Testers Only**
-
-Delete Cognito User pool custom domain from `amplify/backend.ts` as the domain already exists (This will not delete the domain from Cognito User pool):
-
-```typescript
-delete (backend.auth.stack.node.children.find(child => child.node.id === 'amplifyAuth') as any).domainPrefix;
-```
-
 Open `.amplify/migration/README.md` and follow the instructions to complete the post-migration tasks.
 
 Then redeploy the application by committing the changes to Git.
