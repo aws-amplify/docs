@@ -117,7 +117,7 @@ Example conversation data
 */
 ```
 
-You can optionally attach a `name` and `metadata` to a conversation by passing them as arguments to the `.create()` method. There are no uniqueness constraints on conversation `name` or `metadata` values.
+You can optionally attach a `name` and `metadata` to a conversation by passing them as arguments to the `.create()` method. There are no uniqueness constraints on conversation `name` or `metadata` values. You can use `metadata` as a way to organize chats and group them into certain topics.
 
 ```ts
 const { data: chat, errors } = await client.conversations.chat.create({
