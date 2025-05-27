@@ -67,7 +67,7 @@ Prerequisites:
 To get started, create a new git branch and Amplify backend:
 
 ```bash title="Terminal" showLineNumbers={false}
-git checkout --branch migrate
+git checkout -b migrate
 ```
 
 ```bash title="Terminal" showLineNumbers={false}
@@ -133,6 +133,9 @@ git push --upstream origin migrate
 ```
 
 During the migration for the new `migrate` environment, it is recommended to connect the new git branch to your build system to ensure changes continuously integrate with your live environment.
+
+Before starting the migration process in this new environment, it is recommended to add test data to the categories (API, Auth, Storage) using Amplify Studio. Please ensure Studio is enabled for your Amplify app.
+For Data category, you can use the [Seed data feature](https://docs.amplify.aws/gen1/react/tools/console/data/content-management/) in Amplify Studio.
 
 Next, prepare your local codebase for migration execution by running the following command:
 
@@ -321,8 +324,6 @@ Next, make a note of the stack name of your Gen 2 backend, you can find this in 
 {/* how to handle CDK bootstrap */}
 {/* how to handle updating service role BEFORE AND AFTER migrations */}
 
-### Ensure validity of `amplify.yml`
-
 {/* maybe move this section up before deploying the branch -- otherwise it will likely error for frontend builds */}
 {/* ensure package manager is correct */}
 {/* tweak frontend build settings */}
@@ -330,12 +331,23 @@ Next, make a note of the stack name of your Gen 2 backend, you can find this in 
 ## Executing migration
 
 The migration tooling orchestrates [AWS CloudFormation stack refactor](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-refactoring.html) operations on your behalf. However, if your Gen 1 backend environment contains custom resources or makes use of categories such as Geo, REST APIs, you will need to create a mapping of resources from both CloudFormation stacks to extend the stack refactor operation.
+The resource mapping JSON is an array of resource mappings, with each mapping corresponding to an unique resource you want to move from Gen1 to Gen2. Each resource mapping comprises of 2 fields (Source and Destination) which contain the stackName and the logicalId of the resource in Source and Destination stacks respectively:
+
 
 ```json title="my-map.json"
-{
-  "": {}
-}
-```
+[
+  {
+          "Source": {
+            "StackName": "myStackA",
+            "LogicalResourceId": "myLogicalIdA"
+          },
+          "Destination": {
+            "StackName": "myStackB",
+            "LogicalResourceId": "myLogicalIdB"
+          }
+  }
+]
+```.
 
 {/* resource map */}
 
@@ -379,13 +391,10 @@ npx @aws-amplify/migrate@0.1.0-next-11.0 to-gen-2 revert \
   --to <amplify-gen-1-stack-name>
 ```
 
-When using a resource map for custom resources or resource categories from Gen 1, you can pass a resource mapping to this command.
-
 ```bash title="Terminal" showLineNumbers={false}
 npx @aws-amplify/migrate@0.1.0-next-11.0 to-gen-2 revert \
   --from <amplify-gen-2-stack-name> \
   --to <amplify-gen-1-stack-name> \
-  --resource-map my-map.json
 ```
 
 Then copy the `amplify/` directory from the `.amplify/migration` directory back into your project.
