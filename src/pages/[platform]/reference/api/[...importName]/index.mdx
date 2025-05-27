@@ -1,7 +1,6 @@
 import { getApiStaticPath } from '@/utils/getApiStaticPath';
 
 export const meta = {
-  title: 'API Reference',
   description: 'API Reference'
 };
 
@@ -12,12 +11,11 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
-      platform: context.params.platform,
-      category: context.params.category,
+      importName: context.params.importName,
       showBreadcrumbs: false,
-      meta
+      meta: {...meta, title: context.params.importName.join('/')}
     }
   };
 }
 
-<ReferencePage category={props.category} />
+<ReferencePage importName={props.importName.join('/')} />

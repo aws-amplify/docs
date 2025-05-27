@@ -2,14 +2,15 @@ import { Fragment } from 'react';
 
 import { FunctionReference } from './FunctionReference';
 import { Divider, View, Flex } from '@aws-amplify/ui-react';
-import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories.mjs';
+import { REFERENCE_IMPORTS_LOOKUP } from '@/data/api-categories.mjs';
 import references from '@/directory/apiReferences/amplify-js.json';
 import { MDXHeading } from '../MDXComponents';
 
-export const ReferencePage = ({ category }) => {
-  category = API_CATEGORIES[category] || API_SUB_CATEGORIES[category];
+export const ReferencePage = ({ importName }) => {
+  const importConfig = REFERENCE_IMPORTS_LOOKUP[importName];
+
   const cat = references['categories'].find(
-    (catObject) => catObject.name === category
+    (catObject) => catObject.name === importConfig.category
   );
   return (
     <View className={'reference-page'}>

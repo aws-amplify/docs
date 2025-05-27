@@ -10226,6 +10226,156 @@
 		"source": "/vue/start/connect-existing-aws-resources",
 		"target": "/vue/start/connect-to-aws-resources",
 		"status": "301"
+	},
+	{
+		"source": "/angular/build-a-backend/auth/reference",
+		"target": "/angular/reference/api/aws-amplify/auth",
+		"status": "301"
+	},
+	{
+		"source": "/angular/build-a-backend/storage/reference",
+		"target": "/angular/reference/api/aws-amplify/storage",
+		"status": "301"
+	},
+	{
+		"source": "/angular/build-a-backend/add-aws-services/analytics/reference",
+		"target": "/angular/reference/api/aws-amplify/analytics",
+		"status": "301"
+	},
+	{
+		"source": "/angular/build-a-backend/add-aws-services/in-app-messaging/reference",
+		"target": "/angular/reference/api/aws-amplify/in-app-messaging",
+		"status": "301"
+	},
+	{
+		"source": "/angular/build-a-backend/add-aws-services/rest-api/reference",
+		"target": "/angular/reference/api/aws-amplify/api",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-a-backend/auth/reference",
+		"target": "/javascript/reference/api/aws-amplify/auth",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-a-backend/storage/reference",
+		"target": "/javascript/reference/api/aws-amplify/storage",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-a-backend/add-aws-services/analytics/reference",
+		"target": "/javascript/reference/api/aws-amplify/analytics",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-a-backend/add-aws-services/in-app-messaging/reference",
+		"target": "/javascript/reference/api/aws-amplify/in-app-messaging",
+		"status": "301"
+	},
+	{
+		"source": "/javascript/build-a-backend/add-aws-services/rest-api/reference",
+		"target": "/javascript/reference/api/aws-amplify/api",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/build-a-backend/auth/reference",
+		"target": "/nextjs/reference/api/aws-amplify/auth",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/build-a-backend/storage/reference",
+		"target": "/nextjs/reference/api/aws-amplify/storage",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/build-a-backend/add-aws-services/analytics/reference",
+		"target": "/nextjs/reference/api/aws-amplify/analytics",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/build-a-backend/add-aws-services/in-app-messaging/reference",
+		"target": "/nextjs/reference/api/aws-amplify/in-app-messaging",
+		"status": "301"
+	},
+	{
+		"source": "/nextjs/build-a-backend/add-aws-services/rest-api/reference",
+		"target": "/nextjs/reference/api/aws-amplify/api",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/auth/reference",
+		"target": "/react/reference/api/aws-amplify/auth",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/storage/reference",
+		"target": "/react/reference/api/aws-amplify/storage",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/add-aws-services/analytics/reference",
+		"target": "/react/reference/api/aws-amplify/analytics",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/add-aws-services/in-app-messaging/reference",
+		"target": "/react/reference/api/aws-amplify/in-app-messaging",
+		"status": "301"
+	},
+	{
+		"source": "/react/build-a-backend/add-aws-services/rest-api/reference",
+		"target": "/react/reference/api/aws-amplify/api",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/build-a-backend/auth/reference",
+		"target": "/react-native/reference/api/aws-amplify/auth",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/build-a-backend/storage/reference",
+		"target": "/react-native/reference/api/aws-amplify/storage",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/build-a-backend/add-aws-services/analytics/reference",
+		"target": "/react-native/reference/api/aws-amplify/analytics",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/build-a-backend/add-aws-services/in-app-messaging/reference",
+		"target": "/react-native/reference/api/aws-amplify/in-app-messaging",
+		"status": "301"
+	},
+	{
+		"source": "/react-native/build-a-backend/add-aws-services/rest-api/reference",
+		"target": "/react-native/reference/api/aws-amplify/api",
+		"status": "301"
+	},
+	{
+		"source": "/vue/build-a-backend/auth/reference",
+		"target": "/vue/reference/api/aws-amplify/auth",
+		"status": "301"
+	},
+	{
+		"source": "/vue/build-a-backend/storage/reference",
+		"target": "/vue/reference/api/aws-amplify/storage",
+		"status": "301"
+	},
+	{
+		"source": "/vue/build-a-backend/add-aws-services/analytics/reference",
+		"target": "/vue/reference/api/aws-amplify/analytics",
+		"status": "301"
+	},
+	{
+		"source": "/vue/build-a-backend/add-aws-services/in-app-messaging/reference",
+		"target": "/vue/reference/api/aws-amplify/in-app-messaging",
+		"status": "301"
+	},
+	{
+		"source": "/vue/build-a-backend/add-aws-services/rest-api/reference",
+		"target": "/vue/reference/api/aws-amplify/api",
+		"status": "301"
 	}
 ]
   

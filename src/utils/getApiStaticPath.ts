@@ -1,40 +1,23 @@
-import { API_CATEGORIES, API_SUB_CATEGORIES } from '@/data/api-categories.mjs';
+import { REFERENCE_IMPORTS } from '@/data/api-categories.mjs';
 import { JS_PLATFORMS } from '@/data/platforms';
 
-export const getApiStaticPath = (sub) => {
+export const getApiStaticPath = () => {
   const paths: any = [];
-
-  if (sub) {
-    Object.keys(API_SUB_CATEGORIES).forEach((catKey) => {
+  Object.keys(REFERENCE_IMPORTS).forEach((importKey: string) => {
+    REFERENCE_IMPORTS[importKey].forEach((importName: string[]) => {
       JS_PLATFORMS.forEach((platKey) => {
         paths.push({
           params: {
             platform: platKey,
-            category: catKey
+            importName: importName
           }
         });
       });
     });
+  });
 
-    return {
-      paths: paths,
-      fallback: false
-    };
-  } else {
-    Object.keys(API_CATEGORIES).forEach((catKey) => {
-      JS_PLATFORMS.forEach((platKey) => {
-        paths.push({
-          params: {
-            platform: platKey,
-            category: catKey
-          }
-        });
-      });
-    });
-
-    return {
-      paths: paths,
-      fallback: false
-    };
-  }
+  return {
+    paths: paths,
+    fallback: false
+  };
 };
