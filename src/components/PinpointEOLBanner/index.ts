@@ -1,0 +1,1 @@
+export { PinpointEOLBanner } from './PinpointEOLBanner';
