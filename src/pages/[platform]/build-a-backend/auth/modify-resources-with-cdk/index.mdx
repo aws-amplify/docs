@@ -123,7 +123,7 @@ cfnUserPool.enabledMfas = [...(cfnUserPool.enabledMfas || []), "EMAIL_OTP"]
 
 You can modify the underlying Cognito user pool resource to enable sign in with passwordless methods. [Learn more about passwordless sign-in methods](/[platform]/build-a-backend/auth/concepts/passwordless/). 
 
-You can also read more about passwordless authentication flows are implemented in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html).
+You can also read more about how passwordless authentication flows are implemented in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html).
 
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend"
@@ -149,7 +149,7 @@ cfnUserPoolClient.explicitAuthFlows = [
 ];
 
 /* Needed for WebAuthn */
-// The WebAuthnRelyingPartyID is the domain of your relying party, e.g. "example.mydomain.com"
+// The WebAuthnRelyingPartyID is the domain of your relying party, e.g. "example.domain.com"
 cfnUserPool.addPropertyOverride('WebAuthnRelyingPartyID', '<RELYING_PARTY>');
 cfnUserPool.addPropertyOverride('WebAuthnUserVerification', 'preferred');
 ```
