@@ -42,7 +42,7 @@ Passwordless authentication removes the security risks and user friction associa
 
 </Callout>
 
-Learn how to implement passwordless sign-in flows by [overriding the Cognito UserPool to enable the sign-in methods below](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#override-cognito-userpool-to-enable-passwordless-sign-in-methods).
+Learn how to enable passwordless sign-in flows by [overriding the Cognito UserPool to enable the sign-in methods below](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#override-cognito-userpool-to-enable-passwordless-sign-in-methods).
 
 {/* need a section about what a "preferred" factor is */}
 
@@ -131,7 +131,17 @@ WebAuthn uses biometrics or security keys for authentication, leveraging device-
 </InlineFilter>
 <InlineFilter filters={["android"]}>
 
-{/*  */}
+You can read more about how passkeys work in the [Android developer docs](https://developer.android.com/design/ui/mobile/guides/patterns/passkeys).
+
+<Callout warning>
+Registering a passkey is supported on Android 9 (API level 28) and above.
+</Callout>
+
+Using passkeys with Amplify Android requires following these steps:
+
+1. Deploy a Digital Asset Links file to your website granting the `get_login_creds` permission to your application. See the [Credential Manager documentation](https://developer.android.com/identity/sign-in/credential-manager#add-support-dal) for more details about this file.
+2. [Configure your Amazon Cognito user pool](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#override-cognito-userpool-to-enable-passwordless-sign-in-methods) with `WEB_AUTHN` as an allowed first factor, and specify your website domain as the `WebAuthnRelyingPartyID`.
+3. Use the Amplify Android APIs to first [register a passkey](/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials/#associate-webauthn-credentials) and then to [sign in with WebAuthn](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#webauthn-passkeys).
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
