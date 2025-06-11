@@ -1697,7 +1697,69 @@ Using WebAuthn sign in may result in a number of possible exception types.
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
-{/*  */}
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+// sign in with `webAuthn` as preferred factor
+func signIn(username: String) async {
+    do {
+        let authFactorType : AuthFactorType
+        if #available(iOS 17.4, *) {
+            authFactorType = .webAuthn
+        } else {
+            // Fallback on earlier versions
+            authFactorType = .passwordSRP
+        }
+
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: AWSAuthSignInOptions(
+                authFlowType: .userAuth(
+                    preferredFirstFactor: authFactorType))))
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+// sign in with `webAuthn` as preferred factor
+func signIn(username: String) async {
+    Amplify.Publisher.create {
+        let authFactorType : AuthFactorType
+        if #available(iOS 17.4, *) {
+            authFactorType = .webAuthn
+        } else {
+            // Fallback on earlier versions
+            authFactorType = .passwordSRP
+        }
+
+        try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: AWSAuthSignInOptions(
+                authFlowType: .userAuth(
+                    preferredFirstFactor: authFactorType))))
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
 
