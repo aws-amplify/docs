@@ -35,9 +35,17 @@ WebAuthn registration and authentication are not currently supported on React Na
 </Callout>
 </InlineFilter>
 
-Amplify Auth enables your users to associate, keep track of, and delete passkeys.
+Amplify Auth uses passkeys as the credential mechanism for WebAuthn. The following APIs allow users to register, keep track of, and delete the passkeys associated with their Cognito account. 
 
-## Associate WebAuthN credentials
+[Learn more about using passkeys with Amplify](/[platform]/build-a-backend/auth/concepts/passwordless/#webauthn-passkey).
+
+## Associate WebAuthn credentials
+
+<InlineFilter filters={["android"]}>
+<Callout warning>
+Registering a passkey is supported on Android 9 (API level 28) and above.
+</Callout>
+</InlineFilter>
   
 Note that users must be authenticated to register a passkey. That also means users cannot create a passkey during sign up; consequently, they must have at least one other first factor authentication mechanism associated with their account to use WebAuthn.
 
@@ -62,7 +70,7 @@ await associateWebAuthnCredential();
 Amplify.Auth.associateWebAuthnCredential(
     activity,
     () -> Log.i("AuthQuickstart", "Associated credential"),
-    error -> Log.e("AuthQuickstart", "Failed to register credential", error)
+    error -> Log.e("AuthQuickstart", "Failed to associate credential", error)
 );
 ```
 
@@ -73,7 +81,7 @@ Amplify.Auth.associateWebAuthnCredential(
 Amplify.Auth.associateWebAuthnCredential(
     activity,
     { Log.i("AuthQuickstart", "Associated credential") },
-    { Log.e("AuthQuickstart", "Failed to register credential", error) }
+    { Log.e("AuthQuickstart", "Failed to associate credential", error) }
 )
 ```
 
@@ -103,7 +111,7 @@ RxAmplify.Auth.associateWebAuthnCredential(activity)
 </Block>
 </BlockSwitcher>
 
-You must supply an `Activity` instance so that Amplify can display the PassKey UI in your Application's [Task](https://developer.android.com/guide/components/activities/tasks-and-back-stack).
+You must supply an `Activity` instance so that Amplify can display the PassKey UI in your application's [Task](https://developer.android.com/guide/components/activities/tasks-and-back-stack).
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
@@ -145,7 +153,7 @@ func associateWebAuthNCredentials() -> AnyCancellable {
 
 The user will be prompted to register a passkey using their local authenticator. Amplify will then associate that passkey with Cognito.
 
-## List WebAuthN credentials
+## List WebAuthn credentials
 
 You can list registered passkeys using the following API:
 
@@ -301,7 +309,7 @@ RxAmplify.Auth.listWebAuthnCredentials()
 </BlockSwitcher>
 </InlineFilter>
 
-## Delete WebAuthN credentials
+## Delete WebAuthn credentials
 
 You can delete a passkey with the following API:
 
