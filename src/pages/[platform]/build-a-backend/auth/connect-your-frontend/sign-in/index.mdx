@@ -1310,6 +1310,8 @@ RxAmplify.Auth.confirmSignIn("123456")
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
+Pass `smsOTP` as the `preferredFirstFactor` when calling the `signIn` API in order to initiate a passwordless authentication flow with SMS OTP.
+
 <BlockSwitcher>
 <Block name="Async/Await">
 
@@ -1551,6 +1553,9 @@ RxAmplify.Auth.confirmSignIn("123456")
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
 
+Pass `emailOTP` as the `preferredFirstFactor` when calling the `signIn` API in order to initiate a passwordless authentication flow with Email OTP.
+
+
 <BlockSwitcher>
 <Block name="Async/Await">
 
@@ -1761,12 +1766,13 @@ Using WebAuthn sign in may result in a number of possible exception types.
 - `WebAuthnFailedException` - This exception is used for other errors that may occur with WebAuthn. Inspect the `cause` to determine the best course of action.
 
 </InlineFilter>
-<InlineFilter filters={["flutter"]}>
 
 {/*  */}
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
+
+Pass `webAuthn` as the `preferredFirstFactor` in order to initiate the passwordless authentication flow using a WebAuthn credential.
 
 <BlockSwitcher>
 <Block name="Async/Await">
@@ -1834,15 +1840,13 @@ func signIn(username: String) async {
 
 </InlineFilter>
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue", "android"]}>
 
 ### Password
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
 Pass either `PASSWORD` or `PASSWORD_SRP` as the `preferredChallenge` in order to initiate a traditional password based authentication flow.
 
-</InlineFilter>
-
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 ```ts
 const { nextStep: signInNextStep } = await signIn({
 	username: 'hello@example.com',
@@ -1860,6 +1864,9 @@ if (confirmSignInNextStep.signInStep === 'DONE') {
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
+
+Pass either `PASSWORD` or `PASSWORD_SRP` as the `preferredFirstFactor` in order to initiate a traditional password based authentication flow.
+
 
 <BlockSwitcher>
 <Block name="Java">
@@ -1946,17 +1953,68 @@ RxAmplify.Auth.signIn(
 </BlockSwitcher>
 
 </InlineFilter>
+<InlineFilter filters={["swift"]}>
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue", "android"]}>
+Pass either `password` or `passwordSRP` as the `preferredFirstFactor` in order to initiate a traditional password based authentication flow.
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+// sign in with `password` as preferred factor
+func signIn(username: String) async {
+    do {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .password))
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+// sign in with `password` as preferred factor
+func signIn(username: String) async {
+    Amplify.Publisher.create {
+        let pluginOptions = AWSAuthSignInOptions(
+                authFlowType: .userAuth(preferredFirstFactor: .password))
+        try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions))
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        print("Sign in succeeded. Next step: \(signInResult.nextStep)")
+    }
+}
+```
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
 ### First Factor Selection
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
 Omit the `preferredChallenge` parameter to discover which first factors are available for a given user. This is useful to allow
 users to choose how they would like to sign in.
 
 The `confirmSignIn` API can then be used to select a challenge and initiate the associated authentication flow.
-</InlineFilter>
 
-<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 ```ts
 const { nextStep: signInNextStep } = await signIn({
 	username: '+15551234567',
@@ -1981,6 +2039,12 @@ if (
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
+
+Omit the `preferredFirstFactor` option to discover which first factors are available for a given user. This is useful to allow
+users to choose how they would like to sign in.
+
+The `confirmSignIn` API can then be used to select a challenge and initiate the associated authentication flow.
+
 <BlockSwitcher>
 <Block name="Java">
 
@@ -1991,7 +2055,7 @@ AuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
                                 .authFlowType(AuthFlowType.USER_AUTH)
                                 .build();
 
-// Sign in the user
+// Step 1: Sign in the user
 Amplify.Auth.signIn(
     "hello@example.com",
     null,
@@ -2007,18 +2071,22 @@ Amplify.Auth.signIn(
     error -> Log.e("AuthQuickstart", error.toString())
 );
 
-// Select SMS OTP for sign in
+// Step 2: Select SMS OTP for sign in
 Amplify.Auth.confirmSignIn(
     AuthFactorType.SMS_OTP.getChallengeResponse(),
     result -> {
         if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+            Log.i(
+                "AuthQuickStart",
+                "OTP code sent to " + result.getNextStep().getCodeDeliveryDetails()
+            )
             // Show UI to collect OTP
         }
     },
     error -> Log.e("AuthQuickstart", error.toString())
 );
 
-// Then pass that OTP into the confirmSignIn API
+// Step 3: Then pass that OTP into the confirmSignIn API
 Amplify.Auth.confirmSignIn(
     "123456",
     result -> {
@@ -2038,7 +2106,7 @@ val options: AuthSignInOptions = AWSCognitoAuthSignInOptions.builder()
     .authFlowType(AuthFlowType.USER_AUTH)
     .build()
 
-// Sign in the user
+// Step 1: Sign in the user
 Amplify.Auth.signIn(
     "hello@example.com",
     null,
@@ -2047,25 +2115,29 @@ Amplify.Auth.signIn(
         if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION) {
             Log.i(
                 "AuthQuickstart",
-                "Available authentication factors for this user: " + result.nextStep.availableFactors
+                "Available authentication factors for this user: ${result.nextStep.availableFactors}"
             )
         }
     },
     { error: AuthException -> Log.e("AuthQuickstart", error.toString()) }
 )
 
-// Select SMS OTP for sign in
+// Step 2: Select SMS OTP for sign in
 Amplify.Auth.confirmSignIn(
     AuthFactorType.SMS_OTP.getChallengeResponse(),
     { result: AuthSignInResult ->
         if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+            Log.i(
+                "AuthQuickStart",
+                "OTP code sent to ${result.nextStep.codeDeliveryDetails}"
+            )
             // Show UI to collect OTP
         }
     },
     { error: AuthException -> Log.e("AuthQuickstart", error.toString()) }
 )
 
-// Then pass that OTP into the confirmSignIn API
+// Step 3: Then pass that OTP into the confirmSignIn API
 Amplify.Auth.confirmSignIn(
     "123456",
     { result: AuthSignInResult? -> 
@@ -2085,7 +2157,7 @@ val options: AuthSignInOptions = AWSCognitoAuthSignInOptions.builder()
     .authFlowType(AuthFlowType.USER_AUTH)
     .build()
 
-// Sign in the user
+// Step 1: Sign in the user
 val result = Amplify.Auth.signIn(
     username = "hello@example.com",
     password = null,
@@ -2099,14 +2171,18 @@ if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_FIRST_FAC
     )
 }
 
-// Select SMS OTP for sign in
+// Step 2: Select SMS OTP for sign in
 val selectFactorResult = Amplify.Auth.confirmSignIn(challengeResponse = AuthFactorType.SMS_OTP.challengeResponse)
 
 if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+    Log.i(
+        "AuthQuickStart",
+        "OTP code sent to ${result.nextStep.codeDeliveryDetails}"
+    )
     // Show UI to collect OTP
 }
 
-// Then pass that OTP into the confirmSignIn API
+// Step 3: Then pass that OTP into the confirmSignIn API
 val confirmResult = Amplify.Auth.confirmSignIn(challengeResponse = "123456")
 
 // confirmResult.nextStep.signInStep should be "DONE" now
@@ -2122,7 +2198,7 @@ AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
     .authFlowType(AuthFlowType.USER_AUTH)
     .build();
 
-// Sign in the user
+// Step 1: Sign in the user
 RxAmplify.Auth.signIn(
     username,
     null, // no password
@@ -2139,18 +2215,22 @@ RxAmplify.Auth.signIn(
     error -> Log.e("AuthQuickstart", error.toString())
 )
 
-// Select SMS OTP for sign in
+// Step 2: Select SMS OTP for sign in
 RxAmplify.Auth.confirmSignIn(AuthFactorType.SMS_OTP.getChallengeResponse())
     .subscribe(
         result -> {
             if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_OTP) {
+                Log.i(
+                    "AuthQuickStart",
+                    "OTP code sent to " + result.getNextStep().getCodeDeliveryDetails()
+                )
                 // Show UI to collect OTP
             }
         },
         error -> Log.e("AuthQuickstart", error.toString())
     );
 
-// Then pass that OTP into the confirmSignIn API
+// Step 3: Then pass that OTP into the confirmSignIn API
 RxAmplify.Auth.confirmSignIn("123456")
     .subscribe(
         result -> {
@@ -2164,7 +2244,117 @@ RxAmplify.Auth.confirmSignIn("123456")
 </BlockSwitcher>
 
 </InlineFilter>
+<InlineFilter filters={["swift"]}>
 
+Omit the `preferredFirstFactor` parameter to discover which first factors are available for a given user. This is useful to allow
+users to choose how they would like to sign in.
 
+The `confirmSignIn` API can then be used to select a challenge and initiate the associated authentication flow.
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+// Step 1: Initiate UserAuth Sign-In
+let pluginOptions = AWSAuthSignInOptions(authFlowType: .userAuth)
+let signInResult = try await Amplify.Auth.signIn(
+    username: "user@example.com",
+    options: .init(pluginOptions: pluginOptions)
+)
+
+switch signInResult.nextStep {
+case .continueSignInWithFirstFactorSelection(let availableFactors):
+    print("Available factors to select: \(availableFactors)")
+    // Prompt the user to select a first factor
+default:
+    break
+}
+
+// Step 2: Select Authentication Factor
+let confirmSignInResult = try await Amplify.Auth.confirmSignIn(
+    challengeResponse: AuthFactorType.emailOTP.challengeResponse
+)
+
+switch confirmSignInResult.nextStep {
+case .confirmSignInWithOTP(let deliveryDetails):
+    print("Delivery details: \(deliveryDetails)")
+    // Prompt the user to enter email OTP code received
+default:
+    break
+}
+
+// Step 3: Complete Sign-In with OTP Code
+let finalSignInResult = try await Amplify.Auth.confirmSignIn(
+    challengeResponse: "<code>"
+)
+
+if case .done = finalSignInResult.nextStep {
+    print("Login successful")
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func signInWithUserAuth(username: String, getOTP: @escaping () async -> String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        // Step 1: Initiate UserAuth Sign-In
+        let pluginOptions = AWSAuthSignInOptions(authFlowType: .userAuth)
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username,
+            options: .init(pluginOptions: pluginOptions)
+        )
+        
+        // Step 2: Handle factor selection
+        if case .continueSignInWithFirstFactorSelection(let availableFactors) = signInResult.nextStep {
+            print("Available factors to select: \(availableFactors)")
+            
+            // For this example, we select emailOTP. You could prompt the user here.
+            let confirmSignInResult = try await Amplify.Auth.confirmSignIn(
+                challengeResponse: AuthFactorType.emailOTP.challengeResponse
+            )
+            
+            // Step 3: Handle OTP delivery
+            if case .confirmSignInWithOTP(let deliveryDetails) = confirmSignInResult.nextStep {
+                print("Delivery details: \(deliveryDetails)")
+                
+                // Prompt user for OTP code (async closure)
+                let code = await getOTP()
+                
+                // Step 4: Complete sign-in with OTP code
+                let finalSignInResult = try await Amplify.Auth.confirmSignIn(
+                    challengeResponse: code
+                )
+                
+                return finalSignInResult
+            } else {
+                // Handle other next steps if needed
+                return confirmSignInResult
+            }
+        } else {
+            // Handle other next steps or immediate sign-in
+            return signInResult
+        }
+    }
+    .sink(
+        receiveCompletion: { completion in
+            if case let .failure(authError) = completion {
+                print("Sign in failed: \(authError)")
+            }
+        },
+        receiveValue: { result in
+            if result.isSignedIn || (result.nextStep == .done) {
+                print("Sign in succeeded")
+            } else {
+                print("Next step: \(result.nextStep)")
+            }
+        }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
