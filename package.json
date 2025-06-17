@@ -120,5 +120,5 @@
     "lint": "next lint",
     "clean-references": "node tasks/clean-references.mjs"
   },
-  "packageManager": "yarn@4.9.0"
+  "packageManager": "yarn@4.9.2"
 }
