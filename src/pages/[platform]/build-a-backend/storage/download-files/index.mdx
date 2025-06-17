@@ -336,6 +336,14 @@ const { body, eTag } = await downloadData({
 
 Use the `downloadFile` API to download the file locally on the client.
 
+<Callout>
+**Note:** When downloading a file that will overwrite a preexisting file, ensure that your app has the proper write permission to overwrite it. If you are attempting to write to a file that a different app already contributed to the media store, you must request user consent[as described here](https://developer.android.com/training/data-storage/shared/media#update-other-apps-files).
+
+To learn more, refer to Android's developer documentation about [Scoped Storage](https://developer.android.com/training/data-storage#scoped-storage).
+
+Amplify will throw a `StorageException` if it is unable to modify a preexisting file.
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 

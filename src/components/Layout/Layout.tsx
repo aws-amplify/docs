@@ -37,6 +37,7 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
 import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
 
 export const Layout = ({
@@ -280,6 +281,10 @@ export const Layout = ({
                     )}
                     {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
                       <Gen1Banner currentPlatform={currentPlatform} />
+                    )}
+                    {(asPathWithNoHash.includes('/push-notifications/') ||
+                      asPathWithNoHash.includes('/analytics/')) && (
+                      <PinpointEOLBanner />
                     )}
                     {children}
                     {showNextPrev && <NextPrevious />}
