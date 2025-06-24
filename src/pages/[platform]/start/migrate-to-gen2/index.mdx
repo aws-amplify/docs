@@ -42,7 +42,7 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 
 | Feature | Gen 1 | Gen 2 |
 |---|---|---|
-| Configure username | Yes | Yes with CDK |
+| Configure username | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) |
 | Configure email | Yes | Yes |
 | Configure phone number | Yes | Yes |
 | Facebook | Yes | Yes |
@@ -60,10 +60,10 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Auth trigger templates: Email Domain Filtering (allowlist) | Yes | Yes |
 | Auth trigger templates: Override ID Token Claims | Yes | Yes |
 | Auth trigger templates: Custom Auth Challenge Flow| Yes | No |
-| Configure default password policy | Yes | Yes with CDK |
-| Configure read/write capabilities for attributes | Yes | Yes with CDK |
-| Oauth flow: Configure authorization v implicit grant | Yes | Yes with CDK |
-| Admin queries | Yes | Yes with CDK |
+| Configure default password policy | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) |
+| Configure read/write capabilities for attributes | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) |
+| Oauth flow: Configure authorization v implicit grant | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) |
+| Admin queries | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) |
 | MFA login (on/off/optional) | Yes | Yes |
 | MFA: SMS | Yes | Yes |
 | MFA: TOTP | Yes | Yes |
@@ -75,8 +75,8 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Oauth flow: Configure redirect URIs | Yes | Yes |
 | Ability to set a friendly name for User Pool | Yes | Yes |
 | Unauthenticated logins | Yes | Yes |
-| Custom attributes | Yes | Yes with CDK |
-| Oauth flow: Configure domain name prefix | Yes | Yes with CDK |
+| Custom attributes | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) |
+| Oauth flow: Configure domain name prefix | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) |
 | Auth configuration in console | Yes | No |
 | First class OIDC support | No | Yes |
 | First class SAML support | No | Yes |
@@ -187,13 +187,13 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 | Function templates: Hello World | Yes | Yes |
 | Function templates: Lambda trigger | Yes | Yes |
 | Function logs in console | Yes | Yes |
-| Function resource access permissions: geo | Yes | Yes with CDK |
-| Function resource access permissions: analytics | Yes | Yes with CDK |
-| Function runtime: .NET 6 | Yes | Yes with CDK |
-| Function runtime: Go | Yes | Yes with CDK |
-| Function runtime: Java | Yes | Yes with CDK |
-| Function runtime: JavaScript | Yes | Yes with CDK |
-| Function runtime: Python | Yes | Yes with CDK |
+| Function resource access permissions: geo | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk) |
+| Function resource access permissions: analytics | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk) |
+| Function runtime: .NET 6 | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) |
+| Function runtime: Go | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) |
+| Function runtime: Java | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) |
+| Function runtime: JavaScript | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) |
+| Function runtime: Python | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) |
 | Lambda layers | Yes | No |
 
 
@@ -201,11 +201,13 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 
 <InlineFilter filters={['android', 'swift']}>
 
+[Amplify JS Auth API documentation](/[platform]/build-a-backend/auth/connect-your-frontend/)
+
 | Feature | Gen 1 | Gen 2 |
 |---|---|---|
 | REST API| Yes|	No
-| Analytics| Yes|	Yes with custom CDK
-| Geo| Yes|	Yes with custom CDK
+| Analytics| Yes|	[Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/analytics/)
+| Geo| Yes|	[Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/geo/)
 | Predictions | Yes|	No
 | Interactions| Yes|	No
 
@@ -215,8 +217,8 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 
 | Feature | Gen 1 | Gen 2 |
 |---|---|---|
-| REST API| Yes|	Yes with custom CDK
-| Analytics| Yes|	Yes with custom CDK
+| REST API| Yes|	No
+| Analytics| Yes|	[Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/analytics/)
 | Geo| No|	No
 | Predictions | No|	No
 | Interactions| No|	No
@@ -227,11 +229,11 @@ The tables below present a feature matrix for Gen 1 customers who are considerin
 
 | Feature | Gen 1 | Gen 2 |
 |---|---|---|
-| REST API| Yes|	Yes with custom CDK
-| Analytics| Yes|	Yes with custom CDK
-| Geo| Yes|	Yes with custom CDK
-| Predictions | Yes|	Yes with custom CDK
-| Interactions| Yes|	Yes with custom CDK
+| REST API| Yes|	[Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/rest-api/)
+| Analytics| Yes|	[Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/analytics/)
+| Geo| Yes|	[Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/geo/)
+| Predictions | Yes|	[Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/predictions/)
+| Interactions| Yes|	[Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/interactions/)
 
 </InlineFilter>
 
