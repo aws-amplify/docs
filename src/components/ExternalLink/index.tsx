@@ -8,12 +8,17 @@ type ExternalLinkProps = {
   anchorTitle?: string;
   icon?: boolean;
   className?: string;
+  /**
+   * @default 'noopener noreferrer'
+   */
+  rel?: string;
 };
 
 const ExternalLink: React.FC<ExternalLinkProps> = ({
   children,
   href,
-  className
+  className,
+  rel
 }) => {
   const [label, setLabel] = React.useState('');
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -30,7 +35,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
       href={href}
       className={className}
       aria-label={label + ' (opens in new tab)'}
-      rel="noopener noreferrer"
+      rel={rel || 'noopener noreferrer'}
       target="_blank"
       onClick={() => {
         trackLink(href);
