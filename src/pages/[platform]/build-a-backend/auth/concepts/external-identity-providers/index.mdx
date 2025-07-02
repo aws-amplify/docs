@@ -587,7 +587,7 @@ import 'aws-amplify/auth/enable-oauth-listener';
 import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
 import { Hub } from 'aws-amplify/utils';
 
-Hub.listen("auth", ({ payload }) => {
+Hub.listen("auth", async ({ payload }) => {
   switch (payload.event) {
     case "signInWithRedirect":
       const user = await getCurrentUser();
