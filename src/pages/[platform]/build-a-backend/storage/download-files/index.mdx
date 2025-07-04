@@ -956,7 +956,7 @@ download
 ```dart
 final operation = Amplify.Storage.downloadData(
   path: const StoragePath.fromString('public/example.txt'),
-  onProgress: (progress) => {
+  onProgress: (progress) {
     safePrint('fraction totalBytes: ${progress.totalBytes}');
     safePrint('fraction transferredBytes: ${progress.transferredBytes}');
     safePrint('fraction completed: ${progress.fractionCompleted}');
