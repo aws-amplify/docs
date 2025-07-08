@@ -48,7 +48,7 @@ export const schema = a.schema({
 });
 ```
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
 
 The example client query below allows you to query for "Customer" records based on their `accountRepresentativeId`:
 
@@ -155,7 +155,7 @@ export const schema = a.schema({
 });
 ```
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android",]}>
 
 On the client side, you should find a new `listBy...` query that's named after hash key and sort keys. For example, in this case: `listByAccountRepresentativeIdAndName`. You can supply the filter as part of this new list query:
 
@@ -209,7 +209,7 @@ let queriedCustomers = try await Amplify.API.query(
 
 <InlineFilter filters={["flutter"]}>
 
-The example client query below allows you to query for "Customer" records based on their `accountRepresentativeId`:
+The example client query below allows you to query for "Customer" records based on their "name" AND their `accountRepresentativeId`:
 
 ```dart title="lib/main.dart"
 import 'package:amplify_api/amplify_api.dart';
