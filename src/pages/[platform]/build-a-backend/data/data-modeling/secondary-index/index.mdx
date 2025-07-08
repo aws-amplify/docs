@@ -104,6 +104,28 @@ let queriedCustomers = try await Amplify.API.query(
 ```
 
 </InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+The example client query below allows you to query for "Customer" records based on their `accountRepresentativeId`:
+
+```dart title="lib/main.dart"
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'amplify_outputs.dart';
+import 'models/ModelProvider.dart';
+
+// highlight-start
+final request = ModelQueries.list(
+  Customer.classType,
+  where: accountRepresentativeId.eq(YOUR_REP_ID),
+);
+// highlight-end
+
+```
+
+</InlineFilter>
+
 <Accordion title="Review how this works under the hood with Amazon DynamoDB">
 
 Amplify uses Amazon DynamoDB tables as the default data source for `a.model()`. For key-value databases, it is critical to model your access patterns with "secondary indexes". Use the `.secondaryIndexes()` modifier to configure a secondary index.
@@ -185,6 +207,27 @@ let queriedCustomers = try await Amplify.API.query(
 ```
 </InlineFilter>
 
+<InlineFilter filters={["flutter"]}>
+
+The example client query below allows you to query for "Customer" records based on their `accountRepresentativeId`:
+
+```dart title="lib/main.dart"
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'amplify_outputs.dart';
+import 'models/ModelProvider.dart';
+
+// highlight-start
+final request = ModelQueries.list(
+  Customer.classType,
+  where: Customer.accountRepresentativeId.eq(YOUR_REP_ID) & Customer.name.begins("Rene"),
+);
+// highlight-end
+
+```
+
+</InlineFilter>
+
 ## Customize the query field for secondary indexes
 
 You can also customize the auto-generated query name under `client.models.<MODEL_NAME>.listBy...` by setting the `queryField()` modifier.
@@ -206,7 +249,7 @@ const schema = a.schema({
 });
 ```
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android", "flutter"]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
 
 In your client app code, you'll see query updated under the Data client:
 
