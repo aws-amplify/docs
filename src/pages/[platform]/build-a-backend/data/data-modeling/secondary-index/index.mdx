@@ -112,13 +112,12 @@ The example client query below allows you to query for "Customer" records based 
 ```dart title="lib/main.dart"
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'amplify_outputs.dart';
 import 'models/ModelProvider.dart';
 
 // highlight-start
 final request = ModelQueries.list(
   Customer.classType,
-  where: accountRepresentativeId.eq(YOUR_REP_ID),
+  where: Customer.ACCOUNTREPRESENTATIVEID.eq(YOUR_REP_ID),
 );
 // highlight-end
 
@@ -214,13 +213,12 @@ The example client query below allows you to query for "Customer" records based 
 ```dart title="lib/main.dart"
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'amplify_outputs.dart';
 import 'models/ModelProvider.dart';
 
 // highlight-start
 final request = ModelQueries.list(
   Customer.classType,
-  where: Customer.accountRepresentativeId.eq(YOUR_REP_ID) & Customer.name.begins("Rene"),
+  where: Customer.ACCOUNTREPRESENTATIVEID.eq(YOUR_REP_ID) & Customer.NAME.beginsWith("Rene"),
 );
 // highlight-end
 
@@ -298,6 +296,43 @@ let request = GraphQLRequest<PaginatedList<Customer>>(
 
 let queriedCustomers = try await Amplify.API.query(
     request: request).get()
+```
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+In your client app code, you can use the updated query name.
+
+```dart title="lib/main.dart"
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'models/ModelProvider.dart';
+
+var accountRepresentativeId = "John";
+var operationName = "listByRep";
+var document = """
+  query ListByRep {
+    $operationName(accountRepresentativeId: "$accountRepresentativeId") {
+      items {
+        accountRepresentativeId
+        createdAt
+        id
+        name
+        phoneNumber
+        updatedAt
+      }
+      nextToken
+    }
+  }
+  """;
+
+final request = GraphQLRequest(
+  document: document,
+  variables: {
+    'accountRepresentativeId': accountRepresentativeId,
+    'operationName': operationName, 
+  },
+);
 ```
 </InlineFilter>
 
