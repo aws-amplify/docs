@@ -1,5 +1,4 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-
 export const meta = {
   title: 'Customize secondary indexes',
   description:
@@ -117,6 +116,7 @@ import 'models/ModelProvider.dart';
 // highlight-start
 final request = ModelQueries.list(
   Customer.classType,
+  // eslint-disable-next-line spellcheck/spell-checker
   where: Customer.ACCOUNTREPRESENTATIVEID.eq(YOUR_REP_ID),
 );
 // highlight-end
@@ -218,6 +218,7 @@ import 'models/ModelProvider.dart';
 // highlight-start
 final request = ModelQueries.list(
   Customer.classType,
+  // eslint-disable-next-line spellcheck/spell-checker
   where: Customer.ACCOUNTREPRESENTATIVEID.eq(YOUR_REP_ID) & Customer.NAME.beginsWith("Rene"),
 );
 // highlight-end
