@@ -156,6 +156,12 @@ sub.unsubscribe()
 
 ## (Optionally) Add server-side subscription filters
 
+<Callout info>
+
+**Note:** The custom subscription `.authorization()` modifier does not support the `owner` strategy. This differs from model subscriptions and may result in a subscription event being broadcast to a larger audience.
+
+</Callout>
+
 You can add subscription filters by adding arguments to the custom subscriptions. 
 
 {/* ### Basic subscription filters based on exact match
