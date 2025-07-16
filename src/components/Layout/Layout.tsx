@@ -283,7 +283,8 @@ export const Layout = ({
                       <Gen1Banner currentPlatform={currentPlatform} />
                     )}
                     {(asPathWithNoHash.includes('/push-notifications/') ||
-                      asPathWithNoHash.includes('/analytics/')) && (
+                      asPathWithNoHash.includes('/analytics/') ||
+                      asPathWithNoHash.includes('/in-app-messaging/')) && (
                       <PinpointEOLBanner />
                     )}
                     {children}
