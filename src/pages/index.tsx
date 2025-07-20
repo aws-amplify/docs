@@ -135,7 +135,7 @@ export default function Page() {
               query: { platform: DEFAULT_PLATFORM }
             }}
           >
-            Write TypeScript across your app&pos;s frontend and backend. Get
+            Write TypeScript across your app&apos;s frontend and backend. Get
             schema validation, dot completion, and end-to-end types while you
             code.
           </FeatureItem>
