@@ -707,7 +707,7 @@ const { body, eTag } = await downloadData(
   {
     path: 'album/2024/1.jpg',
     options: {
-      onProgress: (progress) {
+      onProgress: (progress) => {
         console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
       }
     }

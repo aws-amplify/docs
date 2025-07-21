@@ -283,11 +283,11 @@ export const Layout = ({
                     {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
                       <Gen1Banner currentPlatform={currentPlatform} />
                     )}
-                    {asPathWithNoHash.includes('/push-notifications/') ||
+                    {(asPathWithNoHash.includes('/push-notifications/') ||
                       asPathWithNoHash.includes('/analytics/') ||
-                      (asPathWithNoHash.includes('/in-app-messaging/') && (
-                        <PinpointEOLBanner />
-                      ))}
+                      asPathWithNoHash.includes('/in-app-messaging/')) && (
+                      <PinpointEOLBanner />
+                    )}
                     {asPathWithNoHash.includes('/interactions/') && (
                       <LexV1EOLBanner />
                     )}
