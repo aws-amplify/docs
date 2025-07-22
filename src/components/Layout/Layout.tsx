@@ -38,6 +38,7 @@ import {
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
 import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
+import { LexV1EOLBanner } from '../LexV1EOLBanner';
 import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
 
 export const Layout = ({
@@ -286,6 +287,9 @@ export const Layout = ({
                       asPathWithNoHash.includes('/analytics/') ||
                       asPathWithNoHash.includes('/in-app-messaging/')) && (
                       <PinpointEOLBanner />
+                    )}
+                    {asPathWithNoHash.includes('/interactions/') && (
+                      <LexV1EOLBanner />
                     )}
                     {children}
                     {showNextPrev && <NextPrevious />}
