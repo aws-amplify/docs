@@ -56,7 +56,7 @@ import { type Schema } from '@/amplify/data/resource';
 
 const client = generateClient<Schema>();
 
-// list all items
+// list items
 const { data: todos, errors } = await client.models.Todo.list();
 
 // get a specific item
