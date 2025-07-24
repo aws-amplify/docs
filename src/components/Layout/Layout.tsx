@@ -24,8 +24,10 @@ import {
 import { SpaceShip } from '@/components/SpaceShip';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
-import { TableOfContents } from '@/components/TableOfContents';
-import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
+import {
+  TableOfContents,
+  type HeadingInterface
+} from '@/components/TableOfContents/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
@@ -65,6 +67,7 @@ export const Layout = ({
   useCustomTitle?: boolean;
 }) => {
   const [menuOpen, toggleMenuOpen] = useState(false);
+  const [tocOpen, toggleTocOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
   const mainId = 'pageMain';
@@ -226,7 +229,9 @@ export const Layout = ({
         value={{
           colorMode,
           menuOpen,
+          tocOpen,
           toggleMenuOpen,
+          toggleTocOpen,
           handleColorModeChange
         }}
       >
@@ -261,6 +266,7 @@ export const Layout = ({
                   currentPlatform={currentPlatform}
                   pageType={pageType}
                   showLastUpdatedDate={showLastUpdatedDate}
+                  tocHeadings={tocHeadings}
                 ></LayoutHeader>
                 <View key={asPathWithNoHash} className="layout-main">
                   <Flex
@@ -294,7 +300,9 @@ export const Layout = ({
                     {children}
                     {showNextPrev && <NextPrevious />}
                   </Flex>
-                  {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+                  {showTOC ? (
+                    <TableOfContents headers={tocHeadings} forDesktop />
+                  ) : null}
                 </View>
                 <Footer hasTOC={showTOC} />
               </View>
