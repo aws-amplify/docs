@@ -219,17 +219,33 @@ This should start a local dev server at http://localhost:3000.
 
 The starter application already has a pre-configured auth backend defined in the **amplify/auth/resource.ts** file. We've configured it to support email and password login but you can extend it to support a variety of login mechanisms, including Google, Amazon, Sign In With Apple, and Facebook.
 
-The fastest way to get your login experience up and running is to use our Authenticator UI component. In your **app/layout.tsx** file, import the Authenticator UI component and wrap the children or pages components.
+The fastest way to get your login experience up and running is to use our Authenticator UI component. To properly integrate it with Next.js App Router, we'll create a client component wrapper and use it in the layout.
 
+First, create an AuthenticatorWrapper.tsx file in your app directory:
+
+```tsx title="app/AuthenticatorWrapper.tsx"
+"use client"
+
+import { Authenticator } from "@aws-amplify/ui-react";
+
+export default function AuthenticatorWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <Authenticator>{children}</Authenticator>;
+}
+```
+
+Next, update your app/layout.tsx file to import and use the AuthenticatorWrapper component:
 
 ```tsx title="app/layout.tsx"
-"use client"
 
 import React from "react";
 import { Amplify } from "aws-amplify";
 import "./app.css";
 // highlight-start
-import { Authenticator } from "@aws-amplify/ui-react";
+import AuthenticatorWrapper from "./AuthenticatorWrapper";
 import "@aws-amplify/ui-react/styles.css";
 // highlight-end
 import outputs from "@/amplify_outputs.json";
@@ -245,9 +261,9 @@ export default function RootLayout({
     // highlight-start
     <html lang="en">
       <body>      
-        <Authenticator>
+        <AuthenticatorWrapper>
           {children}
-        </Authenticator>
+        </AuthenticatorWrapper>
       </body>
     </html>
     // highlight-end
