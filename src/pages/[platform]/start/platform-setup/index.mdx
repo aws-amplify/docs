@@ -48,7 +48,7 @@ Select Runner, Project -> Runner and then the "Build Settings" tab. Update "iOS 
 
 ## Android
 
-Amplify Flutter supports API level 24+ (Android 7.0+), and requires Gradle 8+, Kotlin 1.9+, and Java 17+ when targeting Android. Follow the steps below to apply these changes in your app. 
+Amplify Flutter supports API level 24+ (Android 7.0+), and requires Gradle 8+, Kotlin 2.2+, and Java 17+ when targeting Android. Follow the steps below to apply these changes in your app. 
 
 <Callout warning>
 The steps below are intended for Flutter apps created with Flutter version 3.16+. If your app was created prior to version 3.16, please follow the guide [here](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply) to migrate to Gradle's declarative plugins block before following the steps below.
@@ -64,7 +64,7 @@ plugins {
 -   id("com.android.application") version "8.7.0" apply false
 -   id("org.jetbrains.kotlin.android") version "1.8.22" apply false
 +   id("com.android.application") version "8.3.0" apply false
-+   id("org.jetbrains.kotlin.android") version "1.9.10" apply false
++   id("org.jetbrains.kotlin.android") version "2.2.0" apply false
 }
 ```
 
@@ -129,7 +129,7 @@ plugins {
 -   id "com.android.application" version "7.3.0" apply false
 -   id "org.jetbrains.kotlin.android" version "1.7.10" apply false
 +   id "com.android.application" version "8.3.0" apply false
-+   id "org.jetbrains.kotlin.android" version "1.9.10" apply false
++   id "org.jetbrains.kotlin.android" version "2.2.0" apply false
 }
 ```
 
