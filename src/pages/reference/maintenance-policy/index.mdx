@@ -1,0 +1,58 @@
+export const meta = {
+  title: 'Maintenance Policy',
+  description: 'The maintenance policy for all Amplify Client Libraries.'
+};
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+      showBreadcrumbs: false
+    }
+  };
+}
+
+## Overview
+
+This document outlines the maintenance policy for the AWS Amplify Client Libraries, defining how we maintain and support libraries throughout their lifecycle, including end-of-life and migration guidance.
+
+## Versioning
+
+The AWS Amplify Client Libraries release versions in the form of X.Y.Z where “X” represents the major version, “Y” represents the minor version, and “Z” represents the patch version.
+
+Increasing the major version of a library indicates that this library underwent significant and substantial changes that include breaking changes to public APIs. Major versions are introduced when public interfaces (e.g. classes, methods, types, etc.), behaviors, or semantics have changed in backwards-incompatible ways. Applications need to be updated in order for them to work with the newest major version.
+
+It is important to update major versions carefully and in accordance with the upgrade guidelines provided by AWS Amplify, as these updates may require code changes in your application.
+
+## Major Version Lifecycle
+
+The lifecycle for major Amplify Client Library versions consists of 4 phases, which are outlined below.
+
+* **Developer Preview (Phase 0) [Optional]** - During this phase, libraries are not officially supported and should not be used in production environments. These releases are meant for early access and feedback purposes only. Subsequent preview releases may contain breaking changes. During the preview we will continue to monitor GitHub for customer feedback, including bug reports, feature requests, and questions.
+* **General Availability (GA) (Phase 1)** - During this phase, libraries are fully supported. AWS Amplify will provide regular library releases that include support for new services, API updates for existing services, as well as bug and security fixes. AWS will support the GA versions of a library for at least 12 months.
+* **Maintenance (Phase 2)** - During the maintenance mode, AWS Amplify limits library releases to address critical bug fixes and security issues only. No new features will be added. The duration of the maintenance mode varies depending on the upgrade path.
+    * **Routine Upgrade** - This path is a typical major version bump of a library (ex: Amplify Library v1 → Amplify Library v2). The minimum duration is 6 months.
+    * **Migration** - This path involves migrating to a new product or alternative solution. The minimum duration is 12 months.
+    * **Service Shutdown** - This path occurs when an underlying AWS service is being discontinued or significantly changed with no direct replacement. The maintenance phase will last until the shutdown date of the service, unless otherwise noted.
+* **End-of-Support (Phase 3)** - When a library reaches end-of-support, it will no longer receive updates or releases. Previously published releases will continue to be available via public package managers and the code will remain on GitHub. The GitHub repository may be archived. Use of a library which has reached end-of-support is done at the user's discretion. We recommend users follow the published migration guides.
+
+## Dependency lifecycle
+
+AWS Amplify Client Libraries have underlying dependencies, such as language runtimes, operating systems, or third party libraries and frameworks. These dependencies are typically tied to the language community or the vendor who owns that particular component. Each community or vendor publishes their own end-of-support schedule for their product.
+
+In most cases, we will not drop support of a library dependency during a major release (ex: bumping up the minimum Android OS version). However, we reserve the right to stop support for an underlying dependency without increasing the major Library version. This is especially relevant if required to resolve a security issue.
+
+## Communication Methods
+
+* An email announcement is sent to affected accounts, announcing our plans to end support for the specific library version. The email will outline the path to end-of-support, specify the campaign timelines, and provide upgrade guidance.
+* AWS Amplify documentation and GitHub readme(s) are updated to indicate the campaign timeline and provide guidance on upgrading affected applications.
+
+## Customer Support and Feedback
+
+We are committed to supporting our customers throughout the entire product lifecycle. If you have questions about this maintenance policy or need assistance with migration:
+
+* **Migration Support**: For technical questions or issues during migration, please create a GitHub issue on the relevant product repository where our engineering team can provide guidance.
+* **Policy Concerns**: If you have concerns about this policy or anticipate challenges meeting the migration timelines, please reach out to [AWS Support](http://aws.amazon.com/support). We understand that every customer situation is unique and are here to work with you on finding solutions.
+
+Your feedback helps us improve both our products and policies. We encourage you to reach out early if you foresee any challenges with the support timelines outlined above.
+
