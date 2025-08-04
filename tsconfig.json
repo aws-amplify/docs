@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "downlevelIteration": true,
-    "lib": ["es2017", "dom"],
-    "module": "commonjs",
+    "lib": ["ES2024", "dom"],
+    "module": "ESNext",
     "resolveJsonModule": true,
     "typeRoots": ["node_modules/@types", "capi/node_modules/@types"],
     "allowJs": true,

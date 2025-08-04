@@ -2,10 +2,14 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "prettier" // prettier should always come last
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2024,
+    "sourceType": "module"
+  },
   "rules": {
     "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/no-explicit-any": "warn",
