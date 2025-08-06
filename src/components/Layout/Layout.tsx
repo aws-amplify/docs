@@ -106,11 +106,16 @@ export const Layout = ({
     ? (asPathWithNoHash.split('/')[2] as Platform)
     : (asPathWithNoHash.split('/')[1] as Platform);
 
+  // Check query parameter as fallback for platform-independent pages
+  const queryPlatform = router.query.platform as Platform;
+
   const currentPlatform = platform
     ? platform
     : PLATFORMS.includes(asPathPlatform)
       ? asPathPlatform
-      : DEFAULT_PLATFORM;
+      : PLATFORMS.includes(queryPlatform) // If platform is included as query parameter, attempt to use
+        ? queryPlatform
+        : DEFAULT_PLATFORM;
 
   const title = [
     pageTitle,

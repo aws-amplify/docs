@@ -43,7 +43,7 @@
     "@types/react": "^18.0.0",
     "@types/url-parse": "^1.4.3",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "axios": "^1.8.4",
+    "axios": "^1.11.0",
     "cheerio": "^1.0.0-rc.12",
     "classnames": "^2.3.2",
     "cross-env": "^7.0.3",
