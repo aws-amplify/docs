@@ -27,76 +27,136 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify provides APIs and map UI components for maps and location search for your web apps.You can add maps and location search functionality to your app in just a few lines of code. The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create a Geo resource powered by [Amazon Location Services](https://aws.amazon.com/location/). But do note there are no official hand-written (L2) constructs for this service yet.
+In this guide, you will learn how to set up Geo in your Amplify app. You will set up your backend resources, manage their access, and integrate geo maps, place indices, and geofence collections within your application.
 
-```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend";
-import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { CfnMap } from "aws-cdk-lib/aws-location";
-import { Stack } from "aws-cdk-lib/core";
-import { auth } from "./auth/resource";
-import { data } from "./data/resource";
+If you have not yet created an Amplift app, visit the [quickstart guide](/[platform]/start/quickstart/).
 
-const backend = defineBackend({
-  auth,
-  data,
-  // additional resources
+Amazon Location Services now offers independent APIs and UI components for maps and location search for your web apps, eliminating the need to provision these resources. You can add maps, location search (place index), and geofencing functionality to your app in just a few lines of code. Learn more about these resources [here](https://docs.aws.amazon.com/location/latest/developerguide/what-is.html).
+
+## Building your Geo backend
+
+First, create a file `amplify/geo/resource.ts` within your Amplify app. This file will be the location to configure your Geo backend resources. This entails managing access to maps and location search and provisioning geofence collections. For example, you can instantiate a geofence collection, place index, or a map resource by using the `defineMap`, `definePlace`, or `defineCollection` functions and providing a `name` for these resources. 
+
+```ts title="amplify/geo/resource.ts"
+import {
+  defineMap,
+  defineCollection,
+  definePlace,
+} from '@aws-amplify/backend-geo';
+
+export const map = defineMap({
+  name: 'amplifyMap',
 });
 
-const geoStack = backend.createStack("geo-stack");
-
-// create a location services map
-const map = new CfnMap(geoStack, "Map", {
-  mapName: "myMap",
-  description: "Map",
-  configuration: {
-    style: "VectorEsriNavigation",
-  },
-  pricingPlan: "RequestBasedUsage",
-  tags: [
-    {
-      key: "name",
-      value: "myMap",
-    },
-  ],
+export const place = definePlace({
+  name: 'amplifyPlaceIndex',
 });
 
-// create an IAM policy to allow interacting with geo resource
-const myGeoPolicy = new Policy(geoStack, "GeoPolicy", {
-  policyName: "myGeoPolicy",
-  statements: [
-    new PolicyStatement({
-      actions: [
-        "geo:GetMapTile",
-        "geo:GetMapSprites",
-        "geo:GetMapGlyphs",
-        "geo:GetMapStyleDescriptor",
-      ],
-      resources: [map.attrArn],
-    }),
-  ],
-});
-
-// apply the policy to the authenticated and unauthenticated roles
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
-
-// patch the map resource to the expected output configuration
-backend.addOutput({
-  geo: {
-    aws_region: geoStack.region,
-    maps: {
-      items: {
-        [map.mapName]: {
-          style: "VectorEsriNavigation",
-        },
-      },
-      default: map.mapName,
-    },
-  },
+export const collection = defineCollection({
+  name: 'amplifyCollection'
 });
 ```
 
+Now, import these resource definitions within your `amplify/backend.ts` file that contains your backend definition. Add these Geo resources to `defineBackend`.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { auth } from './auth/resource.js';
+// highlight-next-line
+import { map, place, collection } from './geo/resource.js';
+
+defineBackend({
+  auth,
+  // highlight-start
+  map,
+  place,
+  collection,
+  // highlight-end
+});
+```
+
+To deploy these resources to your cloud sandbox, run the CLI command in your terminal:
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox --outputs-out-dir <path_to_app/src/main/res/raw/>
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox --outputs-out-dir <path_to_swift_project>
+```
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox --outputs-format dart --outputs-out-dir lib
+```
+
+</InlineFilter>
+
+This command will deploy a Geofence Collection to your cloud sandbox and generate access policies to integrate the map and location search resources with your Amplify app.
+
+## Define resource access permissions
+
+All maps, place indices, and geofence collections requested by Amplify Geo are inaccessible by users or other resources by default. Access to these resources must be explicitly granted within the `access` callback of the `defineMap`, `definePlace`, and `defineCollection` functions. Refer to the [access actions](#resource-access-actions) for all resource types to pick appropriate actions for your API access definitions.
+
+The following example shows you how you can set up your map and collection access structure for authorized and guest users.
+
+1. Guests only have access to read into and list geofence collections. 
+2. Authenticated users can create, read, update, and delete geofence collections while also being able to access the static ma managed by AWS.
+
+```ts title="amplify/geo/resource.ts"
+export const map = defineMap({
+  name: 'amplifyMap',
+  access: (allow) => [
+    allow.authenticated.to(['get'])
+  ],
+});
+
+export const collection = defineCollection({
+  name: 'amplifyCollection',
+  access: (allow) => [
+    allow.authenticated.to(['create', 'read', 'update', 'delete']),
+    allow.guest.to(['read', 'list']),
+  ],
+});
+```
+
+## Configure additional geofence collections
+
+Amplify Geo gives you the ability to configure your backend to automatically request and manage multiple geofence collections.
+
+You can define these additional geofence collections by reusing the `defineCollection` function while providing a unique `name` to identify the collection. You can configure specific access permissions to these collections by adding them to the API with the unique `name`.
+
+<Callout info>
+
+**Note**: If numerous geofence collections are defined, then one of them must be marked as default using the `isDefault` flag.
+
+</Callout>
+
+```ts title="amplify/geo/resource.ts"
+export const firstCollection = defineCollection({
+  name: 'firstCollection',
+  isDefault: true
+});
+
+export const secondCollection = defineCollection({
+  name: 'secondCollection'
+});
+```
 
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 
@@ -419,6 +479,32 @@ Initialized Amplify
 ### References
 
 [Location Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_location-readme.html)
+
+### Resource Access Actions
+
+#### Map Actions
+
+| Custom Action Name | Accessible APIs |
+| :------- | :------------------- |
+| `get`      |[`geo-maps:GetGlyphs`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetGlyphs.html)<br></br> [`geo-maps:GetSprites`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html)<br></br> [`geo-maps:GetStaticMap`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStaticMap.html) <br></br>[`geo-maps:GetStyleDescriptor`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html)<br></br> [`geo-maps:GetTile`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html) |
+
+#### Place Index Actions
+
+| Custom Action Name | Accessible APIs |
+| :------- | :------------------- |
+| `autocomplete` | [`geo-places:Autocomplete`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Autocomplete.html) |
+| `geocode` | [`geo-places:Geocode`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Geocode.html)<br></br> [`geo-places:ReverseGeocode`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_ReverseGeocode.html) |
+| `search` | [`geo-places:GetPlace`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_GetPlace.html)<br></br> [`geo-places:SearchNearby`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchNearby.html)<br></br> [`geo-places:SearchText`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchText.html)<br></br> [`geo-places:Suggest`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Suggest.html) |
+
+#### Geofence Collection Actions
+
+| Custom Action Name | Accessible APIs |
+| :------- | :------------------- |
+| `create`      | [`geo:CreateGeofenceCollection`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_CreateGeofenceCollection.html) |
+| `read`      | [`geo:DescribeGeofenceCollection`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_DescribeGeofenceCollection.html)<br></br> [`geo:BatchEvaluateGeofences`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_BatchEvaluateGeofences.html)<br></br> [`geo:ForecastGeofenceEvents`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_ForecastGeofenceEvents.html)<br></br> [`geo:GetGeofence`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_GetGeofence.html) |
+| `update`      | [`geo:BatchPutGeofence`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_BatchPutGeofence.html)<br></br> [`geo:PutGeofence`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_PutGeofence.html)<br></br> [`geo:UpdateGeofenceCollection`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_UpdateGeofenceCollection.html) |
+| `delete`      | [`geo:BatchDeleteGeofence`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_BatchDeleteGeofence.html)<br></br> [`geo:DeleteGeofenceCollection`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_DeleteGeofenceCollection.html) |
+| `list`      | [`geo:ListGeofences`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_ListGeofences.html)<br></br> [`geo:ListGeofenceCollections`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_ListGeofenceCollections.html) |
 
 ## Map Pricing Plan
 The pricing plan for the Map example is set to `RequestBasedUsage`.
