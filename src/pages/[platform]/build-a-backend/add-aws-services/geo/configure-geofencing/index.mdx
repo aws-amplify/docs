@@ -29,70 +29,62 @@ A Geofence is a virtual perimeter for a real-world geographic area. A Geofence c
 
 ## Setup a new Geofence Collection
 
+```ts title="amplify/geo/resource.ts"
+import { defineCollection } from "@aws-amplify/backend-geo";
+
+export const collection = defineCollection({
+  name: 'amplifyCollection',
+  description: 'This is an Amplify collection.',
+  access: (allow) => [
+    allow.authenticated.to(['create', 'read', 'update', 'delete', 'list']),
+    allow.guest.to(['read', 'list'])
+  ]
+});
+```
+
+Now update your `backend.ts` file with the collection created in your `resource.ts` file.
+
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { CfnGeofenceCollection } from "aws-cdk-lib/aws-location";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
+import { collection } from "./geo/resource";
 
 const backend = defineBackend({
   auth,
   data,
-  // additional resources
+  collection
+});
+```
+
+<Callout warning="true">
+
+AWS Location API keys currently do not support geofence collections or their associated APIs. Adding acesss definitions for any API keys using the `allow.apiKey.to()` definition will NOT result in the creation of an API key.
+
+</Callout>
+
+## Configure additional geofence collections
+
+Amplify Geo gives you the ability to configure your backend to automatically request and manage multiple geofence collections.
+
+You can define these additional geofence collections by reusing the `defineCollection` function while providing a unique `name` to identify the collection. You can configure specific access permissions to these collections by adding them to the API with the unique `name`.
+
+<Callout info>
+
+**Note**: If numerous geofence collections are defined, then one of them must be marked as default using the `isDefault` flag.
+
+</Callout>
+
+```ts title="amplify/geo/resource.ts"
+export const firstCollection = defineCollection({
+  name: 'firstCollection',
+  isDefault: true
 });
 
-const geoStack = backend.createStack("geo-stack");
-
-// create a location services geofence collection
-const myGeofenceCollection = new CfnGeofenceCollection(
-  geoStack,
-  "GeofenceCollection",
-  {
-    collectionName: "myGeofenceCollection",
-    pricingPlan: "RequestBasedUsage",
-    tags: [
-      {
-        key: "name",
-        value: "myGeofenceCollection",
-      },
-    ],
-  }
-);
-
-// create an IAM policy to allow interacting with geofence collection resource
-const myGeofenceCollectionPolicy = new Policy(
-  geoStack,
-  "GeofenceCollectionPolicy",
-  {
-    policyName: "myGeofenceCollectionPolicy",
-    statements: [
-      new PolicyStatement({
-        actions: [
-          "geo:GetGeofence",
-          "geo:PutGeofence",
-          "geo:BatchPutGeofence",
-          "geo:BatchDeleteGeofence",
-          "geo:ListGeofences",
-        ],
-        resources: [myGeofenceCollection.attrArn],
-      }),
-    ],
-  }
-);
-
-// apply the policy to the authenticated and unauthenticated roles
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeofenceCollectionPolicy);
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeofenceCollectionPolicy);
-
-// patch the geofence collection resource to the expected output configuration
-backend.addOutput({
-  geo: {
-    geofence_collections: {
-      default: myGeofenceCollection.collectionName,
-      items: [myGeofenceCollection.collectionName],
-    },
-  },
+export const secondCollection = defineCollection({
+  name: 'secondCollection'
 });
 ```
 
@@ -117,30 +109,21 @@ export const auth = defineAuth({
 });
 ```
 
-2. Add permissions to the Cognito User Pool Group role
+2. Update the collection access definition in your `resource.ts`
 
-```ts title="amplify/backend.ts"
-const myGeofenceCollectionPolicy = new Policy(
-  geoStack,
-  "GeofenceCollectionPolicy",
-  {
-    policyName: "myGeofenceCollectionPolicy",
-    statements: [
-      new PolicyStatement({
-        actions: [
-          "geo:GetGeofence",
-          "geo:PutGeofence",
-          "geo:BatchPutGeofence",
-          "geo:BatchDeleteGeofence",
-          "geo:ListGeofences",
-        ],
-        resources: [myGeofenceCollection.attrArn],
-      }),
-    ],
-  }
-);
+```ts title="amplify/geo/resource.ts"
+import { defineCollection } from "@aws-amplify/backend-geo";
 
-backend.auth.resources.groups["User"].role.attachInlinePolicy(myGeofenceCollectionPolicy);
+export const collection = defineCollection({
+  name: 'amplifyCollection',
+  description: 'This is an Amplify collection.',
+  access: (allow) => [
+    allow.authenticated.to(['create', 'read', 'update', 'delete', 'list']),
+    allow.guest.to(['read', 'list']),
+    // highlight-next-line
+    allow.groups("User").to(['read', 'update'])
+  ]
+});
 ```
 
 > Note: If you combine `Auth/Guest user access` and `Individual Group access`, users who are members of a group will only be granted the permissions of the group, and not the authenticated user permissions. The permissions apply to ALL Geofences in a collection. For example, If you add `Read` permission such as `ListGeofences` and `GetGeofence` to `User` Cognito group, ALL users added to that group will be able to read the properties of ALL Geofences in that Geofence collection.

@@ -27,131 +27,51 @@ export function getStaticProps(context) {
   };
 }
           
-
-Amplify's `geo` category enables you to search by places, addresses, and coordinates in your app with "place index" resources.
+Amplify's `geo` category enables you to search by places, addresses, and coordinates in your app with "place index" resources. These resources also include an API key with access restrictions specified from the `access` callback. This API key will be used to render the location search components if your application requires access control on the components. To set up or learn more about Amazon Location API keys, visit the [developer guide](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
 
 ## Setup a new Location Search Index
 
+```ts title="amplify/geo/resource.ts"
+import { definePlace } from "@aws-amplify/backend-geo";
+
+export const searchIndex = definePlace({
+  name: 'amplfyPlace',
+  description: 'This is an Amplify search index.',
+  access: (allow) => [
+    allow.authenticated.to(['autocomplete', 'geocode']),
+    allow.guest.to(['autocomplete', 'geocode']),
+    allow.apiKey.to(['search'])
+  ],
+  apiKeyProps: {
+    apiKeyName: 'amplifyPlaceIndexKey'
+  }
+});
+```
+
+Now update your `backend.ts` file with the place index created in your `resource.ts` file.
+
 ```ts title="amplify/backend.ts"
 import { defineBackend } from "@aws-amplify/backend";
-import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-// highlight-next-line
-import { CfnMap, CfnPlaceIndex } from "aws-cdk-lib/aws-location";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
+// highlight-next-line
+import { searchIndex } from "./geo/resource";
 
 const backend = defineBackend({
   auth,
   data,
-  // additional resources
-});
-
-const geoStack = backend.createStack("geo-stack");
-
-// create a location services map
-const map = new CfnMap(geoStack, "Map", {
-  mapName: "myMap",
-  description: "Map",
-  configuration: {
-    style: "VectorEsriNavigation",
-  },
-  pricingPlan: "RequestBasedUsage",
-  tags: [
-    {
-      key: "name",
-      value: "myMap",
-    },
-  ],
-});
-
-
-// create an IAM policy to allow interacting with geo resource
-const myGeoPolicy = new Policy(geoStack, "GeoPolicy", {
-  policyName: "myGeoPolicy",
-  statements: [
-    new PolicyStatement({
-      actions: [
-        "geo:GetMapTile",
-        "geo:GetMapSprites",
-        "geo:GetMapGlyphs",
-        "geo:GetMapStyleDescriptor",
-      ],
-      resources: [map.attrArn],
-    }),
-  ],
-});
-
-// apply the policy to the authenticated and unauthenticated roles
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
-
-// highlight-start
-// create a location services place index
-const myIndex = new CfnPlaceIndex(geoStack, "PlaceIndex", {
-  dataSource: "Here",
-  dataSourceConfiguration: {
-    intendedUse: "SingleUse",
-  },
-  indexName: "myPlaceIndex",
-  pricingPlan: "RequestBasedUsage",
-  tags: [
-    {
-      key: "name",
-      value: "myPlaceIndex",
-    },
-  ],
-});
-
-// create a policy to allow access to the place index
-const myIndexPolicy = new Policy(geoStack, "IndexPolicy", {
-  policyName: "myIndexPolicy",
-  statements: [
-    new PolicyStatement({
-      actions: [
-        "geo:SearchPlaceIndexForPosition",
-        "geo:SearchPlaceIndexForText",
-        "geo:SearchPlaceIndexForSuggestions",
-        "geo:GetPlace",
-      ],
-      resources: [myIndex.attrArn],
-    }),
-  ],
-});
-
-// attach the policy to the authenticated and unauthenticated IAM roles
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myIndexPolicy);
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myIndexPolicy);
-// highlight-end
-
-// patch the place index resource to the expected output configuration
-backend.addOutput({
-  geo: {
-    aws_region: geoStack.region,
-    maps: {
-      items: {
-        [map.mapName]: {
-          style: "VectorEsriNavigation",
-        },
-      },
-      default: map.mapName,
-    },
-// highlight-start
-    search_indices: {
-      default: myIndex.indexName,
-      items: [myIndex.indexName],
-    },
-// highlight-end
-  },
+  // highlight-next-line
+  searchIndex
 });
 ```
-
 
 ## Location Search Index Pricing Plan
 The pricing plan for Search Index will be set to `RequestBasedUsage`.
 We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
 
 
-## Advanced Settings
+{/* MOVE THIS TO LEGACY RESOURCES PAGE */}
+{/* ## Advanced Settings
 You can optionally configure the data provider and result storage location for your location search index.
 
 ### Location Search data provider
@@ -175,4 +95,4 @@ You can specify how the results of a search operation will be stored by the call
 - SingleUse - specifies that the results won't be stored.
 - Storage - specifies that the result can be cached or stored in a database.
 
-Refer [this location service doc](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html#locationplaces-Type-DataSourceConfiguration-IntendedUse) for more information.
+Refer [this location service doc](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html#locationplaces-Type-DataSourceConfiguration-IntendedUse) for more information. */}

@@ -531,6 +531,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/custom-authorization/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/maps/index.mdx'
                     },
                     {
