@@ -56,7 +56,6 @@
     "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "fs-extra": "^9.0.1",
-    "git-jiggy": "1.1.1",
     "husky": "^8.0.1",
     "jest": "^29.7.0",
     "jest-cli": "^29.7.0",
