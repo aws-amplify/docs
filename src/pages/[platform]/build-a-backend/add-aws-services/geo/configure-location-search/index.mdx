@@ -35,7 +35,7 @@ Amplify's `geo` category enables you to search by places, addresses, and coordin
 import { definePlace } from "@aws-amplify/backend-geo";
 
 export const searchIndex = definePlace({
-  name: 'amplfyPlace',
+  name: 'amplifyPlace',
   description: 'This is an Amplify search index.',
   access: (allow) => [
     allow.authenticated.to(['autocomplete', 'geocode']),
