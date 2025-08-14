@@ -44,14 +44,80 @@ To add a location search UI component to your map, you can use the [maplibre-gl-
 Install the necessary dependencies with the following command:
 
 ```bash title="Terminal" showLineNumbers={false} 
-npm add @maplibre/maplibre-gl-geocoder maplibre-gl@1 maplibre-gl-js-amplify
+npm add @maplibre/maplibre-gl-geocoder \
+        maplibre-gl@1 \
+        maplibre-gl-js-amplify \
+        @aws-sdk/client-geo-places \
+        @aws/amazon-location-utilities-auth-helper
 ```
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `4.0.0` or above is installed.
 
 First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](/[platform]/build-a-backend/add-aws-services/geo/maps).
 
-Then, use `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
+<BlockSwitcher>
+<Block name="API Key">
+
+Start off my getting an instance of GeoPlaces by authenticating using the API key and the `AmazonLocationClient`.
+
+```javascript
+import { GeoPlaces, GeoPlacesClient } from "@aws-sdk/client-geo-places";
+import { withAPIKey } from "@aws/amazon-location-utilities-auth-helper";
+
+const geoPlaces = getGeoPlaces();
+
+function getGeoPlaces() {
+    const authHelper = amazonLocationClient.withAPIKey(API_KEY, AWS_REGION);                      // Authenticate using the API key and AWS region
+    const locationClient = new amazonLocationClient.GeoPlacesClient(authHelper.getClientConfig()); // Create a GeoPlaces client
+    const geoPlaces = new GeoPlaces(locationClient);                                          // Create GeoPlaces instance
+    return geoPlaces;                                                                              // Return the GeoPlaces instance
+}
+```
+
+Create a new instance of `MaplibreGeocoder` and add the location search UI component to the map. Use the `map` from [this](/[platform]/build-a-backend/add-aws-services/geo/maps/#display-a-map) set up tutorial.
+
+> **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+
+```javascript
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
+import "maplibre-gl-js-amplify/dist/public/amplify-geocoder.css"; // Optional CSS for Amplify recommended styling
+
+async function initializeMap(mapStyle = "Standard", colorScheme = "Dark") {
+    const styleUrl = `https://maps.geo.${AWS_REGION}.amazonaws.com/v2/styles/${mapStyle}/descriptor?key=${API_KEY}&color-scheme=${colorScheme}`;
+    const map = new maplibregl.Map({
+        container: 'map',                 // The ID of the map container
+        style: styleUrl,                  // The style URL for the map
+        center: [-123.1187, 49.2819], // Starting center coordinates
+        zoom: 11,                         // Initial zoom levels
+        validateStyle: false              // Disable style validation
+    });
+    return map;                           // Return the initialized map
+}
+
+const map = initializeMap();
+
+// highlight-start
+const geocoder = new MaplibreGeocoder(geoPlaces, {
+    maplibregl,
+    showResultsWhileTyping: true,                    // Show results while typing
+    debounceSearch: 300,                             // Debounce search requests
+    limit: 30,                                       // Limit number of results
+    reverseGeocode: true,                            // Enable reverse geocoding
+    zoom: 14,                                        // Zoom level on result selection
+    placeholder: "Search text or nearby (lat,long)"  // Place holder text for search box.  
+});
+
+// Add the search box to the map
+map.addControl(geocoder, 'top-left');
+// highlight-end
+```
+</Block>
+
+<Block name="Legacy Resources">
+
+Use the `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
@@ -78,11 +144,25 @@ async function initializeMap() {
 
 initializeMap();
 ```
+</Block>
+</BlockSwitcher>
 
 ![A search box on the top right corner of a map](/images/geocoder-search-box-map.png)
 
 ### Display the location search box outside the map
 
+<BlockSwitcher>
+<Block name="API Key">
+You can also use maplibre-gl-geocoder to display the location search UI component anywhere in your application, even outside the map.
+
+Use `geocoder` from above to create a new `MaplibreGeocoder` and add it within your Amplify app.
+
+```javascript
+document.getElementById("search").appendChild(geocoder.onAdd());
+```
+</Block>
+
+<Block name="Legacy Resources">
 You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to display the location search UI component anywhere in your application, even outside the map.
 
 To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl()` function.
@@ -91,11 +171,42 @@ To do so, extract the html element using function `onAdd()` and attach it anywhe
 const geocoder = createAmplifyGeocoder();
 document.getElementById("search").appendChild(geocoder.onAdd());
 ```
+</Block>
+</BlockSwitcher>
 
 ![A search box with multiple Starbucks locations](/images/geocoder-search-box.png)
 
 ### Customize Search Icons
 
+<BlockSwitcher>
+<Block name="API Keys">
+You can customize the search icons used by the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to use any image of your choosing. [MapLibre markers](https://maplibre.org/maplibre-gl-js/docs/API/#markers-and-controls) require an [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) when passing in custom images.
+
+The following example puts an existing SVG icon into an HTMLElement before being passed to `createAmplifyGeocoder` which creates a [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder).
+
+```javascript
+import myIcon from "./myIcon.svg" // relative path to your custom icon
+
+const icon = new Image(100, 100);
+icon.src = myIcon;
+
+const geocoder = new MaplibreGeocoder(geoPlaces, {
+    maplibregl,
+    showResultsWhileTyping: true,                    // Show results while typing
+    debounceSearch: 300,                             // Debounce search requests
+    limit: 30,                                       // Limit number of results
+    reverseGeocode: true,                            // Enable reverse geocoding
+    zoom: 14,                                        // Zoom level on result selection
+    placeholder: "Search text or nearby (lat,long)",  // Place holder text for search box.
+    // highlight-next-line
+    showResultMarkers: { element: icon }
+});
+
+map.addControl(geocoder);
+```
+</Block>
+
+<Block name="Legacy Resources">
 You can customize the search icons used by the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to use any image of your choosing. [MapLibre markers](https://maplibre.org/maplibre-gl-js/docs/API/#markers-and-controls) require an [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) when passing in custom images.
 
 The following example puts an existing SVG icon into an HTMLElement before being passed to `createAmplifyGeocoder` which creates a [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder).
@@ -109,6 +220,8 @@ icon.src = myIcon;
 const geocoder = createAmplifyGeocoder({ showResultMarkers: { element: icon } });
 map.addControl(geocoder);
 ```
+</Block>
+</BlockSwitcher>
 
 ![A search box on a map with multiple pointers](/images/geocoder-custom-images.png)
 

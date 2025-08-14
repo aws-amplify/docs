@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Set up Amplify Geo',
+  title: 'Use Legacy Geo Resources',
   description: 'AWS Amplify Geo module provides a simple way to get map data, search for places, and reverse geocoding.',
   platforms: [
     'javascript',
@@ -27,173 +27,232 @@ export function getStaticProps(context) {
   };
 }
 
-In this guide, you will learn how to set up Geo in your Amplify app. You will set up your backend resources, manage their access, and integrate geo maps, place indices, and geofence collections within your application.
+Amplify provides APIs and map UI components for maps and location search for your web apps.You can add maps and location search functionality to your app in just a few lines of code. The following is an example utilizing the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create a Geo resource powered by [Amazon Location Services](https://aws.amazon.com/location/).
 
-If you have not yet created an Amplify app, visit the [quickstart guide](/[platform]/start/quickstart/).
+## Set up Maps
 
-Amazon Location Services now offers independent APIs and UI components for maps and location search for your web apps, eliminating the need to provision these resources. You can add maps, location search (place index), and geofencing functionality to your app in just a few lines of code. Learn more about these resources [here](https://docs.aws.amazon.com/location/latest/developerguide/what-is.html).
-
-## Building your Geo backend
-
-First, create a file `amplify/geo/resource.ts` within your Amplify app. This file will be the location to configure your Geo backend resources. This entails managing access to maps and location search and provisioning geofence collections. For example, you can instantiate a geofence collection, place index, or a map resource by using the `defineMap`, `definePlace`, or `defineCollection` functions and providing a `name` for these resources. 
-
-```ts title="amplify/geo/resource.ts"
-import {
-  defineMap,
-  defineCollection,
-  definePlace,
-} from '@aws-amplify/backend-geo';
-
-export const map = defineMap({
-  name: 'amplifyMap',
-});
-
-export const place = definePlace({
-  name: 'amplifyPlaceIndex',
-});
-
-export const collection = defineCollection({
-  name: 'amplifyCollection'
-});
-```
-
-Now, import these resource definitions within your `amplify/backend.ts` file that contains your backend definition. Add these Geo resources to `defineBackend`.
+Add the following code to your `backend.ts` file:
 
 ```ts title="amplify/backend.ts"
-import { defineBackend } from '@aws-amplify/backend';
-import { auth } from './auth/resource.js';
-// highlight-next-line
-import { map, place, collection } from './geo/resource.js';
+import { defineBackend } from "@aws-amplify/backend";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { CfnMap } from "aws-cdk-lib/aws-location";
+import { Stack } from "aws-cdk-lib/core";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
 
-defineBackend({
+const backend = defineBackend({
   auth,
-  // highlight-start
-  map,
-  place,
-  collection,
-  // highlight-end
+  data,
+  // additional resources
 });
-```
 
-To deploy these resources to your cloud sandbox, run the CLI command in your terminal:
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+const geoStack = backend.createStack("geo-stack");
 
-```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox
-```
-
-</InlineFilter>
-
-<InlineFilter filters={["android"]}>
-
-```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-out-dir <path_to_app/src/main/res/raw/>
-```
-
-</InlineFilter>
-
-<InlineFilter filters={["swift"]}>
-
-```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-out-dir <path_to_swift_project>
-```
-
-</InlineFilter>
-<InlineFilter filters={["flutter"]}>
-
-```bash title="Terminal" showLineNumbers={false}
-npx ampx sandbox --outputs-format dart --outputs-out-dir lib
-```
-
-</InlineFilter>
-
-This command will deploy a Geofence Collection to your cloud sandbox and generate access policies to integrate the map and location search resources with your Amplify app.
-
-## Define resource access permissions
-
-All maps, place indices, and geofence collections requested by Amplify Geo are inaccessible by users or other resources by default. Access to these resources must be explicitly granted within the `access` callback of the `defineMap`, `definePlace`, and `defineCollection` functions. Refer to [this](/[platform]/build-a-backend/add-aws-services/geo/custom-authorization/) page to learn more about access customization and possible access actions.
-
-The following example shows you how you can set up your map and collection access structure for authorized and guest users.
-
-1. Guests only have access to read into and list geofence collections. 
-2. Authenticated users can create, read, update, and delete geofence collections while also being able to access the static ma managed by AWS.
-
-```ts title="amplify/geo/resource.ts"
-export const map = defineMap({
-  name: 'amplifyMap',
-  access: (allow) => [
-    allow.authenticated.to(['get'])
+// create a location services map
+const map = new CfnMap(geoStack, "Map", {
+  mapName: "myMap",
+  description: "Map",
+  configuration: {
+    style: "VectorEsriNavigation",
+  },
+  pricingPlan: "RequestBasedUsage",
+  tags: [
+    {
+      key: "name",
+      value: "myMap",
+    },
   ],
 });
 
-export const collection = defineCollection({
-  name: 'amplifyCollection',
-  access: (allow) => [
-    allow.authenticated.to(['create', 'read', 'update', 'delete']),
-    allow.guest.to(['read', 'list']),
+// create an IAM policy to allow interacting with geo resource
+const myGeoPolicy = new Policy(geoStack, "GeoPolicy", {
+  policyName: "myGeoPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: [
+        "geo:GetMapTile",
+        "geo:GetMapSprites",
+        "geo:GetMapGlyphs",
+        "geo:GetMapStyleDescriptor",
+      ],
+      resources: [map.attrArn],
+    }),
   ],
+});
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+
+// patch the map resource to the expected output configuration
+backend.addOutput({
+  geo: {
+    aws_region: geoStack.region,
+    maps: {
+      items: {
+        [map.mapName]: {
+          style: "VectorEsriNavigation",
+        },
+      },
+      default: map.mapName,
+    },
+  },
 });
 ```
 
-<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
+### Map Pricing Plan
+The pricing plan for the Map example is set to `RequestBasedUsage`.
+We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
 
-<Callout warning="true">
+## Set up Places
 
-AWS Location API keys currently do not support geofence collections or their associated APIs. Adding acesss definitions for any API keys using the `allow.apiKey.to()` definition will NOT result in the creation of an API key.
+Amplify's `geo` category enables you to search by places, addresses, and coordinates in your app with "place index" resources.
 
-</Callout>
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+// highlight-next-line
+import { CfnMap, CfnPlaceIndex } from "aws-cdk-lib/aws-location";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
 
-## Generate API Keys
-
-You can use AWS Location API keys to authenticate and authorize anonymous users to use Geo resources. Refer to the [Amazon Location documentation](https://docs.aws.amazon.com/location/latest/developerguide/access.html) to learn more about authentication with API keys.
-
-To generate API keys for your map and location resources, you can configure their generation during resource instantiation.
-
-```ts title="amplify/geo/resource.ts"
-export const map = defineMap({
-  name: 'amplifyMap',
-  access: (allow) => [
-    allow.authenticated.to(['get'])
-    // highlight-next-line
-    allow.apiKey.to(['get'])
-  ],
-  // highlight-start
-  apiKeyProps: {
-    apiKeyName: 'testMapKey',
-    noExpiry: true
-  }
-  // highlight-end
+const backend = defineBackend({
+  auth,
+  data,
+  // additional resources
 });
 
-export const collection = defineCollection({
-  name: 'amplifyCollection',
-  access: (allow) => [
-    allow.authenticated.to(['search', 'geocode', 'autocomplete']),
-    allow.guest.to(['search']),
-    // highlight-next-line
-    allow.apiKey.to(['search', 'geocode'])
+const geoStack = backend.createStack("geo-stack");
+
+// create a location services map
+const map = new CfnMap(geoStack, "Map", {
+  mapName: "myMap",
+  description: "Map",
+  configuration: {
+    style: "VectorEsriNavigation",
+  },
+  pricingPlan: "RequestBasedUsage",
+  tags: [
+    {
+      key: "name",
+      value: "myMap",
+    },
   ],
-  // highlight-start
-  apiKeyProps: {
-    apiKeyName: 'testIndexKey',
-    noExpiry: false
-  }
-  // highlight-end
+});
+
+
+// create an IAM policy to allow interacting with geo resource
+const myGeoPolicy = new Policy(geoStack, "GeoPolicy", {
+  policyName: "myGeoPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: [
+        "geo:GetMapTile",
+        "geo:GetMapSprites",
+        "geo:GetMapGlyphs",
+        "geo:GetMapStyleDescriptor",
+      ],
+      resources: [map.attrArn],
+    }),
+  ],
+});
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myGeoPolicy);
+
+// highlight-start
+// create a location services place index
+const myIndex = new CfnPlaceIndex(geoStack, "PlaceIndex", {
+  dataSource: "Here",
+  dataSourceConfiguration: {
+    intendedUse: "SingleUse",
+  },
+  indexName: "myPlaceIndex",
+  pricingPlan: "RequestBasedUsage",
+  tags: [
+    {
+      key: "name",
+      value: "myPlaceIndex",
+    },
+  ],
+});
+
+// create a policy to allow access to the place index
+const myIndexPolicy = new Policy(geoStack, "IndexPolicy", {
+  policyName: "myIndexPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: [
+        "geo:SearchPlaceIndexForPosition",
+        "geo:SearchPlaceIndexForText",
+        "geo:SearchPlaceIndexForSuggestions",
+        "geo:GetPlace",
+      ],
+      resources: [myIndex.attrArn],
+    }),
+  ],
+});
+
+// attach the policy to the authenticated and unauthenticated IAM roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(myIndexPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(myIndexPolicy);
+// highlight-end
+
+// patch the place index resource to the expected output configuration
+backend.addOutput({
+  geo: {
+    aws_region: geoStack.region,
+    maps: {
+      items: {
+        [map.mapName]: {
+          style: "VectorEsriNavigation",
+        },
+      },
+      default: map.mapName,
+    },
+// highlight-start
+    search_indices: {
+      default: myIndex.indexName,
+      items: [myIndex.indexName],
+    },
+// highlight-end
+  },
 });
 ```
 
-This will generate AWS Location API keys configured with the restrictions provided in the `access` block. The names of all provisioned API keys will then appear in the `amplify_outputs.json` file. To access their hidden values through AWS SDK/CLI, refer to the instructions below.
+### Location Search Index Pricing Plan
+The pricing plan for Search Index will be set to `RequestBasedUsage`.
+We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
 
-Install the latest version of the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and configure it with your AWS account.
+### Advanced Settings
+You can optionally configure the data provider and result storage location for your location search index.
 
-```bash title="Terminal" showLineNumbers={false}
-aws location describe-key \
-    --key-name <your-key-name>
-```
+### Location Search data provider
+You can select a data provider as the source for geocoding, reverse geocoding and searches.
+Each provider gathers and curates their data using different means. They may also have varying expertise in different regions of the world.
+The available data providers of geospatial data are shown. To learn more about data providers, please refer this [location service documentation](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+
+- Here – For additional information about HERE Technologies, see [Here guide](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html).
+- Esri – For additional information about Esri, see [Esri guide](https://docs.aws.amazon.com/location/latest/developerguide/esri.html).
 
 <Callout>
-**Note:** To access information about generated API keys, you must ensure that `geo:DescribeKey` access is granted to your user roles and resources. learn more about setting up access for Location resources [here](https://docs.aws.amazon.com/location/latest/developerguide/set-up.html).
+
+**Note:** If your application is tracking or routing assets you use in your business (such as delivery vehicles or employees), you may only use `HERE` as your geolocation provider. 
+See section 82 of the [AWS service terms](https://aws.amazon.com/service-terms/) for more details.
+
 </Callout>
+
+### Location Search result storage location
+You can specify how the results of a search operation will be stored by the caller.
+
+- SingleUse - specifies that the results won't be stored.
+- Storage - specifies that the result can be cached or stored in a database.
+
+Refer [this location service doc](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html#locationplaces-Type-DataSourceConfiguration-IntendedUse) for more information.
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
 
 ## Configure your application
 
@@ -514,7 +573,3 @@ Initialized Amplify
 ### References
 
 [Location Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_location-readme.html)
-
-## Map Pricing Plan
-The pricing plan for the Map example is set to `RequestBasedUsage`.
-We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.

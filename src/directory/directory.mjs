@@ -552,6 +552,9 @@ export const directory = {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx'
                     },
                     {
+                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/use-legacy-resources/index.mdx'
+                    },
+                    {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/google-migration/index.mdx'
                     },
                     {
