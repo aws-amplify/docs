@@ -27,15 +27,15 @@ export function getStaticProps(context) {
   };
 }
 
-In this guide, you will learn how to set up Geo in your Amplify app. You will set up your backend resources, manage their access, and integrate geo maps, place indices, and geofence collections within your application.
+In this guide, you will learn how to set up Geo in your Amplify project. You will set up your backend resources, manage their access, and integrate geo maps, place indices, and geofence collections within your application.
 
-If you have not yet created an Amplify app, visit the [quickstart guide](/[platform]/start/quickstart/).
+If you have not yet created an Amplify project, visit the [quickstart guide](/[platform]/start/quickstart/).
 
 Amazon Location Services now offers independent APIs and UI components for maps and location search for your web apps, eliminating the need to provision these resources. You can add maps, location search (place index), and geofencing functionality to your app in just a few lines of code. Learn more about these resources [here](https://docs.aws.amazon.com/location/latest/developerguide/what-is.html).
 
 ## Building your Geo backend
 
-First, create a file `amplify/geo/resource.ts` within your Amplify app. This file will be the location to configure your Geo backend resources. This entails managing access to maps and location search and provisioning geofence collections. For example, you can instantiate a geofence collection, place index, or a map resource by using the `defineMap`, `definePlace`, or `defineCollection` functions and providing a `name` for these resources. 
+First, create a file `amplify/geo/resource.ts` within your Amplify project. This file will be the location to configure your Geo backend resources. This entails managing access to maps and location search and provisioning geofence collections. For example, you can instantiate a geofence collection, place index, or a map resource by using the `defineMap`, `definePlace`, or `defineCollection` functions and providing a `name` for these resources. 
 
 ```ts title="amplify/geo/resource.ts"
 import {
@@ -107,7 +107,7 @@ npx ampx sandbox --outputs-format dart --outputs-out-dir lib
 
 </InlineFilter>
 
-This command will deploy a Geofence Collection to your cloud sandbox and generate access policies to integrate the map and location search resources with your Amplify app.
+This command will deploy a Geofence Collection to your cloud sandbox and generate access policies to integrate the map and location search resources with your Amplify project.
 
 ## Define resource access permissions
 
