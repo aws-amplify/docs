@@ -52,9 +52,49 @@ npm add maplibre-gl maplibre-gl-js-amplify
 Verify the following:
 
 - `maplibre-gl-js-amplify` version `4.0.0` or above is installed
-- Any package bundlers (webpack, rollup, etc) are configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+- Any package bundlers (webpack, rollup, etc) are configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
 </Callout>
+
+<BlockSwitcher>
+
+<Block name="API Keys">
+
+You can render your map using an existing or provisioned API key. To generate API keys with Amplify Geo, visit the [set up page](/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/#generate-api-keys) to learn more about setting up API keys.
+
+Start by importing the following libraries into your application:
+
+```ts
+import * from 'maplibre-gl-js' as maplibregl;
+import 'maplibre-gl/dist/maplibre-gl.css';
+```
+
+Next, create and render the [Map](https://maplibre.org/maplibre-gl-js/docs/API/classes/Map/) by creating an instance through .
+
+**Note:** There must be a `div` with an `id="map"` on the DOM before making the call to `maplibregl.Map` in this way.
+
+With the region of your generated API key and the hidden value, you can use the `maplibregl.Map` function to render a map with a customized style and color scheme. Visit the official Amazon Location Service documentation to learn more about [style specifications](https://docs.aws.amazon.com/location/latest/developerguide/map-styles.html).
+```javascript
+const API_KEY = "Your_API_Key"; // your hidden value (should be v1.public.a1b2c3d4...)
+const AWS_REGION = "Region_where_you_created_API_Key";
+
+function initializeMap(mapStyle = "Standard", colorScheme = "Dark") {
+    const styleUrl = `https://maps.geo.${AWS_REGION}.amazonaws.com/v2/styles/${mapStyle}/descriptor?key=${API_KEY}&color-scheme=${colorScheme}`;
+    const map = new maplibregl.Map({
+        container: 'map',                 // The ID of the map container
+        style: styleUrl,                  // The style URL for the map
+        center: [-123.1187, 49.2819], // Starting center coordinates
+        zoom: 11,                         // Initial zoom levels
+        validateStyle: false              // Disable style validation
+    });
+    return map;                           // Return the initialized map
+}
+
+const map = initializeMap();
+```
+</Block>
+
+<Block name="Legacy Resources">
 
 Import the library into your application:
 
@@ -116,6 +156,10 @@ body,
 ```
 
 </Callout>
+
+</Block>
+
+</BlockSwitcher>
 
 ![A map centered on Vancouver](/images/display-map.png)
 

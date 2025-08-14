@@ -1,0 +1,133 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+                  
+export const meta = {
+  title: 'Customize authorization',
+  description: 'Define fine-grained authorization rules for Geo resources.',
+  platforms: [
+    'android',
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'swift',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<Callout warning="true">
+
+AWS Location API keys currently do not support geofence collections or their associated APIs. Adding access definitions for any API keys using the `allow.apiKey.to()` definition will NOT result in the creation of an API key.
+
+</Callout>
+
+Customize authorization for your geo resources by defining access to resource APIs for authenticated users, guest (unauthenticated) users, user groups, and API keys (maps and places only).
+
+## Access Acceptor Types
+
+Authentication is required to define access permissions for authenticated users, guest users, and user groups, please set it up [here](/[platform]/build-a-backend/auth/set-up-auth/) if not defined.
+
+<BlockSwitcher>
+<Block name="Guest Users">
+To grant all guest (i.e. not signed in) users of your application `read` access to the collection resource, use the following `access` definition.
+
+```ts title="amplify/geo/resource.ts"
+export const guestCollection = defineCollection({
+  name: 'myCollection',
+  access: (allow) => [
+      allow.guest.to(['read'])
+  ]
+});
+```
+
+</Block>
+<Block name="Authenticated Users">
+To grant all authorized (i.e. signed in) users of your application `get` access to the map resource, use the following `access` definition.
+
+```ts title="amplify/geo/resource.ts"
+export const authenticatedMap = defineMap({
+  name: 'myProjectFiles',
+  access: (allow) => [
+      allow.authenticated.to(['get'])
+  ]
+});
+```
+</Block>
+
+<Block name="User Groups">
+For any user groups you may have defined under `defineAuth`, you can orchestrate group specific access for your Geo resources.
+
+```ts title="amplify/auth/resource.ts"
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  },
+  groups: ['admin', 'users']
+});
+```
+
+You can use the following `access` definition to set fine grained permissions for the `admin` group to have all APIs accessible and the `users` group to only be able to search.
+
+```ts title="amplify/geo/resource.ts"
+export const searchIndex = definePlace({
+  name: 'myProjectFiles',
+  access: (allow) => [
+      allow.groups(['admin']).to(['autocomplete', 'geocode', 'search']), // additional actions such as "write" and "delete" can be specified depending on your use case
+      allow.groups(['users']).to(['search'])
+    ]
+});
+```
+
+</Block>
+<Block name="API Keys">
+To grant users of the `Geo` generated API key get access to the map tiles, styles, and other components, use the following `access` definition.
+
+```ts title="amplify/geo/resource.ts"
+export const map = defineMap({
+  name: 'myProjectFiles',
+  access: (allow) => [
+      allow.apiKey.to(['get']) // additional actions such as "write" and "delete" can be specified depending on your use case
+  ]
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+### Available Access Actions
+
+#### Map Actions
+
+| Custom Action Name | Accessible APIs |
+| :------- | :------------------- |
+| `get`      |[`geo-maps:GetGlyphs`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetGlyphs.html)<br></br> [`geo-maps:GetSprites`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html)<br></br> [`geo-maps:GetStaticMap`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStaticMap.html) <br></br>[`geo-maps:GetStyleDescriptor`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html)<br></br> [`geo-maps:GetTile`](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html) |
+
+#### Place Index Actions
+
+| Custom Action Name | Accessible APIs |
+| :------- | :------------------- |
+| `autocomplete` | [`geo-places:Autocomplete`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Autocomplete.html) |
+| `geocode` | [`geo-places:Geocode`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Geocode.html)<br></br> [`geo-places:ReverseGeocode`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_ReverseGeocode.html) |
+| `search` | [`geo-places:GetPlace`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_GetPlace.html)<br></br> [`geo-places:SearchNearby`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchNearby.html)<br></br> [`geo-places:SearchText`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchText.html)<br></br> [`geo-places:Suggest`](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Suggest.html) |
+
+#### Geofence Collection Actions
+
+| Custom Action Name | Accessible APIs |
+| :------- | :------------------- |
+| `create`      | [`geo:CreateGeofenceCollection`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_CreateGeofenceCollection.html) |
+| `read`      | [`geo:DescribeGeofenceCollection`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_DescribeGeofenceCollection.html)<br></br> [`geo:BatchEvaluateGeofences`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_BatchEvaluateGeofences.html)<br></br> [`geo:ForecastGeofenceEvents`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_ForecastGeofenceEvents.html)<br></br> [`geo:GetGeofence`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_GetGeofence.html) |
+| `update`      | [`geo:BatchPutGeofence`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_BatchPutGeofence.html)<br></br> [`geo:PutGeofence`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_PutGeofence.html)<br></br> [`geo:UpdateGeofenceCollection`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_UpdateGeofenceCollection.html) |
+| `delete`      | [`geo:BatchDeleteGeofence`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_BatchDeleteGeofence.html)<br></br> [`geo:DeleteGeofenceCollection`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_DeleteGeofenceCollection.html) |
+| `list`      | [`geo:ListGeofences`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_ListGeofences.html)<br></br> [`geo:ListGeofenceCollections`](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_ListGeofenceCollections.html) |

@@ -397,6 +397,44 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/custom-authorization/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/maps/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/location-search/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-geofencing/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/geofences/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/use-legacy-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/google-migration/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/amazon-location-sdk/index.mdx'
+                }
+              ]
+            },
+            {
               path: 'src/pages/[platform]/build-a-backend/functions/index.mdx',
               children: [
                 {
@@ -521,38 +559,6 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/app-uninstall/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/maps/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/location-search/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-geofencing/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/geofences/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/google-migration/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/amazon-location-sdk/index.mdx'
                     }
                   ]
                 },
