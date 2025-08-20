@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { ALGOLIA_APP_ID } from '../constants/algolia';
 
 const cspHashOf = (text) => {
   const hash = crypto.createHash('sha256');
@@ -14,7 +15,7 @@ const ANALYTICS_CSP = {
       'https://aws.demdex.net',
       'https://dpm.demdex.net',
       'https://cm.everesttech.net',
-      '*.shortbread.aws.dev'
+      'https://prod.assets.shortbread.aws.dev https://prod.tools.shortbread.aws https://prod.tools.shortbread.aws.dev'
     ],
     img: [
       'https://amazonwebservices.d2.sc.omtrdc.net',
@@ -23,8 +24,12 @@ const ANALYTICS_CSP = {
       'https://cm.everesttech.net'
     ],
     frame: ['https://aws.demdex.net', 'https://dpm.demdex.net'],
-    script: ['*.shortbread.aws.dev'],
-    style: ['*.shortbread.aws.dev']
+    script: [
+      'https://prod.assets.shortbread.aws.dev https://prod.tools.shortbread.aws https://prod.log.shortbread.aws.dev'
+    ],
+    style: [
+      'https://prod.assets.shortbread.aws.dev https://prod.tools.shortbread.aws https://prod.log.shortbread.aws.dev'
+    ]
   },
   prod: {
     connect: [
@@ -71,7 +76,7 @@ const getCspContent = (context) => {
         ' '
       )} ${ANALYTICS_CSP.alpha.connect.join(
         ' '
-      )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
+      )} https://${ALGOLIA_APP_ID}-dsn.algolia.net https://${ALGOLIA_APP_ID}-1.algolianet.com https://${ALGOLIA_APP_ID}-2.algolianet.com https://${ALGOLIA_APP_ID}-3.algolianet.com;
       img-src 'self' https://img.shields.io data: ${ANALYTICS_CSP.all.img.join(
         ' '
       )} ${ANALYTICS_CSP.alpha.img.join(' ')}; 
@@ -94,7 +99,7 @@ const getCspContent = (context) => {
       ' '
     )} ${ANALYTICS_CSP.prod.connect.join(
       ' '
-    )} https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
+    )} https://${ALGOLIA_APP_ID}-dsn.algolia.net https://${ALGOLIA_APP_ID}-1.algolianet.com https://${ALGOLIA_APP_ID}-2.algolianet.com https://${ALGOLIA_APP_ID}-3.algolianet.com;
     img-src 'self' https://img.shields.io ${ANALYTICS_CSP.all.img.join(
       ' '
     )} ${ANALYTICS_CSP.prod.img.join(' ')};
