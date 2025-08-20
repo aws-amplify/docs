@@ -15,7 +15,8 @@ const ANALYTICS_CSP = {
       'https://aws.demdex.net',
       'https://dpm.demdex.net',
       'https://cm.everesttech.net',
-      'https://prod.assets.shortbread.aws.dev https://prod.tools.shortbread.aws https://prod.tools.shortbread.aws.dev'
+      'https://prod.tools.shortbread.aws.dev',
+      'https://prod.log.shortbread.aws.dev'
     ],
     img: [
       'https://amazonwebservices.d2.sc.omtrdc.net',
@@ -24,12 +25,8 @@ const ANALYTICS_CSP = {
       'https://cm.everesttech.net'
     ],
     frame: ['https://aws.demdex.net', 'https://dpm.demdex.net'],
-    script: [
-      'https://prod.assets.shortbread.aws.dev https://prod.tools.shortbread.aws https://prod.log.shortbread.aws.dev'
-    ],
-    style: [
-      'https://prod.assets.shortbread.aws.dev https://prod.tools.shortbread.aws https://prod.log.shortbread.aws.dev'
-    ]
+    script: ['https://prod.assets.shortbread.aws.dev'],
+    style: ['https://prod.assets.shortbread.aws.dev']
   },
   prod: {
     connect: [
