@@ -10,4 +10,14 @@ try await Amplify.Auth.signInWithWebUI(
 ) {
     ...
 }
+
+// or
+
+try await Amplify.Auth.signInWithSocialWebUI(
+    for: .googleSignIn,
+    presentationAnchor: self.view.window!,
+    options: .preferPrivateSession()
+) {
+    ...
+}
 ```

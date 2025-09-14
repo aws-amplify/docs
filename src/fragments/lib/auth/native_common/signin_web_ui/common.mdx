@@ -65,3 +65,112 @@ import ios12 from '/src/fragments/lib/auth/ios/signin_web_ui/40_private_session.
 import flutter13 from '/src/fragments/lib/auth/flutter/signin_web_ui/40_private_session.mdx';
 
 <Fragments fragments={{ flutter: flutter13 }} />
+
+<InlineFilter filters={['android']}>
+### Prefer private session during signIn
+
+The `preferPrivateSession` option launches the authentication flow in an ephemeral browser state with no existing sessions or cookies. This ensures each authentication attempt begins from a clean, signed-out state, which is particularly useful for social sign-ins where third-party authentication cookies cannot be cleared.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSCognitoAuthWebUISignInOptions options = AWSCognitoAuthWebUISignInOptions.builder()
+    .preferPrivateSession(true)
+    .build();
+
+Amplify.Auth.signInWithWebUI(
+    this,
+    options,
+    result -> Log.i("AuthQuickStart", result.toString()),
+    error -> Log.e("AuthQuickStart", error.toString())
+);
+
+// or
+
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.google(),
+    this,
+    options,
+    result -> Log.i("AuthQuickStart", result.toString()),
+    error -> Log.e("AuthQuickStart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = AWSCognitoAuthWebUISignInOptions.builder()
+    .preferPrivateSession(true)
+    .build()
+
+Amplify.Auth.signInWithWebUI(
+    this,
+    options,
+    { Log.i("AuthQuickStart", "Signin OK = $it") },
+    { Log.e("AuthQuickStart", "Signin failed", it) }
+)
+
+// or
+
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.google(),
+    this,
+    options,
+    { Log.i("AuthQuickStart", "Signin OK = $it") },
+    { Log.e("AuthQuickStart", "Signin failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = AWSCognitoAuthWebUISignInOptions.builder()
+    .preferPrivateSession(true)
+    .build()
+
+try {
+    val result = Amplify.Auth.signInWithWebUI(this, options)
+    Log.i("AuthQuickStart", "Signin OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Signin failed", error)
+}
+
+// or
+
+try {
+    val result = Amplify.Auth.signInWithSocialWebUI(AuthProvider.google(), this, options)
+    Log.i("AuthQuickStart", "Signin OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Signin failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSCognitoAuthWebUISignInOptions options = AWSCognitoAuthWebUISignInOptions.builder()
+    .preferPrivateSession(true)
+    .build();
+
+RxAmplify.Auth.signInWithWebUI(this, options)
+    .subscribe(
+        result -> Log.i("AuthQuickStart", result.toString()),
+        error -> Log.e("AuthQuickStart", error.toString())
+    );
+
+// or
+
+RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.google(), this, options)
+    .subscribe(
+        result -> Log.i("AuthQuickStart", result.toString()),
+        error -> Log.e("AuthQuickStart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
