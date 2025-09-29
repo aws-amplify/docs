@@ -3044,10 +3044,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/env@npm:14.2.31"
-  checksum: 10c0/56f9fd1521833341468543bbd9427b84f83539aefe04706013a33edc205fa69d473fa701fee0672248c64101ae764352d145c5e335f41ed588532446fd0d1e8d
+"@next/env@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/env@npm:14.2.32"
+  checksum: 10c0/5320513da45d9e3eaba3795c10fdec16a7cf5d8e2633f47b2fd68d3453db1d4875009d85d38d8fe5ef6ff036df0448f64dd0b5df5271296d5a28be75fbcffeb7
   languageName: node
   linkType: hard
 
@@ -3077,65 +3077,65 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-darwin-arm64@npm:14.2.31"
+"@next/swc-darwin-arm64@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-darwin-arm64@npm:14.2.32"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-darwin-x64@npm:14.2.31"
+"@next/swc-darwin-x64@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-darwin-x64@npm:14.2.32"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-linux-arm64-gnu@npm:14.2.31"
+"@next/swc-linux-arm64-gnu@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-linux-arm64-gnu@npm:14.2.32"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-linux-arm64-musl@npm:14.2.31"
+"@next/swc-linux-arm64-musl@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-linux-arm64-musl@npm:14.2.32"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-linux-x64-gnu@npm:14.2.31"
+"@next/swc-linux-x64-gnu@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-linux-x64-gnu@npm:14.2.32"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-linux-x64-musl@npm:14.2.31"
+"@next/swc-linux-x64-musl@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-linux-x64-musl@npm:14.2.32"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-win32-arm64-msvc@npm:14.2.31"
+"@next/swc-win32-arm64-msvc@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-win32-arm64-msvc@npm:14.2.32"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-ia32-msvc@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-win32-ia32-msvc@npm:14.2.31"
+"@next/swc-win32-ia32-msvc@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-win32-ia32-msvc@npm:14.2.32"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:14.2.31":
-  version: 14.2.31
-  resolution: "@next/swc-win32-x64-msvc@npm:14.2.31"
+"@next/swc-win32-x64-msvc@npm:14.2.32":
+  version: 14.2.32
+  resolution: "@next/swc-win32-x64-msvc@npm:14.2.32"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -6949,7 +6949,7 @@ __metadata:
     jest-puppeteer: "npm:^10.1.4"
     json5: "npm:^2.2.3"
     lint-staged: "npm:^15.2.7"
-    next: "npm:^14.2.30"
+    next: "npm:^14.2.32"
     next-bundle-analyzer: "npm:^0.6.7"
     next-image-export-optimizer: "npm:^1.18.0"
     next-transpile-modules: "npm:^9.0.0"
@@ -12200,20 +12200,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^14.2.30":
-  version: 14.2.31
-  resolution: "next@npm:14.2.31"
+"next@npm:^14.2.32":
+  version: 14.2.32
+  resolution: "next@npm:14.2.32"
   dependencies:
-    "@next/env": "npm:14.2.31"
-    "@next/swc-darwin-arm64": "npm:14.2.31"
-    "@next/swc-darwin-x64": "npm:14.2.31"
-    "@next/swc-linux-arm64-gnu": "npm:14.2.31"
-    "@next/swc-linux-arm64-musl": "npm:14.2.31"
-    "@next/swc-linux-x64-gnu": "npm:14.2.31"
-    "@next/swc-linux-x64-musl": "npm:14.2.31"
-    "@next/swc-win32-arm64-msvc": "npm:14.2.31"
-    "@next/swc-win32-ia32-msvc": "npm:14.2.31"
-    "@next/swc-win32-x64-msvc": "npm:14.2.31"
+    "@next/env": "npm:14.2.32"
+    "@next/swc-darwin-arm64": "npm:14.2.32"
+    "@next/swc-darwin-x64": "npm:14.2.32"
+    "@next/swc-linux-arm64-gnu": "npm:14.2.32"
+    "@next/swc-linux-arm64-musl": "npm:14.2.32"
+    "@next/swc-linux-x64-gnu": "npm:14.2.32"
+    "@next/swc-linux-x64-musl": "npm:14.2.32"
+    "@next/swc-win32-arm64-msvc": "npm:14.2.32"
+    "@next/swc-win32-ia32-msvc": "npm:14.2.32"
+    "@next/swc-win32-x64-msvc": "npm:14.2.32"
     "@swc/helpers": "npm:0.5.5"
     busboy: "npm:1.6.0"
     caniuse-lite: "npm:^1.0.30001579"
@@ -12254,7 +12254,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: 10c0/711214d4383f83fde847a90880876a2ddbac73b822a9384c0f0933d5e8e8618cdd13ca091f96fb8b0cfab68f6378ea47d01d52753cc996b25d9deb44341a8677
+  checksum: 10c0/ebcbf6c03eb6dc993748904b30a2d2c4a37368fc76fba90b771ab5f923c1c6ea056e01cae84165ff29a26f1d7de34580361151a3ba8fa8b03c495a84c900b900
   languageName: node
   linkType: hard
 
@@ -14562,8 +14562,8 @@ __metadata:
   linkType: hard
 
 "tar-fs@npm:^3.0.6":
-  version: 3.1.0
-  resolution: "tar-fs@npm:3.1.0"
+  version: 3.1.1
+  resolution: "tar-fs@npm:3.1.1"
   dependencies:
     bare-fs: "npm:^4.0.1"
     bare-path: "npm:^3.0.0"
@@ -14574,7 +14574,7 @@ __metadata:
       optional: true
     bare-path:
       optional: true
-  checksum: 10c0/760309677543c03fbc253b5ef1ab4bb2ceafb554471b6cbe4930d1633f35662ec26a1414c66fa6754f5aa7e8c65003f73849242f624c322d3dcba7a8888a6915
+  checksum: 10c0/0c677d711c4aa41f94e1a712aa647022ba1910ff84430739e5d9e95a615e3ea1b7112dc93164fc8ce30dc715befcf9cfdc64da27d4e7958d73c59bda06aa0d8e
   languageName: node
   linkType: hard
 
