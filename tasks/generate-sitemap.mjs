@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 import crypto from 'node:crypto';
 import * as cheerio from 'cheerio';
 import dotenv from 'dotenv';
-import flatDirectory from '../src/directory/flatDirectory.json' assert { type: 'json' };
+import flatDirectory from '../src/directory/flatDirectory.json' with { type: 'json' };
 
 dotenv.config({ path: './.env.custom' });
 
