@@ -204,6 +204,13 @@ npm add aws-amplify @aws-amplify/react-native
 ## Initialize Amplify API
 
 <InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
+
+<Callout info="true">
+
+**Important**: Custom REST APIs require explicit configuration. Unlike built-in Amplify resources (Auth, Data), custom APIs are not automatically included when calling `Amplify.configure(outputs)`.
+
+</Callout>
+
 To initialize the Amplify API category you need to configure Amplify with `Amplify.configure()`.
 
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `index.js` in React or `main.ts` in Angular.
@@ -221,7 +228,7 @@ Amplify.configure(
     ...amplifyConfig,
     API: {
       ...amplifyConfig.API,
-      REST: outputs.custom.API,
+      REST: outputs.custom.API, // ← Required for custom REST APIs
     },
   },
   {
@@ -250,7 +257,7 @@ Amplify.configure(
     ...amplifyConfig,
     API: {
       ...amplifyConfig.API,
-      REST: outputs.custom.API,
+      REST: outputs.custom.API, // ← Required for custom REST APIs
     },
   }, 
   {
@@ -271,4 +278,40 @@ Amplify.configure(
 Make sure you call `Amplify.configure` as early as possible in your application’s life-cycle. A missing configuration or `NoCredentials` error is thrown if `Amplify.configure` has not been called before other Amplify JavaScript APIs. Review the [Library Not Configured Troubleshooting guide](/[platform]/build-a-backend/troubleshooting/library-not-configured/) for possible causes of this issue.
 
 </Callout>
+
+<Callout warning="true">
+
+**Critical Configuration Step**: The line `REST: outputs.custom.API` is **required** to register your custom REST API. Without this, you'll encounter the error `API name is invalid` when trying to call your API.
+
+</Callout>
+
+## Troubleshooting
+
+### "API name is invalid" Error
+
+If you encounter the error `API name is invalid` when calling your REST API, ensure you have:
+
+1. **Added the custom API configuration**: Include `REST: outputs.custom.API` in your `Amplify.configure()` call
+2. **Used the correct API name**: The API name should match the `restApiName` defined in your `backend.ts` file
+3. **Called `Amplify.configure()`**: Make sure configuration happens before any API calls
+
+**Example of incorrect configuration** (missing custom API):
+```javascript
+// ❌ This will cause "API name is invalid" error
+Amplify.configure(outputs); // Missing custom REST API configuration
+```
+
+**Correct configuration**:
+```javascript
+// ✅ This includes custom REST APIs
+const amplifyConfig = parseAmplifyConfig(outputs);
+Amplify.configure({
+  ...amplifyConfig,
+  API: {
+    ...amplifyConfig.API,
+    REST: outputs.custom.API, // Required for custom APIs
+  },
+});
+```
+
 </InlineFilter>
