@@ -163,13 +163,13 @@ Schedules can be set with a timezone.
 ```ts title="amplify/jobs/monthly-report/resource.ts"
 import { defineFunction } from "@aws-amplify/backend";
 
-export const remindMe = defineFunction({
+export const monthlyReport = defineFunction({
   name: "monthly-report",
   schedule: [
     // 1st day of every month at 0am with Asia/Tokyo
-    { cron: "0 0 1 * * *", timezone: "Asia/Tokyo" },
+    { cron: "0 0 1 * ? *", timezone: "Asia/Tokyo" },
     // the first of the month at midnight with America/New_York
     { rate: "every month", timezone: "America/New_York" },
   ]
-})
+});
 ```
