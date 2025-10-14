@@ -576,7 +576,7 @@ Similar to static rendering with the App Router, you can pass `null` as the valu
 export async function getStaticProps() {
   const splashUrl = await runWithAmplifyServerContext({
     nextServerContext: null,
-    operation: (contextSpec) => getUrl(contextSpec, { key: 'splash.png' })
+    operation: (contextSpec) => getUrl(contextSpec, { path: 'splash.png' })
   });
 
   return {
