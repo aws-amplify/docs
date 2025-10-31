@@ -786,6 +786,21 @@ These APIs include:
 - `confirmResetPassword`
 - `resendSignUpCode`
 - `updateUserAttributes`
+- `fetchAuthSession`
+
+Additionally, you can configure a `ClientMetadataProvider` which passes the `clientMetadata` to internal `fetchAuthSession` calls:
+
+```javascript
+// Set global clientMetadata (affects all token refreshes)
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+
+const clientMetadataProvider = () => Promise.resolve({
+  'app-version': '1.0.0',
+  'device-type': 'mobile'
+});
+
+cognitoUserPoolsTokenProvider.setClientMetadataProvider(clientMetadataProvider);
+```
 
 Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`. Exercise caution with using `clientMetadata` when you are relying on `validationData`.
 
