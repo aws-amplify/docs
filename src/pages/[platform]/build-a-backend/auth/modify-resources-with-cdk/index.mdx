@@ -57,69 +57,8 @@ cfnUserPool.policies = {
 };
 ```
 
-## Override Cognito UserPool multi-factor authentication options
 
-While Email MFA is not yet supported with `defineAuth`, this feature can be enabled by modifying the underlying CDK construct.
-
-Start by ensuring your `defineAuth` resource configuration includes a compatible account recovery option and a custom SES sender.
-
-```ts title="amplify/auth/resource.ts"
-import { defineAuth } from "@aws-amplify/backend"
-
-/**
- * Define and configure your auth resource
- * @see https://docs.amplify.aws/gen2/build-a-backend/auth
- */
-export const auth = defineAuth({
-  loginWith: {
-    email: true,
-    phone: true,
-  },
-  multifactor: {
-    mode: "OPTIONAL",
-    sms: true,
-    totp: false,
-  },
-  // Important! The logic to resolve this value cannot determine whether email mfa is enabled when overriding the resource. 
-  // Be sure to pick a recovery option appropriate for your application.
-  accountRecovery: "EMAIL_AND_PHONE_WITHOUT_MFA",
-  senders: {
-    email: {
-      fromEmail: "registrations@example.com",
-    },
-  },
-})
-```
-
-Next, extend the underlying CDK construct by activating [Amazon Cognito's Advanced Security Features (ASF)](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html) and add `EMAIL_OTP` to the enabled MFA options.
-
-```ts title="amplify/backend.ts"
-import { defineBackend } from "@aws-amplify/backend"
-import { auth } from "./auth/resource"
-
-const backend = defineBackend({
-  auth,
-})
-
-const { cfnUserPool } = backend.auth.resources.cfnResources
-
-// enable ASF
-cfnUserPool.userPoolAddOns = {
-  advancedSecurityMode: "AUDIT",
-}
-
-// add email mfa
-// https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html#cfn-cognito-userpool-enabledmfas
-cfnUserPool.enabledMfas = [...(cfnUserPool.enabledMfas || []), "EMAIL_OTP"]
-```
-
-{/* token validity */}
-{/* BYO custom idp construct */}
-{/* extend auth/unauth roles */}
-
-<InlineFilter filters={["android","angular", "javascript", "nextjs", "react", "react-native", "swift", "vue"]}>
-
-### Override Cognito UserPool to enable passwordless sign-in methods
+## Override Cognito UserPool to enable passwordless sign-in methods
 
 You can modify the underlying Cognito user pool resource to enable sign in with passwordless methods. [Learn more about passwordless sign-in methods](/[platform]/build-a-backend/auth/concepts/passwordless/). 
 
