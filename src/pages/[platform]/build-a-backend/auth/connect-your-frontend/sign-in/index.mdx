@@ -1052,6 +1052,82 @@ RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
 </Block>
 </BlockSwitcher>
 
+### Prefer private session during social Sign In
+
+The `preferPrivateSession` option launches the authentication flow in an ephemeral browser state with no existing sessions or cookies. This ensures each authentication attempt begins from a clean, signed-out state, which is particularly useful for social sign-ins where third-party authentication cookies cannot be cleared programmatically.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSCognitoAuthWebUISignInOptions options = AWSCognitoAuthWebUISignInOptions.builder()
+    .preferPrivateSession(true)
+    .build();
+
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.facebook(),
+    this,
+    options,
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = AWSCognitoAuthWebUISignInOptions.builder()
+    .preferPrivateSession(true)
+    .build()
+
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.facebook(),
+    this,
+    options,
+    { Log.i("AuthQuickstart", "Sign in OK: $it") },
+    { Log.e("AuthQuickstart", "Sign in failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = AWSCognitoAuthWebUISignInOptions.builder()
+    .preferPrivateSession(true)
+    .build()
+
+try {
+    // Replace facebook with your chosen auth provider such as google, amazon, or apple
+    val result = Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this, options)
+    Log.i("AuthQuickstart", "Sign in OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSCognitoAuthWebUISignInOptions options = AWSCognitoAuthWebUISignInOptions.builder()
+    .preferPrivateSession(true)
+    .build();
+
+// Replace facebook with your chosen auth provider such as google, amazon, or apple
+RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this, options)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
@@ -1127,6 +1203,59 @@ func socialSignInWithWebUI() -> AnyCancellable {
                 print("Sign in succeeded")
             }
         }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+### Prefer private session during social Sign In
+
+The `preferPrivateSession` option launches the authentication flow in an ephemeral browser state with no existing sessions or cookies. This ensures each authentication attempt begins from a clean, signed-out state, which is particularly useful for social sign-ins where third-party authentication cookies cannot be cleared programmatically.
+
+<BlockSwitcher>
+<Block name="Async/Await">
+
+```swift
+func socialSignInWithWebUI() async {
+    do {
+        let signInResult = try await Amplify.Auth.signInWithWebUI(
+            for: .facebook, 
+            presentationAnchor: self.view.window!,
+            options: .preferPrivateSession()
+        )
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+<Block name="Combine">
+
+```swift
+func socialSignInWithWebUI() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signInWithWebUI(
+            for: .facebook, 
+            presentationAnchor: self.view.window!,
+            options: .preferPrivateSession()
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
+        }
+    }
+    receiveValue: { signInResult in
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
+        }
+    }
 }
 ```
 
