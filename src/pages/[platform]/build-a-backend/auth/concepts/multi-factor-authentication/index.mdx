@@ -49,6 +49,13 @@ export const auth = defineAuth({
   multifactor: {
     mode: 'OPTIONAL',
     totp: true,
+    email: true,
+  },
+  senders: {
+    email: {
+      fromEmail: 'noreply@example.com',
+      fromName: 'My App',
+    },
   },
 // highlight-end
   userAttributes: {
@@ -59,11 +66,7 @@ export const auth = defineAuth({
 });
 ```
 
-<Callout info>
-**Note:** Email-based MFA is currently not supported with `defineAuth`. We are working towards supporting this feature. For more information, visit the [feature request in GitHub](https://github.com/aws-amplify/amplify-backend/issues/2159).
 
-To take advantage of this feature with an Amplify generated backend, the underlying CDK construct can be extended manually. See [overriding Cognito User Pool multi-factor authentication options](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#override-cognito-userpool-multi-factor-authentication-options) for more information.
-</Callout>
 
 When MFA is `REQUIRED` with SMS in your backend auth resource, you will need to pass the phone number during sign-up API call. If you are using the `email` or `username` as the primary sign-in mechanism, you will need to pass the `phone_number` attribute as a user attribute. 
 
@@ -856,12 +859,36 @@ If a user loses access to their TOTP device, they will need to contact an admini
 In a scenario where MFA is marked as "Required" in the Cognito User Pool and another MFA method is not set up, the administrator would need to first initiate an [`AdminUpdateUserAttributes`](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html) call and update the user's phone number attribute. Once this is complete, the administrator can continue changing the MFA preference to SMS as suggested above.
 
 ## Multi-factor authentication with EMAIL
-<InlineFilter filters={["react"]}>
-<Callout info>
-**Note:** Email-based MFA is currently not supported in the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator). We are working towards supporting this feature. For more information, visit the [feature request in GitHub](https://github.com/aws-amplify/amplify-ui/issues/5983).
+To enable email MFA, set `email: true` in your multifactor configuration and configure an email sender.
 
+<Callout warning>
+To permit users to sign in with email MFA, your user pool must have the following configuration options:
+
+- You have the Plus or Essentials feature plan in your user pool.
+- Your user pool sends email messages with your own Amazon SES resources.
+
+For more details, see [Amazon Cognito email MFA configuration](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-sms-email-message.html).
 </Callout>
-</InlineFilter>
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: true
+  },
+  multifactor: {
+    mode: 'OPTIONAL',
+    email: true,
+  },
+  senders: {
+    email: {
+      fromEmail: 'noreply@example.com',
+      fromName: 'My App',
+    },
+  },
+});
+```
 
 <InlineFilter filters={["swift"]}>
 <Callout info>

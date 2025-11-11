@@ -305,13 +305,6 @@ npx ampx sandbox seed
 ```
 
 SMS MFA follows the same pattern as Email MFA, using command line prompts for verification. Just replace `mfaPreference: "EMAIL"` with `mfaPreference: "SMS"` in your configuration. The command line experience will be identical, prompting for the SMS code instead of the email code.
-
-<Callout info>
-**Note:** Email-based MFA is currently not supported with `defineAuth`. We are working towards supporting this feature. For more information, visit the [feature request in GitHub](https://github.com/aws-amplify/amplify-backend/issues/2159).
-
-To take advantage of this feature with an Amplify generated backend, the underlying CDK construct can be extended manually. See [overriding Cognito User Pool multi-factor authentication options](/[platform]/build-a-backend/auth/modify-resources-with-cdk/#override-cognito-userpool-multi-factor-authentication-options) for more information.
-</Callout>
-
 ### Data
 
 For example, if you like to seed your Data API, lets start by creating a GraphQL API with a `Todo` model with authorization mode set to `userPool`:
