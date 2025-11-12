@@ -30,7 +30,7 @@ compileOptions {
 
 ```diff title="android/app/build.gradle.kts"
 dependencies {
-+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
++    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:ANDROID_DESUGAR_VERSION")
 +    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10")
 }
 ```
@@ -53,7 +53,7 @@ Add the following dependency in `dependencies`.
 ```groovy
 dependencies {
     // add this line to support Java8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:ANDROID_DESUGAR_VERSION'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
