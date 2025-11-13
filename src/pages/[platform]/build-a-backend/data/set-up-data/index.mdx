@@ -163,10 +163,8 @@ Under Gradle Scripts, open build.gradle (Module :app), add the following lines:
 ```kotlin title="app/build.gradle.kts"
 android {
     compileOptions {
-        // Support for Java 8 features
+        // Support for modern Java features
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
@@ -176,7 +174,7 @@ dependencies {
     implementation("com.amplifyframework:aws-api:ANDROID_VERSION")
     // highlight-end
     // ... other dependencies
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:ANDROID_DESUGAR_VERSION")
 }
 ```
 
