@@ -240,18 +240,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-amplify/amplify-cli-core@npm:^4.3.9":
-  version: 4.3.9
-  resolution: "@aws-amplify/amplify-cli-core@npm:4.3.9"
+"@aws-amplify/amplify-cli-core@npm:^4.4.3":
+  version: 4.4.3
+  resolution: "@aws-amplify/amplify-cli-core@npm:4.4.3"
   dependencies:
     "@aws-amplify/amplify-cli-logger": "npm:1.3.8"
     "@aws-amplify/amplify-function-plugin-interface": "npm:1.12.1"
-    "@aws-amplify/amplify-prompts": "npm:2.8.6"
-    "@aws-amplify/graphql-transformer-interfaces": "npm:^3.9.0"
+    "@aws-amplify/amplify-prompts": "npm:2.8.7"
+    "@aws-amplify/graphql-transformer-interfaces": "npm:^3.12.1"
     "@aws-sdk/util-arn-parser": "npm:^3.310.0"
     "@yarnpkg/lockfile": "npm:^1.1.0"
     ajv: "npm:^6.12.6"
-    aws-cdk-lib: "npm:~2.129.0"
+    aws-cdk-lib: "npm:~2.189.1"
     chalk: "npm:^4.1.1"
     ci-info: "npm:^3.8.0"
     cli-table3: "npm:^0.6.0"
@@ -275,7 +275,7 @@ __metadata:
     which: "npm:^2.0.2"
     yaml: "npm:^2.2.2"
     yauzl: "npm:^3.1.3"
-  checksum: 10c0/dbe450eeac13a6e67a235104e487dcf555dafbbfa445c7960fa65a9ea572345d233f424286561c6528cacf298fef7d383bb2eb16c4e990cad5ba1246036487cd
+  checksum: 10c0/6d2d499dbdd85e771cb0c130f5a286bb477494f5a0724db566908f28e6d65392ce570d6b6a320500b967bbe9ddd9560444e2e2588ed4767d57222756431aa0ea
   languageName: node
   linkType: hard
 
@@ -289,10 +289,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-amplify/amplify-cli-shared-interfaces@npm:1.2.5":
-  version: 1.2.5
-  resolution: "@aws-amplify/amplify-cli-shared-interfaces@npm:1.2.5"
-  checksum: 10c0/1bb99f7c3407fb21183eb360c6972feacf14d3fc14920386591edb75b26c5c6fe6ac992b2cb55ece184b6392219e1c02bce8607aadbf1887278f7789ea56ab0e
+"@aws-amplify/amplify-cli-shared-interfaces@npm:1.2.6":
+  version: 1.2.6
+  resolution: "@aws-amplify/amplify-cli-shared-interfaces@npm:1.2.6"
+  checksum: 10c0/10ec9f21baab96b9de0099edefa467bdc89397268bc1949d3715415cea91bcb141b0d8244729bb906abab2c916e1e1c05cd25ed206a3e6b33ed1f83ee2daaec9
   languageName: node
   linkType: hard
 
@@ -303,14 +303,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-amplify/amplify-prompts@npm:2.8.6":
-  version: 2.8.6
-  resolution: "@aws-amplify/amplify-prompts@npm:2.8.6"
+"@aws-amplify/amplify-prompts@npm:2.8.7":
+  version: 2.8.7
+  resolution: "@aws-amplify/amplify-prompts@npm:2.8.7"
   dependencies:
-    "@aws-amplify/amplify-cli-shared-interfaces": "npm:1.2.5"
+    "@aws-amplify/amplify-cli-shared-interfaces": "npm:1.2.6"
     chalk: "npm:^4.1.1"
     enquirer: "npm:^2.3.6"
-  checksum: 10c0/fcb3f235ad71bafa306b608b1e3c733b81069c4cab23d1869105353519df8a08938b30211b6c55f7db7f3b6959534c493c84bcadf2d80e8d96e0acabacd5db51
+  checksum: 10c0/1a606d0500e6d8d96097ded8ac6082d5ec2e6d223aa89d5ead6bf0c495c2f0e70797d9c23e05e4133c6cee1bce6501569e4021b75649e7a7928d366afa8ee9c7
   languageName: node
   linkType: hard
 
@@ -433,15 +433,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-amplify/graphql-transformer-interfaces@npm:^3.9.0":
-  version: 3.10.0
-  resolution: "@aws-amplify/graphql-transformer-interfaces@npm:3.10.0"
+"@aws-amplify/graphql-transformer-interfaces@npm:^3.12.1":
+  version: 3.12.1
+  resolution: "@aws-amplify/graphql-transformer-interfaces@npm:3.12.1"
   dependencies:
     graphql: "npm:^15.5.0"
   peerDependencies:
-    aws-cdk-lib: ^2.80.0
-    constructs: ^10.0.5
-  checksum: 10c0/559e7f68eaf84f03c375a51d63204aa3244fd5d31501906b81a2e16d0f6e8a588598eb6cb481474b8b5432e2eec00222eb48d5d3dc89b8080551d6d92e144e2a
+    aws-cdk-lib: ^2.187.0
+    constructs: ^10.3.0
+  checksum: 10c0/9e0f3f756a726c46de60a109cd03fb5d905acfd30e5582db6f51a3ae449d46a7bf8a4cba08d331597b3a69019c61a7a95df1a8c010b4db1217a5ea068c463fea
   languageName: node
   linkType: hard
 
@@ -6908,7 +6908,7 @@ __metadata:
   resolution: "docs@workspace:."
   dependencies:
     "@actions/core": "npm:^1.11.1"
-    "@aws-amplify/amplify-cli-core": "npm:^4.3.9"
+    "@aws-amplify/amplify-cli-core": "npm:^4.4.3"
     "@aws-amplify/ui-react": "npm:^6.7.0"
     "@aws-amplify/ui-react-ai": "npm:^1.0.0"
     "@axe-core/puppeteer": "npm:^4.9.1"
