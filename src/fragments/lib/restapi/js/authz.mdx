@@ -6,6 +6,32 @@ By default, the API will be using IAM authorization and the requests will be sig
 
 When you created your REST API with the Amplify CLI, you were asked if you wanted to restrict access. If you selected **no**, then the unauthenticated role will have access to the API. If you selected **yes**, you would have configured more fine grain access to your API.
 
+For public REST APIs you can change the default behavior by using the `defaultAuthMode` attribute. You can change this per request:
+
+```javascript
+await get({
+  apiName: 'myApi', 
+  path: '/public-endpoint',
+  options: {
+    defaultAuthMode: 'none' // Skip default IAM authentication for this request
+  }
+});
+````
+
+or globally through `libraryOptions`:
+
+```javascript
+Amplify.configure({
+  // ... other config
+}, {
+  API: {
+    REST: {
+      defaultAuthMode: 'none' // Default mode for all REST calls
+    }
+  }
+});
+```
+
 ## API Key
 
 If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, you can set the API key header in the API category configuration. The API key header will be applied to all requests.
