@@ -91,27 +91,34 @@ export const data = defineData({
 **NOTE:** To comply with the GraphQL spec, at least one query is required for a schema to be valid. Otherwise, deployments will fail with a schema error. The Amplify Data schema is auto-generated with a `Todo` model and corresponding queries under the hood. You can leave the `Todo` model in the schema until you add the first custom query to the schema in the next steps.
 </Callout>
 
-Once the deployment successfully completes, navigate to the AppSync console and select your Amplify-generated API. Follow these steps to create a new DynamoDB table:
+Once the deployment successfully completes, you need to create a DynamoDB table that will serve as your external data source. You can create this table using the AWS Console, AWS CLI, or AWS CDK. For this example, we'll create it using the DynamoDB console:
 
-1. On the **Schema** page, choose **Create Resources**.
+1. Navigate to the [DynamoDB console](https://console.aws.amazon.com/dynamodb/).
 
-![AWS AppSync console showing navigation pane with "AWS AppSync" expanded and "APIs" > "TestAPI" selected. Main content displays "Schema Info" section with a "Create Resources" button.](/images/create-ddb-resource-0.png)
+2. Choose **Create table**.
 
-2. Choose **Use existing type**, then choose the **Post** type.
+3. For **Table name**, enter `PostTable`.
 
-![AWS AppSync console, "Create Resources" page. A prominent heading reads "Create Resources". Radio buttons are presented for either defining a new type or selecting an existing type for the table creation.](/images/create-ddb-resource-1.png)
+4. For **Partition key**, enter `id` and select **String** as the type.
 
-3. Set the **Primary key** to `id` and the **Sort key** to `None`.
+5. Leave **Sort key** empty (we don't need one for this example).
 
-4. Disable **Automatically generate GraphQL**. In this example, we'll create the resolver ourselves.
+6. Keep the default settings for the remaining options and choose **Create table**.
 
-![AWS AppSync console, "Create a table to hold Post objects" page. A table structure is shown with columns and values of "Table name": "PostTable", "Primary Key": "id", and "Sort key": "None". Below the table, there is an option to "Automatically generate GraphQL" which is disabled.](/images/create-ddb-resource-2.png)
+Alternatively, you can create the table using the AWS CLI:
 
-5. Choose **Create**.
+```bash
+aws dynamodb create-table \
+    --table-name PostTable \
+    --attribute-definitions \
+        AttributeName=id,AttributeType=S \
+    --key-schema \
+        AttributeName=id,KeyType=HASH \
+    --provisioned-throughput \
+        ReadCapacityUnits=5,WriteCapacityUnits=5
+```
 
-You now have a new DynamoDB table named `PostTable`, which you can see by visiting `Data sources` in the side tab. You will use this table as the data source for your custom queries and mutations to your Amazon DynamoDB table.
-
-![AWS AppSync console, 'Data sources' page. The page shows a list of existing data sources connected to an API. The data sources include an Amazon DynamoDB table named 'PostTable' and another table named 'Todo'.*](/images/create-ddb-resource-3.png)
+You now have a new DynamoDB table named `PostTable` that exists independently of your Amplify-generated resources. You will use this table as the data source for your custom queries and mutations.
 
 
 ## Step 2 - Add your Amazon DynamoDB table as a data source
