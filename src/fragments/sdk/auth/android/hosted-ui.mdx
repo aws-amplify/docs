@@ -19,23 +19,23 @@ amplify add auth     ## "amplify update auth" if already configured
 Choose the following options (the last steps are specific to Facebook here but are similar for other providers):
 
 ```console
-? Do you want to use the default authentication and security configuration? 
+? Do you want to use the default authentication and security configuration?
     `Default configuration with Social Provider (Federation)`
-? How do you want users to be able to sign in? 
+? How do you want users to be able to sign in?
     `Username`
-? Do you want to configure advanced settings? 
+? Do you want to configure advanced settings?
     `No, I am done.`
-? What domain name prefix you want us to create for you? 
+? What domain name prefix you want us to create for you?
     `(default)`
-? Enter your redirect signin URI: 
+? Enter your redirect signin URI:
     `http://localhost:3000/`
-? Do you want to add another redirect signin URI 
+? Do you want to add another redirect signin URI
     `No`
-? Enter your redirect signout URI: 
+? Enter your redirect signout URI:
     `http://localhost:3000/`
-? Do you want to add another redirect signout URI 
+? Do you want to add another redirect signout URI
     `No`
-? Select the social providers you want to configure for your user pool: 
+? Select the social providers you want to configure for your user pool:
     `<choose your provider and follow the prompts to input the proper tokens>`
 ```
 
@@ -311,7 +311,7 @@ Note: The User Pool OIDC JWT token obtained from a successful sign-in will be fe
 
 You can use `AWSMobileClient` to use `Auth0` as `OAuth 2.0`  provider.
 You can use `Auth0` as one of the providers of your Cognito Federated Identity Pool.
-This will allow users authenticated via Auth0 have access to your AWS resources. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/integrations/integrating-auth0-amazon-cognito-mobile-apps)
+This will allow users authenticated via Auth0 have access to your AWS resources. Learn [how to integrate Auth0 with Cognito Federated Identity Pools](https://auth0.com/docs/customize/integrations/aws/amazon-cognito)
 
 ### Setup Auth0 Hosted UI in Android App
 
