@@ -142,6 +142,7 @@
     "AppClientIDWeb",
     "AppClientSecret",
     "appcompat",
+    "APPDATA",
     "AppDelegate.m",
     "AppDelegate.swift",
     "AppDelegate",
