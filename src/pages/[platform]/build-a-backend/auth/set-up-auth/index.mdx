@@ -47,13 +47,35 @@ export const auth = defineAuth({
 })
 ```
 
-By default, your auth resource is scaffolded using `email` as the default login mechanism. You can also configure your auth resource to allow signing in with phone numbers or an external provider such as Google, Facebook, Amazon, or Sign in with Apple.
+By default, your auth resource is scaffolded using `email` as the default login mechanism. You can also configure your auth resource to allow signing in with:
+
+- Phone numbers
+- External providers (Google, Facebook, Amazon, or Sign in with Apple)
+- [Passwordless authentication](/[platform]/build-a-backend/auth/concepts/passwordless/) (Email OTP, SMS OTP, or WebAuthn passkeys)
 
 <Callout info>
 
 **Note:** At a minimum you will need to pass a `loginWith` value to set up how your users sign in to your app. Signing in with email and password is configured by default if you do not provide any value.
 
 </Callout>
+
+## Enable passwordless authentication
+
+You can enable passwordless authentication methods to provide a more secure and user-friendly experience:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from '@aws-amplify/backend';
+
+export const auth = defineAuth({
+  loginWith: {
+    email: {
+      otpLogin: true // Enable email-based one-time passwords
+    }
+  }
+});
+```
+
+[Learn more about passwordless authentication options](/[platform]/build-a-backend/auth/concepts/passwordless/).
 
 ## Deploy auth resource
 

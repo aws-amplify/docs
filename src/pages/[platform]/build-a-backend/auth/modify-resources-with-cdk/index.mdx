@@ -65,7 +65,13 @@ cfnUserPool.policies = {
 
 ## Override Cognito UserPool to enable passwordless sign-in methods
 
-You can modify the underlying Cognito user pool resource to enable sign in with passwordless methods. [Learn more about passwordless sign-in methods](/[platform]/build-a-backend/auth/concepts/passwordless/). 
+<Callout info>
+
+**Recommended approach:** Passwordless authentication can now be configured directly in `defineAuth` without requiring CDK overrides. [Learn how to configure passwordless authentication](/[platform]/build-a-backend/auth/concepts/passwordless/).
+
+</Callout>
+
+For advanced use cases, you can still modify the underlying Cognito user pool resource to enable sign in with passwordless methods using CDK overrides. [Learn more about passwordless sign-in methods](/[platform]/build-a-backend/auth/concepts/passwordless/). 
 
 You can also read more about how passwordless authentication flows are implemented in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html).
 
