@@ -51,7 +51,9 @@ By default, your auth resource is scaffolded using `email` as the default login 
 
 - Phone numbers
 - External providers (Google, Facebook, Amazon, or Sign in with Apple)
+<InlineFilter filters={['android', 'angular', 'javascript', 'nextjs', 'react', 'react-native', 'swift', 'vue']}>
 - [Passwordless authentication](/[platform]/build-a-backend/auth/concepts/passwordless/) (Email OTP, SMS OTP, or WebAuthn passkeys)
+</InlineFilter>
 
 <Callout info>
 
@@ -59,7 +61,9 @@ By default, your auth resource is scaffolded using `email` as the default login 
 
 </Callout>
 
-## Enable passwordless authentication
+<InlineFilter filters={['android', 'angular', 'javascript', 'nextjs', 'react', 'react-native', 'swift', 'vue']}>
+
+### Enable passwordless authentication
 
 You can enable passwordless authentication methods to provide a more secure and user-friendly experience:
 
@@ -76,6 +80,8 @@ export const auth = defineAuth({
 ```
 
 [Learn more about passwordless authentication options](/[platform]/build-a-backend/auth/concepts/passwordless/).
+
+</InlineFilter>
 
 ## Deploy auth resource
 
