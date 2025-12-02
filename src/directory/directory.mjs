@@ -49,6 +49,17 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/platform-setup/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/start/mcp-server/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/start/mcp-server/set-up-mcp/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/mcp-server/amplify-workflows/index.mdx'
+                }
+              ]
             }
           ]
         },
