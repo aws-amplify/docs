@@ -30,245 +30,37 @@ export function getStaticProps(context) {
   };
 }
 
-This guide walks you through setting up AWS MCP Server with your AI coding assistant. Once configured, your assistant can access pre-built Amplify workflows, documentation, and execute AWS operations on your behalf.
+Follow the [AWS MCP Server setup guide](https://docs.aws.amazon.com/aws-mcp/latest/userguide/getting-started-aws-mcp-server.html) to configure AWS MCP Server with your AI coding assistant. The guide covers:
 
-## Prerequisites
+- Installing prerequisites (AWS CLI, uv package manager)
+- Configuring your MCP client (Kiro, Cursor, Claude Desktop, and others)
+- Setting up AWS credentials and IAM permissions
+- Testing your connection
 
-Before you begin, make sure you have the following installed:
+## Amplify-specific setup tips
 
-### 1. AWS CLI
+Once you have AWS MCP Server configured, here are some tips for Amplify development:
 
-The AWS CLI is required for authentication. If you don't have it installed, follow the [AWS CLI installation guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+### AWS credentials for Amplify
 
-Verify your installation:
+If you haven't set up AWS credentials for Amplify development yet, follow the [Configure AWS for local development](/[platform]/start/account-setup/) guide. This ensures you have the right permissions for both AWS MCP Server and Amplify CLI operations.
 
-```bash showLineNumbers={false}
-aws --version
+### IAM permissions
+
+The base AWS MCP Server permissions allow your AI assistant to access the guided workflows and documentation. For Amplify development, your credentials also need permissions to create and manage Amplify resources.
+
+If you're using the `AmplifyBackendDeployFullAccess` managed policy for Amplify development, you likely have sufficient permissions. If you encounter permission errors, check with your AWS administrator.
+
+### Verify Amplify workflows are available
+
+After setup, verify that the Amplify workflows are accessible by asking your AI assistant:
+
+```
+Which guided workflows are available for Amplify development?
 ```
 
-### 2. uv package manager
-
-AWS MCP Server uses `uvx` to run the MCP proxy. Install `uv` using one of these methods:
-
-```bash title="macOS/Linux" showLineNumbers={false}
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-```bash title="Windows (PowerShell)" showLineNumbers={false}
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-Verify your installation:
-
-```bash showLineNumbers={false}
-uvx --version
-```
-
-<Callout info>
-
-For other installation methods, see the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/).
-
-</Callout>
-
-### 3. AWS credentials
-
-You need AWS credentials configured locally. If you haven't set up credentials yet, follow the [Configure AWS for local development](/[platform]/start/account-setup/) guide.
-
-## Configure your AI coding assistant
-
-Add the AWS MCP Server configuration to your AI coding assistant. Choose your assistant below:
-
-<Accordion title="Kiro" headingLevel="3">
-
-Add the following to your Kiro MCP configuration file (`.kiro/settings/mcp.json` in your workspace or `~/.kiro/settings/mcp.json` for global configuration):
-
-```json title=".kiro/settings/mcp.json"
-{
-  "mcpServers": {
-    "aws-mcp": {
-      "command": "uvx",
-      "timeout": 100000,
-      "transport": "stdio",
-      "args": [
-        "mcp-proxy-for-aws@latest",
-        "https://aws-mcp.us-east-1.api.aws/mcp",
-        "--metadata", "AWS_REGION=us-west-2"
-      ]
-    }
-  }
-}
-```
-
-Replace `us-west-2` with your preferred AWS region.
-
-</Accordion>
-
-<Accordion title="Cursor" headingLevel="3">
-
-Add the following to your Cursor MCP configuration file (`~/.cursor/mcp.json`):
-
-```json title="~/.cursor/mcp.json"
-{
-  "mcpServers": {
-    "aws-mcp": {
-      "command": "uvx",
-      "timeout": 100000,
-      "transport": "stdio",
-      "args": [
-        "mcp-proxy-for-aws@latest",
-        "https://aws-mcp.us-east-1.api.aws/mcp",
-        "--metadata", "AWS_REGION=us-west-2"
-      ]
-    }
-  }
-}
-```
-
-Replace `us-west-2` with your preferred AWS region.
-
-</Accordion>
-
-<Accordion title="Claude Desktop" headingLevel="3">
-
-Add the following to your Claude Desktop configuration file:
-
-- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-
-```json title="claude_desktop_config.json"
-{
-  "mcpServers": {
-    "aws-mcp": {
-      "command": "uvx",
-      "timeout": 100000,
-      "transport": "stdio",
-      "args": [
-        "mcp-proxy-for-aws@latest",
-        "https://aws-mcp.us-east-1.api.aws/mcp",
-        "--metadata", "AWS_REGION=us-west-2"
-      ]
-    }
-  }
-}
-```
-
-Replace `us-west-2` with your preferred AWS region.
-
-</Accordion>
-
-## AWS authentication
-
-AWS MCP Server uses your local AWS credentials to authenticate requests. The server uses [SigV4 (Signature Version 4)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html) to sign all requests to AWS services.
-
-### Using default credentials
-
-If you have a default AWS profile configured, AWS MCP Server will use it automatically. Your credentials are typically stored in `~/.aws/credentials` or configured through IAM Identity Center.
-
-### Using a named profile
-
-To use a specific AWS profile, set the `AWS_PROFILE` environment variable before starting your AI coding assistant:
-
-```bash showLineNumbers={false}
-export AWS_PROFILE=my-profile-name
-```
-
-Or add it to your shell configuration file (`.bashrc`, `.zshrc`, etc.) for persistence.
-
-## IAM permissions
-
-Your AWS credentials need the following permissions to use AWS MCP Server. Attach this policy to your IAM user or role:
-
-```json title="IAM Policy"
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "aws-mcp:InvokeMCP",
-        "aws-mcp:CallReadOnlyTool",
-        "aws-mcp:CallReadWriteTool"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-```
-
-<Callout info>
-
-If you're using the `AmplifyBackendDeployFullAccess` managed policy for Amplify development, you may already have the necessary permissions. Check with your AWS administrator if you encounter permission errors.
-
-</Callout>
-
-## Verify your setup
-
-After configuring your AI coding assistant, verify that AWS MCP Server is working correctly:
-
-1. **Restart your AI coding assistant** to load the new MCP configuration.
-
-2. **Ask your assistant about Amplify**. Try a prompt like:
-
-   ```
-   Which agent workflows are available for Amplify development?
-   ```
-
-3. **Check for MCP connection**. Your assistant should be able to describe the available Amplify workflows, including Backend Implementation, Frontend Integration, and Deployment Guide.
-
-If your assistant can access information about Amplify workflows, your setup is complete!
-
-## Troubleshooting
-
-<Accordion title="MCP server not connecting" headingLevel="3">
-
-If your AI coding assistant can't connect to AWS MCP Server:
-
-1. Verify `uvx` is installed and in your PATH:
-   ```bash showLineNumbers={false}
-   which uvx
-   ```
-
-2. Check that your AWS credentials are configured:
-   ```bash showLineNumbers={false}
-   aws sts get-caller-identity
-   ```
-
-3. Ensure the MCP configuration JSON is valid (no trailing commas, proper quotes).
-
-4. Restart your AI coding assistant after making configuration changes.
-
-</Accordion>
-
-<Accordion title="Permission denied errors" headingLevel="3">
-
-If you see permission errors when using AWS MCP Server:
-
-1. Verify your IAM user or role has the required permissions (see [IAM permissions](#iam-permissions) above).
-
-2. Check that you're using the correct AWS profile:
-   ```bash showLineNumbers={false}
-   echo $AWS_PROFILE
-   ```
-
-3. Verify your credentials are valid:
-   ```bash showLineNumbers={false}
-   aws sts get-caller-identity
-   ```
-
-</Accordion>
-
-<Accordion title="Timeout errors" headingLevel="3">
-
-If requests are timing out:
-
-1. Check your network connection to AWS services.
-
-2. Verify the AWS region in your configuration is correct and accessible.
-
-3. Try increasing the `timeout` value in your MCP configuration (the default is 100000ms).
-
-</Accordion>
+Your assistant should describe the Backend Implementation, Frontend Integration, and Deployment Guide workflows.
 
 ## Next steps
 
-Now that you have AWS MCP Server configured, learn about the [pre-built Amplify workflows](/[platform]/start/mcp-server/amplify-workflows/) available to accelerate your development.
+Now that you have AWS MCP Server configured, learn about the [guided workflows](/[platform]/start/mcp-server/amplify-workflows/) available to accelerate your Amplify development.
