@@ -338,21 +338,11 @@ To get the best results from AWS MCP Server, keep these tips in mind:
 - **Ask follow-up questions** if you need clarification on any step
 - **Request explanations** if you want to understand why certain patterns are recommended
 
-## Triggering workflows automatically
-
-The guided workflows are designed to activate naturally when you use certain phrases in your prompts:
-
-- **"Guide me through..."** or **"Walk me through..."** - Signals you want step-by-step guidance
-- **"...following Amplify best practices"** - Triggers the AI to look up recommended patterns
-- **"Help me set up..."** - Indicates you want structured assistance
-
-These phrases help your AI assistant recognize that it should use the pre-built workflows rather than generating ad-hoc solutions.
-
 ### Optional: Steering files for teams
 
-For teams that want guaranteed consistency across all developers, you can add steering files that explicitly instruct the AI to always use the workflows. This is optional—the prompt patterns above work well for most use cases.
+For guaranteed consistency across all developers, you can add steering files that instruct the AI to always use the workflows.
 
-<Accordion title="Kiro" headingLevel="3">
+<Accordion title="Amazon Kiro (IDE/CLI)" headingLevel="3">
 
 Create a steering file at `.kiro/steering/amplify.md`:
 
@@ -368,7 +358,7 @@ When working on Amplify projects, use the AWS MCP Server guided workflows:
 
 </Accordion>
 
-<Accordion title="Claude Code" headingLevel="3">
+<Accordion title="Claude (Code/Desktop)" headingLevel="3">
 
 Add to your `CLAUDE.md` file in the project root:
 
