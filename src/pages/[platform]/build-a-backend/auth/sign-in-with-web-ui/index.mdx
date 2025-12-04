@@ -123,6 +123,26 @@ RxAmplify.Auth.signInWithWebUI(this)
 </Block>
 </BlockSwitcher>
 
+### Additional options during signIn
+
+You may pass additional parameters to the `Amplify.Auth.signInWithWebUI` which are added as query parameters in the requests to [Cognito authorization endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html).
+
+```kotlin
+val options = AWSCognitoAuthWebUISignInOptions.builder()
+        .nonce("randomUUID")
+        .language("en")
+        .loginHint("username")
+        .prompt(AuthWebUIPrompt.LOGIN, AuthWebUIPrompt.CONSENT)
+        .resource("https://localhost")
+        .build()
+
+Amplify.Auth.signInWithWebUI(
+    this,
+    options,
+    result -> Log.i("AuthQuickStart", result.toString()),
+    error -> Log.e("AuthQuickStart", error.toString())
+);
+```
 
 </InlineFilter>
 <InlineFilter filters={['swift']}>
@@ -262,6 +282,25 @@ try await Amplify.Auth.signInWithWebUI(
 }
 ```
 
+### Additional options during signIn
+
+You may pass additional parameters to the `Amplify.Auth.signInWithWebUI` which are added as query parameters in the requests to [Cognito authorization endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html).
+
+```swift
+let options = AuthWebUISignInRequest.Options(
+    pluginOptions: AWSAuthWebUISignInOptions.init(
+        nonce: "randomUUID",
+        language: "en",
+        loginHint: "username",
+        prompt: [.login, .consent],
+        resource: "http://localhost"))
+
+let signInResult = try await Amplify.Auth.signInWithWebUI(
+    presentationAnchor: self.view.window!,
+    options: options)
+```
+
+
 </InlineFilter>
 <InlineFilter filters={['flutter']}>
 ## Prerequisites
@@ -393,6 +432,30 @@ Future<void> signInWithWebUIAndPrivateSession() async {
       ),
     ),
   );
+}
+```
+
+### Additional options during signIn
+
+You may pass additional parameters to the `Amplify.Auth.signInWithWebUI` which are added as query parameters in the requests to [Cognito authorization endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html).
+
+```dart
+Future<void> signInWithWebUIAndOptions() async {
+  try {
+    final result = await Amplify.Auth.Amplify.Auth.signInWithWebUI(
+        options: SignInWithWebUIOptions(pluginOptions: CognitoSignInWithWebUIPluginOptions(
+          nonce: 'randomUUID',
+          language: 'en',
+          loginHint: 'username',
+          prompt: List.from([CognitoSignInWithWebUIPrompt.login, CognitoSignInWithWebUIPrompt.consent]),
+          resource: 'http://localhost'
+        )
+      )
+    );
+    safePrint('Sign in result: $result');
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
+  }
 }
 ```
 
