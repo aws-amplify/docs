@@ -209,8 +209,8 @@ do {
 
 ```dart
 final newTeam = Team(mantra: "Go Fullstack!");
-final newTeamRequest = ModelMutations.create(team);
-final newTeamResponse = await Amplify.API.mutate(request: teamRequest).response;
+final newTeamRequest = ModelMutations.create(newTeam);
+final newTeamResponse = await Amplify.API.mutate(request: newTeamRequest).response;
 
 final memberWithUpdatedTeam = existingMember.copyWith(team: newTeamResponse.data);
 final memberUpdateRequest = ModelMutations.update(memberWithUpdatedTeam);
@@ -559,7 +559,7 @@ final customer = Customer(name: "Rene");
 final customerRequest = ModelMutations.create(customer);
 final customerResponse = await Amplify.API.mutate(request: customerRequest).response;
 
-final cart = Cart(items: ["Tomato", "Ice", "Mint"], customer: teamResponse.customer);
+final cart = Cart(items: ["Tomato", "Ice", "Mint"], customer: customerResponse.customer);
 final cartRequest = ModelMutations.create(cart);
 final cartResponse = await Amplify.API.mutate(request: cartRequest).response;
 ```
