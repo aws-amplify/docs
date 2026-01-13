@@ -33,6 +33,8 @@ Files can be removed from a storage bucket using the `remove` API. If a file is 
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
+## Remove a single file
+
 You can also perform a remove operation from a specific bucket by providing the target bucket's assigned name from Amplify Backend in `bucket` option.
 
 ```javascript
@@ -68,6 +70,103 @@ try {
   console.log('Error ', error);
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs"]}>
+
+## Remove folders
+
+You can remove entire folders and their contents by providing a folder path. The remove API will automatically detect folders and perform batch deletion of all contained files.
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  const result = await remove({ 
+    path: 'album/2024/',  // Folder path ending with '/'
+    options: {
+      onProgress: (progress) => {
+        console.log(`Deleted: ${progress.deleted?.length || 0} files`);
+        console.log(`Failed: ${progress.failed?.length || 0} files`);
+      }
+    }
+  });
+  console.log('Folder removed:', result.path);
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+### Folder deletion with progress tracking
+
+For large folders, you can track the deletion progress and handle any failures:
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  const result = await remove({ 
+    path: 'large-folder/',
+    options: {
+      onProgress: (progress) => {
+        // Track successful deletions
+        if (progress.deleted) {
+          progress.deleted.forEach(item => {
+            console.log(`Successfully deleted: ${item.path}`);
+          });
+        }
+        
+        // Handle failed deletions
+        if (progress.failed) {
+          progress.failed.forEach(item => {
+            console.log(`Failed to delete: ${item.path} - ${item.message}`);
+          });
+        }
+      }
+    }
+  });
+  
+  console.log('Folder deletion completed:', result.path);
+} catch (error) {
+  console.log('Error during folder deletion:', error);
+}
+```
+
+### Cancellable folder deletion
+
+For long-running folder deletions, you can cancel the operation:
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+const deleteOperation = remove({ 
+  path: 'very-large-folder/',
+  options: {
+    onProgress: (progress) => {
+      console.log(`Progress: ${progress.deleted?.length || 0} deleted`);
+    }
+  }
+});
+
+// Cancel the operation if needed
+setTimeout(() => {
+  deleteOperation.cancel();
+  console.log('Deletion cancelled');
+}, 5000);
+
+try {
+  const result = await deleteOperation.result;
+  console.log('Folder removed:', result.path);
+} catch (error) {
+  if (error.name === 'CanceledError') {
+    console.log('Operation was cancelled');
+  } else {
+    console.log('Error:', error);
+  }
+}
+```
+
 </InlineFilter>
 
 
@@ -410,10 +509,16 @@ Future<void> remove() async {
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
 ## More `remove` options
 
 Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
 | bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
+| onProgress | (progress: \{<br/>deleted?: \{path: string\}[];<br/>failed?: \{path: string; code: string; message: string\}[];<br/>\}) => void | Optional | Callback function for tracking folder deletion progress. Called after each batch of files is processed during folder deletion operations. |
+
+
+</InlineFilter>
 </InlineFilter>
