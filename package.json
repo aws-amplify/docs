@@ -14,7 +14,7 @@
     "@aws-amplify/ui-react-ai": "^1.0.0",
     "@docsearch/react": "3",
     "ajv": "^8.16.0",
-    "aws-amplify": "^6.0.9",
+    "aws-amplify": "^6.15.9",
     "next": "^14.2.32",
     "next-image-export-optimizer": "^1.18.0",
     "next-transpile-modules": "^9.0.0",
@@ -100,7 +100,8 @@
     "braces": "^3.0.3",
     "ws": "^8.17.1",
     "tmp": "^0.2.4",
-    "glob": "10.5.0"
+    "glob": "10.5.0",
+    "@smithy/config-resolver": "^4.4.5"
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
