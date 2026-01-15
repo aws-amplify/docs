@@ -101,7 +101,8 @@
     "ws": "^8.17.1",
     "tmp": "^0.2.4",
     "glob": "10.5.0",
-    "@smithy/config-resolver": "^4.4.5"
+    "@smithy/config-resolver": "^4.4.5",
+    "diff": "^8.0.3"
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
