@@ -14,7 +14,7 @@
   }
 }
 
-@media (min-width: $toc-min) {
+@media (min-width: $mq-mobile) {
   .layout-search__search {
     &--toc {
       margin-inline-end: calc(

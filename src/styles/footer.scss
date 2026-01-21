@@ -47,7 +47,7 @@
   }
 }
 
-@media (min-width: $toc-min) {
+@media (min-width: $mq-mobile) {
   .footer {
     &--toc {
       margin-inline-end: var(--layout-toc-width);
