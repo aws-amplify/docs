@@ -29,7 +29,7 @@ jobs:
             const { checkProdLinks } = require('./tasks/link-checker.js');
             return await checkProdLinks();
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722 # v4.1.0
+        uses: aws-actions/configure-aws-credentials@a03048d87541d1d9fcf2ecf528a4a65ba9bd7838 # v5.0.0
         with:
           role-to-assume: arn:aws:iam::464149486631:role/github_action_read_slack_webhook_url
           aws-region: us-west-2
