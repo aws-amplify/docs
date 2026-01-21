@@ -139,6 +139,9 @@ export const directory = {
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/multi-step-sign-in/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/error-handling/index.mdx'
                     }
                   ]
                 },
@@ -404,6 +407,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/manage-with-amplify-console/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/storage/error-handling/index.mdx'
                 }
               ]
             },
