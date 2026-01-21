@@ -29,6 +29,6 @@ describe('Callout', () => {
     );
 
     const styles = getComputedStyle(ele.container.children[0]);
-    expect(styles.backgroundColor).toBe('red');
+    expect(styles.backgroundColor).toBe('rgb(255, 0, 0)');
   });
 });
