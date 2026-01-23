@@ -17,6 +17,7 @@
     "aws-amplify": "^6.15.9",
     "next": "~16.1.4",
     "next-image-export-optimizer": "~1.20.1",
+    "node-gyp": "^12.1.0",
     "parse-imports": "^1.1.0",
     "prism-react-renderer": "^2.1.0",
     "prismjs": "^1.30.0",
