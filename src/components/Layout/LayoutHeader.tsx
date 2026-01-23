@@ -23,12 +23,14 @@ import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 export const LayoutHeader = ({
   currentPlatform,
   isGen1,
+  isLegacy,
   pageType = 'inner',
   showLastUpdatedDate = true,
   showTOC
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
+  isLegacy: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
@@ -129,13 +131,14 @@ export const LayoutHeader = ({
             <IconDoubleChevron />
             <VisuallyHidden>Close menu</VisuallyHidden>
           </Button>
-
+          {isLegacy ?
           <div className="layout-sidebar-platform">
             <PlatformNavigator
               currentPlatform={currentPlatform}
               isGen1={isGen1}
             />
-          </div>
+          </div> : <></>
+          }
 
           <div className="layout-sidebar-menu">
             <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />

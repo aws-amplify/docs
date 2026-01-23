@@ -1,0 +1,346 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Listen to auth events',
+  description: 'Listen to various auth events',
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, and personalize the user's experience. You can listen to and respond to events across the Auth lifecycle such as sign-in and sign-out. In this guide we will describe how you can listen to these auth events.
+
+Before you begin, you will need:
+
+- An Amplify project with the Auth category configured
+- The Amplify libraries installed and configured
+
+## Expose hub events triggered in response to auth actions
+
+You can use Amplify Hub with its built in Amplify Auth events to subscribe a listener using a publish-subscribe pattern and capture events between different parts of your application. The Amplify Auth category publishes in the `auth` channel when auth events such as `signIn`, `signUp`, and `signOut` happen independent from your app code.
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
+You can review the Amplify Hub guide to [learn more](/legacy/gen1/[platform]/build-a-backend/utilities/hub/).
+
+<Callout warning>
+
+Channels are logical group names that help you organize dispatching and listening. However, some channels are protected and cannot be used to publish custom events, and `auth` is one of these channels. Sending unexpected payloads to protected channels can have undesirable side effects such as impacting authentication flows. See the [Amplify Hub](/legacy/gen1/[platform]/build-a-backend/utilities/hub/) guide for more protected channels.
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+You can review the Amplify Hub guide to [learn more](/legacy/gen1/[platform]/build-a-backend/utilities/hub/).
+
+<Callout warning>
+
+Channels are logical group names that help you organize dispatching and listening. However, some channels are protected and cannot be used to publish custom events, and `auth` is one of these channels. Sending unexpected payloads to protected channels can have undesirable side effects such as impacting authentication flows. See the [Amplify Hub](/legacy/gen1/[platform]/build-a-backend/utilities/hub/) guide for more protected channels.
+
+</Callout>
+
+</InlineFilter>
+
+Here is a basic example of setting up a listener that logs an event emitted through the `auth` channel:
+
+```javascript
+import { Hub } from 'aws-amplify';
+
+const listener = (data) => {
+  console.log(data);
+};
+
+Hub.listen('auth', listener);
+```
+
+Once your app is set up to subscribe and listen to specific event types from the `auth` channel, the listeners will be notified asynchronously when an event occurs. This pattern allows for a one-to-many relationship where one auth event can be shared with many different listeners that have been subscribed. This lets your app react based on the event rather than proactively poll for information.
+
+Additionally, you can set up your listener to extract data from the event payload and execute a callback that you define. For example, you might update UI elements in your app to reflect your user's authenticated state after the `signIn` or `signOut` events, listen for `signUp` events to capture user registrations, or capture metrics after a success or failure.
+
+### Listen to and log auth events
+
+One of the most common workflows will be to log events. In this example you can see how you can listen and target specific `auth` events using a `switch` to log your own messages.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Hub } from 'aws-amplify';
+
+const listener = (data) => {
+  switch (data?.payload?.event) {
+    case 'configured':
+      console.log('the Auth module is configured');
+      break;
+    case 'signIn':
+      console.log('user signed in');
+      break;
+    case 'signIn_failure':
+      console.log('user sign in failed');
+      break;
+    case 'signUp':
+      console.log('user signed up');
+      break;
+    case 'signUp_failure':
+      console.log('user sign up failed');
+      break;
+    case 'confirmSignUp':
+      console.log('user confirmation successful');
+      break;
+    case 'completeNewPassword_failure':
+      console.log('user did not complete new password flow');
+      break;
+    case 'autoSignIn':
+      console.log('auto sign in successful');
+      break;
+    case 'autoSignIn_failure':
+      console.log('auto sign in failed');
+      break;
+    case 'forgotPassword':
+      console.log('password recovery initiated');
+      break;
+    case 'forgotPassword_failure':
+      console.log('password recovery failed');
+      break;
+    case 'forgotPasswordSubmit':
+      console.log('password confirmation successful');
+      break;
+    case 'forgotPasswordSubmit_failure':
+      console.log('password confirmation failed');
+      break;
+    case 'verify':
+      console.log('TOTP token verification successful');
+      break;
+    case 'tokenRefresh':
+      console.log('token refresh succeeded');
+      break;
+    case 'tokenRefresh_failure':
+      console.log('token refresh failed');
+      break;
+    case 'cognitoHostedUI':
+      console.log('Cognito Hosted UI sign in successful');
+      break;
+    case 'cognitoHostedUI_failure':
+      console.log('Cognito Hosted UI sign in failed');
+      break;
+    case 'customOAuthState':
+      console.log('custom state returned from CognitoHosted UI');
+      break;
+    case 'customState_failure':
+      console.log('custom state failure');
+      break;
+    case 'parsingCallbackUrl':
+      console.log('Cognito Hosted UI OAuth url parsing initiated');
+      break;
+    case 'userDeleted':
+      console.log('user deletion successful');
+      break;
+    case 'updateUserAttributes':
+      console.log('user attributes update successful');
+      break;
+    case 'updateUserAttributes_failure':
+      console.log('user attributes update failed');
+      break;
+    case 'signOut':
+      console.log('user signed out');
+      break;
+    default:
+      console.log('unknown event type');
+      break;
+  }
+};
+
+Hub.listen('auth', listener);
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Hub } from 'aws-amplify';
+
+const listener = (data) => {
+  switch (data?.payload?.event) {
+    case 'configured':
+      console.log('the Auth module is configured');
+      break;
+    case 'signIn':
+      console.log('user signed in');
+      break;
+    case 'signIn_failure':
+      console.log('user sign in failed');
+      break;
+    case 'signUp':
+      console.log('user signed up');
+      break;
+    case 'signUp_failure':
+      console.log('user sign up failed');
+      break;
+    case 'confirmSignUp':
+      console.log('user confirmation successful');
+      break;
+    case 'completeNewPassword_failure':
+      console.log('user did not complete new password flow');
+      break;
+    case 'autoSignIn':
+      console.log('auto sign in successful');
+      break;
+    case 'autoSignIn_failure':
+      console.log('auto sign in failed');
+      break;
+    case 'forgotPassword':
+      console.log('password recovery initiated');
+      break;
+    case 'forgotPassword_failure':
+      console.log('password recovery failed');
+      break;
+    case 'forgotPasswordSubmit':
+      console.log('password confirmation successful');
+      break;
+    case 'forgotPasswordSubmit_failure':
+      console.log('password confirmation failed');
+      break;
+    case 'verify':
+      console.log('TOTP token verification successful');
+      break;
+    case 'tokenRefresh':
+      console.log('token refresh succeeded');
+      break;
+    case 'tokenRefresh_failure':
+      console.log('token refresh failed');
+      break;
+    case 'cognitoHostedUI':
+      console.log('Cognito Hosted UI sign in successful');
+      break;
+    case 'cognitoHostedUI_failure':
+      console.log('Cognito Hosted UI sign in failed');
+      break;
+    case 'customOAuthState':
+      console.log('custom state returned from CognitoHosted UI');
+      break;
+    case 'customState_failure':
+      console.log('custom state failure');
+      break;
+    case 'parsingCallbackUrl':
+      console.log('Cognito Hosted UI OAuth url parsing initiated');
+      break;
+    case 'userDeleted':
+      console.log('user deletion successful');
+      break;
+    case 'updateUserAttributes':
+      console.log('user attributes update successful');
+      break;
+    case 'updateUserAttributes_failure':
+      console.log('user attributes update failed');
+      break;
+    case 'signOut':
+      console.log('user signed out');
+      break;
+    default:
+      console.log('unknown event type');
+      break;
+  }
+};
+
+Hub.listen('auth', listener);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Stop listening to events
+
+You can also stop listening for messages by calling the result of the `Hub.listen()` function. This may be useful if you no longer need to receive messages in your application flow. This can also help you avoid any memory leaks on low powered devices when you are sending large amounts of data through Amplify Hub on multiple channels.
+
+To stop listening to a certain event, you need to wrap the listener function with a variable and call it once you no longer need it:
+
+```javascript
+/* start listening for messages */
+const hubListenerCancelToken = Hub.listen('auth', (data) => {
+  console.log('Listening for all auth events: ', data.payload.data);
+});
+
+/* later */
+hubListenerCancelToken(); // stop listening for messages
+```
+
+You now have a few use cases and examples for listening to and responding to auth events.
+
+## Conclusion
+
+Congratulations! You finished the **Listen to auth events** guide. In this guide, you learned how to listen for auth events across workflows.
+
+## Next steps
+
+Now that you can listen to auth events you may also want to add some additional features. We recommend you learn more about:
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
+- [Manage user profile](/legacy/gen1/[platform]/prev/build-a-backend/auth/manage-user-profile/)
+- [Set up password change and recovery](/legacy/gen1/[platform]/prev/build-a-backend/auth/manage-passwords/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Manage user profile](/legacy/gen1/[platform]/prev/build-a-backend/auth/manage-user-profile/)
+- [Set up password change and recovery](/legacy/gen1/[platform]/prev/build-a-backend/auth/manage-passwords/)
+
+</InlineFilter>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift","android","flutter"]}>
+
+AWS Cognito Auth Plugin sends important events through Amplify Hub.
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ swift: ios_maintenance }} />
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import ios1 from '/src/fragments/lib-v1/auth/ios/hub_events/10_listen_events.mdx';
+
+<Fragments fragments={{ swift: ios1 }} />
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import android2 from '/src/fragments/lib-v1/auth/android/hub_events/10_listen_events.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+import flutter3 from '/src/fragments/lib-v1/auth/flutter/hub_events/10_listen_events.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />
+
+</InlineFilter>

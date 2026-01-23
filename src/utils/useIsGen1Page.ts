@@ -7,5 +7,5 @@ import { useRouter } from 'next/router';
 export function useIsGen1Page() {
   const router = useRouter();
 
-  return router.asPath.startsWith('/gen1');
+  return router.asPath.startsWith('/legacy/gen1');
 }

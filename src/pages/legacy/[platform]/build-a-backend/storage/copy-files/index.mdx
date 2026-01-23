@@ -1,0 +1,202 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Copy files',
+  description: 'Copy files using Amplify Storage',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'vue',
+    'flutter',
+    'react-native'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<Callout>
+
+**Note:** You can only copy files up to 5GB in a single operation
+
+</Callout>
+
+You can copy an existing file to a different path within the storage bucket using the copy API.
+
+<InlineFilter filters={["angular","javascript","nextjs","react","vue", "react-native"]}>
+
+The `copy` method duplicates an existing file to a designated path and returns an object `{path: 'destPath'}` upon successful completion.
+
+```javascript
+import { copy } from 'aws-amplify/storage';
+
+const copyFile = async () => {
+  try {
+    const response = await copy({
+      source: {
+        path: `album/2024/${encodeURIComponent('#1.jpg')}`,
+        // Alternatively, path: ({identityId}) => `album/${identityId}/${encodeURIComponent('#1.jpg')`
+      },
+      destination: {
+        path: 'shared/2024/#1.jpg',
+        // Alternatively, path: ({identityId}) => `shared/${identityId}/#1.jpg`
+      },
+    });
+  } catch (error) {
+    console.error('Error', err);
+  }
+};
+```
+<Callout>
+
+The operation can fail if there's a special character in the `source` path. You should URI encode the source
+path with special character. You **don't** need to encode the `destination` path.
+
+</Callout>
+
+<Callout>
+
+Cross identity ID copying is only allowed if the destination path has the the right access rules to allow other authenticated users writing to it.
+
+</Callout>
+
+## Specify a bucket or copy across buckets / regions
+
+You can also perform an `copy` operation to a specific bucket by providing the `bucket` option. This option can either be a string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.
+
+```javascript
+import { copy } from 'aws-amplify/storage';
+
+const copyFile = async () => {
+  try {
+    const response = await copy({
+      source: {
+        path: 'album/2024/1.jpg',
+        // Specify a target bucket using name assigned in Amplify Backend
+        // or bucket name from console and associated region
+        bucket: 'assignedNameInAmplifyBackend',
+        expectedBucketOwner: '123456789012'
+      },
+      destination: {
+        path: 'shared/2024/1.jpg',
+        // Specify a target bucket using name assigned in Amplify Backend
+        // or bucket name from console and associated region
+        bucket: {
+          bucketName: 'generated-second-bucket-name',
+          region: 'us-east-2'
+        },
+        expectedBucketOwner: '123456789013'
+      }
+    });
+  } catch (error) {
+    console.error('Error', error);
+  }
+};
+```
+
+<Callout>
+In order to copy to or from a bucket other than your default, both source and destination must have `bucket` explicitly defined.
+</Callout>
+
+## Copy `source` and `destination` options
+
+Option | Type | Default | Description |
+| -- | :--: | :--: | ----------- |
+| path | string \| <br/>(\{ identityId \}) => string | Required | A string or callback that represents the path in source and destination bucket to copy the object to or from. <br /> **Each segment of the path in `source` must by URI encoded.** |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/legacy/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets). |
+| eTag | string | Optional | The copy **source object** entity tag (ETag) value. Only Copies the object if its ETag matches the specified tag. |
+| notModifiedSince | Date | Optional | Copies the **source object** if it hasn't been modified since the specified time.  <br /><br/> **This is evaluated only when `eTag` is NOT supplied**|
+| expectedBucketOwner | string | Optional | `source.expectedBucketOwner`: The account ID that owns the source bucket. <br /><br /> `destination.expectedBucketOwner`: The account ID that owns the destination bucket. |
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+User who initiates a copy operation should have read permission on the copy source file.
+
+```dart
+Future<void> copy() async {
+  try {
+    final result = await Amplify.Storage.copy(
+      source: const StoragePath.fromString('album/2024/1.jpg'),
+      destination: const StoragePath.fromString('shared/2024/1.jpg'),
+    ).result;
+    safePrint('Copied file: ${result.copiedItem.path}');
+  } on StorageException catch (e) {
+    safePrint(e);
+  }
+}
+```
+## Specify a bucket or copy across buckets / regions
+
+You can also perform a `copy` operation to a specific bucket by providing the `CopyBuckets` option.
+This option is an object that takes two `StorageBucket` parameters, which can be constructed by the specified name in the Amplify Backend, or the bucket name and region from the console.
+
+```dart
+final mainBucket = StorageBucket.fromOutputs(
+  'mainBucket',
+);
+final bucket2 = StorageBucket.fromBucketInfo(
+  BucketInfo(
+    bucketName: 'second-bucket-name-from-console',
+    region: 'us-east-2',
+  ),
+),
+try {
+  final result = await Amplify.Storage.copy(
+    source: const StoragePath.fromString('album/2024/1.jpg'),
+    destination: const StoragePath.fromString('shared/2024/1.jpg'),
+    options: StorageCopyOptions(
+      buckets: CopyBuckets(
+        source: bucket1,
+        destination: bucket2,
+      ),
+    ),
+  ).result;
+  safePrint('Copied file: ${result.copiedItem.path}');
+} on StorageException catch (e) {
+  print('Error: $e');
+}
+```
+
+<Callout>
+In order to copy to or from a bucket other than your default, the source and/or destination paths must exist in that bucket
+</Callout>
+
+## `copy` options
+
+Option | Type | Description |
+| -- | -- | ----------- |
+| getProperties | boolean | Whether to retrieve properties for the copied object using theAmplify.Storage.getProperties() after the operation completes. When set to true the returned item will contain additional info such as metadata and content type. |
+| buckets | CopyBuckets | An object that accepts two `StorageBucket` parameters. To copy to and from the same bucket, use the `CopyBuckets.sameBucket(targetBucket)` method, where `targetBucket` is a `StorageBucket`. Read more at [Configure additional storage buckets](/legacy/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets)|
+
+Example of `copy` with options:
+
+```dart
+final result = Amplify.Storage.copy(
+  source: const StoragePath.fromString('album/2024/1.jpg'),
+  destination: const StoragePath.fromString('shared/2024/1.jpg'),
+  options: const StorageCopyOptions(
+    pluginOptions: S3CopyPluginOptions(
+      getProperties: true,
+    ),
+    buckets: CopyBuckets.sameBucket(
+      StorageBucket.fromOutputs('secondBucket'),
+    ),
+  ),
+);
+```
+
+</InlineFilter>

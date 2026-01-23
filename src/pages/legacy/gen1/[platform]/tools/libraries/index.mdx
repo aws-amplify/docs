@@ -1,0 +1,55 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Libraries',
+  description: 'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
+  disableTOC: 'true',
+  platforms: [
+    'android',
+    'flutter',
+    'javascript',
+    'react-native',
+    'swift',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of cloud powered operations, enabling mobile and web developers to easily interact with their backends. These libraries are powered by the AWS Cloud. The libraries can be used with both new backends created using the Amplify CLI and existing backend resources.
+
+import ios0 from '/src/fragments/lib/ios.mdx';
+import android1 from '/src/fragments/lib/android.mdx';
+import flutter2 from '/src/fragments/lib/flutter.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+<Fragments fragments={{ android: android1 }} />
+<Fragments fragments={{ flutter: flutter2 }} />
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+## Amplify JavaScript
+
+The Amplify JavaScript libraries are supported for different web and mobile frameworks including React, React Native, Angular, and Vue.
+
+What's next? Here are some things you can add to your app:
+
+- [Authentication](/legacy/gen1/[platform]/build-a-backend/auth/set-up-auth/)
+- [File Storage](/legacy/gen1/[platform]/build-a-backend/storage/set-up-storage/)
+- [Analytics](/legacy/gen1/[platform]/build-a-backend/more-features/analytics/set-up-analytics/)
+- [REST API](/legacy/gen1/[platform]/build-a-backend/restapi/set-up-rest-api/)
+
+</InlineFilter>

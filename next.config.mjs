@@ -1,9 +1,6 @@
-import { createRequire } from 'module';
 import dotenv from 'dotenv';
 import createMDX from '@next/mdx';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props';
-
-const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
@@ -23,9 +20,7 @@ const nextJSConfig = () => {
     }
   });
 
-  const shouldAnalyzeBundles = process.env.ANALYZE === 'true';
-
-  let nextConfig = withMDX({
+  return withMDX({
     output: 'export',
     distDir: 'client/www/next-build',
     generateBuildId: async () => {
@@ -66,21 +61,6 @@ const nextJSConfig = () => {
       'next-image-export-optimizer'
     ]
   });
-
-  if (shouldAnalyzeBundles) {
-    const withNextBundleAnalyzer = require('next-bundle-analyzer')({
-      format: ['json'],
-      reportDir: '../.github/analyze',
-      json: {
-        filter: {
-          pages: true
-        }
-      }
-    });
-    nextConfig = withNextBundleAnalyzer(nextConfig);
-  }
-
-  return nextConfig;
 };
 
 export default nextJSConfig;

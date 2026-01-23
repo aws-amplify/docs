@@ -68,6 +68,9 @@ function generateBreadcrumbs(
       href['query'] = { platform };
     }
     let label = directoryEntry ? directoryEntry.title : url;
+    if(label === '/legacy') {
+      return;
+    }
 
     const override = overrides[url]
       ? overrides[url]
@@ -88,6 +91,7 @@ function generateBreadcrumbs(
 
 function BreadcrumbsComponent({ route, platform }: Props) {
   const items = generateBreadcrumbs(route, platform);
+  console.log('breadcrumbs', items);
   return items.length > 1 ? (
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>

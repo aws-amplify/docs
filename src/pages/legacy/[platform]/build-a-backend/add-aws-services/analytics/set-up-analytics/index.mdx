@@ -1,0 +1,531 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Amplify Analytics',
+  description: 'The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for Amazon Pinpoint and Amazon Kinesis (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amplify enables you to collect analytics data for your app. In order to use Analytics, you will enable [Amazon Kinesis](https://aws.amazon.com/kinesis/) or [Amazon Pinpoint](https://aws.amazon.com/pinpoint/) using the AWS Cloud Development Kit (AWS CDK). The Analytics category uses [Amazon Cognito identity pools](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html) to _identify_ users in your app. Cognito allows you to receive data from authenticated, and unauthenticated users in your app.
+
+<InlineFilter filters={["swift"]}>
+## Prerequisites
+
+An application with Amplify libraries integrated and a minimum target of any of the following:
+- **iOS 13.0**, using **Xcode 14.1** or later.
+- **macOS 10.15**, using **Xcode 14.1** or later.
+- **tvOS 13.0**, using **Xcode 14.3** or later.
+- **watchOS 9.0**, using **Xcode 14.3** or later.
+- **visionOS 1.0**, using **Xcode 15** or later. (Preview support - see below for more details.)
+
+<Callout>
+
+visionOS support is currently in **preview** and can be used by using the latest [Amplify Release](https://github.com/aws-amplify/amplify-swift/releases).
+As new Xcode and visionOS versions are released, the support will be updated with any necessary fixes on a best effort basis.
+
+</Callout>
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+## Prerequisites
+
+* An Android application targeting Android API level 24 (Android 7.0) or above
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+Amplify Flutter requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Refer to [Flutter's supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms) when targeting Web, Windows, or Linux.
+
+</InlineFilter>
+## Set up Analytics backend
+
+Use the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an analytics resource powered by [Amazon Pinpoint](https://aws.amazon.com/pinpoint/).
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend"
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { CfnApp } from "aws-cdk-lib/aws-pinpoint";
+import { Stack } from "aws-cdk-lib/core";
+
+const backend = defineBackend({
+  auth,
+  data,
+  // additional resources
+});
+
+const analyticsStack = backend.createStack("analytics-stack");
+
+// create a Pinpoint app
+const pinpoint = new CfnApp(analyticsStack, "Pinpoint", {
+  name: "myPinpointApp",
+});
+
+// create an IAM policy to allow interacting with Pinpoint
+const pinpointPolicy = new Policy(analyticsStack, "PinpointPolicy", {
+  policyName: "PinpointPolicy",
+  statements: [
+    new PolicyStatement({
+      actions: ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
+      resources: [pinpoint.attrArn + "/*"],
+    }),
+  ],
+});
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(pinpointPolicy);
+
+// patch the custom Pinpoint resource to the expected output configuration
+backend.addOutput({
+  analytics: {
+    amazon_pinpoint: {
+      app_id: pinpoint.ref,
+      aws_region: Stack.of(pinpoint).region,
+    }
+  },
+});
+```
+
+## Install Amplify Libraries
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
+First, install the `aws-amplify` library:
+
+```sh title="Terminal" showLineNumbers={false}
+npm add aws-amplify
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+1. To install the Amplify Libraries in your application, open your project in Xcode and select **File > Add Packages...**.
+
+2. Enter the **Amplify Library for Swift** GitHub repo URL (`https://github.com/aws-amplify/amplify-swift`) into the search bar and click **Add Package**.
+
+  <Callout>
+
+  **Note:** **Up to Next Major Version** should be selected from the **Dependency Rule** dropdown.
+
+  </Callout>
+3. Lastly, add **AWSPinpointAnalyticsPlugin**, **AWSCognitoAuthPlugin**, and **Amplify** to your target. Then click **Add Package**.
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+Expand **Gradle Scripts**, open **build.gradle.kts (Module :app)**. You will already have configured Amplify by following the steps in the quickstart guide.
+
+Add Analytics by adding these libraries into the dependencies block:
+```kotlin title="app/build.gradle.kts"
+android {
+    compileOptions {
+        // Support for modern Java features
+        isCoreLibraryDesugaringEnabled = true
+    }
+}
+
+dependencies {
+    // Amplify API dependencies
+    // highlight-start
+    implementation("com.amplifyframework:aws-analytics-pinpoint:ANDROID_VERSION")
+    implementation("com.amplifyframework:aws-auth-cognito:ANDROID_VERSION")
+    // highlight-end
+    // ... other dependencies
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:ANDROID_DESUGAR_VERSION")
+}
+```
+
+Click **Sync Now**.
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+In your Flutter project directory, open **pubspec.yaml**.
+Add Analytics by adding these libraries into your dependencies block:
+
+```yaml
+dependencies:
+  amplify_analytics_pinpoint: ^2.0.0
+  amplify_auth_cognito: ^2.0.0
+  amplify_flutter: ^2.0.0
+```
+</InlineFilter>
+
+## Initialize Amplify Analytics
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point.
+
+<InlineFilter filters={["javascript", "angular", "react", "vue", "react-native"]}>
+```js title="src/index.js"
+import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+
+Amplify.configure(outputs);
+```
+</InlineFilter>
+
+<InlineFilter filters={['nextjs']}>
+```js title="pages/_app.tsx"
+import { Amplify } from 'aws-amplify';
+import outputs from '@/amplify_outputs.json';
+
+Amplify.configure(outputs);
+```
+</InlineFilter>
+
+<InlineFilter filters= {["swift"]}>
+<Callout warning>
+Make sure to generate the `amplify_outputs.json` file by running the following command:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
+```
+
+Next, move the file to your project. You can do this by dragging and dropping the file into your Xcode project.
+</Callout>
+
+To use the Amplify Analytics and Authentication categories in your app, you need to create and configure their corresponding plugins by calling the `Amplify.add(plugin:)` and `Amplify.configure(with:)` methods.
+
+<BlockSwitcher>
+
+<Block name="SwiftUI">
+
+Add the following imports to the top of your main `App` file:
+
+```swift
+import Amplify
+import AWSCognitoAuthPlugin
+import AWSPinpointAnalyticsPlugin
+```
+
+Add the following code to its initializer. If there is none, you can create a default `init`:
+
+```swift
+init() {
+    do {
+        try Amplify.add(plugin: AWSCognitoAuthPlugin())
+        try Amplify.add(plugin: AWSPinpointAnalyticsPlugin())
+        try Amplify.configure(with: .amplifyOutputs)
+        print("Amplify configured with Auth and Analytics plugins")
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="UIKit">
+
+Add the following imports to the top of your `AppDelegate.swift` file:
+
+```swift
+import Amplify
+import AWSCognitoAuthPlugin
+import AWSPinpointAnalyticsPlugin
+```
+
+Add the following code to the `application:didFinishLaunchingWithOptions` method:
+
+```swift
+func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
+    do {
+        try Amplify.add(plugin: AWSCognitoAuthPlugin())
+        try Amplify.add(plugin: AWSPinpointAnalyticsPlugin())
+        try Amplify.configure(with: .amplifyOutputs)
+        print("Amplify configured with Auth and Analytics plugins")
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
+    }
+
+    return true
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+Upon building and running this application you should see the following in your console window:
+
+```console
+Amplify configured with Auth and Analytics plugin
+```
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+Add the Auth and Analytics plugin, along with any other plugins you may have added as described in the **Project Setup** section;
+
+```dart
+import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+
+import 'amplify_outputs.dart';
+
+Future<void> _configureAmplify() async {
+  // Add Pinpoint and Cognito Plugins, and any other plugins you want to use
+  final analyticsPlugin = AmplifyAnalyticsPinpoint();
+  final authPlugin = AmplifyAuthCognito();
+  await Amplify.addPlugins([analyticsPlugin, authPlugin]);
+}
+```
+
+<Callout>
+
+When running your app on macOS you will need to enable keychain sharing in Xcode, as described in the [Project setup guide](/legacy/gen1/[platform]/start/project-setup/platform-setup/#enable-keychain).
+
+</Callout>
+
+Make sure that the amplify_outputs.dart file generated in the project setup is included and sent to Amplify.configure:
+
+```dart
+import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+
+import 'amplify_outputs.dart';
+
+Future<void> _configureAmplify() async {
+  // ...
+  await Amplify.addPlugins([analyticsPlugin, authPlugin]);
+
+  // Once Plugins are added, configure Amplify
+  // Note: Amplify can only be configured once.
+  try {
+    await Amplify.configure(amplifyConfig);
+  } on AmplifyAlreadyConfiguredException {
+    safePrint(
+      'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',
+    );
+  }
+}
+```
+
+Your class will look like this:
+
+```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:flutter/material.dart';
+
+import 'amplify_outputs.dart';
+
+Future<void> _configureAmplify() async {
+  // Add any Amplify plugins you want to use
+  final analyticsPlugin = AmplifyAnalyticsPinpoint();
+  final authPlugin = AmplifyAuthCognito();
+  await Amplify.addPlugins([analyticsPlugin, authPlugin]);
+
+  // Once Plugins are added, configure Amplify
+  // Note: Amplify can only be configured once.
+  try {
+    await Amplify.configure(amplifyConfig);
+  } on AmplifyAlreadyConfiguredException {
+    safePrint(
+      'Tried to reconfigure Amplify; this can occur when your app restarts on Android.',
+    );
+  }
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _configureAmplify();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}): super(key: key);
+
+  // ...
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+To initialize the Amplify Auth and Analytics categories you call `Amplify.addPlugin()` method for each category. To complete initialization call `Amplify.configure()`.
+
+Add the following code to your `onCreate()` method in your application class:
+
+<Callout warning>
+Before calling the `Amplify.configure` function, make sure to either download the `amplify_outputs.json` file from the console, or generate it with the following command:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx generate outputs --app-id <app-id> --branch main --out-dir app/src/main/res/raw
+```
+
+Next, be sure the file you generated or downloaded is in the appropriate resource directory for your application (for example, `app/src/main/res/raw`) in your Android project. Otherwise, you will not be able to compile your application.
+</Callout>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
+
+```
+
+```java
+Amplify.addPlugin(new AWSCognitoAuthPlugin());
+Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputs
+```
+
+```kotlin
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
+```
+
+Your class will look like this:
+
+```kotlin
+class MyAmplifyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
+            Amplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), applicationContext)
+
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.configuration.AmplifyOutputs;
+import com.amplifyframework.rx.RxAmplify;
+```
+
+```java
+RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin());
+            RxAmplify.configure(AmplifyOutputs.fromResource(R.raw.amplify_outputs), getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+Next Steps:
+
+Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed. Check out the following links to see Amplify Analytics use cases:
+
+- [Record Events](/legacy/[platform]/build-a-backend/add-aws-services/analytics/record-events/)
+- [Track Sessions](/legacy/[platform]/build-a-backend/add-aws-services/analytics/auto-track-sessions/)
+- [Identify User](/legacy/[platform]/build-a-backend/add-aws-services/analytics/identify-user/)
+
+### References
+
+[Amazon Pinpoint Construct Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_pinpoint-readme.html)
+
+<InlineFilter filters={['react-native']}>
+
+## Known Issues
+
+You may encounter the following error when starting the bundler when using Amazon Kinesis (`aws-amplify/analytics/kinesis`), Amazon Kinesis Data Firehose (`aws-amplify/analytics/kinesis-firehose`), Personalize Event (`aws-amplify/analytics/personalize`):
+
+> Error: Unable to resolve module stream from /path/to/node_modules/@aws-sdk/... This is a [known issue](https://github.com/aws/aws-sdk-js-v3/issues/4877). Please follow [the steps](https://github.com/aws/aws-sdk-js-v3/issues/4877#issuecomment-1656007484) outlined in the issue to resolve the error.
+
+</InlineFilter>

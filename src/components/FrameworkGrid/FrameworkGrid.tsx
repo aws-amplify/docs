@@ -90,7 +90,7 @@ export const FrameworkGrid = ({ currentKey }: FrameworkGridProps) => {
           return (
             <li key={key} className="framework-grid__item">
               <Link
-                href={isGen1Page ? `/gen1${href}` : href}
+                href={isGen1Page ? `/legacy/gen1${href}` : `/legacy/${href}`}
                 className={`framework-grid__link${
                   isCurrent ? ' framework-grid__link--current' : ''
                 }`}
