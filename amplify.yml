@@ -5,7 +5,7 @@ frontend:
       commands:
         - corepack enable
         - yarn set version stable
-        - yarn install --frozen-lockfile
+        - yarn install --immutable
     build:
       commands:
         - echo "BUILD_ENV=$BUILD_ENV" >> .env.custom
