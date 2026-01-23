@@ -1,0 +1,262 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up password change and recovery',
+  description: 'Use AWS Cognito Auth plugin to update or reset user password',
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+Amplify Auth provides a secure way for your users to change their password or recover a forgotten password. This securely reduces friction for your users and improves their experience accessing your application.
+
+Before you begin, you will need:
+
+- An Amplify project with the Auth category configured
+- The Amplify libraries installed and configured
+
+## Allow your users to replace a forgotten password
+
+Your users may want to retrieve access to their account and replace a forgotten password. They can either perform self-service and reset the password after verifying ownership of the account, or request an Admin to reset the password for their account.
+
+### Change to a new password via self-service
+
+You can enable self-service by using the `forgotPassword` method. This will send a confirmation code to your user's email or phone number (depending on which attributes are verified in your Cognito user pool) and they can then enter that confirmation code with a new password using the `forgotPasswordSubmit` method. This will allow the user to reset their password and sign in with the new password.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+// Send confirmation code to user's email or phone number
+async function forgotPassword(username: string) {
+  try {
+    const data = await Auth.forgotPassword(username);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// Collect confirmation code and new password
+async function forgotPasswordSubmit(
+  username: string,
+  code: string,
+  newPassword: string
+) {
+  try {
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { Auth } from 'aws-amplify';
+
+// Send confirmation code to user's email
+async function forgotPassword(username) {
+  try {
+    const data = await Auth.forgotPassword(username);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// Collect confirmation code and new password
+async function forgotPasswordSubmit(username, code, newPassword) {
+  try {
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+### Change to a new password after Admin reset
+
+In the case where the user's account password needs to be reset by an Admin, a confirmation code will be sent to your user's email or phone number (depending on which attributes are verified in your Cognito user pool) as soon as the reset is triggered. They can then enter that confirmation code with a new password using the `forgotPasswordSubmit` method. This will allow the user to reset their password and sign in with the new password.
+
+<Callout>
+
+**Note:** An Admin can reset a user's password by going into the Cognito Userpool console, selecting the user, and choosing "Reset password" under the _Actions_ dropdown. This can also be done programmatically using the Cognito API Action `AdminResetUserPassword`. Learn more about [resetting a user's password as an Admin](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminResetUserPassword.html).
+
+</Callout>
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+async function forgotPasswordSubmit(
+  username: string,
+  code: string,
+  newPassword: string
+) {
+  try {
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function forgotPasswordSubmit(username, code, newPassword) {
+  try {
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+Your users can now recover their account and reset to a new password.
+
+## Allow your users to change their password
+
+In other instances you may want your users to be able to change their password over time. You can set this up using the Amplify Libraries.
+
+### Change a password while signed into their account
+
+You can enable your users to change passwords using the `changePassword` method. This will prompt the user to enter their current password `oldPassword` and a new password `newPassword`. If successful, the password will be updated.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+async function changePassword(oldPassword: string, newPassword: string) {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const data = await Auth.changePassword(user, oldPassword, newPassword);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { Auth } from 'aws-amplify';
+
+async function changePassword(oldPassword, newPassword) {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const data = await Auth.changePassword(user, oldPassword, newPassword);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+Now, your users have the ability to change their passwords.
+
+<Accordion title='Troubleshooting validation errors' headingLevel='2' eyebrow='Troubleshooting'>
+
+You may get form validation errors when your user enters an invalid password that does not meet the requirements you have set. For example, if you require a minimum length of eight characters, you'll need to display an error message if the user enters less than eight.
+
+You will also want to wrap your API calls with `try` and `catch` blocks to catch any errors. You can then display user-friendly error messages in the UI so your users know what happened. This will make sure you don't have any silent failures in your user experience.
+
+</Accordion>
+
+## Conclusion
+
+Congratulations! You finished the **Set up user password change and recovery** guide. In this guide, you learned how to enable password changes by your users and help them recover their account and replace their password using a registered email or phone number.
+
+## Next steps
+
+Now that you enabled password management you may also want to add some additional features. We recommend you learn more about:
+
+<InlineFilter filters={["javascript", "angular", "nextjs", "react", "vue"]}>
+
+- [Social sign-in (OAuth)](/legacy/gen1/[platform]/prev/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/legacy/gen1/[platform]/prev/build-a-backend/auth/manage-mfa/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Social sign-in (OAuth)](/legacy/gen1/[platform]/prev/build-a-backend/auth/add-social-provider/)
+- [Multi-factor authentication](/legacy/gen1/[platform]/prev/build-a-backend/auth/manage-mfa/)
+
+</InlineFilter>
+
+</InlineFilter>
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ swift: ios_maintenance }} />
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import ios0 from '/src/fragments/lib-v1/auth/native_common/password_management/common.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import android1 from '/src/fragments/lib-v1/auth/native_common/password_management/common.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter2 from '/src/fragments/lib-v1/auth/native_common/password_management/common.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />

@@ -1,0 +1,72 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Next steps',
+  description: 'Getting started with Amplify - Next steps',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'swift',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+import ios14 from '/src/fragments/start/getting-started/ios/nextsteps.mdx';
+
+<Fragments fragments={{ swift: ios14 }} />
+
+import android15 from '/src/fragments/start/getting-started/android/nextsteps.mdx';
+
+<Fragments fragments={{ android: android15 }} />
+
+import flutter16 from '/src/fragments/start/getting-started/flutter/nextsteps.mdx';
+
+<Fragments fragments={{ flutter: flutter16 }} />
+
+<InlineFilter filters={['javascript','react','angular','react-native','vue', 'nextjs']}>
+
+🎉 Congratulations! Your app is built, with a realtime backend.
+
+What next? Here are some things to add to your app:
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript','react','angular','vue', 'nextjs']}>
+
+- [Authentication](/legacy/gen1/[platform]/build-a-backend/auth/set-up-auth/)
+- [User File Storage](/legacy/gen1/[platform]/build-a-backend/storage/set-up-storage/)
+- [Serverless APIs](/legacy/gen1/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/)
+- [Analytics](/legacy/gen1/[platform]/build-a-backend/more-features/analytics/set-up-analytics/)
+- [AI/ML](/legacy/gen1/[platform]/build-a-backend/more-features/predictions/set-up-predictions/)
+- [PubSub](/legacy/gen1/[platform]/build-a-backend/more-features/pubsub/set-up-pubsub/)
+
+</InlineFilter>
+<InlineFilter filters={['react-native']}>
+
+- [Authentication](/legacy/gen1/[platform]/build-a-backend/auth/set-up-auth/)
+- [User File Storage](/legacy/gen1/[platform]/build-a-backend/storage/set-up-storage/)
+- [Serverless APIs](/legacy/gen1/[platform]/build-a-backend/graphqlapi/set-up-graphql-api/)
+- [Analytics](/legacy/gen1/[platform]/build-a-backend/more-features/analytics/set-up-analytics/)
+- [In-App Messaging](/legacy/gen1/[platform]/build-a-backend/more-features/in-app-messaging/)
+- [Push Notifications](/legacy/gen1/[platform]/build-a-backend/push-notifications/set-up-push-notifications/)
+- [PubSub](/legacy/gen1/[platform]/build-a-backend/more-features/pubsub/set-up-pubsub/)
+
+</InlineFilter>

@@ -17,13 +17,16 @@ export const LEFT_NAV_LINKS = [
   {
     type: 'DEFAULT',
     label: 'UI Library',
-    url: 'https://ui.docs.amplify.aws/',
-    order: 1
+    url: 'https://ui.docs.amplify.aws/'
+  },
+  {
+    type: 'DEFAULT',
+    label: 'Old Docs',
+    url: '/legacy/'
   },
   {
     type: 'DEFAULT',
     label: 'Contribute',
-    url: '/contribute/',
-    order: 2
+    url: '/contribute/'
   }
 ];

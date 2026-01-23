@@ -1,0 +1,276 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use Amazon Location Service SDK',
+  description: 'For specialized use cases where Amplify does not provide the functionality, you can use the escape hatch to access a low-level client instance for Amazon Location Service.',
+  platforms: [
+    'javascript',
+    'swift',
+    'android',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={['javascript', 'angular', 'react', 'vue', 'react-native', 'nextjs']}>
+
+Amplify Geo provides solutions for common use cases with [Amazon Location Service](https://aws.amazon.com/location/) but for any functionality that is not currently supported by Amplify Geo you can access the [Amazon Location Service SDK](https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-location) directly.
+
+Follow this guide to get started with the `aws-sdk` for Amazon Location Service using Amplify Auth credentials.
+
+## Overview
+
+In this tutorial, we’ll go over the following:
+
+- Setting up the AWS SDK JavaScript v3 package for the Amazon Location Service SDK calls with Amplify auth.
+- Code examples using the Amazon Location Service SDK.
+
+## Installing SDK dependencies
+
+The first step to using the SDKs in the client is to install the necessary dependencies with the following command:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-sdk/client-location
+```
+
+## Connecting your app to Amazon Location Service
+
+In the following procedure, you’ll connect your app to the Amazon Location Service APIs.
+
+**To connect your app to the Amazon Location Service**
+
+In your React App, open `src/App.js` file, and call the following function to initialize the Amazon Location Service client:
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
+import {
+  LocationClient,
+  AssociateTrackerConsumerCommand
+} from '@aws-sdk/client-location';
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs);
+
+const createClient = async () => {
+  const session = await fetchAuthSession();
+  const client = new LocationClient({
+    credentials: session.credentials,
+    region: amplifyconfig.aws_project_region
+  });
+  return client;
+};
+```
+
+You’ve now successfully connected your app to the Amazon Location Service.
+
+## Using the Amazon Location Service APIs
+
+In order to access Amazon Location Service APIs, ensure you've provisioned resources and configured your app using the instructions in either [Amplify Geo Maps docs](/legacy/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/) or the [Amazon Location Service console](https://console.aws.amazon.com/location/home#/create).
+
+You can check out the [Amazon Location API Reference documentation](https://docs.aws.amazon.com/location/index.html) for a complete list of supported features.
+
+### Example: Getting Device Position
+
+This example requires you to have first provisioned a Tracker resource using the [Amazon Location Service console](https://console.aws.amazon.com/location/tracking/home#/create).
+
+The following code details how to use the Amazon Location Service APIs to update a device position and get a device position using the tracker you just created:
+
+```javascript
+// UpdateDevicePosition API
+const params = {
+  TrackerName: 'trackerId',
+  Updates: [
+    {
+      DeviceId: 'deviceId',
+      Position: [-122.431297, 37.773972],
+      SampleTime: new Date()
+    }
+  ]
+};
+const command = new BatchUpdateDevicePositionCommand(params);
+client.send(command, (err, data) => {
+  if (err) console.error(err);
+  if (data) console.log(data);
+});
+
+// GetDevicePosition API
+const client = await createClient();
+const params = {
+  TrackerName: 'trackerId',
+  DeviceId: 'deviceId'
+};
+const command = new GetDevicePositionCommand(params);
+client.send(command, (err, data) => {
+  if (err) console.error(err);
+  if (data) console.log(data);
+});
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+If you need functionality in the AWS services used by the Amplify Geo category that isn't available, we provide an escape hatch so you can get a reference to that service.
+
+Note: If you provisioned your Geo resources via CDK, then the IAM policy will be specifically scoped to only allow actions required by the library.
+Please [adjust your authorization permissions](/legacy/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) accordingly for your escape hatch use-cases.
+
+<BlockSwitcher>
+
+<Block name="Java">
+
+<Callout>
+
+Learn more about consuming Kotlin clients from Java using either a blocking interface or an equivalent async interface based on futures [here](https://github.com/awslabs/smithy-kotlin/blob/main/docs/design/kotlin-smithy-sdk.md#java-interop).
+
+</Callout>
+
+```java
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.geo.location.AWSLocationGeoPlugin;
+
+import aws.sdk.kotlin.services.location.LocationClient;
+import aws.sdk.kotlin.services.location.model.ListMapsRequest;
+import aws.sdk.kotlin.services.location.model.ListMapsResponse;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlin.coroutines.CoroutineContext;
+import kotlinx.coroutines.GlobalScope;
+```
+
+```java
+// Obtain reference to the plugin
+AWSLocationGeoPlugin geoPlugin = (AWSLocationGeoPlugin)
+        Amplify.Geo.getPlugin("awsLocationGeoPlugin");
+LocationClient locationClient = geoPlugin.getEscapeHatch();
+
+// Send a new request to the Location Maps endpoint directly using the client
+ListMapsRequest request = ListMapsRequest.Companion.invoke(requestBuilder -> Unit.INSTANCE);
+locationClient.listMaps(request, new Continuation<ListMapsResponse>() {
+    @NonNull
+    @Override
+    public CoroutineContext getContext() {
+        return GlobalScope.INSTANCE.getCoroutineContext();
+    }
+
+    @Override
+    public void resumeWith(@NonNull Object resultOrException) {
+        Log.i("MyAmplifyApp", resultOrException.toString());
+    }
+});
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+import android.util.Log
+import aws.sdk.kotlin.services.location.LocationClient
+import aws.sdk.kotlin.services.location.model.ListMapsRequest
+import com.amplifyframework.core.Amplify
+```
+
+```kotlin
+// Obtain reference to the Amazon Location Service client
+val geoPlugin = Amplify.Geo.getPlugin("awsLocationGeoPlugin")
+val locationClient = geoPlugin.escapeHatch as LocationClient
+
+// Send a new request to the Location Maps endpoint directly using the client
+val request = ListMapsRequest {  }
+val response = locationClient.listMaps(request)
+Log.i("MyAmplifyApp", response.entries.toString())
+```
+
+</Block>
+</BlockSwitcher>
+
+## Documentation Resources
+
+* [How to manage Amazon Location Service resources through console](https://docs.aws.amazon.com/location/latest/developerguide/welcome.html)
+
+**Maps**
+* [Using Amazon Location Maps in your application](https://docs.aws.amazon.com/location/latest/developerguide/using-maps.html)
+* [Amazon Location Maps API Reference](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_Operations.html)
+
+**Places**
+* [Searching place and geolocation data using Amazon Location](https://docs.aws.amazon.com/location/latest/developerguide/searching-for-places.html)
+* [Amazon Location Places API Reference](https://docs.aws.amazon.com/location-places/latest/APIReference/API_Operations.html)
+
+**Device Tracking**
+* [Managing your tracker resources](https://docs.aws.amazon.com/location/latest/developerguide/managing-trackers.html)
+* [Amazon Location Trackers API Reference](https://docs.aws.amazon.com/location-trackers/latest/APIReference/API_Operations.html)
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+If you need functionality in the AWSLocation framework used by the Amplify Geo category that isn't available, we provide an escape hatch so you can reference it directly.
+
+Note: If you provisioned your Geo resources, then the IAM policy will be specifically scoped to only allow actions required by the library. Please [adjust your authorization permissions](/legacy/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) accordingly for your escape hatch use-cases.
+
+```swift
+import AWSLocation
+```
+
+Then retrieve the escape hatch and call methods on `AWSLocation` directly:
+
+```swift
+do {
+    // Retrieve AWSLocationGeoPlugin
+    let plugin = try Amplify.Geo.getPlugin(for: "awsLocationGeoPlugin")
+    guard let locationPlugin = plugin as? AWSLocationGeoPlugin else {
+        return
+    }
+
+    // Retrieve reference to AWSLocation
+    let awsLocation = locationPlugin.getEscapeHatch()
+
+    // Make Request
+    var request = ListMapsInput()
+    request.maxResults = 5
+    let response = try await awsLocation.listMaps(input: request)
+    // handle response ...
+} catch {
+    print("Error occurred while fetching the escape hatch \(error)")
+}
+```
+
+## Documentation Resources
+
+- [How to manage Amazon Location Service resources through console](https://docs.aws.amazon.com/location/latest/developerguide/welcome.html)
+
+**Maps**
+
+- [Using Amazon Location Maps in your application](https://docs.aws.amazon.com/location/latest/developerguide/using-maps.html)
+- [Amazon Location Maps API Reference](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_Operations.html)
+
+**Places**
+
+- [Searching place and geolocation data using Amazon Location](https://docs.aws.amazon.com/location/latest/developerguide/searching-for-places.html)
+- [Amazon Location Places API Reference](https://docs.aws.amazon.com/location-places/latest/APIReference/API_Operations.html)
+
+**Device Tracking**
+
+- [Managing your tracker resources](https://docs.aws.amazon.com/location/latest/developerguide/managing-trackers.html)
+- [Amazon Location Trackers API Reference](https://docs.aws.amazon.com/location-trackers/latest/APIReference/API_Operations.html)
+
+</InlineFilter>

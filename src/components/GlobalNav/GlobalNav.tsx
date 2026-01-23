@@ -27,6 +27,7 @@ export interface NavProps {
   socialLinks?: NavMenuItem[];
   currentSite: string;
   isGen1?: boolean;
+  isLegacy?: boolean;
   mainId: string;
 }
 
@@ -36,7 +37,8 @@ export function GlobalNav({
   leftLinks,
   mainId,
   rightLinks,
-  socialLinks
+  socialLinks,
+  isLegacy
 }: NavProps) {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
@@ -50,6 +52,7 @@ export function GlobalNav({
       <Flex className="nav-links-container">
         <AmplifyNavLink
           isGen1={isGen1}
+          isLegacy={isLegacy}
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
         />

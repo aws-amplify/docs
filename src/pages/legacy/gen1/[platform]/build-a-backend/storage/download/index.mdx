@@ -1,0 +1,375 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Download files',
+  description: 'Learn more about how to download and retrieve files using the Storage category of Amplify',
+  platforms: [
+    'javascript',
+    'flutter',
+    'swift',
+    'android',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["android", "swift"]}>
+
+<Callout info>
+The latest version of Amplify Storage supports specifying S3 objects as a paths.
+We recommend using `path` instead of `key` to specify S3 objects.
+
+Note: `key` parameter is deprecated and may be removed in next major version.
+</Callout>
+
+</InlineFilter>
+
+import android_download from '/src/fragments/lib/storage/android/download.mdx';
+import flutter_download from '/src/fragments/lib/storage/flutter/download.mdx';
+import ios_download from '/src/fragments/lib/storage/ios/download.mdx';
+
+<Fragments
+  fragments={{
+    android: android_download,
+    flutter: flutter_download,
+    swift: ios_download
+  }}
+/>
+
+<InlineFilter filters={['javascript',  'react-native', 'angular', 'nextjs', 'react', 'vue']}>
+
+The following options are available for retrieving previously uploaded data:
+
+## Generate a download URL
+
+Get a presigned URL of a stored file and expiration of URL.
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```typescript
+import { getUrl } from 'aws-amplify/storage';
+
+const getUrlResult = await getUrl({
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+  options: {
+    validateObjectExistence?: false,  // Check if object exists before creating a URL
+    expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+    useAccelerateEndpoint?: true; // Whether to use accelerate endpoint
+  },
+});
+console.log('signed URL: ', getUrlResult.url);
+console.log('URL expires at: ', getUrlResult.expiresAt);
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```typescript
+import { getUrl } from 'aws-amplify/storage';
+
+const getUrlResult = await getUrl({
+  key: 'album/2024/1.jpg',
+  options: {
+    accessLevel?: 'protected' , // can be 'private', 'protected', or 'guest' but defaults to `guest`
+    targetIdentityId?: 'XXXXXXX', // id of another user, if `accessLevel` is `protected`
+    validateObjectExistence?: false,  // Check if object exists before creating a URL
+    expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+    useAccelerateEndpoint?: true; // Whether to use accelerate endpoint
+  },
+});
+console.log('signed URL: ', getUrlResult.url);
+console.log('URL expires at: ', getUrlResult.expiresAt);
+```
+</Block>
+</BlockSwitcher>
+
+`getUrl` returns a signed URL in the `url` property of the result. You can use this to create a download link for users to click on. The `expiresAt` property is a `Date` object that represents the time at which the URL will expire.
+
+Inside your template or JSX code, you can use the `url` property to create a link to the file:
+
+```html
+<a href="{signedURL.url.toString()}" target="_blank" rel="noreferrer">
+  {fileName}
+</a>
+```
+
+<Callout>
+  This function does not check if the file exists by default. As result, the
+  signed URL may fail if the file to be download does not exist.
+</Callout>
+
+### Check for existence of a file
+
+You can check for the existence of a file in the storage category's `getUrl` API using the `validateObjectExistence` option. When this flag is enabled a `getUrl` call will return a pre-signed URL if the file exists and raise a `404` error if it does not. This allows you to check if an object exists during generating the presigned URL, which you can then use to download that object.
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { getUrl } from 'aws-amplify/storage';
+
+// To check for existence of a file
+await getUrl({
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+  options: {
+    validateObjectExistence: true // defaults to false
+  }
+});
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { getUrl } from 'aws-amplify/storage';
+
+// To check for existence of a file
+await getUrl({
+  key: 'album/2024/1.jpg',
+  options: {
+    validateObjectExistence: true // defaults to false
+  }
+});
+```
+</Block>
+</BlockSwitcher>
+
+### getUrl expiry
+
+You can use `expiresIn` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { getUrl } from 'aws-amplify/storage';
+
+await getUrl({
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+  options: { expiresIn: 60 }
+});
+
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { getUrl } from 'aws-amplify/storage';
+
+await getUrl({
+  key: 'album/2024/1.jpg',
+  options: { expiresIn: 60 }
+});
+
+```
+</Block>
+</BlockSwitcher>
+
+<Callout>
+  The expiration time of the presigned url is dependent on the session and will
+  max out at 1 hour.
+</Callout>
+
+## downloadData
+
+Download a file to in-memory buffer.
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Downloads file content to memory
+const { body, eTag } = await downloadData({
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+  options: {
+    onProgress: (event) => {
+      console.log(event.transferredBytes);
+    } // optional progress callback
+    bytesRange: {
+      start: 1024,
+      end: 2048
+    } // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
+  }
+}).result;
+```
+</Block>
+<Block name="With Key (Deprecated)">
+
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Downloads file content to memory
+const { body, eTag } = await downloadData({
+  key: 'album/2024/1.jpg',
+  options: {
+    accessLevel: 'guest', // access level of the file being downloaded
+    targetIdentityId: 'xxxxxxx', // the identity id of another user, required when setting accessLevel to 'protected'
+    onProgress: (event) => {
+      console.log(event.transferredBytes);
+    } // optional progress callback
+    bytesRange: {
+      start: 1024,
+      end: 2048
+    } // optional bytes range parameter to download a part of the file, the 2nd MB of the file in this example
+  }
+}).result;
+```
+</Block>
+</BlockSwitcher>
+
+### Get the text value of downloaded File
+
+You can consume the value of file in any of the three formats: `blob`, `json`, or `text`. You can call the respective method on the `body` property to consume the set data in the respective format.
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+try {
+  const downloadResult = await downloadData({
+    path: 'public/album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+  }).result;
+  const text = await downloadResult.body.text();
+  // Alternatively, you can use `downloadResult.body.blob()`
+  // or `downloadResult.body.json()` get read body in Blob or JSON format.
+  console.log('Succeed: ', text);
+} catch (error) {
+  console.log('Error : ', error);
+}
+```
+</Block>
+<Block name="With Key (Deprecated)">
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+try {
+  const downloadResult = await downloadData({
+    key: 'album/2024/1.jpg'
+  }).result;
+  const text = await downloadResult.body.text();
+  // Alternatively, you can use `downloadResult.body.blob()`
+  // or `downloadResult.body.json()` get read body in Blob or JSON format.
+  console.log('Succeed: ', text);
+} catch (error) {
+  console.log('Error : ', error);
+}
+```
+</Block>
+</BlockSwitcher>
+
+### Track the progress of a download task
+
+To track the progress of your download, you can use `onProgress`:
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Download a file from s3 bucket
+const { body, eTag } = await downloadData(
+  {
+    path: 'public/album/2024/1.jpg',
+    // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+    options: {
+      onProgress: (progress) {
+        console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
+      }
+    }
+  }
+).result;
+```
+</Block>
+
+<Block name="With Key (Deprecated)">
+```javascript
+import { downloadData } from 'aws-amplify/storage';
+
+// Download a file from s3 bucket
+const { body, eTag } = await downloadData(
+  {
+    key: 'album/2024/1.jpg',
+    options: {
+      onProgress: (progress) {
+        console.log(`Download progress: ${(progress.transferredBytes/progress.totalBytes) * 100}%`);
+      }
+    }
+  }
+).result;
+```
+</Block>
+</BlockSwitcher>
+
+### Cancel a download task
+
+<BlockSwitcher>
+<Block name="With Path (Above v6.2.0)">
+```javascript
+import { downloadData, isCancelError } from 'aws-amplify/storage';
+
+const downloadTask = downloadData({
+  path: 'public/album/2024/1.jpg',
+  // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+});
+downloadTask.cancel();
+try {
+  await downloadTask.result;
+} catch (error) {
+  if (isCancelError(error)) {
+    // Handle error thrown by task cancellation.
+  }
+}
+```
+</Block>
+
+<Block name="With Key (Deprecated)">
+```javascript
+import { downloadData, isCancelError } from 'aws-amplify/storage';
+const downloadTask = downloadData({ key: 'album/2024/1.jpg' });
+downloadTask.cancel();
+try {
+  await downloadTask.result;
+} catch (error) {
+  if (isCancelError(error)) {
+    // Handle error thrown by task cancellation.
+  }
+}
+```
+</Block>
+</BlockSwitcher>
+
+<Callout>
+To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
+
+Learn more about how to setup an appropriate [CORS Policy](/legacy/gen1/[platform]/prev/build-a-backend/storage/set-up-storage/#amazon-s3-bucket-cors-policy-setup).
+
+</Callout>
+
+
+### Frequently Asked Questions
+
+Users can run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please vote for what you need, to help the team prioritize.
+
+- [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
+- There is currently [no API for getting the identityId of other users](https://github.com/aws-amplify/amplify-js/issues/5177); you have to retrieve this from elsewhere before calling `downloadData`.
+- `downloadData` does not provide a cache control option and it replies on runtime HTTP caching behavior. If you need to bypass the cache, you can use the `getUrl` API to create a presigned URL for downloading the file.
+- `downloadData` does not support S3 object versioning, it always downloads the latest version.
+- There is no API for [Cognito Group-based access to files](https://github.com/aws-amplify/amplify-js/issues/3388). You may use [Amplify Gen2 Storage](/legacy/[platform]/build-a-backend/storage/authorization/#access-types) to achieve this.
+
+</InlineFilter>

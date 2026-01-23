@@ -101,7 +101,7 @@ async function getMetaStringObj(filePath) {
       // This case happens when we have another exported variable below the meta object.
       throw new Error(
         `Unable to parse meta object for file: "${filePath}". ${err}
-        
+
 Please check the "meta" object for file "${filePath}" and make sure the javascript object is a valid javascript object.
 There might be a missing comma in the object or a missing semicolon at the end of the meta object.
         `
@@ -215,7 +215,7 @@ async function generateDirectory() {
   const categoryKeys = Object.keys(API_CATEGORIES);
   categoryKeys.forEach((cat) => {
     const name = API_CATEGORIES[cat];
-    const route = `/[platform]/build-a-backend/${cat}`;
+    const route = `/legacy/[platform]/build-a-backend/${cat}`;
     const catNode = findDirectoryNode(route, directoryCopy);
     if (catNode) {
       catNode.children.push({
@@ -229,7 +229,7 @@ async function generateDirectory() {
 
   Object.keys(API_SUB_CATEGORIES).forEach((cat) => {
     const name = API_SUB_CATEGORIES[cat];
-    const route = `/[platform]/build-a-backend/add-aws-services/${cat}`;
+    const route = `/legacy/[platform]/build-a-backend/add-aws-services/${cat}`;
     const catNode = findDirectoryNode(route, directoryCopy);
     if (catNode) {
       catNode.children.push({

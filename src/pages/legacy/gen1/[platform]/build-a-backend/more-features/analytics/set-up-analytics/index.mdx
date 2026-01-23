@@ -1,0 +1,219 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Amplify Analytics',
+  description: 'The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for Amazon Pinpoint and Amazon Kinesis (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses [Amazon Cognito Identity pools](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html) to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.
+
+## Goal
+
+To setup and configure your application with Amplify Analytics and record an analytics event.
+
+## Prerequisites
+
+import ios0 from '/src/fragments/lib/analytics/ios/getting-started/10_preReq.mdx';
+
+<Fragments fragments={{ swift: ios0 }} />
+
+import android1 from '/src/fragments/lib/analytics/android/getting-started/10_preReq.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import flutter2 from '/src/fragments/lib/analytics/flutter/getting-started/10_preReq.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+import js1 from '/src/fragments/lib/analytics/js/getting-started/10_preReq.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js1,
+    angular: js1,
+    nextjs: js1,
+    react: js1,
+    vue: js1
+  }}
+/>
+
+import reactnative1 from '/src/fragments/lib/analytics/js/getting-started/10_preReq.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative1 }} />
+
+## Set up Analytics backend
+
+Run the following command in your project's root folder. The CLI will prompt configuration options for the Analytics category such as Amazon Pinpoint resource name and analytics event settings.
+
+> The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
+
+```bash
+amplify add analytics
+```
+
+```console
+? Select an Analytics provider (Use arrow keys)
+    `Amazon Pinpoint`
+? Provide your pinpoint resource name:
+    `yourPinpointResourceName`
+? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting started)
+    `Yes`
+```
+
+To deploy your backend, run:
+
+```bash
+amplify push
+```
+
+import ios3 from '/src/fragments/lib/analytics/ios/getting-started/12_amplifyConfig.mdx';
+
+<Fragments fragments={{ swift: ios3 }} />
+
+import android4 from '/src/fragments/lib/analytics/android/getting-started/12_amplifyConfig.mdx';
+
+<Fragments fragments={{ android: android4 }} />
+
+import flutter5 from '/src/fragments/lib/analytics/flutter/getting-started/12_amplifyConfig.mdx';
+
+<Fragments fragments={{ flutter: flutter5 }} />
+
+import js2 from '/src/fragments/lib/analytics/js/getting-started/12_amplifyConfig.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js2,
+    angular: js2,
+    nextjs: js2,
+    react: js2,
+    vue: js2
+  }}
+/>
+
+import reactnative2 from '/src/fragments/lib/analytics/js/getting-started/12_amplifyConfig.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative2 }} />
+
+## Install Amplify Libraries
+
+import ios6 from '/src/fragments/lib/analytics/ios/getting-started/20_installLib.mdx';
+
+<Fragments fragments={{ swift: ios6 }} />
+
+import android7 from '/src/fragments/lib/analytics/android/getting-started/20_installLib.mdx';
+
+<Fragments fragments={{ android: android7 }} />
+
+import flutter8 from '/src/fragments/lib/analytics/flutter/getting-started/20_installLib.mdx';
+
+<Fragments fragments={{ flutter: flutter8 }} />
+
+import js3 from '/src/fragments/lib/analytics/js/getting-started/20_installLib.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js3,
+    angular: js3,
+    nextjs: js3,
+    react: js3,
+    vue: js3
+  }}
+/>
+
+import reactnative3 from '/src/fragments/lib/analytics/js/getting-started/20_installLib.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative3 }} />
+
+## Initialize Amplify Analytics
+
+import ios9 from '/src/fragments/lib/analytics/ios/getting-started/30_initAnalytics.mdx';
+
+<Fragments fragments={{ swift: ios9 }} />
+
+import android10 from '/src/fragments/lib/analytics/android/getting-started/30_initAnalytics.mdx';
+
+<Fragments fragments={{ android: android10 }} />
+
+import flutter11 from '/src/fragments/lib/analytics/flutter/getting-started/30_initAnalytics.mdx';
+
+<Fragments fragments={{ flutter: flutter11 }} />
+
+import js4 from '/src/fragments/lib/analytics/native_common/getting-started/30_initAnalytics.mdx';
+
+<Fragments
+  fragments={{
+    javascript: js4,
+    angular: js4,
+    nextjs: js4,
+    react: js4,
+    vue: js4
+  }}
+/>
+
+import reactnative4 from '/src/fragments/lib/analytics/native_common/getting-started/30_initAnalytics.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative4 }} />
+
+import ios12 from '/src/fragments/lib/analytics/ios/getting-started/40_record.mdx';
+
+<Fragments fragments={{ swift: ios12 }} />
+
+import android13 from '/src/fragments/lib/analytics/android/getting-started/40_record.mdx';
+
+<Fragments fragments={{ android: android13 }} />
+
+## View Analytics console
+
+If you have not saved the link from before, you can still reach it from the terminal. Run the following command for opening the console.
+
+```console
+amplify console analytics
+```
+
+Next Steps:
+
+Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed. Check out the following links to see Amplify Analytics use cases:
+
+- [Record Events](/legacy/gen1/[platform]/build-a-backend/more-features/analytics/record-events/)
+- [Track Sessions](/legacy/gen1/[platform]/build-a-backend/more-features/analytics/auto-track-sessions/)
+- [Identify User](/legacy/gen1/[platform]/build-a-backend/more-features/analytics/identify-user/)
+
+<InlineFilter filters={['react-native']}>
+
+## Known Issues
+
+When importing alternative service providers listed below, instead of the default Pinpoint provider:
+
+- Kinesis (`aws-amplify/analytics/kinesis`)
+- Kinesis Data Firehose (`aws-amplify/analytics/kinesis-firehose`)
+- Personalize Event (`aws-amplify/analytics/personalize`)
+
+you may encounter the following error when starting the bundler:
+
+> Error: Unable to resolve module stream from /path/to/node_modules/@aws-sdk/... This is a [known issue](https://github.com/aws/aws-sdk-js-v3/issues/4877). Please follow [the steps](https://github.com/aws/aws-sdk-js-v3/issues/4877#issuecomment-1656007484) outlined in the issue to resolve the error.
+
+</InlineFilter>

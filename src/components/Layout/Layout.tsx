@@ -48,6 +48,7 @@ export const Layout = ({
   pageTitle,
   pageType = 'inner',
   platform,
+  isLegacy = false,
   showBreadcrumbs = true,
   showLastUpdatedDate = true,
   url,
@@ -60,6 +61,7 @@ export const Layout = ({
   pageType?: 'home' | 'inner';
   platform?: Platform;
   showBreadcrumbs?: boolean;
+  isLegacy?: boolean;
   showLastUpdatedDate: boolean;
   url?: string;
   useCustomTitle?: boolean;
@@ -74,8 +76,8 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowAIBanner = asPathWithNoHash === '/';
-  const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
+  const shouldShowAIBanner = asPathWithNoHash === '/legacy/';
+  const isGen1 = asPathWithNoHash.split('/')[2] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isHome = pageType === 'home';
@@ -103,8 +105,8 @@ export const Layout = ({
   // show them the correct platform. This is because 404 pages do not have the platform in router.query.platform.
   // For gen1 routes, [platform] is in index 2
   const asPathPlatform = isGen1
-    ? (asPathWithNoHash.split('/')[2] as Platform)
-    : (asPathWithNoHash.split('/')[1] as Platform);
+    ? (asPathWithNoHash.split('/')[3] as Platform)
+    : (asPathWithNoHash.split('/')[2] as Platform);
 
   // Check query parameter as fallback for platform-independent pages
   const queryPlatform = router.query.platform as Platform;
@@ -138,10 +140,9 @@ export const Layout = ({
     }
   }, 20);
 
-  const isGen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//.test(
-    asPathWithNoHash
-  );
-  const isGen1HowAmplifyWorks = /\/gen1\/\w+\/how-amplify-works\//.test(
+  const isGen1GettingStarted =
+    /\/legacy\/gen1\/\w+\/start\/getting-started\//.test(asPathWithNoHash);
+  const isGen1HowAmplifyWorks = /\/legacy\/gen1\/\w+\/how-amplify-works\//.test(
     asPathWithNoHash
   );
 
@@ -258,6 +259,7 @@ export const Layout = ({
                   rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                   currentSite={currentGlobalNavMenuItem}
                   isGen1={isGen1}
+                  isLegacy={isLegacy}
                   mainId={mainId}
                 />
                 <LayoutHeader
@@ -265,6 +267,7 @@ export const Layout = ({
                   isGen1={isGen1}
                   currentPlatform={currentPlatform}
                   pageType={pageType}
+                  isLegacy={isLegacy}
                   showLastUpdatedDate={showLastUpdatedDate}
                 ></LayoutHeader>
                 <View key={asPathWithNoHash} className="layout-main">
