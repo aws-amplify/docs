@@ -1,0 +1,43 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Build UI',
+  description: 'Learn how to build and customize your UI.',
+  route: '/legacy/[platform]/build-ui',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'flutter',
+    'vue',
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+Amplify offers a [UI Library](https://ui.docs.amplify.aws) that makes it easy to build web app user interfaces that are connected to the backend. Amplify UI offers:
+
+* **Connected components** that are designed to work seamlessly with AWS Amplify backend services, allowing you to quickly add common UX patterns for authentication, storage etc. without having to build them from scratch.
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
+* **Tooling** that generates React forms over data, and React components from Figma designs.
+</InlineFilter>
+
+<Overview childPageNodes={props.childPageNodes} />
+

@@ -1,0 +1,410 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Guided workflows',
+  description: 'Learn about the guided workflows available in AWS MCP Server for building Amplify applications.',
+  route: '/legacy/[platform]/start/mcp-server/amplify-workflows',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+AWS MCP Server includes pre-built workflows (called "Agent SOPs" in AWS terminology) that guide your AI coding assistant through complex Amplify development tasks. These workflows encode best practices and ensure consistent, production-ready implementations.
+
+This page describes the three main workflows available and shows you how to use them effectively.
+
+## Available workflows
+
+AWS MCP Server provides three pre-built workflows designed for different stages of Amplify development. These workflows work with both new and existing projects.
+
+| Workflow | Purpose |
+| --- | --- |
+| **Backend Implementation** | Add or modify authentication, data models, storage, functions, and AI features in new or existing backends |
+| **Frontend Integration** | Add Amplify to an existing frontend app or enhance an app that already uses Amplify |
+| **Deployment Guide** | Configure sandbox environments, production deployments, and CI/CD for any Amplify project |
+
+## Backend Implementation workflow
+
+The Backend Implementation workflow helps you add or modify Amplify backend features following best practices. Whether you're starting fresh or adding features to an existing Amplify backend, this workflow guides you through the implementation.
+
+### Supported features
+
+<Accordion title="Authentication (Auth)" headingLevel="4">
+
+The workflow guides you through setting up Amplify Auth, including:
+
+- Configuring sign-up and sign-in flows
+- Setting up multi-factor authentication (MFA)
+- Configuring social sign-in providers (Google, Facebook, Apple, Amazon)
+- Customizing authentication UI components
+- Implementing password policies and account recovery
+
+**Example prompt:**
+```
+Guide me through setting up Amplify authentication with email sign-in and Google social login.
+```
+
+</Accordion>
+
+<Accordion title="Data modeling (Data)" headingLevel="4">
+
+The workflow helps you design and implement your data layer:
+
+- Creating GraphQL schemas with proper relationships
+- Setting up authorization rules for data access
+- Configuring real-time subscriptions
+- Implementing optimistic UI updates
+- Setting up conflict resolution for offline scenarios
+
+**Example prompt:**
+```
+Help me create a data model following Amplify best practices for a blog with posts,
+comments, and user profiles. Posts should only be editable by their authors.
+```
+
+</Accordion>
+
+<Accordion title="File storage (Storage)" headingLevel="4">
+
+The workflow guides storage implementation:
+
+- Configuring S3 buckets with proper access controls
+- Setting up file upload and download functionality
+- Implementing access levels (public, protected, private)
+- Configuring file validation and size limits
+
+**Example prompt:**
+```
+Walk me through adding file storage so users can upload profile pictures with a 5MB limit.
+```
+
+</Accordion>
+
+<Accordion title="Serverless functions (Functions)" headingLevel="4">
+
+The workflow helps you create and deploy Lambda functions:
+
+- Setting up function triggers (API, scheduled, event-driven)
+- Configuring environment variables and secrets
+- Implementing function layers for shared code
+- Setting up proper IAM permissions
+
+**Example prompt:**
+```
+Guide me through creating a Lambda function that sends a welcome email when a new user signs up.
+```
+
+</Accordion>
+
+<Accordion title="AI features (AI)" headingLevel="4">
+
+The workflow guides AI/ML feature integration:
+
+- Setting up Amazon Bedrock for generative AI
+- Implementing text generation and summarization
+- Adding image analysis capabilities
+- Configuring conversation flows
+
+**Example prompt:**
+```
+Help me add an AI summarization feature following Amplify best practices for generative AI.
+```
+
+</Accordion>
+
+## Frontend Integration workflow
+
+The Frontend Integration workflow helps you add Amplify to your frontend application or enhance an existing Amplify integration. Whether you have an existing React, Vue, Angular, or mobile app that needs Amplify, or you're adding new features to an app that already uses Amplify, this workflow provides framework-specific patterns and best practices.
+
+### Framework patterns
+
+The workflow adapts its guidance based on your frontend framework:
+
+<Accordion title="React and Next.js" headingLevel="4">
+
+- Setting up the Amplify client library
+- Using React hooks for authentication state
+- Implementing data fetching with proper loading states
+- Configuring server-side rendering (SSR) for Next.js
+- Using Amplify UI components
+
+**Example prompt:**
+```
+Help me connect my React app to Amplify following best practices. I need a sign-in page and protected routes.
+```
+
+</Accordion>
+
+<Accordion title="Vue and Angular" headingLevel="4">
+
+- Configuring Amplify with framework-specific patterns
+- Implementing authentication guards and state management
+- Setting up data binding with Amplify Data
+- Using framework-appropriate UI components
+
+**Example prompt:**
+```
+Guide me through setting up Amplify in my Vue app with a protected dashboard route.
+```
+
+</Accordion>
+
+<Accordion title="React Native" headingLevel="4">
+
+- Configuring Amplify for mobile development
+- Implementing secure storage for tokens
+- Setting up push notifications
+- Handling offline scenarios with DataStore
+
+**Example prompt:**
+```
+Walk me through adding offline support to my React Native app following Amplify best practices.
+```
+
+</Accordion>
+
+<Accordion title="Flutter" headingLevel="4">
+
+- Setting up Amplify Flutter packages
+- Implementing authentication flows
+- Configuring API and storage access
+- Using Amplify UI components for Flutter
+
+**Example prompt:**
+```
+Help me set up authentication in my Flutter app using the Amplify Authenticator widget.
+```
+
+</Accordion>
+
+<Accordion title="Swift (iOS)" headingLevel="4">
+
+- Configuring Amplify Swift packages
+- Implementing async/await patterns for Amplify operations
+- Setting up Combine publishers for real-time updates
+- Using SwiftUI with Amplify
+
+**Example prompt:**
+```
+Guide me through adding real-time data sync to my SwiftUI app following Amplify best practices.
+```
+
+</Accordion>
+
+<Accordion title="Android (Kotlin)" headingLevel="4">
+
+- Setting up Amplify Android libraries
+- Implementing coroutines for async operations
+- Configuring Jetpack Compose with Amplify
+- Handling Android lifecycle with Amplify
+
+**Example prompt:**
+```
+Walk me through connecting my Kotlin Android app to Amplify with user authentication.
+```
+
+</Accordion>
+
+## Deployment Guide workflow
+
+The Deployment Guide workflow helps you deploy your Amplify application through different stages, from local development to production. This works for new projects as well as existing applications that need deployment configuration or CI/CD setup.
+
+### Sandbox environments
+
+The workflow guides you through setting up personal cloud sandbox environments for development:
+
+- Creating isolated sandbox environments
+- Configuring hot-reload for backend changes
+- Managing sandbox lifecycle
+- Sharing sandbox configurations with team members
+
+**Example prompt:**
+```
+Guide me through setting up an Amplify sandbox environment for testing backend changes.
+```
+
+### Production deployment
+
+The workflow helps you deploy to production:
+
+- Configuring production-ready settings
+- Setting up custom domains
+- Implementing environment variables for different stages
+- Configuring monitoring and logging
+
+**Example prompt:**
+```
+Walk me through deploying my Amplify app to production with a custom domain.
+```
+
+### CI/CD integration
+
+The workflow guides continuous integration and deployment setup:
+
+- Configuring Amplify Hosting for automatic deployments
+- Setting up branch-based deployments (preview, staging, production)
+- Implementing pull request previews
+- Configuring build settings and environment variables
+
+**Example prompt:**
+```
+Help me set up CI/CD following Amplify best practices so my app deploys automatically when I push to main.
+```
+
+## Practical example: Building a fullstack app
+
+Here's an example of how you might use AWS MCP Server to build a complete Amplify application. This demonstrates how the pre-built workflows guide your AI assistant through each step.
+
+### Step 1: Set up the backend
+
+Start by describing your application to your AI assistant:
+
+```
+Help me build a task management app following Amplify best practices. Users should be able to:
+- Sign up and sign in with email
+- Create, edit, and delete their own tasks
+- Mark tasks as complete
+- See their tasks in real-time across devices
+```
+
+Your AI assistant uses the **Backend Implementation workflow** to:
+1. Configure authentication with email sign-in
+2. Create a Task data model with proper authorization rules
+3. Set up real-time subscriptions for task updates
+
+### Step 2: Connect the frontend
+
+Next, ask your assistant to connect your frontend:
+
+```
+Guide me through connecting my React app to the Amplify backend. I need a sign-in page
+and a dashboard that shows the user's tasks with real-time updates.
+```
+
+Your AI assistant uses the **Frontend Integration workflow** to:
+1. Install and configure Amplify libraries
+2. Set up the Authenticator component
+3. Create data fetching hooks for tasks
+4. Implement real-time updates in the UI
+
+### Step 3: Deploy the application
+
+Finally, deploy your application:
+
+```
+Walk me through setting up Amplify deployment so the app deploys automatically when I push
+to GitHub. I also want preview deployments for pull requests.
+```
+
+Your AI assistant uses the **Deployment Guide workflow** to:
+1. Connect your GitHub repository to Amplify Hosting
+2. Configure branch-based deployments
+3. Set up pull request previews
+4. Configure production environment settings
+
+## Tips for effective prompts
+
+To get the best results from AWS MCP Server, keep these tips in mind:
+
+<Callout info>
+
+**Be specific about your requirements.** Instead of "add authentication," try "add authentication with email sign-in, Google social login, and MFA."
+
+</Callout>
+
+- **Describe the user experience** you want, not just the technical implementation
+- **Mention your framework** so the workflow can provide framework-specific guidance
+- **Ask follow-up questions** if you need clarification on any step
+- **Request explanations** if you want to understand why certain patterns are recommended
+
+### Optional: Steering files for teams
+
+For guaranteed consistency across all developers, you can add steering files that instruct the AI to always use the workflows.
+
+<Accordion title="Amazon Kiro (IDE/CLI)" headingLevel="3">
+
+Create a steering file at `.kiro/steering/amplify.md`:
+
+```markdown title=".kiro/steering/amplify.md"
+# Amplify Development Guidelines
+
+When working on Amplify projects, use the AWS MCP Server guided workflows:
+
+- For backend features (auth, data, storage, functions, AI), call `retrieve_agent_sop` with `amplify-backend-implementation`
+- For frontend integration, call `retrieve_agent_sop` with `amplify-frontend-integration`
+- For deployment tasks, call `retrieve_agent_sop` with `amplify-deployment-guide`
+```
+
+</Accordion>
+
+<Accordion title="Claude (Code/Desktop)" headingLevel="3">
+
+Add to your `CLAUDE.md` file in the project root:
+
+```markdown title="CLAUDE.md"
+# Amplify Development Guidelines
+
+When working on Amplify projects, use the AWS MCP Server guided workflows:
+
+- For backend features (auth, data, storage, functions, AI), call `retrieve_agent_sop` with `amplify-backend-implementation`
+- For frontend integration, call `retrieve_agent_sop` with `amplify-frontend-integration`
+- For deployment tasks, call `retrieve_agent_sop` with `amplify-deployment-guide`
+```
+
+</Accordion>
+
+<Accordion title="Cursor" headingLevel="3">
+
+Create a rules file at `.cursor/rules/amplify.mdc`:
+
+```markdown title=".cursor/rules/amplify.mdc"
+---
+description: Amplify development guidelines
+globs:
+  - "amplify/**"
+  - "src/**"
+---
+
+# Amplify Development Guidelines
+
+When working on Amplify projects, use the AWS MCP Server guided workflows:
+
+- For backend features (auth, data, storage, functions, AI), call `retrieve_agent_sop` with `amplify-backend-implementation`
+- For frontend integration, call `retrieve_agent_sop` with `amplify-frontend-integration`
+- For deployment tasks, call `retrieve_agent_sop` with `amplify-deployment-guide`
+```
+
+</Accordion>
+
+## Next steps
+
+Now that you understand the pre-built workflows, try using them in your next Amplify project:
+
+1. [Set up AWS MCP Server](/legacy/[platform]/start/mcp-server/set-up-mcp/) if you haven't already
+2. Start a conversation with your AI assistant about what you want to build
+3. Let the pre-built workflows guide you through implementation
+
+For more information about specific Amplify features, explore the documentation:
+
+- [Authentication](/legacy/[platform]/build-a-backend/auth/)
+- [Data](/legacy/[platform]/build-a-backend/data/)
+- [Storage](/legacy/[platform]/build-a-backend/storage/)
+- [Functions](/legacy/[platform]/build-a-backend/functions/)

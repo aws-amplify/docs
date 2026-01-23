@@ -1,0 +1,80 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Build with AI assistants',
+  description: 'Use AI coding assistants to build fullstack Amplify applications faster with AWS MCP Server.',
+  route: '/legacy/[platform]/start/mcp-server',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ],
+  isNew: true
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+AWS MCP Server brings the power of AI coding assistants to your Amplify development workflow. Using the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)—an open protocol that enables AI tools to access external data and capabilities—you can build, deploy, and manage fullstack Amplify applications faster than ever.
+
+Whether you're using Amazon Kiro, Cursor, Claude Desktop, or another MCP-compatible AI coding assistant, AWS MCP Server provides the context and tools your AI needs to help you build production-ready Amplify applications.
+
+## Why use AWS MCP Server?
+
+Building fullstack applications with Amplify involves many moving parts: authentication, data modeling, storage, serverless functions, and deployment. AWS MCP Server helps your AI coding assistant understand these components and guide you through implementing them correctly.
+
+Instead of copying and pasting from documentation or debugging configuration issues, you can describe what you want to build in natural language. Your AI assistant uses AWS MCP Server to access the right information and execute AWS operations on your behalf.
+
+## Core capabilities
+
+AWS MCP Server provides three core capabilities that enhance your AI-assisted development experience:
+
+### 1. Pre-built workflows
+
+Pre-built workflows (called "Agent SOPs" in AWS terminology) are step-by-step guides that help your AI assistant complete complex Amplify tasks following best practices. These workflows cover common scenarios like:
+
+- **Backend Implementation**: Setting up authentication, data models, storage, serverless functions, and AI features
+- **Frontend Integration**: Connecting your frontend framework to Amplify backend services
+- **Deployment Guide**: Configuring sandbox environments, production deployments, and CI/CD pipelines
+
+When you ask your AI assistant to help with one of these tasks, it follows the pre-built workflow to ensure you get a production-ready implementation.
+
+### 2. Documentation access
+
+AWS MCP Server gives your AI assistant direct access to the latest Amplify documentation. This means your assistant can provide accurate, up-to-date guidance without you needing to search through docs yourself.
+
+The documentation access includes:
+- API references and code examples
+- Configuration options and best practices
+- Troubleshooting guides and common patterns
+
+### 3. AWS API execution
+
+With proper authentication, AWS MCP Server can execute AWS operations directly from your AI assistant. This enables workflows like:
+
+- Creating and configuring Amplify backends
+- Deploying applications to AWS
+- Managing AWS resources
+
+All operations respect your IAM permissions, so your AI assistant can only perform actions you're authorized to do.
+
+## Getting started
+
+Ready to supercharge your Amplify development with AI? Follow these guides to get started:
+
+<Overview childPageNodes={props.childPageNodes} />

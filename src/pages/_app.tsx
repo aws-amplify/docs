@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { trackPageVisit } from '../utils/track';
 
 function MyApp({ Component, pageProps }) {
@@ -20,6 +20,9 @@ function MyApp({ Component, pageProps }) {
   } = pageProps;
 
   const router = useRouter();
+  const isLegacy = useMemo(() => {
+    return router.asPath.startsWith('/legacy');
+  }, [router])
   const { BUILD_ENV } = process.env;
 
   useEffect(() => {
@@ -42,6 +45,7 @@ function MyApp({ Component, pageProps }) {
         pageDescription={meta?.description ? meta.description : ''}
         pageType={pageType}
         url={url}
+        isLegacy={isLegacy}
         platform={platform ? platform : ''}
         hasTOC={hasTOC}
         useCustomTitle={useCustomTitle}
@@ -52,7 +56,7 @@ function MyApp({ Component, pageProps }) {
       </Layout>
     ));
 
-  const favIconColor = router.route.startsWith('/gen1') ? 'teal' : 'purple';
+  const favIconColor = router.route.startsWith('/legacy/gen1') ? 'teal' : 'purple';
   return (
     <>
       <Head>

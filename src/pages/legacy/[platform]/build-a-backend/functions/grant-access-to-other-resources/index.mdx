@@ -1,0 +1,138 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Grant access to other resources',
+  description:
+    'Extend the capabilities of your Function by granting access to other resources',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+In order for Amplify Functions to interact with other resources they must be given access. There are two ways to grant Amplify Functions access to other resources:
+
+1. [Using the `access` property](#using-the-access-property)
+2. [Using the AWS Cloud Development Kit (CDK)](#using-cdk)
+
+## Using the `access` property
+
+The `access` property is a property found in each of the `define*` functions for defining Amplify resources. It allows you specify the necessary actions using common language.
+
+<Callout>
+
+When you grant a function access to another resource in your Amplify backend ([such as granting access to storage](/legacy/[platform]/build-a-backend/storage/#resource-access)), it will configure environment variables for that function to make SDK calls to the AWS services it has access to. Those environment variables are typed and available as part of the `env` object.
+
+</Callout>
+
+Say you have a function that generates reports each month from your Data resource and needs to store the generated reports in Storage:
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from '@aws-amplify/backend';
+import { generateMonthlyReports } from '../functions/generate-monthly-reports/resource';
+
+export const storage = defineStorage({
+  name: 'myReports',
+  access: (allow) => ({
+    'reports/*': [
+      allow.resource(generateMonthlyReports).to(['read', 'write', 'delete'])
+    ]
+  })
+});
+```
+
+This access definition will add the environment variable `myReports_BUCKET_NAME` to the function. This environment variable can be accessed on the `env` object.
+
+Here's an example of how it can be used to upload some content to S3.
+
+```ts title="amplify/functions/generate-monthly-reports/handler.ts"
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { env } from '$amplify/env/generate-monthly-reports';
+
+const s3Client = new S3Client();
+
+export const handler = async () => {
+  const command = new PutObjectCommand({
+    Bucket: env.MY_REPORTS_BUCKET_NAME,
+    Key: `reports/${new Date().toISOString()}.csv`,
+    Body: new Blob([''], { type: 'text/csv;charset=utf-8;' })
+  });
+
+  await s3Client.send(command);
+};
+```
+
+## Using CDK
+
+When permissions are needed to access resources beyond the capabilities of the `access` property, you must use CDK.
+
+Functions are created with an [_execution role_](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html), which is an IAM role that contains policies that dictate what resources your Function can interact with when it executes. This role can be extended using the [`addToRolePolicy()`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.IFunction.html#addwbrtowbrrolewbrpolicystatement) method:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend"
+import * as iam from "aws-cdk-lib/aws-iam"
+import * as sns from "aws-cdk-lib/aws-sns"
+import { weeklyDigest } from "./functions/weekly-digest/resource"
+
+const backend = defineBackend({
+  weeklyDigest,
+})
+
+const weeklyDigestLambda = backend.weeklyDigest.resources.lambda
+
+const topicStack = backend.createStack("WeeklyDigest")
+const topic = new sns.Topic(topicStack, "Topic", {
+  displayName: "digest",
+})
+
+// highlight-start
+const statement = new iam.PolicyStatement({
+  sid: "AllowPublishToDigest",
+  actions: ["sns:Publish"],
+  resources: [topic.topicArn],
+})
+
+weeklyDigestLambda.addToRolePolicy(statement)
+  // highlight-end
+```
+
+However some constructs provide a `grant*` method to grant access to common policy actions. Revisiting the example above you can grant the same access with `grantPublish`:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend"
+import * as sns from "aws-cdk-lib/aws-sns"
+import { weeklyDigest } from "./functions/weekly-digest/resource"
+
+const backend = defineBackend({
+  weeklyDigest,
+})
+
+const weeklyDigestLambda = backend.weeklyDigest.resources.lambda
+
+const topicStack = backend.createStack("WeeklyDigest")
+const topic = new sns.Topic(topicStack, "Topic", {
+  displayName: "digest"
+})
+
+// highlight-next-line
+topic.grantPublish(weeklyDigestLambda)
+```

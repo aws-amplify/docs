@@ -25,10 +25,10 @@ export const GenSwitcher = ({ isGen1, testId }: GenSwitcherProps) => {
           <VisuallyHidden>Open Amplify generation navigation</VisuallyHidden>
         </Popover.Trigger>
         <Popover.List anchor="left" className="gen-switcher__list">
-          <Popover.ListItem href={`/${currentPlatform}`} current={!isGen1}>
+          <Popover.ListItem href={`/legacy/${currentPlatform}`} current={!isGen1}>
             Gen 2 {isGen1 ? '' : <IconCheck className="gen-switcher__check" />}
           </Popover.ListItem>
-          <Popover.ListItem href={`/gen1/${currentPlatform}`} current={isGen1}>
+          <Popover.ListItem href={`/legacy/gen1/${currentPlatform}`} current={isGen1}>
             Gen 1 {isGen1 ? <IconCheck className="gen-switcher__check" /> : ''}
           </Popover.ListItem>
         </Popover.List>

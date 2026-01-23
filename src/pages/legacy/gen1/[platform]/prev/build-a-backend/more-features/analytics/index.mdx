@@ -1,0 +1,40 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Analytics',
+  description: 'Make informed decisions with drop-in analytics to track user sessions, custom user attributes and in-app metrics',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ],
+  route: '/legacy/gen1/[platform]/prev/build-a-backend/more-features/analytics'
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+<Overview childPageNodes={props.childPageNodes} />

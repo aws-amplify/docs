@@ -1,0 +1,48 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Directives reference',
+  description: "A reference document of all Amplify-provided GraphQL directives that enhance your Amplify app's GraphQL API and database",
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities such as custom indexes, authorization rules, function triggers, and more.
+
+| Directive | Description |
+| --- | --- |
+| [`@model`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/) | Defines top level object types in your API that are backed by Amazon DynamoDB |
+| [`@primaryKey`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#configure-a-primary-key) | Configures custom primary key for @model types |
+| [`@index`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#configure-a-secondary-index) | Configures custom secondary index structures for @model types |
+| [`@auth`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules/) | Defines authorization rules for your @model types and fields |
+| [`@hasOne`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#has-one-relationship) | Create a one-directional one-to-one relationship between two models. For example, a Project "has one" Team. This allows you to query the team from the project record |
+| [`@hasMany`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#has-many-relationship) | Create a one-directional one-to-many relationship between two models. For example, a Post has many comments. This allows you to query all the comments from the post record |
+| [`@belongsTo`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#belongs-to-relationship) | Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. For example, a Project has one Team and a Team belongs to a Project. This allows you to query the team from the project record and vice versa |
+| [`@manyToMany`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/data-modeling/#many-to-many-relationship) | Configures a "join table" between two models to facilitate a many-to-many relationship. For example, a Blog has many Tags and a Tag has many Blogs |
+| [`@function`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/custom-business-logic/#lambda-function-resolver) | Configures a Lambda function resolvers for a field |
+| [`@http`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/custom-business-logic/#http-resolver) | Configures an HTTP resolver for a field |
+| [`@predictions`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/connect-machine-learning-services/) | Queries an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly |
+| [`@searchable`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/search-and-result-aggregations/) | Makes your data searchable by streaming it to Amazon OpenSearch |
+| [`@mapsTo`](/legacy/gen1/[platform]/build-a-backend/graphqlapi/schema-evolution/) | Once a table contains production data that cannot be deleted, `@mapsTo` can be used to specify the original name |
