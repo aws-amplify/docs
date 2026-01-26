@@ -1,3 +1,5 @@
+@use "mixins";
+
 .modal {
   position: fixed;
   inset-inline-end: 0;
@@ -19,7 +21,7 @@
   &[open] {
     display: flex;
   }
-  @include darkMode {
+  @include mixins.darkMode {
     background-color: var(--amplify-colors-neutral-10);
     box-shadow: none;
     outline: 5px solid hsla(255, 100%, 100%, 0.1);
@@ -35,7 +37,7 @@
   align-items: center;
   gap: var(--amplify-space-xs);
   font-weight: bold;
-  @include darkMode {
+  @include mixins.darkMode {
     color: var(--amplify-colors-purple-90);
   }
 }
@@ -78,7 +80,7 @@
     background-color: var(--amplify-colors-neutral-90);
   }
 
-  @include darkMode {
+  @include mixins.darkMode {
     &:hover,
     &:focus {
       background-color: var(--amplify-colors-neutral-20);
@@ -101,7 +103,7 @@
   &:hover {
     background-color: var(--amplify-colors-purple-10);
   }
-  @include darkMode {
+  @include mixins.darkMode {
     background-color: var(--amplify-colors-purple-90);
     &:hover {
       background-color: var(--amplify-colors-purple-100);
@@ -116,7 +118,7 @@
   &:hover {
     background-color: var(--amplify-colors-neutral-90);
   }
-  @include darkMode {
+  @include mixins.darkMode {
     &:hover {
       background-color: var(--amplify-colors-neutral-20);
     }

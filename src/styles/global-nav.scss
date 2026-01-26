@@ -1,3 +1,5 @@
+@use "mixins";
+
 .navbar {
   --navbar-background-color: var(--amplify-colors-primary-80);
   --navbar-logo-text-color: var(--amplify-colors-white);
@@ -23,7 +25,7 @@
   width: 100%;
   z-index: 5;
   box-shadow: var(--navbar-box-shadow);
-  @include darkMode {
+  @include mixins.darkMode {
     --navbar-background-color: var(--amplify-colors-primary-40);
   }
 }
@@ -117,7 +119,7 @@
     border: 2px solid var(--navbar-menu-item-focus-border-color);
     color: var(--navbar-menu-item-focus-color);
   }
-  @include darkMode {
+  @include mixins.darkMode {
     &:hover {
       color: var(--amplify-colors-primary-80);
     }
@@ -275,7 +277,7 @@
   --navbar-expander-hover-background-color: var(--amplify-colors-primary-10);
   --navbar-expander-focus-background-color: var(--amplify-colors-primary-10);
   --navbar-expander-focus-box-shadow: var(--amplify-colors-font-primary);
-  @include darkMode {
+  @include mixins.darkMode {
     --navbar-background-color: var(--amplify-colors-neutral-20);
     --navbar-expander-hover-background-color: var(--amplify-colors-neutral-10);
     --navbar-expander-focus-background-color: var(--amplify-colors-neutral-10);

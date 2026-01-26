@@ -1,10 +1,12 @@
+@use "mixins";
+
 .message-banner {
   align-items: start;
   /* Specificity to override Amplify UI color theme */
   &.amplify-message--info {
     border: 1px solid var(--amplify-colors-purple-20);
     background-color: var(--amplify-colors-purple-10);
-    @include darkMode {
+    @include mixins.darkMode {
       background-color: var(--amplify-colors-purple-20);
     }
   }

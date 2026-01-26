@@ -1,3 +1,5 @@
+@use "mixins";
+
 .layout-search__search {
   .DocSearch-Button {
     display: inline-flex;
@@ -57,7 +59,7 @@
     &:last-of-type {
       margin-right: 0;
     }
-    @include darkMode {
+    @include mixins.darkMode {
       color: var(--amplify-colors-neutral-20);
     }
   }

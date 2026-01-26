@@ -1,3 +1,5 @@
+@use "mixins";
+
 code:not([class]) {
   font-family: var(--font-code);
   font-size: var(--amplify-font-sizes-small);
@@ -19,7 +21,7 @@ code:not([class]) {
   }
   .amplify-message & {
     background-color: var(--amplify-colors-overlay-5);
-    @include darkMode {
+    @include mixins.darkMode {
       background-color: var(--amplify-colors-overlay-10);
     }
   }
@@ -35,7 +37,7 @@ code:not([class]) {
   li & {
     margin-block: var(--amplify-space-small);
   }
-  @include darkMode {
+  @include mixins.darkMode {
     --pre-container-background-color: hsl(210, 50%, 13%);
     box-shadow: 0 0 0 2px var(--amplify-colors-neutral-20);
   }
@@ -51,7 +53,7 @@ code:not([class]) {
   padding: var(--amplify-space-xs) 0;
   margin-inline: var(--amplify-space-medium);
   border-bottom: 1px solid var(--pre-header-border-color);
-  @include darkMode {
+  @include mixins.darkMode {
     --pre-header-border-color: var(--amplify-colors-neutral-20);
   }
 }
@@ -127,7 +129,7 @@ code:not([class]) {
     height: 100%;
     top: 0;
   }
-  @include darkMode {
+  @include mixins.darkMode {
     &:before {
       background: var(--amplify-colors-neutral-20);
     }
@@ -200,7 +202,7 @@ code:not([class]) {
       }
     }
   }
-  @include darkMode {
+  @include mixins.darkMode {
     background-color: var(--amplify-colors-neutral-20);
     &:focus-visible {
       &:after {
@@ -273,7 +275,7 @@ hover style on the other */
   &:focus-visible {
     outline-color: var(--code-copy-focus-outline-color);
   }
-  @include darkMode {
+  @include mixins.darkMode {
     --code-copy-hover-background-color: var(--amplify-colors-neutral-20);
     --code-copy-focus-background-color: var(--amplify-colors-neutral-20);
   }

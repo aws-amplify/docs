@@ -1,3 +1,5 @@
+@use "mixins";
+
 .spaceship-inner {
   container-type: inline-size;
 }
@@ -5,7 +7,7 @@
 .spaceship {
   --spaceship-cloud: #fff;
   --spaceship-star: var(--amplify-colors-neutral-100);
-  @include darkMode {
+  @include mixins.darkMode {
     --spaceship-cloud: var(--amplify-colors-neutral-10);
     --spaceship-star: var(--amplify-colors-primary-40);
   }
@@ -70,7 +72,7 @@
         #fff 100%
       );
     }
-    @include darkMode {
+    @include mixins.darkMode {
       background-image: radial-gradient(
         hsla(264, 52%, 56%, 0.11) 0,
         var(--amplify-colors-background-primary) 70%,

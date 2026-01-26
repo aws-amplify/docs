@@ -1,3 +1,5 @@
+@use "mixins";
+
 .amplify-icon {
   transform-origin: center center;
   transition: transform 0.2s ease-out;
@@ -37,14 +39,14 @@
 /* Some logo icons need specific styling for dark mode */
 .icon-js-monochrome-bg {
   fill: hsl(210, 50%, 10%);
-  @include darkMode {
+  @include mixins.darkMode {
     fill: #fff;
   }
 }
 
 .icon-js-monochrome-letter {
   fill: #fff;
-  @include darkMode {
+  @include mixins.darkMode {
     fill: hsl(210, 50%, 10%);
   }
 }
