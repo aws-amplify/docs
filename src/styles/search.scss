@@ -1,8 +1,10 @@
+@use "variables";
+
 .layout-search__search {
   margin-inline-start: auto;
 }
 
-@media (min-width: $mq-mobile) {
+@media (min-width: variables.$mq-mobile) {
   .layout-search__search {
     width: 100%;
     margin-inline-start: 0;
@@ -14,7 +16,7 @@
   }
 }
 
-@media (min-width: $toc-min) {
+@media (min-width: variables.$toc-min) {
   .layout-search__search {
     &--toc {
       margin-inline-end: calc(

@@ -1,3 +1,5 @@
+@use "mixins";
+
 .overview {
   gap: var(--amplify-space-xxl);
   &__link {
@@ -8,7 +10,7 @@
     &:hover &__card__title {
       color: var(--amplify-colors-primary-60);
       text-decoration: none;
-      @include darkMode {
+      @include mixins.darkMode {
         color: var(--amplify-colors-white);
       }
     }

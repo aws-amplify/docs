@@ -1,3 +1,5 @@
+@use "mixins";
+
 .gen-switcher__trigger {
   background-color: transparent;
   color: var(--amplify-colors-white);
@@ -11,7 +13,7 @@
   .popover-icon {
     font-size: var(--amplify-font-sizes-xs);
   }
-  @include darkMode {
+  @include mixins.darkMode {
     &:hover {
       background-color: var(--amplify-colors-primary-10);
     }

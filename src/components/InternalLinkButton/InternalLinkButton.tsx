@@ -18,12 +18,12 @@ export const InternalLinkButton = ({
   onClick
 }: InternalLinkButtonProps) => {
   return (
-    <Link href={href} legacyBehavior={true} passHref={true}>
+    <Link href={href}>
       <Button
         variation={variation}
         gap="small"
         size={size}
-        as="a"
+        as="span"
         className={className}
         onClick={onClick}
       >

@@ -1,3 +1,5 @@
+@use "variables";
+
 .footer {
   flex-direction: column;
   padding: var(--amplify-space-xxl) var(--amplify-space-medium);
@@ -40,14 +42,14 @@
   }
 }
 
-@media (min-width: $mq-mobile) {
+@media (min-width: variables.$mq-mobile) {
   .footer {
     padding: var(--amplify-space-xl);
     margin-inline-start: var(--layout-sidebar-width);
   }
 }
 
-@media (min-width: $toc-min) {
+@media (min-width: variables.$toc-min) {
   .footer {
     &--toc {
       margin-inline-end: var(--layout-toc-width);

@@ -1,3 +1,5 @@
+@use "variables";
+
 .toc {
   flex-direction: column;
   margin-top: var(--amplify-space-large);
@@ -40,7 +42,7 @@
   }
 }
 
-@media (min-width: $toc-min) {
+@media (min-width: variables.$toc-min) {
   .toc {
     width: var(--layout-toc-width);
     background: var(--amplify-colors-background-primary);

@@ -1,3 +1,5 @@
+@use "variables";
+
 .layout-wrapper {
   min-height: 100vh;
   color: var(--amplify-colors-font-primary);
@@ -157,7 +159,7 @@
   }
 }
 
-@media (min-width: $mq-mobile) {
+@media (min-width: variables.$mq-mobile) {
   .search-menu-toggle {
     display: none;
   }
