@@ -87,7 +87,7 @@ export function PlatformNavigator({
                    * we link to the root page for the platform instead.
                    */
                 } else {
-                  href = isGen1 ? `/legacy/gen1${platform.href}` : `/legacy/${platform.href}`;
+                  href = isGen1 ? `/legacy/gen1${platform.href}` : `/legacy${platform.href}`;
                 }
 
                 return (

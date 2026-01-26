@@ -91,7 +91,6 @@ function generateBreadcrumbs(
 
 function BreadcrumbsComponent({ route, platform }: Props) {
   const items = generateBreadcrumbs(route, platform);
-  console.log('breadcrumbs', items);
   return items.length > 1 ? (
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>
@@ -101,14 +100,12 @@ function BreadcrumbsComponent({ route, platform }: Props) {
             <Breadcrumbs.Item key={href.pathname} className="breadcrumb__item">
               <Link
                 href={href}
-                passHref
                 className={classNames(
                   'amplify-link',
                   'amplify-breadcrumbs__link',
                   { 'amplify-breadcrumbs__link--current': isCurrent }
                 )}
-                aria-current={isCurrent || undefined}
-              >
+                aria-current={isCurrent || undefined}>
                 {label}
               </Link>
               {isCurrent ? null : <Breadcrumbs.Separator />}

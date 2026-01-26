@@ -1,3 +1,5 @@
+@use "mixins";
+
 /* Box sizing rules */
 *,
 *::before,
@@ -106,7 +108,7 @@ kbd {
   box-shadow:
     0 1px 0 hsl(0, 0%, 100%) inset,
     0 2px 0 hsla(0, 0%, 0%, 0.2);
-  @include darkMode {
+  @include mixins.darkMode {
     border-color: var(--amplify-colors-neutral-10);
     box-shadow:
       0 1px 0 hsla(0, 0%, 100%, 0.3) inset,

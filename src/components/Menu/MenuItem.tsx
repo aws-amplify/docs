@@ -193,9 +193,7 @@ export function MenuItem({
           className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
           aria-current={current ? 'page' : null}
           href={href}
-          onClick={onLinkClick}
-          passHref
-        >
+          onClick={onLinkClick}>
           <Flex
             className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
           >

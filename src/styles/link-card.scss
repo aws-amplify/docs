@@ -1,3 +1,5 @@
+@use "mixins";
+
 .link-card {
   --link-card-box-shadow: 0 1px 5px hsla(0, 0%, 0%, 0.3);
   border-radius: var(--amplify-radii-medium);
@@ -7,7 +9,7 @@
   color: var(--amplify-colors-font-primary);
   font-weight: var(--amplify-font-weights-bold);
   text-decoration: none;
-  @include darkMode {
+  @include mixins.darkMode {
     --link-card-box-shadow: 0 0 0 2px var(--amplify-colors-neutral-20);
   }
 }

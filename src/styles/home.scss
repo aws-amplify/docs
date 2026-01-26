@@ -1,3 +1,5 @@
+@use "variables";
+
 .home-intro {
   container-type: inline-size;
   flex-direction: column;
@@ -8,7 +10,7 @@
     font-family: var(--font-code);
     font-size: var(--amplify-font-sizes-xxxl);
     text-wrap: pretty;
-    @media (min-width: $mq-mobile) {
+    @media (min-width: variables.$mq-mobile) {
       font-size: var(--amplify-components-heading-1-font-size);
     }
   }

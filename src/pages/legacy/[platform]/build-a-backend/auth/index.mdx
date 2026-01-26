@@ -24,7 +24,6 @@ export async function getStaticPaths() {
 
 export function getStaticProps() {
   const childPageNodes = getChildPageNodes(meta.route);
-  console.log('::: childPageNodes', childPageNodes)
   return {
     props: {
       meta,
