@@ -11,26 +11,25 @@ import {
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
-import { PlatformNavigator } from '@/components/PlatformNavigator';
+import { PlatformNavigator } from '@/legacy/PlatformNavigator';
 import flatDirectory from '@/directory/flatDirectory.json';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
-import { PageLastUpdated } from '../PageLastUpdated';
+import { PageLastUpdated } from '@/legacy/PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import { useIsLegacy } from '@/utils/useIsLegacy';
 
 export const LayoutHeader = ({
   currentPlatform,
   isGen1,
-  isLegacy,
   pageType = 'inner',
   showLastUpdatedDate = true,
   showTOC
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
-  isLegacy: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
@@ -39,6 +38,7 @@ export const LayoutHeader = ({
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
+  const isLegacy = useIsLegacy();
   const asPathWithNoHash = usePathWithoutHash();
 
   const handleMenuToggle = () => {
@@ -79,29 +79,29 @@ export const LayoutHeader = ({
           <IconMenu aria-hidden="true" />
           Menu
         </Button>
-
-        <View
-          className={classNames(
-            'layout-search__search',
-            `layout-search__search--${pageType}`,
-            { 'layout-search__search--toc': showTOC }
-          )}
-        >
-          <View className="layout-search__search__container">
-            <DocSearch
-              appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
-              indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
-              apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-              searchParameters={{
-                facetFilters: [
-                  `platform:${currentPlatform}`,
-                  `gen:${isGen1 ? 'gen1' : 'gen2'}`
-                ]
-              }}
-              transformItems={transformItems}
-            />
-          </View>
-        </View>
+        {isLegacy && (
+          <View
+            className={classNames(
+              'layout-search__search',
+              `layout-search__search--${pageType}`,
+              { 'layout-search__search--toc': showTOC }
+            )}
+          >
+            <View className="layout-search__search__container">
+              <DocSearch
+                appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
+                indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
+                apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
+                searchParameters={{
+                  facetFilters: [
+                    `platform:${currentPlatform}`,
+                    `gen:${isGen1 ? 'gen1' : 'gen2'}`
+                  ]
+                }}
+                transformItems={transformItems}
+              />
+            </View>
+          </View>)}
       </Flex>
       <View
         className={classNames('layout-sidebar', {
@@ -131,22 +131,30 @@ export const LayoutHeader = ({
             <IconDoubleChevron />
             <VisuallyHidden>Close menu</VisuallyHidden>
           </Button>
-          {isLegacy ?
-          <div className="layout-sidebar-platform">
-            <PlatformNavigator
-              currentPlatform={currentPlatform}
-              isGen1={isGen1}
-            />
-          </div> : <></>
-          }
+          {isLegacy ? (
+            <div className="layout-sidebar-platform">
+              <PlatformNavigator
+                currentPlatform={currentPlatform}
+                isGen1={isGen1}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
 
           <div className="layout-sidebar-menu">
             <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
+
             <div className="layout-sidebar-feedback">
-              <RepoActions router={router}></RepoActions>
+              {isLegacy ? (
+                <RepoActions router={router}></RepoActions>
+              ) : (
+                <></>
+              )}
               <Feedback router={router}></Feedback>
             </div>
-            {showLastUpdatedDate && (
+
+            {isLegacy && showLastUpdatedDate && (
               <PageLastUpdated directoryData={flatDirectory[router.pathname]} />
             )}
           </div>

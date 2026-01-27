@@ -1,11 +1,11 @@
 import * as React from 'react';
 import type { MDXComponents } from 'mdx/types';
 import ExportedImage from 'next-image-export-optimizer';
-import { AIBanner } from './src/components/AIBanner';
+import { AIBanner } from './src/components/legacy/AIBanner';
 import InlineFilter from './src/components/InlineFilter';
-import { YoutubeEmbed } from './src/components/YoutubeEmbed';
-import { Accordion } from './src/components/Accordion';
-import { Block, BlockSwitcher } from './src/components/BlockSwitcher';
+import { YoutubeEmbed } from './src/components/legacy/YoutubeEmbed';
+import { Accordion } from './src/components/legacy/Accordion';
+import { Block, BlockSwitcher } from './src/components/legacy/BlockSwitcher';
 import { Callout } from './src/components/Callout';
 import Fragments from './src/components/Fragments';
 import {
@@ -14,7 +14,7 @@ import {
   MDXLink,
   MDXTable
 } from './src/components/MDXComponents';
-import { MigrationAlert } from './src/components/MigrationAlert';
+import { MigrationAlert } from './src/components/legacy/MigrationAlert';
 import preToCodeBlock from './src/utils/pre-to-code-block';
 import { Overview } from './src/components/Overview';
 import ExternalLink from './src/components/ExternalLink';
@@ -22,8 +22,8 @@ import { ExternalLinkButton } from './src/components/ExternalLinkButton';
 import { InternalLinkButton } from './src/components/InternalLinkButton';
 import { Grid, View } from '@aws-amplify/ui-react';
 import { Columns } from './src/components/Columns';
-import { Video } from './src/components/Video';
-import { ReferencePage } from './src/components/ApiDocs';
+import { Video } from './src/components/legacy/Video';
+import { ReferencePage } from './src/components/legacy/ApiDocs';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />

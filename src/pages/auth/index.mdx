@@ -1,0 +1,18 @@
+import meta from './meta.json';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { Heading } from '@aws-amplify/ui-react';
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+      ...meta,
+      childPageNodes: getChildPageNodes(meta.route)
+    }
+  };
+}
+
+<Heading level={2} id={'home'}>
+  Home
+</Heading>
+<Overview childPageNodes={props.childPageNodes} />

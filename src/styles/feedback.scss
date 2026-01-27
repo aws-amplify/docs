@@ -3,6 +3,29 @@
     var(--amplify-space-xxxs);
   overflow: hidden;
 }
+.refreshed .feedback {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: var(--amplify-space-xl) var(--amplify-space-xs)
+    var(--amplify-space-xxxs);
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    var(--amplify-colors-background-primary) 50%,
+    var(--amplify-colors-background-primary)
+  );
+}
+
+.refreshed .feedback-text {
+  flex: 1 0 auto;
+}
+
+.refreshed .feedback__positive.feedback-text,
+.refreshed .feedback__negative.feedback-text {
+  display: none;
+}
 
 .vote-response {
   flex-direction: column;
@@ -28,6 +51,10 @@
 .vote-buttons-container {
   padding-top: var(--amplify-space-medium);
   align-items: center;
+
+  .refreshed & {
+    padding-top: 0;
+  }
 }
 
 .vote-button {

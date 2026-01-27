@@ -1,12 +1,12 @@
 import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
-import { FrameworkGrid } from '@/components/FrameworkGrid';
+import { FrameworkGrid } from '@/legacy/FrameworkGrid';
 import {
   GetStartedPopover,
   generateGetStartedLinks
 } from '@/components/GetStartedPopover';
-import { Video } from '@/components/Video';
+import { Video } from '@/legacy/Video';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
-import { FeatureItem, FeatureList } from '@/components/FeatureLists';
+import { FeatureItem, FeatureList } from '@/legacy/FeatureLists';
 import { MDXCode } from '@/components/MDXComponents';
 import { Columns } from '@/components/Columns';
 import ExportedImage from 'next-image-export-optimizer';

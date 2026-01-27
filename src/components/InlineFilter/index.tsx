@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import FilterChildren from '../FilterChildren';
+import FilterChildren from '@/legacy/FilterChildren';
 
 type InlineFilterProps = {
   children: React.ReactNode;

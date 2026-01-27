@@ -15,6 +15,7 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["src/components/*"],
+      "@/legacy/*": ["src/components/legacy/*"],
       "@/constants/*": ["src/constants/*"],
       "@/data/*": ["src/data/*"],
       "@/plugins/*": ["src/plugins/*"],

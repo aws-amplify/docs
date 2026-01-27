@@ -2,7 +2,7 @@ import { Heading, Text, Flex, View } from '@aws-amplify/ui-react';
 import ExportedImage from 'next-image-export-optimizer';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import HowItWorks from '@/components/contribute/HowItWorks';
-import { YoutubeEmbed } from '@/components/YoutubeEmbed';
+import { YoutubeEmbed } from '@/legacy/YoutubeEmbed';
 import { Columns } from '@/components/Columns';
 
 const meta = {

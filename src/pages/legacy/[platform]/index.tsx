@@ -3,9 +3,9 @@ import ExportedImage from 'next-image-export-optimizer';
 import Link from 'next/link';
 import { MDXCode } from '@/components/MDXComponents/';
 import { IconChevron } from '@/components/Icons';
-import { Video } from '@/components/Video';
+import { Video } from '@/legacy/Video';
 import { Columns } from '@/components/Columns';
-import { FeatureList, FeatureItem } from '@/components/FeatureLists';
+import { FeatureList, FeatureItem } from '@/legacy/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
@@ -15,7 +15,7 @@ import {
   GetStartedPopover,
   generateGetStartedLinks
 } from '@/components/GetStartedPopover';
-import { FrameworkGrid } from '@/components/FrameworkGrid';
+import { FrameworkGrid } from '@/legacy/FrameworkGrid';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import {
   gen2GetStartedHref,

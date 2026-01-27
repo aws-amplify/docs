@@ -1,16 +1,10 @@
 import { Heading, Text, Flex } from '@aws-amplify/ui-react';
-
-const meta = {
-  title: 'Amplify Documentation',
-  description:
-    'AWS Amplify Docs - Develop and deploy cloud-powered web and mobile apps.',
-  url: 'https://docs.amplify.aws/'
-};
+import meta from './meta.json';
 
 export function getStaticProps() {
   return {
     props: {
-      hasTOC: false,
+      hasTOC: true,
       showLastUpdatedDate: false,
       pageType: 'home',
       meta,

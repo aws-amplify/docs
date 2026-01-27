@@ -3,9 +3,9 @@
 /* $mq-mobile is the min-width we flip to 'desktop' layout */
 $mq-mobile: 1000px;
 
-/** 
- * $toc-min is the min-width we show the table of 
- * contents on the right 
+/**
+ * $toc-min is the min-width we show the table of
+ * contents on the right
 */
 $toc-min: 1360px;
 
@@ -17,4 +17,14 @@ $toc-min: 1360px;
   --layout-toc-width: 300px;
   --layout-search-height: 4.8rem;
   --font-code: 'Monaco', monospace;
+}
+
+:root body.refreshed {
+  --layout-sidebar-width: 300px;
+  @media (width > $mq-mobile) {
+    --layout-search-height: 0px;
+  }
+  @media (width <= $mq-mobile) {
+    --layout-search-height: 3rem;
+  }
 }

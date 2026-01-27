@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ALGOLIA_APP_ID } from '../constants/algolia';
+import { NextRouter, useRouter } from 'next/router';
 
 const cspHashOf = (text) => {
   const hash = crypto.createHash('sha256');
@@ -76,7 +77,7 @@ const getCspContent = (context) => {
       )} https://${ALGOLIA_APP_ID}-dsn.algolia.net https://${ALGOLIA_APP_ID}-1.algolianet.com https://${ALGOLIA_APP_ID}-2.algolianet.com https://${ALGOLIA_APP_ID}-3.algolianet.com;
       img-src 'self' https://img.shields.io data: ${ANALYTICS_CSP.all.img.join(
         ' '
-      )} ${ANALYTICS_CSP.alpha.img.join(' ')}; 
+      )} ${ANALYTICS_CSP.alpha.img.join(' ')};
       media-src 'self';
       script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.alpha.script.join(
         ' '

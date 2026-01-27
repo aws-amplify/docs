@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { Flex } from '@aws-amplify/ui-react';
 import { commands } from '@/data/cli-commands.mjs';
-import { Command } from '@/components/CliCommands';
+import { Command } from '@/legacy/CliCommands';
 
 export const meta = {
   title: 'Commands',

@@ -1,5 +1,5 @@
 import { DEFAULT_PLATFORM } from '@/data/platforms';
-import { FrameworkGrid } from '@/components/FrameworkGrid';
+import { FrameworkGrid } from '@/legacy/FrameworkGrid';
 import { IconChevron } from '@/components/Icons';
 import {
   GetStartedPopover,
@@ -7,8 +7,8 @@ import {
 } from '@/components/GetStartedPopover';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { Flex, Heading, Text } from '@aws-amplify/ui-react';
-import LinkCards from '@/components/LinkCards';
-import PlatformFeatureList from '@/components/FeatureLists/PlatformFeatureList';
+import LinkCards from '@/components/legacy/LinkCards';
+import PlatformFeatureList from '@/legacy/FeatureLists/PlatformFeatureList';
 import {
   gen1GetStartedHref,
   gen1HowAmplifyWorksPathname

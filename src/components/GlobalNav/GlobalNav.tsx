@@ -18,6 +18,7 @@ export interface NavMenuItem {
   label: string;
   url: string;
   order: number;
+  legacy?: boolean;
   icon?: NavMenuIconType | string;
 }
 
@@ -64,6 +65,7 @@ export function GlobalNav({
         />
 
         <RightNavLinks
+          isGen1={isGen1}
           rightLinks={rightLinks}
           socialLinks={socialLinks}
           currentSite={currentSite}
