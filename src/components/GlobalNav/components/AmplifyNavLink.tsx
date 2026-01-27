@@ -1,7 +1,7 @@
 import { Flex, Text, Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { AmplifyLogo } from './icons';
 import { IconChevron } from '@/components/Icons';
-import { GenSwitcher } from '@/components/GenSwitcher';
+import { GenSwitcher } from '@/legacy/GenSwitcher';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { useEffect } from 'react';
 

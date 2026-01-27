@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from '@/directory/directory';
+import { useIsLegacy } from '@/utils/useIsLegacy';
 
 enum Levels {
   Category = 1,
@@ -42,6 +43,7 @@ export function MenuItem({
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
+  const isLegacy = useIsLegacy();
   const [open, setOpen] = useState(false);
   const children = useMemo(
     () => (hideChildren ? [] : pageNode.children),
@@ -111,7 +113,7 @@ export function MenuItem({
     hideAPIResources = true;
   }
 
-  let hasVisibleChildren = currentPlatform ? false : true;
+  let hasVisibleChildren = currentPlatform ? isLegacy ? false : true : true;
 
   children?.forEach((child) => {
     if (currentPlatform && child.platforms?.includes(currentPlatform)) {
@@ -160,6 +162,7 @@ export function MenuItem({
           onClick={onLinkClick}
         >
           <Flex
+            as={"span"}
             className={`menu__list-item__link__inner ${listItemLinkInnerStyle}`}
           >
             {pageNode.title}
@@ -177,7 +180,7 @@ export function MenuItem({
       pathname: `${pageNode.route}`
     };
 
-    if (currentPlatform) {
+    if (currentPlatform && isLegacy) {
       href['query'] = { platform: currentPlatform };
     }
 
@@ -191,7 +194,9 @@ export function MenuItem({
       >
         <Link
           className={`menu__list-item__link ${listItemLinkStyle} ${currentStyle}`}
-          aria-current={current ? 'page' : null}
+          {...(current ? {
+            ['aria-current']: 'page'
+          } : {})}
           href={href}
           onClick={onLinkClick}>
           <Flex
@@ -206,9 +211,8 @@ export function MenuItem({
         </Link>
         {children && (
           <ul
-            className={`menu__list ${
-              !open && level > Levels.Category ? 'menu__list--hide' : ''
-            }`}
+            className={`menu__list ${!open && level > Levels.Category ? 'menu__list--hide' : ''
+              }`}
           >
             {children.map((child, index) => (
               <MenuItem

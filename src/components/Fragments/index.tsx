@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import FilterChildren from '../FilterChildren';
+import FilterChildren from '@/legacy/FilterChildren';
 
 export default function Fragments({ fragments }) {
   const children: React.ReactNode[] = [];

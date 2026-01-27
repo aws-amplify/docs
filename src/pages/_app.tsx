@@ -4,8 +4,9 @@ import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { trackPageVisit } from '../utils/track';
+import { useIsLegacy } from '@/utils/useIsLegacy';
 
 function MyApp({ Component, pageProps }) {
   const {
@@ -20,13 +21,16 @@ function MyApp({ Component, pageProps }) {
   } = pageProps;
 
   const router = useRouter();
-  const isLegacy = useMemo(() => {
-    return router.asPath.startsWith('/legacy');
-  }, [router])
+  const isLegacy = useIsLegacy();
   const { BUILD_ENV } = process.env;
 
   useEffect(() => {
+    document.body.classList[isLegacy ? 'remove' : 'add']('refreshed');
+  }, []);
+
+  useEffect(() => {
     const handleRouteChange = () => {
+      document.body.classList[isLegacy ? 'remove' : 'add']('refreshed');
       trackPageVisit();
     };
 
@@ -45,7 +49,6 @@ function MyApp({ Component, pageProps }) {
         pageDescription={meta?.description ? meta.description : ''}
         pageType={pageType}
         url={url}
-        isLegacy={isLegacy}
         platform={platform ? platform : ''}
         hasTOC={hasTOC}
         useCustomTitle={useCustomTitle}
@@ -161,9 +164,7 @@ function MyApp({ Component, pageProps }) {
           </>
         ) : null}
       </Head>
-
       <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
-
       {BUILD_ENV === 'production' ? (
         <>
           {/* eslint-disable-next-line @next/next/no-sync-scripts */}

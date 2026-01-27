@@ -1,0 +1,14 @@
+import meta from './meta.json';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

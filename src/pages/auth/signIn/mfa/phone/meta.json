@@ -1,0 +1,6 @@
+{
+  "title": "Phone",
+  "showBreadcrumbs": true,
+  "hasTOC": true,
+  "route": "/auth/signIn/mfa/phone"
+}

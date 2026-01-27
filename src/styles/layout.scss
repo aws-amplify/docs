@@ -1,4 +1,4 @@
-@use "variables";
+@use 'variables';
 
 .layout-wrapper {
   min-height: 100vh;
@@ -22,6 +22,12 @@
     .scrolled & {
       background-color: var(--amplify-colors-background-primary);
       box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.1);
+    }
+  }
+
+  @media (width > variables.$mq-mobile) {
+    .refreshed & {
+      padding: 0;
     }
   }
 }
@@ -115,7 +121,7 @@
   overscroll-behavior: contain;
 }
 
-.layout-sidebar-feedback {
+body:not(.refreshed) .layout-sidebar-feedback {
   padding: var(--amplify-space-large) var(--amplify-space-small)
     var(--amplify-space-large) var(--amplify-space-large);
   border-top: 1px solid var(--amplify-colors-neutral-20);
@@ -199,6 +205,10 @@
     padding-inline: calc(var(--layout-sidebar-width) + var(--amplify-space-xxl))
       var(--amplify-space-xxl);
     padding-block-end: 0;
+
+    .refreshed & {
+      min-height: calc(100vh - 268px);
+    }
   }
 }
 
