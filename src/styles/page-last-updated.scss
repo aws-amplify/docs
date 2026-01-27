@@ -1,8 +1,17 @@
 .page-last-updated {
   padding: 0 var(--amplify-space-large);
+  .refreshed & {
+    padding: 0;
+  }
 
   &__inner {
     padding: var(--amplify-space-large) 0;
     border-top: 1px solid var(--amplify-colors-neutral-20);
+
+    .refreshed & {
+      border-top: none;
+      border-bottom: 1px solid var(--amplify-colors-neutral-20);
+      padding-top: 0;
+    }
   }
 }

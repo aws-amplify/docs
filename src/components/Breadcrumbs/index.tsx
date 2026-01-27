@@ -68,7 +68,7 @@ function generateBreadcrumbs(
       href['query'] = { platform };
     }
     let label = directoryEntry ? directoryEntry.title : url;
-    if(label === '/legacy') {
+    if (label === '/legacy') {
       return;
     }
 
@@ -91,14 +91,15 @@ function generateBreadcrumbs(
 
 function BreadcrumbsComponent({ route, platform }: Props) {
   const items = generateBreadcrumbs(route, platform);
+
   return items.length > 1 ? (
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>
-        {items?.map(({ href, label }, i) => {
-          const isCurrent = i === items.length - 1;
+        {items?.map(({ href, label }, i, all) => {
+          const isCurrent = i === all.length - 1;
           return (
             <Breadcrumbs.Item key={href.pathname} className="breadcrumb__item">
-              <Link
+              {!isCurrent ? <Link
                 href={href}
                 className={classNames(
                   'amplify-link',
@@ -107,7 +108,7 @@ function BreadcrumbsComponent({ route, platform }: Props) {
                 )}
                 aria-current={isCurrent || undefined}>
                 {label}
-              </Link>
+              </Link> : <>{label}</>}
               {isCurrent ? null : <Breadcrumbs.Separator />}
             </Breadcrumbs.Item>
           );

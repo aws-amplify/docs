@@ -24,22 +24,25 @@ import {
 import { SpaceShip } from '@/components/SpaceShip';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
-import { TableOfContents } from '@/components/TableOfContents';
-import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
+import { TableOfContents } from '@/legacy/TableOfContents';
+import type { HeadingInterface } from '@/legacy/TableOfContents/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
-import { AIBanner } from '@/components/AIBanner';
+import { AIBanner } from '@/legacy/AIBanner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import {
   NextPrevious,
   NEXT_PREVIOUS_SECTIONS
-} from '@/components/NextPrevious';
+} from '@/legacy/NextPrevious';
 import { Modal } from '@/components/Modal';
-import { Gen1Banner } from '@/components/Gen1Banner';
+import { Gen1Banner } from '@/legacy/Gen1Banner';
 import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
-import { LexV1EOLBanner } from '../LexV1EOLBanner';
-import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
+import { LexV1EOLBanner } from '@/legacy/LexV1EOLBanner';
+import { ApiModalProvider } from '@/legacy/ApiDocs/ApiModalProvider';
+import { useIsLegacy } from '@/utils/useIsLegacy';
+import { PageLastUpdated } from '@/legacy/PageLastUpdated';
+import flatDirectory from '@/directory/flatDirectory.json';
 
 export const Layout = ({
   children,
@@ -48,7 +51,6 @@ export const Layout = ({
   pageTitle,
   pageType = 'inner',
   platform,
-  isLegacy = false,
   showBreadcrumbs = true,
   showLastUpdatedDate = true,
   url,
@@ -61,7 +63,6 @@ export const Layout = ({
   pageType?: 'home' | 'inner';
   platform?: Platform;
   showBreadcrumbs?: boolean;
-  isLegacy?: boolean;
   showLastUpdatedDate: boolean;
   url?: string;
   useCustomTitle?: boolean;
@@ -69,8 +70,9 @@ export const Layout = ({
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
+  const isLegacy = useIsLegacy();
   const mainId = 'pageMain';
-  const showTOC = hasTOC && tocHeadings.length > 0;
+  const showTOC = hasTOC && (!isLegacy || tocHeadings.length > 0);
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
   const basePath = 'docs.amplify.aws';
@@ -79,7 +81,7 @@ export const Layout = ({
   const shouldShowAIBanner = asPathWithNoHash === '/legacy/';
   const isGen1 = asPathWithNoHash.split('/')[2] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
-  const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
+  const currentGlobalNavMenuItem = isContributor ? 'Contribute' : isLegacy ? 'Old Docs' : 'Docs';
   const isHome = pageType === 'home';
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
@@ -207,9 +209,8 @@ export const Layout = ({
         <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
-          content={`https://docs.amplify.aws/assets/${
-            isGen1 ? 'classic' : 'gen2'
-          }-og.png`}
+          content={`https://docs.amplify.aws/assets/${isGen1 ? 'classic' : 'gen2'
+            }-og.png`}
           key="og:image"
         />
         <meta property="description" content={description} key="description" />
@@ -222,9 +223,8 @@ export const Layout = ({
         />
         <meta
           property="twitter:image"
-          content={`https://docs.amplify.aws/assets/${
-            isGen1 ? 'classic' : 'gen2'
-          }-og.png`}
+          content={`https://docs.amplify.aws/assets/${isGen1 ? 'classic' : 'gen2'
+            }-og.png`}
           key="twitter:image"
         />
       </Head>
@@ -267,9 +267,8 @@ export const Layout = ({
                   isGen1={isGen1}
                   currentPlatform={currentPlatform}
                   pageType={pageType}
-                  isLegacy={isLegacy}
                   showLastUpdatedDate={showLastUpdatedDate}
-                ></LayoutHeader>
+                />
                 <View key={asPathWithNoHash} className="layout-main">
                   <Flex
                     id={mainId}
@@ -288,14 +287,19 @@ export const Layout = ({
                     {useCustomTitle ? null : (
                       <Heading level={1}>{pageTitle}</Heading>
                     )}
+                    {showLastUpdatedDate && !isLegacy && (
+                      <PageLastUpdated
+                        directoryData={flatDirectory[router.pathname]}
+                      />
+                    )}
                     {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
                       <Gen1Banner currentPlatform={currentPlatform} />
                     )}
                     {(asPathWithNoHash.includes('/push-notifications/') ||
                       asPathWithNoHash.includes('/analytics/') ||
                       asPathWithNoHash.includes('/in-app-messaging/')) && (
-                      <PinpointEOLBanner />
-                    )}
+                        <PinpointEOLBanner />
+                      )}
                     {asPathWithNoHash.includes('/interactions/') && (
                       <LexV1EOLBanner />
                     )}
@@ -304,7 +308,7 @@ export const Layout = ({
                   </Flex>
                   {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
                 </View>
-                <Footer hasTOC={showTOC} />
+                <Footer hasTOC={!isLegacy || showTOC} />
               </View>
             </ApiModalProvider>
           </IconsProvider>

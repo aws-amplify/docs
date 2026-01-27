@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MDXHeading } from '../MDXHeading';
-import { TableOfContents } from '../../TableOfContents/index';
+import { TableOfContents } from '@/legacy/TableOfContents/index';
 import userEvent from '@testing-library/user-event';
 
 describe('MDXHeading', () => {

@@ -175,6 +175,7 @@ function findHighestRankPage(pages) {
       }
     }
   }
+  return pages[0];
 }
 
 /**

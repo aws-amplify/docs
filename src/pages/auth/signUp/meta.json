@@ -1,0 +1,6 @@
+{
+  "title": "SignUp",
+  "showBreadcrumbs": true,
+  "hasTOC": true,
+  "route": "/auth/signUp"
+}

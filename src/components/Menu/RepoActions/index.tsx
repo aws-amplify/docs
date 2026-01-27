@@ -18,7 +18,7 @@ export default function RepoActions({ router }) {
           <ExternalLink href={editLink}>
             <Flex className="repo-actions-link">
               <IconPencil />
-              Edit on GitHub
+              Edit this page on GitHub
             </Flex>
           </ExternalLink>
         </Flex>
