@@ -83,18 +83,11 @@ You can remove entire folders and their contents by providing a folder path. The
 import { remove } from 'aws-amplify/storage';
 
 try {
-  const result = await remove({ 
-    path: 'album/2024/',  // Folder path ending with '/'
-    options: {
-      onProgress: (progress) => {
-        console.log(`Deleted: ${progress.deleted?.length || 0} files`);
-        console.log(`Failed: ${progress.failed?.length || 0} files`);
-      }
-    }
+  await remove({
+    path: 'album/2024/'
   });
-  console.log('Folder removed:', result.path);
 } catch (error) {
-  console.log('Error ', error);
+  console.error(error);
 }
 ```
 
@@ -127,7 +120,7 @@ try {
     }
   });
   
-  console.log('Folder deletion completed:', result.path);
+  console.log('Success', result);
 } catch (error) {
   console.log('Error during folder deletion:', error);
 }
@@ -135,34 +128,43 @@ try {
 
 ### Cancellable folder deletion
 
-For long-running folder deletions, you can cancel the operation:
+You can cancel folder deletion operations, useful for user-initiated cancellations or when navigating away from a page.
+
+When you call `remove()` without `await`, it returns a cancellable operation object with a `result` property and `cancel()` method. This differs from `await remove()` which directly returns the result but cannot be cancelled.
 
 ```javascript
 import { remove } from 'aws-amplify/storage';
 
-const deleteOperation = remove({ 
-  path: 'very-large-folder/',
-  options: {
-    onProgress: (progress) => {
-      console.log(`Progress: ${progress.deleted?.length || 0} deleted`);
+let deleteOperation;
+
+// Start deletion when user clicks delete button
+function handleDeleteFolder() {
+  // remove() returns { result: Promise, cancel: Function }
+  deleteOperation = remove({ 
+    path: 'user-uploads/large-dataset/',
+    options: {
+      onProgress: (progress) => {
+        updateProgressBar(progress.deleted?.length || 0);
+      }
     }
-  }
-});
+  });
 
-// Cancel the operation if needed
-setTimeout(() => {
-  deleteOperation.cancel();
-  console.log('Deletion cancelled');
-}, 5000);
+  // Access the promise via .result property
+  deleteOperation.result.then(result => {
+    console.log('Success', result);
+  }).catch(error => {
+    if (error.name === 'CanceledError') {
+      console.log('Deletion cancelled by user');
+    } else {
+      console.log('Error:', error);
+    }
+  });
+}
 
-try {
-  const result = await deleteOperation.result;
-  console.log('Folder removed:', result.path);
-} catch (error) {
-  if (error.name === 'CanceledError') {
-    console.log('Operation was cancelled');
-  } else {
-    console.log('Error:', error);
+// Cancel when user clicks cancel or navigates away
+function handleCancel() {
+  if (deleteOperation) {
+    deleteOperation.cancel();
   }
 }
 ```
@@ -509,8 +511,6 @@ Future<void> remove() async {
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
-<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
-
 ## More `remove` options
 
 Option | Type | Default | Description |
@@ -519,6 +519,4 @@ Option | Type | Default | Description |
 | expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
 | onProgress | (progress: \{<br/>deleted?: \{path: string\}[];<br/>failed?: \{path: string; code: string; message: string\}[];<br/>\}) => void | Optional | Callback function for tracking folder deletion progress. Called after each batch of files is processed during folder deletion operations. |
 
-
-</InlineFilter>
 </InlineFilter>
