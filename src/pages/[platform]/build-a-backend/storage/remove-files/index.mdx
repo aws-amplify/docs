@@ -102,20 +102,8 @@ try {
   const result = await remove({ 
     path: 'large-folder/',
     options: {
-      onProgress: (progress) => {
-        // Track successful deletions
-        if (progress.deleted) {
-          progress.deleted.forEach(item => {
-            console.log(`Successfully deleted: ${item.path}`);
-          });
-        }
-        
-        // Handle failed deletions
-        if (progress.failed) {
-          progress.failed.forEach(item => {
-            console.log(`Failed to delete: ${item.path} - ${item.message}`);
-          });
-        }
+      onProgress: (fileBatch) => {
+        console.log(fileBatch);
       }
     }
   });
@@ -143,8 +131,8 @@ function handleDeleteFolder() {
   deleteOperation = remove({ 
     path: 'user-uploads/large-dataset/',
     options: {
-      onProgress: (progress) => {
-        updateProgressBar(progress.deleted?.length || 0);
+      onProgress: (fileBatch) => {
+        updateProgressBar(fileBatch.deleted?.length || 0);
       }
     }
   });
@@ -517,6 +505,6 @@ Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
 | bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
-| onProgress | (progress: \{<br/>deleted?: \{path: string\}[];<br/>failed?: \{path: string; code: string; message: string\}[];<br/>\}) => void | Optional | Callback function for tracking folder deletion progress. Called after each batch of files is processed during folder deletion operations. |
+| onProgress | (fileBatch: \{<br/>deleted?: \{path: string\}[];<br/>failed?: \{path: string; code: string; message: string\}[];<br/>\}) => void | Optional | Callback function for tracking folder deletion progress. Called after each batch of files is processed during folder deletion operations. |
 
 </InlineFilter>
