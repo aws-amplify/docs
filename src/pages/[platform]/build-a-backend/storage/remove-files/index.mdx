@@ -33,6 +33,8 @@ Files can be removed from a storage bucket using the `remove` API. If a file is 
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 
+## Remove a single file
+
 You can also perform a remove operation from a specific bucket by providing the target bucket's assigned name from Amplify Backend in `bucket` option.
 
 ```javascript
@@ -68,6 +70,93 @@ try {
   console.log('Error ', error);
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs"]}>
+
+## Remove folders
+
+You can remove entire folders and their contents by providing a folder path. The remove API will automatically detect folders and perform batch deletion of all contained files.
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({
+    path: 'album/2024/'
+  });
+} catch (error) {
+  console.error(error);
+}
+```
+
+### Folder deletion with progress tracking
+
+For large folders, you can track the deletion progress and handle any failures:
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  const result = await remove({ 
+    path: 'large-folder/',
+    options: {
+      onProgress: (fileBatch) => {
+        console.log(fileBatch);
+      }
+    }
+  });
+  
+  console.log('Success', result);
+} catch (error) {
+  console.log('Error during folder deletion:', error);
+}
+```
+
+### Cancellable folder deletion
+
+You can cancel folder deletion operations, useful for user-initiated cancellations or when navigating away from a page.
+
+When you call `remove()` without `await`, it returns a cancellable operation object with a `result` property and `cancel()` method. This differs from `await remove()` which directly returns the result but cannot be cancelled.
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+let deleteOperation;
+
+// Start deletion when user clicks delete button
+function handleDeleteFolder() {
+  // remove() returns { result: Promise, cancel: Function }
+  deleteOperation = remove({ 
+    path: 'user-uploads/large-dataset/',
+    options: {
+      onProgress: (fileBatch) => {
+        updateProgressBar(fileBatch.deleted?.length || 0);
+      }
+    }
+  });
+
+  // Access the promise via .result property
+  deleteOperation.result.then(result => {
+    console.log('Success', result);
+  }).catch(error => {
+    if (error.name === 'CanceledError') {
+      console.log('Deletion cancelled by user');
+    } else {
+      console.log('Error:', error);
+    }
+  });
+}
+
+// Cancel when user clicks cancel or navigates away
+function handleCancel() {
+  if (deleteOperation) {
+    deleteOperation.cancel();
+  }
+}
+```
+
 </InlineFilter>
 
 
@@ -416,4 +505,6 @@ Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
 | bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
+| onProgress | (fileBatch: \{<br/>deleted?: \{path: string\}[];<br/>failed?: \{path: string; code: string; message: string\}[];<br/>\}) => void | Optional | Callback function for tracking folder deletion progress. Called after each batch of files is processed during folder deletion operations. |
+
 </InlineFilter>
