@@ -58,7 +58,10 @@ jest.mock(
       ]
     };
 
-    return mockDirectory;
+    return {
+      __esModule: true, 
+      default: mockDirectory
+    };
   },
   { virtual: true }
 );
