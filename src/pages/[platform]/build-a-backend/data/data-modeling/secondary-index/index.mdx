@@ -358,7 +358,7 @@ const schema = a.schema({
 });
 ```
 
-## Optimize costs and performance with projections
+## Customize the projection type of secondary indexes
 
 You can control which attributes are projected (copied) into your secondary indexes to reduce storage costs and optimize for your query patterns. Use the `.projection()` modifier to specify a projection type.
 
@@ -378,7 +378,7 @@ const schema = a.schema({
       // highlight-next-line
       index('category').projection('KEYS_ONLY'),
       
-      // Project specific attributes you need to query
+      // Project specific attributes you need to query in addition to the keys
       // highlight-next-line
       index('inStock').projection('INCLUDE', ['name', 'price']),
       
