@@ -1021,6 +1021,9 @@ export const directory = {
           path: 'src/pages/[platform]/reference/index.mdx',
           children: [
             {
+              path: 'src/pages/[platform]/reference/library-releases/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/reference/project-structure/index.mdx'
             },
             {
