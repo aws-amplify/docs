@@ -357,3 +357,47 @@ const schema = a.schema({
     .authorization(allow => [allow.owner()]),
 });
 ```
+
+## Customize the projection type of secondary indexes
+
+You can control which attributes are projected (copied) into your secondary indexes to reduce storage costs and optimize for your query patterns. Use the `.projection()` modifier to specify a projection type.
+
+```ts title="amplify/data/resource.ts"
+const schema = a.schema({
+  Product: a
+    .model({
+      id: a.id().required(),
+      name: a.string().required(),
+      category: a.string().required(),
+      price: a.float().required(),
+      description: a.string(),
+      inStock: a.boolean().required(),
+    })
+    .secondaryIndexes((index) => [
+      // Project only keys - smallest index size
+      // highlight-next-line
+      index('category').projection('KEYS_ONLY'),
+      
+      // Project specific attributes you need to query in addition to the keys
+      // highlight-next-line
+      index('inStock').projection('INCLUDE', ['name', 'price']),
+      
+      // Project all attributes (default)
+      // highlight-next-line
+      index('name').projection('ALL'),
+    ])
+    .authorization(allow => [allow.publicApiKey()]),
+});
+```
+
+<Accordion title="Review projection types and when to use them">
+
+DynamoDB supports three projection types:
+
+- **KEYS_ONLY** - Projects only index and primary keys. Smallest index size, lowest storage cost.
+- **INCLUDE** - Projects keys plus specified attributes. Balances storage cost with query flexibility.
+- **ALL** - Projects all attributes. Maximum query flexibility but highest storage cost (default).
+
+Choose based on your query patterns and storage cost requirements. For more details, see [Projections in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html#GSI.Projections).
+
+</Accordion>
