@@ -357,3 +357,63 @@ const schema = a.schema({
     .authorization(allow => [allow.owner()]),
 });
 ```
+
+## Optimize costs and performance with projections
+
+You can control which attributes are projected (copied) into your secondary indexes to reduce storage costs and optimize for your query patterns. Use the `.projection()` modifier to specify a projection type.
+
+```ts title="amplify/data/resource.ts"
+const schema = a.schema({
+  Product: a
+    .model({
+      id: a.id().required(),
+      name: a.string().required(),
+      category: a.string().required(),
+      price: a.float().required(),
+      description: a.string(),
+      inStock: a.boolean().required(),
+    })
+    .secondaryIndexes((index) => [
+      // Project only keys - smallest index size
+      // highlight-next-line
+      index('category').projection('KEYS_ONLY'),
+      
+      // Project specific attributes you need to query
+      // highlight-next-line
+      index('inStock').projection('INCLUDE', ['name', 'price']),
+      
+      // Project all attributes (default)
+      // highlight-next-line
+      index('name').projection('ALL'),
+    ])
+    .authorization(allow => [allow.publicApiKey()]),
+});
+```
+
+<Accordion title="Review projection types and when to use them">
+
+DynamoDB supports three projection types for secondary indexes:
+
+**KEYS_ONLY** - Only the index keys and primary keys are projected into the index. This creates the smallest possible index. Use this when you only need to retrieve the item's keys from the index, then fetch the full item from the base table if needed. This minimizes storage costs and write costs.
+
+```ts
+index('category').projection('KEYS_ONLY')
+```
+
+**INCLUDE** - In addition to the keys, specific non-key attributes are projected into the index. Use this when you frequently access specific attributes. You can query these projected attributes directly from the index without fetching from the base table. This balances storage costs with query flexibility.
+
+```ts
+index('category').projection('INCLUDE', ['name', 'price', 'inStock'])
+```
+
+**ALL** - All attributes from the base table are projected into the index. Because all table data is duplicated in the index, this results in the largest possible index. Use this when you need to access most or all attributes in your queries. This provides maximum query flexibility but doubles your storage costs.
+
+```ts
+index('category').projection('ALL')
+```
+
+If you don't specify a projection type, it defaults to `ALL`.
+
+When choosing a projection type, consider the tradeoff between storage costs and query flexibility. If you need to access just a few attributes, project only those attributes. If you need to access most attributes frequently, projecting all attributes eliminates the need for additional table fetches.
+
+</Accordion>
