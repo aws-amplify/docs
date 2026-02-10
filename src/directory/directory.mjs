@@ -3059,30 +3059,7 @@ export const directory = {
       path: 'src/pages/configure/index.mdx'
     },
     {
-      path: 'src/pages/auth/index.mdx',
-      children: [
-        {
-          path: 'src/pages/auth/concepts/index.mdx'
-        },
-        {
-          path: 'src/pages/auth/signIn/index.mdx',
-          children: [
-            {
-              path: 'src/pages/auth/signIn/password/index.mdx'
-            },
-            {
-              path: 'src/pages/auth/signIn/passwordless/index.mdx'
-            },
-            {
-              path: 'src/pages/auth/signIn/mfa/index.mdx',
-              children: [{ path: 'src/pages/auth/signIn/mfa/phone/index.mdx' }]
-            }
-          ]
-        },
-        {
-          path: 'src/pages/auth/signUp/index.mdx'
-        }
-      ]
+      path: 'src/pages/auth/index.mdx'
     },
     {
       path: 'src/pages/data/index.mdx'
