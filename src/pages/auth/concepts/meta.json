@@ -2,5 +2,18 @@
   "title": "Concepts",
   "showBreadcrumbs": true,
   "hasTOC": true,
-  "route": "/auth/concepts"
+  "route": "/auth/concepts",
+  "section": "frontend",
+  "contentType": "guide",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
 }

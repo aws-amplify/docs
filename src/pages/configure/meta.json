@@ -3,5 +3,18 @@
   "description": "Learn how to set up and connect your backend resources for authentication in Amplify.",
   "showBreadcrumbs": true,
   "hasTOC": true,
-  "route": "/configure"
+  "route": "/configure",
+  "section": "configure",
+  "contentType": "guide",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
 }

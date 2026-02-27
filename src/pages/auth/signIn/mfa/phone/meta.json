@@ -2,5 +2,18 @@
   "title": "Phone",
   "showBreadcrumbs": true,
   "hasTOC": true,
-  "route": "/auth/signIn/mfa/phone"
+  "route": "/auth/signIn/mfa/phone",
+  "section": "frontend",
+  "contentType": "guide",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
 }

@@ -1,0 +1,152 @@
+{
+  "/legacy/gen1/[platform]/build-a-backend/auth": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth",
+    "migrationGuide": "/legacy/[platform]/start/migrate-to-gen2"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/set-up-auth": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/set-up-auth",
+    "migrationGuide": "/legacy/[platform]/start/migrate-to-gen2"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/enable-sign-up": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/connect-your-frontend/sign-up"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/enable-sign-in": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/connect-your-frontend/sign-in"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/sign-out": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/connect-your-frontend/sign-out"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/manage-user-session": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-sessions"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/managing-attributes": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-attributes"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/manage-passwords": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/manage-users/manage-passwords"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/manage-mfa": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/concepts/multi-factor-authentication"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/add-social-provider": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/concepts/external-identity-providers"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/enable-guest-access": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/concepts/guest-access"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/sign-in-with-web-ui": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/sign-in-with-web-ui"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/sign-in-custom-flow": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/multi-step-sign-in": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/connect-your-frontend/multi-step-sign-in"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/delete-user-account": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/connect-your-frontend/delete-user-account"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/admin-actions": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/manage-users/with-admin-actions"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/auth-events": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/advanced-workflows": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/advanced-workflows"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/existing-resources": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/use-existing-cognito-resources"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/auth/override-cognito": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/auth/modify-resources-with-cdk"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data",
+    "migrationGuide": "/legacy/[platform]/start/migrate-to-gen2"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/set-up-graphql-api": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/set-up-data"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/connect-to-api": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/connect-to-API"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/mutate-data": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/mutate-data"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/query-data": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/query-data"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/subscribe-data": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/subscribe-data"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/data-modeling": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/data-modeling"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/customize-authorization-rules": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/customize-authz"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/custom-business-logic": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/custom-business-logic"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/working-with-files": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/working-with-files"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/optimistic-ui": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/optimistic-ui"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/connect-from-server-runtime": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/connect-from-server-runtime"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/graphqlapi/existing-resources": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/data/connect-to-existing-data-sources"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage",
+    "migrationGuide": "/legacy/[platform]/start/migrate-to-gen2"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/set-up-storage": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/set-up-storage"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/upload": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/upload-files"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/download": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/download-files"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/list": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/list-files"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/remove": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/remove-files"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/copy": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/copy-files"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/configure-access": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/authorization"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/lambda-triggers": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/lambda-triggers"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/storage/existing-resources": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/storage/use-with-custom-s3"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/functions": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/functions",
+    "migrationGuide": "/legacy/[platform]/start/migrate-to-gen2"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/functions/set-up-function": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/functions/set-up-function"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/functions/environment-variables": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/functions/environment-variables-and-secrets"
+  },
+  "/legacy/gen1/[platform]/build-a-backend/functions/layers": {
+    "gen2Route": "/legacy/[platform]/build-a-backend/functions/add-lambda-layers"
+  },
+  "/legacy/gen1/[platform]/start/getting-started": {
+    "gen2Route": "/legacy/[platform]/start/quickstart",
+    "migrationGuide": "/legacy/[platform]/start/migrate-to-gen2"
+  }
+}

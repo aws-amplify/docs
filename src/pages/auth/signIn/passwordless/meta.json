@@ -2,5 +2,18 @@
   "title": "Passwordless",
   "showBreadcrumbs": true,
   "hasTOC": true,
-  "route": "/auth/signIn/passwordless"
+  "route": "/auth/signIn/passwordless",
+  "section": "frontend",
+  "contentType": "guide",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
 }

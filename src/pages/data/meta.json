@@ -2,5 +2,18 @@
   "title": "Data",
   "showBreadcrumbs": true,
   "hasTOC": true,
-  "route": "/data"
+  "route": "/data",
+  "section": "frontend",
+  "contentType": "overview",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
 }

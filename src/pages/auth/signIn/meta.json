@@ -2,5 +2,18 @@
   "title": "Signing In",
   "description": "Learn how to sign in to your Authentication Provider",
   "showBreadcrumbs": true,
-  "route": "/auth/signIn"
+  "route": "/auth/signIn",
+  "section": "frontend",
+  "contentType": "overview",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
 }

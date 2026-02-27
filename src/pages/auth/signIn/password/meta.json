@@ -1,5 +1,18 @@
 {
   "title": "Password",
   "showBreadcrumbs": true,
-  "route": "/auth/signIn/password"
+  "route": "/auth/signIn/password",
+  "section": "frontend",
+  "contentType": "guide",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
 }

@@ -2,5 +2,18 @@
   "title": "MFA",
   "showBreadcrumbs": true,
   "hasTOC": true,
-  "route": "/auth/signIn/mfa"
+  "route": "/auth/signIn/mfa",
+  "section": "frontend",
+  "contentType": "overview",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
 }

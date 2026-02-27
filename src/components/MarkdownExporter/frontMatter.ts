@@ -1,11 +1,35 @@
+import { Platform } from '@/data/platforms';
+
 /**
  * Metadata for a documentation page, used to generate YAML front matter.
  */
 export interface PageMeta {
   title: string;
   description: string;
+  url?: string;
+  route?: string;
   section: string;
   lastUpdated: string;
+
+  /** The type of content on this page */
+  contentType?:
+    | 'guide'
+    | 'api-reference'
+    | 'tutorial'
+    | 'migration'
+    | 'overview';
+
+  /** The frameworks that this page applies to */
+  frameworks?: Platform[];
+
+  /** Routes to related pages in other sections */
+  crossRefs?: string[];
+
+  /** Which generation of Amplify this page applies to */
+  genVersion?: 'gen1' | 'gen2' | 'both';
+
+  /** Route to the Gen2 equivalent page (for legacy pages) */
+  gen2Equivalent?: string;
 }
 
 /**

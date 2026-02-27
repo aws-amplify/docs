@@ -62,4 +62,24 @@ export type PageNode = {
    * This flag indicates that the item is new and will display a "new" badge
    */
   isNew?: boolean;
+
+  /**
+   * The documentation section this page belongs to (e.g. frontend, backend)
+   */
+  section?: string;
+
+  /**
+   * The type of content on this page (e.g. guide, api-reference, tutorial)
+   */
+  contentType?: string;
+
+  /**
+   * The frameworks that this page applies to
+   */
+  frameworks?: Platform[];
+
+  /**
+   * Routes to related pages in other sections
+   */
+  crossRefs?: string[];
 };
