@@ -3,6 +3,8 @@
 import { useState, useCallback } from 'react';
 import { Button } from '@aws-amplify/ui-react';
 import { htmlToMarkdown } from './htmlToMarkdown';
+import { generateFrontMatter } from './frontMatter';
+import { resolveInternalLinks } from './resolveInternalLinks';
 
 export interface MarkdownExporterProps {
   pageTitle: string;
@@ -33,10 +35,18 @@ export const MarkdownExporter = ({
         throw new Error('Could not find .main content element');
       }
 
-      const pageUrl = window.location.href;
-      const markdown = htmlToMarkdown(mainEl, pageUrl);
+      const baseUrl = `${window.location.protocol}//${window.location.host}`;
+      const rawMarkdown = htmlToMarkdown(mainEl, window.location.href);
+      const resolvedMarkdown = resolveInternalLinks(rawMarkdown, baseUrl);
+      const frontMatter = generateFrontMatter({
+        title: pageTitle,
+        description: pageDescription,
+        section,
+        lastUpdated
+      });
+      const fullMarkdown = `${frontMatter}\n\n${resolvedMarkdown}`;
 
-      await copyToClipboard(markdown);
+      await copyToClipboard(fullMarkdown);
       setStatus('copied');
       setTimeout(() => setStatus('idle'), 2000);
     } catch (err) {
@@ -44,7 +54,7 @@ export const MarkdownExporter = ({
       setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
     }
-  }, []);
+  }, [pageTitle, pageDescription, section, lastUpdated]);
 
   const label =
     status === 'copied'
