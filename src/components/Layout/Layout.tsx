@@ -296,16 +296,19 @@ export const Layout = ({
                         directoryData={flatDirectory[router.pathname]}
                       />
                     )}
-                    {!isLegacy && pageTitle && (
-                      <MarkdownExporter
-                        pageTitle={pageTitle || ''}
-                        pageDescription={pageDescription || ''}
-                        section={asPathWithNoHash.split('/')[1] || ''}
-                        lastUpdated={
-                          flatDirectory[router.pathname]?.lastUpdated || ''
-                        }
-                      />
-                    )}
+                    {!isLegacy &&
+                      pageTitle &&
+                      flatDirectory[router.pathname]?.contentType !==
+                        'overview' && (
+                        <MarkdownExporter
+                          pageTitle={pageTitle || ''}
+                          pageDescription={pageDescription || ''}
+                          section={asPathWithNoHash.split('/')[1] || ''}
+                          lastUpdated={
+                            flatDirectory[router.pathname]?.lastUpdated || ''
+                          }
+                        />
+                      )}
                     {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
                       <Gen1Banner currentPlatform={currentPlatform} />
                     )}
