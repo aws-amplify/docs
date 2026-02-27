@@ -1,0 +1,20 @@
+{
+  "title": "Frontend Libraries",
+  "description": "Client-side libraries for building web and mobile apps with Amplify. Covers authentication, data, storage, and UI components.",
+  "showBreadcrumbs": true,
+  "hasTOC": true,
+  "route": "/frontend",
+  "section": "frontend",
+  "contentType": "overview",
+  "frameworks": [
+    "android",
+    "angular",
+    "flutter",
+    "javascript",
+    "nextjs",
+    "react",
+    "react-native",
+    "swift",
+    "vue"
+  ]
+}

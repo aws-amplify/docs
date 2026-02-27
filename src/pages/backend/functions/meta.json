@@ -1,0 +1,9 @@
+{
+  "title": "Functions",
+  "description": "Set up and configure Lambda functions with Amplify backend tooling.",
+  "showBreadcrumbs": true,
+  "hasTOC": true,
+  "route": "/backend/functions",
+  "section": "backend",
+  "contentType": "overview"
+}

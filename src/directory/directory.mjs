@@ -3059,13 +3059,38 @@ export const directory = {
       path: 'src/pages/configure/index.mdx'
     },
     {
-      path: 'src/pages/auth/index.mdx'
+      path: 'src/pages/frontend/index.mdx',
+      children: [
+        {
+          path: 'src/pages/auth/index.mdx'
+        },
+        {
+          path: 'src/pages/data/index.mdx'
+        },
+        {
+          path: 'src/pages/storage/index.mdx'
+        }
+      ]
     },
     {
-      path: 'src/pages/data/index.mdx'
-    },
-    {
-      path: 'src/pages/storage/index.mdx'
+      path: 'src/pages/backend/index.mdx',
+      children: [
+        {
+          path: 'src/pages/backend/auth/index.mdx'
+        },
+        {
+          path: 'src/pages/backend/data/index.mdx'
+        },
+        {
+          path: 'src/pages/backend/storage/index.mdx'
+        },
+        {
+          path: 'src/pages/backend/functions/index.mdx'
+        },
+        {
+          path: 'src/pages/backend/hosting/index.mdx'
+        }
+      ]
     }
   ]
 };

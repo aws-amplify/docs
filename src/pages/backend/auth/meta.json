@@ -1,0 +1,10 @@
+{
+  "title": "Auth Infrastructure",
+  "description": "Set up and configure Amazon Cognito authentication resources with Amplify backend tooling.",
+  "showBreadcrumbs": true,
+  "hasTOC": true,
+  "route": "/backend/auth",
+  "section": "backend",
+  "contentType": "overview",
+  "crossRefs": ["/auth"]
+}

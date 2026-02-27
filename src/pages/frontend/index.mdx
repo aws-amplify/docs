@@ -1,0 +1,19 @@
+import meta from './meta.json';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { Heading } from '@aws-amplify/ui-react';
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+      ...meta,
+      childPageNodes: getChildPageNodes(meta.route)
+    }
+  };
+}
+
+<Heading level={2} id="frontend-libraries">Frontend Libraries</Heading>
+
+Amplify frontend libraries help you connect your web and mobile apps to AWS services. Choose a category below to get started.
+
+<Overview childPageNodes={props.childPageNodes} />

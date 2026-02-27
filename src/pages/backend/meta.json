@@ -1,0 +1,9 @@
+{
+  "title": "Backend Tooling",
+  "description": "Infrastructure tooling for provisioning and managing AWS resources with Amplify. Covers auth, data, storage, functions, and hosting.",
+  "showBreadcrumbs": true,
+  "hasTOC": true,
+  "route": "/backend",
+  "section": "backend",
+  "contentType": "overview"
+}

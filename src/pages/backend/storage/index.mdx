@@ -1,0 +1,19 @@
+import meta from './meta.json';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { Heading } from '@aws-amplify/ui-react';
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+      ...meta,
+      childPageNodes: getChildPageNodes(meta.route)
+    }
+  };
+}
+
+<Heading level={2} id="storage-infrastructure">Storage Infrastructure</Heading>
+
+Configure S3 buckets and storage access rules using Amplify backend tooling.
+
+<Overview childPageNodes={props.childPageNodes} />

@@ -1,0 +1,9 @@
+{
+  "title": "Hosting",
+  "description": "Configure hosting and deployment for your Amplify applications.",
+  "showBreadcrumbs": true,
+  "hasTOC": true,
+  "route": "/backend/hosting",
+  "section": "backend",
+  "contentType": "overview"
+}

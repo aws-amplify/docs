@@ -1,0 +1,10 @@
+{
+  "title": "Data Infrastructure",
+  "description": "Set up and configure AppSync APIs and DynamoDB tables with Amplify backend tooling.",
+  "showBreadcrumbs": true,
+  "hasTOC": true,
+  "route": "/backend/data",
+  "section": "backend",
+  "contentType": "overview",
+  "crossRefs": ["/data"]
+}
