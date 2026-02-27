@@ -33,11 +33,11 @@ export default function Page() {
       <Overview
         childPageNodes={[
           {
-            route: '/legacy/react/start/quickstart/',
+            route: '/frontend',
             isExternal: false,
-            title: 'Amplify JS',
+            title: 'Frontend Docs',
             description:
-              'The frontend library for web and mobile. This is the documentation for it. Click here to get started.',
+              'Client-side libraries for building web and mobile apps. Covers authentication, data, storage, and UI components using Amplify JS and Amplify UI.',
             platforms: []
           },
           {
@@ -54,19 +54,11 @@ export default function Page() {
       <Overview
         childPageNodes={[
           {
-            route: '/legacy/react/reference/cli-commands/',
+            route: '/backend',
             isExternal: false,
-            title: 'Amplify CLI',
+            title: 'Backend Docs',
             description:
-              'The CLI provides a simple way to manage your deployed AWS resources. ',
-            platforms: []
-          },
-          {
-            route: 'http://localhost:3000/legacy/react/build-a-backend/',
-            isExternal: false,
-            title: 'Amplify Backend',
-            description:
-              'Using the provided backend helpers, it is easy to create AWS resources fitting your needs',
+              'Infrastructure tooling for provisioning and managing AWS resources. Covers auth, data, storage, functions, and hosting with Amplify CLI and CDK.',
             platforms: []
           }
         ]}
@@ -80,15 +72,28 @@ export default function Page() {
             isExternal: true,
             title: 'Managed Hosting (aka Amplify Hosting)',
             description:
-              'Amplify Hosting helps you with quick deployment by providing and opinionated and intuitive setup',
+              'Amplify Hosting helps you with quick deployment by providing an opinionated and intuitive setup',
             platforms: []
           },
           {
-            route: '/hosting-with-cdk ',
+            route: '/hosting-with-cdk',
             isExternal: false,
             title: 'Self Hosting',
             description:
               'Self Hosting will give you full control over the resources needed for hosting your Amplify App',
+            platforms: []
+          }
+        ]}
+      />
+      <Heading level={2}>Legacy Documentation</Heading>
+      <Overview
+        childPageNodes={[
+          {
+            route: '/legacy/',
+            isExternal: false,
+            title: 'Legacy Docs (Gen1 & Gen2)',
+            description:
+              'Previous documentation structure covering both Gen1 and Gen2 content. Use the new Frontend and Backend sections above for the latest guides.',
             platforms: []
           }
         ]}

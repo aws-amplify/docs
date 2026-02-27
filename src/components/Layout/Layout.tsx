@@ -40,6 +40,7 @@ import { ApiModalProvider } from '@/legacy/ApiDocs/ApiModalProvider';
 import { useIsLegacy } from '@/utils/useIsLegacy';
 import { PageLastUpdated } from '@/legacy/PageLastUpdated';
 import { MarkdownExporter } from '@/components/MarkdownExporter';
+import { CrossReferences } from '@/components/CrossReferences';
 import flatDirectory from '@/directory/flatDirectory.json';
 
 export const Layout = ({
@@ -321,6 +322,18 @@ export const Layout = ({
                       <LexV1EOLBanner />
                     )}
                     {children}
+                    {!isLegacy && flatDirectory[router.pathname]?.crossRefs && (
+                      <CrossReferences
+                        crossRefs={
+                          (
+                            flatDirectory as Record<
+                              string,
+                              { crossRefs?: string[] }
+                            >
+                          )[router.pathname]?.crossRefs || []
+                        }
+                      />
+                    )}
                     {showNextPrev && <NextPrevious />}
                   </Flex>
                   {showTOC ? <TableOfContents headers={tocHeadings} /> : null}

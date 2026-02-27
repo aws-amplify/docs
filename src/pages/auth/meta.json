@@ -6,6 +6,7 @@
   "route": "/auth",
   "section": "frontend",
   "contentType": "overview",
+  "crossRefs": ["/backend/auth"],
   "frameworks": [
     "android",
     "angular",

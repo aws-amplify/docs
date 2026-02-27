@@ -5,6 +5,7 @@
   "route": "/data",
   "section": "frontend",
   "contentType": "overview",
+  "crossRefs": ["/backend/data"],
   "frameworks": [
     "android",
     "angular",

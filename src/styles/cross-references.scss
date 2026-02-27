@@ -1,0 +1,32 @@
+.cross-references {
+  margin-top: var(--amplify-space-large);
+  padding: var(--amplify-space-medium);
+  border: 1px solid var(--amplify-colors-neutral-20);
+  border-radius: var(--amplify-radii-medium);
+  background-color: var(--amplify-colors-background-secondary);
+
+  &__heading {
+    font-size: var(--amplify-font-sizes-small);
+    font-weight: var(--amplify-font-weights-bold);
+    color: var(--amplify-colors-font-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__link {
+    color: var(--amplify-colors-font-interactive);
+    text-decoration: none;
+    font-size: var(--amplify-font-sizes-medium);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

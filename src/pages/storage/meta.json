@@ -5,6 +5,7 @@
   "route": "/storage",
   "section": "frontend",
   "contentType": "overview",
+  "crossRefs": ["/backend/storage"],
   "frameworks": [
     "android",
     "angular",
