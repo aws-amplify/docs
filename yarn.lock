@@ -7773,6 +7773,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.0.0"
     eslint-plugin-next: "npm:~0.0.0"
     eslint-plugin-prettier: "npm:^5.0.1"
+    fast-check: "npm:^4.5.3"
     fs-extra: "npm:^9.0.1"
     husky: "npm:^8.0.1"
     jest: "npm:^30.2.0"
@@ -8902,6 +8903,15 @@ __metadata:
   bin:
     extract-zip: cli.js
   checksum: 10c0/9afbd46854aa15a857ae0341a63a92743a7b89c8779102c3b4ffc207516b2019337353962309f85c66ee3d9092202a83cdc26dbf449a11981272038443974aee
+  languageName: node
+  linkType: hard
+
+"fast-check@npm:^4.5.3":
+  version: 4.5.3
+  resolution: "fast-check@npm:4.5.3"
+  dependencies:
+    pure-rand: "npm:^7.0.0"
+  checksum: 10c0/e50846538de208756ecc3fab9d8bdc5d9677d2e27c611ccbbb3269c44635e819eb0a2323fcf4bf9aae648f7066cc5d7bda339549b25b8e35139831adf4975329
   languageName: node
   linkType: hard
 
