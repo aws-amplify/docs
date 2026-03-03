@@ -84,3 +84,18 @@ export type PageNode = {
    */
   genVersion?: 'gen1' | 'gen2' | 'both';
 };
+
+/**
+ * A single entry in redirects.json that maps an old URL path
+ * to a new URL path for Amplify Hosting rewrite rules.
+ */
+export interface RedirectEntry {
+  /** The address the user requested */
+  source: string;
+  /** The address that actually serves the content */
+  target: string;
+  /** HTTP status: permanent redirect, temporary redirect, or rewrite */
+  status: '301' | '302' | '404-200';
+  /** Audit trail: why this redirect exists */
+  reason?: string;
+}

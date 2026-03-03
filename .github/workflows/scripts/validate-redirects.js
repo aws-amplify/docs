@@ -26,6 +26,11 @@ module.exports = {
               'Types include a permanent redirect (301), a temporary redirect (302), a rewrite (200), or not found (404).',
             type: 'string',
             pattern: '^[0-5-]+$'
+          },
+          reason: {
+            description:
+              'Audit trail: why this redirect exists.',
+            type: 'string'
           }
         }
       }
