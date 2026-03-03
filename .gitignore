@@ -65,6 +65,7 @@ coverage
 .next
 public/sitemap.xml
 public/robots.txt
+public/ai/
 amplify/backend/function/submissionsLambda/src/*.js
 amplify/backend/function/submissionsLambda/src/controllers
 public/**/**/nextImageExportOptimizer/
