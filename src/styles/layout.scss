@@ -11,7 +11,7 @@
   position: fixed;
   width: 100%;
   z-index: 2;
-  top: var(--docs-dev-center-nav);
+  top: var(--nav-total-height);
   background-color: var(--amplify-colors-background-primary);
   &--home {
     background-color: transparent;
@@ -27,7 +27,7 @@
 .layout-main {
   padding: var(--amplify-space-medium);
   padding-top: calc(
-    var(--docs-dev-center-nav) + var(--layout-search-height) +
+    var(--nav-total-height) + var(--layout-search-height) +
       var(--amplify-space-medium)
   );
   position: relative;
@@ -37,7 +37,7 @@
 .layout-sidebar {
   width: 100%;
   position: fixed;
-  top: var(--docs-dev-center-nav);
+  top: var(--nav-total-height);
   bottom: 0;
   inset-inline-start: 0;
   z-index: 2;
@@ -192,7 +192,7 @@
     flex-direction: column;
     overflow-y: auto;
     min-height: calc(
-      100vh - var(--docs-dev-center-nav) - var(--layout-search-height)
+      100vh - var(--nav-total-height) - var(--layout-search-height)
     );
     padding-inline: calc(var(--layout-sidebar-width) + var(--amplify-space-xxl))
       var(--amplify-space-xxl);

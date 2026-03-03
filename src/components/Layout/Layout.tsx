@@ -247,6 +247,7 @@ export const Layout = ({
                   'layout-wrapper',
                   `layout-wrapper--${pageType}`,
                   {
+                    'layout-wrapper--gen1': isGen1,
                     'spaceship-layout': isHome,
                     'spaceship-layout--gen1': isHome && isGen1
                   }

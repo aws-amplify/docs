@@ -12,9 +12,17 @@ $toc-min: 1360px;
 :root {
   --content-max-width: 1000px;
   --docs-dev-center-nav: 4rem;
+  --top-nav-height: 3rem;
+  --nav-total-height: 7rem;
   --search-menu-bar-height: 4.6rem;
   --layout-sidebar-width: 340px;
   --layout-toc-width: 300px;
   --layout-search-height: 4.8rem;
   --font-code: 'Monaco', monospace;
+}
+
+/* Gen1 pages: no TopNavBar, so total height equals just GlobalNav */
+.layout-wrapper--gen1 {
+  --top-nav-height: 0rem;
+  --nav-total-height: 4rem;
 }
