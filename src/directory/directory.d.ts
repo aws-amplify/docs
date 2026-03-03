@@ -62,4 +62,25 @@ export type PageNode = {
    * This flag indicates that the item is new and will display a "new" badge
    */
   isNew?: boolean;
+
+  /**
+   * The top-nav section this page belongs to
+   */
+  section?:
+    | 'quickstart'
+    | 'frontend'
+    | 'backend'
+    | 'ui'
+    | 'hosting'
+    | 'reference';
+
+  /**
+   * Related pages in other sections (for cross-linking)
+   */
+  relatedPages?: string[];
+
+  /**
+   * Gen version: 1, 2, or both
+   */
+  genVersion?: 'gen1' | 'gen2' | 'both';
 };
