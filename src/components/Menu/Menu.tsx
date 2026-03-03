@@ -1,12 +1,15 @@
 import { ReactElement } from 'react';
 import { MenuItem } from './MenuItem';
-import { Platform } from '@/data/platforms';
+import { Platform, PLATFORMS } from '@/data/platforms';
 import { PageNode } from '@/directory/directory';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
+import { TopNavSection } from '@/components/SectionContext/SectionContext';
 
 type MenuProps = {
   currentPlatform?: Platform;
   path: string;
+  /** When provided, scopes the sidebar to only show pages within this section */
+  section?: TopNavSection;
 };
 
 const invalidChildren = [
@@ -15,7 +18,30 @@ const invalidChildren = [
   '/gen1/[platform]/sdk'
 ];
 
-export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
+/**
+ * Extracts the platform from a URL path by checking the first segment
+ * against known platforms.
+ */
+function extractPlatform(path: string): string | null {
+  const segments = path.split('/').filter(Boolean);
+  if (segments.length === 0) return null;
+
+  // For gen1 paths, platform is the second segment
+  if (segments[0] === 'gen1') {
+    return segments.length > 1 && PLATFORMS.includes(segments[1] as Platform)
+      ? segments[1]
+      : null;
+  }
+
+  // For gen2 paths, platform is the first segment
+  return PLATFORMS.includes(segments[0] as Platform) ? segments[0] : null;
+}
+
+export function Menu({
+  currentPlatform,
+  path,
+  section
+}: MenuProps): ReactElement {
   // Depending on the the page we're on, we could have the following keywords at these subpaths
   // Split them out so we can figure out what kind of page it is
   const pathSplit = path.split('/');
@@ -33,7 +59,34 @@ export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
   const isSDK = pathSplit[3] === 'sdk';
 
   let rootMenuNode, childrenNodes, baseMenu;
-  if (isLegacy) {
+
+  // When a section is provided (Gen2 section-scoped sidebar), resolve its
+  // routePrefix with the actual platform and use that as the directory root
+  if (section && !isGen1) {
+    const platform = extractPlatform(path);
+    if (platform) {
+      const resolvedPrefix = section.routePrefix.replace(
+        '[platform]',
+        platform
+      );
+      rootMenuNode = findDirectoryNode(resolvedPrefix);
+    }
+
+    if (rootMenuNode) {
+      childrenNodes = rootMenuNode.children;
+    } else {
+      // findDirectoryNode returned null — render empty sidebar with message
+      return (
+        <nav className="menu" aria-label="Main">
+          <ul className="menu__list">
+            <li className="menu__list-item menu__list-item--empty">
+              No pages found for this section.
+            </li>
+          </ul>
+        </nav>
+      );
+    }
+  } else if (isLegacy) {
     rootMenuNode = {
       children: [findDirectoryNode('/gen1/[platform]/tools/cli-legacy')]
     };
