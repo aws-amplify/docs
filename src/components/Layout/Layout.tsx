@@ -40,6 +40,12 @@ import { Gen1Banner } from '@/components/Gen1Banner';
 import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
 import { LexV1EOLBanner } from '../LexV1EOLBanner';
 import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
+import {
+  SectionProvider,
+  GEN2_SECTIONS,
+  resolveSection
+} from '@/components/SectionContext/SectionContext';
+import { TopNavBar } from '@/components/TopNavBar/TopNavBar';
 
 export const Layout = ({
   children,
@@ -137,6 +143,8 @@ export const Layout = ({
       document.body.classList.remove('scrolled');
     }
   }, 20);
+
+  const currentSection = resolveSection(asPathWithNoHash);
 
   const isGen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//.test(
     asPathWithNoHash
@@ -242,68 +250,77 @@ export const Layout = ({
           <IconsProvider icons={defaultIcons}>
             <ApiModalProvider>
               <Modal isGen1={isGen1} />
-              <View
-                className={classNames(
-                  'layout-wrapper',
-                  `layout-wrapper--${pageType}`,
-                  {
-                    'layout-wrapper--gen1': isGen1,
-                    'spaceship-layout': isHome,
-                    'spaceship-layout--gen1': isHome && isGen1
-                  }
-                )}
-              >
-                {isHome ? <SpaceShip /> : null}
-                <GlobalNav
-                  leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-                  rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-                  currentSite={currentGlobalNavMenuItem}
-                  isGen1={isGen1}
-                  mainId={mainId}
-                />
-                <LayoutHeader
-                  showTOC={showTOC}
-                  isGen1={isGen1}
-                  currentPlatform={currentPlatform}
-                  pageType={pageType}
-                  showLastUpdatedDate={showLastUpdatedDate}
-                ></LayoutHeader>
-                <View key={asPathWithNoHash} className="layout-main">
-                  <Flex
-                    id={mainId}
-                    as="main"
-                    tabIndex={-1}
-                    aria-label="Main content"
-                    className={`main${showTOC ? ' main--toc' : ''}`}
-                  >
-                    {showBreadcrumbs ? (
-                      <Breadcrumbs
-                        route={pathname}
-                        platform={currentPlatform}
-                      />
-                    ) : null}
-                    {shouldShowAIBanner ? <AIBanner /> : null}
-                    {useCustomTitle ? null : (
-                      <Heading level={1}>{pageTitle}</Heading>
-                    )}
-                    {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
-                      <Gen1Banner currentPlatform={currentPlatform} />
-                    )}
-                    {(asPathWithNoHash.includes('/push-notifications/') ||
-                      asPathWithNoHash.includes('/analytics/') ||
-                      asPathWithNoHash.includes('/in-app-messaging/')) && (
-                      <PinpointEOLBanner />
-                    )}
-                    {asPathWithNoHash.includes('/interactions/') && (
-                      <LexV1EOLBanner />
-                    )}
-                    {children}
-                    {showNextPrev && <NextPrevious />}
-                  </Flex>
-                  {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+              <SectionProvider pathname={asPathWithNoHash}>
+                <View
+                  className={classNames(
+                    'layout-wrapper',
+                    `layout-wrapper--${pageType}`,
+                    {
+                      'layout-wrapper--gen1': isGen1,
+                      'spaceship-layout': isHome,
+                      'spaceship-layout--gen1': isHome && isGen1
+                    }
+                  )}
+                >
+                  {isHome ? <SpaceShip /> : null}
+                  <GlobalNav
+                    leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+                    rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+                    currentSite={currentGlobalNavMenuItem}
+                    isGen1={isGen1}
+                    mainId={mainId}
+                  />
+                  {!isGen1 && (
+                    <TopNavBar
+                      sections={GEN2_SECTIONS}
+                      currentSection={currentSection?.label ?? ''}
+                      isGen1={isGen1}
+                    />
+                  )}
+                  <LayoutHeader
+                    showTOC={showTOC}
+                    isGen1={isGen1}
+                    currentPlatform={currentPlatform}
+                    pageType={pageType}
+                    showLastUpdatedDate={showLastUpdatedDate}
+                  ></LayoutHeader>
+                  <View key={asPathWithNoHash} className="layout-main">
+                    <Flex
+                      id={mainId}
+                      as="main"
+                      tabIndex={-1}
+                      aria-label="Main content"
+                      className={`main${showTOC ? ' main--toc' : ''}`}
+                    >
+                      {showBreadcrumbs ? (
+                        <Breadcrumbs
+                          route={pathname}
+                          platform={currentPlatform}
+                        />
+                      ) : null}
+                      {shouldShowAIBanner ? <AIBanner /> : null}
+                      {useCustomTitle ? null : (
+                        <Heading level={1}>{pageTitle}</Heading>
+                      )}
+                      {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
+                        <Gen1Banner currentPlatform={currentPlatform} />
+                      )}
+                      {(asPathWithNoHash.includes('/push-notifications/') ||
+                        asPathWithNoHash.includes('/analytics/') ||
+                        asPathWithNoHash.includes('/in-app-messaging/')) && (
+                        <PinpointEOLBanner />
+                      )}
+                      {asPathWithNoHash.includes('/interactions/') && (
+                        <LexV1EOLBanner />
+                      )}
+                      {children}
+                      {showNextPrev && <NextPrevious />}
+                    </Flex>
+                    {showTOC ? <TableOfContents headers={tocHeadings} /> : null}
+                  </View>
+                  <Footer hasTOC={showTOC} />
                 </View>
-                <Footer hasTOC={showTOC} />
-              </View>
+              </SectionProvider>
             </ApiModalProvider>
           </IconsProvider>
         </ThemeProvider>
