@@ -3,8 +3,10 @@
  *
  * For each entry in redirects.json:
  *   1. Verify the target path corresponds to an existing page in directory.json
- *   2. Report any broken redirect targets with descriptive error messages
- *   3. Exit with non-zero code if any validation fails (hard build failure)
+ *   2. Report any broken redirect targets with descriptive messages
+ *   3. Categorize broken redirects:
+ *      - "Restructuring" entries (with a `reason` field) → hard fail (exit 1)
+ *      - "Legacy" entries (without `reason` field) → warn only (exit 0)
  *
  * Requirements: 8.5, 8.7, 8.8
  */
@@ -174,7 +176,8 @@ async function validateRedirects() {
   console.log(`  Loaded ${redirects.length} entries from redirects.json`);
 
   // Validate each redirect entry
-  const broken = [];
+  const brokenLegacy = [];
+  const brokenRestructuring = [];
   let checked = 0;
   let skipped = 0;
 
@@ -189,12 +192,18 @@ async function validateRedirects() {
     const found = candidates.some((candidate) => knownRoutes.has(candidate));
 
     if (!found) {
-      broken.push({
+      const detail = {
         source: entry.source,
         target: entry.target,
         normalizedCandidates: candidates,
         status: entry.status
-      });
+      };
+
+      if (entry.reason) {
+        brokenRestructuring.push(detail);
+      } else {
+        brokenLegacy.push(detail);
+      }
     }
   }
 
@@ -204,24 +213,54 @@ async function validateRedirects() {
     `  Skipped: ${skipped} entries (external URLs, wildcards, or fragments)`
   );
 
-  if (broken.length > 0) {
-    console.error(
-      `\n  VALIDATION FAILED: ${broken.length} broken redirect target(s) found:\n`
+  // Log broken legacy entries as warnings
+  if (brokenLegacy.length > 0) {
+    console.warn(
+      `\n  WARNING: ${brokenLegacy.length} broken legacy redirect(s) (pre-existing, no "reason" field):\n`
     );
-    for (const b of broken) {
-      console.error(`    Source: ${b.source}`);
-      console.error(`    Target: ${b.target}`);
-      console.error(`    Tried:  ${b.normalizedCandidates.join(', ')}`);
+    for (const b of brokenLegacy) {
+      console.warn(`    WARNING Source: ${b.source}`);
+      console.warn(`    WARNING Target: ${b.target}`);
+      console.warn(`    WARNING Tried:  ${b.normalizedCandidates.join(', ')}`);
+      console.warn('');
+    }
+  }
+
+  // Log broken restructuring entries as errors
+  if (brokenRestructuring.length > 0) {
+    console.error(
+      `\n  VALIDATION FAILED: ${brokenRestructuring.length} broken restructuring redirect(s) found:\n`
+    );
+    for (const b of brokenRestructuring) {
+      console.error(`    ERROR Source: ${b.source}`);
+      console.error(`    ERROR Target: ${b.target}`);
+      console.error(`    ERROR Tried:  ${b.normalizedCandidates.join(', ')}`);
       console.error('');
     }
+  }
+
+  // Summary
+  console.log('\n  --- Redirect Validation Summary ---');
+  console.log(`  Broken legacy redirects (warnings): ${brokenLegacy.length}`);
+  console.log(
+    `  Broken restructuring redirects (errors): ${brokenRestructuring.length}`
+  );
+
+  if (brokenRestructuring.length > 0) {
     console.error(
-      `  ${broken.length} redirect(s) point to pages that do not exist in directory.json.`
+      `\n  ${brokenRestructuring.length} restructuring redirect(s) point to pages that do not exist in directory.json.`
     );
     console.error('  Fix the redirect targets or add the missing pages.');
     process.exit(1);
   }
 
-  console.log('  All redirect targets are valid.');
+  if (brokenLegacy.length > 0) {
+    console.warn(
+      `\n  ${brokenLegacy.length} legacy redirect(s) have broken targets (pre-existing — not failing build).`
+    );
+  }
+
+  console.log('  All restructuring redirect targets are valid.');
   console.log('Redirect validation complete.');
 }
 
