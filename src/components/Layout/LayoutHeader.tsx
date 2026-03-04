@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
@@ -12,6 +12,11 @@ import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
+import { useSectionContext } from '@/components/SectionContext/SectionContext';
+import {
+  SearchFilterChips,
+  PlatformFilterMode
+} from '@/components/SearchFilterChips/SearchFilterChips';
 import flatDirectory from '@/directory/flatDirectory.json';
 import { DocSearch } from '@docsearch/react';
 import '@docsearch/css';
@@ -34,10 +39,35 @@ export const LayoutHeader = ({
   showTOC?: boolean;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
+  const { currentSection, showPlatformSelector } = useSectionContext();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
+
+  // Search filter chip state
+  const [platformFilterMode, setPlatformFilterMode] =
+    useState<PlatformFilterMode>('boost');
+
+  // Build DocSearch searchParameters dynamically based on chip state
+  const searchParameters = useMemo(() => {
+    const facetFilters: string[] = [`gen:${isGen1 ? 'gen1' : 'gen2'}`];
+    const optionalFacetFilters: string[] = [];
+
+    // Platform filter based on chip mode
+    if (platformFilterMode === 'boost') {
+      optionalFacetFilters.push(`platform:${currentPlatform}`);
+    } else if (platformFilterMode === 'hard') {
+      facetFilters.push(`platform:${currentPlatform}`);
+    }
+    // 'none' — no platform filter at all
+
+    const params: Record<string, unknown> = { facetFilters };
+    if (optionalFacetFilters.length > 0) {
+      params.optionalFacetFilters = optionalFacetFilters;
+    }
+    return params;
+  }, [isGen1, currentPlatform, platformFilterMode]);
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
@@ -90,13 +120,13 @@ export const LayoutHeader = ({
               appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
               indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
               apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-              searchParameters={{
-                facetFilters: [
-                  `platform:${currentPlatform}`,
-                  `gen:${isGen1 ? 'gen1' : 'gen2'}`
-                ]
-              }}
+              searchParameters={searchParameters}
               transformItems={transformItems}
+            />
+            <SearchFilterChips
+              currentGen={isGen1 ? 'gen1' : 'gen2'}
+              currentPlatform={currentPlatform}
+              onPlatformFilterChange={setPlatformFilterMode}
             />
           </View>
         </View>
@@ -131,14 +161,20 @@ export const LayoutHeader = ({
           </Button>
 
           <div className="layout-sidebar-platform">
-            <PlatformNavigator
-              currentPlatform={currentPlatform}
-              isGen1={isGen1}
-            />
+            {showPlatformSelector && (
+              <PlatformNavigator
+                currentPlatform={currentPlatform}
+                isGen1={isGen1}
+              />
+            )}
           </div>
 
           <div className="layout-sidebar-menu">
-            <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
+            <Menu
+              currentPlatform={currentPlatform}
+              path={asPathWithNoHash}
+              section={currentSection ?? undefined}
+            />
             <div className="layout-sidebar-feedback">
               <RepoActions router={router}></RepoActions>
               <Feedback router={router}></Feedback>

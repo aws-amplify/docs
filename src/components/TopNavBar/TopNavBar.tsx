@@ -24,7 +24,8 @@ function resolveSectionHref(routePrefix: string, currentPath: string): string {
   const platform = PLATFORMS.includes(firstSegment as Platform)
     ? firstSegment
     : 'react';
-  return routePrefix.replace('[platform]', platform);
+  const resolved = routePrefix.replace('[platform]', platform);
+  return resolved.endsWith('/') ? resolved : resolved + '/';
 }
 
 /**

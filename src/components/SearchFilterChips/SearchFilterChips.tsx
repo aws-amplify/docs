@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Platform, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
-import { GEN2_SECTIONS } from '@/components/SectionContext/SectionContext';
 
 export type PlatformFilterMode = 'boost' | 'hard' | 'none';
 
@@ -10,7 +9,7 @@ export interface SearchFilterChipsProps {
   currentPlatform: Platform;
   currentSection?: string;
   onPlatformFilterChange: (mode: PlatformFilterMode) => void;
-  onSectionFilterChange: (section: string | null) => void;
+  onSectionFilterChange?: (section: string | null) => void;
 }
 
 /**
@@ -47,9 +46,7 @@ function getPlatformChipLabel(
 export function SearchFilterChips({
   currentGen,
   currentPlatform,
-  currentSection,
-  onPlatformFilterChange,
-  onSectionFilterChange
+  onPlatformFilterChange
 }: SearchFilterChipsProps) {
   return (
     <div
@@ -70,25 +67,6 @@ export function SearchFilterChips({
         platform={currentPlatform}
         onFilterChange={onPlatformFilterChange}
       />
-
-      {/* Section chips — off by default, toggleable */}
-      {GEN2_SECTIONS.map((section) => (
-        <button
-          key={section.label}
-          type="button"
-          className={classNames('search-filter-chip', {
-            'search-filter-chip--active': currentSection === section.label
-          })}
-          aria-pressed={currentSection === section.label}
-          onClick={() =>
-            onSectionFilterChange(
-              currentSection === section.label ? null : section.label
-            )
-          }
-        >
-          {section.label}
-        </button>
-      ))}
     </div>
   );
 }
