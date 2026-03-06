@@ -25,7 +25,7 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Get changed/new pages to run accessibility tests on
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         id: pages-to-a11y-test
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -38,7 +38,7 @@ jobs:
           python -m http.server 3000 -d ${{ env.BUILD_DIR }} &
           sleep 5
       - name: Run accessibility tests on changed/new MDX pages
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         id: axeResults
         with:
           result-encoding: string
