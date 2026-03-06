@@ -1,5 +1,0 @@
-{
-  "title": "Password",
-  "showBreadcrumbs": true,
-  "route": "/auth/signIn/password"
-}

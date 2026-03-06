@@ -14,7 +14,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@/mdx-components": ["./mdx-components.tsx"],
       "@/components/*": ["src/components/*"],
+      "@/docs/*": ["src/docs/*"],
       "@/legacy/*": ["src/components/legacy/*"],
       "@/constants/*": ["src/constants/*"],
       "@/data/*": ["src/data/*"],

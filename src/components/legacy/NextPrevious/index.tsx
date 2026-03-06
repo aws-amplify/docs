@@ -5,11 +5,22 @@ import { useRouter } from 'next/router';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { IconChevron } from '@/components/Icons';
 import { useIsGen1Page } from '@/utils/useIsGen1Page';
+import { useMemo } from 'react';
 
 export const NextPrevious = () => {
   const platform = useCurrentPlatform();
   const router = useRouter();
-  const pathname = router.pathname;
+  const pathname = useMemo(() => {
+    let path = router.pathname;
+    if (path !== '/[...slug]') {
+      return path;
+    }
+    path = router.asPath;
+    if (path.endsWith('/')) {
+      path = path.slice(0, -1);
+    }
+    return path;
+  }, [router]);
   const isGen1 = useIsGen1Page();
 
   const findDirectoryNodes = (route, dir, platform, previous, next) => {
@@ -19,9 +30,10 @@ export const NextPrevious = () => {
           child?.route.startsWith('/gen1') &&
           child?.platforms?.includes(platform)
         );
-      } else {
+      } else if (platform) {
         return child?.platforms?.includes(platform);
       }
+      return child;
     });
 
     if (dir.route === route) {
@@ -48,7 +60,7 @@ export const NextPrevious = () => {
     nextHref = {
       pathname: next.route,
       query: {
-        platform
+        ...(platform ? { platform } : {})
       }
     };
   }
@@ -56,7 +68,7 @@ export const NextPrevious = () => {
     prevHref = {
       pathname: previous.route,
       query: {
-        platform
+        ...(platform ? { platform } : {})
       }
     };
   }
@@ -127,5 +139,6 @@ export const NEXT_PREVIOUS_SECTIONS = [
   '/[platform]/build-a-backend/add-aws-services/',
   '/[platform]/build-ui/formbuilder/',
   '/[platform]/deploy-and-host/sandbox-environments/',
-  '/[platform]/deploy-and-host/fullstack-branching/'
+  '/[platform]/deploy-and-host/fullstack-branching/',
+  '/[...slug]'
 ];

@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactElement } from 'react';
+import { useState, useEffect, useMemo, ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -31,10 +31,7 @@ import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
 import { AIBanner } from '@/legacy/AIBanner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
-import {
-  NextPrevious,
-  NEXT_PREVIOUS_SECTIONS
-} from '@/legacy/NextPrevious';
+import { NextPrevious, NEXT_PREVIOUS_SECTIONS } from '@/legacy/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/legacy/Gen1Banner';
 import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
@@ -42,17 +39,19 @@ import { LexV1EOLBanner } from '@/legacy/LexV1EOLBanner';
 import { ApiModalProvider } from '@/legacy/ApiDocs/ApiModalProvider';
 import { useIsLegacy } from '@/utils/useIsLegacy';
 import { PageLastUpdated } from '@/legacy/PageLastUpdated';
+import { DocDownload } from '@/components/DocDownload';
 import flatDirectory from '@/directory/flatDirectory.json';
 
 export const Layout = ({
   children,
   hasTOC = true,
-  pageDescription,
-  pageTitle,
+  pageDescription: _pageDescription,
+  pageTitle: _pageTitle,
   pageType = 'inner',
   platform,
   showBreadcrumbs = true,
   showLastUpdatedDate = true,
+  aiDownload = false,
   url,
   useCustomTitle = false
 }: {
@@ -61,6 +60,7 @@ export const Layout = ({
   pageDescription?: string;
   pageTitle?: string;
   pageType?: 'home' | 'inner';
+  aiDownload?: boolean;
   platform?: Platform;
   showBreadcrumbs?: boolean;
   showLastUpdatedDate: boolean;
@@ -70,6 +70,9 @@ export const Layout = ({
   const [menuOpen, toggleMenuOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>('system');
   const [tocHeadings, setTocHeadings] = useState<HeadingInterface[]>([]);
+  const [dirData, setDirectoryData] = useState({});
+  const [pageTitle, setPageTitle] = useState(_pageTitle);
+  const [pageDescription, setPageDescription] = useState(_pageDescription);
   const isLegacy = useIsLegacy();
   const mainId = 'pageMain';
   const showTOC = hasTOC && (!isLegacy || tocHeadings.length > 0);
@@ -77,11 +80,15 @@ export const Layout = ({
   const asPathWithNoHash = usePathWithoutHash();
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
-  const pathname = router.pathname;
+  const pathname = useMemo(() => router.pathname, [router]);
   const shouldShowAIBanner = asPathWithNoHash === '/legacy/';
   const isGen1 = asPathWithNoHash.split('/')[2] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
-  const currentGlobalNavMenuItem = isContributor ? 'Contribute' : isLegacy ? 'Old Docs' : 'Docs';
+  const currentGlobalNavMenuItem = isContributor
+    ? 'Contribute'
+    : isLegacy
+      ? 'Old Docs'
+      : 'Docs';
   const isHome = pageType === 'home';
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
@@ -121,17 +128,22 @@ export const Layout = ({
         ? queryPlatform
         : DEFAULT_PLATFORM;
 
-  const title = [
-    pageTitle,
-    platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
-    isGen1
-      ? 'AWS Amplify Gen 1 Documentation'
-      : 'AWS Amplify Gen 2 Documentation'
-  ]
-    .filter((s) => s !== '' && s !== null)
-    .join(' - ');
+  const title = useMemo(() => {
+    return [
+      pageTitle,
+      platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
+      isGen1
+        ? 'AWS Amplify Gen 1 Documentation'
+        : 'AWS Amplify Gen 2 Documentation'
+    ]
+      .filter((s) => s !== '' && s !== null)
+      .join(' - ');
+  }, [pageTitle]);
 
-  const description = `${pageDescription} AWS Amplify Documentation`;
+  const description = useMemo(
+    () => `${pageDescription} AWS Amplify Documentation`,
+    [pageDescription]
+  );
 
   const handleScroll = debounce((e) => {
     const bodyScroll = e.target.documentElement.scrollTop;
@@ -147,6 +159,22 @@ export const Layout = ({
   const isGen1HowAmplifyWorks = /\/legacy\/gen1\/\w+\/how-amplify-works\//.test(
     asPathWithNoHash
   );
+
+  useEffect(() => {
+    setPageTitle(dirData.title);
+    setPageDescription(dirData.description);
+  }, [dirData]);
+
+  useEffect(() => {
+    let path = router.asPath;
+    if (path.endsWith('/')) {
+      path = path.slice(0, -1);
+    }
+    const data = flatDirectory[path];
+    if (data) {
+      setDirectoryData(data);
+    }
+  }, [router]);
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -176,8 +204,9 @@ export const Layout = ({
         });
       }
     });
+
     setTocHeadings(headings);
-  }, [children, pageType]);
+  }, [children, pageType, dirData]);
 
   useEffect(() => {
     if (isHome) {
@@ -209,8 +238,9 @@ export const Layout = ({
         <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
-          content={`https://docs.amplify.aws/assets/${isGen1 ? 'classic' : 'gen2'
-            }-og.png`}
+          content={`https://docs.amplify.aws/assets/${
+            isGen1 ? 'classic' : 'gen2'
+          }-og.png`}
           key="og:image"
         />
         <meta property="description" content={description} key="description" />
@@ -223,8 +253,9 @@ export const Layout = ({
         />
         <meta
           property="twitter:image"
-          content={`https://docs.amplify.aws/assets/${isGen1 ? 'classic' : 'gen2'
-            }-og.png`}
+          content={`https://docs.amplify.aws/assets/${
+            isGen1 ? 'classic' : 'gen2'
+          }-og.png`}
           key="twitter:image"
         />
       </Head>
@@ -287,10 +318,16 @@ export const Layout = ({
                     {useCustomTitle ? null : (
                       <Heading level={1}>{pageTitle}</Heading>
                     )}
-                    {showLastUpdatedDate && !isLegacy && (
-                      <PageLastUpdated
-                        directoryData={flatDirectory[router.pathname]}
-                      />
+                    {!isLegacy && (showLastUpdatedDate || aiDownload) && (
+                      <Flex
+                        id="layout-page-actions"
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="flex-end"
+                      >
+                        <PageLastUpdated directoryData={dirData} />
+                        <DocDownload />
+                      </Flex>
                     )}
                     {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
                       <Gen1Banner currentPlatform={currentPlatform} />
@@ -298,8 +335,8 @@ export const Layout = ({
                     {(asPathWithNoHash.includes('/push-notifications/') ||
                       asPathWithNoHash.includes('/analytics/') ||
                       asPathWithNoHash.includes('/in-app-messaging/')) && (
-                        <PinpointEOLBanner />
-                      )}
+                      <PinpointEOLBanner />
+                    )}
                     {asPathWithNoHash.includes('/interactions/') && (
                       <LexV1EOLBanner />
                     )}

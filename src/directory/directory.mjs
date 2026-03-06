@@ -1039,12 +1039,6 @@ export const directory = {
               path: 'src/pages/legacy/[platform]/reference/telemetry/index.mdx'
             },
             {
-              path: 'src/pages/reference/maintenance-policy/index.mdx',
-              title: 'Maintenance Policy',
-              description:
-                'The maintenance policy for all Amplify Client Libraries.'
-            },
-            {
               isExternal: true,
               route: 'https://aws-amplify.github.io/amplify-swift/docs/',
               title: 'API Documentation',
@@ -3056,16 +3050,12 @@ export const directory = {
       ]
     },
     {
-      path: 'src/pages/configure/index.mdx'
-    },
-    {
-      path: 'src/pages/auth/index.mdx'
-    },
-    {
-      path: 'src/pages/data/index.mdx'
-    },
-    {
-      path: 'src/pages/storage/index.mdx'
+      path: 'src/pages/foo/index.mdx',
+      children: [{
+        path: 'src/pages/foo/bar.mdx'
+      },{
+        path: 'src/pages/foo/baz.mdx'
+      }]
     }
   ]
 };

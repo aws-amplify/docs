@@ -1,6 +1,0 @@
-{
-  "title": "Passwordless",
-  "showBreadcrumbs": true,
-  "hasTOC": true,
-  "route": "/auth/signIn/passwordless"
-}

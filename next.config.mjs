@@ -4,6 +4,8 @@ import rehypeMdxCodeProps from 'rehype-mdx-code-props';
 import rehypeImgSize from 'rehype-img-size';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 
 dotenv.config({ path: './.env.custom' });
 
@@ -13,6 +15,9 @@ const nextConfig = {
   distDir: 'client/www/next-build',
   generateBuildId: async () => {
     return 'amplify-docs';
+  },
+  redirects() {
+    return []
   },
   env: {
     BUILD_ENV: process.env.BUILD_ENV,
@@ -54,7 +59,9 @@ const withMDX = createMDX({
   extension: /\.mdx$/,
   options: {
     remarkPlugins: [
-      remarkGfm
+      remarkGfm,
+      remarkFrontmatter,
+      remarkMdxFrontmatter
     ],
     rehypePlugins: [
       [rehypeImgSize, { dir: 'public' }],

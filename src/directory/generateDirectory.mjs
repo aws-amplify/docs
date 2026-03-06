@@ -71,6 +71,8 @@ async function getLastModifiedDate(filePath) {
   const cache = await initializeGitCache();
 
   if (!cache.has(filePath)) {
+    const stat = await fs.stat(filePath);
+    return stat.mtime;
     throw new Error(`Git date not found for: ${filePath}`);
   }
 
@@ -83,13 +85,9 @@ async function getLastModifiedDate(filePath) {
  * @returns
  */
 async function getMetaStringObj(filePath) {
-  const regex = /const\s+meta\s*=\s*(\{[\s\S]*?\n\};)/;
-  try {
-    const metaPath = `${dirname(filePath)}/meta.json`
-    await fs.access(`${dirname(filePath)}/meta.json`, fs.constants.R_OK);
-    const metaObj = await fs.readFile(metaPath, 'utf-8');
-    return JSON5.parse(metaObj);
-  } catch {
+  const readMetaThroughRegex = async () => {
+    const regex = /const\s+meta\s*=\s*(\{[\s\S]*?\n\};)/;
+
     const file = await fs.readFile(filePath, 'utf-8');
     const match = file.match(regex);
 
@@ -120,6 +118,34 @@ Please check the "meta" object in the file and make sure it is a valid javascrip
 There might be a missing comma in the object or a missing semicolon at the end of the meta object.
 `
       );
+    }
+  }
+  // if there is a meta.json file, next to the mdx/tsx, use that.
+  try {
+    const metaPath = `${dirname(filePath)}/meta.json`
+    await fs.access(`${dirname(filePath)}/meta.json`, fs.constants.R_OK);
+    const metaObj = await fs.readFile(metaPath, 'utf-8');
+    return JSON5.parse(metaObj);
+  // if that fails, try to read the file and check for the regex.
+  } catch {
+    try {
+      const fileContent = await fs.readFile(filePath, 'utf-8');
+      const lines = fileContent.split('\n');
+      const metaObj = {meta:{}}
+      if(lines[0] === '---') {
+        lines.shift();
+        while(lines[0] !== '---' && lines.length > 0) {
+          const entry = lines.shift();
+          const [k, v] = entry.split(':');
+          const value = v.trim() === "true" ? true : v.trim() === 'false'? false : v.trim();
+          const key = k.trim();
+          metaObj[key] = value;
+        }
+        return metaObj
+      }
+      return await readMetaThroughRegex()
+    } catch {
+      return await readMetaThroughRegex()
     }
   }
 }

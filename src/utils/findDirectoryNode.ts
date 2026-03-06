@@ -19,3 +19,22 @@ export const findDirectoryNode = (
 
   return null;
 };
+
+export const findDirectoryNodes = (
+  predicate: (path: string) => boolean,
+  dir = directoryCast
+): PageNodes[] => {
+  if (!dir.path) {
+    return [];
+  }
+  let result = [];
+  if (predicate(dir.path)) {
+    result = [dir];
+  }
+  if (dir.children && dir.children.length) {
+    for (const child of dir.children) {
+      result = [...result, ...findDirectoryNodes(predicate, child)];
+    }
+  }
+  return result;
+};

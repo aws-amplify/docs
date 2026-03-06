@@ -1,6 +1,0 @@
-{
-  "title": "MFA",
-  "showBreadcrumbs": true,
-  "hasTOC": true,
-  "route": "/auth/signIn/mfa"
-}

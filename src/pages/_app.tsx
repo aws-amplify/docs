@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }) {
     hasTOC,
     pageType,
     showBreadcrumbs,
+    aiDownload,
     showLastUpdatedDate,
     useCustomTitle
   } = pageProps;
@@ -52,6 +53,7 @@ function MyApp({ Component, pageProps }) {
         platform={platform ? platform : ''}
         hasTOC={hasTOC}
         useCustomTitle={useCustomTitle}
+        aiDownload={aiDownload}
         showBreadcrumbs={showBreadcrumbs}
         showLastUpdatedDate={showLastUpdatedDate}
       >
@@ -59,7 +61,9 @@ function MyApp({ Component, pageProps }) {
       </Layout>
     ));
 
-  const favIconColor = router.route.startsWith('/legacy/gen1') ? 'teal' : 'purple';
+  const favIconColor = router.route.startsWith('/legacy/gen1')
+    ? 'teal'
+    : 'purple';
   return (
     <>
       <Head>

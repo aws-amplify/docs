@@ -8,3 +8,13 @@ export const getCustomStaticPath = (platforms: string[]) => {
     fallback: false
   };
 };
+
+export const getCustomStaticPathWithSlugs = (
+  slugs: string[],
+  platforms: string[]
+) => {
+  return {
+    paths: platforms.map((platform) => ({ params: { platform, slug: slugs } })),
+    fallback: false
+  };
+};

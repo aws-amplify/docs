@@ -10,8 +10,8 @@
 
     .refreshed & {
       border-top: none;
-      border-bottom: 1px solid var(--amplify-colors-neutral-20);
       padding-top: 0;
+      padding-bottom: var(--amplify-space-medium);
     }
   }
 }

@@ -1,0 +1,1 @@
+export { DocDownload } from './DocDownload';

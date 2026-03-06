@@ -1,0 +1,20 @@
+
+.doc-download {
+  --amplify-components-accordion-item-content-padding-block-end: 0;
+  --amplify-components-accordion-item-content-padding-block-start: 0;
+  --amplify-components-accordion-item-content-padding-inline: 0;
+  --amplify-components-table-data-border-width: 0;
+
+  padding: 0 var(--amplify-space-large);
+  height: 60px;
+  width: 15rem;
+  overflow: visible;
+
+  .refreshed & {
+    padding: 0;
+    padding-bottom: var(--amplify-space-medium);
+  }
+  &-content {
+    background: var(--amplify-colors-background-primary);
+  }
+}

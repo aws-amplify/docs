@@ -1,7 +1,0 @@
-{
-  "title": "Configuration",
-  "description": "Learn how to set up and connect your backend resources for authentication in Amplify.",
-  "showBreadcrumbs": true,
-  "hasTOC": true,
-  "route": "/configure"
-}

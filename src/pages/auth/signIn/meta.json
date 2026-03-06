@@ -1,6 +1,0 @@
-{
-  "title": "Signing In",
-  "description": "Learn how to sign in to your Authentication Provider",
-  "showBreadcrumbs": true,
-  "route": "/auth/signIn"
-}

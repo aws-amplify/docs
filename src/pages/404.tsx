@@ -8,7 +8,7 @@ export const meta = {
   description: ''
 };
 
-export function getStaticProps() {
+export function getStaticProps(props) {
   return {
     props: {
       meta,

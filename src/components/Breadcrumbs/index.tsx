@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@aws-amplify/ui-react';
 import { findDirectoryNode as findNode } from '@/utils/findDirectoryNode';
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
 type BreadcrumbItem = {
@@ -90,7 +91,12 @@ function generateBreadcrumbs(
 }
 
 function BreadcrumbsComponent({ route, platform }: Props) {
-  const items = generateBreadcrumbs(route, platform);
+  const router = useRouter();
+  const isCatchAll = router.route === '/[...slug]';
+  const items = generateBreadcrumbs(
+    isCatchAll ? router.asPath : route,
+    platform
+  );
 
   return items.length > 1 ? (
     <div className={'breadcrumb__container'}>
@@ -99,16 +105,21 @@ function BreadcrumbsComponent({ route, platform }: Props) {
           const isCurrent = i === all.length - 1;
           return (
             <Breadcrumbs.Item key={href.pathname} className="breadcrumb__item">
-              {!isCurrent ? <Link
-                href={href}
-                className={classNames(
-                  'amplify-link',
-                  'amplify-breadcrumbs__link',
-                  { 'amplify-breadcrumbs__link--current': isCurrent }
-                )}
-                aria-current={isCurrent || undefined}>
-                {label}
-              </Link> : <>{label}</>}
+              {!isCurrent ? (
+                <Link
+                  href={href}
+                  className={classNames(
+                    'amplify-link',
+                    'amplify-breadcrumbs__link',
+                    { 'amplify-breadcrumbs__link--current': isCurrent }
+                  )}
+                  aria-current={isCurrent || undefined}
+                >
+                  {label}
+                </Link>
+              ) : (
+                <>{label}</>
+              )}
               {isCurrent ? null : <Breadcrumbs.Separator />}
             </Breadcrumbs.Item>
           );
