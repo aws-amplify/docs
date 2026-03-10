@@ -220,7 +220,7 @@ export function generateFrontmatter(pageNode) {
   const url = `${DOMAIN}/react/${routeWithoutPlatform}/`;
 
   return `---
-title: "${pageNode.title.replace(/"/g, '\\"')}"
+title: "${pageNode.title.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"
 section: "${section}"
 platforms: [${platformsStr}]
 gen: 2
