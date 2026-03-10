@@ -40,6 +40,7 @@ import { Gen1Banner } from '@/components/Gen1Banner';
 import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
 import { LexV1EOLBanner } from '../LexV1EOLBanner';
 import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
+import { MarkdownMenu } from '@/components/MarkdownMenu';
 
 export const Layout = ({
   children,
@@ -283,7 +284,19 @@ export const Layout = ({
                     ) : null}
                     {shouldShowAIBanner ? <AIBanner /> : null}
                     {useCustomTitle ? null : (
-                      <Heading level={1}>{pageTitle}</Heading>
+                      <Flex
+                        justifyContent="space-between"
+                        alignItems="flex-start"
+                        wrap="nowrap"
+                      >
+                        <Heading level={1}>{pageTitle}</Heading>
+                        <MarkdownMenu
+                          route={asPathWithNoHash}
+                          isGen1={isGen1}
+                          isHome={isHome}
+                          isOverview={isOverview}
+                        />
+                      </Flex>
                     )}
                     {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
                       <Gen1Banner currentPlatform={currentPlatform} />
