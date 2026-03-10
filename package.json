@@ -112,7 +112,7 @@
     "refresh": "yarn clean && yarn",
     "test:unit": "jest --projects jest.unit.config.js --coverage",
     "test:e2e": "jest --projects e2e/jest.e2e.config.js",
-    "dev": "yarn prebuild && node tasks/generate-llms-txt.mjs && next dev --webpack",
+    "dev": "yarn prebuild && next dev --webpack",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
     "build": "yarn prebuild && yarn next-build && yarn postbuild",
@@ -122,7 +122,7 @@
     "next-start": "next start --webpack",
     "prepare": "husky install",
     "analyze": "ANALYZE=true yarn next-build",
-    "prebuild": "node src/directory/generateDirectory.mjs && node src/directory/generateFlatDirectory.mjs",
+    "prebuild": "node src/directory/generateDirectory.mjs && node src/directory/generateFlatDirectory.mjs && node tasks/generate-llms-txt.mjs",
     "lint": "next lint --webpack",
     "clean-references": "node tasks/clean-references.mjs"
   },
