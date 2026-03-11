@@ -20,10 +20,9 @@ export function MarkdownMenu({ route, isGen1, isHome, isOverview }: MarkdownMenu
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Only render on Gen2 content pages (not home, Gen1, or overview/index pages)
-  if (isGen1 || isHome || isOverview) return null;
-
+  const shouldRender = !isGen1 && !isHome && !isOverview;
   const mdUrl = getMarkdownUrl(route);
 
   const handleCopy = useCallback(async () => {
@@ -32,11 +31,11 @@ export function MarkdownMenu({ route, isGen1, isHome, isOverview }: MarkdownMenu
       if (!response.ok) return;
       const text = await response.text();
       // Guard against accidentally copying HTML (e.g. 404 page)
-      if (text.trimStart().startsWith('<!DOCTYPE') || text.trimStart().startsWith('<html')) return;
+      if (/^\s*<!doctype/i.test(text) || /^\s*<html/i.test(text)) return;
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setIsOpen(false);
-      setTimeout(() => setCopied(false), 2000);
+      copiedTimerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
       // Silently fail if clipboard not available
     }
@@ -46,6 +45,12 @@ export function MarkdownMenu({ route, isGen1, isHome, isOverview }: MarkdownMenu
     window.open(mdUrl, '_blank');
     setIsOpen(false);
   }, [mdUrl]);
+
+  useEffect(() => {
+    return () => {
+      if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -59,8 +64,33 @@ export function MarkdownMenu({ route, isGen1, isHome, isOverview }: MarkdownMenu
     }
   }, [isOpen]);
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+      if (!isOpen) return;
+      const items = menuRef.current?.querySelectorAll<HTMLButtonElement>(
+        '[role="menuitem"]'
+      );
+      if (!items?.length) return;
+      const focused = document.activeElement;
+      const index = Array.from(items).indexOf(focused as HTMLButtonElement);
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        items[index < items.length - 1 ? index + 1 : 0].focus();
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        items[index > 0 ? index - 1 : items.length - 1].focus();
+      }
+    },
+    [isOpen]
+  );
+
+  if (!shouldRender) return null;
+
   return (
-    <div ref={menuRef} className="markdown-menu">
+    <div ref={menuRef} className="markdown-menu" onKeyDown={handleKeyDown}>
       <Button
         size="small"
         variation="link"

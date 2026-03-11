@@ -4,6 +4,7 @@ import path from 'path';
 const AI_PATH = './public/ai';
 const PAGES_PATH = `${AI_PATH}/pages`;
 const DOMAIN = 'https://docs.amplify.aws';
+const PROJECT_ROOT = path.resolve('.');
 
 /**
  * Recursively walk directory.json and collect Gen2 page nodes
@@ -133,6 +134,10 @@ export function transformMdxToMarkdown(rawMdx, srcDir = './src') {
         if (fragmentPath) {
           try {
             const resolvedPath = path.resolve(srcDir, '..', fragmentPath);
+            // Ensure the resolved path stays within the project root
+            if (!resolvedPath.startsWith(PROJECT_ROOT)) {
+              continue;
+            }
             const fragmentContent = readFileSync(resolvedPath, 'utf-8');
             return transformMdxToMarkdown(fragmentContent, srcDir);
           } catch {
@@ -149,8 +154,12 @@ export function transformMdxToMarkdown(rawMdx, srcDir = './src') {
   content = content.replace(/^import\s+.*?from\s+['"].*?['"]\s*$/gm, '');
 
   // Step 5: Convert <InlineFilter filters={[...]}>...</InlineFilter>
-  // Handle nested InlineFilters by running multiple passes
-  for (let i = 0; i < 3; i++) {
+  // The regex matches innermost InlineFilter pairs first. Multiple passes handle
+  // nesting — each pass peels off one layer. We loop until no more replacements
+  // occur rather than using a fixed count.
+  let prevContent;
+  do {
+    prevContent = content;
     content = content.replace(
       /<InlineFilter\s+filters=\{(\[.*?\])\}>([\s\S]*?)<\/InlineFilter>/g,
       (match, filters, inner) => {
@@ -159,7 +168,7 @@ export function transformMdxToMarkdown(rawMdx, srcDir = './src') {
         return `<!-- Platform: ${filterList} -->\n${inner.trim()}\n<!-- /Platform -->`;
       }
     );
-  }
+  } while (content !== prevContent);
 
   // Step 6: Convert <BlockSwitcher>/<Block name="X"> → #### [X]
   content = content.replace(/<BlockSwitcher>/g, '');
@@ -233,9 +242,14 @@ url: "${url}"
  * Generate the llms.txt index file content.
  */
 export function generateLlmsIndex(pageNodes) {
-  let output = `# AWS Amplify Gen 2 Documentation\n\n`;
-  output += `> AWS Amplify documentation for building fullstack apps with TypeScript.\n\n`;
-  output += `Docs: ${DOMAIN}\n\n`;
+  const lines = [
+    '# AWS Amplify Gen 2 Documentation',
+    '',
+    '> AWS Amplify documentation for building fullstack apps with TypeScript.',
+    '',
+    `Docs: ${DOMAIN}`,
+    ''
+  ];
 
   // Group by top-level section
   const sections = new Map();
@@ -249,52 +263,53 @@ export function generateLlmsIndex(pageNodes) {
   }
 
   for (const [sectionName, nodes] of sections) {
-    output += `## ${sectionName}\n\n`;
+    lines.push(`## ${sectionName}`, '');
     for (const node of nodes) {
       const routeWithoutPlatform = node.route.replace('/[platform]/', '');
       const url = `${DOMAIN}/react/${routeWithoutPlatform}/`;
       const mdUrl = `/ai/pages/${routeWithoutPlatform}.md`;
-      output += `- [${node.title}](${url})`;
+      let entry = `- [${node.title}](${url})`;
       if (node.description) {
-        output += `: ${node.description}`;
+        entry += `: ${node.description}`;
       }
-      output += `\n  Markdown: ${mdUrl}\n`;
+      lines.push(entry, `  Markdown: ${mdUrl}`);
     }
-    output += '\n';
+    lines.push('');
   }
 
-  return output.trim() + '\n';
+  return lines.join('\n').trim() + '\n';
 }
 
 /**
  * Generate the llms-full.txt concatenated file content.
  */
 export function generateLlmsFull(pageNodes, contentsMap) {
-  let output = `# AWS Amplify Gen 2 Documentation (Full)\n\n`;
-  output += `> Complete documentation export for AI coding assistants.\n`;
-  output += `> Generated: ${new Date().toISOString().split('T')[0]}\n\n`;
+  const lines = [
+    '# AWS Amplify Gen 2 Documentation (Full)',
+    '',
+    '> Complete documentation export for AI coding assistants.',
+    `> Generated: ${new Date().toISOString().split('T')[0]}`,
+    '',
+    '## Table of Contents',
+    ''
+  ];
 
   // Table of contents
-  output += `## Table of Contents\n\n`;
   for (const node of pageNodes) {
     const routeWithoutPlatform = node.route.replace('/[platform]/', '');
     const anchor = routeWithoutPlatform.replace(/\//g, '-');
-    output += `- [${node.title}](#${anchor})\n`;
+    lines.push(`- [${node.title}](#${anchor})`);
   }
-  output += '\n---\n\n';
+  lines.push('', '---', '');
 
   // Concatenated pages
   for (const node of pageNodes) {
-    const routeWithoutPlatform = node.route.replace('/[platform]/', '');
     const content = contentsMap.get(node.route) || '';
     const frontmatter = generateFrontmatter(node);
-
-    output += frontmatter + '\n\n';
-    output += content + '\n\n';
-    output += '---\n\n';
+    lines.push(frontmatter, '', content, '', '---', '');
   }
 
-  return output;
+  return lines.join('\n');
 }
 
 /**
@@ -348,27 +363,35 @@ export async function generateLlmsTxt() {
   // Step 3: Write output files
   await ensureDir(PAGES_PATH);
 
-  // Write individual page files
+  // Collect all unique directories needed, then create them in parallel
+  const dirs = new Set();
   for (const node of pageNodes) {
     const routeWithoutPlatform = node.route.replace('/[platform]/', '');
     const pagePath = `${PAGES_PATH}/${routeWithoutPlatform}.md`;
-    const pageDir = path.dirname(pagePath);
-    await ensureDir(pageDir);
-
-    const frontmatter = generateFrontmatter(node);
-    const content = contentsMap.get(node.route) || '';
-    await fs.writeFile(pagePath, `${frontmatter}\n\n${content}\n`);
+    dirs.add(path.dirname(pagePath));
   }
+  await Promise.all([...dirs].map((dir) => ensureDir(dir)));
+
+  // Write individual page files in parallel
+  await Promise.all(
+    pageNodes.map((node) => {
+      const routeWithoutPlatform = node.route.replace('/[platform]/', '');
+      const pagePath = `${PAGES_PATH}/${routeWithoutPlatform}.md`;
+      const frontmatter = generateFrontmatter(node);
+      const content = contentsMap.get(node.route) || '';
+      return fs.writeFile(pagePath, `${frontmatter}\n\n${content}\n`);
+    })
+  );
   console.log(`Wrote ${pageNodes.length} individual page files`);
 
-  // Write llms.txt index
+  // Write llms.txt and llms-full.txt in parallel
   const indexContent = generateLlmsIndex(pageNodes);
-  await fs.writeFile(`${AI_PATH}/llms.txt`, indexContent);
-  console.log(`Wrote ${AI_PATH}/llms.txt`);
-
-  // Write llms-full.txt
   const fullContent = generateLlmsFull(pageNodes, contentsMap);
-  await fs.writeFile(`${AI_PATH}/llms-full.txt`, fullContent);
+  await Promise.all([
+    fs.writeFile(`${AI_PATH}/llms.txt`, indexContent),
+    fs.writeFile(`${AI_PATH}/llms-full.txt`, fullContent)
+  ]);
+  console.log(`Wrote ${AI_PATH}/llms.txt`);
   console.log(`Wrote ${AI_PATH}/llms-full.txt`);
 
   console.log('llms.txt generation complete.');
