@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { PLATFORMS, PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import type { Platform } from '@/data/platforms';
@@ -26,7 +26,10 @@ export function SearchFilters({
   onGenChange
 }: SearchFiltersProps) {
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const cleanupContainer = useCallback((container: HTMLElement | null) => {
+    container?.remove();
+  }, []);
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
@@ -37,19 +40,23 @@ export function SearchFilters({
         const container = document.createElement('div');
         container.className = 'search-filters-container';
         searchBar.insertAdjacentElement('afterend', container);
-        containerRef.current = container;
         setPortalContainer(container);
       } else if (!modal) {
-        containerRef.current = null;
-        setPortalContainer(null);
+        setPortalContainer((prev) => {
+          cleanupContainer(prev);
+          return null;
+        });
       }
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: false });
     return () => {
       observer.disconnect();
-      containerRef.current?.remove();
+      setPortalContainer((prev) => {
+        cleanupContainer(prev);
+        return null;
+      });
     };
-  }, []);
+  }, [cleanupContainer]);
 
   if (!portalContainer) return null;
 
