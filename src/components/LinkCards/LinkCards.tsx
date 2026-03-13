@@ -28,6 +28,7 @@ const LinkCards: React.FC<LinkCardsProps> = ({ platform }) => {
       <LinkCard
         isExternal={true}
         href={links.DISCORD}
+        rel={'noopener'}
         icon={() => <IconDiscord fontSize="2rem" />}
       >
         Amplify Discord
