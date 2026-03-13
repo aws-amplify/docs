@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
@@ -19,6 +19,8 @@ import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import { SearchFilters } from '@/components/Search';
+import type { GenFilter, PlatformFilter } from '@/components/Search';
 
 export const LayoutHeader = ({
   currentPlatform,
@@ -38,6 +40,14 @@ export const LayoutHeader = ({
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
+
+  const [platformFilter, setPlatformFilter] = useState<PlatformFilter>('all');
+  const [genFilter, setGenFilter] = useState<GenFilter>('gen2');
+
+  const searchParams = useMemo(() => ({
+    ...(platformFilter !== 'all' && { optionalFacetFilters: [`platform:${platformFilter}`] }),
+    ...(genFilter !== 'both' && { facetFilters: [`gen:${genFilter}`] })
+  }), [platformFilter, genFilter]);
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
@@ -90,13 +100,17 @@ export const LayoutHeader = ({
               appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
               indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
               apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-              searchParameters={{
-                facetFilters: [
-                  `platform:${currentPlatform}`,
-                  `gen:${isGen1 ? 'gen1' : 'gen2'}`
-                ]
-              }}
+              searchParameters={searchParams}
               transformItems={transformItems}
+              getMissingResultsUrl={({ query }) =>
+                `https://github.com/aws-amplify/docs/issues/new?title=${encodeURIComponent(`[search] Missing results for: ${query}`)}&labels=v2`
+              }
+            />
+            <SearchFilters
+              platformFilter={platformFilter}
+              genFilter={genFilter}
+              onPlatformChange={setPlatformFilter}
+              onGenChange={setGenFilter}
             />
           </View>
         </View>
