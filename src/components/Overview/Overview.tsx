@@ -2,6 +2,7 @@ import { PageNode } from '@/directory/directory';
 import { Card, Flex, View, Heading } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import { Platform } from '@/data/platforms';
 import { Columns } from '@/components/Columns';
 
@@ -13,6 +14,14 @@ export function Overview({ childPageNodes }: OverviewProps) {
   const router = useRouter();
   const currentPlatform = router.query.platform as Platform;
 
+  // Read ?section= param for section filtering
+  const [activeSection, setActiveSection] = useState<string | undefined>();
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const section = params.get('section');
+    if (section) setActiveSection(section);
+  }, []);
+
   if (!childPageNodes) {
     return <></>;
   }
@@ -21,6 +30,12 @@ export function Overview({ childPageNodes }: OverviewProps) {
     <Columns columns={2} size="small" className="overview">
       {childPageNodes
         .filter((node) => {
+          // Section filtering
+          if (activeSection && node.section) {
+            if (node.section !== activeSection && node.section !== 'both') {
+              return false;
+            }
+          }
           if (currentPlatform) {
             return node?.platforms?.includes(currentPlatform);
           } else {

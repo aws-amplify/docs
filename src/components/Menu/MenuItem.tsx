@@ -19,6 +19,7 @@ type MenuItemProps = {
   level: number;
   currentPlatform?: Platform;
   hideChildren?: boolean;
+  activeSection?: string;
 };
 
 function getPathname(route, currentPlatform: Platform | undefined) {
@@ -38,15 +39,21 @@ export function MenuItem({
   parentSetOpen,
   level,
   currentPlatform,
-  hideChildren
+  hideChildren,
+  activeSection
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
-  const children = useMemo(
-    () => (hideChildren ? [] : pageNode.children),
-    [hideChildren, pageNode.children]
-  );
+  const children = useMemo(() => {
+    if (hideChildren) return [];
+    const allChildren = pageNode.children;
+    if (!activeSection || !allChildren) return allChildren;
+    return allChildren.filter((child) => {
+      if (!child.section) return true;
+      return child.section === activeSection || child.section === 'both';
+    });
+  }, [hideChildren, pageNode.children, activeSection]);
   const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (
@@ -219,6 +226,7 @@ export function MenuItem({
                 parentSetOpen={setOpen}
                 level={level + 1}
                 currentPlatform={currentPlatform}
+                activeSection={activeSection}
               />
             ))}
           </ul>

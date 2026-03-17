@@ -68,12 +68,15 @@ export const directory = {
           children: [
             {
               path: 'src/pages/[platform]/build-a-backend/auth/index.mdx',
+              section: 'both',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx',
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/concepts/index.mdx',
+                  section: 'backend',
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/concepts/usernames/index.mdx'
@@ -109,6 +112,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/index.mdx',
+                  section: 'frontend',
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/using-the-authenticator/index.mdx'
@@ -144,6 +148,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx',
+                  section: 'backend',
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/manage-users/with-admin-actions/index.mdx'
@@ -164,6 +169,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/index.mdx',
+                  section: 'backend',
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/customize-auth-lifecycle/custom-auth-flows/index.mdx'
@@ -177,16 +183,20 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-with-web-ui/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-with-web-ui/index.mdx',
+                  section: 'frontend'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx',
+                  section: 'frontend'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx',
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/examples/index.mdx',
+                  section: 'backend',
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/auth/examples/microsoft-entra-id-saml/index.mdx'
@@ -194,22 +204,28 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/grant-access-to-auth-resources/index.mdx',
+                  section: 'backend'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/modify-resources-with-cdk/index.mdx',
+                  section: 'backend'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx',
+                  section: 'backend'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx',
+                  section: 'frontend'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/use-existing-cognito-resources/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-existing-cognito-resources/index.mdx',
+                  section: 'backend'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/use-aws-sdk/index.mdx'
+                  path: 'src/pages/[platform]/build-a-backend/auth/use-aws-sdk/index.mdx',
+                  section: 'backend'
                 }
               ]
             },
