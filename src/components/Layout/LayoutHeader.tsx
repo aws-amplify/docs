@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { Platform } from '@/data/platforms';
+import { SECTIONS, SectionKey, getDefaultPathForSection } from '@/data/sections';
+import Link from 'next/link';
 import {
   ALGOLIA_API_KEY,
   ALGOLIA_INDEX_NAME,
@@ -27,13 +29,17 @@ export const LayoutHeader = ({
   isGen1,
   pageType = 'inner',
   showLastUpdatedDate = true,
-  showTOC
+  showTOC,
+  activeSection,
+  onSectionChange
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
+  activeSection?: string;
+  onSectionChange?: (section: SectionKey) => void;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -144,6 +150,28 @@ export const LayoutHeader = ({
             <VisuallyHidden>Close menu</VisuallyHidden>
           </Button>
 
+          {!isGen1 && (
+            <div className="section-nav-sidebar">
+              {(Object.keys(SECTIONS) as SectionKey[]).map((key) => {
+                const section = SECTIONS[key];
+                const isActive = activeSection === key;
+                return (
+                  <Link
+                    key={key}
+                    href={getDefaultPathForSection(key, currentPlatform)}
+                    className={`section-nav-sidebar__tab ${isActive ? 'section-nav-sidebar__tab--active' : ''}`}
+                    onClick={() => {
+                      onSectionChange?.(key);
+                      toggleMenuOpen(false);
+                    }}
+                  >
+                    {section.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+
           <div className="layout-sidebar-platform">
             <PlatformNavigator
               currentPlatform={currentPlatform}
@@ -152,7 +180,21 @@ export const LayoutHeader = ({
           </div>
 
           <div className="layout-sidebar-menu">
-            <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
+            <Menu
+              currentPlatform={currentPlatform}
+              path={asPathWithNoHash}
+              activeSection={activeSection}
+            />
+            {!isGen1 && (
+              <div className="layout-sidebar-legacy">
+                <a
+                  href={`/gen1/${currentPlatform}/`}
+                  className="layout-sidebar-legacy__link"
+                >
+                  Legacy Docs (Gen1)
+                </a>
+              </div>
+            )}
             <div className="layout-sidebar-feedback">
               <RepoActions router={router}></RepoActions>
               <Feedback router={router}></Feedback>

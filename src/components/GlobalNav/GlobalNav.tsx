@@ -4,8 +4,16 @@ import { useState } from 'react';
 import { NavMenuIconType } from './components/icons/IconLink';
 import { RightNavLinks } from './components/RightNavLinks';
 import { AmplifyNavLink } from './components/AmplifyNavLink';
-import { LeftNavLinks } from './components/LeftNavLinks';
 import { SkipToMain } from '@/components/SkipToMain';
+import {
+  SECTIONS,
+  EXTERNAL_NAV_ITEMS,
+  SectionKey,
+  getDefaultPathForSection
+} from '@/data/sections';
+import { Platform } from '@/data/platforms';
+import { IconExternalLink } from '@/components/Icons';
+import Link from 'next/link';
 
 export enum NavMenuItemType {
   DEFAULT = 'DEFAULT',
@@ -22,23 +30,28 @@ export interface NavMenuItem {
 }
 
 export interface NavProps {
-  leftLinks: NavMenuItem[];
   rightLinks: NavMenuItem[];
   socialLinks?: NavMenuItem[];
   currentSite: string;
   isGen1?: boolean;
   mainId: string;
+  activeSection?: SectionKey;
+  onSectionChange?: (section: SectionKey) => void;
+  currentPlatform?: Platform;
 }
 
 export function GlobalNav({
   currentSite,
   isGen1,
-  leftLinks,
   mainId,
   rightLinks,
-  socialLinks
+  socialLinks,
+  activeSection,
+  onSectionChange,
+  currentPlatform
 }: NavProps) {
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const platform = currentPlatform || 'react';
 
   return (
     <View
@@ -54,11 +67,50 @@ export function GlobalNav({
           setIsCollapsed={setIsCollapsed}
         />
 
-        <LeftNavLinks
-          isCollapsed={isCollapsed}
-          leftLinks={leftLinks}
-          currentSite={currentSite}
-        />
+        {!isGen1 && (
+          <Flex
+            className={`section-nav ${isCollapsed ? 'collapsed-menu' : ''}`}
+          >
+            {(Object.keys(SECTIONS) as SectionKey[]).map((key) => {
+              const section = SECTIONS[key];
+              const isActive = activeSection === key;
+              return (
+                <Link
+                  key={key}
+                  href={getDefaultPathForSection(key, platform)}
+                  className={`section-nav__tab ${isActive ? 'section-nav__tab--active' : ''}`}
+                  onClick={() => onSectionChange?.(key)}
+                >
+                  <span className="section-nav__tab__label">
+                    {section.label}
+                  </span>
+                  {section.subtitle && isActive && (
+                    <span className="section-nav__tab__subtitle">
+                      {section.subtitle}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+            {EXTERNAL_NAV_ITEMS.map((item) => (
+              <a
+                key={item.label}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="section-nav__tab section-nav__tab--external"
+              >
+                <span className="section-nav__tab__label">
+                  {item.label}
+                  <IconExternalLink
+                    fontSize="xs"
+                    className="section-nav__external-icon"
+                  />
+                </span>
+              </a>
+            ))}
+          </Flex>
+        )}
 
         <RightNavLinks
           rightLinks={rightLinks}

@@ -1,4 +1,4 @@
-import { ReactElement, useState, useEffect } from 'react';
+import { ReactElement } from 'react';
 import { MenuItem } from './MenuItem';
 import { Platform } from '@/data/platforms';
 import { PageNode } from '@/directory/directory';
@@ -17,15 +17,6 @@ const invalidChildren = [
 ];
 
 export function Menu({ currentPlatform, path, activeSection }: MenuProps): ReactElement {
-  // For Phase 0 testing: read ?section= from URL after mount
-  const [sectionFromUrl, setSectionFromUrl] = useState<string | undefined>();
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const section = params.get('section');
-    if (section) setSectionFromUrl(section);
-  }, [path]);
-  const sectionParam = sectionFromUrl || activeSection;
-
   // Depending on the the page we're on, we could have the following keywords at these subpaths
   // Split them out so we can figure out what kind of page it is
   const pathSplit = path.split('/');
@@ -72,9 +63,9 @@ export function Menu({ currentPlatform, path, activeSection }: MenuProps): React
 
   // Filter children by section tag when a section is active
   const filteredChildren = childrenNodes?.filter((child) => {
-    if (!sectionParam) return true;
+    if (!activeSection) return true;
     if (!child.section) return true;
-    return child.section === sectionParam || child.section === 'both';
+    return child.section === activeSection || child.section === 'both';
   });
 
   return (
@@ -89,7 +80,7 @@ export function Menu({ currentPlatform, path, activeSection }: MenuProps): React
                 parentSetOpen={null}
                 level={1}
                 hideChildren={child.hideChildrenOnBase && baseMenu}
-                activeSection={sectionParam}
+                activeSection={activeSection}
                 {...(currentPlatform
                   ? { currentPlatform: currentPlatform }
                   : {})}

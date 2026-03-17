@@ -22,8 +22,9 @@ import {
   Platform
 } from '@/data/platforms';
 import { SpaceShip } from '@/components/SpaceShip';
-import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
+import { RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
+import { getSectionFromPath, SectionKey } from '@/data/sections';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -80,6 +81,21 @@ export const Layout = ({
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isHome = pageType === 'home';
+
+  // Section-based navigation state.
+  // Only auto-detect on initial load. User tab clicks override via setActiveSection.
+  // When navigating to a clearly different section (e.g. /deploy-and-host/), update.
+  const [activeSection, setActiveSection] = useState<SectionKey | undefined>(
+    () => getSectionFromPath(asPathWithNoHash)
+  );
+  useEffect(() => {
+    const detected = getSectionFromPath(asPathWithNoHash);
+    // Only auto-switch section when the URL clearly belongs to a DIFFERENT section
+    // that isn't 'backend' (since frontend pages also live under /build-a-backend/)
+    if (detected && detected !== 'backend' && detected !== 'frontend') {
+      setActiveSection(detected);
+    }
+  }, [asPathWithNoHash]);
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
     if (mode !== 'system') {
@@ -139,12 +155,6 @@ export const Layout = ({
     }
   }, 20);
 
-  const isGen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//.test(
-    asPathWithNoHash
-  );
-  const isGen1HowAmplifyWorks = /\/gen1\/\w+\/how-amplify-works\//.test(
-    asPathWithNoHash
-  );
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -255,11 +265,13 @@ export const Layout = ({
               >
                 {isHome ? <SpaceShip /> : null}
                 <GlobalNav
-                  leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                   rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                   currentSite={currentGlobalNavMenuItem}
                   isGen1={isGen1}
                   mainId={mainId}
+                  activeSection={activeSection}
+                  onSectionChange={setActiveSection}
+                  currentPlatform={currentPlatform}
                 />
                 <LayoutHeader
                   showTOC={showTOC}
@@ -267,6 +279,8 @@ export const Layout = ({
                   currentPlatform={currentPlatform}
                   pageType={pageType}
                   showLastUpdatedDate={showLastUpdatedDate}
+                  activeSection={activeSection}
+                  onSectionChange={setActiveSection}
                 ></LayoutHeader>
                 <View key={asPathWithNoHash} className="layout-main">
                   <Flex
@@ -282,6 +296,9 @@ export const Layout = ({
                         platform={currentPlatform}
                       />
                     ) : null}
+                    {isGen1 && (
+                      <Gen1Banner currentPlatform={currentPlatform} />
+                    )}
                     {shouldShowAIBanner ? <AIBanner /> : null}
                     {useCustomTitle ? null : (
                       <Flex
@@ -297,9 +314,6 @@ export const Layout = ({
                           isOverview={isOverview}
                         />
                       </Flex>
-                    )}
-                    {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
-                      <Gen1Banner currentPlatform={currentPlatform} />
                     )}
                     {(asPathWithNoHash.includes('/push-notifications/') ||
                       asPathWithNoHash.includes('/analytics/') ||
