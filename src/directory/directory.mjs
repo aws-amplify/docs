@@ -9,6 +9,7 @@ export const directory = {
       children: [
         {
           path: 'src/pages/[platform]/how-amplify-works/index.mdx',
+          section: 'quickstart',
           children: [
             {
               path: 'src/pages/[platform]/how-amplify-works/concepts/index.mdx'
@@ -20,6 +21,7 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/start/index.mdx',
+          section: 'quickstart',
           children: [
             {
               path: 'src/pages/[platform]/start/quickstart/index.mdx',
@@ -65,6 +67,7 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/build-a-backend/index.mdx',
+          section: 'both',
           children: [
             {
               path: 'src/pages/[platform]/build-a-backend/auth/index.mdx',
@@ -777,6 +780,7 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/ai/index.mdx',
+          section: 'frontend',
           children: [
             {
               path: 'src/pages/[platform]/ai/set-up-ai/index.mdx'
@@ -842,6 +846,7 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/build-ui/index.mdx',
+          section: 'frontend',
           children: [
             {
               path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',
@@ -984,6 +989,7 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/deploy-and-host/index.mdx',
+          section: 'hosting',
           children: [
             {
               path: 'src/pages/[platform]/deploy-and-host/hosting/index.mdx'
@@ -1035,6 +1041,7 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/reference/index.mdx',
+          section: 'reference',
           children: [
             {
               path: 'src/pages/[platform]/reference/project-structure/index.mdx'

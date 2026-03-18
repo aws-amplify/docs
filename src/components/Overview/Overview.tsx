@@ -27,9 +27,11 @@ export function Overview({ childPageNodes }: OverviewProps) {
         .filter((node) => {
           // Section filtering
           if (activeSection && node.section) {
-            if (node.section !== activeSection && node.section !== 'both') {
-              return false;
-            }
+            const matches =
+              node.section === activeSection ||
+              (node.section === 'both' &&
+                (activeSection === 'backend' || activeSection === 'frontend'));
+            if (!matches) return false;
           }
           if (currentPlatform) {
             return node?.platforms?.includes(currentPlatform);

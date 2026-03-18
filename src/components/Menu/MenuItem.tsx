@@ -51,7 +51,13 @@ export function MenuItem({
     if (!activeSection || !allChildren) return allChildren;
     return allChildren.filter((child) => {
       if (!child.section) return true;
-      return child.section === activeSection || child.section === 'both';
+      if (child.section === activeSection) return true;
+      if (
+        child.section === 'both' &&
+        (activeSection === 'backend' || activeSection === 'frontend')
+      )
+        return true;
+      return false;
     });
   }, [hideChildren, pageNode.children, activeSection]);
   const onLinkClick = () => {

@@ -68,5 +68,5 @@ export type PageNode = {
    * 'backend' = Build a Backend, 'frontend' = Frontend Libraries, 'both' = shown in all sections.
    * Pages without this field are shown in all sections (backward compatible).
    */
-  section?: 'backend' | 'frontend' | 'both';
+  section?: 'backend' | 'frontend' | 'quickstart' | 'hosting' | 'reference' | 'both';
 };

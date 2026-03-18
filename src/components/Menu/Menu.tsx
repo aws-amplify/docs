@@ -61,11 +61,18 @@ export function Menu({ currentPlatform, path, activeSection }: MenuProps): React
     childrenNodes = rootMenuNode?.children;
   }
 
-  // Filter children by section tag when a section is active
+  // Filter children by section tag when a section is active.
+  // 'both' means the node belongs to both 'backend' and 'frontend' sections.
   const filteredChildren = childrenNodes?.filter((child) => {
     if (!activeSection) return true;
     if (!child.section) return true;
-    return child.section === activeSection || child.section === 'both';
+    if (child.section === activeSection) return true;
+    if (
+      child.section === 'both' &&
+      (activeSection === 'backend' || activeSection === 'frontend')
+    )
+      return true;
+    return false;
   });
 
   return (
