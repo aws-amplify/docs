@@ -83,28 +83,27 @@ export const Layout = ({
   const isHome = pageType === 'home';
 
   // Section-based navigation state, persisted in sessionStorage.
+  // Initialize from URL to match server render, then hydrate from storage.
   const [activeSection, setActiveSection] = useState<SectionKey | undefined>(
-    () => {
-      if (typeof window !== 'undefined') {
-        const stored = sessionStorage.getItem('activeSection') as SectionKey;
-        if (stored) return stored;
-      }
-      return getSectionFromPath(asPathWithNoHash);
-    }
+    () => getSectionFromPath(asPathWithNoHash)
   );
 
   const handleSectionChange = (section: SectionKey) => {
     setActiveSection(section);
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('activeSection', section);
-    }
+    sessionStorage.setItem('activeSection', section);
   };
 
+  // On mount, restore from sessionStorage if available
+  useEffect(() => {
+    const stored = sessionStorage.getItem('activeSection') as SectionKey;
+    if (stored) {
+      setActiveSection(stored);
+    }
+  }, []);
+
+  // Auto-switch for unambiguous sections (quickstart, hosting, reference)
   useEffect(() => {
     const detected = getSectionFromPath(asPathWithNoHash);
-    // Auto-switch for sections that are unambiguous from the URL
-    // (quickstart, hosting, reference). Don't auto-switch for
-    // backend/frontend since both live under /build-a-backend/.
     if (detected && detected !== 'backend' && detected !== 'frontend') {
       handleSectionChange(detected);
     }
