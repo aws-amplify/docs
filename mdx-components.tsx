@@ -24,6 +24,7 @@ import { Grid, View } from '@aws-amplify/ui-react';
 import { Columns } from './src/components/Columns';
 import { Video } from './src/components/Video';
 import { ReferencePage } from './src/components/ApiDocs';
+import { CrossLink } from './src/components/CrossLink';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -75,6 +76,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Video,
     View,
     ReferencePage,
+    CrossLink,
     ...components
   };
 }

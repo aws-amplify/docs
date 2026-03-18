@@ -38,6 +38,9 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { CrossLink } from '@/components/CrossLink';
+import { findDirectoryNode } from '@/utils/findDirectoryNode';
+import { getPageSection } from '@/utils/getPageSection';
 import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
 import { LexV1EOLBanner } from '../LexV1EOLBanner';
 import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
@@ -82,32 +85,68 @@ export const Layout = ({
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isHome = pageType === 'home';
 
-  // Section-based navigation state, persisted in sessionStorage.
-  // Initialize from URL to match server render, then hydrate from storage.
+  // Section-based navigation state.
+  // Determine section from directory tree (page's actual section tag),
+  // fall back to sessionStorage only for ambiguous pages (tagged 'both').
   const [activeSection, setActiveSection] = useState<SectionKey | undefined>(
     () => getSectionFromPath(asPathWithNoHash)
   );
 
   const handleSectionChange = (section: SectionKey) => {
     setActiveSection(section);
-    sessionStorage.setItem('activeSection', section);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('activeSection', section);
+    }
   };
 
-  // On mount, restore from sessionStorage if available
-  useEffect(() => {
-    const stored = sessionStorage.getItem('activeSection') as SectionKey;
-    if (stored) {
-      setActiveSection(stored);
-    }
-  }, []);
+  const { section: pageSection, featureRoute } = getPageSection(pathname);
 
-  // Auto-switch for unambiguous sections (quickstart, hosting, reference)
   useEffect(() => {
-    const detected = getSectionFromPath(asPathWithNoHash);
-    if (detected && detected !== 'backend' && detected !== 'frontend') {
-      handleSectionChange(detected);
+    if (pageSection) {
+      setActiveSection(pageSection);
+    } else if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('activeSection') as SectionKey;
+      if (stored) {
+        setActiveSection(stored);
+      } else {
+        const detected = getSectionFromPath(asPathWithNoHash);
+        if (detected) setActiveSection(detected);
+      }
     }
-  }, [asPathWithNoHash]);
+  }, [asPathWithNoHash, pathname, pageSection]);
+
+  // Derive CrossLink props for the current page
+  const crossLinkProps = (() => {
+    if (isGen1 || !pageSection) return null;
+
+    // Don't show CrossLink on landing/overview pages
+    if (pathname.endsWith('/frontend')) return null;
+    if (pathname.endsWith('/build-a-backend')) return null;
+    const isFeatureRoot = /\/\[platform\]\/build-a-backend\/[^/]+$/.test(pathname);
+    if (isFeatureRoot) {
+      const node = findDirectoryNode(pathname);
+      if (node?.section === 'both') return null;
+    }
+
+    if (pageSection === 'backend') {
+      return {
+        text: 'Looking for how to use this in your app?',
+        label: 'See Frontend Libraries',
+        href: featureRoute || '/[platform]/frontend/',
+        targetSection: 'frontend'
+      };
+    }
+    if (pageSection === 'frontend') {
+      return {
+        text: 'Need to configure your backend?',
+        label: 'See Build a Backend',
+        href: featureRoute || '/[platform]/build-a-backend/',
+        targetSection: 'backend'
+      };
+    }
+    return null;
+  })();
+
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
     if (mode !== 'system') {
@@ -310,6 +349,9 @@ export const Layout = ({
                     ) : null}
                     {isGen1 && (
                       <Gen1Banner currentPlatform={currentPlatform} />
+                    )}
+                    {crossLinkProps && (
+                      <CrossLink {...crossLinkProps} />
                     )}
                     {shouldShowAIBanner ? <AIBanner /> : null}
                     {useCustomTitle ? null : (

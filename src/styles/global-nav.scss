@@ -428,6 +428,37 @@
   }
 }
 
+// CrossLink callout for linking between sections
+.cross-link {
+  border: 1px solid var(--amplify-colors-border-secondary);
+  border-radius: var(--amplify-radii-medium);
+  padding: var(--amplify-space-medium);
+  margin-block: var(--amplify-space-large);
+  background-color: var(--amplify-colors-background-secondary);
+}
+
+.cross-link__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--amplify-space-xs);
+}
+
+.cross-link__text {
+  margin: 0;
+  font-size: var(--amplify-font-sizes-medium);
+  color: var(--amplify-colors-font-secondary);
+}
+
+.cross-link__link {
+  font-weight: 600;
+  font-size: var(--amplify-font-sizes-medium);
+  color: var(--amplify-colors-primary-80);
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 @media (min-width: 975px) {
   .section-nav-sidebar {
     display: none;
