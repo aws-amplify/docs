@@ -82,18 +82,31 @@ export const Layout = ({
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isHome = pageType === 'home';
 
-  // Section-based navigation state.
-  // Only auto-detect on initial load. User tab clicks override via setActiveSection.
-  // When navigating to a clearly different section (e.g. /deploy-and-host/), update.
+  // Section-based navigation state, persisted in sessionStorage.
   const [activeSection, setActiveSection] = useState<SectionKey | undefined>(
-    () => getSectionFromPath(asPathWithNoHash)
+    () => {
+      if (typeof window !== 'undefined') {
+        const stored = sessionStorage.getItem('activeSection') as SectionKey;
+        if (stored) return stored;
+      }
+      return getSectionFromPath(asPathWithNoHash);
+    }
   );
+
+  const handleSectionChange = (section: SectionKey) => {
+    setActiveSection(section);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('activeSection', section);
+    }
+  };
+
   useEffect(() => {
     const detected = getSectionFromPath(asPathWithNoHash);
-    // Only auto-switch section when the URL clearly belongs to a DIFFERENT section
-    // that isn't 'backend' (since frontend pages also live under /build-a-backend/)
+    // Auto-switch for sections that are unambiguous from the URL
+    // (quickstart, hosting, reference). Don't auto-switch for
+    // backend/frontend since both live under /build-a-backend/.
     if (detected && detected !== 'backend' && detected !== 'frontend') {
-      setActiveSection(detected);
+      handleSectionChange(detected);
     }
   }, [asPathWithNoHash]);
   const handleColorModeChange = (mode: ColorMode) => {
@@ -270,7 +283,7 @@ export const Layout = ({
                   isGen1={isGen1}
                   mainId={mainId}
                   activeSection={activeSection}
-                  onSectionChange={setActiveSection}
+                  onSectionChange={handleSectionChange}
                   currentPlatform={currentPlatform}
                 />
                 <LayoutHeader
@@ -280,7 +293,7 @@ export const Layout = ({
                   pageType={pageType}
                   showLastUpdatedDate={showLastUpdatedDate}
                   activeSection={activeSection}
-                  onSectionChange={setActiveSection}
+                  onSectionChange={handleSectionChange}
                 ></LayoutHeader>
                 <View key={asPathWithNoHash} className="layout-main">
                   <Flex

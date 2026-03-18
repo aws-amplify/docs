@@ -39,7 +39,7 @@ export function getDefaultPathForSection(
     case 'backend':
       return `/${platform}/build-a-backend/`;
     case 'frontend':
-      return `/${platform}/build-a-backend/auth/connect-your-frontend/`;
+      return `/${platform}/build-a-backend/`;
     case 'hosting':
       return `/${platform}/deploy-and-host/`;
     case 'reference':
