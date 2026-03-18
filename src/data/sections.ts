@@ -39,7 +39,7 @@ export function getDefaultPathForSection(
     case 'backend':
       return `/${platform}/build-a-backend/`;
     case 'frontend':
-      return `/${platform}/build-a-backend/`;
+      return `/${platform}/frontend/`;
     case 'hosting':
       return `/${platform}/deploy-and-host/`;
     case 'reference':
@@ -62,7 +62,8 @@ export function getSectionFromPath(path: string): SectionKey | undefined {
   }
   if (path.includes('/deploy-and-host/')) return 'hosting';
   if (path.includes('/reference/')) return 'reference';
-  if (path.includes('/build-ui/') || path.includes('/ai/')) return 'frontend';
+  if (path.includes('/frontend/') || path.includes('/build-ui/') || path.includes('/ai/'))
+    return 'frontend';
   if (path.includes('/build-a-backend/')) return 'backend';
 
   // Home page or unrecognized

@@ -987,6 +987,10 @@ export const directory = {
           ]
         },
         {
+          path: 'src/pages/[platform]/frontend/index.mdx',
+          section: 'frontend'
+        },
+        {
           path: 'src/pages/[platform]/build-ui/index.mdx',
           section: 'frontend',
           children: [
