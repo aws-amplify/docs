@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { PLATFORMS, DEFAULT_PLATFORM, Platform } from '@/data/platforms';
 
 type CrossLinkProps = {
   href: string;
@@ -11,12 +10,14 @@ type CrossLinkProps = {
 
 export function CrossLink({ href, label, text, targetSection }: CrossLinkProps) {
   const router = useRouter();
-  const queryPlatform = router.query.platform as string;
-  // Validate against known platforms to prevent XSS/open redirect
-  const currentPlatform: Platform = PLATFORMS.includes(queryPlatform as Platform)
-    ? (queryPlatform as Platform)
-    : DEFAULT_PLATFORM;
-  const resolvedHref = href.replace('[platform]', currentPlatform);
+
+  // Use Next.js Link object href to avoid injecting user input into URL strings.
+  // The href prop contains [platform] placeholder — pass it as pathname
+  // and let Next.js resolve it safely via the query parameter.
+  const linkHref = {
+    pathname: href,
+    ...(router.query.platform && { query: { platform: router.query.platform } })
+  };
 
   const handleClick = () => {
     if (targetSection) {
@@ -28,7 +29,7 @@ export function CrossLink({ href, label, text, targetSection }: CrossLinkProps) 
     <div className="cross-link">
       <div className="cross-link__content">
         <span className="cross-link__text">{text}</span>
-        <Link href={resolvedHref} className="cross-link__link" onClick={handleClick}>
+        <Link href={linkHref} className="cross-link__link" onClick={handleClick}>
           {label} &rarr;
         </Link>
       </div>
