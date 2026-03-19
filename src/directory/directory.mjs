@@ -671,7 +671,6 @@ export const directory = {
         {
           path: 'src/pages/[platform]/frontend/index.mdx',
           section: 'frontend',
-          hideFromNav: true,
           children: [
             {
               path: 'src/pages/[platform]/frontend/auth/index.mdx',

@@ -130,10 +130,10 @@ export const Layout = ({
     // Don't show CrossLink on landing/overview pages
     if (pathname.endsWith('/frontend')) return null;
     if (pathname.endsWith('/build-a-backend')) return null;
-    const isFeatureRoot = /\/\[platform\]\/build-a-backend\/[^/]+$/.test(pathname);
-    if (isFeatureRoot) {
+    // Skip feature root overviews (e.g., /build-a-backend/auth, /frontend/auth)
+    if (/\/\[platform\]\/(build-a-backend|frontend)\/[^/]+$/.test(pathname)) {
       const node = findDirectoryNode(pathname);
-      if (node?.section === 'both') return null;
+      if (node?.children && node.children.length > 0) return null;
     }
 
     if (pageSection === 'backend') {
@@ -353,7 +353,6 @@ export const Layout = ({
                       <Breadcrumbs
                         route={pathname}
                         platform={currentPlatform}
-                        activeSection={activeSection}
                       />
                     ) : null}
                     {isGen1 && (
@@ -369,12 +368,7 @@ export const Layout = ({
                         alignItems="flex-start"
                         wrap="nowrap"
                       >
-                        <Heading level={1}>
-                          {activeSection === 'frontend' &&
-                          pathname === '/[platform]/build-a-backend'
-                            ? 'Frontend Libraries'
-                            : pageTitle}
-                        </Heading>
+                        <Heading level={1}>{pageTitle}</Heading>
                         <MarkdownMenu
                           route={asPathWithNoHash}
                           isGen1={isGen1}
