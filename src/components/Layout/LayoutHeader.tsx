@@ -10,7 +10,7 @@ import {
   ALGOLIA_INDEX_NAME,
   ALGOLIA_APP_ID
 } from '../../constants/algolia';
-import { IconMenu, IconDoubleChevron } from '@/components/Icons';
+import { IconMenu, IconDoubleChevron, IconChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
@@ -186,14 +186,16 @@ export const LayoutHeader = ({
               activeSection={activeSection}
             />
             {!isGen1 && (
-              <div className="layout-sidebar-legacy">
-                <a
-                  href={`/gen1/${currentPlatform}/`}
-                  className="layout-sidebar-legacy__link"
-                >
-                  Legacy Docs (Gen1)
-                </a>
-              </div>
+              <a
+                href={`/gen1/${currentPlatform}/`}
+                className="layout-sidebar-legacy__link"
+              >
+                <span className="layout-sidebar-legacy__label">
+                  Gen1 Docs
+                  <span className="layout-sidebar-legacy__badge">Legacy</span>
+                </span>
+                <IconChevron className="icon-rotate-270" />
+              </a>
             )}
             <div className="layout-sidebar-feedback">
               <RepoActions router={router}></RepoActions>
