@@ -107,7 +107,7 @@ Enter its GitHub URL (`https://github.com/aws-amplify/aws-appsync-apollo-extensi
 <BlockSwitcher>
 
 <Block name="With Amplify">
-Before you begin, you will need an Amplify Data backend deploy. To get started, see [Set up Data](/[platform]/build-a-backend/data/set-up-data/). 
+Before you begin, you will need an Amplify Data backend deploy. To get started, see [Set up Data](/[platform]/frontend/data/set-up-data/). 
 
 Once you have deployed your backend and created the `amplify_outputs.json` file, you can use Amplify library to read and retrieve your configuration values with the following steps:
 
@@ -141,7 +141,7 @@ val apolloClient = ApolloClient.Builder()
 
 <Block name="With Amplify">
 
-The AWS AppSync Apollo Extensions library provides a number of Authorizer classes to match the various authorization strategies that may be in use in your schema. You should choose the appropriate Authorizer type for your authorization strategy. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/build-a-backend/data/customize-authz/#available-authorization-strategies).
+The AWS AppSync Apollo Extensions library provides a number of Authorizer classes to match the various authorization strategies that may be in use in your schema. You should choose the appropriate Authorizer type for your authorization strategy. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/frontend/data/customize-authz/#available-authorization-strategies).
 
 Some common ones are
 
@@ -347,7 +347,7 @@ let authorizer = IAMAuthorizer(
 <InlineFilter filters={["swift"]}>
 ## Connecting Amplify Data to Apollo client
 
-Before you begin, you will need an Amplify Data backend deploy. To get started, see [Set up Data](/[platform]/build-a-backend/data/set-up-data/). 
+Before you begin, you will need an Amplify Data backend deploy. To get started, see [Set up Data](/[platform]/frontend/data/set-up-data/). 
 
 Once you have deployed your backend and created the `amplify_outputs.json` file, you can use Amplify library to read and retrieve your configuration values with the following steps:
 
@@ -384,7 +384,7 @@ func createApolloClient() throws -> ApolloClient {
 }
 ```
 
-The AWS AppSync Apollo Extensions library provides a number of Authorizer classes to match the various authorization strategies that may be in use in your schema. You should choose the appropriate Authorizer type for your authorization strategy. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/build-a-backend/data/customize-authz/#available-authorization-strategies).
+The AWS AppSync Apollo Extensions library provides a number of Authorizer classes to match the various authorization strategies that may be in use in your schema. You should choose the appropriate Authorizer type for your authorization strategy. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/frontend/data/customize-authz/#available-authorization-strategies).
 
 Some common ones are
 

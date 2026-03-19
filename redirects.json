@@ -10368,5 +10368,65 @@
 		"source": "/<platform>/build-a-backend/auth/app-uninstall/",
 		"target": "/<platform>/frontend/auth/app-uninstall/",
 		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/connect-to-API/",
+		"target": "/<platform>/frontend/data/connect-to-API/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/mutate-data/",
+		"target": "/<platform>/frontend/data/mutate-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/query-data/",
+		"target": "/<platform>/frontend/data/query-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/subscribe-data/",
+		"target": "/<platform>/frontend/data/subscribe-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/working-with-files/",
+		"target": "/<platform>/frontend/data/working-with-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/custom-subscription/",
+		"target": "/<platform>/frontend/data/custom-subscription/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/optimistic-ui/",
+		"target": "/<platform>/frontend/data/optimistic-ui/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/connect-event-api/",
+		"target": "/<platform>/frontend/data/connect-event-api/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/aws-appsync-apollo-extensions/",
+		"target": "/<platform>/frontend/data/aws-appsync-apollo-extensions/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/connect-from-server-runtime/",
+		"target": "/<platform>/frontend/data/connect-from-server-runtime/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/connect-from-server-runtime/nextjs-server-runtime/",
+		"target": "/<platform>/frontend/data/connect-from-server-runtime/nextjs-server-runtime/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/connect-from-server-runtime/nuxtjs-server-runtime/",
+		"target": "/<platform>/frontend/data/connect-from-server-runtime/nuxtjs-server-runtime/",
+		"status": "301"
 	}
 ]

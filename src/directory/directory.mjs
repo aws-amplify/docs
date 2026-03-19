@@ -186,27 +186,11 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/build-a-backend/data/index.mdx',
-              section: 'both',
+              section: 'backend',
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/set-up-data/index.mdx',
                 section: 'backend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/data/connect-to-API/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/data/mutate-data/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/data/query-data/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/data/subscribe-data/index.mdx',
-                section: 'frontend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/data-modeling/index.mdx',
@@ -293,14 +277,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/working-with-files/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/data/custom-subscription/index.mdx',
-                section: 'frontend'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/data/connect-to-existing-data-sources/index.mdx',
                   section: 'backend',
                   children: [
@@ -313,36 +289,12 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/data/connect-from-server-runtime/index.mdx',
-                  section: 'frontend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/data/connect-from-server-runtime/nextjs-server-runtime/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/data/connect-from-server-runtime/nuxtjs-server-runtime/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/data/optimistic-ui/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/data/connect-event-api/index.mdx',
-                section: 'frontend'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx',
                 section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/manage-with-amplify-console/index.mdx',
                 section: 'backend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/data/aws-appsync-apollo-extensions/index.mdx',
-                section: 'frontend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/enable-logging/index.mdx',
@@ -984,6 +936,49 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/frontend/auth/app-uninstall/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/frontend/data/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/frontend/data/connect-to-API/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/query-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/mutate-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/subscribe-data/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/optimistic-ui/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/working-with-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/connect-event-api/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/custom-subscription/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/connect-from-server-runtime/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/frontend/data/connect-from-server-runtime/nextjs-server-runtime/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/frontend/data/connect-from-server-runtime/nuxtjs-server-runtime/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/data/aws-appsync-apollo-extensions/index.mdx'
                 }
               ]
             }
