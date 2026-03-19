@@ -308,7 +308,7 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/build-a-backend/storage/index.mdx',
-              section: 'both',
+              section: 'backend',
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx',
@@ -317,26 +317,6 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx',
                 section: 'backend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/upload-files/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/download-files/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/list-files/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/remove-files/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/copy-files/index.mdx',
-                section: 'frontend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/lambda-triggers/index.mdx',
@@ -349,14 +329,6 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/use-aws-sdk/index.mdx',
                 section: 'backend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/use-with-custom-s3/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/storage/data-usage/index.mdx',
-                section: 'frontend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/manage-with-amplify-console/index.mdx',
@@ -457,20 +429,6 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/custom-functions/index.mdx',
                 section: 'backend'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/build-a-backend/server-side-rendering/index.mdx',
-              section: 'frontend',
-              children: [
-                {
-                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nextjs-app-router-server-components/index.mdx',
-                section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/server-side-rendering/nuxt/index.mdx',
-                section: 'frontend'
                 }
               ]
             },
@@ -979,6 +937,43 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/frontend/data/aws-appsync-apollo-extensions/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/frontend/storage/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/frontend/storage/upload-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/storage/download-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/storage/list-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/storage/remove-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/storage/copy-files/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/storage/use-with-custom-s3/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/storage/data-usage/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/frontend/server-side-rendering/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/frontend/server-side-rendering/nextjs-app-router-server-components/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/server-side-rendering/nuxt/index.mdx'
                 }
               ]
             }

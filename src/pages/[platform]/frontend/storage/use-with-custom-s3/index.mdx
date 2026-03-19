@@ -75,7 +75,7 @@ Replace `<AWS-account-ID>` with your AWS account ID and `<role-name>` with the I
 You can refer to [Amazon S3's Policies and Permissions documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html) for more ways to customize access to the bucket.
 
 <Callout warning>
-In order to make calls to your manually configured S3 bucket from your application, you must also set up a [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources) for the bucket. 
+In order to make calls to your manually configured S3 bucket from your application, you must also set up a [CORS Policy](/[platform]/frontend/storage/extend-s3-resources/#for-manually-configured-s3-resources) for the bucket. 
 </Callout>
 
 ### Specify the S3 bucket in Amplify's backend config
@@ -501,7 +501,7 @@ backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
 </BlockSwitcher>
 
 <Callout>
-The custom authorization rules defined in the examples can be combined, and follow the same rules as Amplify-defined storage. Please refer to our documentation on [customizing authorization rules](/[platform]/build-a-backend/storage/authorization/) for more information.
+The custom authorization rules defined in the examples can be combined, and follow the same rules as Amplify-defined storage. Please refer to our documentation on [customizing authorization rules](/[platform]/frontend/storage/authorization/) for more information.
 </Callout>
 
 <InlineFilter filters={["javascript", "nextjs", "react", "angular", "vue", "react-native", "android", "swift"]}>

@@ -115,7 +115,7 @@ In order to copy to or from a bucket other than your default, both source and de
 Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
 | path | string \| <br/>(\{ identityId \}) => string | Required | A string or callback that represents the path in source and destination bucket to copy the object to or from. <br /> **Each segment of the path in `source` must by URI encoded.** |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets). |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/frontend/storage/set-up-storage/#configure-additional-storage-buckets). |
 | eTag | string | Optional | The copy **source object** entity tag (ETag) value. Only Copies the object if its ETag matches the specified tag. |
 | notModifiedSince | Date | Optional | Copies the **source object** if it hasn't been modified since the specified time.  <br /><br/> **This is evaluated only when `eTag` is NOT supplied**|
 | expectedBucketOwner | string | Optional | `source.expectedBucketOwner`: The account ID that owns the source bucket. <br /><br /> `destination.expectedBucketOwner`: The account ID that owns the destination bucket. |
@@ -180,7 +180,7 @@ In order to copy to or from a bucket other than your default, the source and/or 
 Option | Type | Description |
 | -- | -- | ----------- |
 | getProperties | boolean | Whether to retrieve properties for the copied object using theAmplify.Storage.getProperties() after the operation completes. When set to true the returned item will contain additional info such as metadata and content type. |
-| buckets | CopyBuckets | An object that accepts two `StorageBucket` parameters. To copy to and from the same bucket, use the `CopyBuckets.sameBucket(targetBucket)` method, where `targetBucket` is a `StorageBucket`. Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets)|
+| buckets | CopyBuckets | An object that accepts two `StorageBucket` parameters. To copy to and from the same bucket, use the `CopyBuckets.sameBucket(targetBucket)` method, where `targetBucket` is a `StorageBucket`. Read more at [Configure additional storage buckets](/[platform]/frontend/storage/set-up-storage/#configure-additional-storage-buckets)|
 
 Example of `copy` with options:
 

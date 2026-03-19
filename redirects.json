@@ -10428,5 +10428,55 @@
 		"source": "/<platform>/build-a-backend/data/connect-from-server-runtime/nuxtjs-server-runtime/",
 		"target": "/<platform>/frontend/data/connect-from-server-runtime/nuxtjs-server-runtime/",
 		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/upload-files/",
+		"target": "/<platform>/frontend/storage/upload-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/download-files/",
+		"target": "/<platform>/frontend/storage/download-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/list-files/",
+		"target": "/<platform>/frontend/storage/list-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/remove-files/",
+		"target": "/<platform>/frontend/storage/remove-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/copy-files/",
+		"target": "/<platform>/frontend/storage/copy-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/use-with-custom-s3/",
+		"target": "/<platform>/frontend/storage/use-with-custom-s3/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/data-usage/",
+		"target": "/<platform>/frontend/storage/data-usage/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/server-side-rendering/",
+		"target": "/<platform>/frontend/server-side-rendering/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/server-side-rendering/nextjs-app-router-server-components/",
+		"target": "/<platform>/frontend/server-side-rendering/nextjs-app-router-server-components/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/server-side-rendering/nuxt/",
+		"target": "/<platform>/frontend/server-side-rendering/nuxt/",
+		"status": "301"
 	}
 ]
