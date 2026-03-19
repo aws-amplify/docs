@@ -345,6 +345,7 @@ export const Layout = ({
                       <Breadcrumbs
                         route={pathname}
                         platform={currentPlatform}
+                        activeSection={activeSection}
                       />
                     ) : null}
                     {isGen1 && (
@@ -360,7 +361,12 @@ export const Layout = ({
                         alignItems="flex-start"
                         wrap="nowrap"
                       >
-                        <Heading level={1}>{pageTitle}</Heading>
+                        <Heading level={1}>
+                          {activeSection === 'frontend' &&
+                          pathname === '/[platform]/build-a-backend'
+                            ? 'Frontend Libraries'
+                            : pageTitle}
+                        </Heading>
                         <MarkdownMenu
                           route={asPathWithNoHash}
                           isGen1={isGen1}

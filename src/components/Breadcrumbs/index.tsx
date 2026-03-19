@@ -13,6 +13,7 @@ type BreadcrumbItem = {
 type Props = {
   route: string;
   platform?: string;
+  activeSection?: string;
 };
 
 const overrides = {
@@ -49,7 +50,8 @@ const overrides = {
 
 function generateBreadcrumbs(
   route: string,
-  platform?: string
+  platform?: string,
+  activeSection?: string
 ): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
 
@@ -77,6 +79,14 @@ function generateBreadcrumbs(
       label = override;
     }
 
+    // Override build-a-backend title when in frontend section
+    if (
+      activeSection === 'frontend' &&
+      url === '/[platform]/build-a-backend'
+    ) {
+      label = 'Frontend Libraries';
+    }
+
     breadcrumbs.push({
       href,
       label
@@ -86,8 +96,8 @@ function generateBreadcrumbs(
   return breadcrumbs;
 }
 
-function BreadcrumbsComponent({ route, platform }: Props) {
-  const items = generateBreadcrumbs(route, platform);
+function BreadcrumbsComponent({ route, platform, activeSection }: Props) {
+  const items = generateBreadcrumbs(route, platform, activeSection);
   return items.length > 1 ? (
     <div className={'breadcrumb__container'}>
       <Breadcrumbs.Container>

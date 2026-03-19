@@ -80,10 +80,16 @@ export function Menu({ currentPlatform, path, activeSection }: MenuProps): React
       <ul className="menu__list">
         {filteredChildren &&
           filteredChildren.map((child, index) => {
+            // Override title for build-a-backend when shown in frontend section
+            const pageNode =
+              activeSection === 'frontend' &&
+              child.route === '/[platform]/build-a-backend'
+                ? { ...child, title: 'Frontend Libraries' }
+                : child;
             return (
               <MenuItem
                 key={index}
-                pageNode={child as PageNode}
+                pageNode={pageNode as PageNode}
                 parentSetOpen={null}
                 level={1}
                 hideChildren={child.hideChildrenOnBase && baseMenu}

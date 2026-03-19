@@ -988,7 +988,8 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/frontend/index.mdx',
-          section: 'frontend'
+          section: 'frontend',
+          hideFromNav: true
         },
         {
           path: 'src/pages/[platform]/build-ui/index.mdx',
