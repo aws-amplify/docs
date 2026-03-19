@@ -3,6 +3,7 @@ export type SectionKey =
   | 'backend'
   | 'frontend'
   | 'hosting'
+  | 'ui'
   | 'reference';
 
 export interface SectionConfig {
@@ -14,17 +15,10 @@ export const SECTIONS: Record<SectionKey, SectionConfig> = {
   quickstart: { label: 'Quickstart' },
   backend: { label: 'Build a Backend', subtitle: 'What runs on AWS' },
   frontend: { label: 'Frontend Libraries', subtitle: 'What runs in your app' },
+  ui: { label: 'UI Libraries', subtitle: 'Pre-built components' },
   hosting: { label: 'Hosting' },
   reference: { label: 'Reference' }
 };
-
-export const EXTERNAL_NAV_ITEMS = [
-  {
-    label: 'UI Library',
-    url: 'https://ui.docs.amplify.aws/',
-    isExternal: true
-  }
-];
 
 /**
  * Get the default landing page URL for a section.
@@ -42,6 +36,8 @@ export function getDefaultPathForSection(
       return `/${platform}/frontend/`;
     case 'hosting':
       return `/${platform}/deploy-and-host/`;
+    case 'ui':
+      return `/${platform}/build-ui/`;
     case 'reference':
       return `/${platform}/reference/`;
     default:
@@ -51,7 +47,6 @@ export function getDefaultPathForSection(
 
 /**
  * Derive the active section from the current URL path.
- * For build-a-backend pages, defaults to 'backend' unless explicitly set.
  * Returns undefined for Gen1 pages or unrecognized paths.
  */
 export function getSectionFromPath(path: string): SectionKey | undefined {
@@ -62,10 +57,9 @@ export function getSectionFromPath(path: string): SectionKey | undefined {
   }
   if (path.includes('/deploy-and-host/')) return 'hosting';
   if (path.includes('/reference/')) return 'reference';
-  if (path.includes('/frontend/') || path.includes('/build-ui/') || path.includes('/ai/'))
-    return 'frontend';
+  if (path.includes('/build-ui/')) return 'ui';
+  if (path.includes('/frontend/') || path.includes('/ai/')) return 'frontend';
   if (path.includes('/build-a-backend/')) return 'backend';
 
-  // Home page or unrecognized
   return undefined;
 }

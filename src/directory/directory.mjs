@@ -992,7 +992,7 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/build-ui/index.mdx',
-          section: 'frontend',
+          section: 'ui',
           children: [
             {
               path: 'src/pages/[platform]/build-ui/formbuilder/index.mdx',

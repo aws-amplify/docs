@@ -7,12 +7,10 @@ import { AmplifyNavLink } from './components/AmplifyNavLink';
 import { SkipToMain } from '@/components/SkipToMain';
 import {
   SECTIONS,
-  EXTERNAL_NAV_ITEMS,
   SectionKey,
   getDefaultPathForSection
 } from '@/data/sections';
 import { Platform } from '@/data/platforms';
-import { IconExternalLink } from '@/components/Icons';
 import Link from 'next/link';
 
 export enum NavMenuItemType {
@@ -92,23 +90,6 @@ export function GlobalNav({
                 </Link>
               );
             })}
-            {EXTERNAL_NAV_ITEMS.map((item) => (
-              <a
-                key={item.label}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="section-nav__tab section-nav__tab--external"
-              >
-                <span className="section-nav__tab__label">
-                  {item.label}
-                  <IconExternalLink
-                    fontSize="xs"
-                    className="section-nav__external-icon"
-                  />
-                </span>
-              </a>
-            ))}
           </Flex>
         )}
 

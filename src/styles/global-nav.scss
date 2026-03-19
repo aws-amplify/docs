@@ -310,12 +310,6 @@
     }
   }
 
-  &--external {
-    font-weight: 400;
-    .section-nav__external-icon {
-      font-size: 10px;
-    }
-  }
 }
 
 .section-nav__tab__label {
@@ -327,12 +321,6 @@
   font-weight: 400;
   opacity: 0.8;
   margin-top: -2px;
-}
-
-.section-nav__external-icon {
-  margin-left: 4px;
-  vertical-align: middle;
-  opacity: 0.6;
 }
 
 // Gen1 page-level legacy banner
