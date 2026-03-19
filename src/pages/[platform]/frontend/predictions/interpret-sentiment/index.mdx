@@ -1,0 +1,49 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Interpret sentiment',
+  description: 'Learn how to determine key phrases, sentiment, language, syntax, and entities from text using Amplify.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue',
+  ]
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout informational>
+
+**Note:** Make sure to complete the [getting started](../set-up-predictions) section first, where you will set up the IAM roles with the right policy actions
+
+</Callout>
+
+## Working with the API
+
+Analyze text to find key phrases, sentiment (positive, negative, neutral), or the syntax (pronouns, verbs, etc.). You can also find entities in the text such as names or places, or perform language detection.
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const result = await Predictions.interpret({
+  text: {
+    source: {
+      text: textToInterpret,
+    },
+    type: 'ALL'
+  }
+})
+```

@@ -10478,5 +10478,230 @@
 		"source": "/<platform>/build-a-backend/server-side-rendering/nuxt/",
 		"target": "/<platform>/frontend/server-side-rendering/nuxt/",
 		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/record-events/",
+		"target": "/<platform>/frontend/analytics/record-events/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/identify-user/",
+		"target": "/<platform>/frontend/analytics/identify-user/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/auto-track-sessions/",
+		"target": "/<platform>/frontend/analytics/auto-track-sessions/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/enable-disable/",
+		"target": "/<platform>/frontend/analytics/enable-disable/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/streaming-data/",
+		"target": "/<platform>/frontend/analytics/streaming-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/storing-data/",
+		"target": "/<platform>/frontend/analytics/storing-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/personalize-recommendations/",
+		"target": "/<platform>/frontend/analytics/personalize-recommendations/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/sdk/",
+		"target": "/<platform>/frontend/analytics/sdk/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/data-usage-policy/",
+		"target": "/<platform>/frontend/analytics/data-usage-policy/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/app-uninstall/",
+		"target": "/<platform>/frontend/analytics/app-uninstall/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/geo/maps/",
+		"target": "/<platform>/frontend/geo/maps/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/geo/location-search/",
+		"target": "/<platform>/frontend/geo/location-search/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/geo/geofences/",
+		"target": "/<platform>/frontend/geo/geofences/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/geo/google-migration/",
+		"target": "/<platform>/frontend/geo/google-migration/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/geo/amazon-location-sdk/",
+		"target": "/<platform>/frontend/geo/amazon-location-sdk/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/integrate-application/",
+		"target": "/<platform>/frontend/in-app-messaging/integrate-application/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/sync-messages/",
+		"target": "/<platform>/frontend/in-app-messaging/sync-messages/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/display-messages/",
+		"target": "/<platform>/frontend/in-app-messaging/display-messages/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/clear-messages/",
+		"target": "/<platform>/frontend/in-app-messaging/clear-messages/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/identify-user/",
+		"target": "/<platform>/frontend/in-app-messaging/identify-user/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/respond-interaction-events/",
+		"target": "/<platform>/frontend/in-app-messaging/respond-interaction-events/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/resolve-conflicts/",
+		"target": "/<platform>/frontend/in-app-messaging/resolve-conflicts/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/fetch-data/",
+		"target": "/<platform>/frontend/rest-api/fetch-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/post-data/",
+		"target": "/<platform>/frontend/rest-api/post-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/update-data/",
+		"target": "/<platform>/frontend/rest-api/update-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/delete-data/",
+		"target": "/<platform>/frontend/rest-api/delete-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/test-api/",
+		"target": "/<platform>/frontend/rest-api/test-api/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/predictions/text-to-speech/",
+		"target": "/<platform>/frontend/predictions/text-to-speech/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/predictions/transcribe-audio/",
+		"target": "/<platform>/frontend/predictions/transcribe-audio/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/predictions/translate/",
+		"target": "/<platform>/frontend/predictions/translate/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/predictions/identify-text/",
+		"target": "/<platform>/frontend/predictions/identify-text/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/predictions/identify-entity/",
+		"target": "/<platform>/frontend/predictions/identify-entity/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/predictions/label-image/",
+		"target": "/<platform>/frontend/predictions/label-image/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/predictions/interpret-sentiment/",
+		"target": "/<platform>/frontend/predictions/interpret-sentiment/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/send-logs/",
+		"target": "/<platform>/frontend/logging/send-logs/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/change-log-levels/",
+		"target": "/<platform>/frontend/logging/change-log-levels/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/flush-logs/",
+		"target": "/<platform>/frontend/logging/flush-logs/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/enable-disable/",
+		"target": "/<platform>/frontend/logging/enable-disable/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/configure-user/",
+		"target": "/<platform>/frontend/logging/configure-user/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/change-local-storage/",
+		"target": "/<platform>/frontend/logging/change-local-storage/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/hub-events/",
+		"target": "/<platform>/frontend/logging/hub-events/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/sdk/",
+		"target": "/<platform>/frontend/logging/sdk/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/interactions/chatbot/",
+		"target": "/<platform>/frontend/interactions/chatbot/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/pubsub/publish/",
+		"target": "/<platform>/frontend/pubsub/publish/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/pubsub/subscribe/",
+		"target": "/<platform>/frontend/pubsub/subscribe/",
+		"status": "301"
 	}
 ]

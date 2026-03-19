@@ -1,0 +1,131 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Enable and disable analytics',
+  description: 'Learn how to enable/disable analytics using Amplify.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Disable Analytics
+
+Analytics are enabled by default when you configure it in your app. To disable Analytics in your app use the `disable` function:
+
+<InlineFilter filters={['javascript', 'react-native', "angular", "nextjs", "react", "vue"]}>
+```javascript title="src/index.js"
+import { disable } from 'aws-amplify/analytics';
+
+disable();
+```
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Analytics.disable();
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Analytics.disable()
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Analytics.disable();
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+```dart
+await Amplify.Analytics.disable();
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+```swift
+Amplify.Analytics.disable()
+```
+</InlineFilter>
+
+## Enable Analytics
+
+To enable analytics you can use the `enable` function in your app:
+
+<InlineFilter filters={['javascript', 'react-native', "angular", "nextjs", "react", "vue"]}>
+```javascript title="src/index.js"
+import { enable } from 'aws-amplify/analytics';
+
+enable();
+```
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Analytics.enable();
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Analytics.enable()
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Analytics.enable();
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+```dart
+Amplify.Analytics.enable();
+```
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+```swift
+Amplify.Analytics.enable()
+```
+</InlineFilter>

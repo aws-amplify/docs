@@ -1,0 +1,99 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Enable and disable logging',
+  description: 'Learn more about how you can enable or disable logging',
+  platforms: [
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+In this section, you will learn how to enable and disable logging when using the Amplify Logger. It is enabled by default, unless it is disabled in the `amplifyconfiguration_logging` file.
+
+
+
+<InlineFilter filters={['android']}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+Enable the Amplify Logger.
+
+```java
+Amplify.Logging.enable();
+```
+
+Disable the Amplify Logger.
+
+```java
+Amplify.Logging.disable();
+```
+
+</Block>
+<Block name="Kotlin">
+
+Enable the Amplify Logger.
+
+```kotlin
+Amplify.Logging.enable()
+```
+
+Disable the Amplify Logger.
+
+```kotlin
+Amplify.Logging.disable()
+```
+
+</Block>
+<Block name="RxJava">
+
+Enable the Amplify Logger.
+
+```java
+Amplify.Logging.enable();
+```
+
+Disable the Amplify Logger.
+
+```java
+Amplify.Logging.disable();
+```
+
+</Block>
+</BlockSwitcher>
+
+
+
+</InlineFilter>
+
+
+<InlineFilter filters={['swift']}>
+
+Enable the Amplify Logger.
+
+```swift
+Amplify.Logging.enable()
+```
+
+Disable the Amplify Logger.
+
+```swift
+Amplify.Logging.disable()
+```
+
+</InlineFilter>
+

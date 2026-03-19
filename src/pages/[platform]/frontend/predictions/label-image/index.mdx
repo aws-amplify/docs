@@ -1,0 +1,86 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Label objects in an image',
+  description: 'Learn more about how to detect labels in an image using Amplify. For example you can detect if an image has objects such as chairs, desks etc.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue',
+  ]
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout informational>
+
+**Note:** Make sure to complete the [getting started](../set-up-predictions) section first, where you will set up the IAM roles with the right policy actions
+
+</Callout>
+
+## Working with the API
+
+Detect labels, such if an image has a desk or a chair in it
+
+```javascript
+import { Predictions } from '@aws-amplify/predictions';
+
+Predictions.identify({
+  labels: {
+    source: {
+      file
+    },
+    type: 'LABELS'
+  }
+})
+  .then((response) => {
+    const { labels } = response;
+    labels.forEach((object) => {
+      const { name, boundingBoxes } = object;
+    });
+  })
+  .catch((err) => console.log({ err }));
+```
+
+Detect unsafe content in an image
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const { unsafe } = await Predictions.identify({
+  labels: {
+    source: {
+      file
+    },
+    type: 'UNSAFE'
+  }
+})
+```
+
+For both labels and unsafe content
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const { labels, unsafe } = await Predictions.identify({
+  labels: {
+    source: {
+      file
+    },
+    type: 'ALL'
+  }
+})
+```

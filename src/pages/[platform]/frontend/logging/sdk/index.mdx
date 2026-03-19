@@ -1,0 +1,86 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use AWS SDK for logging',
+  description: 'Get the Amplify Logging escape hatch',
+  platforms: [
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the underlying Amazon CloudWatch client.
+
+<InlineFilter filters={['android']}>
+
+The escape hatch provides access to the underlying `CloudWatchLogsClient` instance. Then retrieve the escape hatch with this code:
+
+**Gradle Imports**
+
+```kotlin title="app/build.gradle.kts" 
+implementation("aws.sdk.kotlin:cloudwatchlogs:KOTLIN_SDK_VERSION")
+```
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSCloudWatchLoggingPlugin plugin = (AWSCloudWatchLoggingPlugin)Amplify.Logging.getPlugin("awsCloudWatchLoggingPlugin");
+CloudWatchLogsClient client = plugin.getEscapeHatch();
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val plugin = Amplify.Logging.getPlugin("awsCloudWatchLoggingPlugin") as AWSCloudWatchLoggingPlugin
+val client = plugin.escapeHatch
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSCloudWatchLoggingPlugin plugin = (AWSCloudWatchLoggingPlugin)Amplify.Logging.getPlugin("awsCloudWatchLoggingPlugin");
+CloudWatchLogsClient client = plugin.getEscapeHatch();
+```
+
+</Block>
+</BlockSwitcher>
+
+
+
+</InlineFilter>
+
+
+<InlineFilter filters={['swift']}>
+
+Add import statements
+
+```swift
+import AWSCloudWatchLoggingPlugin
+import AWSCloudWatchLogs
+```
+
+Get a direct reference to the instance of CloudWatchLogsClientProtocol and directly interact with AWSCloudWatch via the [AWS SDK for Swift](https://docs.aws.amazon.com/sdk-for-swift/index.html)
+
+```swift
+let cloudWatchPlugin = try Amplify.Logging.getPlugin(for: "awsCloudWatchLoggingPlugin") as? AWSCloudWatchLoggingPlugin
+let cloudWatchClient: CloudWatchLogsClientProtocol? = cloudWatchPlugin?.getEscapeHatch()
+```
+
+
+</InlineFilter>

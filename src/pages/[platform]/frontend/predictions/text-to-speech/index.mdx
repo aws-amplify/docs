@@ -1,0 +1,54 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Text to speech',
+  description: 'Learn how to integrate text-to-speech capabilities into your application using Amplify.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue',
+  ]
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout informational>
+
+**Note:** Make sure to complete the [getting started](../set-up-predictions) section first, where you will set up the IAM roles with the right policy actions
+
+</Callout>
+
+## Working with the API
+
+Generate an audio buffer for playback from a text input.
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const result = await Predictions.convert({
+  textToSpeech: {
+    source: {
+      text: textToGenerateSpeech
+    },
+    voiceId: "Amy" 
+  }
+})
+```
+
+To view the complete list of voiceId options refer to [Voices in Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
+
+
+

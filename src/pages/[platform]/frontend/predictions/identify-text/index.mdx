@@ -1,0 +1,172 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Identify text',
+  description: 'Learn how to identify text from images and documents in your application using AWS Amplify.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue',
+  ]
+};
+
+export async function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+<Callout informational>
+
+**Note:** Make sure to complete the [getting started](../set-up-predictions) section first, where you will set up the IAM roles with the right policy actions
+
+</Callout>
+
+## Working with the API
+
+Detect text in an input image. Input can be sent directly from the browser or an Amazon S3 key from project bucket.
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
+  text: {
+    source: {
+      file
+    }
+  }
+});
+```
+
+## Identify image stored in Amazon S3
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
+  text: {
+    source: {
+      key: pathToPhoto,
+    }
+  }
+})
+```
+
+> The following options are independent of which `source` is specified. For demonstration purposes we will reference a `file` but it can be an S3 Key as well. `Predictions.identify({text : {...}})` can detect unstructured text `PLAIN`, structured text from tables `TABLE` or text from forms `FORM`.
+
+## Identify plain text
+
+For detecting plain text, you can see the whole detected text, the lines detected, the position of each line of text, and each word.
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
+  text: {
+    source: {
+      file
+    },
+    format: 'PLAIN'
+  }
+});
+
+const {
+  text: {
+    fullText, // String
+    lines, // Array of String ordered from top to bottom
+    linesDetailed /* Array of objects that contains
+        text, // String
+        boundingBox: {
+          width, // ratio of overall image width
+          height, // ratio of overall image height
+          left, // left coordinate as a ratio of overall image width
+          top // top coordinate as a ratio of overall image height
+        },
+        polygon // Array of { x, y } coordinates as a ratio of overall image width and height
+        */,
+    words // Array of objects that contains { text, boundingBox, polygon}
+  }
+} = response;
+```
+
+## Identify structured forms
+
+For detecting structured forms (documents, tables, etc.) from an image, `keyValues` will return a string of the entity found in the image as well as metadata such as selected checkboxes or the relative location in the image using a `boundingBox`.
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
+  text: {
+    source: {
+      file
+    },
+    format: 'FORM'
+  }
+});
+
+const {
+  text: {
+    // same as PLAIN +
+    keyValues // Array of { key: string, value: { text: string, selected: boolean}, polygon, boundingBox }
+  }
+} = response;
+```
+
+For example the below image would return `keyValues` with "Test" or "Checked" as a key, and `true` since they are selected. The location of these elements would be returned in the `boundingBox` value.
+
+![A table of key values containing "Test" or "Checked" as keys, with a value of true indicating their selection status. The positions of these elements will be provided within the boundingBox parameter](/images/IdentifyTable.png)
+
+## Identify structured tables
+
+For detecting structured tables from an image
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const response = await Predictions.identify({
+  text: {
+    source: {
+      file
+    },
+    format: 'TABLE'
+  }
+});
+
+const {
+  text: {
+    // same as PLAIN +
+    tables: [
+      {
+        size: { rows, columns },
+        table // Matrix Array[ Array ] of size rows
+        // each element of the array contains { text, boundingBox, polygon, selected, rowSpan, columnSpan}
+      }
+    ]
+  }
+} = response;
+```
+
+For detecting tables and forms on the image just select format "ALL"
+
+```ts
+import { Predictions } from '@aws-amplify/predictions';
+
+const { text } = await Predictions.identify({
+  text: {
+    source: {
+      file
+    },
+    format: 'ALL'
+  }
+});
+```

@@ -1,0 +1,228 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Integrate your application',
+  description: 'Learn how to integrate your application with In-app Messaging.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={['react-native']}>
+## Install the Amplify React Native Package and other dependencies
+Installing the `@aws-amplify/react-native` will bring in the necessary polyfills for React Native. 
+
+<Accordion title="Instructions for React Native version 0.72 and below">
+
+`@aws-amplify/react-native` requires a minimum iOS deployment target of `13.0` if you are using `react-native` version less than or equal to `0.72`. Open the _Podfile_ located in the _ios_ directory and update the `target` value:
+
+```diff showLineNumbers={false}
+- platform :ios, min_ios_version_supported
++ platform :ios, 13.0
+```
+
+</Accordion>
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/react-native @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+## Install Amplify UI for React Native and its dependencies
+
+Although Amplify In-App Messaging can be used as a standalone JavaScript library, this guide will show you how to use it together with Amplify UI, which currently supports integration with React and React Native, to get started quickly.
+
+<Callout>
+
+Learn more about Amplify In-App Messaging UI and how to fully unlock its capabilities here: [Amplify UI for In-App Messaging](https://ui.docs.amplify.aws/react-native/connected-components/in-app-messaging)
+  
+</Callout>
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/ui-react-native react-native-safe-area-context@^4.2.5
+```
+</InlineFilter>
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "react-native", "nextjs"]}>
+{/* TODO What should be done with this page for non-react frameworks */}
+
+## Install Amplify UI for React
+
+Although Amplify In-App Messaging can be used as a standalone JavaScript library, this guide will show you how to use it together with Amplify UI, which currently supports integration with React and React Native, to get started quickly.
+
+<Callout>
+
+Learn more about Amplify In-App Messaging UI and how to fully unlock its capabilities here: [Amplify UI for In-App Messaging](https://ui.docs.amplify.aws/react/connected-components/in-app-messaging)
+
+</Callout>
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/ui-react @aws-amplify/ui-react-notifications
+```
+</InlineFilter>
+
+## Integrate Amplify UI
+
+Amplify UI provides a Higher-Order Component for ease of integrating the In-App Messaging UI with your application. Simply wrap your application root component in, for example, `App.js`.
+
+<InlineFilter filters={['react-native']}>
+```js
+import { withInAppMessaging } from '@aws-amplify/ui-react-native';
+
+const App = () => (
+  {/* Your application code */}
+);
+
+export default withInAppMessaging(App);
+```
+</InlineFilter>
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "nextjs"]}>
+{/* TODO in-app validate the library here. What should this be for things other than React */}
+
+```js title="src/App.js"
+import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
+
+import '@aws-amplify/ui-react/styles.css';
+
+const App = () => (
+  {/* Your application code */}
+);
+
+export default withInAppMessaging(App);
+```
+</InlineFilter>
+
+Below is an example of what your entry file should look like:
+<InlineFilter filters={['react-native']}>
+```jsx title="src/index.js"
+import React, { useEffect } from 'react';
+import { Button, View } from 'react-native';
+import {
+  initializeInAppMessaging,
+  syncMessages,
+  dispatchEvent
+} from 'aws-amplify/in-app-messaging';
+import { withInAppMessaging } from '@aws-amplify/ui-react-native';
+import { record } from 'aws-amplify/analytics';
+import outputs from '../amplify_outputs.json';
+
+Amplify.configure(outputs);
+initializeInAppMessaging();
+
+// To display your in-app message, make sure this event name matches one you created
+// in an In-App Messaging campaign!
+const myFirstEvent = { name: 'my_first_event' };
+
+const App = () => {
+  useEffect(() => {
+    // Messages from your campaigns need to be synced from the backend before they
+    // can be displayed. You can trigger this anywhere in your app. Here you are
+    // syncing just once when this component (your app) renders for the first time.
+    syncMessages();
+  }, []);
+
+  return (
+    <View>
+      {/* This button has an example of an analytics event triggering the in-app message. */}
+      <Button
+        onPress={() => {
+          record(myFirstEvent);
+        }}
+        title="Record Analytics Event"
+      />
+
+      {/* This button has an example of an In-app Messaging event triggering the in-app message.*/}
+      <Button
+        onPress={() => {
+          dispatchEvent(myFirstEvent);
+        }}
+        title="Send In-App Messaging Event"
+      />
+    </View>
+  );
+};
+
+export default withInAppMessaging(App);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript', "angular", "react", "vue", "nextjs"]}>
+{/* TODO in-app validate the library here. What should this be for things other than React */}
+
+```jsx title="src/index.js"
+import React, { useEffect } from 'react';
+import {
+  initializeInAppMessaging,
+  syncMessages,
+  dispatchEvent
+} from 'aws-amplify/in-app-messaging';
+import { Button, View } from '@aws-amplify/ui-react';
+import { withInAppMessaging } from '@aws-amplify/ui-react-notifications';
+import { record } from 'aws-amplify/analytics';
+import '@aws-amplify/ui-react/styles.css';
+import outputs from '../amplify_outputs.json';
+
+Amplify.configure(outputs);
+initializeInAppMessaging();
+
+// To display your in-app message, make sure this event name matches one you created
+// in an In-App Messaging campaign!
+const myFirstEvent = { name: 'my_first_event' };
+
+const App = () => {
+  useEffect(() => {
+    // Messages from your campaigns need to be synced from the backend before they
+    // can be displayed. You can trigger this anywhere in your app. Here you are
+    // syncing just once when this component (your app) renders for the first time.
+    syncMessages();
+  }, []);
+
+  return (
+    <View>
+      {/* This button has an example of an analytics event triggering the in-app message. */}
+      <Button
+        onClick={() => {
+          record(myFirstEvent);
+        }}
+      >
+        Record Analytics Event
+      </Button>
+
+      {/* This button has an example of an In-app Messaging event triggering the in-app message.*/}
+      <Button
+        onClick={() => {
+          dispatchEvent(myFirstEvent);
+        }}
+      >
+        Send In-App Messaging Event
+      </Button>
+    </View>
+  );
+};
+
+export default withInAppMessaging(App);
+```
+</InlineFilter>
+
+{/* TODO What would happen for frameworks other than React? Would they NOT see this popup? what should we do for them? */}
+
+You can now build and run your app in your terminal. If you click on one of the buttons shown in the above example, the in-app message you defined in the Pinpoint console should be displayed in your app.

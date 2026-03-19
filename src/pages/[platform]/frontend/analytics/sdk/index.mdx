@@ -1,0 +1,93 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use AWS SDK',
+  description: 'For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the AWSPinpoint instance.',
+  platforms: [
+    'swift',
+    'android'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={['swift']}>
+For advanced use cases where Amplify does not provide the functionality, you can retrieve an escape hatch to access the underlying Amazon Pinpoint client.
+
+Add the following import:
+
+```swift
+import AWSPinpointAnalyticsPlugin
+```
+
+Then retrieve the escape hatch with this code:
+
+```swift
+do {
+    // Retrieve the reference to AWSPinpointAnalyticsPlugin
+    let plugin = try Amplify.Analytics.getPlugin(for: "awsPinpointAnalyticsPlugin")
+    guard let analyticsPlugin = plugin as? AWSPinpointAnalyticsPlugin else {
+        return
+    }
+
+    // Retrieve the reference to PinpointClientProtocol
+    let pinpointClient = analyticsPlugin.getEscapeHatch()
+
+    // Make requests using pinpointClient...
+    // ...
+} catch {
+    print("Get escape hatch failed with error - \(error)")
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+For advanced use cases where Amplify does not provide the functionality, you can retrieve an escape hatch to access the underlying Amazon Pinpoint client.
+
+<BlockSwitcher>
+
+<Block name="Java">
+
+<Callout>
+
+Learn more about consuming Kotlin clients from Java using either a blocking interface or an equivalent async interface based on futures [here](https://github.com/awslabs/smithy-kotlin/blob/main/docs/design/kotlin-smithy-sdk.md#java-interop).
+
+</Callout>
+
+```java
+AWSPinpointAnalyticsPlugin plugin = (AWSPinpointAnalyticsPlugin)
+    Amplify.Analytics.getPlugin("awsPinpointAnalyticsPlugin");
+PinpointClient pinpointClient = plugin.getEscapeHatch();
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val plugin = Amplify.Analytics.getPlugin("awsPinpointAnalyticsPlugin")
+val pinpointClient = (plugin as AWSPinpointAnalyticsPlugin).escapeHatch
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSPinpointAnalyticsPlugin plugin = (AWSPinpointAnalyticsPlugin)
+    RxAmplify.Analytics.getPlugin("awsPinpointAnalyticsPlugin");
+PinpointClient pinpointClient = plugin.getEscapeHatch();
+```
+
+</Block>
+</BlockSwitcher>
+</InlineFilter>
