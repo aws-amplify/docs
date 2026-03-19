@@ -71,7 +71,7 @@ export const directory = {
           children: [
             {
               path: 'src/pages/[platform]/build-a-backend/auth/index.mdx',
-              section: 'both',
+              section: 'backend',
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/set-up-auth/index.mdx',
@@ -114,42 +114,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/index.mdx',
-                  section: 'frontend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/using-the-authenticator/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/switching-authentication-flows/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/sign-out/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-sessions/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/manage-user-attributes/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/delete-user-account/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/auth/connect-your-frontend/multi-step-sign-in/index.mdx'
-                    }
-                  ]
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/manage-users/index.mdx',
                   section: 'backend',
                   children: [
@@ -186,14 +150,6 @@ export const directory = {
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/auth/sign-in-with-web-ui/index.mdx',
-                  section: 'frontend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/app-uninstall/index.mdx',
-                  section: 'frontend'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/auth/data-usage-policy/index.mdx',
                   section: 'backend'
                 },
@@ -217,10 +173,6 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/moving-to-production/index.mdx',
                   section: 'backend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/auth/advanced-workflows/index.mdx',
-                  section: 'frontend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/auth/use-existing-cognito-resources/index.mdx',
@@ -989,7 +941,53 @@ export const directory = {
         {
           path: 'src/pages/[platform]/frontend/index.mdx',
           section: 'frontend',
-          hideFromNav: true
+          hideFromNav: true,
+          children: [
+            {
+              path: 'src/pages/[platform]/frontend/auth/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/frontend/auth/using-the-authenticator/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/sign-up/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/sign-in/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/switching-authentication-flows/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/sign-out/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/manage-user-sessions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/manage-user-attributes/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/listen-to-auth-events/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/delete-user-account/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/multi-step-sign-in/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/web-ui-sign-in/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/advanced-workflows/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/auth/app-uninstall/index.mdx'
+                }
+              ]
+            }
+          ]
         },
         {
           path: 'src/pages/[platform]/build-ui/index.mdx',

@@ -495,7 +495,7 @@ If the next step is `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED`, Amplify Auth r
 
 Prompt the user for a new password and pass it to the `confirmSignIn` API.
 
-See the [sign-in](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/) and [manage-password](/[platform]/build-a-backend/auth/manage-users/manage-passwords/) docs for more information.
+See the [sign-in](/[platform]/frontend/auth/sign-in/) and [manage-password](/[platform]/build-a-backend/auth/manage-users/manage-passwords/) docs for more information.
 
 ```ts
 import { type SignInOutput, confirmSignIn } from '@aws-amplify/auth';
@@ -571,7 +571,7 @@ async function handleResetPasswordResult(
 If the next step is `CONFIRM_SIGN_UP`, Amplify Auth requires that the user confirm their email or phone number before proceeding.
 Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` to complete the sign up.
 
-See the [sign up](/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/) docs for more information.
+See the [sign up](/[platform]/frontend/auth/sign-up/) docs for more information.
 
 <Callout>
 
@@ -1066,7 +1066,7 @@ If the next step is `resetPassword`, Amplify Auth requires that the user confirm
 Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` 
 to complete the sign up.
 
-See the [confirm sign up](/[platform]/build-a-backend/auth/connect-your-frontend/sign-up/#confirm-sign-up) docs for more information.
+See the [confirm sign up](/[platform]/frontend/auth/sign-up/#confirm-sign-up) docs for more information.
 
 <Callout>
 
@@ -1740,7 +1740,7 @@ If the next step is `CONTINUE_SIGN_IN_WITH_MFA_SETUP_SELECTION`, the user must s
 
 If the next step is `CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION`, the user must select an authentication factor to use either because they did not specify one or because the one they chose is not supported (e.g. selecting SMS when they don't have a phone number registered to their account). Amplify Auth currently supports SMS, email, password, and webauthn as authentication factors. After the user selects an authentication method, your implementation must pass the selected authentication method to Amplify Auth using `confirmSignIn` API.
 
-Visit the [sign-in documentation](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sign-in-with-passwordless-methods) to see examples on how to call the `confirmSignIn` API.
+Visit the [sign-in documentation](/[platform]/frontend/auth/sign-in/#sign-in-with-passwordless-methods) to see examples on how to call the `confirmSignIn` API.
 
 ## Confirm sign-in with custom challenge
 

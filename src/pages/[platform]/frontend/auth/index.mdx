@@ -2,10 +2,10 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Connect your frontend',
+  title: 'Authentication',
   description:
-    'Learn how to connect your frontend to your backend auth resource',
-  route: '/[platform]/build-a-backend/auth/connect-your-frontend',
+    'Use Amplify Auth in your app to sign in, sign up, manage sessions, and handle authentication flows.',
+  route: '/[platform]/frontend/auth',
   platforms: [
     'android',
     'angular',
@@ -19,14 +19,15 @@ export const meta = {
   ]
 };
 
-export function getStaticPaths() {
+export const getStaticPaths = async () => {
   return getCustomStaticPath(meta.platforms);
-}
+};
 
-export function getStaticProps() {
+export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
+      platform: context.params.platform,
       meta,
       childPageNodes
     }
