@@ -24,17 +24,32 @@ export function getPageSection(pathname: string): {
     }
   }
 
-  // Find feature category (e.g., /[platform]/build-a-backend/auth)
-  // by extracting the feature segment from the pathname
+  // Find feature category for CrossLink targeting.
+  // For backend pages, link to the corresponding frontend category.
+  // For frontend pages, link to the corresponding backend category.
   let featureRoute: string | undefined;
-  const featureMatch = pathname.match(
-    /(\/\[platform\]\/build-a-backend\/[^/]+)/
+  const backendFeature = pathname.match(
+    /\/\[platform\]\/build-a-backend\/([^/]+)/
   );
-  if (featureMatch) {
-    const candidate = featureMatch[1];
-    const node = findDirectoryNode(candidate);
-    if (node?.section === 'both') {
-      featureRoute = candidate;
+  const frontendFeature = pathname.match(/\/\[platform\]\/frontend\/([^/]+)/);
+
+  if (backendFeature) {
+    // Backend page → link to frontend equivalent
+    const feature = backendFeature[1];
+    const frontendNode = findDirectoryNode(
+      `/[platform]/frontend/${feature}`
+    );
+    if (frontendNode) {
+      featureRoute = `/[platform]/frontend/${feature}`;
+    }
+  } else if (frontendFeature) {
+    // Frontend page → link to backend equivalent
+    const feature = frontendFeature[1];
+    const backendNode = findDirectoryNode(
+      `/[platform]/build-a-backend/${feature}`
+    );
+    if (backendNode) {
+      featureRoute = `/[platform]/build-a-backend/${feature}`;
     }
   }
 

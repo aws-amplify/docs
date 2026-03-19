@@ -9,22 +9,18 @@ describe('getPageSection', () => {
   });
 
   it('returns frontend for a frontend-tagged page', () => {
-    const result = getPageSection(
-      '/[platform]/build-a-backend/auth/connect-your-frontend'
-    );
+    const result = getPageSection('/[platform]/frontend/auth');
     expect(result.section).toBe('frontend');
   });
 
   it('returns frontend for a deeply nested frontend page', () => {
-    const result = getPageSection(
-      '/[platform]/build-a-backend/auth/connect-your-frontend/sign-in'
-    );
+    const result = getPageSection('/[platform]/frontend/auth/sign-in');
     expect(result.section).toBe('frontend');
   });
 
-  it('returns undefined for a both-tagged page', () => {
+  it('returns backend for auth (now backend-only)', () => {
     const result = getPageSection('/[platform]/build-a-backend/auth');
-    expect(result.section).toBeUndefined();
+    expect(result.section).toBe('backend');
   });
 
   it('returns quickstart for start pages', () => {
@@ -44,25 +40,25 @@ describe('getPageSection', () => {
     expect(result.section).toBe('backend');
   });
 
-  it('returns frontend for SSR pages', () => {
+  it('returns frontend for SSR pages at new path', () => {
     const result = getPageSection(
-      '/[platform]/build-a-backend/server-side-rendering'
+      '/[platform]/frontend/server-side-rendering'
     );
     expect(result.section).toBe('frontend');
   });
 
-  it('returns featureRoute for pages under a feature category', () => {
+  it('returns frontend featureRoute for backend auth pages', () => {
     const result = getPageSection(
       '/[platform]/build-a-backend/auth/set-up-auth'
     );
-    expect(result.featureRoute).toBe('/[platform]/build-a-backend/auth');
+    expect(result.featureRoute).toBe('/[platform]/frontend/auth');
   });
 
-  it('returns featureRoute for deeply nested pages', () => {
+  it('returns frontend featureRoute for deeply nested backend pages', () => {
     const result = getPageSection(
       '/[platform]/build-a-backend/data/data-modeling/add-fields'
     );
-    expect(result.featureRoute).toBe('/[platform]/build-a-backend/data');
+    expect(result.featureRoute).toBe('/[platform]/frontend/data');
   });
 
   it('returns undefined featureRoute for top-level pages', () => {
