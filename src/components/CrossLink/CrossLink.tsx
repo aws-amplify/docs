@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Platform } from '@/data/platforms';
+import { PLATFORMS, DEFAULT_PLATFORM, Platform } from '@/data/platforms';
 
 type CrossLinkProps = {
   href: string;
@@ -11,7 +11,11 @@ type CrossLinkProps = {
 
 export function CrossLink({ href, label, text, targetSection }: CrossLinkProps) {
   const router = useRouter();
-  const currentPlatform = (router.query.platform as Platform) || 'react';
+  const queryPlatform = router.query.platform as string;
+  // Validate against known platforms to prevent XSS/open redirect
+  const currentPlatform: Platform = PLATFORMS.includes(queryPlatform as Platform)
+    ? (queryPlatform as Platform)
+    : DEFAULT_PLATFORM;
   const resolvedHref = href.replace('[platform]', currentPlatform);
 
   const handleClick = () => {
