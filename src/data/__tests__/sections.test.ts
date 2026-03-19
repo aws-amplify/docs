@@ -26,8 +26,8 @@ describe('getSectionFromPath', () => {
     expect(getSectionFromPath('/react/frontend/')).toBe('frontend');
   });
 
-  it('returns frontend for /build-ui/ paths', () => {
-    expect(getSectionFromPath('/react/build-ui/')).toBe('frontend');
+  it('returns ui for /build-ui/ paths', () => {
+    expect(getSectionFromPath('/react/build-ui/')).toBe('ui');
   });
 
   it('returns frontend for /ai/ paths', () => {
@@ -84,12 +84,13 @@ describe('getDefaultPathForSection', () => {
 });
 
 describe('SECTIONS config', () => {
-  it('has all 5 sections defined', () => {
+  it('has all 6 sections defined', () => {
     const keys = Object.keys(SECTIONS) as SectionKey[];
     expect(keys).toEqual([
       'quickstart',
       'backend',
       'frontend',
+      'ui',
       'hosting',
       'reference'
     ]);
