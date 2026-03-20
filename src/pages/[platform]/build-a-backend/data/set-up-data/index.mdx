@@ -129,7 +129,7 @@ npm add aws-amplify
 ```
 </InlineFilter>
 
-<InlineFilter filters={["react", "angular", "javascript", "nextjs", "react-native"]}>
+<InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
 
 In your app's entry point, typically **main.tsx** for React apps created using Vite, make the following edits:
 
@@ -140,6 +140,15 @@ import outputs from '../amplify_outputs.json';
 Amplify.configure(outputs);
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["angular"]}>
+In your app's entry point, typically **main.ts** or **app.component.ts** for Angular apps created using Vite, make the following edits:
+```tsx title="src/main.ts"
+import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+Amplify.configure(outputs);
+```
 </InlineFilter>
 
 <InlineFilter filters={["vue"]}>
