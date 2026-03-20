@@ -96,6 +96,8 @@ export const Layout = ({
     setActiveSection(section);
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('activeSection', section);
+      // Reset sidebar scroll position on section tab click
+      document.querySelector('.layout-sidebar-menu')?.scrollTo(0, 0);
     }
   };
 

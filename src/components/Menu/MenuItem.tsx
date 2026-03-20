@@ -101,6 +101,9 @@ export function MenuItem({
         // it doesn't know it's parent unless we explicitly use the parent's setOpen
         parentSetOpen(true);
       }
+    } else {
+      // Close accordion when navigating away from this item's subtree
+      setOpen(false);
     }
   }, [asPathWithoutHash, current, children, parentSetOpen]);
 
