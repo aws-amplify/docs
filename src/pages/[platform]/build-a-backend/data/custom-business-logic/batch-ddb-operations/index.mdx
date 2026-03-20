@@ -109,9 +109,9 @@ Amplify will store some values in the resolver context stash that can be accesse
 | Name                      | Description                                  |
 | ------------------------- | -------------------------------------------- |
 | awsAppsyncApiId           | The ID of the AppSync API.                   |
-| amplifyApiEnvironmentName | The Amplify api environment name. (`NONE` in sandbox) |
+| amplifyApiEnvironmentName | The Amplify API environment name. This value is always `NONE`. |
 
-The Amplify generated DynamoDB table names can be constructed from the variables in the context stash. The table name is in the format `<model-name>-<aws-appsync-api-id>-<amplify-api-environment-name>`. For example, the table name for the `Post` model would be `Post-123456-dev` where `123456` is the AppSync API ID and `dev` is the Amplify API environment name.
+The Amplify generated DynamoDB table names can be constructed from the variables in the context stash. The table name is in the format `<model-name>-<aws-appsync-api-id>-NONE`. For example, the table name for the `Post` model would be `Post-abc123def456-NONE` where `abc123def456` is the AppSync API ID.
 
 ```ts title="amplify/data/BatchCreatePostHandler.js"
 import { util } from '@aws-appsync/utils';
