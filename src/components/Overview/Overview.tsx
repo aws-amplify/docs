@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Platform } from '@/data/platforms';
 import { Columns } from '@/components/Columns';
+import { SectionKey } from '@/data/sections';
+import { getPageSection } from '@/utils/getPageSection';
+import { useState, useEffect } from 'react';
 
 type OverviewProps = {
   childPageNodes: PageNode[];
@@ -13,6 +16,18 @@ export function Overview({ childPageNodes }: OverviewProps) {
   const router = useRouter();
   const currentPlatform = router.query.platform as Platform;
 
+  // Determine active section: use page's directory tag, fall back to sessionStorage
+  const { section: pageSection } = getPageSection(router.pathname);
+  const [activeSection, setActiveSection] = useState<SectionKey | undefined>();
+  useEffect(() => {
+    if (pageSection) {
+      setActiveSection(pageSection);
+    } else if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('activeSection') as SectionKey;
+      if (stored) setActiveSection(stored);
+    }
+  }, [router.pathname, pageSection]);
+
   if (!childPageNodes) {
     return <></>;
   }
@@ -21,6 +36,14 @@ export function Overview({ childPageNodes }: OverviewProps) {
     <Columns columns={2} size="small" className="overview">
       {childPageNodes
         .filter((node) => {
+          // Section filtering
+          if (activeSection && node.section) {
+            const matches =
+              node.section === activeSection ||
+              (node.section === 'both' &&
+                (activeSection === 'backend' || activeSection === 'frontend'));
+            if (!matches) return false;
+          }
           if (currentPlatform) {
             return node?.platforms?.includes(currentPlatform);
           } else {
