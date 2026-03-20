@@ -247,20 +247,12 @@ safePrint(SayHelloResponse.sayHello.name);
 
 ```swift
 struct SayHelloResponse: Codable {
-    public let sayHello: SayHello
-    
-    struct SayHello: Codable {
-        public let name: String
-        public let executionDuration: Float
-    }
+    public let sayHello: String
 }
 
 let document = """
     query EchoQuery($name: String!) {
-        sayHello(name: $name) {
-            name
-            executionDuration
-        }
+        sayHello(name: $name)
     }
     """
 
@@ -269,7 +261,8 @@ let result = try await Amplify.API.query(request: GraphQLRequest<SayHelloRespons
     variables: [
         "name": "Amplify"
     ],
-    responseType: SayHelloResponse.self
+    responseType: SayHelloResponse.self,
+    authMode: AWSAuthorizationType.amazonCognitoUserPools
 ))
 switch result {
 case .success(let response):
