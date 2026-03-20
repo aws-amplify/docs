@@ -102,6 +102,12 @@ export const Layout = ({
   const { section: pageSection, featureRoute } = getPageSection(pathname);
 
   useEffect(() => {
+    // Homepage and other non-section pages should have no active section
+    if (isHome || asPathWithNoHash === '/') {
+      setActiveSection(undefined);
+      return;
+    }
+
     if (pageSection) {
       setActiveSection(pageSection);
     } else if (typeof window !== 'undefined') {
@@ -113,7 +119,7 @@ export const Layout = ({
         if (detected) setActiveSection(detected);
       }
     }
-  }, [asPathWithNoHash, pathname, pageSection]);
+  }, [asPathWithNoHash, pathname, pageSection, isHome]);
 
   // Derive CrossLink props for the current page
   const crossLinkProps = (() => {

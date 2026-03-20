@@ -1,6 +1,6 @@
 import { useContext, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
+import { Badge, Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { Platform } from '@/data/platforms';
 import { SECTIONS, SectionKey, getDefaultPathForSection } from '@/data/sections';
@@ -192,7 +192,7 @@ export const LayoutHeader = ({
               >
                 <span className="layout-sidebar-legacy__label">
                   Gen1 Docs
-                  <span className="layout-sidebar-legacy__badge">Legacy</span>
+                  <Badge backgroundColor="neutral.20">Legacy</Badge>
                 </span>
                 <IconChevron className="icon-rotate-270" />
               </a>

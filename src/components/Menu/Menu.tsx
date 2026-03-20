@@ -77,7 +77,7 @@ export function Menu({ currentPlatform, path, activeSection }: MenuProps): React
 
   return (
     <nav className="menu" aria-label="Main">
-      <ul className="menu__list">
+      <ul className="menu__list" key={activeSection || 'all'}>
         {filteredChildren &&
           filteredChildren.map((child, index) => {
             // Override title for build-a-backend when shown in frontend section

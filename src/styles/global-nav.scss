@@ -317,7 +317,7 @@
 }
 
 .section-nav__tab__subtitle {
-  font-size: 10px;
+  font-size: var(--amplify-font-sizes-xs);
   font-weight: 400;
   opacity: 0.8;
   margin-top: -2px;
@@ -397,16 +397,6 @@
   gap: var(--amplify-space-xs);
 }
 
-.layout-sidebar-legacy__badge {
-  display: inline-block;
-  background-color: #d97706;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 1px 7px;
-  border-radius: 10px;
-  letter-spacing: 0.3px;
-}
 
 // Section tabs inside the sidebar (mobile)
 .section-nav-sidebar {
