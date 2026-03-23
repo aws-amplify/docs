@@ -46,20 +46,41 @@ export function getDefaultPathForSection(
 }
 
 /**
+ * Check if a directory node should be visible in the given section.
+ * Nodes without a section tag are always visible.
+ * 'both' nodes are visible in backend and frontend sections only.
+ */
+export function isNodeVisibleInSection(
+  nodeSection: string | undefined,
+  activeSection: string | undefined
+): boolean {
+  if (!activeSection) return true;
+  if (!nodeSection) return true;
+  if (nodeSection === activeSection) return true;
+  if (
+    nodeSection === 'both' &&
+    (activeSection === 'backend' || activeSection === 'frontend')
+  )
+    return true;
+  return false;
+}
+
+/**
  * Derive the active section from the current URL path.
  * Returns undefined for Gen1 pages or unrecognized paths.
  */
 export function getSectionFromPath(path: string): SectionKey | undefined {
   if (path.startsWith('/gen1')) return undefined;
 
-  if (path.includes('/start/') || path.includes('/how-amplify-works/')) {
+  if (/\/start(\/|$)/.test(path) || /\/how-amplify-works(\/|$)/.test(path)) {
     return 'quickstart';
   }
-  if (path.includes('/deploy-and-host/')) return 'hosting';
-  if (path.includes('/reference/')) return 'reference';
-  if (path.includes('/build-ui/')) return 'ui';
-  if (path.includes('/frontend/') || path.includes('/ai/')) return 'frontend';
-  if (path.includes('/build-a-backend/')) return 'backend';
+  if (/\/deploy-and-host(\/|$)/.test(path)) return 'hosting';
+  if (/\/reference(\/|$)/.test(path)) return 'reference';
+  if (/\/build-ui(\/|$)/.test(path)) return 'ui';
+  if (/\/frontend(\/|$)/.test(path) || /\/ai(\/|$)/.test(path))
+    return 'frontend';
+  if (/\/build-a-backend(\/|$)/.test(path)) return 'backend';
 
   return undefined;
 }

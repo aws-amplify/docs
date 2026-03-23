@@ -24,7 +24,7 @@ import {
 import { SpaceShip } from '@/components/SpaceShip';
 import { RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
-import { getSectionFromPath, SectionKey } from '@/data/sections';
+import { getSectionFromPath, SectionKey, SECTIONS } from '@/data/sections';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -113,9 +113,9 @@ export const Layout = ({
     if (pageSection) {
       setActiveSection(pageSection);
     } else if (typeof window !== 'undefined') {
-      const stored = sessionStorage.getItem('activeSection') as SectionKey;
-      if (stored) {
-        setActiveSection(stored);
+      const stored = sessionStorage.getItem('activeSection');
+      if (stored && stored in SECTIONS) {
+        setActiveSection(stored as SectionKey);
       } else {
         const detected = getSectionFromPath(asPathWithNoHash);
         if (detected) setActiveSection(detected);

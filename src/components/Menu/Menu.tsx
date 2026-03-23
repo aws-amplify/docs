@@ -3,6 +3,7 @@ import { MenuItem } from './MenuItem';
 import { Platform } from '@/data/platforms';
 import { PageNode } from '@/directory/directory';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
+import { isNodeVisibleInSection } from '@/data/sections';
 
 type MenuProps = {
   currentPlatform?: Platform;
@@ -61,19 +62,9 @@ export function Menu({ currentPlatform, path, activeSection }: MenuProps): React
     childrenNodes = rootMenuNode?.children;
   }
 
-  // Filter children by section tag when a section is active.
-  // 'both' means the node belongs to both 'backend' and 'frontend' sections.
-  const filteredChildren = childrenNodes?.filter((child) => {
-    if (!activeSection) return true;
-    if (!child.section) return true;
-    if (child.section === activeSection) return true;
-    if (
-      child.section === 'both' &&
-      (activeSection === 'backend' || activeSection === 'frontend')
-    )
-      return true;
-    return false;
-  });
+  const filteredChildren = childrenNodes?.filter((child) =>
+    isNodeVisibleInSection(child.section, activeSection)
+  );
 
   return (
     <nav className="menu" aria-label="Main">

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from '@/directory/directory';
+import { isNodeVisibleInSection } from '@/data/sections';
 
 enum Levels {
   Category = 1,
@@ -49,16 +50,9 @@ export function MenuItem({
     if (hideChildren) return [];
     const allChildren = pageNode.children;
     if (!activeSection || !allChildren) return allChildren;
-    return allChildren.filter((child) => {
-      if (!child.section) return true;
-      if (child.section === activeSection) return true;
-      if (
-        child.section === 'both' &&
-        (activeSection === 'backend' || activeSection === 'frontend')
-      )
-        return true;
-      return false;
-    });
+    return allChildren.filter((child) =>
+      isNodeVisibleInSection(child.section, activeSection)
+    );
   }, [hideChildren, pageNode.children, activeSection]);
   const onLinkClick = () => {
     // Category shouldn't be collapsible
