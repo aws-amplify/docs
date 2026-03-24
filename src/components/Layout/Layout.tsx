@@ -91,13 +91,12 @@ export const Layout = ({
   const [activeSection, setActiveSection] = useState<SectionKey | undefined>(
     () => getSectionFromPath(asPathWithNoHash)
   );
-  const [menuResetKey, setMenuResetKey] = useState(0);
 
   const handleSectionChange = (section: SectionKey) => {
     setActiveSection(section);
-    setMenuResetKey((k) => k + 1);
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('activeSection', section);
+      // Reset sidebar scroll position on section tab click
       document.querySelector('.layout-sidebar-menu')?.scrollTo(0, 0);
     }
   };
@@ -341,7 +340,6 @@ export const Layout = ({
                   showLastUpdatedDate={showLastUpdatedDate}
                   activeSection={activeSection}
                   onSectionChange={handleSectionChange}
-                  menuResetKey={menuResetKey}
                 ></LayoutHeader>
                 <View key={asPathWithNoHash} className="layout-main">
                   <Flex
