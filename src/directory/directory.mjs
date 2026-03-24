@@ -463,42 +463,6 @@ export const directory = {
                       path: 'src/pages/[platform]/ai/concepts/tools/index.mdx'
                     }
                   ]
-                },
-                {
-                  path: 'src/pages/[platform]/ai/conversation/index.mdx',
-                  section: 'frontend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/ai/conversation/tools/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/ai/conversation/context/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/ai/conversation/response-components/index.mdx'
-                    },
-                    {
-                      path: 'src/pages/[platform]/ai/conversation/knowledge-base/index.mdx'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/ai/generation/index.mdx',
-                  section: 'frontend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
-                    }
-                  ]
                 }
               ]
             },
