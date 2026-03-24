@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from '@/directory/directory';
+import { isNodeVisibleInSection } from '@/data/sections';
 
 enum Levels {
   Category = 1,
@@ -19,6 +20,7 @@ type MenuItemProps = {
   level: number;
   currentPlatform?: Platform;
   hideChildren?: boolean;
+  activeSection?: string;
 };
 
 function getPathname(route, currentPlatform: Platform | undefined) {
@@ -38,15 +40,20 @@ export function MenuItem({
   parentSetOpen,
   level,
   currentPlatform,
-  hideChildren
+  hideChildren,
+  activeSection
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
   const [open, setOpen] = useState(false);
-  const children = useMemo(
-    () => (hideChildren ? [] : pageNode.children),
-    [hideChildren, pageNode.children]
-  );
+  const children = useMemo(() => {
+    if (hideChildren) return [];
+    const allChildren = pageNode.children;
+    if (!activeSection || !allChildren) return allChildren;
+    return allChildren.filter((child) =>
+      isNodeVisibleInSection(child.section, activeSection)
+    );
+  }, [hideChildren, pageNode.children, activeSection]);
   const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (
@@ -88,6 +95,9 @@ export function MenuItem({
         // it doesn't know it's parent unless we explicitly use the parent's setOpen
         parentSetOpen(true);
       }
+    } else {
+      // Close accordion when navigating away from this item's subtree
+      setOpen(false);
     }
   }, [asPathWithoutHash, current, children, parentSetOpen]);
 
@@ -219,6 +229,7 @@ export function MenuItem({
                 parentSetOpen={setOpen}
                 level={level + 1}
                 currentPlatform={currentPlatform}
+                activeSection={activeSection}
               />
             ))}
           </ul>

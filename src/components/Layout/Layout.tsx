@@ -22,8 +22,9 @@ import {
   Platform
 } from '@/data/platforms';
 import { SpaceShip } from '@/components/SpaceShip';
-import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
+import { RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { LayoutProvider, LayoutHeader } from '@/components/Layout';
+import { getSectionFromPath, SectionKey, SECTIONS } from '@/data/sections';
 import { TableOfContents } from '@/components/TableOfContents';
 import type { HeadingInterface } from '@/components/TableOfContents/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -37,6 +38,9 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { CrossLink } from '@/components/CrossLink';
+import { findDirectoryNode } from '@/utils/findDirectoryNode';
+import { getPageSection } from '@/utils/getPageSection';
 import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
 import { LexV1EOLBanner } from '../LexV1EOLBanner';
 import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
@@ -80,6 +84,77 @@ export const Layout = ({
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isHome = pageType === 'home';
+
+  // Section-based navigation state.
+  // Determine section from directory tree (page's actual section tag),
+  // fall back to sessionStorage only for ambiguous pages (tagged 'both').
+  const [activeSection, setActiveSection] = useState<SectionKey | undefined>(
+    () => getSectionFromPath(asPathWithNoHash)
+  );
+
+  const handleSectionChange = (section: SectionKey) => {
+    setActiveSection(section);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('activeSection', section);
+      // Reset sidebar scroll position on section tab click
+      document.querySelector('.layout-sidebar-menu')?.scrollTo(0, 0);
+    }
+  };
+
+  const { section: pageSection, featureRoute } = getPageSection(pathname);
+
+  useEffect(() => {
+    // Homepage and other non-section pages should have no active section
+    if (isHome || asPathWithNoHash === '/') {
+      setActiveSection(undefined);
+      return;
+    }
+
+    if (pageSection) {
+      setActiveSection(pageSection);
+    } else if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('activeSection');
+      if (stored && stored in SECTIONS) {
+        setActiveSection(stored as SectionKey);
+      } else {
+        const detected = getSectionFromPath(asPathWithNoHash);
+        if (detected) setActiveSection(detected);
+      }
+    }
+  }, [asPathWithNoHash, pathname, pageSection, isHome]);
+
+  // Derive CrossLink props for the current page
+  const crossLinkProps = (() => {
+    if (isGen1 || !pageSection) return null;
+
+    // Don't show CrossLink on landing/overview pages
+    if (pathname.endsWith('/frontend')) return null;
+    if (pathname.endsWith('/build-a-backend')) return null;
+    const isFeatureRoot = /\/\[platform\]\/build-a-backend\/[^/]+$/.test(pathname);
+    if (isFeatureRoot) {
+      const node = findDirectoryNode(pathname);
+      if (node?.section === 'both') return null;
+    }
+
+    if (pageSection === 'backend') {
+      return {
+        text: 'Looking for how to use this in your app?',
+        label: 'See Frontend Libraries',
+        href: featureRoute || '/[platform]/frontend/',
+        targetSection: 'frontend'
+      };
+    }
+    if (pageSection === 'frontend') {
+      return {
+        text: 'Need to configure your backend?',
+        label: 'See Build a Backend',
+        href: featureRoute || '/[platform]/build-a-backend/',
+        targetSection: 'backend'
+      };
+    }
+    return null;
+  })();
+
   const handleColorModeChange = (mode: ColorMode) => {
     setColorMode(mode);
     if (mode !== 'system') {
@@ -139,12 +214,6 @@ export const Layout = ({
     }
   }, 20);
 
-  const isGen1GettingStarted = /\/gen1\/\w+\/start\/getting-started\//.test(
-    asPathWithNoHash
-  );
-  const isGen1HowAmplifyWorks = /\/gen1\/\w+\/how-amplify-works\//.test(
-    asPathWithNoHash
-  );
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -255,11 +324,13 @@ export const Layout = ({
               >
                 {isHome ? <SpaceShip /> : null}
                 <GlobalNav
-                  leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
                   rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
                   currentSite={currentGlobalNavMenuItem}
                   isGen1={isGen1}
                   mainId={mainId}
+                  activeSection={activeSection}
+                  onSectionChange={handleSectionChange}
+                  currentPlatform={currentPlatform}
                 />
                 <LayoutHeader
                   showTOC={showTOC}
@@ -267,6 +338,8 @@ export const Layout = ({
                   currentPlatform={currentPlatform}
                   pageType={pageType}
                   showLastUpdatedDate={showLastUpdatedDate}
+                  activeSection={activeSection}
+                  onSectionChange={handleSectionChange}
                 ></LayoutHeader>
                 <View key={asPathWithNoHash} className="layout-main">
                   <Flex
@@ -280,8 +353,15 @@ export const Layout = ({
                       <Breadcrumbs
                         route={pathname}
                         platform={currentPlatform}
+                        activeSection={activeSection}
                       />
                     ) : null}
+                    {isGen1 && (
+                      <Gen1Banner currentPlatform={currentPlatform} />
+                    )}
+                    {crossLinkProps && (
+                      <CrossLink {...crossLinkProps} />
+                    )}
                     {shouldShowAIBanner ? <AIBanner /> : null}
                     {useCustomTitle ? null : (
                       <Flex
@@ -289,7 +369,12 @@ export const Layout = ({
                         alignItems="flex-start"
                         wrap="nowrap"
                       >
-                        <Heading level={1}>{pageTitle}</Heading>
+                        <Heading level={1}>
+                          {activeSection === 'frontend' &&
+                          pathname === '/[platform]/build-a-backend'
+                            ? 'Frontend Libraries'
+                            : pageTitle}
+                        </Heading>
                         <MarkdownMenu
                           route={asPathWithNoHash}
                           isGen1={isGen1}
@@ -297,9 +382,6 @@ export const Layout = ({
                           isOverview={isOverview}
                         />
                       </Flex>
-                    )}
-                    {(isGen1GettingStarted || isGen1HowAmplifyWorks) && (
-                      <Gen1Banner currentPlatform={currentPlatform} />
                     )}
                     {(asPathWithNoHash.includes('/push-notifications/') ||
                       asPathWithNoHash.includes('/analytics/') ||

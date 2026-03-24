@@ -1,14 +1,16 @@
 import { useContext, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
+import { Badge, Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { Platform } from '@/data/platforms';
+import { SECTIONS, SectionKey, getDefaultPathForSection } from '@/data/sections';
+import Link from 'next/link';
 import {
   ALGOLIA_API_KEY,
   ALGOLIA_INDEX_NAME,
   ALGOLIA_APP_ID
 } from '../../constants/algolia';
-import { IconMenu, IconDoubleChevron } from '@/components/Icons';
+import { IconMenu, IconDoubleChevron, IconChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
@@ -27,13 +29,17 @@ export const LayoutHeader = ({
   isGen1,
   pageType = 'inner',
   showLastUpdatedDate = true,
-  showTOC
+  showTOC,
+  activeSection,
+  onSectionChange
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
+  activeSection?: string;
+  onSectionChange?: (section: SectionKey) => void;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -144,6 +150,28 @@ export const LayoutHeader = ({
             <VisuallyHidden>Close menu</VisuallyHidden>
           </Button>
 
+          {!isGen1 && (
+            <div className="section-nav-sidebar">
+              {(Object.keys(SECTIONS) as SectionKey[]).map((key) => {
+                const section = SECTIONS[key];
+                const isActive = activeSection === key;
+                return (
+                  <Link
+                    key={key}
+                    href={getDefaultPathForSection(key, currentPlatform)}
+                    className={`section-nav-sidebar__tab ${isActive ? 'section-nav-sidebar__tab--active' : ''}`}
+                    onClick={() => {
+                      onSectionChange?.(key);
+                      toggleMenuOpen(false);
+                    }}
+                  >
+                    {section.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+
           <div className="layout-sidebar-platform">
             <PlatformNavigator
               currentPlatform={currentPlatform}
@@ -152,7 +180,23 @@ export const LayoutHeader = ({
           </div>
 
           <div className="layout-sidebar-menu">
-            <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
+            <Menu
+              currentPlatform={currentPlatform}
+              path={asPathWithNoHash}
+              activeSection={activeSection}
+            />
+            {!isGen1 && (
+              <a
+                href={`/gen1/${currentPlatform}/`}
+                className="layout-sidebar-legacy__link"
+              >
+                <span className="layout-sidebar-legacy__label">
+                  Gen1 Docs
+                  <Badge backgroundColor="neutral.20">Legacy</Badge>
+                </span>
+                <IconChevron className="icon-rotate-270" />
+              </a>
+            )}
             <div className="layout-sidebar-feedback">
               <RepoActions router={router}></RepoActions>
               <Feedback router={router}></Feedback>

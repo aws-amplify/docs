@@ -2,9 +2,10 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Build a Backend',
-  description: 'Configure and customize authentication, data, storage, and functions to build a backend for your application.',
-  route: '/[platform]/build-a-backend',
+  title: 'Frontend Libraries',
+  description:
+    'Use Amplify client libraries to connect your app to your backend services. Build authentication flows, query data, manage files, and more.',
+  route: '/[platform]/frontend',
   platforms: [
     'android',
     'angular',
@@ -23,13 +24,16 @@ export const getStaticPaths = async () => {
 };
 
 export function getStaticProps(context) {
-  const childPageNodes = getChildPageNodes(meta.route);
+  const childPageNodes = getChildPageNodes('/[platform]/build-a-backend');
   return {
     props: {
+      platform: context.params.platform,
       meta,
       childPageNodes
     }
   };
 }
+
+Use the Amplify client libraries to connect your frontend app to your backend services. These libraries run in your app and provide APIs for authentication, data operations, file management, and more.
 
 <Overview childPageNodes={props.childPageNodes} />
