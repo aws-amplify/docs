@@ -20,6 +20,166 @@
 		"status": "301"
 	},
 	{
+		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/<*>",
+		"target": "/<platform>/frontend/auth/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/sign-in-with-web-ui/",
+		"target": "/<platform>/frontend/auth/web-ui-sign-in/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/advanced-workflows/",
+		"target": "/<platform>/frontend/auth/advanced-workflows/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/auth/app-uninstall/",
+		"target": "/<platform>/frontend/auth/app-uninstall/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/connect-to-API/",
+		"target": "/<platform>/frontend/data/connect-to-API/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/query-data/",
+		"target": "/<platform>/frontend/data/query-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/mutate-data/",
+		"target": "/<platform>/frontend/data/mutate-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/subscribe-data/",
+		"target": "/<platform>/frontend/data/subscribe-data/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/optimistic-ui/",
+		"target": "/<platform>/frontend/data/optimistic-ui/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/working-with-files/",
+		"target": "/<platform>/frontend/data/working-with-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/connect-event-api/",
+		"target": "/<platform>/frontend/data/connect-event-api/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/custom-subscription/",
+		"target": "/<platform>/frontend/data/custom-subscription/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/connect-from-server-runtime/<*>",
+		"target": "/<platform>/frontend/data/connect-from-server-runtime/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/data/aws-appsync-apollo-extensions/",
+		"target": "/<platform>/frontend/data/aws-appsync-apollo-extensions/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/upload-files/",
+		"target": "/<platform>/frontend/storage/upload-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/download-files/",
+		"target": "/<platform>/frontend/storage/download-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/list-files/",
+		"target": "/<platform>/frontend/storage/list-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/remove-files/",
+		"target": "/<platform>/frontend/storage/remove-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/copy-files/",
+		"target": "/<platform>/frontend/storage/copy-files/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/use-with-custom-s3/",
+		"target": "/<platform>/frontend/storage/use-with-custom-s3/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/storage/data-usage/",
+		"target": "/<platform>/frontend/storage/data-usage/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/server-side-rendering/<*>",
+		"target": "/<platform>/frontend/server-side-rendering/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/analytics/<*>",
+		"target": "/<platform>/frontend/analytics/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/geo/<*>",
+		"target": "/<platform>/frontend/geo/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/<*>",
+		"target": "/<platform>/frontend/in-app-messaging/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/<*>",
+		"target": "/<platform>/frontend/rest-api/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/predictions/<*>",
+		"target": "/<platform>/frontend/predictions/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/logging/<*>",
+		"target": "/<platform>/frontend/logging/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/interactions/<*>",
+		"target": "/<platform>/frontend/interactions/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/add-aws-services/pubsub/<*>",
+		"target": "/<platform>/frontend/pubsub/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/<*>",
+		"target": "/<platform>/frontend/ai/conversation/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/generation/<*>",
+		"target": "/<platform>/frontend/ai/generation/<*>",
+		"status": "301"
+	},
+	{
 		"source": "/<*>",
 		"target": "/404/index.html",
 		"status": "404-200"
@@ -10292,461 +10452,6 @@
 	{
 		"source": "/vue/start/connect-existing-aws-resources",
 		"target": "/vue/start/connect-to-aws-resources",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/",
-		"target": "/<platform>/frontend/auth/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/using-the-authenticator/",
-		"target": "/<platform>/frontend/auth/using-the-authenticator/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/sign-up/",
-		"target": "/<platform>/frontend/auth/sign-up/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/sign-in/",
-		"target": "/<platform>/frontend/auth/sign-in/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/switching-authentication-flows/",
-		"target": "/<platform>/frontend/auth/switching-authentication-flows/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/sign-out/",
-		"target": "/<platform>/frontend/auth/sign-out/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/manage-user-sessions/",
-		"target": "/<platform>/frontend/auth/manage-user-sessions/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/manage-user-attributes/",
-		"target": "/<platform>/frontend/auth/manage-user-attributes/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/listen-to-auth-events/",
-		"target": "/<platform>/frontend/auth/listen-to-auth-events/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/delete-user-account/",
-		"target": "/<platform>/frontend/auth/delete-user-account/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/connect-your-frontend/multi-step-sign-in/",
-		"target": "/<platform>/frontend/auth/multi-step-sign-in/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/sign-in-with-web-ui/",
-		"target": "/<platform>/frontend/auth/web-ui-sign-in/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/advanced-workflows/",
-		"target": "/<platform>/frontend/auth/advanced-workflows/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/auth/app-uninstall/",
-		"target": "/<platform>/frontend/auth/app-uninstall/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/connect-to-API/",
-		"target": "/<platform>/frontend/data/connect-to-API/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/mutate-data/",
-		"target": "/<platform>/frontend/data/mutate-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/query-data/",
-		"target": "/<platform>/frontend/data/query-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/subscribe-data/",
-		"target": "/<platform>/frontend/data/subscribe-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/working-with-files/",
-		"target": "/<platform>/frontend/data/working-with-files/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/custom-subscription/",
-		"target": "/<platform>/frontend/data/custom-subscription/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/optimistic-ui/",
-		"target": "/<platform>/frontend/data/optimistic-ui/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/connect-event-api/",
-		"target": "/<platform>/frontend/data/connect-event-api/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/aws-appsync-apollo-extensions/",
-		"target": "/<platform>/frontend/data/aws-appsync-apollo-extensions/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/connect-from-server-runtime/",
-		"target": "/<platform>/frontend/data/connect-from-server-runtime/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/connect-from-server-runtime/nextjs-server-runtime/",
-		"target": "/<platform>/frontend/data/connect-from-server-runtime/nextjs-server-runtime/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/data/connect-from-server-runtime/nuxtjs-server-runtime/",
-		"target": "/<platform>/frontend/data/connect-from-server-runtime/nuxtjs-server-runtime/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/storage/upload-files/",
-		"target": "/<platform>/frontend/storage/upload-files/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/storage/download-files/",
-		"target": "/<platform>/frontend/storage/download-files/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/storage/list-files/",
-		"target": "/<platform>/frontend/storage/list-files/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/storage/remove-files/",
-		"target": "/<platform>/frontend/storage/remove-files/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/storage/copy-files/",
-		"target": "/<platform>/frontend/storage/copy-files/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/storage/use-with-custom-s3/",
-		"target": "/<platform>/frontend/storage/use-with-custom-s3/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/storage/data-usage/",
-		"target": "/<platform>/frontend/storage/data-usage/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/server-side-rendering/",
-		"target": "/<platform>/frontend/server-side-rendering/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/server-side-rendering/nextjs-app-router-server-components/",
-		"target": "/<platform>/frontend/server-side-rendering/nextjs-app-router-server-components/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/server-side-rendering/nuxt/",
-		"target": "/<platform>/frontend/server-side-rendering/nuxt/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/record-events/",
-		"target": "/<platform>/frontend/analytics/record-events/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/identify-user/",
-		"target": "/<platform>/frontend/analytics/identify-user/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/auto-track-sessions/",
-		"target": "/<platform>/frontend/analytics/auto-track-sessions/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/enable-disable/",
-		"target": "/<platform>/frontend/analytics/enable-disable/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/streaming-data/",
-		"target": "/<platform>/frontend/analytics/streaming-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/storing-data/",
-		"target": "/<platform>/frontend/analytics/storing-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/personalize-recommendations/",
-		"target": "/<platform>/frontend/analytics/personalize-recommendations/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/sdk/",
-		"target": "/<platform>/frontend/analytics/sdk/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/data-usage-policy/",
-		"target": "/<platform>/frontend/analytics/data-usage-policy/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/app-uninstall/",
-		"target": "/<platform>/frontend/analytics/app-uninstall/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/geo/maps/",
-		"target": "/<platform>/frontend/geo/maps/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/geo/location-search/",
-		"target": "/<platform>/frontend/geo/location-search/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/geo/geofences/",
-		"target": "/<platform>/frontend/geo/geofences/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/geo/google-migration/",
-		"target": "/<platform>/frontend/geo/google-migration/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/geo/amazon-location-sdk/",
-		"target": "/<platform>/frontend/geo/amazon-location-sdk/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/integrate-application/",
-		"target": "/<platform>/frontend/in-app-messaging/integrate-application/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/sync-messages/",
-		"target": "/<platform>/frontend/in-app-messaging/sync-messages/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/display-messages/",
-		"target": "/<platform>/frontend/in-app-messaging/display-messages/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/clear-messages/",
-		"target": "/<platform>/frontend/in-app-messaging/clear-messages/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/identify-user/",
-		"target": "/<platform>/frontend/in-app-messaging/identify-user/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/respond-interaction-events/",
-		"target": "/<platform>/frontend/in-app-messaging/respond-interaction-events/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/resolve-conflicts/",
-		"target": "/<platform>/frontend/in-app-messaging/resolve-conflicts/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/fetch-data/",
-		"target": "/<platform>/frontend/rest-api/fetch-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/post-data/",
-		"target": "/<platform>/frontend/rest-api/post-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/update-data/",
-		"target": "/<platform>/frontend/rest-api/update-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/delete-data/",
-		"target": "/<platform>/frontend/rest-api/delete-data/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/test-api/",
-		"target": "/<platform>/frontend/rest-api/test-api/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/predictions/text-to-speech/",
-		"target": "/<platform>/frontend/predictions/text-to-speech/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/predictions/transcribe-audio/",
-		"target": "/<platform>/frontend/predictions/transcribe-audio/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/predictions/translate/",
-		"target": "/<platform>/frontend/predictions/translate/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/predictions/identify-text/",
-		"target": "/<platform>/frontend/predictions/identify-text/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/predictions/identify-entity/",
-		"target": "/<platform>/frontend/predictions/identify-entity/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/predictions/label-image/",
-		"target": "/<platform>/frontend/predictions/label-image/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/predictions/interpret-sentiment/",
-		"target": "/<platform>/frontend/predictions/interpret-sentiment/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/send-logs/",
-		"target": "/<platform>/frontend/logging/send-logs/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/change-log-levels/",
-		"target": "/<platform>/frontend/logging/change-log-levels/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/flush-logs/",
-		"target": "/<platform>/frontend/logging/flush-logs/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/enable-disable/",
-		"target": "/<platform>/frontend/logging/enable-disable/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/configure-user/",
-		"target": "/<platform>/frontend/logging/configure-user/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/change-local-storage/",
-		"target": "/<platform>/frontend/logging/change-local-storage/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/hub-events/",
-		"target": "/<platform>/frontend/logging/hub-events/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/sdk/",
-		"target": "/<platform>/frontend/logging/sdk/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/interactions/chatbot/",
-		"target": "/<platform>/frontend/interactions/chatbot/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/pubsub/publish/",
-		"target": "/<platform>/frontend/pubsub/publish/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/pubsub/subscribe/",
-		"target": "/<platform>/frontend/pubsub/subscribe/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/conversation/",
-		"target": "/<platform>/frontend/ai/conversation/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/conversation/ai-conversation/",
-		"target": "/<platform>/frontend/ai/conversation/ai-conversation/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/conversation/connect-your-frontend/",
-		"target": "/<platform>/frontend/ai/conversation/connect-your-frontend/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/conversation/history/",
-		"target": "/<platform>/frontend/ai/conversation/history/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/conversation/tools/",
-		"target": "/<platform>/frontend/ai/conversation/tools/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/conversation/context/",
-		"target": "/<platform>/frontend/ai/conversation/context/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/conversation/response-components/",
-		"target": "/<platform>/frontend/ai/conversation/response-components/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/conversation/knowledge-base/",
-		"target": "/<platform>/frontend/ai/conversation/knowledge-base/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/generation/",
-		"target": "/<platform>/frontend/ai/generation/",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/ai/generation/data-extraction/",
-		"target": "/<platform>/frontend/ai/generation/data-extraction/",
 		"status": "301"
 	}
 ]
