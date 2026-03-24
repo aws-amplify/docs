@@ -103,7 +103,7 @@ SMS-based one-time password requires your Amazon Cognito user pool to be configu
 
 </Callout>
 
-[Learn more about using SMS OTP in your application code](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#sms-otp).
+[Learn more about using SMS OTP in your application code](/[platform]/frontend/auth/sign-in/#sms-otp).
 
 ## Email OTP
 
@@ -135,7 +135,7 @@ Email-based one-time password requires your Amazon Cognito user pool to be confi
 
 </Callout>
 
-[Learn more about using email OTP in your application code](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#email-otp).
+[Learn more about using email OTP in your application code](/[platform]/frontend/auth/sign-in/#email-otp).
 
 ## WebAuthn Passkey
 
@@ -192,7 +192,7 @@ Using passkeys with Amplify requires following these steps:
 
 1. Deploy a Digital Asset Links file to your website granting the `get_login_creds` permission to your application. See the [Credential Manager documentation](https://developer.android.com/identity/sign-in/credential-manager#add-support-dal) for more details about this file.
 1. Configure WebAuthn in your `defineAuth` as shown above, specifying your website domain as the `relyingPartyId`.
-1. Use the Amplify Android APIs to first [register a passkey](/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials/#associate-webauthn-credentials) and then to [sign in with WebAuthn](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#webauthn-passkeys).
+1. Use the Amplify Android APIs to first [register a passkey](/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials/#associate-webauthn-credentials) and then to [sign in with WebAuthn](/[platform]/frontend/auth/sign-in/#webauthn-passkeys).
 
 </InlineFilter>
 <InlineFilter filters={["swift"]}>
@@ -201,7 +201,7 @@ Using passkeys with Amplify requires following these steps:
 
 </InlineFilter>
 
-[Learn more about using WebAuthn passkeys in your application code](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/#webauthn-passkeys).
+[Learn more about using WebAuthn passkeys in your application code](/[platform]/frontend/auth/sign-in/#webauthn-passkeys).
 
 ### Managing credentials
 
@@ -264,7 +264,7 @@ When using WebAuthn, users still need a way to initially sign up (email or phone
 
 ## Next steps
 
-- [Learn how to implement passwordless sign-in in your application](/[platform]/build-a-backend/auth/connect-your-frontend/sign-in/)
+- [Learn how to implement passwordless sign-in in your application](/[platform]/frontend/auth/sign-in/)
 - [Configure email settings for Email OTP](/[platform]/build-a-backend/auth/moving-to-production/#email)
 - [Configure SMS settings for SMS OTP](/[platform]/build-a-backend/auth/moving-to-production/#sms)
 - [Manage WebAuthn credentials](/[platform]/build-a-backend/auth/manage-users/manage-webauthn-credentials/)
