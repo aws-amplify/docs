@@ -361,7 +361,6 @@ export const Layout = ({
                     {crossLinkProps && (
                       <CrossLink {...crossLinkProps} />
                     )}
-                    {shouldShowAIBanner ? <AIBanner /> : null}
                     {useCustomTitle ? null : (
                       <Flex
                         justifyContent="space-between"
