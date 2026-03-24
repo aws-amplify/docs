@@ -67,7 +67,7 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/build-a-backend/index.mdx',
-          section: 'both',
+          section: 'backend',
           children: [
             {
               path: 'src/pages/[platform]/build-a-backend/auth/index.mdx',
@@ -433,146 +433,210 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/add-aws-services/index.mdx',
+              path: 'src/pages/[platform]/ai/index.mdx',
               section: 'backend',
               children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/index.mdx',
+                  path: 'src/pages/[platform]/ai/set-up-ai/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/ai/concepts/index.mdx',
                   section: 'backend',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/index.mdx',
-                    section: 'backend'
+                      path: 'src/pages/[platform]/ai/concepts/architecture/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/existing-resources/index.mdx',
-                    section: 'backend'
+                      path: 'src/pages/[platform]/ai/concepts/models/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/concepts/prompting/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/concepts/inference-configuration/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/concepts/streaming/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/concepts/tools/index.mdx'
                     }
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
-                  section: 'backend',
+                  path: 'src/pages/[platform]/ai/conversation/index.mdx',
+                  section: 'frontend',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx',
-                    section: 'backend'
+                      path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/index.mdx',
-                    section: 'backend'
+                      path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-geofencing/index.mdx',
-                    section: 'backend'
+                      path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx',
-                    section: 'backend'
+                      path: 'src/pages/[platform]/ai/conversation/tools/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/context/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/response-components/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/knowledge-base/index.mdx'
                     }
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx',
-                  section: 'backend',
+                  path: 'src/pages/[platform]/ai/generation/index.mdx',
+                  section: 'frontend',
                   children: [
                     {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/set-up-in-app-messaging/index.mdx',
-                    section: 'backend'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/create-campaign/index.mdx',
-                    section: 'backend'
+                      path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
                     }
                   ]
-                },
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/index.mdx',
+              section: 'backend',
+              children: [
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx',
-                  section: 'backend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/index.mdx',
-                    section: 'backend'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-http-api/index.mdx',
-                    section: 'backend'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/customize-authz/index.mdx',
-                    section: 'backend'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/existing-resources/index.mdx',
-                    section: 'backend'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/index.mdx',
-                  section: 'backend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/set-up-predictions/index.mdx',
-                    section: 'backend'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/index.mdx',
-                  section: 'backend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/set-up-logging/index.mdx',
-                    section: 'backend'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/remote-configuration/index.mdx',
-                    section: 'backend'
-                    },
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/view-logs/index.mdx',
-                    section: 'backend'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/index.mdx',
-                  section: 'backend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/set-up-interactions/index.mdx',
-                    section: 'backend'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/index.mdx',
-                  section: 'backend',
-                  children: [
-                    {
-                      path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/set-up-pubsub/index.mdx',
-                    section: 'backend'
-                    }
-                  ]
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx',
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/index.mdx',
                 section: 'backend'
                 },
                 {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx',
-                section: 'backend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/tagging-resources/index.mdx',
-                section: 'backend'
-                },
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx',
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/existing-resources/index.mdx',
                 section: 'backend'
                 }
               ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-geofencing/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx',
+                section: 'backend'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/set-up-in-app-messaging/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/create-campaign/index.mdx',
+                section: 'backend'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-http-api/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/customize-authz/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/existing-resources/index.mdx',
+                section: 'backend'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/set-up-predictions/index.mdx',
+                section: 'backend'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/set-up-logging/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/remote-configuration/index.mdx',
+                section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/view-logs/index.mdx',
+                section: 'backend'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/set-up-interactions/index.mdx',
+                section: 'backend'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/set-up-pubsub/index.mdx',
+                section: 'backend'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx',
+            section: 'backend'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx',
+            section: 'backend'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/tagging-resources/index.mdx',
+            section: 'backend'
+            },
+            {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx',
+            section: 'backend'
             },
             {
               path: 'src/pages/[platform]/build-a-backend/q-developer/index.mdx',
@@ -597,76 +661,6 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/circular-dependency/index.mdx',
                 section: 'backend'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          path: 'src/pages/[platform]/ai/index.mdx',
-          section: 'both',
-          children: [
-            {
-              path: 'src/pages/[platform]/ai/set-up-ai/index.mdx',
-              section: 'backend'
-            },
-            {
-              path: 'src/pages/[platform]/ai/concepts/index.mdx',
-              section: 'backend',
-              children: [
-                {
-                  path: 'src/pages/[platform]/ai/concepts/architecture/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/concepts/models/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/concepts/prompting/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/concepts/inference-configuration/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/concepts/streaming/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/concepts/tools/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/ai/conversation/index.mdx',
-              section: 'frontend',
-              children: [
-                {
-                  path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/conversation/tools/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/conversation/context/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/conversation/response-components/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/ai/conversation/knowledge-base/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/ai/generation/index.mdx',
-              section: 'frontend',
-              children: [
-                {
-                  path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
                 }
               ]
             }
@@ -786,6 +780,45 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/frontend/storage/data-usage/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/frontend/ai/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/ai/conversation/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/tools/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/context/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/response-components/index.mdx'
+                    },
+                    {
+                      path: 'src/pages/[platform]/ai/conversation/knowledge-base/index.mdx'
+                    }
+                  ]
+                },
+                {
+                  path: 'src/pages/[platform]/ai/generation/index.mdx',
+                  children: [
+                    {
+                      path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
+                    }
+                  ]
                 }
               ]
             },
