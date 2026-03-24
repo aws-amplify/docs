@@ -104,9 +104,9 @@ export const Layout = ({
   const { section: pageSection, featureRoute } = getPageSection(pathname);
 
   useEffect(() => {
-    // Homepage and other non-section pages should have no active section
+    // Homepage shows quickstart sidebar items
     if (isHome || asPathWithNoHash === '/') {
-      setActiveSection(undefined);
+      setActiveSection('quickstart');
       return;
     }
 

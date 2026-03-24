@@ -40,8 +40,10 @@ describe('GlobalNav', () => {
 
   it('should render all section tabs for Gen2', () => {
     render(component);
-    const sectionKeys = Object.keys(SECTIONS) as SectionKey[];
-    sectionKeys.forEach((key) => {
+    const visibleKeys = (Object.keys(SECTIONS) as SectionKey[]).filter(
+      (key) => !SECTIONS[key].hideFromNav
+    );
+    visibleKeys.forEach((key) => {
       expect(screen.getByText(SECTIONS[key].label)).toBeInTheDocument();
     });
   });

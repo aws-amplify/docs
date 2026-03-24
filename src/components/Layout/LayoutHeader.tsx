@@ -152,7 +152,9 @@ export const LayoutHeader = ({
 
           {!isGen1 && (
             <div className="section-nav-sidebar">
-              {(Object.keys(SECTIONS) as SectionKey[]).map((key) => {
+              {(Object.keys(SECTIONS) as SectionKey[])
+                .filter((key) => !SECTIONS[key].hideFromNav)
+                .map((key) => {
                 const section = SECTIONS[key];
                 const isActive = activeSection === key;
                 return (

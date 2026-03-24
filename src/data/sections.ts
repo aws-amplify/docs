@@ -9,10 +9,12 @@ export type SectionKey =
 export interface SectionConfig {
   label: string;
   subtitle?: string;
+  hideFromNav?: boolean;
 }
 
+// Sections shown as tabs in the nav bar
 export const SECTIONS: Record<SectionKey, SectionConfig> = {
-  quickstart: { label: 'Quickstart' },
+  quickstart: { label: 'Quickstart', hideFromNav: true },
   backend: { label: 'Build a Backend', subtitle: 'What runs on AWS' },
   frontend: { label: 'Frontend Libraries', subtitle: 'What runs in your app' },
   ui: { label: 'UI Libraries', subtitle: 'Pre-built components' },
