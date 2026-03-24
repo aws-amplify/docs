@@ -20,7 +20,7 @@ export function CrossLink({ href, label, text, targetSection }: CrossLinkProps) 
   };
 
   const handleClick = () => {
-    if (targetSection) {
+    if (targetSection && typeof window !== 'undefined') {
       sessionStorage.setItem('activeSection', targetSection);
     }
   };

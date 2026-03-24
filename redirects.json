@@ -10215,11 +10215,6 @@
 		"status": "301"
 	},
 	{
-		"source": "/<platform>/build-a-backend/data/custom-business-logic/connect-external-ddb-table/",
-		"target": "/<platform>/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/",
-		"status": "301"
-	},
-	{
 		"source": "/gen1/REACT/build-a-backend/graphqlapi/customize-authz-modes/",
 		"target": "/gen1/react/build-a-backend/graphqlapi/customize-authorization-rules/",
 		"status": "301"
