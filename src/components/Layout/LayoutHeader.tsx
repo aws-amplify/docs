@@ -31,7 +31,8 @@ export const LayoutHeader = ({
   showLastUpdatedDate = true,
   showTOC,
   activeSection,
-  onSectionChange
+  onSectionChange,
+  menuResetKey
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
@@ -39,6 +40,7 @@ export const LayoutHeader = ({
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
   activeSection?: string;
+  menuResetKey?: number;
   onSectionChange?: (section: SectionKey) => void;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
@@ -183,6 +185,7 @@ export const LayoutHeader = ({
 
           <div className="layout-sidebar-menu">
             <Menu
+              key={menuResetKey}
               currentPlatform={currentPlatform}
               path={asPathWithNoHash}
               activeSection={activeSection}
