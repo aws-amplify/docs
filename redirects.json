@@ -10703,5 +10703,55 @@
 		"source": "/<platform>/build-a-backend/add-aws-services/pubsub/subscribe/",
 		"target": "/<platform>/frontend/pubsub/subscribe/",
 		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/",
+		"target": "/<platform>/frontend/ai/conversation/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/ai-conversation/",
+		"target": "/<platform>/frontend/ai/conversation/ai-conversation/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/connect-your-frontend/",
+		"target": "/<platform>/frontend/ai/conversation/connect-your-frontend/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/history/",
+		"target": "/<platform>/frontend/ai/conversation/history/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/tools/",
+		"target": "/<platform>/frontend/ai/conversation/tools/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/context/",
+		"target": "/<platform>/frontend/ai/conversation/context/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/response-components/",
+		"target": "/<platform>/frontend/ai/conversation/response-components/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/conversation/knowledge-base/",
+		"target": "/<platform>/frontend/ai/conversation/knowledge-base/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/generation/",
+		"target": "/<platform>/frontend/ai/generation/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/ai/generation/data-extraction/",
+		"target": "/<platform>/frontend/ai/generation/data-extraction/",
+		"status": "301"
 	}
 ]

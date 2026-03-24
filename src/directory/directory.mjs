@@ -751,36 +751,36 @@ export const directory = {
               path: 'src/pages/[platform]/frontend/ai/index.mdx',
               children: [
                 {
-                  path: 'src/pages/[platform]/ai/conversation/index.mdx',
+                  path: 'src/pages/[platform]/frontend/ai/conversation/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
+                      path: 'src/pages/[platform]/frontend/ai/conversation/ai-conversation/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/ai/conversation/connect-your-frontend/index.mdx'
+                      path: 'src/pages/[platform]/frontend/ai/conversation/connect-your-frontend/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/ai/conversation/history/index.mdx'
+                      path: 'src/pages/[platform]/frontend/ai/conversation/history/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/ai/conversation/tools/index.mdx'
+                      path: 'src/pages/[platform]/frontend/ai/conversation/tools/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/ai/conversation/context/index.mdx'
+                      path: 'src/pages/[platform]/frontend/ai/conversation/context/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/ai/conversation/response-components/index.mdx'
+                      path: 'src/pages/[platform]/frontend/ai/conversation/response-components/index.mdx'
                     },
                     {
-                      path: 'src/pages/[platform]/ai/conversation/knowledge-base/index.mdx'
+                      path: 'src/pages/[platform]/frontend/ai/conversation/knowledge-base/index.mdx'
                     }
                   ]
                 },
                 {
-                  path: 'src/pages/[platform]/ai/generation/index.mdx',
+                  path: 'src/pages/[platform]/frontend/ai/generation/index.mdx',
                   children: [
                     {
-                      path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
+                      path: 'src/pages/[platform]/frontend/ai/generation/data-extraction/index.mdx'
                     }
                   ]
                 }

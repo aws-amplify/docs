@@ -29,7 +29,7 @@ Response components are custom UI components you can define that the AI assistan
 
 ## How it works
 
-The `AIConversation` component takes the response components and turns them into [tool](/[platform]/ai/concepts/tools) configurations to send to the LLM. The tool configurations get sent when a user message is sent to the backend, then the backend Lambda merges the tools coming from the client and any [schema tools](/[platform]/ai/conversation/tools). The LLM sees that it can invoke UI component "tool", with certain input/props. If the LLM chooses to use a response component tool, a message gets sent to the client with the response component name and props. The `AIConversation` component will then try to render the React component provided with the props the LLM sends. 
+The `AIConversation` component takes the response components and turns them into [tool](/[platform]/frontend/ai/concepts/tools) configurations to send to the LLM. The tool configurations get sent when a user message is sent to the backend, then the backend Lambda merges the tools coming from the client and any [schema tools](/[platform]/frontend/ai/conversation/tools). The LLM sees that it can invoke UI component "tool", with certain input/props. If the LLM chooses to use a response component tool, a message gets sent to the client with the response component name and props. The `AIConversation` component will then try to render the React component provided with the props the LLM sends. 
 
 It is important to know that the LLM is NOT writing raw code that sent to the browser and evaluated.
 
