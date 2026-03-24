@@ -78,8 +78,9 @@ export function getSectionFromPath(path: string): SectionKey | undefined {
   if (/\/deploy-and-host(\/|$)/.test(path)) return 'hosting';
   if (/\/reference(\/|$)/.test(path)) return 'reference';
   if (/\/build-ui(\/|$)/.test(path)) return 'ui';
-  if (/\/frontend(\/|$)/.test(path) || /\/ai(\/|$)/.test(path))
-    return 'frontend';
+  if (/\/frontend(\/|$)/.test(path)) return 'frontend';
+  // AI is 'both' (has backend setup + frontend usage) — let directory tags decide
+  if (/\/ai(\/|$)/.test(path)) return 'backend';
   if (/\/build-a-backend(\/|$)/.test(path)) return 'backend';
 
   return undefined;

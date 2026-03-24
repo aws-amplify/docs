@@ -604,13 +604,15 @@ export const directory = {
         },
         {
           path: 'src/pages/[platform]/ai/index.mdx',
-          section: 'frontend',
+          section: 'both',
           children: [
             {
-              path: 'src/pages/[platform]/ai/set-up-ai/index.mdx'
+              path: 'src/pages/[platform]/ai/set-up-ai/index.mdx',
+              section: 'backend'
             },
             {
               path: 'src/pages/[platform]/ai/concepts/index.mdx',
+              section: 'backend',
               children: [
                 {
                   path: 'src/pages/[platform]/ai/concepts/architecture/index.mdx'
@@ -634,6 +636,7 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/ai/conversation/index.mdx',
+              section: 'frontend',
               children: [
                 {
                   path: 'src/pages/[platform]/ai/conversation/ai-conversation/index.mdx'
@@ -660,6 +663,7 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/ai/generation/index.mdx',
+              section: 'frontend',
               children: [
                 {
                   path: 'src/pages/[platform]/ai/generation/data-extraction/index.mdx'
