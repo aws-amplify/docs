@@ -316,7 +316,7 @@ const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDelete
 
 <Callout>
 
-**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](/[platform]/frontend/data/data-modeling/relationships/) for more details.
+**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](/[platform]/build-a-backend/data/data-modeling/relationships/) for more details.
 
 </Callout>
 

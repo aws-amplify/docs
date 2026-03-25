@@ -80,7 +80,7 @@ You’ve now successfully connected your app to the Amazon Location Service.
 
 ## Using the Amazon Location Service APIs
 
-In order to access Amazon Location Service APIs, ensure you've provisioned resources and configured your app using the instructions in either [Amplify Geo Maps docs](/[platform]/frontend/geo/set-up-geo/) or the [Amazon Location Service console](https://console.aws.amazon.com/location/home#/create).
+In order to access Amazon Location Service APIs, ensure you've provisioned resources and configured your app using the instructions in either [Amplify Geo Maps docs](/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/) or the [Amazon Location Service console](https://console.aws.amazon.com/location/home#/create).
 
 You can check out the [Amazon Location API Reference documentation](https://docs.aws.amazon.com/location/index.html) for a complete list of supported features.
 
@@ -128,7 +128,7 @@ client.send(command, (err, data) => {
 If you need functionality in the AWS services used by the Amplify Geo category that isn't available, we provide an escape hatch so you can get a reference to that service.
 
 Note: If you provisioned your Geo resources via CDK, then the IAM policy will be specifically scoped to only allow actions required by the library.
-Please [adjust your authorization permissions](/[platform]/frontend/geo/existing-resources/) accordingly for your escape hatch use-cases.
+Please [adjust your authorization permissions](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) accordingly for your escape hatch use-cases.
 
 <BlockSwitcher>
 
@@ -225,7 +225,7 @@ Log.i("MyAmplifyApp", response.entries.toString())
 
 If you need functionality in the AWSLocation framework used by the Amplify Geo category that isn't available, we provide an escape hatch so you can reference it directly.
 
-Note: If you provisioned your Geo resources, then the IAM policy will be specifically scoped to only allow actions required by the library. Please [adjust your authorization permissions](/[platform]/frontend/geo/existing-resources/) accordingly for your escape hatch use-cases.
+Note: If you provisioned your Geo resources, then the IAM policy will be specifically scoped to only allow actions required by the library. Please [adjust your authorization permissions](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) accordingly for your escape hatch use-cases.
 
 ```swift
 import AWSLocation

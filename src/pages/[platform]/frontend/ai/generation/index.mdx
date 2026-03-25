@@ -35,7 +35,7 @@ AI generation routes are a request-response API used to generate structured outp
 - summarization
 
 <Callout type="info">
-See [Supported Providers and Models](/[platform]/frontend/ai/concepts/models/#supported-providers-and-models) for a list of supported AI models.
+See [Supported Providers and Models](/[platform]/ai/concepts/models/#supported-providers-and-models) for a list of supported AI models.
 </Callout>
 
 Under the hood, a generation route is an AWS AppSync query that ensures the AI model responds with the response type defined for the route.
@@ -140,7 +140,7 @@ const { data: summary, errors } = await client.generations
 You can influence response generation by setting inference parameters for the AI model.
 This ability to control the randomness and diversity of responses is useful for generating responses that are tailored to your needs.
 
-[More information about inference parameters](/[platform]/frontend/ai/concepts/inference-configuration).
+[More information about inference parameters](/[platform]/ai/concepts/inference-configuration).
 
 ```ts title="Inference Parameters"
 const schema = a.schema({

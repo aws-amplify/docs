@@ -235,12 +235,12 @@ const result = await list({
 
 | Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/frontend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | listAll | boolean | false | Set to true to list all files within the specified `path` |
 | pageSize | number | 1000 | Sets the maximum number of files to be return. The range is 0 - 1000 |
 | nextToken | string | — | Indicates whether the list is being continued on this bucket with a token |
 | subpathStrategy | \{ strategy: 'include' \} \|<br/>\{ 'exclude',<br />delimiter?: string \} | \{ strategy: 'include' \} | An object representing the subpath inclusion strategy and the delimiter used to group results for exclusion. <br/><br/> Read more at [Excluding subpaths](/[platform]/frontend/storage/list-files/#excluding-subpaths) |
-| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/frontend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 | expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
 
 </InlineFilter>
@@ -1052,7 +1052,7 @@ final result = await Amplify.Storage.list(
 
 | Option | Type | Description |
 | --- | --- | --- |
-| bucket | StorageBucket | The target bucket from the assigned name in the Amplify Backend or from the bucket name and region in the console<br/><br/>Defaults to the default bucket and region from the Amplify configuration if this option is not provided.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/frontend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | StorageBucket | The target bucket from the assigned name in the Amplify Backend or from the bucket name and region in the console<br/><br/>Defaults to the default bucket and region from the Amplify configuration if this option is not provided.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | excludeSubPaths | boolean | Whether to exclude objects under the sub paths of the path to list. Defaults to false. |
 | delimiter | String | The delimiter to use when evaluating sub paths. If excludeSubPaths is false, this value has no impact on behavior. |
 
@@ -1099,14 +1099,14 @@ The properties and metadata will look similar to the below example
 
 Option | Type | Default | Description |
 | -- | -- | -- | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/frontend/storage/set-up-storage/#configure-additional-storage-buckets) |
-| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/frontend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. | [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 
 <Callout>
 
 To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
 
-Learn more about how to setup an appropriate [CORS Policy](/[platform]/frontend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
+Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
 
 </Callout>
 
@@ -1164,7 +1164,7 @@ Future<void> getFileProperties() async {
 
 To get the metadata in result for all APIs when building against a web target, you have to configure user defined metadata in CORS.
 
-Learn more about how to setup an appropriate [CORS Policy](/[platform]/frontend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
+Learn more about how to setup an appropriate [CORS Policy](/[platform]/build-a-backend/storage/extend-s3-resources/#for-manually-configured-s3-resources).
 
 </Callout>
 

@@ -503,7 +503,7 @@ Future<void> remove() async {
 
 Option | Type | Default | Description |
 | -- | :--: | :--: | ----------- |
-| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/frontend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
 | expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
 | onProgress | (fileBatch: \{<br/>deleted?: \{path: string\}[];<br/>failed?: \{path: string; code: string; message: string\}[];<br/>\}) => void | Optional | Callback function for tracking folder deletion progress. Called after each batch of files is processed during folder deletion operations. |
 
