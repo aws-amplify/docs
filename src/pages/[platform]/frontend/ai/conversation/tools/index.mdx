@@ -47,15 +47,15 @@ The easiest way to define tools for your conversation route is with `a.ai.dataTo
 
 You can give the LLM access to your data models by referencing them in an `a.ai.dataTool()` with a reference to a model in your data schema. This requires that the model uses at least one of the following authorization strategies:
 
-**[Per user data access](https://docs.amplify.aws/react/build-a-backend/data/customize-authz/per-user-per-owner-data-access/)**
+**[Per user data access](/[platform]/build-a-backend/data/customize-authz/per-user-per-owner-data-access/)**
 - `owner()`
 - `ownerDefinedIn()`
 - `ownersDefinedIn()`
 
-**[Any signed-in user data access](https://docs.amplify.aws/react/build-a-backend/data/customize-authz/signed-in-user-data-access/)**
+**[Any signed-in user data access](/[platform]/build-a-backend/data/customize-authz/signed-in-user-data-access/)**
 - `authenticated()`
 
-**[Per user group data access](https://docs.amplify.aws/react/build-a-backend/data/customize-authz/user-group-based-data-access/)**
+**[Per user group data access](/[platform]/build-a-backend/data/customize-authz/user-group-based-data-access/)**
 - `group()`
 - `groupsDefinedIn()`
 - `groups()`
@@ -101,7 +101,7 @@ The only supported model operation is `'list'`.
 
 ## Query tools
 
-You can also give the LLM access to custom queries defined in your data schema. To do so, define a custom query with a [function or custom handler](https://docs.amplify.aws/react/build-a-backend/data/custom-business-logic/) and then reference that custom query as a tool. This requires that the custom query uses the `allow.authenticated()` authorization strategy.
+You can also give the LLM access to custom queries defined in your data schema. To do so, define a custom query with a [function or custom handler](/[platform]/build-a-backend/data/custom-business-logic/) and then reference that custom query as a tool. This requires that the custom query uses the `allow.authenticated()` authorization strategy.
 
 ```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/backend";
