@@ -316,6 +316,7 @@ export function generateLlmsFull(pageNodes, contentsMap) {
  * Read and transform a single MDX page file to markdown.
  */
 async function processPage(pageNode) {
+  if (!pageNode.path) return '';
   try {
     const mdxPath = path.resolve(pageNode.path);
     const rawMdx = await fs.readFile(mdxPath, 'utf-8');

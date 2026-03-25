@@ -30,8 +30,8 @@ describe('getSectionFromPath', () => {
     expect(getSectionFromPath('/react/build-ui/')).toBe('ui');
   });
 
-  it('returns frontend for /ai/ paths', () => {
-    expect(getSectionFromPath('/react/ai/')).toBe('frontend');
+  it('returns backend for /ai/ paths (directory tags decide backend vs frontend)', () => {
+    expect(getSectionFromPath('/react/ai/')).toBe('backend');
   });
 
   it('returns hosting for /deploy-and-host/ paths', () => {

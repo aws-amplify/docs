@@ -69,7 +69,9 @@ export function GlobalNav({
           <Flex
             className={`section-nav ${isCollapsed ? 'collapsed-menu' : ''}`}
           >
-            {(Object.keys(SECTIONS) as SectionKey[]).map((key) => {
+            {(Object.keys(SECTIONS) as SectionKey[])
+              .filter((key) => !SECTIONS[key].hideFromNav)
+              .map((key) => {
               const section = SECTIONS[key];
               const isActive = activeSection === key;
               return (

@@ -30,7 +30,6 @@ import type { HeadingInterface } from '@/components/TableOfContents/TableOfConte
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { debounce } from '@/utils/debounce';
 import '@docsearch/css';
-import { AIBanner } from '@/components/AIBanner';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
 import {
   NextPrevious,
@@ -79,7 +78,6 @@ export const Layout = ({
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
-  const shouldShowAIBanner = asPathWithNoHash === '/';
   const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
@@ -104,9 +102,9 @@ export const Layout = ({
   const { section: pageSection, featureRoute } = getPageSection(pathname);
 
   useEffect(() => {
-    // Homepage and other non-section pages should have no active section
+    // Homepage shows quickstart sidebar items
     if (isHome || asPathWithNoHash === '/') {
-      setActiveSection(undefined);
+      setActiveSection('quickstart');
       return;
     }
 
@@ -130,10 +128,10 @@ export const Layout = ({
     // Don't show CrossLink on landing/overview pages
     if (pathname.endsWith('/frontend')) return null;
     if (pathname.endsWith('/build-a-backend')) return null;
-    const isFeatureRoot = /\/\[platform\]\/build-a-backend\/[^/]+$/.test(pathname);
-    if (isFeatureRoot) {
+    // Skip feature root overviews (e.g., /build-a-backend/auth, /frontend/auth)
+    if (/\/\[platform\]\/(build-a-backend|frontend)\/[^/]+$/.test(pathname)) {
       const node = findDirectoryNode(pathname);
-      if (node?.section === 'both') return null;
+      if (node?.children && node.children.length > 0) return null;
     }
 
     if (pageSection === 'backend') {
@@ -353,7 +351,6 @@ export const Layout = ({
                       <Breadcrumbs
                         route={pathname}
                         platform={currentPlatform}
-                        activeSection={activeSection}
                       />
                     ) : null}
                     {isGen1 && (
@@ -362,19 +359,13 @@ export const Layout = ({
                     {crossLinkProps && (
                       <CrossLink {...crossLinkProps} />
                     )}
-                    {shouldShowAIBanner ? <AIBanner /> : null}
                     {useCustomTitle ? null : (
                       <Flex
                         justifyContent="space-between"
                         alignItems="flex-start"
                         wrap="nowrap"
                       >
-                        <Heading level={1}>
-                          {activeSection === 'frontend' &&
-                          pathname === '/[platform]/build-a-backend'
-                            ? 'Frontend Libraries'
-                            : pageTitle}
-                        </Heading>
+                        <Heading level={1}>{pageTitle}</Heading>
                         <MarkdownMenu
                           route={asPathWithNoHash}
                           isGen1={isGen1}

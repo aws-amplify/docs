@@ -9,10 +9,12 @@ export type SectionKey =
 export interface SectionConfig {
   label: string;
   subtitle?: string;
+  hideFromNav?: boolean;
 }
 
+// Sections shown as tabs in the nav bar
 export const SECTIONS: Record<SectionKey, SectionConfig> = {
-  quickstart: { label: 'Quickstart' },
+  quickstart: { label: 'Quickstart', hideFromNav: true },
   backend: { label: 'Build a Backend', subtitle: 'What runs on AWS' },
   frontend: { label: 'Frontend Libraries', subtitle: 'What runs in your app' },
   ui: { label: 'UI Libraries', subtitle: 'Pre-built components' },
@@ -78,8 +80,9 @@ export function getSectionFromPath(path: string): SectionKey | undefined {
   if (/\/deploy-and-host(\/|$)/.test(path)) return 'hosting';
   if (/\/reference(\/|$)/.test(path)) return 'reference';
   if (/\/build-ui(\/|$)/.test(path)) return 'ui';
-  if (/\/frontend(\/|$)/.test(path) || /\/ai(\/|$)/.test(path))
-    return 'frontend';
+  if (/\/frontend(\/|$)/.test(path)) return 'frontend';
+  // AI is 'both' (has backend setup + frontend usage) — let directory tags decide
+  if (/\/ai(\/|$)/.test(path)) return 'backend';
   if (/\/build-a-backend(\/|$)/.test(path)) return 'backend';
 
   return undefined;
