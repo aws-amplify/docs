@@ -3,7 +3,7 @@ import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
 export const meta = {
   title: "Use Amazon Q Developer with Amplify",
   description:
-    "Learn how to use Amazon Q Developer with AWS Amplify for inline code suggestions, chat assistance, and AI-powered development workflows",
+    "Learn how to use Amazon Q Developer - inline code suggestions with Amplify",
   platforms: [
     "javascript",
     "react-native",
@@ -27,32 +27,24 @@ export function getStaticProps(context) {
   };
 }
 
-[Amazon Q Developer](https://aws.amazon.com/q/developer/) is an AI-powered assistant that helps you build, debug, and optimize AWS applications. It provides inline code completions, chat-based assistance, code review, security scanning, and agent-driven development workflows — all within your IDE.
+[Amazon Q Developer](https://aws.amazon.com/q/developer/) is a generative artificial intelligence (AI) powered conversational assistant that can help you understand, build, extend, and operate AWS applications. You can ask questions about AWS architecture, your AWS resources, best practices, documentation, support, and more. Amazon Q is constantly updating its capabilities so your questions get the most contextually relevant and actionable answers. When used in an integrated development environment (IDE), Amazon Q provides software development assistance. Amazon Q can chat about code, provide inline code completions, generate net new code, scan your code for security vulnerabilities, and make code upgrades and improvements, such as language updates, debugging, and optimizations.
 
-Amazon Q Developer understands AWS services including Amplify, CDK, and the Amplify Gen 2 TypeScript-first backend definition pattern. It can help you write data models, configure authentication, set up storage, create functions, and connect your frontend to backend services.
+Q Developer in the IDE provides [inline code suggestions](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/inline-suggestions.html) in real time. As you write code, Amazon Q automatically generates suggestions based on your existing code and comments. When you start typing out single lines of code or comments, Amazon Q makes suggestions based on your current and previous inputs. Inline suggestions are automatically enabled when you download the Amazon Q extension.
 
-## Setting up Amazon Q Developer
+## Setting up Q Developer
 
-Amazon Q Developer is available as an extension for the following IDEs:
+Amazon Q is available as an extension in Visual Studio Code and a plugin in JetBrains. Amazon Q is also available in the AWS Toolkit for Visual Studio. To get started, please visit [Install Amazon Q Developer](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/q-in-IDE-setup.html).
 
-- **Visual Studio Code** — [Install from VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.amazon-q-vscode)
-- **JetBrains IDEs** (IntelliJ, WebStorm, PyCharm, etc.) — [Install from JetBrains Marketplace](https://plugins.jetbrains.com/plugin/24267-amazon-q/)
-- **Visual Studio** (Windows) — Available through the AWS Toolkit for Visual Studio 2022
+## Use Q Developer - Inline code suggestions in your Amplify project
 
-You can use Amazon Q Developer for free with an [AWS Builder ID](https://docs.aws.amazon.com/signin/latest/userguide/sign-in-aws_builder_id.html) — no AWS account required. For additional features, [Amazon Q Developer Pro](https://aws.amazon.com/q/developer/pricing/) is available with an AWS subscription.
+Amplify generates two folders in your backend directory, `auth` and `data`, which contain TypeScript AWS CDK definitions for each of these resources. We’ll build out the schema for our API through the help of Amazon Q Developer's inline code suggestion capabilities.
 
-For detailed setup instructions, visit [Install Amazon Q Developer in your IDE](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/q-in-IDE-setup.html).
-
-## Inline code suggestions
-
-Amazon Q Developer provides real-time inline code suggestions as you type. This is particularly useful when working with Amplify backend definitions, where Q Developer can generate data models, authorization rules, and resource configurations based on your comments and existing code.
-
-### Example: Generate a data model
-
-**Step 1:** Open `amplify/data/resource.ts` and comment out the default schema.
+**Step 1:** Open `amplify/data/resource.ts` and comment out the default schema for Todo provided.
 
 ```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+
+// ...
 
 // const schema = a.schema({
 //   Todo: a
@@ -61,95 +53,73 @@ import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 //     })
 //     .authorization(allow => [allow.publicApiKey()]),
 // });
+
+// ...
 ```
 
-**Step 2:** Write a comment describing what you want to generate. For example:
+**Step 2:** In a new line below the commented schema, enter a comment to generate the schema using natural language. For example, `generate a restaurant model with the following fields: id, name, description, address, image, rating, style. Rating can be a float value. Authorization should allow public.` Press `Enter` for a new line and wait for Amazon Q Developer to generate inline code suggestion for your schema.
 
 ```ts title="amplify/data/resource.ts"
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
+// ...
+
+// const schema = a.schema({
+//   Todo: a
+//     .model({
+//       content: a.string(),
+//     })
+//     .authorization(allow => [allow.publicApiKey()]),
+// });
+
 // highlight-start
 // generate a restaurant model with the following fields: id, name, description, address, image, rating, style. Rating can be a float value. Authorization should allow public.
 // highlight-end
+
+// ...
 ```
 
-Press `Enter` and wait for Amazon Q Developer to generate the inline code suggestion.
+**Step 3:** Select the inline code suggestion generated by Amazon Q developer. The inline code suggestion feature assists you in defining the schema and hover over the output to select from other options.
 
-**Step 3:** Review and accept the suggestion. You can hover over the suggestion to see alternative options.
-
-<Video src="/images/gen2/q-developer/Amplify-Gen2-Q-Developer.mp4" description="Video - Using Amazon Q Developer to generate an Amplify data model" />
+<Video src="/images/gen2/q-developer/Amplify-Gen2-Q-Developer.mp4" description="Video - Q Developer" />
 
 <Callout informational>
 
-You can manually trigger inline suggestions using `Option+C` (macOS) or `Alt+C` (Windows/Linux) in VS Code. See the Amazon Q extension's Commands tab for more shortcuts.
+**Note:** You can also trigger inline code suggestion feature by invoking Amazon Q Developer manually using Option+C keyboard shortcut in VS Code. For more commands, please refer to the Commands tab in the Amazon Q extension.
 
 </Callout>
 
-**Step 4:** Make any required changes and save the file. If you have a [cloud sandbox](/[platform]/deploy-and-host/sandbox-environments/setup/) running, saving the file will trigger a deployment of your updated data model.
+**Step 4:** Make any required changes to the schema and save the `amplify/data/resource.ts` file. This will trigger a sandbox deployment and your new data model will be deployed
 
-### More Amplify examples to try
+## Use Q Developer - workspace in your Amplify project
 
-Beyond data models, Amazon Q Developer can help you generate:
 
-- **Authorization rules** — Type a comment like `// add owner-based authorization so only the creator can update and delete` and let Q Developer generate the `.authorization()` chain.
-- **Auth configuration** — In `amplify/auth/resource.ts`, describe your auth requirements in a comment and Q Developer will suggest the `defineAuth()` configuration.
-- **Storage rules** — In `amplify/storage/resource.ts`, describe your access patterns and Q Developer will generate the storage configuration.
-- **Custom functions** — In `amplify/functions/`, describe what your Lambda function should do and Q Developer will generate the handler code.
+Adding `@workspace` to your question in Amazon Q automatically incorporates the most relevant parts of your workspace code as context, using an index that updates periodically. For more information on `@workspace` functionality, please visit [Amazon Q Developer - Workspace Context](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/workspace-context.html). 
 
-## Chat with Amazon Q Developer
+The files below provide detailed guides that can be included as context with the `@workspace` command, enhancing Amazon Q's accuracy in generating AWS Amplify Gen 2 code.
 
-Amazon Q Developer Chat is available in the sidebar of your IDE. You can ask Amplify-specific questions and get contextual answers. Some examples:
+Download the files and follow the steps below to use the `@workspace` in your Amplify project
 
-- "How do I add a custom authorization rule to my Amplify data model?"
-- "How do I configure social sign-in with Google in Amplify Gen 2?"
-- "What's the difference between `allow.guest()` and `allow.publicApiKey()` in Amplify?"
-- "How do I set up file storage with Amplify Gen 2?"
+- <a href="/images/gen2/q-developer/general.md" download>general.md</a>
+- <a href="/images/gen2/q-developer/authentication.md" download>authentication.md</a>
+- <a href="/images/gen2/q-developer/modeling-relationships.md" download>modeling-relationships.md</a>
+- <a href="/images/gen2/q-developer/modeling-schema.md" download>modeling-schema.md</a>
 
-### Using workspace context
 
-Adding `@workspace` to your chat messages lets Amazon Q incorporate your project code as context, providing more accurate and relevant answers.
+**Step 1:** Create a folder in the root of your project and give a descriptive name such as `context`. Add the files downloaded above to this folder.
 
-```
-@workspace How do I add a relationship between my User and Post models in my Amplify data schema?
-```
+**Step 2:** Open Amazon Q Developer Chat in your IDE and type `@workspace` to enable workspace indexing. Follow Amazon Q's prompts to set up indexing for your project directory.
 
-Amazon Q will analyze your existing `amplify/` directory and provide suggestions that match your current schema and configuration. For more information, visit [Amazon Q Developer - Workspace Context](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/workspace-context.html).
+**Step 3:** After successful indexing, reference the markdown file content in your queries to Amazon Q. Examples:
 
-### Project-level context files
+```bash title="Terminal" 
 
-You can provide additional context to improve Amazon Q's suggestions by adding reference files to your project. These files help Q Developer understand Amplify Gen 2 conventions and best practices:
-
-- <a href="/images/gen2/q-developer/general.md" download>general.md</a> — General Amplify Gen 2 conventions and file structure
-- <a href="/images/gen2/q-developer/authentication.md" download>authentication.md</a> — Auth configuration patterns and examples
-- <a href="/images/gen2/q-developer/modeling-schema.md" download>modeling-schema.md</a> — Data model schema best practices
-- <a href="/images/gen2/q-developer/modeling-relationships.md" download>modeling-relationships.md</a> — Data relationship patterns
-
-Download these files and place them in a `context/` folder in your project root. Then reference them in your chat:
+@workspace follow AMPLIFYRULES to develop a data model schema for a freelance marketplace using Amplify Gen 2. Include models for freelancers, clients, projects, bids, and reviews. Use Amplify Gen 2 to fetch a list of projects
 
 ```
-@workspace follow the rules in context/general.md to create a data model for an e-commerce app with products, orders, and reviews
+
+```bash title="Terminal" 
+
+@workspace follow AMPLIFYRULES to design a data schema for an event management application using Amplify Gen 2. Include models for users, events, and tickets. Show me how to use Amplify Gen 2 to fetch a list of events.
+
 ```
-
-## Code review and security scanning
-
-Amazon Q Developer can review your Amplify code for security issues, best practices, and potential bugs:
-
-- **Security scanning** — Scans your code for vulnerabilities including insecure authorization rules, exposed secrets, and common security anti-patterns.
-- **Code review** — Provides feedback on your Amplify resource definitions, suggesting improvements to data models, auth configuration, and function handlers.
-
-To trigger a security scan in VS Code, open the Command Palette and search for "Amazon Q: Run Security Scan".
-
-## Agent capabilities
-
-Amazon Q Developer includes AI agents that can perform multi-step tasks:
-
-- **/dev** — Describe a feature or change in natural language and Q Developer will plan and implement it across multiple files. For example: "Add a comments model to my Amplify data schema with a relationship to posts, and create a React component to display comments."
-- **/test** — Generate unit tests for your Amplify backend code and frontend components.
-- **/review** — Get a detailed code review of your current changes.
-- **/doc** — Generate documentation for your code.
-
-<Callout informational>
-
-Agent capabilities like `/dev` and `/test` require an Amazon Q Developer Pro subscription. Inline suggestions and basic chat are available on the free tier.
-
-</Callout>
