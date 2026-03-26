@@ -9,6 +9,11 @@
 
 .feature-link {
   list-style: none;
+
+  a {
+    font-weight: var(--amplify-font-weights-bold);
+    font-size: var(--amplify-font-sizes-medium);
+  }
 }
 .category-list {
   flex-direction: column;
