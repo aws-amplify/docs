@@ -1,3 +1,18 @@
+/* Style heading links inside cards to look like navigable links */
+.amplify-card h3 {
+  margin-bottom: var(--amplify-space-xs);
+
+  a:not([class]) {
+    color: var(--amplify-colors-primary-80);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover {
+      color: var(--amplify-colors-primary-60);
+    }
+  }
+}
+
 .overview {
   gap: var(--amplify-space-xxl);
   &__link {
