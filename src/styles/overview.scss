@@ -1,15 +1,11 @@
-/* Style heading links inside cards to look like navigable links */
-.amplify-card h3 {
-  margin-bottom: var(--amplify-space-xs);
+/* Style bold links inside cards to look like navigable pillar links */
+.amplify-card strong a:not([class]) {
+  font-size: var(--amplify-font-sizes-large);
+  color: var(--amplify-colors-primary-80);
+  text-underline-offset: 2px;
 
-  a:not([class]) {
-    color: var(--amplify-colors-primary-80);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-
-    &:hover {
-      color: var(--amplify-colors-primary-60);
-    }
+  &:hover {
+    color: var(--amplify-colors-primary-60);
   }
 }
 
