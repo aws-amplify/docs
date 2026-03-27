@@ -87,7 +87,10 @@ export const Layout = ({
   // Determine section from directory tree (page's actual section tag),
   // fall back to sessionStorage only for ambiguous pages (tagged 'both').
   const [activeSection, setActiveSection] = useState<SectionKey | undefined>(
-    () => getSectionFromPath(asPathWithNoHash)
+    () => {
+      if (isHome || asPathWithNoHash === '/') return 'quickstart';
+      return getSectionFromPath(asPathWithNoHash);
+    }
   );
 
   const handleSectionChange = (section: SectionKey) => {
@@ -211,7 +214,6 @@ export const Layout = ({
       document.body.classList.remove('scrolled');
     }
   }, 20);
-
 
   useEffect(() => {
     const headings: HeadingInterface[] = [];
@@ -353,12 +355,8 @@ export const Layout = ({
                         platform={currentPlatform}
                       />
                     ) : null}
-                    {isGen1 && (
-                      <Gen1Banner currentPlatform={currentPlatform} />
-                    )}
-                    {crossLinkProps && (
-                      <CrossLink {...crossLinkProps} />
-                    )}
+                    {isGen1 && <Gen1Banner currentPlatform={currentPlatform} />}
+                    {crossLinkProps && <CrossLink {...crossLinkProps} />}
                     {useCustomTitle ? null : (
                       <Flex
                         justifyContent="space-between"

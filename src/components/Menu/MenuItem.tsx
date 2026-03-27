@@ -45,7 +45,15 @@ export function MenuItem({
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
-  const [open, setOpen] = useState(false);
+
+  // Initialize open state from URL so SSR HTML has correct accordions expanded,
+  // preventing layout shift during hydration.
+  const [open, setOpen] = useState(() => {
+    if (level <= Levels.Category) return false;
+    if (!pageNode.route) return false;
+    const itemPath = getPathname(pageNode.route, currentPlatform);
+    return asPathWithoutHash.startsWith(itemPath);
+  });
   const children = useMemo(() => {
     if (hideChildren) return [];
     const allChildren = pageNode.children;
@@ -218,6 +226,7 @@ export function MenuItem({
             className={`menu__list ${
               !open && level > Levels.Category ? 'menu__list--hide' : ''
             }`}
+            hidden={!open && level > Levels.Category ? true : undefined}
           >
             {children.map((child, index) => (
               <MenuItem

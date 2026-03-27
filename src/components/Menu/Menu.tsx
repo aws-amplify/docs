@@ -17,7 +17,11 @@ const invalidChildren = [
   '/gen1/[platform]/sdk'
 ];
 
-export function Menu({ currentPlatform, path, activeSection }: MenuProps): ReactElement {
+export function Menu({
+  currentPlatform,
+  path,
+  activeSection
+}: MenuProps): ReactElement {
   // Depending on the the page we're on, we could have the following keywords at these subpaths
   // Split them out so we can figure out what kind of page it is
   const pathSplit = path.split('/');
