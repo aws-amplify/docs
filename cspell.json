@@ -11,6 +11,7 @@
     "_userauth.auth_fail",
     "_userauth.sign_in",
     "_userauth.sign_up",
+    "agentic",
     "@aws-amplify/auth",
     "@aws-amplify/core",
     "@aws-amplify/storage",

@@ -1,0 +1,75 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use Kiro with Amplify',
+  description:
+    'Learn how to use Amazon Kiro, an agentic IDE, to build Amplify applications with specs, hooks, and steering.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+[Kiro](https://kiro.dev) is an agentic IDE from Amazon that helps you move from prototype to production with features like specs, steering, hooks, and agentic chat. Kiro understands your full project context and can generate code across multiple files.
+
+## Getting started
+
+1. [Download and install Kiro](https://kiro.dev/docs/getting-started/installation/) for macOS, Windows, or Linux.
+2. Open your Amplify project in Kiro.
+3. Start building with agentic chat or create a spec for your feature.
+
+For a hands-on walkthrough, see the [Kiro quickstart](https://kiro.dev/docs/getting-started/first-project/).
+
+## Key features for Amplify development
+
+### Specs
+
+Specs let you plan and build features using structured specifications. For Amplify projects, you can describe a feature in natural language and Kiro will create a spec that breaks it into tasks — from defining your data model in `amplify/data/resource.ts` to connecting the frontend.
+
+For example, you can ask Kiro to create a spec for "add a comments feature with real-time subscriptions" and it will plan the backend schema changes, authorization rules, and frontend integration.
+
+Learn more in the [Kiro specs documentation](https://kiro.dev/docs/features/specs/).
+
+### Hooks
+
+Hooks automate repetitive development workflows by responding to events. You can set up hooks to automatically run `npx ampx sandbox` when backend files change, run tests after code generation, or lint your Amplify resource definitions.
+
+Learn more in the [Kiro hooks documentation](https://kiro.dev/docs/features/hooks/).
+
+### Steering
+
+Steering files guide Kiro's behavior with project-specific rules and context. For Amplify projects, you can create steering rules that teach Kiro about your project's conventions — such as which authorization patterns to use, how your data models are structured, and which Amplify libraries to import.
+
+See the [steering files](/[platform]/develop-with-ai/steering-files/) page for Amplify-specific steering examples.
+
+### MCP Servers
+
+Kiro supports the Model Context Protocol (MCP), which lets you connect external tools and data sources. The [AWS MCP Server](/[platform]/develop-with-ai/mcp-server/) provides pre-built Amplify workflows that Kiro can use to scaffold backends, generate frontend code, and set up deployments.
+
+Learn more in the [Kiro MCP documentation](https://kiro.dev/docs/features/mcp-servers/).
+
+### Agentic chat
+
+Kiro's agentic chat lets you build features through natural language conversation. It understands your full Amplify project — including your data schema, auth configuration, and frontend code — and can make changes across multiple files in a single interaction.
+
+Learn more in the [Kiro chat documentation](https://kiro.dev/docs/features/agentic-chat/).
