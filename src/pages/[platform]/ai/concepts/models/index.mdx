@@ -156,6 +156,18 @@ The Amplify AI Kit uses Bedrock's [Converse API](https://docs.aws.amazon.com/bed
       <TableCell>✅</TableCell>
       <TableCell>✅</TableCell>
     </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-claude.html">Anthropic</a></strong></TableCell>
+      <TableCell>Claude 4.6 Sonnet</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>✅</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-claude.html">Anthropic</a></strong></TableCell>
+      <TableCell>Claude 4.6 Opus</TableCell>
+      <TableCell>✅</TableCell>
+      <TableCell>✅</TableCell>
+    </TableRow>
     <TableRow style={{ borderTop: '1.5px solid' }}>
       <TableCell><strong><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-cohere.html">Cohere</a></strong></TableCell>
       <TableCell>Command R</TableCell>
@@ -190,7 +202,7 @@ The Amplify AI Kit uses Bedrock's [Converse API](https://docs.aws.amazon.com/bed
 </Table>
 
 <Callout type="info">
-  Claude 4.5 models (Haiku, Sonnet, and Opus) use [AWS Bedrock global inference profiles](https://docs.aws.amazon.com/bedrock/latest/userguide/global-cross-region-inference.html) for improved availability and performance through automatic cross-region routing. These models are accessed via global inference profile model IDs that enable cross-region failover and load balancing.
+  Claude 4.5 and 4.6 models (Haiku, Sonnet, and Opus) use [AWS Bedrock global inference profiles](https://docs.aws.amazon.com/bedrock/latest/userguide/global-cross-region-inference.html) for improved availability and performance through automatic cross-region routing. These models are accessed via global inference profile model IDs that enable cross-region failover and load balancing.
 </Callout>
 
 Amplify AI Kit makes use of ["tools"](/[platform]/ai/concepts/tools) for both generation and conversation routes. [The models used must support tool use in the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html).
