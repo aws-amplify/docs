@@ -1,0 +1,46 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Subscribe to real-time data',
+  description: 'This page has moved to /frontend/data/subscribe-data/',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+export function RedirectNotice() {
+  if (typeof window !== 'undefined') {
+    const platform = window.location.pathname.split('/')[1];
+    window.location.replace(`/${platform}/frontend/data/subscribe-data/`);
+  }
+  return null;
+}
+
+<Callout warning>
+
+This page has moved. You will be redirected automatically. If not, go to [Subscribe to real-time data](/[platform]/frontend/data/subscribe-data/).
+
+</Callout>
+
+<RedirectNotice />
