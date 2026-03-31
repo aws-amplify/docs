@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Use Kiro with Amplify',
   description:
-    'Learn how to use Amazon Kiro, an agentic IDE, to build Amplify applications with specs, hooks, and steering.',
+    'Learn how to use Kiro, an agentic IDE, to build Amplify applications with powers, specs, hooks, and steering.',
   platforms: [
     'android',
     'angular',
@@ -30,15 +30,63 @@ export function getStaticProps(context) {
   };
 }
 
-[Kiro](https://kiro.dev) is an agentic IDE from Amazon that helps you move from prototype to production with features like specs, steering, hooks, and agentic chat. Kiro understands your full project context and can generate code across multiple files.
+[Kiro](https://kiro.dev) is an agentic IDE that helps you move from prototype to production with features like powers, specs, steering, hooks, and agentic chat. Kiro understands your full project context and can generate code across multiple files.
 
 ## Getting started
 
 1. [Download and install Kiro](https://kiro.dev/docs/getting-started/installation/) for macOS, Windows, or Linux.
 2. Open your Amplify project in Kiro.
-3. Start building with agentic chat or create a spec for your feature.
+3. Install the AWS Amplify power (see below).
+4. Start building with agentic chat or create a spec for your feature.
 
 For a hands-on walkthrough, see the [Kiro quickstart](https://kiro.dev/docs/getting-started/first-project/).
+
+## AWS Amplify Power
+
+Powers are packaged capabilities that give Kiro on-demand access to specialized knowledge and workflows. The **AWS Amplify power** provides guided workflows for building fullstack Amplify Gen 2 applications — including authentication, data models, storage, serverless functions, and deployment.
+
+Unlike traditional MCP servers that load all tools upfront, powers activate dynamically based on your conversation context. When you mention Amplify-related work, Kiro loads the Amplify power automatically.
+
+### Installing the Amplify power
+
+Browse powers directly in Kiro or visit [kiro.dev/powers](https://kiro.dev/powers):
+
+1. Search for **"AWS Amplify"**
+2. Click **Install** — the power registers automatically with no manual configuration
+
+### What the power provides
+
+The Amplify power includes:
+
+- **Steering files** — A workflow orchestrator (`amplify-workflow.md`) that guides Kiro through a phased development process, plus phase-specific instructions for backend, sandbox, frontend, and production work.
+- **MCP configuration** — Connects to the AWS MCP Server for access to AWS documentation and Amplify Standard Operating Procedures (SOPs).
+
+### Phased workflow
+
+When you ask Kiro to build an Amplify app, the power's orchestrator determines which phases apply and executes them in order:
+
+1. **Backend** — Create auth, data models, storage, and functions in the `amplify/` directory
+2. **Sandbox** — Deploy to a sandbox environment for testing
+3. **Frontend** — Connect your frontend framework to the Amplify backend
+4. **Production** — Deploy to production via CI/CD
+
+Only applicable phases run. For example, "add a data model" triggers only Phase 1 and 2, while "build me a fullstack app" runs all four phases. Kiro presents a plan and confirms with you before each phase.
+
+### Example prompts
+
+```
+Build me a task management app with Amplify
+```
+
+```
+Add owner-based authentication to my data model
+```
+
+```
+Deploy my Amplify app to sandbox
+```
+
+For the source code and steering files, see the [aws-amplify power on GitHub](https://github.com/kirodotdev/powers/tree/main/aws-amplify).
 
 ## Key features for Amplify development
 

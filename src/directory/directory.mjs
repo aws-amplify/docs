@@ -1124,6 +1124,9 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/develop-with-ai/agent-plugins/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/develop-with-ai/steering-files/index.mdx'
             }
           ]

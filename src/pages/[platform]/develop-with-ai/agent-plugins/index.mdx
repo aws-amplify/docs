@@ -1,0 +1,151 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Agent plugins',
+  description:
+    'Install the AWS Amplify agent plugin to get guided, phased workflows for building fullstack apps with Claude Code, Cursor, and other AI coding assistants.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+[Agent Plugins for AWS](https://github.com/awslabs/agent-plugins) are reusable packages that extend AI coding assistants with guided workflows, MCP servers, hooks, and reference materials for AWS development. The **aws-amplify** plugin provides a structured, phased workflow for building fullstack Amplify Gen 2 applications.
+
+Agent plugins are currently supported by **Claude Code** (version 2.1.29 or later) and **Cursor** (version 2.5 or later).
+
+## What the Amplify plugin includes
+
+The aws-amplify plugin packages four types of capabilities:
+
+- **Skills** — Step-by-step workflows that guide the AI through complex tasks. The Amplify plugin includes an `amplify-workflow` skill that orchestrates the entire development process.
+- **MCP Servers** — Provides access to AWS documentation and Standard Operating Procedures (SOPs) through the AWS MCP Server.
+- **Hooks** — Automation that validates prerequisites before you start building.
+- **References** — Backend, frontend, and deployment instructions that the skill consults during each phase.
+
+## Phased workflow
+
+When you install the Amplify plugin and ask the AI to build an app, it follows a structured 4-phase workflow. Only applicable phases are executed based on your request.
+
+**Phase 1: Backend** — Creates Amplify Gen 2 resources in the `amplify/` directory including authentication, data models, storage, and serverless functions.
+
+**Phase 2: Sandbox** — Deploys your backend to a cloud sandbox environment for testing.
+
+**Phase 3: Frontend** — Connects your frontend framework (React, Next.js, Vue, Angular, React Native, Flutter, Swift, or Android) to the Amplify backend.
+
+**Phase 4: Production** — Deploys your application to production via CI/CD.
+
+For example, if you ask "add authentication to my Amplify backend", only Phase 1 and Phase 2 run. If you ask "build me a fullstack task management app", all four phases run in sequence. The AI presents a plan and waits for your confirmation before proceeding to each phase.
+
+## Install with Claude Code
+
+Claude Code is available as a [CLI tool](https://docs.anthropic.com/en/docs/claude-code), a [VS Code extension](https://marketplace.visualstudio.com/items?itemName=anthropics.claude-code), and a [JetBrains plugin](https://plugins.jetbrains.com/plugin/27189-claude-code). The agent plugin works the same way in all environments.
+
+### Step 1: Add the marketplace
+
+Open Claude Code and run:
+
+```bash
+/plugin marketplace add awslabs/agent-plugins
+```
+
+This registers the Agent Plugins for AWS marketplace, giving you access to all available AWS plugins.
+
+### Step 2: Install the Amplify plugin
+
+```bash
+/plugin install aws-amplify@agent-plugins-for-aws
+```
+
+### Step 3: Verify installation
+
+You can confirm the plugin is installed by running:
+
+```bash
+/plugin list
+```
+
+You should see `aws-amplify@agent-plugins-for-aws` in the list.
+
+### Step 4: Start building
+
+The plugin activates automatically when your prompt relates to Amplify development. Try prompts like:
+
+- "Build me a task management app with Amplify"
+- "Add authentication to my Amplify backend"
+- "Add a storage bucket for file uploads"
+- "Deploy my Amplify app to sandbox"
+- "Connect my React frontend to the Amplify backend"
+
+The plugin will validate your prerequisites, present a phased plan, and guide you through each step with confirmation checkpoints.
+
+<Callout informational>
+
+If your AWS credentials are not configured, the plugin will detect this during the prerequisite check and guide you to set them up. See [Configure AWS for local development](/[platform]/start/account-setup/) for details.
+
+</Callout>
+
+## Install with Cursor
+
+### From settings
+
+1. Open **Cursor** and go to **Settings** (gear icon)
+2. Navigate to **Plugins**
+3. Search for **"AWS Amplify"**
+4. Click **"Add to Cursor"** and select your installation scope (user or workspace)
+
+### From the marketplace
+
+Alternatively, visit [cursor.com](https://cursor.com), browse the marketplace for the AWS Amplify plugin, and click **Install**.
+
+After installation, the plugin activates when you ask Amplify-related questions in Cursor's AI chat.
+
+## Prerequisites
+
+Before using the Amplify plugin, ensure you have:
+
+- **Node.js** version 18 or later
+- **npm**
+- **AWS CLI** with configured credentials
+
+The plugin runs a prerequisite check script automatically and will prompt you to configure credentials if they're missing. For credential setup, see [Configure AWS for local development](/[platform]/start/account-setup/).
+
+## Other AWS plugins
+
+The Agent Plugins for AWS repository includes additional plugins that complement Amplify development:
+
+| Plugin | Description |
+|--------|-------------|
+| **aws-serverless** | Build serverless apps with Lambda, API Gateway, EventBridge, and Step Functions |
+| **deploy-on-aws** | Analyze codebases, recommend AWS architectures, estimate costs, and generate Infrastructure as Code |
+| **databases-on-aws** | Database architecture guidance for Aurora DSQL |
+| **amazon-location-service** | Add maps, geocoding, routing, and location features |
+| **migration-to-aws** | Migrate infrastructure from GCP to AWS |
+
+Install any plugin with:
+
+```bash
+/plugin install <plugin-name>@agent-plugins-for-aws
+```
+
+For the full list and source code, see the [Agent Plugins for AWS repository](https://github.com/awslabs/agent-plugins).
