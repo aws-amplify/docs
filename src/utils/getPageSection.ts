@@ -4,8 +4,7 @@ import { SectionKey } from '@/data/sections';
 /**
  * Walk the directory tree from a page's pathname upward to find
  * the nearest ancestor with a non-'both' section tag.
- * Also finds the feature category route (e.g., /[platform]/build-a-backend/auth)
- * for smart CrossLink targeting.
+ * Also finds the best matching backend/frontend route for CrossLink targeting.
  */
 export function getPageSection(pathname: string): {
   section: SectionKey | undefined;
@@ -24,76 +23,55 @@ export function getPageSection(pathname: string): {
     }
   }
 
-  // Find feature category for CrossLink targeting.
-  // For backend pages, link to the corresponding frontend category.
-  // For frontend pages, link to the corresponding backend category.
-  let featureRoute: string | undefined;
-  const backendFeature = pathname.match(
-    /\/\[platform\]\/build-a-backend\/([^/]+)/
-  );
-  const backendAwsFeature = pathname.match(
-    /\/\[platform\]\/build-a-backend\/add-aws-services\/([^/]+)/
-  );
-  const frontendFeature = pathname.match(/\/\[platform\]\/frontend\/([^/]+)/);
+  // CrossLink: find the corresponding page in the other section.
+  // Try progressively shorter sub-paths for the best match.
+  const featureRoute = findCrossLink(pathname);
 
-  if (backendAwsFeature) {
-    // Backend add-aws-services page → link to frontend equivalent
-    const feature = backendAwsFeature[1];
-    const frontendNode = findDirectoryNode(
-      `/[platform]/frontend/${feature}`
-    );
-    if (frontendNode) {
-      featureRoute = `/[platform]/frontend/${feature}`;
-    }
-  } else if (backendFeature) {
-    // Backend page → link to frontend equivalent
-    const feature = backendFeature[1];
-    const frontendNode = findDirectoryNode(
-      `/[platform]/frontend/${feature}`
-    );
-    if (frontendNode) {
-      featureRoute = `/[platform]/frontend/${feature}`;
-    }
-  } else if (frontendFeature) {
-    // Frontend page → link to backend equivalent
-    const feature = frontendFeature[1];
+  return { section, featureRoute };
+}
 
-    // Try sub-path matching for deeper cross-linking (e.g., analytics/kinesis)
-    const frontendSubMatch = pathname.match(
-      new RegExp(`/\\[platform\\]/frontend/${feature}/([^/]+)`)
-    );
-    const subPath = frontendSubMatch?.[1];
+const BACKEND_ROOTS = [
+  '/[platform]/build-a-backend/',
+  '/[platform]/build-a-backend/add-aws-services/'
+];
+const FRONTEND_ROOT = '/[platform]/frontend/';
 
-    if (subPath) {
-      const subCandidates = [
-        `/[platform]/build-a-backend/add-aws-services/${feature}/${subPath}`,
-        `/[platform]/build-a-backend/${feature}/${subPath}`
-      ];
-      for (const candidate of subCandidates) {
-        if (findDirectoryNode(candidate)) {
-          featureRoute = candidate;
-          break;
-        }
-      }
-    }
-
-    // Fall back to feature-level match
-    if (!featureRoute) {
-      const backendNode = findDirectoryNode(
-        `/[platform]/build-a-backend/${feature}`
-      );
-      if (backendNode) {
-        featureRoute = `/[platform]/build-a-backend/${feature}`;
-      } else {
-        const awsNode = findDirectoryNode(
-          `/[platform]/build-a-backend/add-aws-services/${feature}`
-        );
-        if (awsNode) {
-          featureRoute = `/[platform]/build-a-backend/add-aws-services/${feature}`;
-        }
-      }
+/**
+ * Given a pathname, find the best matching route in the opposite section.
+ * Tries deepest sub-path first, then walks up to feature-level.
+ */
+function findCrossLink(pathname: string): string | undefined {
+  // Backend → Frontend
+  for (const root of BACKEND_ROOTS) {
+    if (pathname.startsWith(root)) {
+      const relative = pathname.slice(root.length);
+      return findBestMatch(relative, FRONTEND_ROOT);
     }
   }
 
-  return { section, featureRoute };
+  // Frontend → Backend (try sub-paths from deepest to shallowest)
+  if (pathname.startsWith(FRONTEND_ROOT)) {
+    const relative = pathname.slice(FRONTEND_ROOT.length);
+    for (const root of BACKEND_ROOTS) {
+      const match = findBestMatch(relative, root);
+      if (match) return match;
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Try progressively shorter sub-paths of `relative` under `targetRoot`.
+ * e.g. relative="analytics/kinesis" tries "analytics/kinesis" then "analytics".
+ */
+function findBestMatch(relative: string, targetRoot: string): string | undefined {
+  const parts = relative.split('/').filter(Boolean);
+  for (let i = parts.length; i > 0; i--) {
+    const candidate = targetRoot + parts.slice(0, i).join('/');
+    if (findDirectoryNode(candidate)) {
+      return candidate;
+    }
+  }
+  return undefined;
 }
