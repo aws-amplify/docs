@@ -31,9 +31,21 @@ export function getPageSection(pathname: string): {
   const backendFeature = pathname.match(
     /\/\[platform\]\/build-a-backend\/([^/]+)/
   );
+  const backendAwsFeature = pathname.match(
+    /\/\[platform\]\/build-a-backend\/add-aws-services\/([^/]+)/
+  );
   const frontendFeature = pathname.match(/\/\[platform\]\/frontend\/([^/]+)/);
 
-  if (backendFeature) {
+  if (backendAwsFeature) {
+    // Backend add-aws-services page → link to frontend equivalent
+    const feature = backendAwsFeature[1];
+    const frontendNode = findDirectoryNode(
+      `/[platform]/frontend/${feature}`
+    );
+    if (frontendNode) {
+      featureRoute = `/[platform]/frontend/${feature}`;
+    }
+  } else if (backendFeature) {
     // Backend page → link to frontend equivalent
     const feature = backendFeature[1];
     const frontendNode = findDirectoryNode(
@@ -45,11 +57,41 @@ export function getPageSection(pathname: string): {
   } else if (frontendFeature) {
     // Frontend page → link to backend equivalent
     const feature = frontendFeature[1];
-    const backendNode = findDirectoryNode(
-      `/[platform]/build-a-backend/${feature}`
+
+    // Try sub-path matching for deeper cross-linking (e.g., analytics/kinesis)
+    const frontendSubMatch = pathname.match(
+      new RegExp(`/\\[platform\\]/frontend/${feature}/([^/]+)`)
     );
-    if (backendNode) {
-      featureRoute = `/[platform]/build-a-backend/${feature}`;
+    const subPath = frontendSubMatch?.[1];
+
+    if (subPath) {
+      const subCandidates = [
+        `/[platform]/build-a-backend/add-aws-services/${feature}/${subPath}`,
+        `/[platform]/build-a-backend/${feature}/${subPath}`
+      ];
+      for (const candidate of subCandidates) {
+        if (findDirectoryNode(candidate)) {
+          featureRoute = candidate;
+          break;
+        }
+      }
+    }
+
+    // Fall back to feature-level match
+    if (!featureRoute) {
+      const backendNode = findDirectoryNode(
+        `/[platform]/build-a-backend/${feature}`
+      );
+      if (backendNode) {
+        featureRoute = `/[platform]/build-a-backend/${feature}`;
+      } else {
+        const awsNode = findDirectoryNode(
+          `/[platform]/build-a-backend/add-aws-services/${feature}`
+        );
+        if (awsNode) {
+          featureRoute = `/[platform]/build-a-backend/add-aws-services/${feature}`;
+        }
+      }
     }
   }
 
