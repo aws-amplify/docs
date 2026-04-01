@@ -1,0 +1,563 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Advanced patterns',
+  description: 'Handle composite keys, set up GraphQL codegen, migrate React components, and understand what DataStore features have no direct equivalent.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This page covers four advanced topics: migrating React components from imperative DataStore calls to declarative Apollo hooks, composite and custom primary keys, GraphQL codegen for type-safe operations, and an honest accounting of DataStore features that have no direct Apollo Client equivalent.
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+## Migrate React components
+
+This section shows the core paradigm shift: from imperative state management with DataStore to declarative Apollo hooks.
+
+### Before: DataStore component
+
+```tsx
+import { useState, useEffect } from 'react';
+import { DataStore } from 'aws-amplify/datastore';
+import { Post } from './models';
+
+function PostList() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    DataStore.query(Post).then(results => {
+      setPosts(results);
+      setLoading(false);
+    });
+  }, []);
+
+  const handleDelete = async (post: Post) => {
+    await DataStore.delete(post);
+    setPosts(prev => prev.filter(p => p.id !== post.id));
+  };
+
+  if (loading) return <p>Loading...</p>;
+  return (
+    <ul>
+      {posts.map(post => (
+        <li key={post.id}>
+          {post.title}
+          <button onClick={() => handleDelete(post)}>Delete</button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### After: Apollo Client component
+
+```tsx
+import { useQuery, useMutation } from '@apollo/client';
+import { LIST_POSTS, DELETE_POST } from './graphql/operations';
+
+function PostList() {
+  const { data, loading, error } = useQuery(LIST_POSTS);
+  const [deletePost] = useMutation(DELETE_POST, {
+    refetchQueries: [{ query: LIST_POSTS }],
+  });
+
+  const handleDelete = async (post: any) => {
+    await deletePost({
+      variables: { input: { id: post.id, _version: post._version } },
+    });
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const posts = data?.listPosts?.items?.filter((p: any) => !p._deleted) || [];
+  return (
+    <ul>
+      {posts.map((post: any) => (
+        <li key={post.id}>
+          {post.title}
+          <button onClick={() => handleDelete(post)}>Delete</button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### Key differences
+
+| Aspect | DataStore | Apollo Client |
+|--------|-----------|---------------|
+| Data fetching | `useState` + `useEffect` + `DataStore.query()` | `useQuery()` handles everything |
+| Loading state | Manual `useState(true)` / `setLoading(false)` | Built-in `loading` from `useQuery` |
+| Error handling | Not exposed | Built-in `error` from `useQuery` |
+| Mutation response | Manual state update | `refetchQueries` triggers automatic re-fetch |
+| Delete input | Pass the model instance | Must include `id` AND `_version` |
+| Soft-deleted records | Filtered automatically | Must filter `_deleted` records manually |
+
+### Migrate DataStore.observe()
+
+DataStore's `observe()` returned a single Observable for all change events. The migration replaces this with three separate Amplify subscriptions:
+
+```tsx
+import { useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import { generateClient } from 'aws-amplify/api';
+import { LIST_POSTS } from './graphql/operations';
+
+const amplifyClient = generateClient();
+
+function PostList() {
+  const { data, loading, error, refetch } = useQuery(LIST_POSTS);
+
+  useEffect(() => {
+    const subscriptions = [
+      amplifyClient.graphql({
+        query: `subscription OnCreatePost { onCreatePost { id } }`,
+      }).subscribe({ next: () => refetch() }),
+      amplifyClient.graphql({
+        query: `subscription OnUpdatePost { onUpdatePost { id } }`,
+      }).subscribe({ next: () => refetch() }),
+      amplifyClient.graphql({
+        query: `subscription OnDeletePost { onDeletePost { id } }`,
+      }).subscribe({ next: () => refetch() }),
+    ];
+
+    return () => subscriptions.forEach(sub => sub.unsubscribe());
+  }, [refetch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const posts = data?.listPosts?.items?.filter((p: any) => !p._deleted) || [];
+  return (
+    <ul>
+      {posts.map((post: any) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### Migrate DataStore.observeQuery()
+
+`observeQuery()` combined an initial query with live updates. The Apollo equivalent is `useQuery` with `fetchPolicy: 'cache-and-network'` plus subscription-triggered refetch:
+
+```tsx
+function PublishedPosts() {
+  const { data, loading, refetch } = useQuery(LIST_POSTS, {
+    variables: { filter: { status: { eq: 'PUBLISHED' } } },
+    fetchPolicy: 'cache-and-network',
+  });
+
+  useEffect(() => {
+    const subscriptions = [
+      amplifyClient.graphql({
+        query: `subscription OnCreatePost { onCreatePost { id } }`,
+      }).subscribe({ next: () => refetch() }),
+      amplifyClient.graphql({
+        query: `subscription OnUpdatePost { onUpdatePost { id } }`,
+      }).subscribe({ next: () => refetch() }),
+      amplifyClient.graphql({
+        query: `subscription OnDeletePost { onDeletePost { id } }`,
+      }).subscribe({ next: () => refetch() }),
+    ];
+
+    return () => subscriptions.forEach(sub => sub.unsubscribe());
+  }, [refetch]);
+
+  const posts = data?.listPosts?.items
+    ?.filter((p: any) => !p._deleted)
+    ?.sort((a: any, b: any) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    ) || [];
+
+  if (loading && !data) return <p>Loading...</p>;
+
+  return (
+    <div>
+      {loading && <span>Refreshing...</span>}
+      <ul>
+        {posts.map((post: any) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+### Owner-based auth subscriptions
+
+<Callout warning>
+
+When a model has `@auth(rules: [{ allow: owner }])`, you **must** manually pass the `owner` variable to subscriptions. DataStore injected this automatically. Without it, subscriptions connect successfully but never fire events.
+
+</Callout>
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+async function getCurrentOwner(): Promise<string> {
+  const session = await fetchAuthSession();
+  // Default Amplify owner field uses the 'sub' claim.
+  // Check your Gen 1 schema.graphql @auth rules to confirm.
+  return session.tokens?.idToken?.payload?.sub as string;
+}
+```
+
+Pass the owner to each subscription:
+
+```ts
+amplifyClient.graphql({
+  query: `subscription OnCreatePost($owner: String!) {
+    onCreatePost(owner: $owner) { id }
+  }`,
+  variables: { owner },
+}).subscribe({ next: () => refetch() });
+```
+
+### React component migration checklist
+
+**Queries:**
+- Replace `useState` + `useEffect` + `DataStore.query()` with `useQuery()`
+- Filter `_deleted` records from ALL list query results
+- Add `error` state handling
+- Use `fetchPolicy: 'cache-and-network'` where you need cached + fresh data
+
+**Mutations:**
+- Replace `DataStore.save(new Model({...}))` with `useMutation(CREATE_MODEL)`
+- Replace `DataStore.save(Model.copyOf(...))` with `useMutation(UPDATE_MODEL)` -- include `_version`
+- Replace `DataStore.delete(instance)` with `useMutation(DELETE_MODEL)` -- include `_version`
+- Add `refetchQueries` to mutations that affect list queries
+
+**Real-time:**
+- Replace `DataStore.observe()` with three Amplify subscriptions
+- Replace `DataStore.observeQuery()` with `useQuery` + subscription-triggered `refetch()`
+- Add `owner` argument if the model uses owner-based auth
+- Clean up ALL subscriptions in the `useEffect` return function
+
+</InlineFilter>
+
+<InlineFilter filters={["angular", "javascript", "vue"]}>
+
+<Callout>
+
+The React-specific hooks (`useQuery`, `useMutation`) shown in other sections of this guide are not available in Angular, vanilla JavaScript, or Vue. Use the imperative Apollo Client APIs (`apolloClient.query()`, `apolloClient.mutate()`) instead. These are the same patterns shown in the "imperative" examples on the [Migrate CRUD operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-crud-operations/) page.
+
+</Callout>
+
+</InlineFilter>
+
+## Composite and custom primary keys
+
+Amplify supports three identifier modes for models. Each mode changes how you query, update, and delete records -- and each requires different Apollo Client configuration.
+
+### The three identifier modes
+
+| Identifier Mode | Gen 1 Schema | GraphQL Get Input | Create Input |
+|---|---|---|---|
+| Default auto-generated ID | No `@primaryKey` directive | `getModel(id: ID!)` | `id` auto-generated by AppSync |
+| Custom single-field PK | `@primaryKey(sortKeyFields: [])` on a custom field | `getModel(id: ID!)` | `id` required in create input |
+| Composite PK | `@primaryKey(sortKeyFields: ["field2"])` | `getModel(field1: ..., field2: ...)` | All PK fields required |
+
+### Default (auto ID)
+
+This is the default mode when you do not use `@primaryKey` on your model. AppSync auto-generates a UUID `id` field. No special migration is needed -- the standard CRUD patterns from the [Migrate CRUD operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-crud-operations/) page apply directly.
+
+**Gen 1 schema:**
+
+```graphql
+# amplify/backend/api/<your-api>/schema.graphql
+type Post @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String!
+  content: String
+  status: String
+}
+```
+
+### Custom single-field PK
+
+When your model defines a custom primary key field, the `id` is no longer auto-generated. You must provide it explicitly in create mutations.
+
+**Gen 1 schema:**
+
+```graphql
+# amplify/backend/api/<your-api>/schema.graphql
+type Product @model @auth(rules: [{ allow: owner }]) {
+  id: ID! @primaryKey
+  sku: String!
+  name: String!
+  price: Float
+}
+```
+
+Apollo Client:
+
+```ts
+const { data } = await apolloClient.mutate({
+  mutation: CREATE_PRODUCT,
+  variables: {
+    input: {
+      id: 'PROD-001', // REQUIRED -- you must provide this
+      sku: 'SKU-12345',
+      name: 'Widget',
+      price: 29.99,
+    },
+  },
+});
+```
+
+### Composite PK
+
+This mode requires the most migration work. When a model uses `@primaryKey` with `sortKeyFields`, ALL primary key fields become required arguments.
+
+**Gen 1 schema:**
+
+```graphql title="amplify/backend/api/<your-api>/schema.graphql"
+type StoreBranch @model @auth(rules: [{ allow: owner }]) {
+  tenantId: ID! @primaryKey(sortKeyFields: ["branchName"])
+  branchName: String!
+  address: String
+  phone: String
+}
+```
+
+**Apollo Client queries and mutations:**
+
+```ts
+// Query by composite key -- both fields as separate variables
+const { data } = await apolloClient.query({
+  query: GET_STORE_BRANCH,
+  variables: { tenantId: 'tenant-123', branchName: 'Downtown' },
+});
+
+// Update -- ALL PK fields + _version required in input
+await apolloClient.mutate({
+  mutation: UPDATE_STORE_BRANCH,
+  variables: {
+    input: {
+      tenantId: 'tenant-123',
+      branchName: 'Downtown',
+      address: '456 New St',
+      _version: data.getStoreBranch._version,
+    },
+  },
+});
+```
+
+### Cache configuration for composite keys (typePolicies)
+
+<Callout warning>
+
+This is the critical configuration step that is easy to miss. Apollo's `InMemoryCache` uses `__typename:id` as the default cache key. Models with composite keys will NOT cache or normalize correctly without explicit `keyFields` configuration.
+
+</Callout>
+
+```ts
+import { InMemoryCache } from '@apollo/client';
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    // Default models work automatically
+    Post: { keyFields: ['id'] },
+    // Composite key models NEED explicit keyFields
+    StoreBranch: { keyFields: ['tenantId', 'branchName'] },
+    // Custom single-field PK
+    Product: { keyFields: ['sku'] },
+  },
+});
+```
+
+**Warning signs that `keyFields` is missing:** queries return stale data after mutations, Apollo DevTools shows duplicate entries, `cache.readQuery` returns `null` for records you know exist.
+
+## GraphQL codegen for type-safe operations
+
+The CRUD examples in earlier pages use `(post: any)` casts. This section shows how to eliminate those.
+
+### Step 1: Generate GraphQL operations
+
+```bash
+amplify codegen
+```
+
+This generates TypeScript files in `src/graphql/` containing your operations as string constants.
+
+### Step 2: Wrap with gql() and TypeScript types
+
+Create a typed operations file that wraps the generated strings:
+
+<Accordion title="Complete typed-operations.ts example">
+
+```ts title="src/graphql/typed-operations.ts"
+import { gql, TypedDocumentNode } from '@apollo/client';
+import { getPost as getPostString, listPosts as listPostsString } from './queries';
+import { createPost as createPostString, updatePost as updatePostString, deletePost as deletePostString } from './mutations';
+
+export interface Post {
+  id: string;
+  title: string;
+  content: string;
+  status: string;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+  _version: number;
+  _deleted: boolean | null;
+  _lastChangedAt: number;
+}
+
+export interface GetPostData { getPost: Post | null; }
+export interface GetPostVars { id: string; }
+
+export interface ListPostsData {
+  listPosts: { items: Post[]; nextToken: string | null; };
+}
+export interface ListPostsVars {
+  filter?: Record<string, unknown>;
+  limit?: number;
+  nextToken?: string;
+}
+
+export interface CreatePostData { createPost: Post; }
+export interface CreatePostVars {
+  input: { title: string; content: string; status?: string; rating?: number; };
+}
+
+export interface UpdatePostData { updatePost: Post; }
+export interface UpdatePostVars {
+  input: { id: string; _version: number; title?: string; content?: string; };
+}
+
+export interface DeletePostData { deletePost: Post; }
+export interface DeletePostVars {
+  input: { id: string; _version: number; };
+}
+
+export const GET_POST: TypedDocumentNode<GetPostData, GetPostVars> = gql(getPostString);
+export const LIST_POSTS: TypedDocumentNode<ListPostsData, ListPostsVars> = gql(listPostsString);
+export const CREATE_POST: TypedDocumentNode<CreatePostData, CreatePostVars> = gql(createPostString);
+export const UPDATE_POST: TypedDocumentNode<UpdatePostData, UpdatePostVars> = gql(updatePostString);
+export const DELETE_POST: TypedDocumentNode<DeletePostData, DeletePostVars> = gql(deletePostString);
+```
+
+</Accordion>
+
+### Step 3: Use type-safe hooks
+
+With `TypedDocumentNode`, Apollo hooks automatically infer data and variable types:
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+```tsx
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_POST, UPDATE_POST } from './graphql/typed-operations';
+
+function PostDetail({ postId }: { postId: string }) {
+  // data is automatically typed as GetPostData
+  const { data, loading, error } = useQuery(GET_POST, {
+    variables: { id: postId },
+  });
+
+  const [updatePost] = useMutation(UPDATE_POST);
+
+  async function handleUpdate(title: string) {
+    const post = data?.getPost;
+    if (!post) return;
+    // variables.input is type-checked
+    await updatePost({
+      variables: { input: { id: post.id, title, _version: post._version } },
+    });
+  }
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  if (!data?.getPost) return <p>Post not found</p>;
+
+  const post = data.getPost; // Typed as Post -- no (post: any) cast
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+      <p>Rating: {post.rating}</p>
+    </article>
+  );
+}
+```
+
+</InlineFilter>
+
+## What is lost -- features with no direct equivalent
+
+<Callout>
+
+DataStore provided a managed sync lifecycle with rich event hooks. Apollo Client is a query/cache layer, not a sync engine. This section documents every DataStore feature that has no direct Apollo equivalent, with honest workaround ratings.
+
+</Callout>
+
+### Hub events
+
+DataStore dispatched 9 distinct events via Hub. Of the 9:
+
+| Category | Count | Details |
+|---|---|---|
+| Fully replaced | 0 | None have a direct Apollo equivalent |
+| Partially replaced | 2 | `networkStatus` (use browser APIs), `subscriptionsEstablished` (monitor subscription callbacks) |
+| No equivalent | 7 | `syncQueriesStarted`, `syncQueriesReady`, `modelSynced`, `outboxMutationEnqueued`, `outboxMutationProcessed`, `outboxStatus`, `storageSubscribed` |
+
+The 7 with no equivalent describe sync engine behavior, and Apollo Client does not have a sync engine. For the Offline-First strategy, the custom sync engine and mutation queue provide extension points for emitting similar events.
+
+### Selective sync (syncExpressions)
+
+DataStore's `syncExpressions` let you filter which records synced from server to local store. Apollo has no equivalent for API Only or Local Caching. For Offline-First, the custom sync engine could implement sync filters, but this requires custom code.
+
+### Lifecycle methods
+
+| Method | Apollo Equivalent | Rating |
+|---|---|---|
+| `DataStore.start()` | None (Apollo queries on demand) | None |
+| `DataStore.stop()` | Unsubscribe manually; `apolloClient.stop()` cancels in-flight | None |
+| `DataStore.clear()` | `apolloClient.clearStore()` + `persistor.purge()` + Dexie `db.delete()` | Partial |
+
+### Conflict handler configuration
+
+This IS covered in the migration guide. API Only/Local Caching handle conflicts server-side. Offline-First uses custom client-side conflict resolution. **Rating: Full** (different location, same capability).
+
+### Summary
+
+| Category | Fully Replaced | Partially Replaced | No Equivalent |
+|---|---|---|---|
+| Hub lifecycle events (9 total) | 0 | 2 | 7 |
+| Selective sync | 0 | 1 | 0 |
+| Lifecycle methods (3 total) | 0 | 1 | 2 |
+| Conflict handlers | 1 | 0 | 0 |
+| **Totals** | **1** | **4** | **9** |
+
+### Practical guidance
+
+If your app depends heavily on Hub events for UI state (showing sync progress indicators, outbox status badges), plan additional custom implementation work. For most apps migrating to API Only or Local Caching, these features are not needed because there is no local sync to monitor. The loss is real but the impact is low.

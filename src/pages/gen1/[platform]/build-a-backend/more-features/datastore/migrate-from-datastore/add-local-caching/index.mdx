@@ -1,0 +1,531 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Add local caching',
+  description: 'Enhance your Apollo Client migration with persistent cache, optimistic updates, and intelligent fetch policies.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The [Set up Apollo Client](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo/) page gave you a working Apollo Client with auth, error handling, retry logic, and `new InMemoryCache()`. That cache lives in memory only -- every time the user refreshes the page or reopens the app, every query starts from scratch with a network request and a loading spinner.
+
+This page adds persistent caching and optimistic updates on top of that foundation. You will configure Apollo's cache to survive page refreshes by persisting it to IndexedDB, gate your app startup on cache restoration, choose the right fetch policy for each query, implement instant UI updates for mutations, and manage cache size with eviction and purge on sign-out.
+
+## Install persistence libraries
+
+```bash
+npm install apollo3-cache-persist localforage
+```
+
+- **apollo3-cache-persist** (v0.15.0) -- persists Apollo's `InMemoryCache` to a storage backend
+- **localforage** (v1.10.0) -- provides an IndexedDB storage backend with automatic fallback
+
+## Set up CachePersistor with IndexedDB
+
+### Configure localforage
+
+```ts
+import localforage from 'localforage';
+
+localforage.config({
+  driver: localforage.INDEXEDDB,
+  name: 'myapp-apollo-cache',
+  storeName: 'apollo_cache',
+});
+```
+
+### Create the CachePersistor
+
+```ts
+import { CachePersistor, LocalForageWrapper } from 'apollo3-cache-persist';
+
+export const persistor = new CachePersistor({
+  cache,
+  storage: new LocalForageWrapper(localforage),
+  maxSize: 1048576 * 2, // 2MB -- increase if your app caches large datasets
+  debug: process.env.NODE_ENV === 'development',
+  trigger: 'write',
+  key: 'apollo-cache-v1', // Bump when your GraphQL schema changes
+});
+```
+
+<Callout>
+
+**Use `CachePersistor` instead of `persistCache`.** The convenience function `persistCache` does not return the persistor instance, which means you cannot call `purge()` (needed for sign-out), `pause()`/`resume()`, or `getSize()`. For any production app, `CachePersistor` is the right choice.
+
+</Callout>
+
+### Configuration options
+
+| Option | Default | Purpose |
+|--------|---------|---------|
+| `cache` | (required) | The `InMemoryCache` instance to persist |
+| `storage` | (required) | Storage wrapper -- use `LocalForageWrapper` for IndexedDB |
+| `maxSize` | `1048576` (1MB) | Max persisted size in bytes. Set `false` to disable the limit |
+| `trigger` | `'write'` | When to persist: `'write'` (on every cache write), `'background'` (on tab visibility change) |
+| `debounce` | `1000` | Milliseconds to wait between persist writes |
+| `key` | `'apollo-cache-persist'` | Storage key identifier. Version this to invalidate stale caches |
+| `debug` | `false` | Log persistence activity to the console |
+
+<Accordion title="Enhanced Apollo Client setup with cache persistence">
+
+Here is the complete enhanced `src/apolloClient.ts` that builds on the setup from the previous page. The link chain (retry, error, auth, HTTP) is unchanged -- only the cache configuration, persistor, and default fetch policy are new.
+
+```ts title="src/apolloClient.ts"
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  from,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import { RetryLink } from '@apollo/client/link/retry';
+import { CachePersistor, LocalForageWrapper } from 'apollo3-cache-persist';
+import localforage from 'localforage';
+import { fetchAuthSession } from 'aws-amplify/auth';
+import config from '../amplifyconfiguration.json';
+
+// --- Configure IndexedDB via localforage ---
+localforage.config({
+  driver: localforage.INDEXEDDB,
+  name: 'myapp-apollo-cache',
+  storeName: 'apollo_cache',
+});
+
+// --- InMemoryCache ---
+const cache = new InMemoryCache({
+  typePolicies: {
+    // See typePolicies section below for full configuration
+  },
+});
+
+// --- Cache Persistor ---
+export const persistor = new CachePersistor({
+  cache,
+  storage: new LocalForageWrapper(localforage),
+  maxSize: 1048576 * 2,
+  debug: process.env.NODE_ENV === 'development',
+  trigger: 'write',
+  key: 'apollo-cache-v1',
+});
+
+// --- Links (unchanged from Set up Apollo Client page) ---
+const httpLink = createHttpLink({ uri: config.aws_appsync_graphqlEndpoint });
+
+const authLink = setContext(async (_, { headers }) => {
+  try {
+    const session = await fetchAuthSession();
+    const token = session.tokens?.idToken?.toString();
+    return { headers: { ...headers, authorization: token || '' } };
+  } catch (error) {
+    console.error('Auth session error:', error);
+    return { headers };
+  }
+});
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    for (const { message, locations, path } of graphQLErrors) {
+      console.error(`[GraphQL error]: ${message}, ${locations}, ${path}`);
+    }
+  }
+  if (networkError) {
+    console.error(`[Network error]: ${networkError}`);
+  }
+});
+
+const retryLink = new RetryLink({
+  delay: { initial: 300, max: 5000, jitter: true },
+  attempts: { max: 3, retryIf: (error) => !!error },
+});
+
+// --- Apollo Client ---
+export const apolloClient = new ApolloClient({
+  link: from([retryLink, errorLink, authLink, httpLink]),
+  cache,
+  defaultOptions: {
+    watchQuery: { fetchPolicy: 'cache-and-network' },
+    query: { fetchPolicy: 'cache-and-network' },
+  },
+});
+```
+
+</Accordion>
+
+## Cache restoration on app startup
+
+<Callout warning>
+
+Queries that fire before `persistor.restore()` completes see an empty `InMemoryCache`. Not gating renders on cache restoration is the most common persistence mistake. The symptom is loading spinners on every app launch despite having cached data in IndexedDB.
+
+</Callout>
+
+Call `await persistor.restore()` before rendering any component that uses Apollo queries:
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+```tsx title="src/App.tsx"
+import { useState, useEffect } from 'react';
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient, persistor } from './apolloClient';
+
+function App() {
+  const [cacheReady, setCacheReady] = useState(false);
+
+  useEffect(() => {
+    persistor.restore().then(() => setCacheReady(true));
+  }, []);
+
+  if (!cacheReady) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <ApolloProvider client={apolloClient}>
+      {/* Your app components */}
+    </ApolloProvider>
+  );
+}
+```
+
+</InlineFilter>
+
+Once `cacheReady` flips to `true`, every `useQuery` hook inside `ApolloProvider` will find the restored cache data and render immediately -- no network request needed for data that was cached in a previous session.
+
+## Fetch policy patterns
+
+Fetch policies control where Apollo reads data from -- cache, network, or both -- on a per-query basis.
+
+| Policy | Cache Read | Network Fetch | Best For |
+|--------|-----------|---------------|----------|
+| `cache-first` | Yes (if data exists) | Only on cache miss | Data that rarely changes |
+| `cache-and-network` | Yes (immediate) | Always (updates cache after) | **Recommended default.** Shows cached data instantly, then updates from server. |
+| `network-only` | No | Always | Force fresh data after a conflict error |
+| `cache-only` | Yes | Never | True offline reads |
+| `no-cache` | No | Always | One-off sensitive reads |
+| `standby` | Yes | Only on manual `refetch()` | Inactive queries |
+
+### DataStore migration mapping
+
+| DataStore Pattern | Recommended fetchPolicy | Why |
+|-------------------|------------------------|-----|
+| `DataStore.query(Model)` (online) | `cache-and-network` | Returns cached data immediately, then updates from server |
+| `DataStore.query(Model)` (offline) | `cache-only` | Reads from persistent cache with no network attempt |
+| `DataStore.observeQuery()` | `cache-and-network` with `useQuery` | Shows cache first, updates on server response |
+| After conflict error | `network-only` | Forces fresh data from server to resolve stale state |
+
+### Why cache-and-network is the recommended default
+
+DataStore always showed locally cached data immediately and then synced with the server in the background. `cache-and-network` is the closest Apollo equivalent:
+
+1. The query reads from cache first (instant render, no loading spinner)
+2. Apollo fires a network request in the background
+3. When the response arrives, the cache updates and the component re-renders with fresh data
+
+## Enhanced sign-out with cache purge
+
+<Callout warning>
+
+**Order matters for sign-out: pause, clearStore, purge, signOut.** If you skip the purge step, the next user who signs in will see the previous user's cached data restored from disk.
+
+</Callout>
+
+```ts title="src/auth.ts"
+import { signOut } from 'aws-amplify/auth';
+import { apolloClient, persistor } from './apolloClient';
+
+export async function handleSignOut() {
+  // 1. Pause persistence so clearStore doesn't trigger a write
+  persistor.pause();
+
+  // 2. Clear in-memory cache and cancel active queries
+  await apolloClient.clearStore();
+
+  // 3. Purge persisted cache from IndexedDB
+  await persistor.purge();
+
+  // 4. Sign out from Amplify (clears Cognito tokens)
+  await signOut();
+}
+```
+
+**Why this order matters:**
+
+1. **Pause first** -- `clearStore()` modifies the cache, which would trigger the persistor to write an empty cache to IndexedDB. Pausing prevents that unnecessary write.
+2. **Clear in-memory cache** -- removes all cached data from memory and cancels active queries.
+3. **Purge IndexedDB** -- deletes the persisted cache from disk so the next user starts fresh.
+4. **Sign out last** -- clears Cognito tokens. If you sign out first, `clearStore()` may trigger refetches that fail because the auth token is already invalidated.
+
+## Optimistic updates
+
+The [Migrate CRUD operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-crud-operations/) page showed how to create, update, and delete records using Apollo mutations with `refetchQueries`. That approach waits for the server response before the UI updates. Optimistic updates replace `refetchQueries` with instant UI updates that show changes before the server confirms.
+
+DataStore updated its local store synchronously on `save()`. Apollo's optimistic layer achieves the same instant-UI behavior, but you write it explicitly.
+
+### How optimistic updates work
+
+When you provide an `optimisticResponse` to a mutation, Apollo:
+
+1. Caches the optimistic object in a separate layer (does not overwrite canonical cache data)
+2. Active queries re-render immediately with the optimistic data
+3. When the server responds, the optimistic layer is discarded and the canonical cache updates
+4. On error, the optimistic layer is discarded and the UI reverts automatically -- **zero rollback code needed**
+
+### Optimistic create
+
+```ts
+const [createPost] = useMutation(CREATE_POST, {
+  optimisticResponse: ({ input }) => ({
+    createPost: {
+      __typename: 'Post',
+      id: `temp-${Date.now()}`,
+      title: input.title,
+      content: input.content,
+      status: input.status,
+      rating: input.rating ?? null,
+      _version: 1,
+      _deleted: false,
+      _lastChangedAt: Date.now(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  }),
+  update(cache, { data }) {
+    if (!data?.createPost) return;
+    cache.updateQuery({ query: LIST_POSTS }, (existing) => {
+      if (!existing?.listPosts) return existing;
+      return {
+        listPosts: {
+          ...existing.listPosts,
+          items: [data.createPost, ...existing.listPosts.items],
+        },
+      };
+    });
+  },
+});
+```
+
+The `update` function is needed for creates because Apollo's normalized cache cannot know that a brand-new object should appear in an existing list query.
+
+### Optimistic update
+
+```ts
+const [updatePost] = useMutation(UPDATE_POST, {
+  optimisticResponse: {
+    updatePost: {
+      __typename: 'Post',
+      id: post.id,
+      title: 'Updated Title',
+      content: post.content,
+      status: post.status,
+      rating: 4,
+      _version: post._version + 1,
+      _deleted: false,
+      _lastChangedAt: Date.now(),
+      createdAt: post.createdAt,
+      updatedAt: new Date().toISOString(),
+    },
+  },
+  // No update function needed -- Apollo auto-merges by __typename + id
+});
+```
+
+### Optimistic delete
+
+```ts
+const [deletePost] = useMutation(DELETE_POST, {
+  optimisticResponse: {
+    deletePost: {
+      __typename: 'Post',
+      id: post.id,
+      _version: post._version + 1,
+      _deleted: true,
+      _lastChangedAt: Date.now(),
+    },
+  },
+  update(cache, { data }) {
+    if (!data?.deletePost) return;
+    cache.evict({ id: cache.identify(data.deletePost) });
+    cache.gc();
+  },
+});
+```
+
+### _version in optimistic responses
+
+| Operation | Optimistic `_version` | Why |
+|-----------|----------------------|-----|
+| Create | `1` | New records start at version 1 |
+| Update | `post._version + 1` | Predicts the server's version increment |
+| Delete | `post._version + 1` | The delete mutation increments the version |
+
+The optimistic `_version` does not need to be exact. The server response always replaces the optimistic data in the canonical cache.
+
+## typePolicies for pagination and soft-delete filtering
+
+### Pagination merge
+
+Without `typePolicies`, Apollo treats each `(limit, nextToken)` combination as a separate cache entry. A "Load More" button would replace page 1 with page 2 instead of appending.
+
+```ts
+import { InMemoryCache } from '@apollo/client';
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        listPosts: {
+          keyArgs: ['filter'],
+          merge(existing, incoming) {
+            if (!existing) return incoming;
+            return {
+              ...incoming,
+              items: [...(existing.items || []), ...(incoming.items || [])],
+            };
+          },
+          read(existing, { readField }) {
+            if (!existing) return existing;
+            return {
+              ...existing,
+              items: existing.items.filter(
+                (ref) => !readField('_deleted', ref)
+              ),
+            };
+          },
+        },
+      },
+    },
+  },
+});
+```
+
+`keyArgs: ['filter']` tells Apollo that queries with the same filter share a cache entry (pages merge), while different filters are separate entries.
+
+### Why readField instead of direct property access
+
+In Apollo's normalized cache, list items are stored as **references** (for example, `{ __ref: "Post:123" }`), not as full objects. You cannot access `ref._deleted` directly. The `readField` helper resolves the reference and reads the field from the normalized cache entry.
+
+```ts
+// WRONG -- ref is a cache reference, not the actual object
+items.filter((ref) => !ref._deleted)
+
+// CORRECT -- readField resolves the reference
+items.filter((ref) => !readField('_deleted', ref))
+```
+
+<Accordion title="Complete typePolicies configuration">
+
+```ts
+const cache = new InMemoryCache({
+  typePolicies: {
+    Post: { keyFields: ['id'] },
+    Comment: { keyFields: ['id'] },
+    Query: {
+      fields: {
+        listPosts: {
+          keyArgs: ['filter'],
+          merge(existing, incoming) {
+            if (!existing) return incoming;
+            return {
+              ...incoming,
+              items: [...(existing.items || []), ...(incoming.items || [])],
+            };
+          },
+          read(existing, { readField }) {
+            if (!existing) return existing;
+            return {
+              ...existing,
+              items: existing.items.filter(
+                (ref) => !readField('_deleted', ref)
+              ),
+            };
+          },
+        },
+        listComments: {
+          keyArgs: ['filter'],
+          merge(existing, incoming) {
+            if (!existing) return incoming;
+            return {
+              ...incoming,
+              items: [...(existing.items || []), ...(incoming.items || [])],
+            };
+          },
+          read(existing, { readField }) {
+            if (!existing) return existing;
+            return {
+              ...existing,
+              items: existing.items.filter(
+                (ref) => !readField('_deleted', ref)
+              ),
+            };
+          },
+        },
+      },
+    },
+  },
+});
+```
+
+The pattern is the same for every list query: `keyArgs` for filter separation, `merge` for pagination, `read` for soft-delete filtering. Add a field policy for each list query in your schema.
+
+</Accordion>
+
+## Cache size management
+
+### Monitor cache size
+
+```ts
+async function logCacheSize() {
+  const sizeInBytes = await persistor.getSize();
+  if (sizeInBytes !== null) {
+    console.log(`Cache size: ${(sizeInBytes / 1024).toFixed(1)} KB`);
+  }
+}
+```
+
+### maxSize behavior
+
+When the serialized cache exceeds `maxSize`, the persistor stops writing to IndexedDB silently. The in-memory cache continues to work normally. Enable `debug: true` during development to see console warnings.
+
+### Schema version strategy
+
+When your GraphQL schema changes, bump the `key` option on your `CachePersistor` (for example, from `'apollo-cache-v1'` to `'apollo-cache-v2'`). This starts with an empty cache -- one cold start in exchange for zero cache migration code.
+
+<Accordion title="Troubleshooting local caching">
+
+**Cache not restored before queries run:**
+Every page load shows loading spinners briefly. Gate your app rendering on `persistor.restore()` completion.
+
+**Cache exceeds maxSize silently:**
+Recent data is not persisted across refreshes. Increase `maxSize` to 2-5MB and enable `debug: true`.
+
+**Stale cache after schema changes:**
+App crashes with TypeErrors reading cached data. Bump the version in the `key` option.
+
+**Duplicate items after create:**
+Apollo calls the `update` function twice for optimistic mutations (once for optimistic, once for server response). Rely on Apollo's optimistic layer lifecycle, or add an existence check in the `update` function.
+
+**_deleted records still showing:**
+Use `readField('_deleted', ref)` in the `read` function, not direct property access.
+
+</Accordion>

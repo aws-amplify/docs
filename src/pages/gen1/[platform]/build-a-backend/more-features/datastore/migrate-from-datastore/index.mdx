@@ -1,0 +1,202 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+
+export const meta = {
+  title: 'Migrate from DataStore',
+  description: 'Learn how to migrate from Amplify DataStore to Apollo Client for queries, mutations, and caching with Amplify subscriptions for real-time updates while keeping your Gen 1 backend.',
+  route: '/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+## Understanding DataStore
+
+AWS Amplify DataStore provided a local-first data layer that automatically synchronized data between your app and the cloud. When you used DataStore, you got several powerful capabilities without writing any synchronization logic yourself: a local database (IndexedDB in the browser) that persisted data across sessions, automatic bidirectional sync with your AppSync backend, built-in conflict resolution using version tracking, full offline support with mutation queuing and replay, and real-time updates through `observe()` and `observeQuery()`.
+
+DataStore abstracted away the complexity of GraphQL operations, network state management, and data consistency. You worked with simple `save`, `query`, and `delete` methods on local models, and DataStore handled everything else behind the scenes.
+
+This guide shows you how to get equivalent capabilities using Apollo Client for queries, mutations, and caching, combined with the Amplify library's built-in subscription support for real-time updates. Depending on how much of DataStore's feature set your app actually uses, you may find the migration simpler than expected.
+
+## What this guide covers
+
+This guide presents three migration strategies, each suited to different application needs:
+
+- **API Only** (simplest): Direct GraphQL queries and mutations via Apollo Client. No local persistence beyond Apollo's in-memory cache. Recommended starting point for most apps.
+
+- **Local Caching** (moderate): Apollo Client with a persistent cache (via `apollo3-cache-persist`) and optimistic updates. Cached data survives page refreshes without requiring a full sync engine. If you choose Offline-First instead, skip this -- Dexie.js replaces `apollo3-cache-persist`.
+
+- **Offline-First** (complex): A full offline architecture using Dexie.js as a local IndexedDB database, a custom mutation queue for offline writes, a sync engine for delta/base synchronization, and manual conflict resolution using `_version` tracking.
+
+Each strategy builds on the same Apollo Client foundation. Local Caching and Offline-First are mutually exclusive -- choose one or the other.
+
+## Quick comparison: before and after
+
+Here is a quick look at how common DataStore operations translate to Apollo Client:
+
+| DataStore Operation | Apollo Client Equivalent |
+|---------------------|--------------------------|
+| `DataStore.save(new Post({...}))` | `apolloClient.mutate({ mutation: CREATE_POST, variables: { input: {...} } })` |
+| `DataStore.query(Post)` | `apolloClient.query({ query: LIST_POSTS })` |
+| `DataStore.query(Post, id)` | `apolloClient.query({ query: GET_POST, variables: { id } })` |
+| `DataStore.delete(post)` | `apolloClient.mutate({ mutation: DELETE_POST, variables: { input: { id, _version } } })` |
+| `DataStore.observe(Post)` | `amplifyClient.graphql({ query: onCreatePost }).subscribe(...)` |
+| `DataStore.observeQuery(Post)` | `useQuery(LIST_POSTS)` with subscription-triggered `refetch()` |
+
+<Callout>
+
+Subscriptions use the Amplify library's `client.graphql()` rather than Apollo, because AppSync uses a custom WebSocket protocol that Amplify handles natively. Apollo Client handles all queries, mutations, and caching.
+
+</Callout>
+
+## Who should use this guide
+
+This guide is for developers who have an existing Amplify Gen 1 application that uses DataStore and want to replace DataStore with Apollo Client. You do not need to migrate your backend to Gen 2 -- this guide assumes you keep your Gen 1 backend and only change the frontend data layer.
+
+<Callout warning>
+
+**Gen 1 field name casing:** Gen 1 backends use uppercase ID suffixes in foreign keys (e.g., `postID`, `tagID`), while Gen 2 uses lowercase (`postId`, `tagId`). Code examples in this guide use the Gen 2 convention. If you are keeping your Gen 1 backend, adjust all field names in your GraphQL operations, sync queries, and filters to match your schema. Mismatched casing returns `null` silently. Verify field names in your `schema.graphql` or the AppSync console.
+
+</Callout>
+
+It assumes you are familiar with:
+
+- React and React hooks
+- Basic GraphQL concepts (queries, mutations, subscriptions)
+- Amplify configuration and the `amplifyconfiguration.json` (or `aws-exports.js`) file
+- Your app's data model and how it uses DataStore today
+
+You do not need prior experience with Apollo Client. The guide covers Apollo Client setup from scratch.
+
+## How to use this guide
+
+1. **Choose your strategy.** Start with the [Choose a migration strategy](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/choose-strategy/) page to determine which migration strategy fits your app. Most apps should start with API Only.
+
+2. **Complete the prerequisites.** Follow the [Set up Apollo Client](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo/) page to install dependencies, define your GraphQL operations, and set up TypeScript helpers.
+
+3. **Set up Apollo Client.** The same page covers configuring Apollo Client with your AppSync endpoint and Cognito authentication.
+
+4. **Follow your strategy guide.** The sections you need depend on which strategy you chose:
+
+   | Strategy | Pages |
+   |----------|-------|
+   | **API Only** | [Set up Apollo Client](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo/), [Migrate CRUD operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-crud-operations/), [Migrate relationships](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-relationships/) |
+   | **Local Caching** | API Only pages + [Add local caching](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/add-local-caching/) |
+   | **Offline-First** | API Only pages + [Build offline support](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/build-offline-support/) (skip Add local caching) |
+
+<Callout>
+
+**Model coverage:** Code examples use Post and Comment models. For additional models (including join tables like PostTag), extend the same patterns -- see the "Adding a New Model" callouts in the Offline-First sections.
+
+</Callout>
+
+## Migration checklists
+
+Use these checklists to plan and track your migration from DataStore to Apollo Client. Check items off as you complete them.
+
+### Pre-migration checklist
+
+Complete these steps before writing any migration code:
+
+- Choose your strategy using the decision framework and confirm your approach (API Only, Local Caching, or Offline-First)
+- Review the parity matrix for your chosen strategy and note any feature gaps you need to address
+- Verify your backend is deployed and `amplifyconfiguration.json` (or `aws-exports.js`) is generated (`amplify push`)
+- Confirm Amplify is configured with `Amplify.configure(config)` running at app startup before any API calls
+- Inventory all DataStore usage in your codebase: `DataStore.save()`, `DataStore.query()`, `DataStore.delete()`, `DataStore.observe()`, `DataStore.observeQuery()`
+- Identify all models and relationships (`hasMany`, `belongsTo`, `hasOne`, `manyToMany`), noting which models have custom or composite primary keys
+- Write GraphQL operations for each model, including `_version`, `_deleted`, and `_lastChangedAt` in all fragments
+- Install Apollo Client: `npm install @apollo/client@^3.14.0 graphql`
+- Set up Apollo Client and verify the connection works by running a simple list query against your AppSync endpoint
+- Set up the Amplify subscription client using `generateClient()`
+
+### During migration checklist
+
+Follow these steps while migrating each feature. Work through one model at a time to keep changes manageable and testable.
+
+**For each DataStore model:**
+
+- Define a GraphQL fragment including all business fields plus `_version`, `_deleted`, and `_lastChangedAt`
+- Define all GraphQL operations (list, get, create, update, delete) using the fragment
+- Migrate list queries, filtering out soft-deleted records (`_deleted: true`) in the results
+- Migrate single-item queries
+- Migrate creates (no `_version` needed for creates)
+- Migrate updates (include `_version` from the latest query result in the mutation input)
+- Migrate deletes (include both `id` and `_version` in the mutation input)
+- Migrate `observe` using Amplify subscription plus the refetch pattern
+- Migrate `observeQuery` using `useQuery` combined with subscription-triggered `refetch()`
+- Update error handling for Apollo's error link and component-level error states
+- Test each migrated operation before moving to the next model
+
+**For predicates and filters:**
+
+- Convert DataStore predicates to GraphQL filter objects
+- Migrate sorting to client-side `.sort()` or server-side `@index` queries
+- Migrate pagination from page-based to cursor-based (`nextToken` and `limit`)
+
+### Post-migration checklist
+
+**Verification:**
+
+- Verify all CRUD operations work for every migrated model
+- Verify real-time updates fire for all three event types (create, update, delete) on every model
+- Verify authentication flow including sign-in, authenticated operations, and sign-out
+- Verify sign-out cleanup clears the Apollo cache
+- Verify `_version` handling succeeds without `ConditionalCheckFailedException` errors
+- Verify soft-delete filtering so deleted records no longer appear in list views
+
+**Cleanup:**
+
+- Remove all DataStore imports from your codebase
+- Remove generated DataStore model files
+- Remove DataStore configuration calls (`DataStore.configure()`, `DataStore.start()`, `DataStore.stop()`)
+- Remove `@aws-amplify/datastore` from your dependencies
+- Run the app end-to-end with a full user workflow
+- Monitor for errors post-deployment
+
+### Strategy-specific additions
+
+<Accordion title="Local Caching additions">
+
+If you are following the Local Caching strategy, add these items to your migration plan:
+
+- Set up `apollo3-cache-persist` for persistent cache storage
+- Configure `fetchPolicy` for each query (for example, `cache-and-network` for lists, `cache-first` for detail views)
+- Implement optimistic updates for mutations using Apollo's `optimisticResponse` option
+- Update the sign-out flow to purge the persistent cache in addition to clearing the in-memory cache
+
+</Accordion>
+
+<Accordion title="Offline-First additions">
+
+If you are following the Offline-First strategy, add these items to your migration plan:
+
+- Set up Dexie.js as the local IndexedDB database
+- Implement a mutation queue for offline writes
+- Build a sync engine for delta and base synchronization
+- Implement a conflict resolution handler using `_version` comparison
+- Add network status detection to switch between online and offline modes
+- Update the sign-out flow to clear both the local database and the mutation queue
+
+</Accordion>
+
+<Overview childPageNodes={props.childPageNodes} />

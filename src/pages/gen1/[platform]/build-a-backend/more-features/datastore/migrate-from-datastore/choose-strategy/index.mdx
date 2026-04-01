@@ -1,0 +1,190 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Choose a migration strategy',
+  description: 'Use the decision framework and feature parity matrix to choose between API Only, Local Caching, and Offline-First migration strategies.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## The default recommendation
+
+<Callout>
+
+**Start with API Only unless you have a specific need for caching or offline.**
+
+API Only covers roughly 70% of DataStore's features with roughly 10% of the complexity. Most apps that used DataStore never actually needed offline support -- DataStore provided it automatically. Before committing to a more complex strategy, honestly assess whether your users depend on offline functionality.
+
+</Callout>
+
+## Decision flowchart
+
+Use this decision tree to determine which strategy fits your app:
+
+```
+Does your app need to work offline?
+  |
+  +-- Yes --> Offline-First Strategy
+  |            (build-offline-support page)
+  |
+  +-- No
+        |
+        Do you need data to persist across
+        page refreshes or instant optimistic UI?
+          |
+          +-- Yes --> Local Caching Strategy
+          |            (add-local-caching page)
+          |
+          +-- No --> API Only Strategy
+                      (migrate-crud-operations page)
+```
+
+## API Only strategy
+
+### What it provides
+
+- Direct GraphQL queries and mutations through Apollo Client
+- Apollo's in-memory normalized cache for the duration of the session
+- React hooks (`useQuery`, `useMutation`) for declarative data fetching
+- Real-time updates via Amplify subscriptions with refetch-based cache updates
+- Full access to GraphQL filtering, pagination, and sorting
+
+### What you give up (compared to DataStore)
+
+- No data persistence across page refreshes or app restarts
+- No offline mutation queuing -- operations fail when the network is unavailable
+- No optimistic UI updates (the UI waits for server confirmation)
+- No automatic background sync or delta queries
+
+### Complexity
+
+**Effort estimate: 1-2 hours for basic setup**, plus time to convert existing DataStore calls to Apollo queries and mutations. This is primarily a find-and-replace exercise with some GraphQL query writing.
+
+### Best for
+
+Apps where users are always online, where a brief loading spinner is acceptable during data operations, and where the simplicity of direct API calls outweighs the benefits of local persistence. This includes dashboards, admin panels, content management tools, and apps that primarily display server-side data.
+
+## Local Caching strategy
+
+### What it provides
+
+- Everything in API Only, plus:
+- Persistent cache that survives page refreshes (via `apollo3-cache-persist`)
+- Optimistic UI updates that show changes instantly before server confirmation
+- `watchQuery` for reactive list updates similar to DataStore's `observeQuery`
+- Faster perceived performance from cache-first data fetching
+
+### What you give up (compared to DataStore)
+
+- No offline mutation queuing -- writes still require network connectivity
+- No automatic background sync or conflict resolution
+- No delta/base query synchronization
+- Cache is eventually consistent, not guaranteed to match server state
+
+### Complexity
+
+**Effort estimate: 2-4 hours including cache persistence setup.** Beyond the API Only foundation, you add cache persistence configuration, optimistic response functions for mutations, and cache update logic. The conceptual overhead is moderate -- you need to understand Apollo's normalized cache.
+
+### Best for
+
+Apps that benefit from instant UI feedback and cached data between sessions, but do not need true offline write support. Social feeds, collaborative editing with online-only users, e-commerce product browsing, and apps where users expect snappy interactions.
+
+## Offline-First strategy
+
+### What it provides
+
+- Everything in Local Caching, plus:
+- Full offline read and write support via a local Dexie.js (IndexedDB) database
+- Mutation queue that persists offline writes and replays them when connectivity returns
+- Sync engine for delta and base query synchronization with the AppSync backend
+- Conflict resolution using `_version` tracking (manual implementation)
+- Network state detection and online/offline mode switching
+
+### What you give up (compared to DataStore)
+
+- Significantly more code to write and maintain
+- Conflict resolution is manual rather than declarative
+- Selective sync is less declarative than DataStore's sync expressions
+- No built-in Hub events for sync lifecycle (custom event emitter needed)
+
+### Complexity
+
+**Effort estimate: 1-2 weeks for a full implementation.** This strategy requires building a local database layer, a mutation queue with retry logic, a sync engine, and conflict resolution handling. It is a significant engineering investment and should only be chosen if your app genuinely requires offline functionality.
+
+### Best for
+
+Field service apps, data collection tools used in areas with unreliable connectivity, apps where users must be able to create and edit records without network access, and any app where losing unsaved work due to a network interruption is unacceptable.
+
+## Offline might not be required
+
+<Callout warning>
+
+DataStore gave every app offline support automatically, whether the app needed it or not. Before choosing the Offline-First strategy, honestly assess whether your users actually depend on offline functionality.
+
+</Callout>
+
+Ask yourself these questions:
+
+- **Do your users actually use the app without connectivity?** If your app is primarily used on desktop browsers or in offices with reliable internet, offline support may be unnecessary overhead.
+- **Do you have error reports or support tickets about offline scenarios?** If users have never complained about connectivity issues, they may not need offline support.
+- **Would a loading spinner during brief network issues be acceptable?** Many apps can tolerate a few seconds of loading state during network hiccups without degrading the user experience.
+- **Is the data time-sensitive?** If users need the absolute latest data (stock prices, live dashboards), offline cached data may be stale and misleading anyway.
+
+If you answered "no" to most of these questions, **start with API Only**. You can always adopt Local Caching or Offline-First later if the need arises. The migration strategies are additive -- each builds on the previous one.
+
+## Feature parity matrix
+
+### How to read this matrix
+
+This matrix compares three Apollo Client migration strategies against DataStore's feature set. Each cell indicates whether the strategy supports that DataStore capability:
+
+- **Yes** -- The strategy fully supports this feature
+- **No** -- The strategy does not support this feature
+- **Partial** -- The strategy supports this feature with caveats or limitations (see Notes column)
+
+The strategies are cumulative: Local Caching includes everything in API Only, and Offline-First includes everything in Local Caching.
+
+### Feature comparison
+
+| Feature | API Only | Local Caching | Offline-First | Notes |
+|---------|----------|---------------|---------------|-------|
+| Basic CRUD (save, query, delete) | Yes | Yes | Yes | Apollo `mutate()` and `query()` replace DataStore methods |
+| Filtered queries (predicates) | Yes | Yes | Yes | GraphQL `filter` input syntax differs from DataStore predicates |
+| Pagination and sorting | Yes | Yes | Yes | Cursor-based pagination via `nextToken`; sort via GraphQL arguments |
+| Relationships (hasMany, belongsTo, etc.) | Yes | Yes | Yes | Nested selections in GraphQL queries; no automatic lazy loading |
+| Real-time (observe) | Yes | Yes | Yes | Via Amplify library subscriptions, not Apollo subscriptions |
+| Real-time list (observeQuery) | Partial | Yes | Yes | API Only uses subscription-triggered `refetch()`; Local Caching uses `watchQuery` for reactive cache updates |
+| Optimistic UI updates | No | Yes | Yes | Requires Apollo cache manipulation via `optimisticResponse` |
+| Persistent cache (survives refresh) | No | Yes | Yes | `apollo3-cache-persist` for Local Caching; Dexie.js for Offline-First |
+| Offline mutations (queue and replay) | No | No | Yes | Custom mutation queue with IndexedDB persistence required |
+| Automatic sync (delta/base queries) | No | No | Yes | Custom sync engine required; no built-in equivalent |
+| Conflict resolution | No | No | Yes | Manual `_version` tracking; must handle `ConditionalCheckFailedException` |
+| Selective sync (sync expressions) | No | No | Partial | Custom sync filters possible but not as declarative as DataStore expressions |
+| Hub events (sync lifecycle) | No | No | Partial | Custom event emitter needed; no built-in lifecycle hooks |
+
+### Key takeaways
+
+- **API Only covers approximately 70% of DataStore features with approximately 10% of the complexity.** It handles all CRUD operations, filtering, pagination, relationships, and real-time updates. The main gaps are offline support and optimistic UI.
+
+- **Local Caching adds optimistic updates and persistence for moderate additional effort.** If your app benefits from instant UI feedback and cached data between sessions, this strategy provides meaningful improvements over API Only without the full complexity of offline support.
+
+- **Offline-First approaches full DataStore parity but requires significant custom code.** The sync engine, mutation queue, and conflict resolution logic are substantial engineering work. Choose this only if your app genuinely requires offline read and write capability.

@@ -1861,6 +1861,32 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/app-uninstall/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/index.mdx',
+                          children: [
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/choose-strategy/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-crud-operations/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-relationships/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/add-local-caching/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/build-offline-support/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/advanced-patterns/index.mdx'
+                            }
+                          ]
                         }
                       ]
                     },
