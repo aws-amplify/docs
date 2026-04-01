@@ -31,8 +31,8 @@ export function getPageSection(pathname: string): {
 }
 
 const BACKEND_ROOTS = [
-  '/[platform]/build-a-backend/',
-  '/[platform]/build-a-backend/add-aws-services/'
+  '/[platform]/build-a-backend/add-aws-services/',
+  '/[platform]/build-a-backend/'
 ];
 const FRONTEND_ROOT = '/[platform]/frontend/';
 
@@ -65,7 +65,10 @@ function findCrossLink(pathname: string): string | undefined {
  * Try progressively shorter sub-paths of `relative` under `targetRoot`.
  * e.g. relative="analytics/kinesis" tries "analytics/kinesis" then "analytics".
  */
-function findBestMatch(relative: string, targetRoot: string): string | undefined {
+function findBestMatch(
+  relative: string,
+  targetRoot: string
+): string | undefined {
   const parts = relative.split('/').filter(Boolean);
   for (let i = parts.length; i > 0; i--) {
     const candidate = targetRoot + parts.slice(0, i).join('/');
