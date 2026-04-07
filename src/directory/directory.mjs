@@ -1107,7 +1107,7 @@ export const directory = {
           section: 'ai',
           children: [
             {
-              path: 'src/pages/[platform]/develop-with-ai/q-developer/index.mdx'
+              path: 'src/pages/[platform]/develop-with-ai/agent-plugins/index.mdx'
             },
             {
               path: 'src/pages/[platform]/develop-with-ai/kiro/index.mdx'
@@ -1124,7 +1124,7 @@ export const directory = {
               ]
             },
             {
-              path: 'src/pages/[platform]/develop-with-ai/agent-plugins/index.mdx'
+              path: 'src/pages/[platform]/develop-with-ai/q-developer/index.mdx'
             },
             {
               path: 'src/pages/[platform]/develop-with-ai/steering-files/index.mdx'
