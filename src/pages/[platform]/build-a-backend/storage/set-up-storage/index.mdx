@@ -411,6 +411,26 @@ try {
 ```
 </InlineFilter>
 
+### Configure storage removal policy
+
+When you delete your Amplify app or remove the storage resource from your backend definition, the S3 bucket is deleted by default. To retain the bucket and its contents after stack removal, set the `removalPolicy` option to `'retain'`.
+
+```ts title="amplify/storage/resource.ts"
+import { defineStorage } from '@aws-amplify/backend';
+
+export const storage = defineStorage({
+  name: 'amplifyTeamDrive',
+  // highlight-next-line
+  removalPolicy: 'retain'
+});
+```
+
+<Callout>
+
+**Note:** Sandbox deployments always use the `destroy` removal policy regardless of this setting, so your development buckets are cleaned up automatically.
+
+</Callout>
+
 ## Connect your app code to the storage backend
 
 The Amplify Storage library provides client APIs that connect to the backend resources you defined.
