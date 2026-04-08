@@ -411,23 +411,34 @@ try {
 ```
 </InlineFilter>
 
-### Configure storage removal policy
+## Configure storage removal policy
 
-When you delete your Amplify app or remove the storage resource from your backend definition, the S3 bucket is deleted by default. To retain the bucket and its contents after stack removal, set the `removalPolicy` option to `'retain'`.
+By default, Amplify deletes the S3 bucket and all its objects when you remove the storage resource or delete your Amplify app. To preserve the bucket and its data, set `removalPolicy` to `'retain'`:
 
 ```ts title="amplify/storage/resource.ts"
-import { defineStorage } from '@aws-amplify/backend';
-
 export const storage = defineStorage({
-  name: 'amplifyTeamDrive',
-  // highlight-next-line
-  removalPolicy: 'retain'
+  name: 'myProjectFiles',
+  // Keep the bucket when the stack is removed
+  removalPolicy: 'retain',
 });
 ```
 
-<Callout>
+The `removalPolicy` prop accepts two values:
 
-**Note:** Sandbox deployments always use the `destroy` removal policy regardless of this setting, so your development buckets are cleaned up automatically.
+| Value | Behavior |
+| --- | --- |
+| `'destroy'` (default) | The bucket and all objects are deleted on removal. |
+| `'retain'` | The bucket is preserved on removal. You must delete it manually if no longer needed. |
+
+<Callout warning>
+
+Retained buckets continue to incur S3 storage costs. To avoid unexpected charges, delete retained buckets manually through the [AWS S3 console](https://console.aws.amazon.com/s3/) or the AWS CLI (`aws s3 rb s3://bucket-name --force`) when they are no longer needed.
+
+</Callout>
+
+<Callout info>
+
+When using `npx ampx sandbox`, the bucket always uses `'destroy'` regardless of the `removalPolicy` setting. This prevents resource accumulation during development. The `removalPolicy` setting only takes effect in production (branch) deployments.
 
 </Callout>
 
