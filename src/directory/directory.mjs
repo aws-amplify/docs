@@ -51,17 +51,6 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/platform-setup/index.mdx'
-            },
-            {
-              path: 'src/pages/[platform]/start/mcp-server/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/start/mcp-server/set-up-mcp/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/mcp-server/amplify-workflows/index.mdx'
-                }
-              ]
             }
           ]
         },
@@ -190,7 +179,7 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/set-up-data/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/data-modeling/index.mdx',
@@ -290,19 +279,19 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/override-resources/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/manage-with-amplify-console/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/enable-logging/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/data/field-level-validation/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -312,27 +301,27 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/set-up-storage/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/authorization/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/lambda-triggers/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/extend-s3-resources/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/use-aws-sdk/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/storage/manage-with-amplify-console/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -342,35 +331,35 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/set-up-function/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/environment-variables-and-secrets/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/configure-functions/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/configure-client-library/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/scheduling-functions/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/streaming-logs/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/add-lambda-layers/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/grant-access-to-other-resources/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/examples/index.mdx',
@@ -378,57 +367,57 @@ export const directory = {
                   children: [
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/email-domain-filtering/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/add-user-to-group/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/create-user-profile-record/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/override-token/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/user-attribute-validation/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/custom-message/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/google-recaptcha-challenge/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/kinesis-stream/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/dynamo-db-stream/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/s3-upload-confirmation/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     },
                     {
                       path: 'src/pages/[platform]/build-a-backend/functions/examples/custom-auth-flows/index.mdx',
-                    section: 'backend'
+                      section: 'backend'
                     }
                   ]
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/modify-resources-with-cdk/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/functions/custom-functions/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -472,7 +461,7 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/set-up-analytics/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/kinesis/index.mdx',
@@ -480,7 +469,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/existing-resources/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -490,19 +479,19 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/set-up-geo/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/configure-geofencing/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/existing-resources/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -512,11 +501,11 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/set-up-in-app-messaging/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/in-app-messaging/create-campaign/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -526,19 +515,19 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-rest-api/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/set-up-http-api/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/customize-authz/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/rest-api/existing-resources/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -548,7 +537,7 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/predictions/set-up-predictions/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -558,15 +547,15 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/set-up-logging/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/remote-configuration/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/view-logs/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -576,7 +565,7 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/interactions/set-up-interactions/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
@@ -586,29 +575,25 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/pubsub/set-up-pubsub/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/deletion-backup-resources/index.mdx',
-            section: 'backend'
+              section: 'backend'
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/custom-resources/index.mdx',
-            section: 'backend'
+              section: 'backend'
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/tagging-resources/index.mdx',
-            section: 'backend'
+              section: 'backend'
             },
             {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/overriding-resources/index.mdx',
-            section: 'backend'
-            },
-            {
-              path: 'src/pages/[platform]/build-a-backend/q-developer/index.mdx',
-            section: 'backend'
+              section: 'backend'
             },
             {
               path: 'src/pages/[platform]/build-a-backend/troubleshooting/index.mdx',
@@ -616,19 +601,19 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/library-not-configured/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/cdktoolkit-stack/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/cannot-find-module-amplify-env/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/troubleshooting/circular-dependency/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 }
               ]
             }
@@ -1121,6 +1106,35 @@ export const directory = {
               description:
                 'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
               platforms: ['swift']
+            }
+          ]
+        },
+        {
+          path: 'src/pages/[platform]/develop-with-ai/index.mdx',
+          section: 'ai',
+          children: [
+            {
+              path: 'src/pages/[platform]/develop-with-ai/agent-plugins/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/kiro/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/mcp-server/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/develop-with-ai/mcp-server/set-up-mcp/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/develop-with-ai/mcp-server/amplify-workflows/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/q-developer/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/steering-files/index.mdx'
             }
           ]
         },
