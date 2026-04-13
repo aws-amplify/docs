@@ -464,6 +464,10 @@ export const directory = {
                   section: 'backend'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/kinesis/index.mdx',
+                  section: 'backend'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/firehose/index.mdx',
                   section: 'backend'
                 },
@@ -789,6 +793,9 @@ export const directory = {
             {
               path: 'src/pages/[platform]/frontend/analytics/index.mdx',
               children: [
+                {
+                  path: 'src/pages/[platform]/frontend/analytics/kinesis/index.mdx'
+                },
                 {
                   path: 'src/pages/[platform]/frontend/analytics/firehose/index.mdx'
                 },
@@ -1129,6 +1136,9 @@ export const directory = {
                   path: 'src/pages/[platform]/develop-with-ai/mcp-server/amplify-workflows/index.mdx'
                 }
               ]
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/q-developer/index.mdx'
             },
             {
               path: 'src/pages/[platform]/develop-with-ai/steering-files/index.mdx'
