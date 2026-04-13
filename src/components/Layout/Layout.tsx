@@ -37,6 +37,7 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { Gen2MaintenanceBanner } from '@/components/Gen2MaintenanceBanner';
 import { CrossLink } from '@/components/CrossLink';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import { getPageSection } from '@/utils/getPageSection';
@@ -356,6 +357,7 @@ export const Layout = ({
                       />
                     ) : null}
                     {isGen1 && <Gen1Banner currentPlatform={currentPlatform} />}
+                    {!isGen1 && <Gen2MaintenanceBanner />}
                     {crossLinkProps && <CrossLink {...crossLinkProps} />}
                     {useCustomTitle ? null : (
                       <Flex

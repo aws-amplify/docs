@@ -367,6 +367,76 @@
   }
 }
 
+// Gen2 maintenance-mode banner (dismissable)
+.gen2-maintenance-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--amplify-space-small);
+  padding: var(--amplify-space-small) var(--amplify-space-medium);
+  background-color: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: var(--amplify-radii-medium);
+  margin-bottom: var(--amplify-space-medium);
+
+  @include darkMode {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+}
+
+.gen2-maintenance-banner__badge {
+  display: inline-block;
+  background-color: #d97706;
+  color: var(--amplify-colors-white);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: var(--amplify-radii-small);
+  flex-shrink: 0;
+}
+
+.gen2-maintenance-banner__text {
+  font-size: var(--amplify-font-sizes-small);
+  color: var(--amplify-colors-font-primary);
+  flex: 1;
+}
+
+.gen2-maintenance-banner__link {
+  color: var(--amplify-colors-primary-80);
+  font-weight: 600;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.gen2-maintenance-banner__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px;
+  border-radius: var(--amplify-radii-small);
+  color: var(--amplify-colors-font-secondary);
+  flex-shrink: 0;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--amplify-colors-font-primary);
+  }
+
+  @include darkMode {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
 // Legacy docs link in sidebar — styled like a menu category item
 .layout-sidebar-legacy__link {
   display: flex;
