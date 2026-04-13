@@ -596,10 +596,6 @@ export const directory = {
               section: 'backend'
             },
             {
-              path: 'src/pages/[platform]/build-a-backend/q-developer/index.mdx',
-              section: 'backend'
-            },
-            {
               path: 'src/pages/[platform]/build-a-backend/troubleshooting/index.mdx',
               section: 'backend',
               children: [
@@ -1133,9 +1129,6 @@ export const directory = {
                   path: 'src/pages/[platform]/develop-with-ai/mcp-server/amplify-workflows/index.mdx'
                 }
               ]
-            },
-            {
-              path: 'src/pages/[platform]/develop-with-ai/q-developer/index.mdx'
             },
             {
               path: 'src/pages/[platform]/develop-with-ai/steering-files/index.mdx'
