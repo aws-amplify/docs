@@ -375,7 +375,8 @@ export const Layout = ({
                     {(asPathWithNoHash.includes('/push-notifications/') ||
                       asPathWithNoHash.includes('/analytics/') ||
                       asPathWithNoHash.includes('/in-app-messaging/')) &&
-                      !asPathWithNoHash.includes('/kinesis') && (
+                      !asPathWithNoHash.includes('/kinesis') &&
+                      !asPathWithNoHash.includes('/firehose') && (
                         <PinpointEOLBanner />
                       )}
                     {asPathWithNoHash.includes('/interactions/') && (
