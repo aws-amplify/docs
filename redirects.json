@@ -10453,5 +10453,20 @@
 		"source": "/vue/start/connect-existing-aws-resources",
 		"target": "/vue/start/connect-to-aws-resources",
 		"status": "301"
+	},
+	{
+		"source": "/<platform>/build-a-backend/q-developer/",
+		"target": "/<platform>/develop-with-ai/q-developer/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/start/mcp-server/",
+		"target": "/<platform>/develop-with-ai/mcp-server/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/start/mcp-server/<*>",
+		"target": "/<platform>/develop-with-ai/mcp-server/<*>",
+		"status": "301"
 	}
 ]

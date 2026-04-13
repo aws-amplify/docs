@@ -51,17 +51,6 @@ export const directory = {
             },
             {
               path: 'src/pages/[platform]/start/platform-setup/index.mdx'
-            },
-            {
-              path: 'src/pages/[platform]/start/mcp-server/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/start/mcp-server/set-up-mcp/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/start/mcp-server/amplify-workflows/index.mdx'
-                }
-              ]
             }
           ]
         },
@@ -475,11 +464,6 @@ export const directory = {
                   section: 'backend'
                 },
                 {
-                {
-                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/kinesis/index.mdx',
-                  section: 'backend'
-                },
-                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/firehose/index.mdx',
                   section: 'backend'
                 },
@@ -810,10 +794,6 @@ export const directory = {
               path: 'src/pages/[platform]/frontend/analytics/index.mdx',
               children: [
                 {
-                {
-                  path: 'src/pages/[platform]/frontend/analytics/kinesis/index.mdx'
-                },
-                {
                   path: 'src/pages/[platform]/frontend/analytics/firehose/index.mdx'
                 },
                 {
@@ -1130,6 +1110,35 @@ export const directory = {
               description:
                 'FaceLivenessDetector is a connected component that helps verify that only real users, not bad actors using spoofs, can access your services.',
               platforms: ['swift']
+            }
+          ]
+        },
+        {
+          path: 'src/pages/[platform]/develop-with-ai/index.mdx',
+          section: 'ai',
+          children: [
+            {
+              path: 'src/pages/[platform]/develop-with-ai/agent-plugins/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/kiro/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/mcp-server/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/develop-with-ai/mcp-server/set-up-mcp/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/develop-with-ai/mcp-server/amplify-workflows/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/q-developer/index.mdx'
+            },
+            {
+              path: 'src/pages/[platform]/develop-with-ai/steering-files/index.mdx'
             }
           ]
         },
