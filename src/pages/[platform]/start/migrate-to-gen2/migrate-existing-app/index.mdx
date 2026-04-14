@@ -226,9 +226,20 @@ During the migration period your Gen 1 environment should not undergo any change
 npx amplify gen2-migration lock
 ```
 
-This command validates that your Gen 1 environment is in a healthy state (root CloudFormation stack is stable, no drift detected) and then attaches a restrictive IAM policy on the root stack.
+#### Validations
 
-To unlock the environment if needed:
+| Validation | Description |
+|---|---|
+| Environment Status | Verifies the root CloudFormation stack is in a stable state (`UPDATE_COMPLETE` or `CREATE_COMPLETE`). |
+| Drift | Detects drift between your local project and the deployed CloudFormation stacks. |
+
+Once validated, the following restrictive IAM policy is attached to the root stack:
+
+```json
+{ "Statement": [{ "Effect": "Deny", "Action": "Update:*", "Principal": "*", "Resource": "*" }] }
+```
+
+To unlock the environment, run:
 
 ```bash
 npx amplify gen2-migration lock --rollback
@@ -250,9 +261,17 @@ git checkout -b gen2-main
 npx amplify gen2-migration generate
 ```
 
-This command validates that the environment is locked, the git working directory is clean, and runs the resource assessment. It then overrides your local `./amplify` directory with Gen 2 definition files.
+#### Validations
 
-Once successful, clean up and reinstall dependencies:
+| Validation | Description |
+|---|---|
+| Lock Status | Verifies the Gen 1 environment is locked (deny-all stack policy is in place). |
+| Working Directory | Verifies the git working directory has no uncommitted changes. |
+| Assessment | Runs the resource and feature assessment for the `generate` step and fails if any entry is unsupported. |
+
+This command introspects your deployed Gen 1 CloudFormation stacks and generates the equivalent Gen 2 TypeScript backend definition files, overriding your local `./amplify` directory. The generated code is a starting point — some features require manual edits before deploying (see below).
+
+Once successful, clean up and reinstall dependencies to avoid stale resolution artifacts from the Gen 1 dependency tree:
 
 ```bash
 rm -rf node_modules package-lock.json
@@ -260,11 +279,9 @@ npm install
 npm install --package-lock-only
 ```
 
-#### Post-generate manual edits
+#### Post Generate | Frontend Config
 
-After generating, you will need to perform several manual edits:
-
-**Frontend config** — If your frontend consumes `amplifyconfiguration.json`, update the import:
+If your frontend consumes `amplifyconfiguration.json`, update the import:
 
 ```diff
 - import amplifyconfig from './amplifyconfiguration.json';
@@ -277,7 +294,9 @@ The `amplify_outputs.json` file will not exist locally — it is generated at de
 
 </Callout>
 
-**Reuse model tables** — Edit `./amplify/data/resource.ts`:
+#### Post Generate | Reuse Model Tables
+
+Edit `./amplify/data/resource.ts`:
 
 ```diff
 - branchName: "main"
@@ -286,7 +305,9 @@ The `amplify_outputs.json` file will not exist locally — it is generated at de
 
 This instructs the hosting service to reuse (import) the DynamoDB tables instead of recreating them.
 
-**Node.js function ESM compatibility** — Port Lambda function code from CommonJS to ESM:
+#### Post Generate | NodeJS Function ESM Compatibility
+
+Port Lambda function code from CommonJS to ESM:
 
 ```diff
 - exports.handler = async (event) => {
@@ -295,9 +316,11 @@ This instructs the hosting service to reuse (import) the DynamoDB tables instead
 
 Gen 2 adds Lambda shims that conflict with CommonJS syntax.
 
-**Function secrets** — If your function uses secret values, recreate the secret in the Amplify console (_Hosting → Secrets → Manage Secrets → Add new_):
+#### Post Generate | Function Secrets
 
-<img src="/images/gen2-migration/add-secret.png" alt="Adding a secret in the Amplify console" width="450" />
+If your function uses secret values, recreate the secret in the Amplify console (_Hosting → Secrets → Manage Secrets → Add new_):
+
+<img src="/images/gen2-migration/add-secret.png" alt="Adding a secret in the Amplify console" width="600" />
 
 Then update the function definition:
 
@@ -309,7 +332,17 @@ Then update the function definition:
 + MY_SECRET: secret("/amplify/<hash>/main/AMPLIFY_<function-name>_MY_SECRET")
 ```
 
-**GraphQL IAM access** — If your frontend accesses AppSync using IAM credentials, add the following to grant the Gen 2 auth role access to the Gen 1 API:
+Then, in your function code, use `process.env.MY_SECRET` to obtain the secret value.
+
+<Callout info>
+
+See [Secrets](https://docs.amplify.aws/react/build-a-backend/functions/environment-variables-and-secrets/#secrets) for more information.
+
+</Callout>
+
+#### Post Generate | GraphQL IAM Access
+
+If your frontend accesses AppSync using IAM credentials, add the following to grant the Gen 2 auth role access to the Gen 1 API:
 
 ```ts
 backend.auth.resources.authenticatedUserIamRole.addToPrincipalPolicy(
@@ -327,14 +360,18 @@ Navigate to the Amplify Console to find the `<gen1-appsync-api-id>` on the AppSy
 
 <img src="/images/gen2-migration/gen1-appsync-api-id.png" alt="Finding the Gen 1 AppSync API ID in the console" width="450" />
 
-**REST API** — The migration tool generates the full REST API CDK construct automatically. Update your frontend code to point to the new Gen 2 API name:
+#### Post Generate | REST API
+
+The migration tool generates the full REST API CDK construct automatically. Update your frontend code to point to the new Gen 2 API name:
 
 ```diff
 - apiName: '<gen1-rest-api-name>',
 + apiName: '<gen2-rest-api-name>',
 ```
 
-**Models without an `@auth` directive** — In Gen 1, unprotected `@model` types are considered public and assigned `@aws_api_key`. In Gen 2, they are considered private and assigned `@aws_iam`. To preserve the same behavior, explicitly add the `@auth` directive:
+#### Post Generate | Models Without an `@auth` Directive
+
+In Gen 1, unprotected `@model` types are considered public and assigned `@aws_api_key`. In Gen 2, they are considered private and assigned `@aws_iam`. To preserve the same behavior, explicitly add the `@auth` directive:
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: public }]) {
@@ -379,7 +416,7 @@ By default, sandbox creates its own DynamoDB tables and does not share Gen 1 mod
 
 ### Step 5: Refactor
 
-Refactoring updates the underlying CloudFormation stacks of both your Gen 1 and Gen 2 applications so that all stateful resources are reused across both apps.
+Refactoring is the process of moving your Gen 1 stateful resources (Cognito User Pool, S3 bucket, etc.) into the Gen 2 CloudFormation stacks using the [CloudFormation Refactor](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-refactoring.html) APIs. After this step, both your Gen 1 and Gen 2 applications share the same underlying data and user accounts — your Gen 1 environment will no longer be updatable.
 
 First, find the name of the Gen 2 root CloudFormation stack in the AWS CloudFormation console. Look for a stack with the pattern: `amplify-<appId>-gen2main-branch-<suffix>`.
 
@@ -392,6 +429,13 @@ npm install --no-save @aws-amplify/cli-internal-gen2-migration-experimental-alph
 git checkout main
 npx amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
+
+#### Validations
+
+| Validation | Description |
+|---|---|
+| Lock Status | Verifies the Gen 1 environment is locked (deny-all stack policy is in place). |
+| Assessment | Runs the resource and feature assessment for the `refactor` step and fails if any entry is unsupported. |
 
 <Callout info>
 
