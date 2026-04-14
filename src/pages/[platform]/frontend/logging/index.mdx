@@ -1,0 +1,29 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Logging',
+  description: 'Send and manage logs from your app.',
+  route: '/[platform]/frontend/logging',
+  platforms: [
+    'android',
+    'swift'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

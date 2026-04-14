@@ -3,10 +3,12 @@ import { MenuItem } from './MenuItem';
 import { Platform } from '@/data/platforms';
 import { PageNode } from '@/directory/directory';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
+import { isNodeVisibleInSection } from '@/data/sections';
 
 type MenuProps = {
   currentPlatform?: Platform;
   path: string;
+  activeSection?: string;
 };
 
 const invalidChildren = [
@@ -15,7 +17,11 @@ const invalidChildren = [
   '/gen1/[platform]/sdk'
 ];
 
-export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
+export function Menu({
+  currentPlatform,
+  path,
+  activeSection
+}: MenuProps): ReactElement {
   // Depending on the the page we're on, we could have the following keywords at these subpaths
   // Split them out so we can figure out what kind of page it is
   const pathSplit = path.split('/');
@@ -60,11 +66,15 @@ export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
     childrenNodes = rootMenuNode?.children;
   }
 
+  const filteredChildren = childrenNodes?.filter((child) =>
+    isNodeVisibleInSection(child.section, activeSection)
+  );
+
   return (
     <nav className="menu" aria-label="Main">
-      <ul className="menu__list">
-        {childrenNodes &&
-          childrenNodes.map((child, index) => {
+      <ul className="menu__list" key={activeSection || 'all'}>
+        {filteredChildren &&
+          filteredChildren.map((child, index) => {
             return (
               <MenuItem
                 key={index}
@@ -72,6 +82,7 @@ export function Menu({ currentPlatform, path }: MenuProps): ReactElement {
                 parentSetOpen={null}
                 level={1}
                 hideChildren={child.hideChildrenOnBase && baseMenu}
+                activeSection={activeSection}
                 {...(currentPlatform
                   ? { currentPlatform: currentPlatform }
                   : {})}

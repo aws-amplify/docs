@@ -1,0 +1,33 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'In-App Messaging',
+  description: 'Display targeted in-app messages to your users.',
+  route: '/[platform]/frontend/in-app-messaging',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+<Overview childPageNodes={props.childPageNodes} />

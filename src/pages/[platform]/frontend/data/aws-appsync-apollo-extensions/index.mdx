@@ -1,0 +1,520 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'AWS AppSync Apollo Extensions',
+  description:
+    'AWS AppSync Apollo Extensions',
+  platforms: [
+    'android',
+    'swift',
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+AWS AppSync Apollo Extensions provide a seamless way to connect to your AWS AppSync backend using Apollo client, an open-source GraphQL client.
+<InlineFilter filters={["swift"]}>
+
+To learn more about Apollo, see https://www.apollographql.com/docs/ios/.
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+To learn more about Apollo, see https://www.apollographql.com/docs/kotlin.
+
+</InlineFilter>
+
+## Features
+
+AWS AppSync Apollo Extensions provide AWS AppSync authorizers to be used with the Apollo client to make it simple to apply the correct authorization payloads to your GraphQL operations.
+
+<InlineFilter filters={["android"]}>
+Additionally, we publish an optional Amplify extension that allows Amplify to provide auth tokens and signing logic for the corresponding Authorizers.
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+Additionally, the included Amplify components allow Amplify to provide auth tokens and signing logic for the corresponding Authorizers.
+</InlineFilter>
+
+## Install the AWS AppSync Apollo Extensions library
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+
+<Block name="With Amplify">
+
+Add the `apollo-appsync-amplify` dependency to your app/build.gradle.kts file.
+
+```kotlin title="app/build.gradle.kts"
+dependencies {
+    // highlight-start
+    // Connect Apollo to AppSync, delegating some implementation details to Amplify
+    implementation("com.amplifyframework:apollo-appsync-amplify:1.0.0")    
+    // highlight-end
+}
+```
+
+</Block>
+
+<Block name="Without Amplify">
+
+Add the `apollo-appsync` dependency to your app/build.gradle.kts file.
+
+```kotlin title="app/build.gradle.kts"
+dependencies {
+    // highlight-start
+    // Connect Apollo to AppSync without using Amplify
+    implementation("com.amplifyframework:apollo-appsync:1.0.0")    
+    // highlight-end
+}
+```
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+Add AWS AppSync Apollo Extensions into your project using Swift Package Manager.
+
+Enter its GitHub URL (`https://github.com/aws-amplify/aws-appsync-apollo-extensions-swift`), select **Up to Next Major Version** and click **Add Package**
+
+* Select the following libraries:
+    * **AWSAppSyncApolloExtensions**
+
+</InlineFilter>
+
+## Connecting to AWS AppSync with Apollo client
+
+<InlineFilter filters={["android"]}>
+
+### Creating the ApolloClient
+
+<BlockSwitcher>
+
+<Block name="With Amplify">
+Before you begin, you will need an Amplify Data backend deploy. To get started, see [Set up Data](/[platform]/build-a-backend/data/set-up-data/). 
+
+Once you have deployed your backend and created the `amplify_outputs.json` file, you can use Amplify library to read and retrieve your configuration values with the following steps:
+
+```kotlin
+// Use apiKey auth mode, reading configuration from AmplifyOutputs
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val apolloClient = ApolloClient.Builder()
+    .appSync(connector.endpoint, connector.apiKeyAuthorizer())
+    .build()
+```
+</Block>
+
+<Block name="Without Amplify">
+You can create your Apollo client by using our provided AWS AppSync endpoint and authorizer classes. 
+
+```kotlin
+val endpoint = AppSyncEndpoint("<your_appsync_endpoint>")
+// Continue Reading to see more authorizer examples
+val authorizer = ApiKeyAuthorizer("[API_KEY]") 
+val apolloClient = ApolloClient.Builder()
+    .appSync(endpoint, authorizer)
+    .build()
+```
+</Block>
+
+</BlockSwitcher>
+
+### Providing AppSync Authorizers
+
+<BlockSwitcher>
+
+<Block name="With Amplify">
+
+The AWS AppSync Apollo Extensions library provides a number of Authorizer classes to match the various authorization strategies that may be in use in your schema. You should choose the appropriate Authorizer type for your authorization strategy. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/build-a-backend/data/customize-authz/#available-authorization-strategies).
+
+Some common ones are
+
+*  `publicAPIkey` strategy, `apiKey` authMode, **APIKeyAuthorizer**
+*  `guest` strategy, `identityPool` authMode, **IAMAuthorizer**
+*  `owner` strategy, `userPool` authMode, **AuthTokenAuthorizer**
+
+If you define multiple authorization strategies within your schema, you will have to create separate Apollo client instances for each Authorizer that you want to use in your app.
+
+#### API_KEY
+
+An `ApiKeyAuthorizer` can read the API key from `amplify_outputs.json`, provide a hardcoded API key, or fetch the API key from some source:
+
+```kotlin
+// highlight-start
+// Using ApolloAmplifyConnector to read API key from amplify_outputs.json
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val authorizer = connector.apiKeyAuthorizer()
+//highlight-end
+// or
+// highlight-start
+// Use a hard-coded API key
+val authorizer = ApiKeyAuthorizer("[API_KEY]")
+//highlight-end
+// or
+// highlight-start
+// Fetch the API key from some source. This function may be called many times,
+// so it should implement appropriate caching internally.
+val authorizer = ApiKeyAuthorizer { fetchApiKey() }
+//highlight-end
+```
+
+#### AMAZON_COGNITO_USER_POOLS
+
+You can use `AmplifyApolloConnector` to get an `AuthTokenAuthorizer` instance that supplies the token for the current logged-in Amplify user, or implement the token fetching yourself.
+
+```kotlin
+// highlight-start
+// Using ApolloAmplifyConnector to get the authorizer that connects to your 
+// Amplify instance
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val authorizer = connector.authTokenAuthorizer()
+//highlight-end
+// or
+// highlight-start
+// Using the ApolloAmplifyConnector companion function
+val authorizer = AuthTokenAuthorizer { 
+  ApolloAmplifyConnector.fetchLatestCognitoAuthToken() 
+}
+//highlight-end
+// or
+// highlight-start
+// Use your own token fetching. This function may be called many times,
+// so it should implement appropriate caching internally.
+val authorizer = AuthTokenAuthorizer {
+  fetchLatestAuthToken()
+}
+//highlight-end
+```
+
+You can provide your own custom `fetchLatestAuthToken` provider for **AWS_LAMBDA** and **OPENID_CONNECT** auth modes. 
+
+#### AWS_IAM
+
+You can use the `ApolloAmplifyConnector` to delegate token fetching and request 
+signing to Amplify.
+
+```kotlin
+// highlight-start
+// Using ApolloAmplifyConnector to get the authorizer that connects to your 
+// Amplify instance
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val authorizer = connector.iamAuthorizer()
+//highlight-end
+// or
+// highlight-start
+// Using the ApolloAmplifyConnector companion function
+val authorizer = IamAuthorizer { 
+  ApolloAmplifyConnector.signAppSyncRequest(it, "us-east-1") 
+}
+//highlight-end
+```
+
+</Block>
+
+<Block name="Without Amplify">
+
+AWS AppSync supports the following [authorization modes](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html). Use the corresponding Authorizer that matches the chosen authorization type. 
+
+Some common ones are
+
+*  API Key Authorization -> **APIKeyAuthorizer**
+*  IAM Authorization -> **IAMAuthorizer**
+*  Cognito User Pools -> **AuthTokenAuthorizer**
+
+If you apply multiple authorization directives in your schema, you will have to create separate Apollo client instances for each Authorizer that you want to use in your app.
+
+#### API_KEY
+
+An `ApiKeyAuthorizer` can be used with a hardcoded API key or by fetching the key from some source.:
+
+```kotlin
+// highlight-start
+// Use a hard-coded API key
+val authorizer = ApiKeyAuthorizer("[API_KEY]")
+//highlight-end
+// or
+// highlight-start
+// Fetch the API key from some source. This function may be called many times,
+// so it should implement appropriate caching internally.
+val authorizer = ApiKeyAuthorizer { fetchApiKey() }
+//highlight-end
+```
+
+#### AMAZON_COGNITO_USER_POOLS
+
+When working directly with AppSync, you must implement the token fetching yourself.
+
+```kotlin
+// highlight-start
+// Use your own token fetching. This function may be called many times,
+// so it should implement appropriate caching internally.
+val authorizer = AuthTokenAuthorizer {
+  fetchLatestAuthToken()
+}
+//highlight-end
+```
+
+#### AWS_IAM
+
+When working directly with AppSync, you must implement the request signing yourself.
+
+```kotlin
+// highlight-start
+// Provide an implementation of the signing function. This function should implement the 
+// AWS Sig-v4 signing logic and return the authorization headers containing the token and signature.
+val authorizer = IamAuthorizer { signRequestAndReturnHeaders(it) }
+// highlight-end
+```
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+
+<InlineFilter filters={["swift"]}>
+AWS AppSync supports the following [authorization modes](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html):
+
+### API_KEY
+
+```swift
+import AWSAppSyncApolloExtensions
+
+let authorizer = APIKeyAuthorizer(apiKey: "[API_KEY]")
+let interceptor = AppSyncInterceptor(authorizer)
+```
+
+### AMAZON_COGNITO_USER_POOLS
+
+If you are using Amplify Auth, you can create a method that retrieves the Cognito access token
+
+```swift
+import Amplify
+
+func getUserPoolAccessToken() async throws -> String {
+    let authSession = try await Amplify.Auth.fetchAuthSession()
+    if let result = (authSession as? AuthCognitoTokensProvider)?.getCognitoTokens() {
+        switch result {
+        case .success(let tokens):
+            return tokens.accessToken
+        case .failure(let error):
+            throw error
+        }
+    }
+    throw AuthError.unknown("Did not receive a valid response from fetchAuthSession for get token.")
+}
+```
+
+Then create the AuthTokenAuthorizer with this method.
+
+```swift
+import AWSAppSyncApolloExtensions
+
+let authorizer = AuthTokenAuthorizer(fetchLatestAuthToken: getUserPoolAccessToken)
+let interceptor = AppSyncInterceptor(authorizer)
+```
+
+### AWS_IAM
+
+If you are using Amplify Auth, you can use the following method for AWS_IAM auth
+
+```swift
+import AWSCognitoAuthPlugin
+import AWSAppSyncApolloExtensions
+
+let authorizer = IAMAuthorizer(
+    signRequest: AWSCognitoAuthPlugin.createAppSyncSigner(
+        region: "[REGION]"))
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+## Connecting Amplify Data to Apollo client
+
+Before you begin, you will need an Amplify Data backend deploy. To get started, see [Set up Data](/[platform]/build-a-backend/data/set-up-data/). 
+
+Once you have deployed your backend and created the `amplify_outputs.json` file, you can use Amplify library to read and retrieve your configuration values with the following steps:
+
+1. Enter its GitHub URL (`https://github.com/aws-amplify/amplify-swift`), select **Up to Next Major Version** and click **Add Package**
+2. Select the following libraries:
+    1. **AWSPluginsCore**
+3. Drag and drop the `amplify_outputs.json` file into your Xcode project. 
+4. Initialize the configuration with `try AWSAppSyncConfiguration(with: .amplifyOutputs)`
+
+The resulting configuration object will have the `endpoint`, `region`, and optional `apiKey.` The following example shows reading the `amplify_outputs.json` file from the main bundle to instantiate the configuration and uses it to configure the Apollo client for **API_Key** authorization.
+
+```swift
+import Apollo
+import ApolloAPI
+import AWSPluginsCore
+import AWSAppSyncApolloExtensions
+
+func createApolloClient() throws -> ApolloClient {
+   let store = ApolloStore(cache: InMemoryNormalizedCache())
+   
+    // 1. Read AWS AppSync API configuration from `amplify_outputs.json`
+    let configuration = try AWSAppSyncConfiguration(with: .amplifyOutputs)
+    
+   // 2. Use `configuration.apiKey` with APIKeyAuthorizer
+    let authorizer = APIKeyAuthorizer(apiKey: configuration.apiKey ?? "")
+    let interceptor = AppSyncInterceptor(authorizer)
+    let interceptorProvider = DefaultPrependInterceptorProvider(interceptor: interceptor,
+                                                                store: store)
+   // 3. Use `configuration.endpoint` with RequestChainNetworkTransport
+    let transport = RequestChainNetworkTransport(interceptorProvider: interceptorProvider,
+                                                endpointURL: configuration.endpoint)
+
+    return ApolloClient(networkTransport: transport, store: store)
+}
+```
+
+The AWS AppSync Apollo Extensions library provides a number of Authorizer classes to match the various authorization strategies that may be in use in your schema. You should choose the appropriate Authorizer type for your authorization strategy. To read more about the strategies and their corresponding auth modes, see [Available authorization strategies](/[platform]/build-a-backend/data/customize-authz/#available-authorization-strategies).
+
+Some common ones are
+
+*  `publicAPIkey` strategy, `apiKey` authMode, **APIKeyAuthorizer**
+*  `guest` strategy, `identityPool` authMode, **IAMAuthorizer**
+*  `owner` strategy, `userPool` authMode, **AuthTokenAuthorizer**
+
+If you define multiple authorization strategies within your schema, you will have to create separate Apollo client instances for each Authorizer that you want to use in your app.
+
+</InlineFilter>
+
+## Downloading the AWS AppSync schema
+
+The schema is used by Apollo’s code generation tool to generate API code that helps you execute GraphQL operations. The following steps integrate your AppSync schema with Apollo's code generation process:
+
+<InlineFilter filters={["swift"]}>
+1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
+2. On the left side, select Schema
+3. Select the "Export schema" dropdown and download the `schema.json` file.
+4. Add this file to your project as directed by [Apollo Code Generation documentation](https://www.apollographql.com/docs/ios/code-generation/introduction). 
+
+You can alternatively download the introspection schema using the [`fetch-schema`](https://www.apollographql.com/docs/ios/code-generation/codegen-cli#fetch-schema) command with the `amplify-ios-cli` tool.
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
+2. On the left side, select Schema
+3. Select the "Export schema" dropdown and download the `schema.json` file.
+4. Add this file to your project as directed by [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location) 
+
+</InlineFilter>
+
+## Generating Queries, Mutations, and Subscriptions for Apollo client
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+
+<Block name="With Amplify">
+**Amplify provided .graphql files**
+1. Within your Amplify Gen 2 backend, run: `npx ampx generate graphql-client-code --format graphql-codegen --statement-target graphql --out graphql`
+2. Copy the generated files (`mutations.graphql`, `queries.graphql`, `subscriptions.graphql`) to your `{app}/src/main/graphql` folder as shown in the [Apollo documentation](https://www.apollographql.com/docs/kotlin#getting-started)
+
+**Manual**
+1. Navigate to the **Queries** tab in your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home). Here, you can test queries, mutations, and subscriptions in the GraphQL playground.
+2. Enter your GraphQL operation (query, mutation, or subscription) in the editor and select **Run** to execute it.
+3. Observe the request and response structure in the results. This gives you insight into the exact call patterns and structure that Apollo will use.
+4. Copy the GraphQL operation(s) from the playground and pass them to to your `{app}/src/main/graphql` folder as shown in the [Apollo documentation](https://www.apollographql.com/docs/kotlin#getting-started)
+
+</Block>
+
+<Block name="Without Amplify">
+
+1. Navigate to the **Queries** tab in your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home). Here, you can test queries, mutations, and subscriptions in the GraphQL playground.
+2. Enter your GraphQL operation (query, mutation, or subscription) in the editor and click **Run** to execute it.
+3. Observe the request and response structure in the results. This gives you insight into the exact call patterns and structure that Apollo will use.
+4. Copy the GraphQL operation from the playground and pass it to Apollo's code generation tool to automatically generate the corresponding API code for your project.
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+1. Navigate to the **Queries** tab in your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home). Here, you can test queries, mutations, and subscriptions in the GraphQL playground.
+2. Enter your GraphQL operation (query, mutation, or subscription) in the editor and click **Run** to execute it.
+3. Observe the request and response structure in the results. This gives you insight into the exact call patterns and structure that Apollo will use.
+4. Copy the GraphQL operation from the playground and pass it to Apollo's code generation tool to automatically generate the corresponding API code for your project.
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+## Type Mapping AppSync Scalars
+By default, [AWS AppSync Scalars](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html#graph-ql-aws-appsync-scalars) will default to the `Any` type. You can map these scalars to more explicit types by editing the `apollo` block in your `app/build.gradle[.kts]` file. In the example below, we are now mapping a few of our AppSync scalar types to `String` instead of `Any`. Additional improvements could be made by writing [custom class adapters](https://www.apollographql.com/docs/kotlin/essentials/custom-scalars#define-class-mapping) to convert date/time scalars into Kotlin date/time class types.
+
+```kotlin
+apollo {
+    service("{serviceName}") {
+        packageName.set("{packageName}")
+        mapScalarToKotlinString("AWSDateTime")
+        mapScalarToKotlinString("AWSEmail")
+    }
+}
+```
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+## Connecting to AWS AppSync real-time endpoint
+
+The following example shows how you can create an Apollo client that allows performing GraphQL subscription operations with AWS AppSync. 
+
+```swift
+import Apollo
+import ApolloAPI
+import ApolloWebSocket
+import AWSPluginsCore
+import AWSAppSyncApolloExtensions
+
+func createApolloClient() throws -> ApolloClient {
+    let store = ApolloStore(cache: InMemoryNormalizedCache())
+    let configuration = try AWSAppSyncConfiguration(with: .amplifyOutputs)
+   
+    // 1. Create your authorizer
+    let authorizer = /* your Authorizer */
+    let interceptor = AppSyncInterceptor(authorizer)
+
+    let interceptorProvider = DefaultPrependInterceptorProvider(interceptor: interceptor,
+                                                                store: store)
+    let transport = RequestChainNetworkTransport(interceptorProvider: interceptorProvider,
+                                                    endpointURL: configuration.endpoint)
+
+    // 2. Create the AWS AppSync compatible websocket client
+    let websocket = AppSyncWebSocketClient(endpointURL: configuration.endpoint,
+                                            authorizer: authorizer)
+    // 3. Add it to the WebSocketTransport
+    let webSocketTransport = WebSocketTransport(websocket: websocket)
+    // 4. Create a SplitNetworkTransport
+    let splitTransport = SplitNetworkTransport(
+        uploadingNetworkTransport: transport,
+        webSocketNetworkTransport: webSocketTransport
+    )
+    // 5. Pass the SplitNetworkTransport to the ApolloClient
+    return ApolloClient(networkTransport: splitTransport, store: store)
+}
+```
+
+</InlineFilter>

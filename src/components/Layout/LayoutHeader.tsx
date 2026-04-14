@@ -1,14 +1,16 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
+import { Badge, Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { Platform } from '@/data/platforms';
+import { SECTIONS, SectionKey, getDefaultPathForSection } from '@/data/sections';
+import Link from 'next/link';
 import {
   ALGOLIA_API_KEY,
   ALGOLIA_INDEX_NAME,
   ALGOLIA_APP_ID
 } from '../../constants/algolia';
-import { IconMenu, IconDoubleChevron } from '@/components/Icons';
+import { IconMenu, IconDoubleChevron, IconChevron } from '@/components/Icons';
 import { Menu } from '@/components/Menu';
 import { LayoutContext } from '@/components/Layout';
 import { PlatformNavigator } from '@/components/PlatformNavigator';
@@ -19,25 +21,39 @@ import { PageLastUpdated } from '../PageLastUpdated';
 import Feedback from '../Feedback';
 import RepoActions from '../Menu/RepoActions';
 import { usePathWithoutHash } from '@/utils/usePathWithoutHash';
+import { SearchFilters } from '@/components/Search';
+import type { GenFilter, PlatformFilter } from '@/components/Search';
 
 export const LayoutHeader = ({
   currentPlatform,
   isGen1,
   pageType = 'inner',
   showLastUpdatedDate = true,
-  showTOC
+  showTOC,
+  activeSection,
+  onSectionChange
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
   pageType?: 'home' | 'inner';
   showLastUpdatedDate: boolean;
   showTOC?: boolean;
+  activeSection?: string;
+  onSectionChange?: (section: SectionKey) => void;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarMenuButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const asPathWithNoHash = usePathWithoutHash();
+
+  const [platformFilter, setPlatformFilter] = useState<PlatformFilter>('all');
+  const [genFilter, setGenFilter] = useState<GenFilter>('gen2');
+
+  const searchParams = useMemo(() => ({
+    ...(platformFilter !== 'all' && { optionalFacetFilters: [`platform:${platformFilter}`] }),
+    ...(genFilter !== 'both' && { facetFilters: [`gen:${genFilter}`] })
+  }), [platformFilter, genFilter]);
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
@@ -90,13 +106,17 @@ export const LayoutHeader = ({
               appId={process.env.ALGOLIA_APP_ID || ALGOLIA_APP_ID}
               indexName={process.env.ALGOLIA_INDEX_NAME || ALGOLIA_INDEX_NAME}
               apiKey={process.env.ALGOLIA_API_KEY || ALGOLIA_API_KEY}
-              searchParameters={{
-                facetFilters: [
-                  `platform:${currentPlatform}`,
-                  `gen:${isGen1 ? 'gen1' : 'gen2'}`
-                ]
-              }}
+              searchParameters={searchParams}
               transformItems={transformItems}
+              getMissingResultsUrl={({ query }) =>
+                `https://github.com/aws-amplify/docs/issues/new?title=${encodeURIComponent(`[search] Missing results for: ${query}`)}&labels=v2`
+              }
+            />
+            <SearchFilters
+              platformFilter={platformFilter}
+              genFilter={genFilter}
+              onPlatformChange={setPlatformFilter}
+              onGenChange={setGenFilter}
             />
           </View>
         </View>
@@ -130,6 +150,30 @@ export const LayoutHeader = ({
             <VisuallyHidden>Close menu</VisuallyHidden>
           </Button>
 
+          {!isGen1 && (
+            <div className="section-nav-sidebar">
+              {(Object.keys(SECTIONS) as SectionKey[])
+                .filter((key) => !SECTIONS[key].hideFromNav)
+                .map((key) => {
+                const section = SECTIONS[key];
+                const isActive = activeSection === key;
+                return (
+                  <Link
+                    key={key}
+                    href={getDefaultPathForSection(key, currentPlatform)}
+                    className={`section-nav-sidebar__tab ${isActive ? 'section-nav-sidebar__tab--active' : ''}`}
+                    onClick={() => {
+                      onSectionChange?.(key);
+                      toggleMenuOpen(false);
+                    }}
+                  >
+                    {section.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+
           <div className="layout-sidebar-platform">
             <PlatformNavigator
               currentPlatform={currentPlatform}
@@ -138,7 +182,23 @@ export const LayoutHeader = ({
           </div>
 
           <div className="layout-sidebar-menu">
-            <Menu currentPlatform={currentPlatform} path={asPathWithNoHash} />
+            <Menu
+              currentPlatform={currentPlatform}
+              path={asPathWithNoHash}
+              activeSection={activeSection}
+            />
+            {!isGen1 && (
+              <a
+                href={`/gen1/${currentPlatform}/`}
+                className="layout-sidebar-legacy__link"
+              >
+                <span className="layout-sidebar-legacy__label">
+                  Gen1 Docs
+                  <Badge backgroundColor="neutral.20">Legacy</Badge>
+                </span>
+                <IconChevron className="icon-rotate-270" />
+              </a>
+            )}
             <div className="layout-sidebar-feedback">
               <RepoActions router={router}></RepoActions>
               <Feedback router={router}></Feedback>

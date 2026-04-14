@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { JS_PLATFORMS, Platform, JSPlatform } from '@/data/platforms';
 import { LayoutContext } from '@/components/Layout';
 import { PageNode } from '@/directory/directory';
+import { isNodeVisibleInSection } from '@/data/sections';
 
 enum Levels {
   Category = 1,
@@ -19,6 +20,7 @@ type MenuItemProps = {
   level: number;
   currentPlatform?: Platform;
   hideChildren?: boolean;
+  activeSection?: string;
 };
 
 function getPathname(route, currentPlatform: Platform | undefined) {
@@ -38,15 +40,28 @@ export function MenuItem({
   parentSetOpen,
   level,
   currentPlatform,
-  hideChildren
+  hideChildren,
+  activeSection
 }: MenuItemProps): ReactElement {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const asPathWithoutHash = usePathWithoutHash();
-  const [open, setOpen] = useState(false);
-  const children = useMemo(
-    () => (hideChildren ? [] : pageNode.children),
-    [hideChildren, pageNode.children]
-  );
+
+  // Initialize open state from URL so SSR HTML has correct accordions expanded,
+  // preventing layout shift during hydration.
+  const [open, setOpen] = useState(() => {
+    if (level <= Levels.Category) return false;
+    if (!pageNode.route) return false;
+    const itemPath = getPathname(pageNode.route, currentPlatform);
+    return asPathWithoutHash.startsWith(itemPath);
+  });
+  const children = useMemo(() => {
+    if (hideChildren) return [];
+    const allChildren = pageNode.children;
+    if (!activeSection || !allChildren) return allChildren;
+    return allChildren.filter((child) =>
+      isNodeVisibleInSection(child.section, activeSection)
+    );
+  }, [hideChildren, pageNode.children, activeSection]);
   const onLinkClick = () => {
     // Category shouldn't be collapsible
     if (
@@ -211,6 +226,7 @@ export function MenuItem({
             className={`menu__list ${
               !open && level > Levels.Category ? 'menu__list--hide' : ''
             }`}
+            hidden={!open && level > Levels.Category ? true : undefined}
           >
             {children.map((child, index) => (
               <MenuItem
@@ -219,6 +235,7 @@ export function MenuItem({
                 parentSetOpen={setOpen}
                 level={level + 1}
                 currentPlatform={currentPlatform}
+                activeSection={activeSection}
               />
             ))}
           </ul>

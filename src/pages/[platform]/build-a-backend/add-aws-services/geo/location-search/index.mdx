@@ -31,7 +31,7 @@ export function getStaticProps(context) {
 
 ## Add location search functionality on a map
 
-First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/build-a-backend/add-aws-services/geo/maps) in your application.
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/frontend/geo/maps) in your application.
 
 <Callout>
 
@@ -49,7 +49,7 @@ npm add @maplibre/maplibre-gl-geocoder maplibre-gl@1 maplibre-gl-js-amplify
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `4.0.0` or above is installed.
 
-First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](/[platform]/build-a-backend/add-aws-services/geo/maps).
+First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](/[platform]/frontend/geo/maps).
 
 Then, use `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
 
@@ -326,10 +326,10 @@ This returns a place with metadata as shown in the example below.
 <InlineFilter filters={['swift', 'android']}>
 ## Add location search functionality on a map
 
-First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/build-a-backend/add-aws-services/geo/maps/) in your application.
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Configure Location Search](/[platform]/build-a-backend/add-aws-services/geo/configure-location-search/) or [Use existing Amazon Location Service resources](/[platform]/build-a-backend/add-aws-services/geo/existing-resources/) and you have already setup [displaying a map](/[platform]/frontend/geo/maps/) in your application.
 
 <InlineFilter filters={['android']}>
-`AmplifyMapView` provides built-in location search, search field, and place markers. Follow the [AmplifyMapView section](/[platform]/build-a-backend/add-aws-services/geo/maps/#amplifymapview) on the Maps page to setup the `AmplifyMapView`.
+`AmplifyMapView` provides built-in location search, search field, and place markers. Follow the [AmplifyMapView section](/[platform]/frontend/geo/maps/#amplifymapview) on the Maps page to setup the `AmplifyMapView`.
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>

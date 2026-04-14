@@ -1,0 +1,81 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Kinesis Data Streams',
+  description: 'Set up an Amazon Kinesis Data Stream and configure IAM permissions for the Amplify Kinesis Data Streams client.',
+  platforms: [
+    'android',
+    'flutter',
+    'swift'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Use the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an [Amazon Kinesis Data Stream](https://aws.amazon.com/kinesis/data-streams/) and grant your app the permissions it needs. For more on adding custom AWS resources to your Amplify backend, see [Custom resources](/[platform]/build-a-backend/add-aws-services/custom-resources/).
+
+## Set up a Kinesis stream
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Stream } from "aws-cdk-lib/aws-kinesis";
+import { Stack } from "aws-cdk-lib/core";
+
+const backend = defineBackend({
+  auth,
+  data,
+});
+
+const kinesisStack = backend.createStack("kinesis-stack");
+
+// Create a Kinesis stream
+const kinesisStream = new Stream(kinesisStack, "KinesisStream", {
+  streamName: "myKinesisStream",
+  shardCount: 1,
+});
+
+// Grant PutRecords permission to authenticated users
+const kinesisPolicy = new Policy(kinesisStack, "KinesisPolicy", {
+  statements: [
+    new PolicyStatement({
+      actions: ["kinesis:PutRecords"],
+      resources: [kinesisStream.streamArn],
+    }),
+  ],
+});
+
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(kinesisPolicy);
+```
+
+If you are not using the CDK, ensure your authenticated IAM role has the `kinesis:PutRecords` permission on your target stream:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": "kinesis:PutRecords",
+    "Resource": "arn:aws:kinesis:<region>:<account-id>:stream/<stream-name>"
+  }]
+}
+```
+
+For more information, see the [Amazon Kinesis Developer Documentation](https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html).
+
+## Next steps
+
+Use the [Kinesis Data Streams client](/[platform]/frontend/analytics/kinesis/) to stream data from your app.
