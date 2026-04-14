@@ -47,7 +47,15 @@ export const directory = {
               path: 'src/pages/[platform]/start/kotlin-coroutines/index.mdx'
             },
             {
-              path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx'
+              path: 'src/pages/[platform]/start/migrate-to-gen2/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/start/migrate-to-gen2/migrate-existing-app/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/migrate-to-gen2/feature-matrix/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/start/platform-setup/index.mdx'
@@ -465,7 +473,7 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/kinesis/index.mdx',
-                section: 'backend'
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/existing-resources/index.mdx',
