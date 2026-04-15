@@ -1,0 +1,786 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Build offline support',
+  description: 'Build a full offline-first architecture with Dexie.js local database, mutation queue, sync engine, and conflict resolution.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<Callout warning>
+
+**This page replaces the Local Caching strategy entirely.** The Offline-First architecture uses Dexie.js (IndexedDB) as the source of truth instead of Apollo's InMemoryCache. If you have already set up Local Caching with `apollo3-cache-persist`, you will remove that when adopting this strategy. Do not combine the two strategies.
+
+</Callout>
+
+This page covers the complete offline-first architecture: understanding the component model, setting up Dexie.js as your local database, building a mutation queue with deduplication, implementing connectivity monitoring, building a sync engine for base and delta synchronization, and handling conflict resolution with `_version`-based optimistic locking.
+
+## When you need offline-first
+
+The previous strategies covered two levels of connectivity tolerance:
+
+1. **API Only** -- every operation goes directly to AppSync. If the network is down, operations fail.
+2. **Local Caching** -- adds persistence to Apollo's cache. Reads work offline, but writes still require a network connection.
+3. **Offline-First (this page)** -- full offline capability. Both reads and writes work without a network connection. Mutations are queued locally and replayed when connectivity returns.
+
+The key difference: in Local Caching, Apollo's `InMemoryCache` is the source of truth. On this page, **Dexie.js (IndexedDB) is the source of truth**. Apollo Client becomes a transport layer only.
+
+<Callout>
+
+**Reference architecture.** The code on this page is a reference architecture -- patterns you adapt to your application, not a drop-in library. DataStore hid all of this complexity behind a simple API. Moving to Apollo means you build the offline layer yourself, but you gain full control over every aspect of sync, conflict resolution, and data storage.
+
+</Callout>
+
+## Architecture overview
+
+The offline-first architecture has four layers:
+
+```
++-------------------------------------------------------+
+|              Application / React UI                    |
++-------------------------------------------------------+
+|           OfflineDataManager (Facade)                  |
+|     save()  query()  delete()  observe()               |
++-------------------------------------------------------+
+|                                                        |
+|   +-------------------+    +------------------------+  |
+|   |  Mutation Queue   |    |     Sync Engine        |  |
+|   |  (Dexie table)    |    |  (base + delta sync)   |  |
+|   |  FIFO, dedup by   |    |  paginated download    |  |
+|   |  modelId          |    |  via syncPosts query   |  |
+|   +-------------------+    +------------------------+  |
+|                                                        |
+|   +-------------------+    +------------------------+  |
+|   | Conflict Resolver |    | Connectivity Monitor   |  |
+|   | (_version based   |    | navigator.onLine +     |  |
+|   |  optimistic lock) |    | WebSocket state        |  |
+|   +-------------------+    +------------------------+  |
+|                                                        |
++-------------------------------------------------------+
+|              Dexie.js (IndexedDB)                      |
+|     Data tables  +  _mutationQueue table  +            |
+|              _syncMetadata table                       |
++-------------------------------------------------------+
+|                                                        |
+|   +-------------------+    +------------------------+  |
+|   |  Apollo Client    |    |      Amplify           |  |
+|   |  (queries, muts)  |    |   (subscriptions)      |  |
+|   +-------------------+    +------------------------+  |
+|                                                        |
++-------------------------------------------------------+
+|                  AWS AppSync                            |
++-------------------------------------------------------+
+```
+
+### Component descriptions
+
+**OfflineDataManager** is the facade that your application calls. It exposes `save()`, `query()`, `delete()`, and `observe()` methods. When you call `save()`, it writes to the local Dexie.js database immediately (so the UI updates instantly) and enqueues a mutation for later sync.
+
+**Dexie.js (IndexedDB)** is the source of truth. It stores your user data tables, a `_mutationQueue` table for pending mutations, and a `_syncMetadata` table for tracking sync timestamps.
+
+**Mutation Queue** is a FIFO queue of pending mutations stored in a Dexie.js table. The queue deduplicates by `modelId` -- if a record is updated three times while offline, only the latest state needs to be sent.
+
+**Sync Engine** downloads data from AppSync using two strategies: base sync (full download) and delta sync (incremental download of records changed since `lastSync`).
+
+**Conflict Resolver** handles `ConflictUnhandled` errors using `_version`-based optimistic locking.
+
+**Connectivity Monitor** watches `navigator.onLine` and WebSocket subscription state, with a 5-second stabilization delay on transitions (matching DataStore).
+
+### Data flow paths
+
+**Write path (instant local, async remote):**
+
+```
+App --> OfflineDataManager.save(record)
+    --> Dexie.js: put(record)              [immediate, UI updates]
+    --> _mutationQueue: add(mutation)       [enqueued for sync]
+    --> [when online] Apollo Client.mutate() --> AppSync
+```
+
+**Read path (always local, always fast):**
+
+```
+App --> OfflineDataManager.query(filter)
+    --> Dexie.js: where(filter).toArray()   [local read, instant]
+```
+
+**Sync path (background, on reconnect):**
+
+```
+Connectivity restored
+    --> Sync Engine: Apollo Client.query(syncPosts) --> AppSync
+    --> Merge response into Dexie.js (skip records with pending mutations)
+    --> Drain _mutationQueue: process each entry via Apollo Client.mutate()
+    --> On conflict: Conflict Resolver decides retry vs discard
+```
+
+## Set up Dexie.js local database
+
+Install Dexie.js:
+
+```bash
+npm install dexie
+```
+
+### TypeScript interfaces
+
+Define interfaces that match your GraphQL models, including the three metadata fields:
+
+```ts title="src/offline/types.ts"
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  status?: string;
+  rating?: number;
+  owner?: string;
+  _version: number;
+  _deleted: boolean;
+  _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Comment {
+  id: string;
+  postId: string;
+  content: string;
+  owner?: string;
+  _version: number;
+  _deleted: boolean;
+  _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface MutationQueueEntry {
+  id: string;
+  modelName: string;
+  modelId: string;
+  operation: 'CREATE' | 'UPDATE' | 'DELETE';
+  data: string;           // JSON-serialized record data
+  condition: string;
+  createdAt: number;
+  inProgress?: boolean;
+}
+
+interface SyncMetadata {
+  id: string;
+  modelName: string;
+  lastSync: number | null;
+  lastFullSync: number | null;
+  fullSyncInterval: number;
+}
+```
+
+### The OfflineDatabase class
+
+```ts title="src/offline/database.ts"
+import Dexie, { type Table } from 'dexie';
+
+class OfflineDatabase extends Dexie {
+  posts!: Table<Post, string>;
+  comments!: Table<Comment, string>;
+  mutationQueue!: Table<MutationQueueEntry, string>;
+  syncMetadata!: Table<SyncMetadata, string>;
+
+  constructor() {
+    super('MyAppOfflineDB');
+
+    this.version(1).stores({
+      // Primary key first, then indexed fields only
+      posts: 'id, _deleted, updatedAt',
+      comments: 'id, postId, _deleted, updatedAt',
+      mutationQueue: 'id, modelName, modelId, createdAt',
+      syncMetadata: 'id, modelName',
+    });
+  }
+}
+
+export const db = new OfflineDatabase();
+```
+
+<Callout>
+
+The `stores()` definition lists only the **primary key** and **indexed fields** (fields you query with `.where()`). Dexie stores all fields on every record regardless of whether they appear in `stores()`. Only add a field to `stores()` if you need to filter or sort by it.
+
+Note that Dexie stores booleans as `0`/`1` in IndexedDB indexes, so use `.equals(0)` rather than `.equals(false)` in `.where()` queries for the `_deleted` field.
+
+</Callout>
+
+<Callout warning>
+
+**Compound model names:** The `OfflineDataManager` uses `modelName.toLowerCase() + 's'` to derive table names (e.g., `'Post'` becomes `'posts'`). This produces unexpected results for compound names like `'PostTag'` becoming `'posttags'`. If your schema has compound model names, define an explicit lookup map instead:
+
+```ts
+const MODEL_TABLE_MAP: Record<string, string> = {
+  Post: 'posts', Comment: 'comments', Tag: 'tags', PostTag: 'posttags',
+};
+const tableName = MODEL_TABLE_MAP[modelName];
+```
+
+Use this map everywhere you convert a model name to a table name -- in the mutation queue processor, sync engine, and offline data manager.
+
+</Callout>
+
+## Build the mutation queue
+
+### Enqueue with deduplication
+
+The deduplication rules match DataStore's `MutationEventOutbox`:
+
+| Existing Entry | Incoming Entry | Result |
+|---------------|---------------|--------|
+| None | Any | Add to queue |
+| CREATE | UPDATE | Merge data fields into the CREATE |
+| CREATE | DELETE | Remove the CREATE entirely (net no-op) |
+| UPDATE | UPDATE | Merge into single UPDATE with latest data |
+| UPDATE | DELETE | Replace with DELETE |
+| DELETE | Any | Replace entirely |
+
+<Accordion title="enqueueMutation implementation">
+
+```ts title="src/offline/mutationQueue.ts"
+import { db } from './database';
+
+export async function enqueueMutation(
+  entry: Omit<MutationQueueEntry, 'id' | 'createdAt' | 'inProgress'>
+): Promise<void> {
+  await db.transaction('rw', db.mutationQueue, async () => {
+    const existing = await db.mutationQueue
+      .where('modelId')
+      .equals(entry.modelId)
+      .and(item => !item.inProgress)
+      .first();
+
+    if (!existing) {
+      await db.mutationQueue.add({
+        ...entry,
+        id: crypto.randomUUID(),
+        createdAt: Date.now(),
+      });
+      return;
+    }
+
+    if (existing.operation === 'CREATE') {
+      if (entry.operation === 'DELETE') {
+        await db.mutationQueue.delete(existing.id);
+      } else {
+        const mergedData = {
+          ...JSON.parse(existing.data),
+          ...JSON.parse(entry.data),
+        };
+        await db.mutationQueue.update(existing.id, {
+          data: JSON.stringify(mergedData),
+        });
+      }
+      return;
+    }
+
+    if (existing.operation === 'UPDATE') {
+      if (entry.operation === 'DELETE') {
+        await db.mutationQueue.update(existing.id, {
+          operation: 'DELETE',
+          data: entry.data,
+        });
+      } else {
+        const mergedData = {
+          ...JSON.parse(existing.data),
+          ...JSON.parse(entry.data),
+        };
+        await db.mutationQueue.update(existing.id, {
+          data: JSON.stringify(mergedData),
+        });
+      }
+      return;
+    }
+
+    await db.mutationQueue.delete(existing.id);
+    await db.mutationQueue.add({
+      ...entry,
+      id: crypto.randomUUID(),
+      createdAt: Date.now(),
+    });
+  });
+}
+```
+
+</Accordion>
+
+### Version propagation on dequeue
+
+After a mutation succeeds, the server returns the record with an updated `_version`. Remaining queue entries for the same record must use this new `_version` or they will always conflict.
+
+<Accordion title="dequeueAndSyncVersions implementation">
+
+```ts
+async function dequeueAndSyncVersions(
+  completedEntry: MutationQueueEntry,
+  serverResponse: Record<string, any>,
+): Promise<void> {
+  await db.transaction('rw', db.mutationQueue, async () => {
+    await db.mutationQueue.delete(completedEntry.id);
+
+    const remaining = await db.mutationQueue
+      .where('modelId')
+      .equals(completedEntry.modelId)
+      .toArray();
+
+    for (const entry of remaining) {
+      const data = JSON.parse(entry.data);
+      data._version = serverResponse._version;
+      data._lastChangedAt = serverResponse._lastChangedAt;
+      await db.mutationQueue.update(entry.id, {
+        data: JSON.stringify(data),
+      });
+    }
+  });
+}
+```
+
+</Accordion>
+
+### Process the queue
+
+The processor drains the queue in FIFO order when the device is online, handling network errors (stop and retry on reconnect) and conflict errors (delegate to conflict handler) separately.
+
+<Callout>
+
+**Import path note:** The queue processor imports `apolloClient` from your Apollo Client setup file. Adjust the import path to match your project (e.g., `'./apolloClient'`, `'./apollo-setup'`, or similar).
+
+</Callout>
+
+<Accordion title="processMutationQueue implementation">
+
+```ts
+export async function processMutationQueue(
+  connectivity: ConnectivityMonitor,
+  conflictHandler: ConflictHandler,
+): Promise<void> {
+  if (!connectivity.online) return;
+
+  while (connectivity.online) {
+    const head = await db.mutationQueue
+      .orderBy('createdAt')
+      .first();
+
+    if (!head) break;
+
+    await db.mutationQueue.update(head.id, { inProgress: true });
+
+    try {
+      const mutation = getMutationForOperation(head.modelName, head.operation);
+
+      const result = await apolloClient.mutate({
+        mutation,
+        variables: { input: JSON.parse(head.data) },
+      });
+
+      const serverRecord = result.data[Object.keys(result.data)[0]];
+      await dequeueAndSyncVersions(head, serverRecord);
+
+      if (head.operation !== 'DELETE') {
+        const tableName = head.modelName.toLowerCase() + 's';
+        await db.table(tableName).put(serverRecord);
+      }
+
+    } catch (error) {
+      const gqlErrors = error?.graphQLErrors ?? [];
+      const conflictError = gqlErrors.find(
+        (e) => e.errorType === 'ConflictUnhandled'
+      );
+
+      if (conflictError) {
+        await handleConflict(head, conflictError, conflictHandler);
+        continue;
+      }
+
+      if (isNetworkError(error)) {
+        await db.mutationQueue.update(head.id, { inProgress: false });
+        break;
+      }
+
+      // Permanent error -- dequeue to prevent infinite loop
+      console.error(`[MutationQueue] Permanent error:`, error);
+      await db.mutationQueue.delete(head.id);
+    }
+  }
+}
+```
+
+</Accordion>
+
+## Build the connectivity monitor
+
+The monitor uses two signals: `navigator.onLine` events and WebSocket subscription disconnection. It includes a 5-second stabilization delay on transitions to prevent flapping (matching DataStore).
+
+<Accordion title="ConnectivityMonitor implementation">
+
+```ts title="src/offline/connectivity.ts"
+type ConnectionHandler = (online: boolean) => void;
+
+export class ConnectivityMonitor {
+  private listeners: Set<ConnectionHandler> = new Set();
+  private _online: boolean = navigator.onLine;
+  private stabilizationTimer: ReturnType<typeof setTimeout> | null = null;
+
+  constructor() {
+    window.addEventListener('online', () => this.handleTransition(true));
+    window.addEventListener('offline', () => this.handleTransition(false));
+  }
+
+  get online(): boolean {
+    return this._online;
+  }
+
+  subscribe(handler: ConnectionHandler): () => void {
+    this.listeners.add(handler);
+    handler(this._online);
+    return () => this.listeners.delete(handler);
+  }
+
+  notifySocketDisconnect(): void {
+    this.setOnline(false);
+    if (this.stabilizationTimer) clearTimeout(this.stabilizationTimer);
+    this.stabilizationTimer = setTimeout(() => {
+      this.stabilizationTimer = null;
+      this.setOnline(navigator.onLine);
+    }, 5000);
+  }
+
+  destroy(): void {
+    if (this.stabilizationTimer) clearTimeout(this.stabilizationTimer);
+    this.listeners.clear();
+  }
+
+  private handleTransition(online: boolean): void {
+    if (online && !this._online) {
+      if (this.stabilizationTimer) clearTimeout(this.stabilizationTimer);
+      this.stabilizationTimer = setTimeout(() => {
+        this.stabilizationTimer = null;
+        this.setOnline(navigator.onLine);
+      }, 5000);
+      return;
+    }
+    if (!online) {
+      if (this.stabilizationTimer) {
+        clearTimeout(this.stabilizationTimer);
+        this.stabilizationTimer = null;
+      }
+      this.setOnline(false);
+    }
+  }
+
+  private setOnline(online: boolean): void {
+    if (this._online === online) return;
+    this._online = online;
+    this.listeners.forEach(handler => handler(online));
+  }
+}
+```
+
+</Accordion>
+
+Wire connectivity to queue processing:
+
+```ts
+const connectivity = new ConnectivityMonitor();
+
+connectivity.subscribe((online) => {
+  if (online) {
+    processMutationQueue(connectivity, defaultConflictHandler);
+    syncAllModels(connectivity);
+  }
+});
+```
+
+## Build the sync engine
+
+<Callout>
+
+**TypeScript strict mode note:** The paginated download loop in `syncModel()` can cause circular reference errors under strict TypeScript settings because `nextToken` is both read from and written to within the do-while loop. If you see TS7022 errors, use explicit type annotations on the response variable.
+
+</Callout>
+
+The sync engine downloads data from AppSync using two modes:
+
+- **Base sync** -- full download when `lastSync` is `null` or when the full sync interval has expired (default: 24 hours)
+- **Delta sync** -- incremental download of only records changed since `lastSync`
+
+<Callout warning>
+
+Use `syncPosts` queries (not `listPosts`) for synchronization. The `syncPosts` queries accept `$lastSync: AWSTimestamp` and return `startedAt` -- this is what makes delta sync possible. Using `listPosts` would force a full download every time.
+
+</Callout>
+
+### Sync query definition
+
+```ts
+export const SYNC_POSTS = gql`
+  query SyncPosts(
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+    $filter: ModelPostFilterInput
+  ) {
+    syncPosts(
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+      filter: $filter
+    ) {
+      items {
+        id title content status rating owner
+        _version _deleted _lastChangedAt
+        createdAt updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+```
+
+### Merge logic
+
+When merging sync results into the local database, skip records that have pending mutations in the queue to avoid overwriting local changes:
+
+<Accordion title="mergeItemsIntoLocal implementation">
+
+```ts
+async function mergeItemsIntoLocal(
+  tableName: string,
+  items: any[],
+): Promise<void> {
+  const pendingModelIds = new Set(
+    (await db.mutationQueue
+      .where('modelName')
+      .equals(tableName === 'posts' ? 'Post' : 'Comment')
+      .toArray()
+    ).map(e => e.modelId)
+  );
+
+  const toMerge = items.filter(item => !pendingModelIds.has(item.id));
+
+  await db.table(tableName).bulkPut(toMerge);
+}
+```
+
+</Accordion>
+
+### Conflict resolution
+
+The default conflict handler uses "last writer wins" -- retry with the server's `_version`:
+
+```ts
+type ConflictHandler = (conflict: {
+  localModel: Record<string, any>;
+  remoteModel: Record<string, any>;
+  operation: 'CREATE' | 'UPDATE' | 'DELETE';
+  attempts: number;
+}) => Record<string, any> | 'DISCARD' | Promise<Record<string, any> | 'DISCARD'>;
+
+const defaultConflictHandler: ConflictHandler = ({ localModel, remoteModel }) => {
+  return { ...localModel, _version: remoteModel._version };
+};
+```
+
+Returning `'DISCARD'` accepts the server version and drops the local change.
+
+## Integrating with Apollo Client
+
+Apollo Client's role in the offline-first architecture is **transport only**. It sends sync queries and mutations to AppSync but is NOT the source of truth -- Dexie.js is. This creates a question: how does the React UI read data?
+
+| Scenario | Recommended Approach |
+|----------|---------------------|
+| Building new offline-first components from scratch | **Approach A** -- read from Dexie directly using `liveQuery()` (single source of truth, simpler) |
+| Migrating an existing app that already uses `useQuery` everywhere | **Approach B** -- write data to Apollo cache after syncing into Dexie, keeping existing `useQuery` components working |
+| Incremental migration | **Approach B** for existing components, **Approach A** for new ones |
+
+In practice, most migrations start with Approach B (keeping `useQuery` for the UI layer) and use the Dexie offline infrastructure only for the sync/queue layer. Approach A is architecturally cleaner but requires replacing every `useQuery` call with a custom `useDexieQuery` hook.
+
+## The OfflineDataManager facade
+
+The `OfflineDataManager` is the facade that your application calls for all data operations:
+
+<Accordion title="OfflineDataManager implementation">
+
+```ts title="src/offline/manager.ts"
+export class OfflineDataManager {
+  private connectivity: ConnectivityMonitor;
+  private conflictHandler: ConflictHandler;
+
+  constructor(config: {
+    connectivity: ConnectivityMonitor;
+    conflictHandler: ConflictHandler;
+  }) {
+    this.connectivity = config.connectivity;
+    this.conflictHandler = config.conflictHandler;
+  }
+
+  async save<T extends { id: string }>(
+    modelName: string,
+    record: T,
+    isNew: boolean = false,
+  ): Promise<T> {
+    const tableName = modelName.toLowerCase() + 's';
+
+    // Step 1: Write to local database immediately
+    await db.table(tableName).put(record);
+
+    // Step 2: Enqueue mutation for remote sync
+    await enqueueMutation({
+      modelName,
+      modelId: record.id,
+      operation: isNew ? 'CREATE' : 'UPDATE',
+      data: JSON.stringify(record),
+      condition: '{}',
+    });
+
+    // Step 3: If online, trigger queue processing
+    if (this.connectivity.online) {
+      processMutationQueue(this.connectivity, this.conflictHandler)
+        .catch(err => console.error('Queue processing error:', err));
+    }
+
+    return record;
+  }
+
+  async delete(modelName: string, recordId: string, version: number): Promise<void> {
+    const tableName = modelName.toLowerCase() + 's';
+
+    await db.table(tableName).update(recordId, { _deleted: true });
+
+    await enqueueMutation({
+      modelName,
+      modelId: recordId,
+      operation: 'DELETE',
+      data: JSON.stringify({ id: recordId, _version: version }),
+      condition: '{}',
+    });
+
+    if (this.connectivity.online) {
+      processMutationQueue(this.connectivity, this.conflictHandler)
+        .catch(err => console.error('Queue processing error:', err));
+    }
+  }
+
+  async query<T>(modelName: string, filter?: (item: T) => boolean): Promise<T[]> {
+    const tableName = modelName.toLowerCase() + 's';
+    let collection = db.table(tableName).where('_deleted').equals(0);
+    const results = await collection.toArray();
+    if (filter) return results.filter(filter) as T[];
+    return results as T[];
+  }
+}
+```
+
+</Accordion>
+
+### Usage example
+
+```ts
+const connectivity = new ConnectivityMonitor();
+const manager = new OfflineDataManager({
+  connectivity,
+  conflictHandler: defaultConflictHandler,
+});
+
+// Creating a new post (works offline)
+const newPost = {
+  id: crypto.randomUUID(),
+  title: 'My Post',
+  content: 'Written while offline',
+  _version: 1,
+  _deleted: false,
+  _lastChangedAt: 0,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};
+
+await manager.save('Post', newPost, true);
+
+// Querying (always local, always fast)
+const posts = await manager.query<Post>('Post');
+```
+
+## Sign-out: clear offline state
+
+When a user signs out, clear the mutation queue and all local data:
+
+```ts
+async function clearOfflineState(): Promise<void> {
+  await db.mutationQueue.clear();
+  await db.syncMetadata.clear();
+  await db.posts.clear();
+  await db.comments.clear();
+  // Add db.tableName.clear() for each model table
+}
+
+async function handleSignOut(): Promise<void> {
+  await clearOfflineState();
+  await apolloClient.clearStore();
+  await signOut();
+}
+```
+
+<Callout warning>
+
+Call `clearOfflineState()` **before** `signOut()`. The sign-out invalidates auth tokens, and some Dexie.js operations may fail if they trigger async side effects that attempt network calls with an expired token.
+
+</Callout>
+
+## Comparing with Local Caching
+
+| Aspect | Local Caching | Offline-First |
+|--------|--------------|---------------|
+| **Source of truth** | Apollo InMemoryCache | Dexie.js (IndexedDB) |
+| **Offline reads** | Yes (from persisted cache) | Yes (from Dexie.js) |
+| **Offline writes** | No | Yes (queued and replayed) |
+| **Sync mechanism** | `refetchQueries` / `cache-and-network` | Base sync + delta sync via `syncPosts` queries |
+| **Conflict resolution** | Last write wins | `_version`-based with custom handler |
+| **Persistence library** | `apollo3-cache-persist` | `dexie` |
+| **Complexity** | Low | High |
+
+<Accordion title="Testing your mutation queue">
+
+**Manual testing steps:**
+
+1. Open IndexedDB inspector in DevTools (Application tab, Storage, IndexedDB)
+2. Go offline (Network tab, check "Offline")
+3. Perform mutations in your app
+4. Verify queue entries in the `mutationQueue` table
+5. Check dedup: create then update should show ONE entry, not two
+6. Go back online and watch entries drain
+7. Verify GraphQL mutations in the Network tab
+
+**Common issues:**
+
+| Symptom | Likely Cause | Fix |
+|---------|-------------|-----|
+| Entries not appearing | Forgot `enqueueMutation()` | Call both `db.table.put()` and `enqueueMutation()` |
+| Entries not draining | Monitor not wired | Verify `connectivity.subscribe()` triggers `processMutationQueue()` |
+| Multiple entries for same record | Dedup not working | Ensure `db.transaction('rw', ...)` wrapping |
+| Stuck `inProgress` entries | App crashed mid-send | Clear `inProgress` flags on app startup |
+| `ConflictUnhandled` errors | `_version` not propagated | Verify `dequeueAndSyncVersions()` |
+
+</Accordion>

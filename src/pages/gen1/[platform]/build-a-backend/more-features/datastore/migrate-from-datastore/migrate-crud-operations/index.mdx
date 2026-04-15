@@ -1,0 +1,734 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate CRUD operations',
+  description: 'Migrate DataStore save, query, update, delete, predicates, pagination, and sorting to Apollo Client GraphQL operations.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This page covers how to migrate every DataStore CRUD operation and predicate/filter pattern to Apollo Client. DataStore conflates create and update into a single `save()` method and handles `_version` internally. With Apollo Client, you use distinct mutations for each operation and manage `_version` explicitly.
+
+**GraphQL operations used on this page** (`CREATE_POST`, `UPDATE_POST`, `DELETE_POST`, `GET_POST`, `LIST_POSTS`, and the `POST_DETAILS_FRAGMENT` fragment) are defined on the [Set up Apollo Client](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo/) page. Import them as needed:
+
+```ts
+import { apolloClient } from './apolloClient';
+import {
+  CREATE_POST, UPDATE_POST, DELETE_POST,
+  GET_POST, LIST_POSTS,
+} from './graphql/operations';
+```
+
+## Create (save new record)
+
+DataStore uses `new Model()` plus `DataStore.save()` to create a record. Apollo Client uses the `CREATE_POST` mutation.
+
+**DataStore (before):**
+
+```ts
+const newPost = await DataStore.save(
+  new Post({
+    title: 'My First Post',
+    content: 'Hello world',
+    status: 'PUBLISHED',
+    rating: 5,
+  })
+);
+```
+
+**Apollo Client (after) -- imperative:**
+
+```ts
+const { data } = await apolloClient.mutate({
+  mutation: CREATE_POST,
+  variables: {
+    input: {
+      title: 'My First Post',
+      content: 'Hello world',
+      status: 'PUBLISHED',
+      rating: 5,
+    },
+  },
+});
+const newPost = data.createPost;
+// newPost._version is 1 (set by AppSync automatically)
+```
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+**Apollo Client (after) -- React hook:**
+
+```tsx
+import { useMutation } from '@apollo/client';
+
+function CreatePostForm() {
+  const [createPost, { loading, error }] = useMutation(CREATE_POST, {
+    refetchQueries: [{ query: LIST_POSTS }],
+  });
+
+  async function handleSubmit(title: string, content: string) {
+    const { data } = await createPost({
+      variables: {
+        input: { title, content, status: 'PUBLISHED', rating: 5 },
+      },
+    });
+    console.log('Created:', data.createPost.id);
+  }
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); handleSubmit('Title', 'Content'); }}>
+      {error && <p>Error: {error.message}</p>}
+      <button type="submit" disabled={loading}>
+        {loading ? 'Creating...' : 'Create Post'}
+      </button>
+    </form>
+  );
+}
+```
+
+</InlineFilter>
+
+**Key differences:**
+
+- **No `_version` needed for creates.** AppSync sets `_version` to 1 automatically on new records.
+- **`refetchQueries`** ensures the list view updates after a create. DataStore handled this automatically through its local store; Apollo requires explicit cache management.
+
+## Update (modify existing record)
+
+DataStore uses `Model.copyOf()` with an immer-based draft for immutable updates. Apollo Client uses the `UPDATE_POST` mutation with a plain object. Only changed fields need to be in the input.
+
+<Callout warning>
+
+**`_version` is REQUIRED for updates.** You must query the record first to get the current `_version`. If you see `ConditionalCheckFailedException`, you are missing or passing a stale `_version`.
+
+</Callout>
+
+**DataStore (before):**
+
+```ts
+const original = await DataStore.query(Post, '123');
+const updated = await DataStore.save(
+  Post.copyOf(original, (draft) => {
+    draft.title = 'Updated Title';
+    draft.rating = 4;
+  })
+);
+```
+
+**Apollo Client (after) -- imperative:**
+
+```ts
+// Step 1: Query the current record to get _version
+const { data: queryData } = await apolloClient.query({
+  query: GET_POST,
+  variables: { id: '123' },
+});
+const post = queryData.getPost;
+
+// Step 2: Mutate with _version from query result
+const { data } = await apolloClient.mutate({
+  mutation: UPDATE_POST,
+  variables: {
+    input: {
+      id: '123',
+      title: 'Updated Title',
+      rating: 4,
+      _version: post._version, // REQUIRED
+    },
+  },
+});
+```
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+**Apollo Client (after) -- React hook:**
+
+```tsx
+import { useQuery, useMutation } from '@apollo/client';
+
+function EditPostForm({ postId }: { postId: string }) {
+  const { data, loading: queryLoading } = useQuery(GET_POST, {
+    variables: { id: postId },
+  });
+  const [updatePost, { loading: updating, error }] = useMutation(UPDATE_POST);
+
+  async function handleSave(title: string) {
+    const post = data.getPost;
+    await updatePost({
+      variables: {
+        input: {
+          id: post.id,
+          title,
+          _version: post._version,
+        },
+      },
+    });
+  }
+
+  if (queryLoading) return <p>Loading...</p>;
+
+  return (
+    <div>
+      {error && <p>Error: {error.message}</p>}
+      <button onClick={() => handleSave('New Title')} disabled={updating}>
+        {updating ? 'Saving...' : 'Save'}
+      </button>
+    </div>
+  );
+}
+```
+
+</InlineFilter>
+
+**Key differences:**
+
+- **No `copyOf()` or immer pattern.** Apollo uses plain objects -- pass only the fields you want to change.
+- **Only changed fields + `id` + `_version` are needed.** You do not need to send the entire record.
+- **Two-step process:** Query first (to get `_version`), then mutate. DataStore handled this internally.
+
+## Delete (single record)
+
+**`_version` is REQUIRED for deletes.** You must query the record first to get the current `_version`, even if you already have the ID.
+
+**DataStore (before):**
+
+```ts
+const post = await DataStore.query(Post, '123');
+await DataStore.delete(post);
+```
+
+**Apollo Client (after) -- imperative:**
+
+```ts
+// Step 1: Query to get current _version
+const { data: queryData } = await apolloClient.query({
+  query: GET_POST,
+  variables: { id: '123' },
+});
+
+// Step 2: Delete with _version
+await apolloClient.mutate({
+  mutation: DELETE_POST,
+  variables: {
+    input: {
+      id: '123',
+      _version: queryData.getPost._version,
+    },
+  },
+  refetchQueries: [{ query: LIST_POSTS }],
+});
+```
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+**Apollo Client (after) -- React hook:**
+
+```tsx
+import { useMutation } from '@apollo/client';
+
+function DeletePostButton({ post }: { post: { id: string; _version: number } }) {
+  const [deletePost, { loading }] = useMutation(DELETE_POST, {
+    refetchQueries: [{ query: LIST_POSTS }],
+  });
+
+  async function handleDelete() {
+    await deletePost({
+      variables: {
+        input: { id: post.id, _version: post._version },
+      },
+    });
+  }
+
+  return (
+    <button onClick={handleDelete} disabled={loading}>
+      {loading ? 'Deleting...' : 'Delete'}
+    </button>
+  );
+}
+```
+
+</InlineFilter>
+
+**Key differences:**
+
+- **No delete-by-ID shorthand.** Apollo always needs the mutation input object with both `id` and `_version`.
+- **Delete is a soft delete** when conflict resolution is enabled. The record's `_deleted` field is set to `true` in DynamoDB, but the record is not physically removed.
+
+## Query by ID
+
+**DataStore (before):**
+
+```ts
+const post = await DataStore.query(Post, '123');
+if (post) {
+  console.log(post.title);
+}
+```
+
+**Apollo Client (after):**
+
+```ts
+const { data } = await apolloClient.query({
+  query: GET_POST,
+  variables: { id: '123' },
+});
+const post = data.getPost;
+// Returns null instead of undefined when not found
+if (post) {
+  console.log(post.title);
+}
+```
+
+## List all records
+
+<Callout warning>
+
+**You must filter out soft-deleted records.** DataStore did this automatically. Apollo Client returns all records including those with `_deleted: true`. Forgetting this is the most common migration bug.
+
+</Callout>
+
+**DataStore (before):**
+
+```ts
+const posts = await DataStore.query(Post);
+```
+
+**Apollo Client (after):**
+
+```ts
+const { data } = await apolloClient.query({ query: LIST_POSTS });
+const posts = data.listPosts.items.filter((post) => !post._deleted);
+```
+
+## Batch delete (predicate-based)
+
+DataStore supported deleting multiple records with a predicate. Apollo Client has no equivalent -- you must query the matching records first, then delete each one individually.
+
+**DataStore (before):**
+
+```ts
+await DataStore.delete(Post, (p) => p.status.eq('DRAFT'));
+```
+
+**Apollo Client (after):**
+
+```ts
+// Step 1: Query posts matching the filter
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: { filter: { status: { eq: 'DRAFT' } } },
+});
+const drafts = data.listPosts.items.filter((post) => !post._deleted);
+
+// Step 2: Delete each record individually
+const results = await Promise.allSettled(
+  drafts.map((post) =>
+    apolloClient.mutate({
+      mutation: DELETE_POST,
+      variables: {
+        input: { id: post.id, _version: post._version },
+      },
+    })
+  )
+);
+
+// Step 3: Check for partial failures
+const failures = results.filter((r) => r.status === 'rejected');
+if (failures.length > 0) {
+  console.error(`${failures.length} of ${drafts.length} deletes failed`);
+}
+
+// Refresh the list
+await apolloClient.refetchQueries({ include: [LIST_POSTS] });
+```
+
+<Callout>
+
+Use `Promise.allSettled` (not `Promise.all`) so that one failure does not abort the remaining deletes. For large datasets (100+ records), process in batches of 10-25 with a brief delay between batches to avoid AppSync throttling.
+
+</Callout>
+
+## CRUD quick reference
+
+| DataStore Method | Apollo Client Equivalent | Key Difference |
+|---|---|---|
+| `DataStore.save(new Model({...}))` | `apolloClient.mutate({ mutation: CREATE, variables: { input: {...} } })` | No `_version` needed for creates |
+| `Model.copyOf(original, draft => {...})` + `DataStore.save()` | `apolloClient.mutate({ mutation: UPDATE, variables: { input: { id, _version, ...changes } } })` | Must pass `_version`; plain object instead of immer draft |
+| `DataStore.delete(instance)` | `apolloClient.mutate({ mutation: DELETE, variables: { input: { id, _version } } })` | Must query first to get `_version` |
+| `DataStore.query(Model, id)` | `apolloClient.query({ query: GET, variables: { id } })` | Returns `null` instead of `undefined` when not found |
+| `DataStore.query(Model)` | `apolloClient.query({ query: LIST })` | Must filter `_deleted` records from results |
+| `DataStore.delete(Model, predicate)` | Query with filter + delete each individually | No atomicity; use `Promise.allSettled` |
+
+## Filter operator mapping
+
+DataStore uses callback-based predicates. Apollo Client and AppSync use JSON filter objects passed as query variables.
+
+| Operator | DataStore Syntax | GraphQL Syntax | Notes |
+|---|---|---|---|
+| `eq` | `p.field.eq(value)` | `{ field: { eq: value } }` | Exact match |
+| `ne` | `p.field.ne(value)` | `{ field: { ne: value } }` | Not equal |
+| `gt` | `p.field.gt(value)` | `{ field: { gt: value } }` | Greater than |
+| `ge` | `p.field.ge(value)` | `{ field: { ge: value } }` | Greater than or equal |
+| `lt` | `p.field.lt(value)` | `{ field: { lt: value } }` | Less than |
+| `le` | `p.field.le(value)` | `{ field: { le: value } }` | Less than or equal |
+| `contains` | `p.field.contains(value)` | `{ field: { contains: value } }` | Substring match |
+| `notContains` | `p.field.notContains(value)` | `{ field: { notContains: value } }` | Substring not present |
+| `beginsWith` | `p.field.beginsWith(value)` | `{ field: { beginsWith: value } }` | String prefix match |
+| `between` | `p.field.between(lo, hi)` | `{ field: { between: [lo, hi] } }` | Inclusive range |
+| `in` | `p.field.in([v1, v2])` | **NOT AVAILABLE** | Use `or` + `eq` workaround |
+| `notIn` | `p.field.notIn([v1, v2])` | **NOT AVAILABLE** | Use `and` + `ne` workaround |
+
+### Filter examples
+
+**eq -- Exact match:**
+
+```ts
+// DataStore
+const published = await DataStore.query(Post, (p) => p.status.eq('PUBLISHED'));
+
+// Apollo Client
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: { filter: { status: { eq: 'PUBLISHED' } } },
+});
+const published = data.listPosts.items.filter((p) => !p._deleted);
+```
+
+**contains -- Substring match:**
+
+```ts
+// DataStore
+const reactPosts = await DataStore.query(Post, (p) => p.title.contains('React'));
+
+// Apollo Client
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: { filter: { title: { contains: 'React' } } },
+});
+const reactPosts = data.listPosts.items.filter((p) => !p._deleted);
+```
+
+**between -- Inclusive range:**
+
+```ts
+// DataStore
+const midRated = await DataStore.query(Post, (p) => p.rating.between(2, 4));
+
+// Apollo Client
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: { filter: { rating: { between: [2, 4] } } },
+});
+const midRated = data.listPosts.items.filter((p) => !p._deleted);
+```
+
+<Callout>
+
+**Other operators** (`ne`, `gt`, `ge`, `lt`, `le`, `notContains`, `beginsWith`) follow the same pattern as `eq` above -- replace the operator name and value. See the filter operator mapping table for the complete syntax reference.
+
+</Callout>
+
+**Combining conditions with `and`:**
+
+```ts
+// DataStore
+const posts = await DataStore.query(Post, (p) =>
+  p.and((p) => [p.rating.gt(4), p.status.eq('PUBLISHED')])
+);
+
+// Apollo Client
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: {
+    filter: {
+      and: [{ rating: { gt: 4 } }, { status: { eq: 'PUBLISHED' } }],
+    },
+  },
+});
+```
+
+<Callout>
+
+Top-level filter fields are **implicitly AND-ed** in AppSync. This means `{ status: { eq: 'PUBLISHED' }, rating: { gt: 4 } }` is equivalent to using explicit `and`. Use explicit `and` when you need it nested inside an `or`.
+
+</Callout>
+
+**Combining conditions with `or`:**
+
+```ts
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: {
+    filter: {
+      or: [
+        { title: { contains: 'React' } },
+        { title: { contains: 'Apollo' } },
+      ],
+    },
+  },
+});
+```
+
+**Negating with `not`:**
+
+```ts
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: {
+    filter: { not: { status: { eq: 'DRAFT' } } },
+  },
+});
+```
+
+### The `in` and `notIn` workaround
+
+<Callout warning>
+
+The `in` and `notIn` operators do **NOT** exist in AppSync's `ModelFilterInput` types. If you attempt to use `{ field: { in: [...] } }`, AppSync will reject the query with a validation error.
+
+</Callout>
+
+**Replacing `in` with `or` + `eq`:**
+
+```ts
+// DataStore: p.status.in(['PUBLISHED', 'DRAFT'])
+// Apollo: combine multiple eq conditions with or
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: {
+    filter: {
+      or: [{ status: { eq: 'PUBLISHED' } }, { status: { eq: 'DRAFT' } }],
+    },
+  },
+});
+```
+
+<Accordion title="Helper functions for in and notIn">
+
+```ts
+function buildInFilter(field: string, values: string[]) {
+  return {
+    or: values.map((value) => ({ [field]: { eq: value } })),
+  };
+}
+
+function buildNotInFilter(field: string, values: string[]) {
+  return {
+    and: values.map((value) => ({ [field]: { ne: value } })),
+  };
+}
+
+// Usage:
+const { data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: { filter: buildInFilter('status', ['PUBLISHED', 'DRAFT']) },
+});
+```
+
+</Accordion>
+
+## Pagination migration
+
+DataStore uses **page-based** pagination (zero-indexed `page` number + `limit`). AppSync uses **cursor-based** pagination (`nextToken` + `limit`). This is not a rename -- it is a fundamental semantic change.
+
+| Aspect | DataStore (Page-Based) | Apollo/AppSync (Cursor-Based) |
+|--------|----------------------|-------------------------------|
+| Navigation | Random access -- jump to any page | Sequential only -- must traverse pages in order |
+| Parameters | `{ page: 0, limit: 10 }` | `{ limit: 10, nextToken: '...' }` |
+| First page | `page: 0` | Omit `nextToken` (or pass `null`) |
+| Next page | `page: page + 1` | Use `nextToken` from previous response |
+| End detection | `items.length < limit` | `nextToken === null` |
+
+**Apollo Client cursor-based pagination:**
+
+```ts
+// Page 1 (first 10 items) -- no nextToken needed
+const { data: page1Data } = await apolloClient.query({
+  query: LIST_POSTS,
+  variables: { limit: 10 },
+});
+const page1Items = page1Data.listPosts.items.filter((p) => !p._deleted);
+const nextToken = page1Data.listPosts.nextToken;
+
+// Page 2 -- use nextToken from previous response
+if (nextToken) {
+  const { data: page2Data } = await apolloClient.query({
+    query: LIST_POSTS,
+    variables: { limit: 10, nextToken },
+  });
+}
+```
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+### Load More pattern (React)
+
+The most common pagination pattern with cursor-based pagination is "Load More" (infinite scroll):
+
+```tsx
+import { useQuery } from '@apollo/client';
+
+function PostList() {
+  const { data, loading, error, fetchMore } = useQuery(LIST_POSTS, {
+    variables: { limit: 10 },
+  });
+
+  if (loading && !data) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const posts = (data?.listPosts?.items ?? []).filter((p) => !p._deleted);
+  const nextToken = data?.listPosts?.nextToken;
+
+  const handleLoadMore = () => {
+    fetchMore({
+      variables: { limit: 10, nextToken },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          listPosts: {
+            ...fetchMoreResult.listPosts,
+            items: [
+              ...prev.listPosts.items,
+              ...fetchMoreResult.listPosts.items,
+            ],
+          },
+        };
+      },
+    });
+  };
+
+  return (
+    <div>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
+      <button onClick={handleLoadMore} disabled={!nextToken || loading}>
+        {nextToken ? 'Load More' : 'No More Posts'}
+      </button>
+    </div>
+  );
+}
+```
+
+</InlineFilter>
+
+<Callout warning>
+
+When using `nextToken` with filters, AppSync may return **fewer items than `limit`**. Always check `nextToken === null` to determine if more pages exist -- do **not** use `items.length < limit` as the end-of-results indicator.
+
+</Callout>
+
+## Sorting migration
+
+DataStore supports `SortDirection.ASCENDING` and `SortDirection.DESCENDING`. AppSync's basic `listModels` query has **no `sortDirection` argument** by default.
+
+### Client-side sorting (recommended)
+
+For most use cases, fetch results and sort them in JavaScript:
+
+```ts
+// DataStore
+const posts = await DataStore.query(Post, Predicates.ALL, {
+  sort: (s) => s.createdAt(SortDirection.DESCENDING),
+});
+
+// Apollo Client
+const { data } = await apolloClient.query({ query: LIST_POSTS });
+const posts = [...data.listPosts.items]
+  .filter((p) => !p._deleted)
+  .sort((a, b) =>
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+```
+
+<Accordion title="Server-side sorting (requires @index directive)">
+
+If your model has a Global Secondary Index (GSI) defined with the `@index` directive, AppSync generates a query with `sortDirection` support:
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  status: String! @index(name: "byStatus", sortKeyFields: ["createdAt"])
+  createdAt: AWSDateTime!
+}
+```
+
+This generates a `postsByStatus` query that accepts `sortDirection`:
+
+```ts
+const LIST_POSTS_BY_STATUS = gql`
+  query PostsByStatus(
+    $status: String!
+    $sortDirection: ModelSortDirection
+    $limit: Int
+    $nextToken: String
+  ) {
+    postsByStatus(
+      status: $status
+      sortDirection: $sortDirection
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items { ...PostDetails }
+      nextToken
+    }
+  }
+`;
+
+const { data } = await apolloClient.query({
+  query: LIST_POSTS_BY_STATUS,
+  variables: { status: 'PUBLISHED', sortDirection: 'DESC', limit: 10 },
+});
+```
+
+Server-side sorting requires backend schema changes and only works when querying by the index's partition key. For general-purpose sorting, use client-side sorting.
+
+</Accordion>
+
+## Common mistakes
+
+<Accordion title="Common CRUD migration mistakes">
+
+### 1. Forgetting _version in update or delete mutations
+
+The most frequent migration error. DataStore handled `_version` internally. With Apollo, you must include it yourself.
+
+### 2. Using CREATE mutation for updates
+
+DataStore's `save()` handled both creates and updates. With Apollo, you must call the correct mutation.
+
+### 3. Not filtering _deleted records from list results
+
+DataStore automatically hid soft-deleted records. Apollo returns all records, including deleted ones. Always use `.filter(item => !item._deleted)` on list query results.
+
+### 4. Not using refetchQueries after mutations
+
+DataStore's local store automatically updated queries after mutations. Apollo's cache may not update list queries automatically. Add `refetchQueries: [{ query: LIST_POSTS }]` to mutations that affect list views.
+
+### 5. Using stale _version values
+
+If you cache a record's `_version` and another user or process updates the record, your mutation will fail. Re-query with `fetchPolicy: 'network-only'` before mutating when freshness is critical.
+
+</Accordion>

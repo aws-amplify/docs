@@ -1,0 +1,767 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Apollo Client',
+  description: 'Install Apollo Client, configure authentication with Cognito, set up error handling and retry logic, configure real-time subscriptions with Amplify, and write GraphQL operations for your AppSync backend.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This page covers everything you need to get Apollo Client working with your AppSync endpoint: prerequisites, installing Apollo Client, writing GraphQL operations, understanding `_version` metadata, configuring the link chain for authentication and error handling, and setting up real-time subscriptions with Amplify.
+
+## Before you begin
+
+Before starting the migration, make sure you have:
+
+- An existing **Amplify Gen 1 backend** with your data models deployed and working
+- Your Amplify configuration file (`amplifyconfiguration.json` or `aws-exports.js`) in your project
+- The `aws-amplify` v6 package installed and configured (`Amplify.configure(config)` called at app startup)
+- Familiarity with **GraphQL syntax** -- queries, mutations, and subscriptions
+
+<Callout>
+
+**You do NOT need to migrate your backend to Gen 2.** This guide assumes you are keeping your existing Gen 1 backend and replacing the DataStore client library with Apollo Client. The `aws-amplify` v6 library works with Gen 1 backends -- you only need to update how you call the API, not your infrastructure.
+
+</Callout>
+
+## Install Apollo Client
+
+Install Apollo Client:
+
+```bash
+npm install @apollo/client@^3.14.0
+```
+
+You do **not** need to install `graphql` separately -- it is already provided by `aws-amplify`. Installing `graphql` explicitly would cause npm to resolve a newer version (v16), which conflicts with `aws-amplify`'s pinned `graphql@15.8.0` and fails with an `ERESOLVE` error.
+
+<Callout>
+
+**Why Apollo Client v3 (not v4)?** The `apollo3-cache-persist` library -- needed for the Local Caching strategy covered later in this guide -- only supports Apollo Client v3. Starting with v3 avoids a disruptive version migration mid-project. Using `@apollo/client@^3.14.0` ensures you get the latest v3 release with all stability fixes.
+
+</Callout>
+
+## Find your GraphQL endpoint
+
+Your GraphQL endpoint and auth configuration are in `aws-exports.js` (or `amplifyconfiguration.json`):
+
+```json
+{
+  "aws_appsync_graphqlEndpoint": "https://xxxxx.appsync-api.us-east-1.amazonaws.com/graphql",
+  "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
+  "aws_appsync_region": "us-east-1"
+}
+```
+
+You will use the `aws_appsync_graphqlEndpoint` value when configuring Apollo Client.
+
+<Callout warning>
+
+**Gen 1 field name casing.** Gen 1 backends generate foreign key fields with **uppercase** ID suffixes (e.g., `postID`, `tagID`), while Gen 2 uses lowercase (`postId`, `tagId`). The code examples in this guide use the Gen 2 lowercase convention. **If you are keeping your Gen 1 backend, you must adjust all field names in GraphQL operations to match your actual schema.** A mismatched field name does not produce an error -- AppSync silently returns `null`, making this extremely difficult to debug. Check your `src/graphql/queries.js` or the AppSync console's Schema tab to verify the correct casing for every foreign key field before writing any operations.
+
+</Callout>
+
+## Generate typed operations (optional)
+
+Your Gen 1 project already has auto-generated GraphQL operations in `src/graphql/` (queries, mutations, subscriptions). These operations continue to work with your Gen 1 backend -- you can reference them when writing the Apollo Client operations below.
+
+Alternatively, you can regenerate them or copy queries, mutations, and subscriptions directly from the **AWS AppSync console** by navigating to the Schema tab and the Queries tab.
+
+For full details on integrating generated types with Apollo Client, see the [Advanced patterns](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/advanced-patterns/) page.
+
+## Write GraphQL operations
+
+Apollo Client uses `gql` tagged template literals to define GraphQL operations. This section shows the standard patterns using a `Post` model as the running example.
+
+### GraphQL fragment for reusable field selection
+
+Fragments let you define a reusable set of fields. Every operation references this fragment, ensuring consistent field selection across your app:
+
+```graphql
+fragment PostDetails on Post {
+  id
+  title
+  content
+  status
+  rating
+  createdAt
+  updatedAt
+  _version
+  _deleted
+  _lastChangedAt
+  owner
+}
+```
+
+If your model uses **owner-based authorization** (`@auth(rules: [{ allow: owner }])`), include the `owner` field in your fragments. This field is needed for owner-scoped subscriptions.
+
+<Callout warning>
+
+The `_version`, `_deleted`, and `_lastChangedAt` fields are required for backends with conflict resolution enabled. If your app used DataStore, your backend has conflict resolution enabled. See the [_version metadata section](#understand-_version-metadata) below.
+
+</Callout>
+
+### Complete operation definitions
+
+```ts title="src/graphql/operations.ts"
+import { gql } from '@apollo/client';
+
+// Fragment for consistent field selection
+const POST_DETAILS_FRAGMENT = gql`
+  fragment PostDetails on Post {
+    id
+    title
+    content
+    status
+    rating
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+`;
+
+// List all posts
+export const LIST_POSTS = gql`
+  ${POST_DETAILS_FRAGMENT}
+  query ListPosts($filter: ModelPostFilterInput, $limit: Int, $nextToken: String) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        ...PostDetails
+      }
+      nextToken
+    }
+  }
+`;
+
+// Get a single post by ID
+export const GET_POST = gql`
+  ${POST_DETAILS_FRAGMENT}
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      ...PostDetails
+    }
+  }
+`;
+
+// Create a new post
+export const CREATE_POST = gql`
+  ${POST_DETAILS_FRAGMENT}
+  mutation CreatePost($input: CreatePostInput!) {
+    createPost(input: $input) {
+      ...PostDetails
+    }
+  }
+`;
+
+// Update an existing post
+export const UPDATE_POST = gql`
+  ${POST_DETAILS_FRAGMENT}
+  mutation UpdatePost($input: UpdatePostInput!) {
+    updatePost(input: $input) {
+      ...PostDetails
+    }
+  }
+`;
+
+// Delete a post
+export const DELETE_POST = gql`
+  ${POST_DETAILS_FRAGMENT}
+  mutation DeletePost($input: DeletePostInput!) {
+    deletePost(input: $input) {
+      ...PostDetails
+    }
+  }
+`;
+```
+
+Every operation -- including mutations -- returns the full `PostDetails` fragment. This ensures you always have the latest `_version` value for subsequent mutations.
+
+<Callout>
+
+**Multi-model apps:** Define a result interface for **each model** in your app. Co-locate them with the operations in a single `src/graphql/operations.ts` file (or split into `operations/post.ts`, `operations/comment.ts`, etc. for larger schemas). Your auto-generated `src/graphql/queries.js` and `src/graphql/mutations.js` files contain the exact field names and operation signatures for every model -- use them as a reference when writing your typed operations.
+
+</Callout>
+
+<Callout>
+
+**Replacing DataStore enums:** DataStore model files export TypeScript `enum` types (e.g., `PostStatus`). After migration, you no longer import from `./models`, so you need to define these values yourself. If your TypeScript configuration has `erasableSyntaxOnly: true` (the default in TypeScript 5.9+ and Vite 8 scaffolds -- note that Vite 8 sets this in `tsconfig.app.json`, not `tsconfig.json`), `enum` declarations are not allowed because they emit runtime code. Use a `const` object with `as const` instead:
+
+```ts
+// Instead of: enum PostStatus { DRAFT = 'DRAFT', PUBLISHED = 'PUBLISHED' }
+const PostStatus = { DRAFT: 'DRAFT', PUBLISHED: 'PUBLISHED', ARCHIVED: 'ARCHIVED' } as const;
+type PostStatus = (typeof PostStatus)[keyof typeof PostStatus];
+```
+
+Also note: Vite 8 scaffolds set `verbatimModuleSyntax: true` in `tsconfig.app.json`. This requires using `import type` for type-only imports (e.g., `import type { TypedDocumentNode } from '@apollo/client'` instead of `import { TypedDocumentNode }`).
+
+</Callout>
+
+## Understand _version metadata
+
+This is one of the most important sections in this guide. If your app used DataStore, your backend **has conflict resolution enabled**, and you must handle three metadata fields correctly or your mutations will fail.
+
+### Why these fields exist
+
+DataStore enables **conflict resolution** on the AppSync backend via DynamoDB. This mechanism adds three metadata fields to every model:
+
+| Field | Type | Purpose |
+|-------|------|---------|
+| `_version` | `Int` | Optimistic locking counter. Incremented on every successful mutation. |
+| `_deleted` | `Boolean` | Soft-delete flag. When `true`, the record is logically deleted but still exists in DynamoDB. |
+| `_lastChangedAt` | `AWSTimestamp` | Millisecond timestamp of the last change. Set automatically by AppSync. |
+
+### When you need them
+
+- **All mutations require `_version`** in the input (except creates). Omitting it causes a `ConditionalCheckFailedException`.
+- **All queries should select** `_version`, `_deleted`, and `_lastChangedAt` in the response fields.
+- **List queries return soft-deleted records.** You must filter them out in your application code.
+
+### How to handle them
+
+Follow these three rules:
+
+**1. Always include metadata fields in response selections.** Every query and mutation response should include `_version`, `_deleted`, and `_lastChangedAt` (the `PostDetails` fragment above does this).
+
+**2. Always pass `_version` from the last query result into mutation inputs:**
+
+```ts
+// First, query the current post (includes _version in response)
+const { data } = await apolloClient.query({
+  query: GET_POST,
+  variables: { id: postId },
+});
+const post = data.getPost;
+
+// Then, pass _version when updating
+await apolloClient.mutate({
+  mutation: UPDATE_POST,
+  variables: {
+    input: {
+      id: post.id,
+      title: 'Updated Title',
+      _version: post._version, // REQUIRED
+    },
+  },
+});
+```
+
+**3. Filter soft-deleted records from list query results:**
+
+```ts
+const { data } = await apolloClient.query({ query: LIST_POSTS });
+const activePosts = data.listPosts.items.filter(post => !post._deleted);
+```
+
+### Helper: filter soft-deleted records
+
+A simple utility function to filter out soft-deleted records from any list query:
+
+```ts title="src/utils/filterDeleted.ts"
+function filterDeleted<T extends { _deleted?: boolean | null }>(items: T[]): T[] {
+  return items.filter(item => !item._deleted);
+}
+
+// Usage
+const { data } = await apolloClient.query({ query: LIST_POSTS });
+const activePosts = filterDeleted(data.listPosts.items);
+```
+
+## Configure Apollo Client
+
+Apollo Client communicates with AppSync through a **link chain** -- a series of middleware functions that process each request. You will build four links:
+
+1. **HTTP Link** -- sends the actual GraphQL request to AppSync
+2. **Auth Link** -- injects your Cognito ID token into each request
+3. **Error Link** -- intercepts and logs GraphQL and network errors
+4. **Retry Link** -- automatically retries failed network requests with backoff
+
+### The HTTP link
+
+```ts
+import { createHttpLink } from '@apollo/client';
+import config from '../amplifyconfiguration.json';
+
+const httpLink = createHttpLink({
+  uri: config.aws_appsync_graphqlEndpoint,
+});
+```
+
+<Callout warning>
+
+**Do NOT use `BatchHttpLink`.** AppSync does not support HTTP request batching. Batched requests will fail silently, returning errors for all operations in the batch.
+
+</Callout>
+
+### The auth link
+
+The auth link injects your Cognito User Pools ID token into every request:
+
+```ts
+import { setContext } from '@apollo/client/link/context';
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+const authLink = setContext(async (_, { headers }) => {
+  try {
+    const session = await fetchAuthSession();
+    const token = session.tokens?.idToken?.toString();
+    return {
+      headers: {
+        ...headers,
+        authorization: token || '',
+      },
+    };
+  } catch (error) {
+    console.error('Auth session error:', error);
+    return { headers };
+  }
+});
+```
+
+`fetchAuthSession()` is called on every request, ensuring tokens are always fresh. Amplify automatically refreshes expired access tokens using the refresh token.
+
+### The error link
+
+The error link intercepts all GraphQL and network errors globally:
+
+```ts
+import { onError } from '@apollo/client/link/error';
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    for (const { message, locations, path } of graphQLErrors) {
+      console.error(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      );
+
+      if (message.includes('Unauthorized') || message.includes('401')) {
+        // Token expired or invalid -- redirect to sign-in
+      }
+    }
+  }
+
+  if (networkError) {
+    console.error(`[Network error]: ${networkError}`);
+  }
+});
+```
+
+**Common AppSync errors:**
+
+| Error Message | Cause | Action |
+|---------------|-------|--------|
+| `Unauthorized` or `401` | Expired or missing auth token | Redirect to sign-in |
+| `ConditionalCheckFailedException` | Missing or stale `_version` in mutation input | Re-query to get latest `_version`, then retry |
+| `ConflictUnhandled` | Conflict resolution rejected the mutation | Re-query and retry with fresh data |
+| `Network error` | Connectivity issue | Retry link handles this automatically |
+
+### The retry link
+
+```ts
+import { RetryLink } from '@apollo/client/link/retry';
+
+const retryLink = new RetryLink({
+  delay: {
+    initial: 300,
+    max: 5000,
+    jitter: true,
+  },
+  attempts: {
+    max: 3,
+    retryIf: (error) => !!error,
+  },
+});
+```
+
+Retries up to 3 times on any network error with exponential backoff. The `jitter: true` setting adds randomness to prevent thundering herd problems.
+
+### Put it all together
+
+Combine all four links into a single Apollo Client instance:
+
+```ts title="src/apolloClient.ts"
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  from,
+} from '@apollo/client';
+
+export const apolloClient = new ApolloClient({
+  link: from([retryLink, errorLink, authLink, httpLink]),
+  cache: new InMemoryCache(),
+});
+```
+
+### Link chain order
+
+The `from()` function composes links **left to right** on outgoing requests and **right to left** on incoming responses:
+
+```
+Request  --> RetryLink --> ErrorLink --> AuthLink --> HttpLink --> AppSync
+Response <-- RetryLink <-- ErrorLink <-- AuthLink <-- HttpLink <-- AppSync
+```
+
+- **RetryLink is first** -- it wraps the entire chain, so if any downstream link or the network request fails, RetryLink can re-execute the full chain (including re-fetching the auth token)
+- **ErrorLink is second** -- it sees all errors and can log or redirect
+- **AuthLink is third** -- it injects the Cognito token right before the HTTP request
+- **HttpLink is last** -- it sends the actual request to AppSync
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+### Connect to React
+
+Wrap your application with `ApolloProvider` to make the client available to all components:
+
+```tsx title="src/App.tsx"
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient } from './apolloClient';
+
+function App() {
+  return (
+    <ApolloProvider client={apolloClient}>
+      {/* Your app components can now use useQuery, useMutation, etc. */}
+    </ApolloProvider>
+  );
+}
+```
+
+Any component inside `ApolloProvider` can use Apollo's React hooks (`useQuery`, `useMutation`) to interact with your AppSync API.
+
+</InlineFilter>
+
+## Sign-out and cache cleanup
+
+When a user signs out, you must clear Apollo Client's in-memory cache to prevent the next user from seeing stale data:
+
+```ts title="src/auth.ts"
+import { signOut } from 'aws-amplify/auth';
+import { apolloClient } from './apolloClient';
+
+async function handleSignOut() {
+  // 1. Clear Apollo Client's in-memory cache
+  await apolloClient.clearStore();
+
+  // 2. Sign out from Amplify (clears Cognito tokens)
+  await signOut();
+}
+```
+
+<Callout warning>
+
+**Name the function `handleSignOut` (not `signOut`)** to avoid shadowing the Amplify import. Naming it `signOut` creates a recursive call -- the function calls itself instead of Amplify's `signOut`, causing a stack overflow.
+
+</Callout>
+
+**Key details:**
+
+- **`clearStore()`** clears the in-memory cache and cancels all active queries. Use `resetStore()` instead if you want to clear the cache **and** refetch all active queries.
+- **Order matters:** Clear the cache first, then sign out. If you sign out first, `clearStore()` may trigger refetches that fail because the auth token is already invalidated.
+- **For the Local Caching strategy** (covered on the [Add local caching](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/add-local-caching/) page), the sign-out function will also need to purge the persistent cache.
+
+<Accordion title="Complete apolloClient.ts setup file">
+
+Here is the full `src/apolloClient.ts` file combining everything above:
+
+```ts title="src/apolloClient.ts"
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  from,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import { RetryLink } from '@apollo/client/link/retry';
+import { fetchAuthSession } from 'aws-amplify/auth';
+import config from '../amplifyconfiguration.json';
+
+// --- HTTP Link ---
+const httpLink = createHttpLink({
+  uri: config.aws_appsync_graphqlEndpoint,
+});
+
+// --- Auth Link ---
+const authLink = setContext(async (_, { headers }) => {
+  try {
+    const session = await fetchAuthSession();
+    const token = session.tokens?.idToken?.toString();
+    return {
+      headers: {
+        ...headers,
+        authorization: token || '',
+      },
+    };
+  } catch (error) {
+    console.error('Auth session error:', error);
+    return { headers };
+  }
+});
+
+// --- Error Link ---
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    for (const { message, locations, path } of graphQLErrors) {
+      console.error(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      );
+
+      if (message.includes('Unauthorized') || message.includes('401')) {
+        // Token expired or invalid -- redirect to sign-in
+      }
+    }
+  }
+
+  if (networkError) {
+    console.error(`[Network error]: ${networkError}`);
+  }
+});
+
+// --- Retry Link ---
+const retryLink = new RetryLink({
+  delay: { initial: 300, max: 5000, jitter: true },
+  attempts: { max: 3, retryIf: (error) => !!error },
+});
+
+// --- Apollo Client ---
+// Link chain: RetryLink -> ErrorLink -> AuthLink -> HttpLink -> AppSync
+export const apolloClient = new ApolloClient({
+  link: from([retryLink, errorLink, authLink, httpLink]),
+  cache: new InMemoryCache(),
+});
+```
+
+</Accordion>
+
+## Set up real-time subscriptions
+
+Subscriptions use the Amplify library (not Apollo) because AppSync uses a custom WebSocket protocol that standard GraphQL subscription libraries cannot handle.
+
+<Callout warning>
+
+**Do NOT use `graphql-ws`, `subscriptions-transport-ws`, or Apollo's `WebSocketLink` with AppSync.** These libraries do not speak AppSync's custom WebSocket protocol and will fail silently -- the WebSocket connection establishes successfully but subscription callbacks never fire.
+
+</Callout>
+
+### Create the Amplify subscription client
+
+Create the Amplify client alongside your Apollo Client. You should already have Amplify configured at app startup:
+
+```ts
+import { generateClient } from 'aws-amplify/api';
+
+const amplifyClient = generateClient();
+```
+
+You now have two clients:
+- **`apolloClient`** -- for queries, mutations, and caching
+- **`amplifyClient`** -- for subscriptions only
+
+<Callout>
+
+**Tip:** Your auto-generated `src/graphql/subscriptions.js` file contains the exact subscription signatures for your schema, including any `$owner` and `$filter` parameters. Reference this file to verify the correct field names and available arguments for each subscription type before writing your own.
+
+</Callout>
+
+### Subscription pattern: refetch on event (recommended)
+
+The simplest and most reliable approach: when a subscription event fires, refetch the list query from the server.
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+```tsx
+import { useQuery } from '@apollo/client';
+import { generateClient } from 'aws-amplify/api';
+import { useEffect } from 'react';
+import { LIST_POSTS } from './graphql/operations';
+
+const amplifyClient = generateClient();
+
+function PostList() {
+  const { data, loading, error, refetch } = useQuery(LIST_POSTS);
+
+  useEffect(() => {
+    const subscriptions = [
+      amplifyClient.graphql({
+        query: `subscription OnCreatePost {
+          onCreatePost { id }
+        }`
+      }).subscribe({
+        next: () => refetch(),
+        error: (err) => console.error('Create subscription error:', err),
+      }),
+      amplifyClient.graphql({
+        query: `subscription OnUpdatePost {
+          onUpdatePost { id }
+        }`
+      }).subscribe({
+        next: () => refetch(),
+        error: (err) => console.error('Update subscription error:', err),
+      }),
+      amplifyClient.graphql({
+        query: `subscription OnDeletePost {
+          onDeletePost { id }
+        }`
+      }).subscribe({
+        next: () => refetch(),
+        error: (err) => console.error('Delete subscription error:', err),
+      }),
+    ];
+
+    return () => subscriptions.forEach(sub => sub.unsubscribe());
+  }, [refetch]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const activePosts = data?.listPosts?.items?.filter(
+    (post) => !post._deleted
+  ) || [];
+
+  return (
+    <ul>
+      {activePosts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+</InlineFilter>
+
+**Why this pattern works well:**
+
+- The subscription payload only needs `id` since you are refetching the full list anyway, keeping the subscription lightweight
+- No cache manipulation logic to get wrong -- the refetch guarantees consistency with the server
+- One extra network round-trip per event, which is typically under 100ms and imperceptible for most applications
+
+<Accordion title="Advanced: direct cache update pattern">
+
+For applications that need lower latency or handle high-frequency updates, you can update Apollo's cache directly from subscription data instead of refetching. This avoids the extra network round-trip but requires more code and careful cache management.
+
+```ts
+import { useQuery } from '@apollo/client';
+import { generateClient } from 'aws-amplify/api';
+import { useEffect } from 'react';
+import { LIST_POSTS, POST_DETAILS_FRAGMENT } from './graphql/queries';
+import { apolloClient } from './apolloClient';
+
+const amplifyClient = generateClient();
+
+function PostListAdvanced() {
+  const { data, loading, error } = useQuery(LIST_POSTS);
+
+  useEffect(() => {
+    const sub = amplifyClient.graphql({
+      query: `subscription OnCreatePost {
+        onCreatePost {
+          id title content status rating
+          _version _deleted _lastChangedAt
+          createdAt updatedAt
+        }
+      }`
+    }).subscribe({
+      next: ({ data }) => {
+        const newPost = data.onCreatePost;
+        apolloClient.cache.modify({
+          fields: {
+            listPosts(existingData = { items: [] }) {
+              const newRef = apolloClient.cache.writeFragment({
+                data: newPost,
+                fragment: POST_DETAILS_FRAGMENT,
+              });
+              return {
+                ...existingData,
+                items: [...existingData.items, newRef],
+              };
+            },
+          },
+        });
+      },
+      error: (err) => console.error('Create subscription error:', err),
+    });
+
+    return () => sub.unsubscribe();
+  }, []);
+
+  // ... render logic
+}
+```
+
+**Recommendation:** Start with the refetch pattern. Only move to direct cache updates if you have measured a performance problem.
+
+</Accordion>
+
+### DataStore comparison
+
+| DataStore | Amplify + Apollo (Hybrid) |
+|-----------|--------------------------|
+| `DataStore.observe(Post).subscribe(...)` | `amplifyClient.graphql({ query: onCreatePost }).subscribe(...)` |
+| `DataStore.observeQuery(Post)` | `useQuery(LIST_POSTS)` + subscription refetch |
+| Automatic per-model subscriptions | Manual setup per subscription type (create, update, delete) |
+| Single observe call for all event types | Separate subscription per event type |
+
+### Troubleshooting subscriptions
+
+<Accordion title="Common subscription issues">
+
+**Subscription connects but never fires:**
+
+The subscription name must match your schema exactly. AppSync subscriptions are generated as `onCreateModelName`, `onUpdateModelName`, and `onDeleteModelName` (camelCase). Check your AppSync schema in the AWS console.
+
+**Auth error on subscription:**
+
+Amplify must be configured **before** creating the subscription client. Make sure `Amplify.configure(config)` runs at app startup before any call to `generateClient()`.
+
+**Subscription disconnects after ~5 minutes of inactivity:**
+
+This is normal behavior. Amplify's `AWSAppSyncRealTimeProvider` handles automatic reconnection without any action on your part.
+
+**Subscription works in development but not in production:**
+
+Check that your `amplifyconfiguration.json` (or `aws-exports.js`) configuration is correct for the production environment and that CORS is configured on your AppSync API to allow WebSocket connections from your production domain.
+
+**Subscription connects but receives no events (owner-based auth):**
+
+If your model uses **owner-based authorization** (`@auth(rules: [{ allow: owner }])`), you must pass the `$owner` variable in your subscriptions. Without it, the subscription connects successfully but AppSync silently filters out all events. This is the **most common cause** of "subscriptions work but nothing happens."
+
+Get the owner value from the current auth session and pass it as a variable:
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+const session = await fetchAuthSession();
+const owner = session.tokens?.idToken?.payload?.sub as string;
+
+(amplifyClient.graphql({
+  query: `subscription OnCreatePost($owner: String!) {
+    onCreatePost(owner: $owner) { id }
+  }`,
+  variables: { owner },
+}) as any).subscribe({ next: () => refetch() });
+```
+
+All three subscription types (`onCreate`, `onUpdate`, `onDelete`) need the `$owner` variable for owner-based auth models. See the [Advanced patterns](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/advanced-patterns/) page for the complete React component pattern.
+
+</Accordion>
