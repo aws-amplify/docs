@@ -130,46 +130,6 @@
 		"status": "301"
 	},
 	{
-		"source": "/<platform>/build-a-backend/add-aws-services/analytics/<*>",
-		"target": "/<platform>/frontend/analytics/<*>",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/geo/<*>",
-		"target": "/<platform>/frontend/geo/<*>",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/in-app-messaging/<*>",
-		"target": "/<platform>/frontend/in-app-messaging/<*>",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/rest-api/<*>",
-		"target": "/<platform>/frontend/rest-api/<*>",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/predictions/<*>",
-		"target": "/<platform>/frontend/predictions/<*>",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/logging/<*>",
-		"target": "/<platform>/frontend/logging/<*>",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/interactions/<*>",
-		"target": "/<platform>/frontend/interactions/<*>",
-		"status": "301"
-	},
-	{
-		"source": "/<platform>/build-a-backend/add-aws-services/pubsub/<*>",
-		"target": "/<platform>/frontend/pubsub/<*>",
-		"status": "301"
-	},
-	{
 		"source": "/<platform>/ai/conversation/<*>",
 		"target": "/<platform>/frontend/ai/conversation/<*>",
 		"status": "301"
