@@ -178,7 +178,7 @@ The `generate` and `refactor` steps also run this assessment as part of their va
 
 </Callout>
 
-<Accordion title="Example assess report">
+<Accordion title="Example assessment">
 
 Running `assess` on an app with auth, a GraphQL API with an override, storage, and a Lambda function with custom IAM policies produces a report like this:
 
@@ -226,12 +226,14 @@ During the migration period your Gen 1 environment should not undergo any change
 npx amplify gen2-migration lock
 ```
 
-#### Validations
+<Accordion title="Validations">
 
 | Validation | Description |
 |---|---|
 | Environment Status | Verifies the root CloudFormation stack is in a stable state (`UPDATE_COMPLETE` or `CREATE_COMPLETE`). |
 | Drift | Detects drift between your local project and the deployed CloudFormation stacks. |
+
+</Accordion>
 
 Once validated, the following restrictive IAM policy is attached to the root stack:
 
@@ -261,13 +263,15 @@ git checkout -b gen2-main
 npx amplify gen2-migration generate
 ```
 
-#### Validations
+<Accordion title="Validations">
 
 | Validation | Description |
 |---|---|
 | Lock Status | Verifies the Gen 1 environment is locked (deny-all stack policy is in place). |
 | Working Directory | Verifies the git working directory has no uncommitted changes. |
 | Assessment | Runs the resource and feature assessment for the `generate` step and fails if any entry is unsupported. |
+
+</Accordion>
 
 This command introspects your deployed Gen 1 CloudFormation stacks and generates the equivalent Gen 2 TypeScript backend definition files, overriding your local `./amplify` directory. The generated code is a starting point — some features require manual edits before deploying (see below).
 
@@ -430,12 +434,14 @@ git checkout main
 npx amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
 
-#### Validations
+<Accordion title="Validations">
 
 | Validation | Description |
 |---|---|
 | Lock Status | Verifies the Gen 1 environment is locked (deny-all stack policy is in place). |
 | Assessment | Runs the resource and feature assessment for the `refactor` step and fails if any entry is unsupported. |
+
+</Accordion>
 
 <Callout info>
 
@@ -528,8 +534,8 @@ The following provides an overview of supported and unsupported features for the
 | Sign in with Email | 🟢 |
 | Sign in with Phone Number | 🟢 |
 | Sign in with Email or Phone Number | 🟢 |
-| Social provider: Facebook | 🟡 (generate ✔, refactor ✗) |
-| Social provider: Google | 🟡 (generate ✔, refactor ✗) |
+| Social provider: Facebook | 🟡 (generate ✔ refactor ✗) |
+| Social provider: Google | 🟡 (generate ✔ refactor ✗) |
 | Social provider: Login With Amazon | 🔴 |
 | Social provider: Sign in with Apple | 🔴 |
 | User Sign-Up, Sign-In with IAM controls | 🟢 |
@@ -545,13 +551,13 @@ The following provides an overview of supported and unsupported features for the
 | Sign-up attributes | 🟢 |
 | Refresh token expiration | 🟢 |
 | Read/write attribute capabilities | 🔴 |
-| Google reCaptcha Challenge | 🟡 (generate ✔, refactor ✗) |
-| Email Verification Link with Redirect | 🟡 (generate ✔, refactor ✗) |
+| Google reCaptcha Challenge | 🟡 (generate ✔ refactor ✗) |
+| Email Verification Link with Redirect | 🟡 (generate ✔ refactor ✗) |
 | Add User to Group | 🔴 |
 | Email Domain Filtering (denylist) | 🟢 |
 | Email Domain Filtering (allowlist) | 🟢 |
-| Custom Auth Challenge Flow | 🟡 (generate ✔, refactor ✗) |
-| Override ID Token Claims | 🟡 (generate ✔, refactor ✗) |
+| Custom Auth Challenge Flow | 🟡 (generate ✔ refactor ✗) |
+| Override ID Token Claims | 🟡 (generate ✔ refactor ✗) |
 | OAuth flow | 🔴 |
 | Lambda Triggers (all types) | 🟢 |
 | Import auth (User Pool + Identity Pool) | 🟢 |
@@ -573,8 +579,8 @@ The following provides an overview of supported and unsupported features for the
 | REST API | 🟢 |
 | REST: Restrict API access | 🟢 |
 | REST: Auth/Guest/Group permissions | 🟢 |
-| Custom JS/VTL resolvers | 🟡 (generate ✗, refactor ✔) |
-| Override/Extend Amplify resolvers | 🟡 (generate ✗, refactor ✔) |
+| Custom JS/VTL resolvers | 🟡 (generate ✗ refactor ✔) |
+| Override/Extend Amplify resolvers | 🟡 (generate ✗ refactor ✔) |
 | Override API | 🔴 |
 
 </Accordion>
@@ -609,8 +615,8 @@ The following provides an overview of supported and unsupported features for the
 | Recurring schedule | ⚠️ |
 | Lambda layers | 🔴 |
 | Environment variables | 🟢 |
-| Secrets | 🟡 (generate ✗, refactor ✔) |
-| Custom IAM policies | 🟡 (generate ✗, refactor ✔) |
+| Secrets | 🟡 (generate ✗ refactor ✔) |
+| Custom IAM policies | 🟡 (generate ✗ refactor ✔) |
 | Package manager: NPM | 🟢 |
 | Package manager: Yarn, PNPM | ⚠️ |
 | Custom Build Command | 🔴 |
@@ -625,7 +631,7 @@ The following provides an overview of supported and unsupported features for the
 | Analytics: Pinpoint | 🔴 |
 | Geo: Map | 🟢 |
 | Geo: Location search | 🟢 |
-| Geo: Geofencing | 🟡 (generate ✔, refactor ✗) |
+| Geo: Geofencing | 🟡 (generate ✔ refactor ✗) |
 | Hosting: Continuous deployment | 🟢 |
 | Hosting: Manual deployment | ⚠️ |
 | Interactions | 🔴 |
