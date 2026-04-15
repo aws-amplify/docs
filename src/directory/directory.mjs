@@ -465,7 +465,11 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/kinesis/index.mdx',
-                section: 'backend'
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/firehose/index.mdx',
+                  section: 'backend'
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/existing-resources/index.mdx',
@@ -791,6 +795,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/frontend/analytics/kinesis/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/analytics/firehose/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/frontend/analytics/record-events/index.mdx'

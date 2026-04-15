@@ -1,0 +1,392 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Amazon Data Firehose client',
+  description: 'A standalone client for streaming data to Amazon Data Firehose with offline support, automatic batching, and configurable flushing.',
+  platforms: [
+    'android',
+    'swift',
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+`AmplifyFirehoseClient` is a standalone client for streaming data to [Amazon Data Firehose](https://aws.amazon.com/firehose/) delivery streams. It provides:
+
+- Local persistence for offline support
+- Automatic retry for failed records
+- Automatic batching (up to 500 records or 4 MB per request)
+- Interval-based automatic flushing (default: every 30 seconds)
+- Enable/disable toggle that silently drops new records while preserving cached ones
+
+<Callout>
+
+This is a standalone client, separate from the Amplify Analytics category plugin. It communicates directly with the Firehose API using `PutRecordBatch`.
+
+</Callout>
+
+<Callout>
+
+Before using this client, ensure your backend is configured with the required IAM permissions. See [Set up Amazon Data Firehose](/[platform]/build-a-backend/add-aws-services/analytics/firehose/).
+
+</Callout>
+
+## Getting started
+
+### Installation
+
+<InlineFilter filters={['android']}>
+
+Add the dependency to your module's `build.gradle.kts`:
+
+```kotlin
+dependencies {
+    implementation("com.amplifyframework:aws-kinesis:LATEST_VERSION")
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+Add `AmplifyFirehoseClient` to your project using Swift Package Manager. In Xcode, go to **File > Add Package Dependencies** and enter the repository URL for the Amplify Swift SDK.
+
+</InlineFilter>
+
+### Initialize the client
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.firehose.AmplifyFirehoseClient
+
+val firehose = AmplifyFirehoseClient(
+    context = applicationContext,
+    region = "us-east-1",
+    credentialsProvider = credentialsProvider
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+import AmplifyFirehoseClient
+
+let firehose = try AmplifyFirehoseClient(
+    region: "us-east-1",
+    credentialsProvider: credentialsProvider
+)
+```
+
+</InlineFilter>
+
+### Configuration options
+
+You can customize the client behavior by passing an options object:
+
+<InlineFilter filters={['android']}>
+
+| Option | Default | Description |
+|---|---|---|
+| `cacheMaxBytes` | 5 MB | Maximum size of the local record cache in bytes. |
+| `maxRetries` | 5 | Maximum retry attempts per record before it is discarded. |
+| `flushStrategy` | `FlushStrategy.Interval(30.seconds)` | Automatic flush interval. Use `FlushStrategy.None` for manual-only flushing. |
+| `configureClient` | `null` | Escape hatch to customize the underlying AWS SDK `FirehoseClient`. |
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+| Option | Default | Description |
+|---|---|---|
+| `cacheMaxBytes` | 5 MB | Maximum size of the local record cache in bytes. |
+| `maxRetries` | 5 | Maximum retry attempts per record before it is discarded. |
+| `flushStrategy` | `.interval(30)` | Automatic flush interval in seconds. Use `.none` for manual-only flushing. |
+| `configureClient` | `nil` | Closure to customize the underlying `FirehoseClientConfiguration`. |
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.firehose.AmplifyFirehoseClient
+import com.amplifyframework.firehose.AmplifyFirehoseClientOptions
+import com.amplifyframework.recordcache.FlushStrategy
+import kotlin.time.Duration.Companion.seconds
+
+val firehose = AmplifyFirehoseClient(
+    context = applicationContext,
+    region = "us-east-1",
+    credentialsProvider = credentialsProvider,
+    options = AmplifyFirehoseClientOptions {
+        cacheMaxBytes = 10L * 1024 * 1024  // 10 MB
+        maxRetries = 5
+        flushStrategy = FlushStrategy.Interval(30.seconds)
+        configureClient {
+            retryStrategy { maxAttempts = 10 }
+        }
+    }
+)
+```
+
+To disable automatic flushing:
+
+```kotlin
+options = AmplifyFirehoseClientOptions {
+    flushStrategy = FlushStrategy.None
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let firehose = try AmplifyFirehoseClient(
+    region: "us-east-1",
+    credentialsProvider: credentialsProvider,
+    options: .init(
+        cacheMaxBytes: 10 * 1_024 * 1_024,  // 10 MB
+        maxRetries: 5,
+        flushStrategy: .interval(30),
+        configureClient: { config in
+            // Customize the underlying FirehoseClientConfiguration
+        }
+    )
+)
+```
+
+To disable automatic flushing:
+
+```swift
+options: .init(flushStrategy: .none)
+```
+
+</InlineFilter>
+
+## Usage
+
+### Record data
+
+Use `record()` to persist data to the local cache. Records are sent to Firehose during the next flush cycle (automatic or manual).
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val result = firehose.record(
+    data = "Hello Firehose".toByteArray(),
+    streamName = "my-delivery-stream"
+)
+when (result) {
+    is Result.Success -> { /* recorded successfully */ }
+    is Result.Failure -> { /* handle error */ }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let result = try await firehose.record(
+    data: "Hello Firehose".data(using: .utf8)!,
+    streamName: "my-delivery-stream"
+)
+```
+
+</InlineFilter>
+
+Records submitted while the client is disabled are silently dropped.
+
+### Flush records
+
+The client automatically flushes cached records at the configured interval (default: 30 seconds). You can also trigger a manual flush:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+when (val result = firehose.flush()) {
+    is Result.Success -> println("Flushed ${result.data.recordsFlushed} records")
+    is Result.Failure -> println("Flush error: ${result.error}")
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let flushResult = try await firehose.flush()
+print("Flushed \(flushResult.recordsFlushed) records")
+```
+
+</InlineFilter>
+
+Each flush sends at most one batch per stream (up to 500 records or 4 MB). Remaining records are picked up in subsequent flush cycles. If a flush is already in progress, the call returns immediately with `flushInProgress: true`.
+
+Manual flushes work even when the client is disabled, allowing you to drain cached records without re-enabling collection.
+
+### Clear cache
+
+Delete all cached records from local storage:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+firehose.clearCache()
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let cleared = try await firehose.clearCache()
+```
+
+</InlineFilter>
+
+### Enable and disable
+
+You can toggle record collection and automatic flushing at runtime. When disabled, new records are silently dropped but already-cached records remain in storage.
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+firehose.disable()
+// Records are dropped, auto-flush paused
+
+firehose.enable()
+// Collection and auto-flush resume
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+await firehose.disable()
+// Records are dropped, auto-flush paused
+
+await firehose.enable()
+// Collection and auto-flush resume
+```
+
+</InlineFilter>
+
+## Advanced
+
+### Escape hatch
+
+Access the underlying AWS SDK `FirehoseClient` for operations not covered by this client's API:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val sdkClient = firehose.firehoseClient
+// Use sdkClient for direct Firehose API calls
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let sdkClient = firehose.getFirehoseClient()
+// Use sdkClient for direct Firehose API calls
+```
+
+</InlineFilter>
+
+### Error handling
+
+All operations surface errors through a sealed exception hierarchy:
+
+<InlineFilter filters={['android']}>
+
+| Error type | Description |
+|---|---|
+| `AmplifyFirehoseValidationException` | Record input validation failed (oversized record). |
+| `AmplifyFirehoseLimitExceededException` | Local cache is full. Call `flush()` or `clearCache()` to free space. |
+| `AmplifyFirehoseStorageException` | Local database error. |
+| `AmplifyFirehoseUnknownException` | Unexpected or uncategorized error. |
+
+Operations return `Result<T, AmplifyFirehoseException>`:
+
+```kotlin
+when (val result = firehose.record(...)) {
+    is Result.Success -> { /* success */ }
+    is Result.Failure -> when (result.error) {
+        is AmplifyFirehoseValidationException -> { /* invalid input */ }
+        is AmplifyFirehoseLimitExceededException -> { /* cache full */ }
+        is AmplifyFirehoseStorageException -> { /* database error */ }
+        is AmplifyFirehoseUnknownException -> { /* unexpected error */ }
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+| Error type | Description |
+|---|---|
+| `FirehoseError.validation` | Record input validation failed (oversized record). |
+| `FirehoseError.cacheLimitExceeded` | Local cache is full. Call `flush()` or `clearCache()` to free space. |
+| `FirehoseError.cache` | Local database error. |
+| `FirehoseError.unknown` | Unexpected or uncategorized error. |
+
+Operations throw `FirehoseError`:
+
+```swift
+do {
+    try await firehose.record(
+        data: payload,
+        streamName: "stream"
+    )
+} catch let error as FirehoseError {
+    switch error {
+    case .validation(let desc, _, _):
+        print("Validation error: \(desc)")
+    case .cacheLimitExceeded:
+        print("Cache full")
+    case .cache(let desc, _, _):
+        print("Storage error: \(desc)")
+    case .unknown(let desc, _, _):
+        print("Unknown error: \(desc)")
+    }
+}
+```
+
+</InlineFilter>
+
+### Retry behavior
+
+- All `PutRecordBatch` error codes (`ServiceUnavailableException`, `InternalFailure`) are treated as retryable.
+- Each failed record's retry count is incremented after each attempt.
+- Records exceeding `maxRetries` (default: 5) are permanently deleted from the cache.
+- SDK-level Firehose errors are logged and skipped per-stream, so other streams can still flush.
+- Non-SDK errors (network failures, storage errors) abort the flush entirely.
+
+### Firehose service limits
+
+The client enforces these limits before sending to the service:
+
+| Limit | Value |
+|---|---|
+| Max records per `PutRecordBatch` request | 500 |
+| Max single record size | 1,000 KiB |
+| Max total payload per `PutRecordBatch` request | 4 MB |
