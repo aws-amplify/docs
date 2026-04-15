@@ -468,6 +468,10 @@ export const directory = {
                 section: 'backend'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/kinesis/index.mdx',
+                section: 'backend'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/existing-resources/index.mdx',
                   section: 'backend'
                 }
