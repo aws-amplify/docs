@@ -284,12 +284,29 @@ let url = try await Amplify.Storage.getURL(
 )
 ```
 
+### Generate a presigned upload URL
+
+You can also use `getURL` with `method: .put` to generate a presigned URL for uploading files. Learn more at [Upload using a presigned URL](/[platform]/frontend/storage/upload-files/#upload-using-a-presigned-url).
+
+```swift
+let uploadUrl = try await Amplify.Storage.getURL(
+    path: .fromString("public/example/path"),
+    options: .init(
+        pluginOptions: AWSStorageGetURLOptions(
+            method: .put
+        )
+    )
+)
+```
+
 ### All `getURL` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| expires | Int | Number of seconds before the URL expires |
-| bucket | StorageBucket | The bucket in which the object is stored |
+Option | Type | Default | Description |
+| -- | -- | :--: | ----------- |
+| expires | Int | 18000 | Number of seconds before the URL expires |
+| bucket | StorageBucket | Default bucket from Amplify configuration | The bucket in which the object is stored |
+| pluginOptions.method | StorageAccessMethod | .get | `.get` generates a download URL. `.put` generates an upload URL. |
+| pluginOptions.validateObjectExistence | Bool | false | Whether to check the object exists before generating the URL. Skipped when method is `.put`. |
 
 </InlineFilter>
 
