@@ -114,11 +114,18 @@ const linkToStorageFile = await getUrl({
 
 Option | Type | Default | Description |
 | :--: | :--: | :--: | ----------- |
+| method | 'GET' \| 'PUT' | 'GET' | The HTTP method for the presigned URL. `'GET'` generates a URL for downloading an object. `'PUT'` generates a URL for uploading an object. <br/><br/> Read more at [Upload using a presigned URL](/[platform]/frontend/storage/upload-files/#upload-using-a-presigned-url) |
 | bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) 
 | validateObjectExistence | boolean | false | Whether to head object to make sure the object existence before downloading. |
 | expiresIn | number | 900 | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
 | useAccelerateEndpoint | boolean | false | Whether to use accelerate endpoint. <br/><br/> Read more at [Transfer Acceleration](/[platform]/build-a-backend/storage/extend-s3-resources/#example---enable-transfer-acceleration) |
 | expectedBucketOwner | string | Optional | The account ID that owns requested bucket. |
+
+<Callout>
+
+You can also use `getUrl` with `method: 'PUT'` to generate presigned URLs for uploading files directly to S3. Learn more at [Upload using a presigned URL](/[platform]/frontend/storage/upload-files/#upload-using-a-presigned-url).
+
+</Callout>
 
 </InlineFilter>
 
@@ -279,10 +286,18 @@ let url = try await Amplify.Storage.getURL(
 
 ### All `getURL` options
 
-Option | Type | Description |
-| -- | -- | ----------- |
-| expires | Int | Number of seconds before the URL expires |
-| bucket | StorageBucket | The bucket in which the object is stored |
+Option | Type | Default | Description |
+| -- | -- | :--: | ----------- |
+| expires | Int | 18000 | Number of seconds before the URL expires |
+| bucket | StorageBucket | Default bucket from Amplify configuration | The bucket in which the object is stored |
+| pluginOptions.method | StorageAccessMethod | .get | `.get` generates a download URL. `.put` generates an upload URL. |
+| pluginOptions.validateObjectExistence | Bool | false | Whether to check the object exists before generating the URL. Skipped when method is `.put`. |
+
+<Callout>
+
+You can also use `getURL` with `method: .put` to generate presigned URLs for uploading files directly to S3. Learn more at [Upload using a presigned URL](/[platform]/frontend/storage/upload-files/#upload-using-a-presigned-url).
+
+</Callout>
 
 </InlineFilter>
 

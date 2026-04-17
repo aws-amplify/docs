@@ -1572,6 +1572,56 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 }
 ```
 
+## Upload using a presigned URL
+
+You can use the `getURL` API with `method: .put` to generate a presigned URL for uploading files directly to S3. This is useful when:
+
+- You need to integrate with third-party tools or libraries that only accept standard HTTP URL endpoints
+- You want to share a temporary upload link with another client or service
+- You need to upload from a context where the Amplify SDK is not available
+
+```swift
+import Amplify
+import AWSS3StoragePlugin
+
+// Generate a presigned URL for uploading
+let uploadUrl = try await Amplify.Storage.getURL(
+    path: .fromString("public/uploads/photo.jpg"),
+    options: .init(
+        pluginOptions: AWSStorageGetURLOptions(
+            method: .put
+        )
+    )
+)
+```
+
+Then use the presigned URL to upload the file with a standard HTTP `PUT` request:
+
+```swift
+var request = URLRequest(url: uploadUrl)
+request.httpMethod = "PUT"
+request.httpBody = imageData
+
+let (_, response) = try await URLSession.shared.data(for: request)
+let httpResponse = response as? HTTPURLResponse
+print("Upload status: \(httpResponse?.statusCode ?? 0)")
+```
+
+<Callout warning>
+
+When `method: .put` is specified, the `validateObjectExistence` option is ignored since the object may not exist yet.
+
+</Callout>
+
+### Presigned URL upload options
+
+Option | Type | Default | Description |
+| -- | -- | :--: | ----------- |
+| pluginOptions.method | StorageAccessMethod | .get | `.get` generates a download URL. `.put` generates an upload URL. |
+| expires | Int | 18000 | Number of seconds before the URL expires. |
+| bucket | StorageBucket | Default bucket from Amplify configuration | The bucket in which the object is stored. |
+| pluginOptions.validateObjectExistence | Bool | false | Whether to check the object exists before generating the URL. Skipped when method is `.put`. |
+
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
@@ -1637,8 +1687,95 @@ Uploads that were initiated over one hour ago will be cancelled automatically. T
 
 </Callout>
 
-</InlineFilter>
-
-## MultiPart upload
+### MultiPart upload
 
 Amplify will automatically perform an Amazon S3 multipart upload for objects that are larger than 5MB. For more information about S3's multipart upload, see [Uploading and copying objects using multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html)
+
+</InlineFilter>
+
+<InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
+
+## Upload using a presigned URL
+
+You can use the `getUrl` API with `method: 'PUT'` to generate a presigned URL for uploading files directly to S3. This is useful when:
+
+- You need to integrate with third-party tools or libraries that only accept standard HTTP URL endpoints (e.g. DuckDB, database export tools)
+- You want to upload from server-side environments such as Next.js API routes or other SSR frameworks
+- You need to share a temporary upload link with another client or service
+
+```typescript
+import { getUrl } from 'aws-amplify/storage';
+
+// Generate a presigned URL for uploading
+const { url, expiresAt } = await getUrl({
+  path: 'album/2024/1.jpg',
+  options: {
+    method: 'PUT',
+    expiresIn: 3600, // URL valid for 1 hour
+    contentType: 'image/jpeg',
+  }
+});
+
+console.log('Upload URL: ', url);
+console.log('URL expires at: ', expiresAt);
+```
+
+Then use the presigned URL to upload the file with a standard HTTP `PUT` request:
+
+```typescript
+await fetch(url, {
+  method: 'PUT',
+  body: file,
+  headers: {
+    'Content-Type': 'image/jpeg',
+  },
+});
+```
+
+<Callout warning>
+
+When `method: 'PUT'` is specified, the `validateObjectExistence` option is ignored since the object may not exist yet.
+
+</Callout>
+
+<Callout>
+
+If you specify `contentType` when generating the presigned URL, you **must** include the matching `Content-Type` header in the upload request. A mismatch will cause S3 to reject the request with a signature error.
+
+</Callout>
+
+### Using presigned URLs with third-party tools
+
+Because the presigned URL is a standard HTTP endpoint, it works with any tool that supports HTTP uploads:
+
+```typescript
+import { getUrl } from 'aws-amplify/storage';
+
+const { url } = await getUrl({
+  path: 'analytics/data.parquet',
+  options: {
+    method: 'PUT',
+    contentType: 'application/octet-stream',
+  }
+});
+
+// Example: use with DuckDB to export query results directly to S3
+await duckdb.query(`
+  COPY (SELECT * FROM processed_data)
+  TO '${url}'
+  (FORMAT PARQUET)
+`);
+```
+
+### Presigned URL upload options
+
+Option | Type | Default | Description |
+| :--: | :--: | :--: | ----------- |
+| method | 'GET' \| 'PUT' | 'GET' | The HTTP method for the presigned URL. Use `'PUT'` to generate an upload URL. |
+| bucket | string \| <br />\{ bucketName: string;<br/> region: string; \} | Default bucket and region from Amplify configuration | A string representing the target bucket's assigned name in Amplify Backend or an object specifying the bucket name and region from the console.<br/><br/>Read more at [Configure additional storage buckets](/[platform]/build-a-backend/storage/set-up-storage/#configure-additional-storage-buckets) |
+| expiresIn | number | 900 | Number of seconds till the URL expires. <br/><br/> The expiration time of the presigned url is dependent on the session and will max out at 1 hour. |
+| contentType | string | — | The MIME type of the file to be uploaded. When specified, the matching `Content-Type` header must be included in the upload request. |
+| contentDisposition | string \| object | — | Specifies presentational information for the object. Can be a string (e.g. `'attachment; filename="file.jpg"'`) or an object (e.g. `{ type: 'attachment', filename: 'file.jpg' }`). |
+| expectedBucketOwner | string | — | The account ID that owns requested bucket. |
+
+</InlineFilter>
