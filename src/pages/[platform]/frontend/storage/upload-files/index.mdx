@@ -1572,6 +1572,56 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
 }
 ```
 
+## Upload using a presigned URL
+
+You can use the `getURL` API with `method: .put` to generate a presigned URL for uploading files directly to S3. This is useful when:
+
+- You need to integrate with third-party tools or libraries that only accept standard HTTP URL endpoints
+- You want to share a temporary upload link with another client or service
+- You need to upload from a context where the Amplify SDK is not available
+
+```swift
+import Amplify
+import AWSS3StoragePlugin
+
+// Generate a presigned URL for uploading
+let uploadUrl = try await Amplify.Storage.getURL(
+    path: .fromString("public/uploads/photo.jpg"),
+    options: .init(
+        pluginOptions: AWSStorageGetURLOptions(
+            method: .put
+        )
+    )
+)
+```
+
+Then use the presigned URL to upload the file with a standard HTTP `PUT` request:
+
+```swift
+var request = URLRequest(url: uploadUrl)
+request.httpMethod = "PUT"
+request.httpBody = imageData
+
+let (_, response) = try await URLSession.shared.data(for: request)
+let httpResponse = response as? HTTPURLResponse
+print("Upload status: \(httpResponse?.statusCode ?? 0)")
+```
+
+<Callout warning>
+
+When `method: .put` is specified, the `validateObjectExistence` option is ignored since the object may not exist yet.
+
+</Callout>
+
+### Presigned URL upload options
+
+Option | Type | Default | Description |
+| -- | -- | :--: | ----------- |
+| pluginOptions.method | StorageAccessMethod | .get | `.get` generates a download URL. `.put` generates an upload URL. |
+| expires | Int | 18000 | Number of seconds before the URL expires. |
+| bucket | StorageBucket | Default bucket from Amplify configuration | The bucket in which the object is stored. |
+| pluginOptions.validateObjectExistence | Bool | false | Whether to check the object exists before generating the URL. Skipped when method is `.put`. |
+
 </InlineFilter>
 
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
