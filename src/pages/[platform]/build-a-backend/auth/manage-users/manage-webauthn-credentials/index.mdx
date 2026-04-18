@@ -153,6 +153,16 @@ func associateWebAuthNCredentials() -> AnyCancellable {
 
 The user will be prompted to register a passkey using their local authenticator. Amplify will then associate that passkey with Cognito.
 
+<Callout>
+
+Passkey registration relies on the browser and operating system for enforcing user verification (such as PIN, password, or biometrics).
+
+If a device does not have a secure screen lock configured, the browser/OS may block the registration flow or prompt the user to set it up before proceeding.
+
+Amplify and Cognito do not override or bypass these device-level security checks.
+
+</Callout>
+
 ## List WebAuthn credentials
 
 You can list registered passkeys using the following API:
