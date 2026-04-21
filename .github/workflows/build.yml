@@ -20,6 +20,8 @@ jobs:
         uses: ./.github/actions/set_yarn_berry
       - name: Install Dependencies
         run: yarn
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome
       - name: Run tests
         run: yarn prebuild && yarn test:unit
       - name: Run Build
