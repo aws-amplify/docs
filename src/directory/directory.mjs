@@ -54,6 +54,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/start/migrate-to-gen2/feature-matrix/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/start/migrate-to-gen2/cli-guide/index.mdx'
                 }
               ]
             },
