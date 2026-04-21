@@ -628,6 +628,9 @@ export const directory = {
           section: 'frontend',
           children: [
             {
+              path: 'src/pages/[platform]/frontend/connect-to-existing-resources/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/frontend/auth/index.mdx',
               children: [
                 {
