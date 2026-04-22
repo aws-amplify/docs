@@ -128,9 +128,28 @@ For mobile platforms, the client library can be configured by creating an `ampli
 
 </InlineFilter>
 
+<InlineFilter filters={["android", "flutter", "swift"]}>
+
+### Programmatic configuration
+
+On mobile platforms, you can also configure Amplify **programmatically** without any JSON files. This is useful for unit testing, environment switching, and dynamic configuration. See the full guide for Swift, Android, and Flutter examples:
+
+</InlineFilter>
+
+<Callout informational>
+
+For a comprehensive guide covering all services (Auth, Data, Storage, Analytics, Geo, Notifications) with platform-specific code examples, see **[Connect to existing AWS resources](/[platform]/frontend/connect-to-existing-resources/)** in the Frontend Libraries section.
+
+</Callout>
+
 For more information about how to use the Amplify client libraries with existing AWS resources, visit the guides:
 
 <Columns columns={2}>
+<Card variation="outlined">
+[Connect to existing resources](/[platform]/frontend/connect-to-existing-resources/)
+
+Configure Auth, Data, Storage, Analytics, Geo, and Notifications with your own AWS infrastructure — no Amplify backend required.
+</Card>
 <Card variation="outlined">
 [Connect to Cognito](/[platform]/build-a-backend/auth/use-existing-cognito-resources/)
 
