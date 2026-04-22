@@ -84,6 +84,10 @@ Amplify client libraries detect the different structure and adjust automatically
 
 <img src="/images/gen2-migration/two-frontends-post-migration.png" alt="Both Gen 1 and Gen 2 frontends connecting to shared backend resources post migration" width="380" />
 
+## Feature coverage
+
+For a detailed breakdown of which features are supported in Gen 2 and which can be automatically migrated, see the [Feature Parity](/[platform]/start/migrate-to-gen2/feature-matrix/) page.
+
 ## Prerequisites
 
 ### Amplify CLI version
@@ -492,131 +496,6 @@ Gen 1 Lambda functions may have dependencies declared in their `package.json` fi
 ### Circular dependencies
 
 Gen 1 apps where functions access multiple other resources (e.g. a query handler that also needs access to the data API, or an auth trigger that depends on storage) can produce circular dependencies between CloudFormation nested stacks when deployed as Gen 2. See [Troubleshoot circular dependency issues](https://docs.amplify.aws/vue/build-a-backend/troubleshooting/circular-dependency/) for resolution steps.
-
-## Feature coverage
-
-The following provides an overview of supported and unsupported features for the migration tool. Legend:
-
-- 🟢 Fully automated
-- 🟡 Partially supported (includes indication of whether it lacks support for `generate` or `refactor`)
-- 🔴 Unsupported
-- ⚠️ Untested
-
-<Accordion title="Auth migration support">
-
-| Feature | Status |
-|---|---|
-| Sign in with Username | 🟢 |
-| Sign in with Email | 🟢 |
-| Sign in with Phone Number | 🟢 |
-| Sign in with Email or Phone Number | 🟢 |
-| Social provider: Facebook | 🟡 (generate ✔ refactor ✗) |
-| Social provider: Google | 🟡 (generate ✔ refactor ✗) |
-| Social provider: Login With Amazon | 🔴 |
-| Social provider: Sign in with Apple | 🔴 |
-| User Sign-Up, Sign-In with IAM controls | 🟢 |
-| User Sign-Up & Sign-In only | 🔴 |
-| Allow unauthenticated logins | 🟢 |
-| 3rd party identity pool providers | 🔴 |
-| User Pool Groups | 🟢 |
-| Admin queries API | 🔴 |
-| MFA: OFF | 🟢 |
-| MFA: ON / OPTIONAL | ⚠️ |
-| Email verification | 🟢 |
-| Override default password policy | 🟢 |
-| Sign-up attributes | 🟢 |
-| Refresh token expiration | 🟢 |
-| Read/write attribute capabilities | 🔴 |
-| Google reCaptcha Challenge | 🟡 (generate ✔ refactor ✗) |
-| Email Verification Link with Redirect | 🟡 (generate ✔ refactor ✗) |
-| Add User to Group | 🔴 |
-| Email Domain Filtering (denylist) | 🟢 |
-| Email Domain Filtering (allowlist) | 🟢 |
-| Custom Auth Challenge Flow | 🟡 (generate ✔ refactor ✗) |
-| Override ID Token Claims | 🟡 (generate ✔ refactor ✗) |
-| OAuth flow | 🔴 |
-| Lambda Triggers (all types) | 🟢 |
-| Import auth (User Pool + Identity Pool) | 🟢 |
-| Import auth (User Pool only) | ⚠️ |
-| Override auth | 🔴 |
-
-</Accordion>
-
-<Accordion title="API migration support">
-
-| Feature | Status |
-|---|---|
-| GraphQL: API Key auth | 🟢 |
-| GraphQL: Cognito User Pool auth | 🟢 |
-| GraphQL: IAM auth | 🟢 |
-| GraphQL: OpenID Connect auth | ⚠️ |
-| GraphQL: Lambda auth | ⚠️ |
-| GraphQL: Conflict detection (DataStore) | 🔴 |
-| REST API | 🟢 |
-| REST: Restrict API access | 🟢 |
-| REST: Auth/Guest/Group permissions | 🟢 |
-| Custom JS/VTL resolvers | 🟡 (generate ✗ refactor ✔) |
-| Override/Extend Amplify resolvers | 🟡 (generate ✗ refactor ✔) |
-| Override API | 🔴 |
-
-</Accordion>
-
-<Accordion title="Storage migration support">
-
-| Feature | Status |
-|---|---|
-| S3 Content: Auth/Guest/Group CRUD access | 🟢 |
-| S3: Lambda Trigger | 🟢 |
-| NoSQL Database | 🟢 |
-| NoSQL: Sort key, Global secondary indexes | 🟢 |
-| NoSQL: Lambda Trigger | 🔴 |
-| Import storage | 🔴 |
-| Override storage | 🔴 |
-
-</Accordion>
-
-<Accordion title="Function migration support">
-
-| Feature | Status |
-|---|---|
-| Runtime: NodeJS | 🟢 |
-| Runtime: .NET 8, Go, Java, Python | 🔴 |
-| Templates: Hello world, Serverless express | 🟢 |
-| Templates: CRUD for DynamoDB | ⚠️ |
-| Lambda Trigger: DynamoDB Stream (from @model) | 🟢 |
-| Lambda Trigger: DynamoDB Stream (from storage) | 🔴 |
-| Lambda Trigger: Kinesis Stream | 🔴 |
-| Access to api, auth, storage categories | 🟢 |
-| Access to function category | 🔴 |
-| Recurring schedule | ⚠️ |
-| Lambda layers | 🔴 |
-| Environment variables | 🟢 |
-| Secrets | 🟡 (generate ✗ refactor ✔) |
-| Custom IAM policies | 🟡 (generate ✗ refactor ✔) |
-| Package manager: NPM | 🟢 |
-| Package manager: Yarn, PNPM | ⚠️ |
-| Custom Build Command | 🔴 |
-
-</Accordion>
-
-<Accordion title="Other categories migration support">
-
-| Feature | Status |
-|---|---|
-| Analytics: Kinesis Streams | 🟢 |
-| Analytics: Pinpoint | 🔴 |
-| Geo: Map | 🟢 |
-| Geo: Location search | 🟢 |
-| Geo: Geofencing | 🟡 (generate ✔ refactor ✗) |
-| Hosting: Continuous deployment | 🟢 |
-| Hosting: Manual deployment | ⚠️ |
-| Interactions | 🔴 |
-| Predictions | 🔴 |
-| Notifications | 🔴 |
-| Custom | 🔴 |
-| Override project | 🔴 |
-
-</Accordion>
 
 ## Adapting your CLI workflows
 
