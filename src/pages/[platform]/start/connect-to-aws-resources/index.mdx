@@ -1,5 +1,4 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { Card } from '@aws-amplify/ui-react';
 
 export const meta = {
   title: 'Connect to AWS resources',
@@ -29,6 +28,12 @@ export function getStaticProps(context) {
     }
   };
 }
+
+<Callout informational>
+
+For a comprehensive guide covering all services (Auth, Data, Storage, Analytics, Geo, Notifications) with platform-specific code examples, see **[Connect to existing AWS resources](/[platform]/frontend/connect-to-existing-resources/)** in the Frontend Libraries section.
+
+</Callout>
 
 Amplify client libraries provide you with the flexibility to directly connect your application to AWS resources such as AWS AppSync, Amazon Cognito, Amazon S3, and more.
 
@@ -134,23 +139,4 @@ You can also configure Amplify **programmatically** without any JSON files on mo
 
 </InlineFilter>
 
-<Callout informational>
-
-For a comprehensive guide covering all services (Auth, Data, Storage, Analytics, Geo, Notifications) with platform-specific code examples, see **[Connect to existing AWS resources](/[platform]/frontend/connect-to-existing-resources/)** in the Frontend Libraries section.
-
-</Callout>
-
-For more information about how to use the Amplify client libraries with existing AWS resources, visit the guides:
-
-<Columns columns={2}>
-<Card variation="outlined">
-[Connect to existing resources](/[platform]/frontend/connect-to-existing-resources/)
-
-Configure Auth, Data, Storage, Analytics, Geo, and Notifications with your own AWS infrastructure — no Amplify backend required.
-</Card>
-<Card variation="outlined">
-[Connect to Cognito](/[platform]/build-a-backend/auth/use-existing-cognito-resources/)
-
-Connect to Cognito resources using Amplify Auth's client library
-</Card>
-</Columns>
+For the full guide on configuring all Amplify services with your own AWS resources, see [Connect to existing AWS resources](/[platform]/frontend/connect-to-existing-resources/).
