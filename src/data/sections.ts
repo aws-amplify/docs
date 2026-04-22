@@ -2,8 +2,9 @@ export type SectionKey =
   | 'quickstart'
   | 'backend'
   | 'frontend'
-  | 'hosting'
   | 'ui'
+  | 'ai'
+  | 'hosting'
   | 'reference';
 
 export interface SectionConfig {
@@ -18,6 +19,7 @@ export const SECTIONS: Record<SectionKey, SectionConfig> = {
   backend: { label: 'Build a Backend', subtitle: 'What runs on AWS' },
   frontend: { label: 'Frontend Libraries', subtitle: 'What runs in your app' },
   ui: { label: 'UI Libraries', subtitle: 'Pre-built components' },
+  ai: { label: 'Develop with AI' },
   hosting: { label: 'Hosting' },
   reference: { label: 'Reference' }
 };
@@ -40,6 +42,8 @@ export function getDefaultPathForSection(
       return `/${platform}/deploy-and-host/`;
     case 'ui':
       return `/${platform}/build-ui/`;
+    case 'ai':
+      return `/${platform}/develop-with-ai/`;
     case 'reference':
       return `/${platform}/reference/`;
     default:
@@ -77,6 +81,7 @@ export function getSectionFromPath(path: string): SectionKey | undefined {
   if (/\/start(\/|$)/.test(path) || /\/how-amplify-works(\/|$)/.test(path)) {
     return 'quickstart';
   }
+  if (/\/develop-with-ai(\/|$)/.test(path)) return 'ai';
   if (/\/deploy-and-host(\/|$)/.test(path)) return 'hosting';
   if (/\/reference(\/|$)/.test(path)) return 'reference';
   if (/\/build-ui(\/|$)/.test(path)) return 'ui';

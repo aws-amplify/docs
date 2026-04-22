@@ -67,6 +67,7 @@ function generateBreadcrumbs(
     if (url.includes('[platform]')) {
       href['query'] = { platform };
     }
+
     let label = directoryEntry ? directoryEntry.title : url;
 
     const override = overrides[url]
@@ -76,6 +77,11 @@ function generateBreadcrumbs(
     if (override) {
       label = override;
     }
+
+    // Skip path segments that have no directory entry and no override.
+    // These are intermediate URL segments that were flattened out of
+    // the directory tree (e.g. "add-aws-services").
+    if (!directoryEntry && !override) return;
 
     breadcrumbs.push({
       href,

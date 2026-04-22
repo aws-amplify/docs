@@ -16,6 +16,12 @@ describe('getSectionFromPath', () => {
     );
   });
 
+  it('returns ai for /develop-with-ai/ paths', () => {
+    expect(getSectionFromPath('/react/develop-with-ai/q-developer/')).toBe(
+      'ai'
+    );
+  });
+
   it('returns backend for /build-a-backend/ paths', () => {
     expect(getSectionFromPath('/react/build-a-backend/auth/set-up-auth/')).toBe(
       'backend'
@@ -81,16 +87,23 @@ describe('getDefaultPathForSection', () => {
       '/swift/reference/'
     );
   });
+
+  it('returns ai path', () => {
+    expect(getDefaultPathForSection('ai', 'react')).toBe(
+      '/react/develop-with-ai/'
+    );
+  });
 });
 
 describe('SECTIONS config', () => {
-  it('has all 6 sections defined', () => {
+  it('has all 7 sections defined', () => {
     const keys = Object.keys(SECTIONS) as SectionKey[];
     expect(keys).toEqual([
       'quickstart',
       'backend',
       'frontend',
       'ui',
+      'ai',
       'hosting',
       'reference'
     ]);
