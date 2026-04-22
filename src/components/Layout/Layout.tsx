@@ -331,6 +331,8 @@ export const Layout = ({
                   activeSection={activeSection}
                   onSectionChange={handleSectionChange}
                   currentPlatform={currentPlatform}
+                  featureRoute={featureRoute}
+                  pageSection={pageSection}
                 />
                 <LayoutHeader
                   showTOC={showTOC}
@@ -340,6 +342,8 @@ export const Layout = ({
                   showLastUpdatedDate={showLastUpdatedDate}
                   activeSection={activeSection}
                   onSectionChange={handleSectionChange}
+                  featureRoute={featureRoute}
+                  pageSection={pageSection}
                 ></LayoutHeader>
                 <View key={asPathWithNoHash} className="layout-main">
                   <Flex

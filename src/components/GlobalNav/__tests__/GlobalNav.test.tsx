@@ -65,4 +65,64 @@ describe('GlobalNav', () => {
     const backendTab = screen.getByText('Build a Backend').closest('a');
     expect(backendTab?.className).toContain('section-nav__tab--active');
   });
+
+  it('should link frontend tab to featureRoute when on a backend page', () => {
+    render(
+      <GlobalNav
+        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+        currentSite="Docs"
+        isGen1={false}
+        mainId="pageMain"
+        activeSection="backend"
+        onSectionChange={() => {}}
+        currentPlatform="react"
+        pageSection="backend"
+        featureRoute="/[platform]/frontend/auth"
+      />
+    );
+    const frontendTab = screen.getByText('Frontend Libraries').closest('a');
+    expect(frontendTab).toHaveAttribute('href', '/react/frontend/auth');
+  });
+
+  it('should link backend tab to featureRoute when on a frontend page', () => {
+    render(
+      <GlobalNav
+        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+        currentSite="Docs"
+        isGen1={false}
+        mainId="pageMain"
+        activeSection="frontend"
+        onSectionChange={() => {}}
+        currentPlatform="swift"
+        pageSection="frontend"
+        featureRoute="/[platform]/build-a-backend/auth"
+      />
+    );
+    const backendTab = screen.getByText('Build a Backend').closest('a');
+    expect(backendTab).toHaveAttribute('href', '/swift/build-a-backend/auth');
+  });
+
+  it('should use default section path when no featureRoute is provided', () => {
+    render(component);
+    const frontendTab = screen.getByText('Frontend Libraries').closest('a');
+    expect(frontendTab).toHaveAttribute('href', '/react/frontend');
+  });
+
+  it('should use default path for non-backend/frontend tabs even with featureRoute', () => {
+    render(
+      <GlobalNav
+        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+        currentSite="Docs"
+        isGen1={false}
+        mainId="pageMain"
+        activeSection="backend"
+        onSectionChange={() => {}}
+        currentPlatform="react"
+        pageSection="backend"
+        featureRoute="/[platform]/frontend/auth"
+      />
+    );
+    const hostingTab = screen.getByText('Hosting').closest('a');
+    expect(hostingTab).toHaveAttribute('href', '/react/deploy-and-host');
+  });
 });
