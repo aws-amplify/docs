@@ -80,12 +80,10 @@ The tool cannot code-generate this feature. Some unsupported features involve st
 | Oauth flow: Configure authorization v implicit grant | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
 | Admin queries | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
 | MFA: OFF | Yes | Yes | 🟢 |
-| MFA: ON | Yes | Yes | ⚠️ |
-| MFA: OPTIONAL | Yes | Yes | ⚠️ |
-| MFA: SMS | Yes | Yes | - |
-| MFA: TOTP | Yes | Yes | - |
-| Zero-config Authenticator support | Yes | Yes | - |
-| User management in console | Yes | Yes | - |
+| MFA: ON | Yes | Yes | 🟢 |
+| MFA: OPTIONAL | Yes | Yes | 🟢 |
+| MFA: SMS | Yes | Yes | 🟢 |
+| MFA: TOTP | Yes | Yes | 🟢 |
 | Configure Oauth scopes | Yes | Yes | 🔴 |
 | Email verification - code | Yes | Yes | 🟢 |
 | Email Verification - Link | Yes | Yes | 🟢 |
@@ -94,7 +92,6 @@ The tool cannot code-generate this feature. Some unsupported features involve st
 | Unauthenticated logins | Yes | Yes | 🟢 |
 | Custom attributes | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | - |
 | Oauth flow: Configure domain name prefix | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
-| Auth configuration in console | Yes | No | - |
 | First class OIDC support | No | Yes | - |
 | First class SAML support | No | Yes | - |
 | Import auth | Yes | Yes | 🟢 |
@@ -134,9 +131,7 @@ The migration tool does not convert your GraphQL schema to the native Gen 2 sche
 | function handler | Yes | Yes | 🟢 |
 | http handler | Yes | Yes (custom data sources including `http`) | 🟢 |
 | DataStore support | Yes | No | 🔴 |
-| Visual configuration | Yes | No (Gen 2 is code-first by design) | - |
 | MySQL and PostgreSQL support | No | Yes | - |
-| In-IDE end-to-end type safety | No | Yes | - |
 
 ### API
 
@@ -166,11 +161,8 @@ The migration tool does not convert your GraphQL schema to the native Gen 2 sche
 | Guest - Configure CRUD access | Yes | Yes | 🟢 |
 | Lambda trigger for S3 bucket | Yes | Yes | 🟢 |
 | Import an S3 bucket | Yes | Yes | 🔴 |
-| File browser in console | Yes | Yes | - |
-| Ability to override/custom | Yes | Yes | 🔴 |
+| Override Storage | Yes | Yes | 🔴 |
 | S3 Lambda triggers | Yes | Yes | 🟢 |
-| Locally test | Yes | Yes (sandbox environments) | - |
-| Visual configuration | Yes | No (Gen 2 is code-first by design) | - |
 | Import S3 buckets | Yes | No | 🔴 |
 | NoSQL Database | Yes | Yes | 🟢 |
 | NoSQL: Sort key, Global secondary indexes | Yes | Yes | 🟢 |
@@ -192,19 +184,18 @@ The migration tool does not convert your GraphQL schema to the native Gen 2 sche
 | Function resource access permissions: API | Yes | Yes | 🟢 |
 | Function resource access permissions: custom | No | Yes | - |
 | Function resource access permissions CRUD operations | Yes | Yes | 🟢 |
-| Function resource access permissions: geo | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk) | - |
+| Function resource access permissions: geo | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk) | 🔴 |
 | Function resource access permissions: analytics | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk) | 🟢 |
 | Environment variables | Yes | Yes | 🟢 |
 | Secrets | Yes | Yes | 🔴 |
 | Cron jobs | Yes | Yes | ⚠️ |
-| Configure memory size | Yes | Yes | - |
+| Configure memory size | Yes | Yes | 🟢 |
 | Lambda layers | Yes | No | 🔴 |
 | Custom IAM policies | Yes | Yes | 🔴 |
 | Function templates: Hello World | Yes | Yes | 🟢 |
 | Function templates: CRUD for DynamoDB | Yes | Yes | 🟢 |
 | Function templates: Serverless express | Yes | Yes | 🟢 |
 | Function templates: Lambda trigger | Yes | Yes | 🟢 |
-| Function logs in console | Yes | Yes | - |
 
 ### Other categories
 
@@ -265,11 +256,11 @@ The migration tool generates an `amplify.yml` buildspec file so that you can dep
 
 </Callout>
 
-| Feature | Gen 1 | Gen 2 | Migration Tool |
-|---|---|---|---|
-| Continuous deployment (Git-based) | Yes | Yes | 🟢 |
-| Manual deployment | Yes | Yes | ⚠️ |
-| Amazon CloudFront and S3 | Yes | Yes | ⚠️ |
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| Continuous deployment (Git-based) | Yes | Yes |
+| Manual deployment | Yes | Yes |
+| Amazon CloudFront and S3 | Yes | No |
 
 ## Tooling and Workflows
 
@@ -317,6 +308,20 @@ The Gen 2 CLI (`@aws-amplify/backend-cli`) is invoked via `npx ampx <command>`. 
 | `amplify override <category>` | Direct CDK modifications in `amplify/backend.ts` | Gen 2 gives you full CDK access natively. |
 
 </Accordion>
+
+### Console & Developer Experience
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| Auth configuration in console | Yes | No |
+| User management in console | Yes | Yes |
+| Zero-config Authenticator support | Yes | Yes |
+| Data visual configuration (Studio) | Yes | No (Gen 2 is code-first by design) |
+| In-IDE end-to-end type safety | No | Yes |
+| Storage file browser in console | Yes | Yes |
+| Storage visual configuration (Studio) | Yes | No (Gen 2 is code-first by design) |
+| Local testing | `amplify mock` | `npx ampx sandbox` (cloud sandbox) |
+| Function logs in console | Yes | Yes |
 
 ### UI Builder
 
