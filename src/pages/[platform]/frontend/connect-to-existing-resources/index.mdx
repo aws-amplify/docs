@@ -49,9 +49,9 @@ There are two ways to configure Amplify client libraries with your own resources
 
 ### Option 1: Manual `amplify_outputs.json`
 
-Create an `amplify_outputs.json` file in your project with the configuration for your resources:
+Create an `amplify_outputs.json` file in your project with the configuration for your resources. See the [full `amplify_outputs.json` specification](/[platform]/reference/amplify_outputs/) for all supported fields.
 
-```json
+```json title="amplify_outputs.json"
 {
   "version": "1",
   "auth": {
@@ -110,7 +110,21 @@ There are two ways to configure Amplify client libraries with your own resources
 
 ### Option 1: Manual `amplify_outputs.json`
 
-Create an `amplify_outputs.json` file in your Xcode project with the configuration for your resources, then configure Amplify as usual:
+Create an `amplify_outputs.json` file in your Xcode project. See the [full specification](/[platform]/reference/amplify_outputs/) for all supported fields.
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "us-east-1_abc123",
+    "user_pool_client_id": "abcdef123456",
+    "identity_pool_id": "us-east-1:11111111-2222-3333-4444-555555555555"
+  }
+}
+```
+
+Then configure Amplify as usual:
 
 ```swift
 try Amplify.add(plugin: AWSCognitoAuthPlugin())
@@ -150,7 +164,21 @@ There are two ways to configure Amplify client libraries with your own resources
 
 ### Option 1: Manual `amplify_outputs.json`
 
-Create an `amplify_outputs.json` file in your `app/src/main/res/raw/` directory with the configuration for your resources, then configure Amplify as usual:
+Create an `amplify_outputs.json` file in your `app/src/main/res/raw/` directory. See the [full specification](/[platform]/reference/amplify_outputs/) for all supported fields.
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "us-east-1_abc123",
+    "user_pool_client_id": "abcdef123456",
+    "identity_pool_id": "us-east-1:11111111-2222-3333-4444-555555555555"
+  }
+}
+```
+
+Then configure Amplify as usual:
 
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
@@ -167,7 +195,7 @@ import com.amplifyframework.core.configuration.AmplifyOutputsData
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 
 val config = AmplifyOutputsData(
-    auth = AmplifyOutputsData.Auth(
+    auth = Auth(
         awsRegion = "us-east-1",
         userPoolId = "us-east-1_abc123",
         userPoolClientId = "abcdef123456"
@@ -189,15 +217,27 @@ This approach is ideal for:
 
 There are two ways to configure Amplify client libraries with your own resources:
 
-### Option 1: Manual `amplify_outputs.dart`
+### Option 1: Manual `amplify_outputs.json`
 
-Generate an `amplify_outputs.dart` file from your JSON configuration:
+Create an `amplify_outputs.json` file with your resource configuration. See the [full specification](/[platform]/reference/amplify_outputs/) for all supported fields.
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "us-east-1_abc123",
+    "user_pool_client_id": "abcdef123456",
+    "identity_pool_id": "us-east-1:11111111-2222-3333-4444-555555555555"
+  }
+}
+```
+
+Then generate the Dart configuration and configure Amplify:
 
 ```bash
 npx ampx generate outputs --outputs-format dart --outputs-out-dir lib
 ```
-
-Then configure Amplify in your app:
 
 ```dart
 import 'amplify_outputs.dart';
@@ -311,43 +351,43 @@ try Amplify.configure(config)
 
 ```kotlin
 val config = AmplifyOutputsData(
-    auth = AmplifyOutputsData.Auth(
+    auth = Auth(
         awsRegion = "us-east-1",
         userPoolId = "us-east-1_abc123",
         userPoolClientId = "abcdef123456",
         identityPoolId = "us-east-1:11111111-2222-3333-4444-555555555555",
-        passwordPolicy = AmplifyOutputsData.Auth.PasswordPolicy(
+        passwordPolicy = Auth.PasswordPolicy(
             minLength = 8,
             requireNumbers = true,
             requireLowercase = true,
             requireUppercase = true,
             requireSymbols = false
         ),
-        oauth = AmplifyOutputsData.Auth.Oauth(
+        oauth = Auth.Oauth(
             identityProviders = listOf(
-                AmplifyOutputsData.Auth.IdentityProviders.GOOGLE,
-                AmplifyOutputsData.Auth.IdentityProviders.SIGN_IN_WITH_APPLE
+                IdentityProviders.GOOGLE,
+                IdentityProviders.SIGN_IN_WITH_APPLE
             ),
             domain = "myapp.auth.us-east-1.amazoncognito.com",
             scopes = listOf("openid", "email", "profile"),
             redirectSignInUri = listOf("myapp://callback"),
             redirectSignOutUri = listOf("myapp://signout"),
-            responseType = AmplifyOutputsData.Auth.ResponseType.Code
+            responseType = ResponseType.Code
         ),
         standardRequiredAttributes = listOf(
-            AmplifyOutputsData.AmazonCognitoStandardAttributes.EMAIL
+            AmazonCognitoStandardAttributes.EMAIL
         ),
         usernameAttributes = listOf(
-            AmplifyOutputsData.Auth.UsernameAttributes.EMAIL
+            UsernameAttributes.EMAIL
         ),
         userVerificationTypes = listOf(
-            AmplifyOutputsData.Auth.VerificationMechanism.EMAIL
+            VerificationMechanism.EMAIL
         ),
         unauthenticatedIdentitiesEnabled = true,
-        mfaConfiguration = AmplifyOutputsData.Auth.MfaConfiguration.OPTIONAL,
+        mfaConfiguration = MfaConfiguration.OPTIONAL,
         mfaMethods = listOf(
-            AmplifyOutputsData.Auth.MfaMethods.SMS,
-            AmplifyOutputsData.Auth.MfaMethods.TOTP
+            MfaMethods.SMS,
+            MfaMethods.TOTP
         )
     )
 )
@@ -461,14 +501,14 @@ try Amplify.configure(config)
 
 ```kotlin
 val config = AmplifyOutputsData(
-    data = AmplifyOutputsData.Data(
+    data = Data(
         awsRegion = "us-east-1",
         url = "https://abc123.appsync-api.us-east-1.amazonaws.com/graphql",
         apiKey = "da2-abcdefghijklmno",
-        defaultAuthorizationType = AmplifyOutputsData.AwsAppsyncAuthorizationType.API_KEY,
+        defaultAuthorizationType = AwsAppsyncAuthorizationType.API_KEY,
         authorizationTypes = listOf(
-            AmplifyOutputsData.AwsAppsyncAuthorizationType.API_KEY,
-            AmplifyOutputsData.AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS
+            AwsAppsyncAuthorizationType.API_KEY,
+            AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS
         )
     )
 )
@@ -576,13 +616,13 @@ let config = AmplifyOutputsData(
 
 ```kotlin
 val config = AmplifyOutputsData(
-    auth = AmplifyOutputsData.Auth(
+    auth = Auth(
         awsRegion = "us-east-1",
         userPoolId = "us-east-1_abc123",
         userPoolClientId = "abcdef123456",
         identityPoolId = "us-east-1:11111111-2222-3333-4444-555555555555"
     ),
-    storage = AmplifyOutputsData.Storage(
+    storage = Storage(
         awsRegion = "us-east-1",
         bucketName = "my-app-bucket"
     )
@@ -597,16 +637,16 @@ Amplify.configure(config, applicationContext)
 
 ```kotlin
 val config = AmplifyOutputsData(
-    storage = AmplifyOutputsData.Storage(
+    storage = Storage(
         awsRegion = "us-east-1",
         bucketName = "primary-bucket",
         buckets = listOf(
-            AmplifyOutputsData.Storage.Bucket(
+            Storage.Bucket(
                 name = "media",
                 bucketName = "my-media-bucket",
                 awsRegion = "us-east-1"
             ),
-            AmplifyOutputsData.Storage.Bucket(
+            Storage.Bucket(
                 name = "logs",
                 bucketName = "my-logs-bucket",
                 awsRegion = "us-west-2"
@@ -712,8 +752,8 @@ try Amplify.configure(config)
 
 ```kotlin
 val config = AmplifyOutputsData(
-    analytics = AmplifyOutputsData.Analytics(
-        amazonPinpoint = AmplifyOutputsData.Analytics.AmazonPinpoint(
+    analytics = Analytics(
+        amazonPinpoint = Analytics.AmazonPinpoint(
             awsRegion = "us-east-1",
             appId = "abc123def456"
         )
@@ -806,21 +846,21 @@ try Amplify.configure(config)
 
 ```kotlin
 val config = AmplifyOutputsData(
-    geo = AmplifyOutputsData.Geo(
+    geo = Geo(
         awsRegion = "us-east-1",
-        maps = AmplifyOutputsData.Geo.Maps(
+        maps = Geo.Maps(
             items = mapOf(
-                "myMap" to AmplifyOutputsData.AmazonLocationServiceConfig(
+                "myMap" to AmazonLocationServiceConfig(
                     style = "VectorEsriStreets"
                 )
             ),
             default = "myMap"
         ),
-        searchIndices = AmplifyOutputsData.Geo.SearchIndices(
+        searchIndices = Geo.SearchIndices(
             items = listOf("myPlaceIndex"),
             default = "myPlaceIndex"
         ),
-        geofenceCollections = AmplifyOutputsData.Geo.GeofenceCollections(
+        geofenceCollections = Geo.GeofenceCollections(
             items = listOf("myGeofenceCollection"),
             default = "myGeofenceCollection"
         )
@@ -858,12 +898,12 @@ try Amplify.configure(config)
 
 ```kotlin
 val config = AmplifyOutputsData(
-    notifications = AmplifyOutputsData.Notifications(
+    notifications = Notifications(
         awsRegion = "us-east-1",
         amazonPinpointAppId = "abc123def456",
         channels = listOf(
-            AmplifyOutputsData.AmazonPinpointChannels.FCM,
-            AmplifyOutputsData.AmazonPinpointChannels.IN_APP_MESSAGING
+            AmazonPinpointChannels.FCM,
+            AmazonPinpointChannels.IN_APP_MESSAGING
         )
     )
 )
@@ -927,22 +967,22 @@ try Amplify.configure(config)
 
 ```kotlin
 val config = AmplifyOutputsData(
-    auth = AmplifyOutputsData.Auth(
+    auth = Auth(
         awsRegion = "us-east-1",
         userPoolId = "us-east-1_abc123",
         userPoolClientId = "abcdef123456",
         identityPoolId = "us-east-1:11111111-2222-3333-4444-555555555555"
     ),
-    data = AmplifyOutputsData.Data(
+    data = Data(
         awsRegion = "us-east-1",
         url = "https://abc123.appsync-api.us-east-1.amazonaws.com/graphql",
-        defaultAuthorizationType = AmplifyOutputsData.AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS,
+        defaultAuthorizationType = AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS,
         authorizationTypes = listOf(
-            AmplifyOutputsData.AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS,
-            AmplifyOutputsData.AwsAppsyncAuthorizationType.AWS_IAM
+            AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS,
+            AwsAppsyncAuthorizationType.AWS_IAM
         )
     ),
-    storage = AmplifyOutputsData.Storage(
+    storage = Storage(
         awsRegion = "us-east-1",
         bucketName = "my-app-bucket"
     )
@@ -1093,7 +1133,7 @@ val (region, userPoolId, clientId) = when (BuildConfig.BUILD_TYPE) {
 }
 
 val config = AmplifyOutputsData(
-    auth = AmplifyOutputsData.Auth(
+    auth = Auth(
         awsRegion = region,
         userPoolId = userPoolId,
         userPoolClientId = clientId
