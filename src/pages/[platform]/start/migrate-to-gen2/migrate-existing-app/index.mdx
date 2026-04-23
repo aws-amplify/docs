@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Migrate an existing Gen 1 Application',
+  title: 'Migrate an existing Gen 1 Environment',
   description: 'Step-by-step guide to migrate your existing Amplify Gen 1 backend environment to Gen 2, including prerequisites, tooling, and troubleshooting.',
   platforms: [
     'android',
@@ -35,29 +35,21 @@ The migration tools are in early stages of development and **should not** be run
 
 </Callout>
 
-## Overall Approach
+## Backend Migration
 
-Migration to Gen 2 follows a partial blue/green deployment approach:
+Migration is driven by a new `gen2-migration` subcommand in the Gen 1 CLI. It walks you through a series of steps that produce a new Gen 2 environment (called a branch) alongside your existing Gen 1 environment. The new branch gets fresh copies of your stateless resources (APIs, functions, roles) while your stateful resources (user pools, S3 buckets, DynamoDB tables) are transferred over so no data is lost. The following diagram describes the workflow:
 
-1. **Generate** the necessary Gen 2 definition files based on your deployed Gen 1 environment.
-2. **Deploy** the new Gen 2 code to create a new environment (in Gen 2 these are referred to as branches).
-3. **Refactor** your underlying CloudFormation stacks so that Gen 1 stateful resources are managed by the new Gen 2 deployment.
+<img src="/images/gen2-migration/workflow.png" alt="Migration workflow showing resource state at each step" width="900" />
 
-The following diagram describes the workflow and resource state during migration:
+After completing the migration, you will have two functionally equivalent Amplify applications that access the same data. You will no longer be able to update your Gen 1 environment — push updates to the Gen 2 code instead.
 
-<img src="/images/gen2-migration/workflow.png" alt="Migration workflow showing resource state at each step" width="700" />
+### Generate
 
-### Stateless resources
+Generate the necessary Gen 2 definition files based on your deployed Gen 1 environment. The tool introspects your Gen 1 CloudFormation stacks and Amplify configuration files to produce TypeScript backend definitions in the `amplify/` directory.
 
-> e.g. AppSync GraphQL APIs, API Gateway REST APIs, Lambda Functions, IAM Roles & Policies
+Features that are natively supported in Gen 2 are code-generated using the native Gen 2 APIs (e.g. `defineAuth`, `defineData`, `defineStorage`). Features that are not natively supported are code-generated as CDK constructs and [escape hatches](https://docs.aws.amazon.com/cdk/v2/guide/cfn-layer.html#develop-customize-escape).
 
-Stateless resources don't store user data. Deploying the Gen 2 code creates new instances of these resources. They are untouched during the refactoring step.
-
-### Stateful resources
-
-> e.g. S3 Buckets, DynamoDB Tables, Cognito User Pools, Cognito Identity Pools
-
-Stateful resources store user data. Deploying the Gen 2 code initially creates new empty instances. Once you verify the Gen 2 application works correctly, the refactoring step deletes the empty instances and replaces them with your Gen 1 stateful resources so that your Gen 2 application accesses all existing data.
+Stateful resources (user pools, S3 buckets, etc.) are also code-generated, meaning new empty instances will be deployed in the Gen 2 environment. The refactor step will later replace these empty resources with your actual Gen 1 resources.
 
 <Callout info>
 
@@ -65,9 +57,15 @@ DynamoDB tables that host your models are not cloned as part of the Gen 2 deploy
 
 </Callout>
 
-After completing the migration, you will have two functionally equivalent Amplify applications that access the same data. You will no longer be able to update your Gen 1 environment — push updates to the Gen 2 code instead.
+The generated code can be deployed using either the Amplify Hosting service (via branch deployments) or the Gen 2 CLI (`npx ampx sandbox` / `npx ampx pipeline-deploy`).
 
-### Frontend
+### Refactor
+
+Refactoring uses the [CloudFormation Stack Refactor](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-refactoring.html) APIs to move your Gen 1 stateful resources (Cognito User Pool, Identity Pool, S3 bucket, etc.) into the Gen 2 CloudFormation stacks. The empty placeholder resources that were created during the generate/deploy phase are replaced with your actual Gen 1 resources, preserving all existing user accounts and data.
+
+Stateless resources (APIs, functions, IAM roles) are not moved — the Gen 2 environment already has its own new instances of these. Your Gen 1 stateless resources remain in place so that any Gen 1 frontends continue to function until you switch them over.
+
+## Frontend Migration
 
 Gen 1 frontends communicate with backend resources via the `amplifyconfiguration.json` file. All values in this file (AppSync endpoint URLs, User Pool IDs, etc.) remain valid throughout the entire migration process, so Gen 1 frontends continue to work without any change.
 
@@ -86,7 +84,11 @@ Amplify client libraries detect the different structure and adjust automatically
 
 ## Feature coverage
 
-For a detailed breakdown of which features are supported in Gen 2 and which can be automatically migrated, see the [Feature Parity](/[platform]/start/migrate-to-gen2/feature-matrix/) page.
+Before starting the migration, carefully review the [Feature Parity](/[platform]/start/migrate-to-gen2/feature-matrix/) page. It will help you understand whether your environment can be fully migrated, what manual work may be required for partially supported or unsupported features, and whether there are any unknown areas that need further research on your part.
+
+## Known issues
+
+See [open migration issues](https://github.com/aws-amplify/amplify-cli/issues?q=is%3Aissue%20state%3Aopen%20label%3Agen2-migration%20type%3ABug) on GitHub.
 
 ## Prerequisites
 
@@ -489,132 +491,13 @@ If you did not make any code changes after the refactor step, you still need to 
 
 ## Troubleshooting
 
-### npm installation issues
+### Node.js dependencies installation
 
 Gen 1 Lambda functions may have dependencies declared in their `package.json` files. During `generate`, these are merged into the root `package.json` and can conflict with one another. If your Gen 2 deployment fails due to installation errors, inspect the root `package.json` and resolve conflicts manually.
 
-### Circular dependencies
+### Circular CloudFormation dependencies
 
 Gen 1 apps where functions access multiple other resources (e.g. a query handler that also needs access to the data API, or an auth trigger that depends on storage) can produce circular dependencies between CloudFormation nested stacks when deployed as Gen 2. See [Troubleshoot circular dependency issues](https://docs.amplify.aws/vue/build-a-backend/troubleshooting/circular-dependency/) for resolution steps.
-
-## Adapting your CLI workflows
-
-After migrating your backend, you'll need to adapt your day-to-day CLI workflows. Gen 2 replaces the Gen 1 CLI wizard approach with a code-first model using TypeScript and CDK.
-
-### Key differences
-
-| Aspect | Gen 1 | Gen 2 |
-|---|---|---|
-| CLI installation | Global (`npm i -g @aws-amplify/cli`) | Local devDep (`npm i @aws-amplify/backend-cli`), run via `npx` |
-| Backend definition | CLI wizard + JSON/GraphQL files in `amplify/` | TypeScript + CDK in `amplify/` |
-| Environment management | `amplify env add/checkout/list` | Git branches (or logical branch names in custom pipelines) |
-| Local development | `amplify mock` (local emulation) | `npx ampx sandbox` (real cloud resources per developer) |
-| Deployment | `amplify push` | `npx ampx pipeline-deploy` or Amplify Hosting auto-build |
-| Frontend config file | `amplifyconfiguration.json` / `aws-exports.js` | `amplify_outputs.json` |
-| Resource overrides | `amplify override <category>` | Direct CDK access in `amplify/backend.ts` |
-| Adding resources | `amplify add <category>` | TypeScript definitions using `define*()` functions |
-| Secrets | `amplify function update` secret prompts | `npx ampx sandbox secret set <NAME>` or console + `secret()` in code |
-| Codegen | `amplify codegen` / `amplify codegen model` | Not needed, but optionally `npx ampx generate graphql-client-code` |
-
-### CLI command mapping
-
-The Gen 2 CLI (`@aws-amplify/backend-cli`) is invoked via `npx ampx <command>`. All commands support AWS CLI environment variables (`AWS_PROFILE`, `AWS_REGION`). See the full [CLI commands reference](https://docs.amplify.aws/react/reference/cli-commands/).
-
-<Accordion title="Full command mapping table">
-
-| Gen 1 Command | Gen 2 Equivalent | Notes |
-|---|---|---|
-| `amplify init` | No equivalent | Gen 2 projects are initialized by creating an `amplify/` folder with TypeScript definitions. Use `npm create amplify@latest` for new projects. |
-| `amplify add auth` | `defineAuth()` in `amplify/auth/resource.ts` | Code-first definition. No CLI command needed. |
-| `amplify add api` | `defineData()` in `amplify/data/resource.ts` | GraphQL schema defined in TypeScript. |
-| `amplify add storage` | `defineStorage()` in `amplify/storage/resource.ts` | S3 bucket configuration in code. |
-| `amplify add function` | `defineFunction()` in `amplify/functions/<name>/resource.ts` | Lambda functions defined in code. Gen 2 defaults to TypeScript runtime. |
-| `amplify add hosting` | Removed | Use Amplify Hosting branch deployments or custom pipelines. For Amplify Hosting use the [aws amplify CLI](https://docs.aws.amazon.com/cli/latest/reference/amplify/). |
-| `amplify push` | `npx ampx pipeline-deploy --branch <branch> --app-id <id>` | Deploys backend infrastructure. In sandbox mode, use `npx ampx sandbox`. |
-| `amplify publish` | Removed | Was a wrapper for push + frontend deploy. Use your pipeline or Amplify Hosting instead. |
-| `amplify pull` | `npx ampx generate outputs --branch <branch> --app-id <id>` | Generates `amplify_outputs.json` for the frontend. |
-| `amplify env add` | Create a new git branch | Gen 2 environments map to git branches. Each branch gets its own CloudFormation stack. |
-| `amplify env checkout` | `git checkout <branch>` + `npx ampx generate outputs` | Switch branch, then regenerate outputs. |
-| `amplify env list` | Check Amplify Console or [list branches](https://docs.aws.amazon.com/cli/latest/reference/amplify/list-branches.html) | No direct CLI equivalent. |
-| `amplify status` | `npx ampx sandbox` (watch mode shows drift) | No direct status command. Sandbox provides live feedback. |
-| `amplify delete` | `npx ampx sandbox delete` (sandbox only) | For branch environments, disconnect the branch in the Amplify Console. |
-| `amplify codegen` | `npx ampx generate graphql-client-code` | Generates GraphQL statements and types. |
-| `amplify codegen model` | `npx ampx generate graphql-client-code --format modelgen` | Generates model classes for mobile/JS. |
-| `amplify configure` | AWS CLI profile configuration | Gen 2 uses standard AWS profiles. No Amplify-specific configure step. |
-| `amplify mock` | `npx ampx sandbox` | Sandbox deploys real cloud resources per developer. There is no local mock in Gen 2. |
-| `amplify override <category>` | Direct CDK modifications in `amplify/backend.ts` | Gen 2 gives you full CDK access natively. |
-
-</Accordion>
-
-## Custom pipeline and non-Git workflows
-
-Gen 2 assumes a Git-based workflow where branches map to environments. Amplify Hosting's built-in CI/CD triggers on `git push` events. If you use SVN or a custom pipeline (AWS CodePipeline, Jenkins, CodeCatalyst, etc.), you need to drive deployments yourself.
-
-### One-time setup
-
-A Gen 2 AWS Amplify `appId` is always needed, unlike Gen 1.
-
-Create an Amplify App (connect a Git repo via the Amplify Console, or use the AWS CLI):
-
-```bash
-aws amplify create-app --name my-app
-```
-
-Create a branch mapping — register a branch name that your pipeline will deploy to. This is just an identifier and does not need to be an existing git branch:
-
-```bash
-aws amplify create-branch --app-id <APP_ID> --branch-name main
-```
-
-Disable auto-build — prevent Amplify from building on git push since your pipeline handles it:
-
-```bash
-aws amplify update-branch --app-id <APP_ID> --branch-name main --no-enable-auto-build
-```
-
-Bootstrap CDK — Gen 2 uses CDK under the hood. Your target account/region must be bootstrapped:
-
-```bash
-npx cdk bootstrap aws://<ACCOUNT_ID>/<REGION>
-```
-
-### Pipeline build steps
-
-In your custom pipeline (regardless of VCS), the build step should:
-
-```bash
-# 1. Install dependencies
-npm ci
-
-# 2. Signal CI environment
-export CI=1
-
-# 3. Deploy backend infrastructure
-npx ampx pipeline-deploy --branch main --app-id <AMPLIFY_APP_ID>
-
-# 4. (Optional) Generate frontend config — only needed if the frontend
-#    is in another repo/server. pipeline-deploy already generates one.
-npx ampx generate outputs --branch main --app-id <AMPLIFY_APP_ID>
-```
-
-### Non-Git specific notes
-
-- Gen 2's `ampx` CLI does not depend on Git. The `--branch` parameter is a logical name, not a Git ref. You can use any string (e.g. `trunk`, `release-1.0`).
-- The `amplify/` folder containing your TypeScript backend definitions must be present in your working directory at build time. If using SVN, export it as part of your pipeline checkout.
-- `npx ampx sandbox` works locally regardless of VCS — it only watches the filesystem.
-
-### Frontend hosting without Git or Amplify Hosting
-
-If you don't use Amplify Hosting for frontend deployment:
-
-1. Run `npx ampx generate outputs` in your pipeline to produce `amplify_outputs.json`.
-2. Bundle this file with your frontend build artifacts.
-3. Deploy the frontend to your own hosting (S3 + CloudFront, on-prem, etc.).
-
-If you want to use Amplify Hosting for the frontend only while keeping your own backend pipeline:
-
-1. Update the `amplify.yml` build spec to only run `npx ampx generate outputs` (not `pipeline-deploy`).
-2. Use an incoming webhook to trigger the frontend build after your pipeline's `pipeline-deploy` succeeds.
 
 ## Feedback
 
