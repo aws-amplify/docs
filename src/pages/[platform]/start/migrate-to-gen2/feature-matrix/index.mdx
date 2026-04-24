@@ -49,8 +49,6 @@ The tool can produce Gen 2 code, but the feature requires refactoring support wh
 
 The tool cannot code-generate this feature. Some unsupported features involve stateful resources that will require manual data replication - for example, `@searchable` creates an OpenSearch domain with indexed data that you would need to recreate and repopulate in Gen 2. Other features can be purely stateless and only need to be manually configured by writing CDK code - for example, a Python Lambda function just needs to be redefined using CDK in your Gen 2 code, with no data migration involved.
 
-**⚠️ Untested**
-
 </Accordion>
 
 ### Auth
@@ -65,7 +63,7 @@ The tool cannot code-generate this feature. Some unsupported features involve st
 | Amazon | Yes | Yes | 🔴 |
 | Sign-in with Apple | Yes | Yes | 🔴 |
 | Add user pool groups | Yes | Yes | 🟢 |
-| User pool group preference | Yes | Yes | - |
+| User pool group preference | Yes | Yes | 🟢 |
 | Sign-up attributes | Yes | Yes | 🟢 |
 | Auth trigger support | Yes | Yes | 🟢 |
 | Auth trigger templates: Add Google reCaptcha Challenge | Yes | Yes | 🟢 |
@@ -90,7 +88,7 @@ The tool cannot code-generate this feature. Some unsupported features involve st
 | Oauth flow: Configure redirect URIs | Yes | Yes | 🔴 |
 | Ability to set a friendly name for User Pool | Yes | Yes | - |
 | Unauthenticated logins | Yes | Yes | 🟢 |
-| Custom attributes | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | - |
+| Custom attributes | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🟢 |
 | Oauth flow: Configure domain name prefix | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
 | First class OIDC support | No | Yes | - |
 | First class SAML support | No | Yes | - |
@@ -140,8 +138,8 @@ The migration tool does not convert your GraphQL schema to the native Gen 2 sche
 | GraphQL: API Key auth | Yes | Yes | 🟢 |
 | GraphQL: Cognito User Pool auth | Yes | Yes | 🟢 |
 | GraphQL: IAM auth | Yes | Yes | 🟢 |
-| GraphQL: OpenID Connect auth | Yes | Yes | ⚠️ |
-| GraphQL: Lambda auth | Yes | Yes | ⚠️ |
+| GraphQL: OpenID Connect auth | Yes | Yes | 🔴 |
+| GraphQL: Lambda auth | Yes | Yes | 🔴 |
 | GraphQL: Conflict detection (DataStore) | Yes | No | 🔴 |
 | REST API | Yes | Yes | 🟢 |
 | REST: Restrict API access | Yes | Yes | 🟢 |
@@ -188,7 +186,7 @@ The migration tool does not convert your GraphQL schema to the native Gen 2 sche
 | Function resource access permissions: analytics | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk) | 🟢 |
 | Environment variables | Yes | Yes | 🟢 |
 | Secrets | Yes | Yes | 🔴 |
-| Cron jobs | Yes | Yes | ⚠️ |
+| Cron jobs | Yes | Yes | 🔴 |
 | Configure memory size | Yes | Yes | 🟢 |
 | Lambda layers | Yes | No | 🔴 |
 | Custom IAM policies | Yes | Yes | 🔴 |

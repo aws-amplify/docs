@@ -156,6 +156,10 @@ See [open migration issues](https://github.com/aws-amplify/amplify-cli/issues?q=
 
 ## Prerequisites
 
+### DataStore
+
+If your API has conflict resolution enabled (DataStore), you must disable it before proceeding with the Gen 2 migration. See the [Migrate from DataStore](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/) guide for instructions.
+
 ### Amplify CLI Version
 
 The migration tool relies on CloudFormation template structures and metadata produced by the most recent CLI major version. Deploy your Gen 1 environment with `v14` before migrating:
@@ -322,12 +326,6 @@ Both features show `—` for refactor because they only require code generation.
 
 ### Step 2: Lock
 
-During the migration period your Gen 1 environment should not undergo any changes. Lock it by running:
-
-```bash
-npx amplify gen2-migration lock
-```
-
 <Accordion title="Validations">
 
 | Validation | Description |
@@ -336,6 +334,12 @@ npx amplify gen2-migration lock
 | Drift | Detects drift between your local project and the deployed CloudFormation stacks. |
 
 </Accordion>
+
+During the migration period your Gen 1 environment should not undergo any changes. Lock it by running:
+
+```bash
+npx amplify gen2-migration lock
+```
 
 Once validated, the following restrictive IAM policy is attached to the root stack:
 
@@ -358,13 +362,6 @@ Do not rollback the lock if the Gen 1 stack has already been refactored (and not
 
 ### Step 3: Generate
 
-Generate your Gen 2 definition files:
-
-```bash
-git checkout -b gen2-main
-npx amplify gen2-migration generate
-```
-
 <Accordion title="Validations">
 
 | Validation | Description |
@@ -374,6 +371,13 @@ npx amplify gen2-migration generate
 | Assessment | Runs the resource and feature assessment for the `generate` step and fails if any entry is unsupported. |
 
 </Accordion>
+
+Generate your Gen 2 definition files:
+
+```bash
+git checkout -b gen2-main
+npx amplify gen2-migration generate
+```
 
 This command introspects your deployed Gen 1 CloudFormation stacks and generates the equivalent Gen 2 TypeScript backend definition files, overriding your local `./amplify` directory. The generated code is a starting point — some features require manual edits before deploying (see below).
 
@@ -494,6 +498,15 @@ By default, sandbox creates its own DynamoDB tables and does not share Gen 1 mod
 
 ### Step 5: Refactor
 
+<Accordion title="Validations">
+
+| Validation | Description |
+|---|---|
+| Lock Status | Verifies the Gen 1 environment is locked (deny-all stack policy is in place). |
+| Assessment | Runs the resource and feature assessment for the `refactor` step and fails if any entry is unsupported. |
+
+</Accordion>
+
 Refactoring is the process of moving your Gen 1 stateful resources (Cognito User Pool, S3 bucket, etc.) into the Gen 2 CloudFormation stacks using the [CloudFormation Refactor](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-refactoring.html) APIs. After this step, both your Gen 1 and Gen 2 applications share the same underlying data and user accounts — your Gen 1 environment will no longer be updatable.
 
 First, find the name of the Gen 2 root CloudFormation stack in the AWS CloudFormation console. Look for a stack with the pattern: `amplify-<appId>-gen2main-branch-<suffix>`.
@@ -508,18 +521,9 @@ git checkout main
 npx amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
 
-<Accordion title="Validations">
-
-| Validation | Description |
-|---|---|
-| Lock Status | Verifies the Gen 1 environment is locked (deny-all stack policy is in place). |
-| Assessment | Runs the resource and feature assessment for the `refactor` step and fails if any entry is unsupported. |
-
-</Accordion>
-
 <Callout info>
 
-Since `generate` replaces the Gen 1 `amplify/` directory, local AWS profile configuration is lost. If you are using a non-default profile, set the `AWS_PROFILE` environment variable or run `amplify pull` to restore the local configuration before proceeding.
+Since `generate` replaces the Gen 1 `amplify/` directory, the Amplify configuration file that specifies which AWS profile to use is lost. If you are using a non-default profile, set the `AWS_PROFILE` environment variable or run `amplify pull` to restore the configuration before proceeding.
 
 </Callout>
 
@@ -528,6 +532,21 @@ If the refactor fails or produces undesired results, roll it back:
 ```bash
 npx amplify gen2-migration refactor --to <gen2-root-stack-name> --rollback
 ```
+
+<Accordion title="Holding stacks">
+
+During the forward refactor, the tool needs to move Gen 1 stateful resources into the Gen 2 CloudFormation stacks. However, the Gen 2 stacks already contain their own resources (created during the [Deploy](#step-4-deploy) step). CloudFormation cannot have two physical resources mapped to the same logical ID in a single stack, so the existing Gen 2 resources must be moved out of the way first.
+
+To solve this, the tool creates temporary holding stacks — lightweight CloudFormation stacks that act as an intermediate destination for the Gen 2 resources. The forward refactor workflow proceeds in two phases per category:
+
+1. Move Gen 2 resources → holding stack. The existing Gen 2 stateful resources (e.g. the User Pool, Identity Pool, or S3 bucket that were created during deploy) are transferred to a holding stack via the CloudFormation [StackRefactor](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-refactoring.html) API. This is a metadata-only operation — the physical resources are not recreated or modified.
+2. Move Gen 1 resources → Gen 2 stack. With the Gen 2 stack now clear of conflicting resources, the Gen 1 stateful resources are transferred in.
+
+Holding stacks are named after the Gen 2 category stack they correspond to, with a `-holding` suffix (e.g. `amplify-d123-gen2main-branch-abc-auth-holding`).
+
+Holding stacks are intentionally kept after a successful forward refactor. They enable rollback — if you run `refactor --rollback`, the tool moves Gen 1 resources back to the Gen 1 stacks and then restores the holding stack resources back into Gen 2, returning everything to its pre-refactor state.
+
+</Accordion>
 
 #### Critical post-refactor steps
 
