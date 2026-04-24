@@ -563,13 +563,15 @@ Holding stacks are intentionally kept after a successful forward refactor. They 
 
 </Accordion>
 
-#### Critical post-refactor steps
+### Step 6: Post-Refactor (CRITICAL)
 
-<Callout warning>
+<Callout warning backgroundColor="var(--amplify-colors-red-10)">
 
-The following steps are critical. Skipping them can result in resource replacement and data loss.
+The following steps are critical. Skipping them can result in downtime.
 
 </Callout>
+
+The refactor step creates a drift between the deployed Gen 2 CloudFormation template and your local application code. This drift must be reconciled by a deployment. Additionally, the frontend configuration file (`amplify_outputs.json`) relies on stack output values that need to be updated to reflect the newly transferred resources — this also requires a deployment.
 
 Switch to the Gen 2 branch for all post-refactor edits:
 
@@ -603,17 +605,15 @@ git checkout gen2-main
 + (analytics.node.findChild('KinesisStream') as CfnStream).name = "mystream-main"
 ```
 
-After making these edits, push the changes and wait for the deployment to finish:
+### Step 7: Deploy
+
+Push the changes and wait for the deployment to finish:
 
 ```bash
 git add .
-git commit -m "fix: reuse gen1 stateful resources"
+git commit -m "fix: post refactor"
 git push origin gen2-main
 ```
-
-If you did not make any code changes after the refactor step, you still need to redeploy to regenerate the `amplify_outputs.json` file. Log in to the AWS Amplify console and redeploy the Gen 2 branch:
-
-<img src="/images/gen2-migration/redeploy.png" alt="Redeploying the Gen 2 branch in the Amplify console" width="450" />
 
 ## Troubleshooting
 
