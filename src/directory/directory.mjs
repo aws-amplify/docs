@@ -476,6 +476,10 @@ export const directory = {
                   section: 'backend'
                 },
                 {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/firehose/index.mdx',
+                  section: 'backend'
+                },
+                {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/analytics/existing-resources/index.mdx',
                   section: 'backend'
                 }
@@ -631,6 +635,9 @@ export const directory = {
           path: 'src/pages/[platform]/frontend/index.mdx',
           section: 'frontend',
           children: [
+            {
+              path: 'src/pages/[platform]/frontend/connect-to-existing-resources/index.mdx'
+            },
             {
               path: 'src/pages/[platform]/frontend/auth/index.mdx',
               children: [
@@ -799,6 +806,9 @@ export const directory = {
               children: [
                 {
                   path: 'src/pages/[platform]/frontend/analytics/kinesis/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/analytics/firehose/index.mdx'
                 },
                 {
                   path: 'src/pages/[platform]/frontend/analytics/record-events/index.mdx'

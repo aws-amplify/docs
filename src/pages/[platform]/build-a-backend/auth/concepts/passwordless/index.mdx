@@ -35,6 +35,12 @@ Amplify supports the use of passwordless authentication flows using the followin
 
 Passwordless authentication removes the security risks and user friction associated with traditional passwords.
 
+<Callout warning>
+
+**MFA and passwordless cannot be used together.** Amazon Cognito does not support enabling both MFA and passwordless sign-in (including passkeys, SMS OTP, and email OTP) for the same user. If a user has MFA configured, passwordless sign-in options will not be available. For more details, see the [Amazon Cognito MFA prerequisites](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html#user-pool-settings-mfa-prerequisites).
+
+</Callout>
+
 ## Configure passwordless authentication
 
 You can enable passwordless authentication methods directly in your `defineAuth` configuration. Passwordless methods are used alongside traditional password-based authentication, giving users multiple options to sign in.
