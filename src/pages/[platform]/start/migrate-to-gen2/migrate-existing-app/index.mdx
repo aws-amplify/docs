@@ -160,6 +160,30 @@ See [open migration issues](https://github.com/aws-amplify/amplify-cli/issues?q=
 
 If your API has conflict resolution enabled (DataStore), you must disable it before proceeding with the Gen 2 migration. See the [Migrate from DataStore](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/) guide for instructions.
 
+### GraphQL types protected by the `iam` auth provider
+
+If you have models protected by IAM:
+
+```graphql
+type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+After refactor, the identity pool's `AuthRole` is updated to point to the Gen 2 role. Since this role is external to the Gen 1 AppSync API, it is denied access by default. Your Gen 2 environment will work correctly, but your Gen 1 environment will lose IAM access to the API.
+
+To work around this, configure a custom admin role on the Gen 1 API that matches the Gen 2 `AuthRole` naming pattern. Add `amplify/api/<api-name>/custom-roles.json`:
+
+```json
+{
+  "adminRoleNames": ["amplify-${appId}"]
+}
+```
+
+Where `${appId}` is the Amplify application ID. Gen 2 auth role names are prefixed with this, so the pattern allows access from any Gen 2 environment (branch). Once added, redeploy by running `amplify push`.
+
 ### Amplify CLI Version
 
 The migration tool relies on CloudFormation template structures and metadata produced by the most recent CLI major version. Deploy your Gen 1 environment with `v14` before migrating:
@@ -193,30 +217,6 @@ The managed `AdministratorAccess-Amplify` policy does not include these actions.
 
 Since Gen 2 uses CDK under the hood, your account and region must be [bootstrapped with CDK](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping-env.html) for the Gen 2 deployment to succeed.
 
-### GraphQL types protected by the `iam` auth provider
-
-If you have models protected by IAM:
-
-```graphql
-type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
-  id: ID!
-  name: String!
-  description: String
-}
-```
-
-After refactor, the identity pool's `AuthRole` is updated to point to the Gen 2 role. Since this role is external to the Gen 1 AppSync API, it is denied access by default. Your Gen 2 environment will work correctly, but your Gen 1 environment will lose IAM access to the API.
-
-To work around this, configure a custom admin role on the Gen 1 API that matches the Gen 2 `AuthRole` naming pattern. Add `amplify/api/<api-name>/custom-roles.json`:
-
-```json
-{
-  "adminRoleNames": ["amplify-${appId}"]
-}
-```
-
-Where `${appId}` is the Amplify application ID. Gen 2 auth role names are prefixed with this, so the pattern allows access from any Gen 2 environment (branch). Once added, redeploy by running `amplify push`.
-
 ## Modernization
 
 The migration tool assumes a modern Gen 1 deployment. Outdated packages can cause peer dependency conflicts during `npm install` after `generate`. Upgrade the following before starting migration:
@@ -234,10 +234,24 @@ Before you begin, determine if your app can be migrated by reviewing the [featur
 
 </Callout>
 
-First, obtain a fresh and up-to-date local copy of your Amplify Gen 1 environment and install an Amplify CLI version that includes the migration tool:
+For clarity, the instructions below follow these conventions:
+
+- Your Gen 1 environment is stored in the `main` branch of a Git repository.
+- Your Gen 1 environment is called `main`.
+- Deployment examples use Amplify Hosting (branch deployments), but this is not required. You can use any deployment method described in the [Deploy & Host](#deploy--host) section.
+
+First, install an Amplify CLI version that includes the migration tool and pull a fresh copy of your Gen 1 environment:
 
 ```bash
 npm install -g @aws-amplify/cli@^14.4.0
+amplify pull --appId <app-id> --envName main
+```
+
+Verify your local project is in sync with the deployed environment:
+
+```bash
+amplify status  # Should report no changes
+git diff        # Should show no changes
 ```
 
 ### Step 0: Clone
@@ -516,7 +530,6 @@ First, find the name of the Gen 2 root CloudFormation stack in the AWS CloudForm
 Then, reinstall the CLI package and run the refactor:
 
 ```bash
-npm install --no-save @aws-amplify/cli-internal-gen2-migration-experimental-alpha
 git checkout main
 npx amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
