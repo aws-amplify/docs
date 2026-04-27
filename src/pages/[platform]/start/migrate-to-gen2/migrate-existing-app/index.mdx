@@ -258,12 +258,11 @@ git diff        # Should show no changes
 
 ### Step 0: Clone
 
-Before migrating your primary environment, perform the migration on a cloned environment first. Use `amplify env add` to create a clone of your Gen 1 environment, then check it out and deploy it:
+Before migrating your primary environment, perform the migration on a cloned environment first. Use `amplify env add` to create a clone of your Gen 1 environment and deploy it:
 
 ```bash
 # Environment names must be lowercase letters only and up to 10 characters
 amplify env add
-amplify env checkout <cloned-env-name>
 amplify push
 ```
 
@@ -580,36 +579,15 @@ The following steps are critical. Skipping them can result in downtime.
 
 The refactor step creates a drift between the deployed Gen 2 CloudFormation template and your local application code. This drift must be reconciled by a deployment. Additionally, the frontend configuration file (`amplify_outputs.json`) relies on stack output values that need to be updated to reflect the newly transferred resources — this also requires a deployment.
 
-Switch to the Gen 2 branch for all post-refactor edits:
-
 ```bash
 git checkout gen2-main
 ```
 
-**S3 storage** — If your application contains an S3 bucket, edit `./amplify/backend.ts`:
+Edit `./amplify/backend.ts`:
 
 ```diff
-- // s3Bucket.bucketName = '...';
-+ s3Bucket.bucketName = '...';
-```
-
-**DynamoDB storage** — If your application contains a DynamoDB table in the storage category, edit `./amplify/backend.ts` to add the `tableName`:
-
-```diff
-- new Table(storageStack, "myTable", {
--   partitionKey: {...}
-- });
-+ new Table(storageStack, "myTable", {
-+   tableName: 'my-table-main',
-+   partitionKey: {...}
-+ });
-```
-
-**Kinesis stream** — If your application contains a Kinesis stream, edit `./amplify/analytics/resource.ts`:
-
-```diff
-- // (analytics.node.findChild('KinesisStream') as CfnStream).name = "mystream-main"
-+ (analytics.node.findChild('KinesisStream') as CfnStream).name = "mystream-main"
+- // postRefactor();
++ postRefactor();
 ```
 
 ### Step 7: Deploy
