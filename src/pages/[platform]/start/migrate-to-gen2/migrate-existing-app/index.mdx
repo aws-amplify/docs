@@ -404,7 +404,17 @@ npm install
 npm install --package-lock-only
 ```
 
-#### Post Generate | Frontend Config
+### Step 4: Post-Generate
+
+The generated code is a starting point but may not be immediately deployable. Some features require manual adjustments due to differences in how Gen 1 and Gen 2 handle configuration, module formats, or default behaviors. Review and apply the following edits before deploying.
+
+<Callout info>
+
+Consider using an AI coding assistant to help apply these edits.
+
+</Callout>
+
+#### Frontend
 
 If your frontend consumes `amplifyconfiguration.json`, update the import:
 
@@ -415,11 +425,29 @@ If your frontend consumes `amplifyconfiguration.json`, update the import:
 
 <Callout info>
 
-The `amplify_outputs.json` file will not exist locally — it is generated at deploy time in the hosting service.
+The `amplify_outputs.json` file will not exist locally until you deploy. When using Amplify Hosting, it is generated at deploy time. When testing with sandbox, it is created locally after the sandbox deployment succeeds.
 
 </Callout>
 
-#### Post Generate | Reuse Model Tables
+If your frontend code accesses the `amplifyconfiguration.json` structure directly (e.g. reading specific keys like `aws_user_pools_id` or `aws_appsync_graphqlEndpoint`) instead of relying on the `aws-amplify` client libraries to extract configuration, you will need to adapt that code. Gen 2 produces an `amplify_outputs.json` file with a different structure. Code that parses the configuration file manually will break.
+
+If you use the standard `Amplify.configure(...)` call and access resources through the Amplify client libraries, no changes are needed — the libraries handle both formats transparently.
+
+**REST API** — The migration tool generates the full REST API CDK construct automatically. Update your frontend code to point to the new Gen 2 API name:
+
+```diff
+- apiName: '<gen1-rest-api-name>',
++ apiName: '<gen2-rest-api-name>',
+```
+
+**Kinesis** — If your frontend sends analytics events to a Kinesis stream, update the stream name to point to the new Gen 2 stream:
+
+```diff
+- streamName: '<gen1-stream-name>',
++ streamName: '<gen2-stream-name>',
+```
+
+#### Data
 
 Edit `./amplify/data/resource.ts`:
 
@@ -429,52 +457,6 @@ Edit `./amplify/data/resource.ts`:
 ```
 
 This instructs the hosting service to reuse (import) the DynamoDB tables instead of recreating them.
-
-#### Post Generate | NodeJS Function ESM Compatibility
-
-Port Lambda function code from CommonJS to ESM:
-
-```diff
-- exports.handler = async (event) => {
-+ export async function handler(event) {
-```
-
-Gen 2 adds Lambda shims that conflict with CommonJS syntax.
-
-#### Post Generate | Function Secrets
-
-If your function uses secret values, recreate the secret in the Amplify console (_Hosting → Secrets → Manage Secrets → Add new_):
-
-<img src="/images/gen2-migration/add-secret.png" alt="Adding a secret in the Amplify console" width="600" />
-
-Then update the function definition:
-
-```diff
-- import { defineFunction } from "@aws-amplify/backend";
-+ import { defineFunction, secret } from "@aws-amplify/backend";
-
-- MY_SECRET: "/amplify/<hash>/main/AMPLIFY_<function-name>_MY_SECRET"
-+ MY_SECRET: secret("/amplify/<hash>/main/AMPLIFY_<function-name>_MY_SECRET")
-```
-
-Then, in your function code, use `process.env.MY_SECRET` to obtain the secret value.
-
-<Callout info>
-
-See [Secrets](https://docs.amplify.aws/react/build-a-backend/functions/environment-variables-and-secrets/#secrets) for more information.
-
-</Callout>
-
-#### Post Generate | REST API
-
-The migration tool generates the full REST API CDK construct automatically. Update your frontend code to point to the new Gen 2 API name:
-
-```diff
-- apiName: '<gen1-rest-api-name>',
-+ apiName: '<gen2-rest-api-name>',
-```
-
-#### Post Generate | Models Without an `@auth` Directive
 
 In Gen 1, unprotected `@model` types are considered public and assigned `@aws_api_key`. In Gen 2, they are considered private and assigned `@aws_iam`. To preserve the same behavior, explicitly add the `@auth` directive:
 
@@ -486,7 +468,40 @@ type Todo @model @auth(rules: [{ allow: public }]) {
 }
 ```
 
-### Step 4: Deploy
+#### Functions
+
+**ESM compatibility** — Port Lambda function code from CommonJS to ESM:
+
+```diff
+- exports.handler = async (event) => {
++ export async function handler(event) {
+```
+
+Gen 2 adds Lambda shims that conflict with CommonJS syntax.
+
+**Secrets** — If your function uses secret values, recreate the secret in the Amplify console (_Hosting → Secrets → Manage Secrets → Add new_):
+
+<img src="/images/gen2-migration/add-secret.png" alt="Adding a secret in the Amplify console" width="600" />
+
+Then update the function definition:
+
+```diff
+- import { defineFunction } from "@aws-amplify/backend";
++ import { defineFunction, secret } from "@aws-amplify/backend";
+
+- MY_SECRET: "/amplify/<hash>/main/AMPLIFY_<function-name>_MY_SECRET"
++ MY_SECRET: secret("MY_SECRET")
+```
+
+Then, in your function code, use `process.env.MY_SECRET` to obtain the secret value.
+
+<Callout info>
+
+See [Secrets](https://docs.amplify.aws/react/build-a-backend/functions/environment-variables-and-secrets/#secrets) for more information.
+
+</Callout>
+
+### Step 5: Deploy
 
 Deploy the generated Gen 2 application via fullstack branch deployments. Push the code:
 
@@ -511,7 +526,7 @@ By default, sandbox creates its own DynamoDB tables and does not share Gen 1 mod
 </Accordion>
 
 
-### Step 5: Refactor
+### Step 6: Refactor
 
 <Accordion title="Validations">
 
@@ -526,7 +541,7 @@ Refactoring is the process of moving your Gen 1 stateful resources (Cognito User
 
 <Accordion title="Holding stacks">
 
-During the forward refactor, the tool needs to move Gen 1 stateful resources into the Gen 2 CloudFormation stacks. However, the Gen 2 stacks already contain their own resources (created during the [Deploy](#step-4-deploy) step). CloudFormation cannot have two physical resources mapped to the same logical ID in a single stack, so the existing Gen 2 resources must be moved out of the way first.
+During the forward refactor, the tool needs to move Gen 1 stateful resources into the Gen 2 CloudFormation stacks. However, the Gen 2 stacks already contain their own resources (created during the [Deploy](#step-5-deploy) step). CloudFormation cannot have two physical resources mapped to the same logical ID in a single stack, so the existing Gen 2 resources must be moved out of the way first.
 
 To solve this, the tool creates temporary holding stacks — lightweight CloudFormation stacks that act as an intermediate destination for the Gen 2 resources. The forward refactor workflow proceeds in two phases per category:
 
@@ -569,7 +584,7 @@ npx amplify gen2-migration lock --rollback
 amplify push
 ```
 
-### Step 6: Post-Refactor (CRITICAL)
+### Step 7: Post-Refactor (CRITICAL)
 
 <Callout warning backgroundColor="var(--amplify-colors-red-10)">
 
@@ -590,7 +605,7 @@ Edit `./amplify/backend.ts`:
 + postRefactor();
 ```
 
-### Step 7: Deploy
+### Step 8: Deploy
 
 Push the changes and wait for the deployment to finish:
 
