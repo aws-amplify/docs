@@ -1,0 +1,244 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Disable conflict resolution',
+  description: 'Disable AppSync conflict resolution and prepare your backend for migration from DataStore to a standard GraphQL client with zero downtime.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<Callout warning>
+
+**Complete the frontend migration first.** This page covers the **final backend step** of the migration. Before following these instructions, migrate all frontend clients from DataStore to Apollo Client (or the Amplify API category) using the preceding pages in this guide. Disabling conflict resolution while any client still uses DataStore will break that client immediately.
+
+</Callout>
+
+This page walks through the backend changes required to disable conflict resolution on your AppSync API. Once all frontend clients have been migrated off DataStore, disabling conflict resolution removes the sync infrastructure (version tracking, soft deletes, delta sync) and gives you a simpler, standard GraphQL API.
+
+## The problem
+
+When DataStore is enabled, Amplify configures AppSync with conflict resolution. This causes three behaviors that affect migration:
+
+1. **Soft deletes.** Items deleted through DataStore are not removed from DynamoDB. Instead, DataStore sets `_deleted: true` on the item. The item remains in the table indefinitely (or until a DynamoDB TTL expires it).
+
+2. **Metadata fields.** Conflict resolution adds `_deleted`, `_version`, and `_lastChangedAt` fields to every model in the generated GraphQL schema. DataStore uses these fields internally for its sync protocol.
+
+3. **Schema coupling.** If you disable conflict resolution, Amplify removes `_deleted`, `_version`, and `_lastChangedAt` from the GraphQL schema. However, the DynamoDB tables still contain items with these attributes—including soft-deleted items with `_deleted: true`.
+
+If you swap your frontend from DataStore to a standard GraphQL client (such as Apollo Client) without addressing the `_deleted` field, your app will display soft-deleted items that should be hidden.
+
+## Overview of the migration steps
+
+| Step | Action | Purpose |
+|------|--------|---------|
+| 1 | Disable conflict resolution | Stop AppSync from managing `_version` and soft deletes |
+| 2 | Re-add metadata fields to the schema | Keep `_deleted`, `_version`, and `_lastChangedAt` available for clients |
+| 3 | Push the changes | Apply the updated configuration to your backend |
+| 4 | Clean up (optional) | Purge soft-deleted items from DynamoDB and remove client-side `_deleted` filtering |
+
+## Step 1: Disable conflict resolution
+
+Run the Amplify CLI to disable conflict resolution on your GraphQL API:
+
+```bash
+amplify update api
+```
+
+When prompted:
+
+1. Select **GraphQL**
+2. Walk through the options until you see the conflict resolution setting
+3. Select **Disable DataStore for entire API** (or **Disable conflict resolution**, depending on your CLI version)
+
+<Callout warning>
+
+**Do not run `amplify push` yet.** You need to complete Step 2 first. Pushing at this point would remove the `_deleted`, `_version`, and `_lastChangedAt` fields from the schema while existing data in DynamoDB still contains these attributes. AppSync would return a `ValidationError` for a query or mutation with fields that no longer exist in the schema.
+
+</Callout>
+
+## Step 2: Re-add metadata fields to the GraphQL schema
+
+After disabling conflict resolution, Amplify removes `_deleted`, `_version`, and `_lastChangedAt` from the schema. However, your DynamoDB tables still contain these attributes on every item. Re-add all three fields to each model in your GraphQL schema file (`amplify/backend/api/<apiname>/schema.graphql`):
+
+```graphql
+type Todo @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  description: String
+  _deleted: Boolean
+  _version: Int
+  _lastChangedAt: AWSTimestamp
+}
+```
+
+```graphql
+type Post @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String!
+  content: String
+  status: String
+  _deleted: Boolean
+  _version: Int
+  _lastChangedAt: AWSTimestamp
+}
+```
+
+Add `_deleted: Boolean`, `_version: Int`, and `_lastChangedAt: AWSTimestamp` to **every model** that was previously managed by DataStore.
+
+<Callout>
+
+**Re-add all three fields for consistency.** Even though AppSync no longer manages these fields after disabling conflict resolution, your DynamoDB tables still contain `_deleted`, `_version`, and `_lastChangedAt` on every item. Re-adding them keeps your GraphQL schema aligned with the data in DynamoDB and allows clients to query or filter on any of these attributes during the transition.
+
+</Callout>
+
+### Why this works
+
+When you add these fields as regular fields in the schema:
+
+- **AppSync maps each field to the existing DynamoDB attribute.** DynamoDB is schema-less, so `_deleted`, `_version`, and `_lastChangedAt` already exist on every item. AppSync's auto-generated resolvers read and write these attributes directly.
+- **The fields appear in generated filter and input types.** Adding them to the model makes them available in `ModelTodoFilterInput`, `ModelPostFilterInput`, and other generated types. Clients can use server-side filtering on `_deleted` and read `_version` or `_lastChangedAt` if needed.
+- **It is backwards-compatible.** Existing items retain their values for these attributes. New items created after disabling conflict resolution will have `null` for these fields unless explicitly set.
+
+<Callout>
+
+**These fields are no longer managed by AppSync.** After disabling conflict resolution, `_version` is no longer auto-incremented and `_lastChangedAt` is no longer auto-updated. They become regular fields. Deletes are now hard deletes—`_deleted` is no longer set automatically.
+
+</Callout>
+
+## Step 3: Push the changes
+
+Apply the updated configuration to your backend:
+
+```bash
+amplify push
+```
+
+This will:
+
+- **Disable conflict resolution** in AppSync (removes the sync table configuration and delta sync resolvers)
+- **Keep `_deleted`, `_version`, and `_lastChangedAt` as regular fields** in the GraphQL schema
+- **Map each field to the existing DynamoDB attribute** on all items (no data migration needed)
+
+<Callout>
+
+After pushing, AppSync no longer manages `_version` or performs soft deletes. New deletes through the GraphQL API will **hard-delete** items from DynamoDB (the default behavior without conflict resolution).
+
+</Callout>
+
+## Step 4 (optional): Clean up soft-deleted items
+
+Once all clients have been migrated and you have verified that everything works correctly, you can purge the soft-deleted items from DynamoDB and remove the client-side `_deleted` filtering from your code.
+
+### 4a. Hard-delete soft-deleted items from DynamoDB
+
+Write a script to scan each DynamoDB table and delete all items where `_deleted` is `true`:
+
+```ts
+import {
+  DynamoDBClient,
+  ScanCommand,
+  DeleteItemCommand,
+} from '@aws-sdk/client-dynamodb';
+
+const client = new DynamoDBClient({ region: 'us-east-1' });
+
+async function purgeSoftDeletedItems(tableName: string) {
+  let lastEvaluatedKey: Record<string, any> | undefined;
+
+  do {
+    const scanResult = await client.send(
+      new ScanCommand({
+        TableName: tableName,
+        FilterExpression: '#d = :true',
+        ExpressionAttributeNames: { '#d': '_deleted' },
+        ExpressionAttributeValues: { ':true': { BOOL: true } },
+        ExclusiveStartKey: lastEvaluatedKey,
+      })
+    );
+
+    for (const item of scanResult.Items ?? []) {
+      await client.send(
+        new DeleteItemCommand({
+          TableName: tableName,
+          Key: { id: item.id },
+        })
+      );
+      console.log(`Deleted item ${item.id.S} from ${tableName}`);
+    }
+
+    lastEvaluatedKey = scanResult.LastEvaluatedKey;
+  } while (lastEvaluatedKey);
+}
+
+// Run for each table
+await purgeSoftDeletedItems('Todo-<apiId>-<env>');
+await purgeSoftDeletedItems('Post-<apiId>-<env>');
+```
+
+<Callout warning>
+
+**Test this script in a development environment first.** Verify that it only deletes items where `_deleted` is `true`. If your tables use composite keys (sort keys), update the `Key` object in the `DeleteItemCommand` accordingly.
+
+</Callout>
+
+### 4b. Update client code
+
+After purging soft-deleted items, remove the client-side `_deleted` filtering from your code. During the frontend migration, you added `.filter(item => !item._deleted)` to list query results — this is no longer needed once all soft-deleted items have been removed from DynamoDB.
+
+```ts
+// Before cleanup: filter out soft-deleted items
+const posts = data.listPosts.items.filter((post) => !post._deleted);
+
+// After cleanup: no filter needed
+const posts = data.listPosts.items;
+```
+
+## Important considerations
+
+### Why not purge soft-deleted items first?
+
+You cannot guarantee that all clients stop using DataStore simultaneously. Users may have cached versions of your app running, or deployments may roll out gradually. Disabling conflict resolution while some clients still expect `_deleted` in the schema causes `ValidationError` exceptions.
+
+The approach in this guide is backwards-compatible: both DataStore clients (during the transition) and standard GraphQL clients can coexist because `_deleted` remains in the schema as a regular field.
+
+### DynamoDB TTL and soft-deleted items
+
+When DataStore is enabled, Amplify may configure a TTL on the `_ttl` attribute in DynamoDB. Soft-deleted items with a TTL will be automatically hard-deleted by DynamoDB after the TTL expires.
+
+After disabling conflict resolution:
+- The TTL configuration on the DynamoDB table **remains active** (it is a table-level setting, not managed by AppSync)
+- Existing soft-deleted items with a `_ttl` value will still be automatically removed
+- New deletes will be hard deletes (no `_ttl` is set)
+
+Check your DynamoDB table's TTL settings in the AWS Console under **Tables → your table → Additional settings → Time to Live**.
+
+### Metadata fields are no longer auto-managed
+
+After disabling conflict resolution, AppSync no longer auto-increments `_version` or auto-updates `_lastChangedAt` on mutations. The fields retain their last values in DynamoDB and can be read by clients, but they are not updated unless your application code explicitly sets them. During the cleanup step (Step 4), you can purge soft-deleted items and remove the client-side `_deleted` filtering.
+
+### Monitoring after migration
+
+After completing the migration, monitor your application for:
+
+- **`ValidationError` in AppSync CloudWatch logs.** This indicates a client is sending a query or mutation with fields that no longer exist in the schema.
+- **Unexpected items in list queries.** If soft-deleted items appear, verify that all list query results are filtered client-side with `.filter(item => !item._deleted)`.
+- **`ConditionalCheckFailedException` in DynamoDB.** This should no longer occur after disabling conflict resolution, since `_version` checking is no longer enforced.

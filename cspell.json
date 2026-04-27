@@ -1640,7 +1640,17 @@
     "uppercased",
     "autoclosure",
     "Kiro",
-    "kiro"
+    "kiro",
+    "Persistor",
+    "persistor",
+    "Dexie",
+    "dexie",
+    "dedup",
+    "Dedup",
+    "posttags",
+    "callouts",
+    "immer",
+    "ERESOLVE"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [
