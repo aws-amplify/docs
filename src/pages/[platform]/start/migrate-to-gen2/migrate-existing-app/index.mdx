@@ -288,7 +288,7 @@ When you clone an environment using `amplify env add`, the new environment deplo
 Before starting the migration, evaluate whether your Gen 1 environment is ready:
 
 ```bash
-npx amplify gen2-migration assess
+amplify gen2-migration assess
 ```
 
 This command is read-only with no side effects. It discovers all resources in your Gen 1 environment and produces a report showing migration support for each resource across the `generate` and `refactor` steps. If a resource or feature is not supported for `generate`, the tool skips it and you can manually add the configuration to the generated Gen 2 code. If not supported for `refactor`, you will need to manually move or migrate data from those resources.
@@ -353,7 +353,7 @@ Both features show `—` for refactor because they only require code generation.
 During the migration period your Gen 1 environment should not undergo any changes. Lock it by running:
 
 ```bash
-npx amplify gen2-migration lock
+amplify gen2-migration lock
 ```
 
 Once validated, the following restrictive IAM policy is attached to the root stack:
@@ -365,7 +365,7 @@ Once validated, the following restrictive IAM policy is attached to the root sta
 To unlock the environment, run:
 
 ```bash
-npx amplify gen2-migration lock --rollback
+amplify gen2-migration lock --rollback
 ```
 
 <Callout warning>
@@ -391,7 +391,7 @@ Generate your Gen 2 definition files:
 
 ```bash
 git checkout -b gen2-main
-npx amplify gen2-migration generate
+amplify gen2-migration generate
 ```
 
 This command introspects your deployed Gen 1 CloudFormation stacks and generates the equivalent Gen 2 TypeScript backend definition files, overriding your local `./amplify` directory. The generated code is a starting point — some features require manual edits before deploying (see below).
@@ -562,7 +562,7 @@ Then, reinstall the CLI package and run the refactor:
 
 ```bash
 git checkout main
-npx amplify gen2-migration refactor --to <gen2-root-stack-name>
+amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
 
 <Callout info>
@@ -574,13 +574,13 @@ Since `generate` replaces the Gen 1 `amplify/` directory, the Amplify configurat
 If the refactor fails or produces undesired results, roll it back:
 
 ```bash
-npx amplify gen2-migration refactor --to <gen2-root-stack-name> --rollback
+amplify gen2-migration refactor --to <gen2-root-stack-name> --rollback
 ```
 
 After rolling back, you will need to unlock the Gen 1 environment and redeploy it to restore normal operation:
 
 ```bash
-npx amplify gen2-migration lock --rollback
+amplify gen2-migration lock --rollback
 amplify push
 ```
 
@@ -603,6 +603,13 @@ Edit `./amplify/backend.ts`:
 ```diff
 - // postRefactor();
 + postRefactor();
+```
+
+If your application contains a Kinesis stream, update the frontend to point back to the original Gen 1 stream name (which is now managed by the Gen 2 stack):
+
+```diff
+- streamName: '<gen2-stream-name>',
++ streamName: '<gen1-stream-name>',
 ```
 
 ### Step 8: Deploy
