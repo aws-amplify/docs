@@ -35,8 +35,6 @@ export function getStaticProps(context) {
 
 The migration tool operates on production resources and should be executed with caution. At every stage, the tool will prompt you to confirm the operations being performed — review them carefully before approving execution. We do **not** recommend running this tool unattended; it is designed to be executed with human supervision.
 
-Before migrating a live environment, follow every step in this guide carefully, starting with a [cloned environment](#step-0-clone) to validate the process end-to-end. Review the [feature coverage](#feature-coverage) and [prerequisites](#prerequisites) sections to ensure your environment is ready. Understanding the scope of automation and any required manual steps ahead of time will help facilitate a smooth migration.
-
 </Callout>
 
 ## Backend
@@ -259,7 +257,9 @@ git diff        # Should show no changes
 
 ### Step 0: Clone
 
-Before migrating your primary environment, perform the migration on a cloned environment first. Use `amplify env add` to create a clone of your Gen 1 environment and deploy it:
+Before migrating a live environment, start with a cloned environment to validate the process end-to-end. Follow every step in this guide carefully, review the [feature coverage](#feature-coverage) and [prerequisites](#prerequisites) sections to ensure your environment is ready. Understanding the scope of automation and any required manual steps ahead of time will help facilitate a smooth migration.
+
+Use `amplify env add` to create a clone of your Gen 1 environment and deploy it:
 
 ```bash
 # Environment names must be lowercase letters only and up to 10 characters
