@@ -33,7 +33,7 @@ export function getStaticProps(context) {
 
 **Developer Preview**
 
-The migration tool operates on production resources and should be executed with caution. At every stage, the tool will prompt you to confirm the operations being performed — review them carefully before approving execution. We do **not** recommend running this tool unattended; it is designed to be executed with human supervision.
+The migration tool operates on production resources and should be executed with caution. This tool requires interactive confirmation at each step, review them carefully before approving execution. We do **not** recommend running this tool unattended; it is designed to be executed with human supervision. 
 
 </Callout>
 
@@ -51,7 +51,7 @@ After completing the migration, you will have two functionally equivalent Amplif
 
 ### Feature coverage
 
-Before starting the migration, carefully review the [Backend Categories](/[platform]/start/migrate-to-gen2/feature-matrix/#backend-categories) section of the [Feature Parity](/[platform]/start/migrate-to-gen2/feature-matrix/) page. It will help you understand whether your environment can be fully migrated, what manual work may be required for partially supported or unsupported features, and whether there are any unknown areas that need further research on your part.
+Before starting the migration, carefully review the [Backend Categories](/[platform]/start/migrate-to-gen2/feature-matrix/#backend-categories) section of the [Feature Parity](/[platform]/start/migrate-to-gen2/feature-matrix/) page. It will help you understand whether your environment can be fully migrated, what manual work may be required for partially supported or unsupported features, and check whether your resources are compatible.
 
 ### Generating the Gen2 Application
 
@@ -63,7 +63,7 @@ Stateful resources (user pools, S3 buckets, etc.) are also code-generated, meani
 
 <Callout warning>
 
-DynamoDB tables that host your models are not cloned as part of the Gen 2 deployment and therefore do not participate in the refactoring step. Your Gen 2 application will have access to Gen 1 model data immediately after deployment. It is imperative to first run the migration on a [cloned environment](#step-0-clone), to ensure no unintended changes are made to your production data.
+To ensure no unintended changes are made to your production data, first run the migration on a [cloned environment](#step-0-clone). DynamoDB tables that host your models are not cloned as part of the Gen 2 deployment and therefore do not participate in the refactoring step — your Gen 2 application will have access to Gen 1 model data immediately after deployment.
 
 </Callout>
 
@@ -224,20 +224,23 @@ The managed `AdministratorAccess-Amplify` policy does not include these actions.
 
 Since Gen 2 uses CDK under the hood, your account and region must be [bootstrapped with CDK](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping-env.html) for the Gen 2 deployment to succeed.
 
-## Modernization
+### Frontend
 
-The migration tool assumes a modern Gen 1 deployment. Outdated packages can cause peer dependency conflicts during `npm install` after `generate`. Upgrade the following before starting migration:
+Upgrade the following before starting migration:
+
+- Upgrade to `aws-amplify@^6.16.2` or later. If you are on v5, see the [v5 to v6 migration guide](https://docs.amplify.aws/react/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/).
+- If your app uses `@aws-amplify/ui-react`, upgrade to `^6`.
+
+### Toolchain
 
 - **Node.js**: `aws-cdk-lib` requires Node.js >= 20. Ensure your local environment and CI/CD pipeline are running Node.js 20 or later.
-- **aws-amplify**: Upgrade to `aws-amplify@^6.16.2` or later. If you are on v5, see the [v5 to v6 migration guide](https://docs.amplify.aws/react/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/).
-- **@aws-amplify/ui-react**: If your app uses this package, upgrade to `^6`.
 - **TypeScript**: Gen 2 generated code uses modern TypeScript features. Upgrade to `^5.0.0`.
 
 ## Step-By-Step Migration
 
 <Callout info>
 
-Before you begin, determine if your app can be migrated by reviewing the [feature coverage](#feature-coverage), [prerequisites](#prerequisites), and [modernization](#modernization) sections.
+Before you begin, determine if your app can be migrated by reviewing the [feature coverage](#feature-coverage) and [prerequisites](#prerequisites) sections.
 
 </Callout>
 
@@ -417,7 +420,7 @@ The generated code is a starting point but may not be immediately deployable. So
 
 <Callout info>
 
-Consider using an AI coding assistant to help apply these edits.
+These edits are mechanical and well-suited for AI coding assistants.
 
 </Callout>
 
@@ -600,7 +603,7 @@ git checkout main
 amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
 
-<Callout info>
+<Callout warning>
 
 Since `generate` replaces the Gen 1 `amplify/` directory, the Amplify configuration file that specifies which AWS profile to use is lost. If you are using a non-default profile, set the `AWS_PROFILE` environment variable or run `amplify pull` to restore the configuration before proceeding.
 
