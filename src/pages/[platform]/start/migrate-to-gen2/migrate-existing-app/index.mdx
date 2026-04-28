@@ -653,13 +653,6 @@ If your application contains a Kinesis stream, update the frontend to point back
 + streamName: '<gen1-stream-name>',
 ```
 
-If your application contains a Rest API, update the frontend to point back to the original Gen 1 api name (which is now managed by the Gen 2 stack):
-
-```diff
-- apiName: '<gen2-api-name>',
-+ apiName: '<gen1-api-name>',
-```
-
 ### Step 9: Deploy
 
 Push the changes and wait for the deployment to finish:
