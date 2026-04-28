@@ -33,6 +33,8 @@ export function getStaticProps(context) {
 
 **Developer Preview**
 
+The migration tool operates on production resources and should be executed with caution. At every stage, the tool will prompt you to confirm the operations being performed — review them carefully before approving execution. We do **not** recommend running this tool unattended; it is designed to be executed with human supervision.
+
 Before migrating a live environment, follow every step in this guide carefully, starting with a [cloned environment](#step-0-clone) to validate the process end-to-end. Review the [feature coverage](#feature-coverage) and [prerequisites](#prerequisites) sections to ensure your environment is ready. Understanding the scope of automation and any required manual steps ahead of time will help facilitate a smooth migration.
 
 </Callout>
@@ -611,6 +613,12 @@ Edit `./amplify/backend.ts`:
 - // postRefactor();
 + postRefactor();
 ```
+
+<Callout info>
+
+This function must remain uncommented permanently — even after migration is complete. Commenting it out or removing it will cause deployment failures.
+
+</Callout>
 
 If your application contains a Kinesis stream, update the frontend to point back to the original Gen 1 stream name (which is now managed by the Gen 2 stack):
 
