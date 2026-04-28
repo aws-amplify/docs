@@ -653,30 +653,32 @@ git push origin gen2-main
 
 ## Decommission Gen 1
 
-After confirming that the Gen 2 environment is fully operational and no users or applications are still accessing the Gen 1 resources, you can proceed to clean up the Gen 1 environment. This requires careful handling.
+<Callout warning backgroundColor="var(--amplify-colors-red-10)">
+
+Do not run `amplify env remove` or delete the Gen 1 CloudFormation stacks directly through the console. Doing so can trigger resource cleanup that disrupts your migrated Gen 2 environment.
+
+</Callout>
+
+After confirming that the Gen 2 environment is fully operational and no users or applications are still accessing the Gen 1 stateless resources (AppSync, API Gateway, etc.), you can proceed to clean up the Gen 1 environment. This requires careful handling.
+
+We recommend keeping the Gen 1 environment around for a while after migration. This gives your users time to transition to the Gen 2 endpoints and helps ensure the Gen 2 environment is performing as expected before removing the fallback.
 
 After migration, the Gen 1 environment is no longer a valid Amplify environment — its stateful resources have been refactored into the Gen 2 stacks and internal references have been resolved.
 
-The Gen 1 CloudFormation stacks may still contain custom resources (such as auth triggers) that reference the refactored resources now owned by Gen 2. Deleting these stacks through normal means would trigger custom resource cleanup, which could disrupt your migrated environment.
-
-<Callout warning backgroundColor="var(--amplify-colors-red-10)">
-
-Do not run `amplify env remove` or delete the Gen 1 CloudFormation stacks directly through the console. Doing so can trigger custom resource cleanup that disrupts your migrated Gen 2 environment.
-
-</Callout>
+The Gen 1 CloudFormation stacks may still contain custom resources (such as auth triggers) that reference the refactored resources now owned by Gen 2. Deleting these stacks through normal means would trigger resource cleanup, which could disrupt your migrated environment.
 
 To decommission the Gen 1 stacks:
 
-1. Run `amplify gen2-migration retain`, which will apply the `Retain` [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) to all resources in the Gen 1 stacks. This prevents CloudFormation from deleting any physical resources when the stack is removed.
+1. Verify that no users or applications are still accessing the Gen 1 stateless resources by inspecting CloudWatch traffic metrics or your organizational tracking systems.
+2. Apply the `Retain` [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) to all resources in the Gen 1 CloudFormation stacks. This prevents CloudFormation from deleting any physical resources when the stack is removed. You can do this by updating each stack (including nested ones) to set `DeletionPolicy: Retain` on every resource and updating the stacks via the CLI or the CloudFormation console.
+3. Manually delete individual stateless resources that are no longer needed (e.g. AppSync APIs, Lambda functions, IAM roles) — verifying each one is safe to remove.
+4. Delete the Gen 1 root CloudFormation stack. Since all resources have the `Retain` policy, the stack deletion will only remove the stack metadata without affecting any underlying resources.
 
 <Callout info>
 
-The `amplify gen2-migration retain` command is not yet available. This section will be updated when it is supported.
+We are working on a CLI command to automate the process of retaining all resources in your Gen 1 environment. This section will be updated when it is available.
 
 </Callout>
-
-2. Manually delete individual stateless resources that are no longer needed (e.g. AppSync APIs, Lambda functions, IAM roles) — verifying each one is safe to remove.
-3. Delete the Gen 1 root CloudFormation stack. Since all resources have the `Retain` policy, the stack deletion will only remove the stack metadata without affecting any underlying resources.
 
 ## Troubleshooting
 
