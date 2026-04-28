@@ -1,0 +1,113 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Remove DataStore',
+  description: 'Remove Amplify DataStore from your Flutter project and configure the Amplify API plugin to use your models.',
+  platforms: [
+    'flutter'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Before migrating your DataStore calls, remove Amplify DataStore from your project and configure the API plugin to use your models.
+
+## Update dependencies
+
+Remove the `amplify_datastore` package from your `pubspec.yaml` and ensure the `amplify_api` package is present:
+
+```yaml
+dependencies:
+  # Remove this line:
+  # amplify_datastore: ^2.x.x
+
+  # Keep or add these:
+  amplify_flutter: ^2.x.x
+  amplify_api: ^2.x.x
+  amplify_auth_cognito: ^2.x.x  # if using auth
+```
+
+After updating `pubspec.yaml`, run:
+
+```bash
+flutter pub get
+```
+
+## Update Amplify configuration
+
+When using DataStore, the `ModelProvider` was passed to the `AmplifyDataStore` plugin. After removing DataStore, you **must** pass `ModelProvider.instance` to the `AmplifyAPI` plugin instead. Without this, `ModelMutations` and `ModelQueries` cannot serialize and deserialize your models, and API calls will fail at runtime.
+
+**Before (with DataStore):**
+
+```dart
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:amplify_api/amplify_api.dart';
+import 'models/ModelProvider.dart';
+
+final datastorePlugin = AmplifyDataStore(modelProvider: ModelProvider.instance);
+final api = AmplifyAPI();
+
+await Amplify.addPlugins([datastorePlugin, api]);
+await Amplify.configure(amplifyConfig);
+```
+
+**After (API only):**
+
+```dart
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_api/model_queries.dart';
+import 'package:amplify_api/model_mutations.dart';
+import 'package:amplify_api/model_subscriptions.dart';
+import 'models/ModelProvider.dart';
+
+// Pass ModelProvider to the API plugin
+final api = AmplifyAPI(
+  options: APIPluginOptions(modelProvider: ModelProvider.instance),
+);
+
+await Amplify.addPlugins([api]);
+await Amplify.configure(amplifyConfig);
+```
+
+<Callout warning>
+
+If you forget to pass `ModelProvider.instance` to `AmplifyAPI`, model-based queries and mutations will not work. This is the most common migration mistake.
+
+</Callout>
+
+## Remove all DataStore calls
+
+Search your codebase and remove or replace all DataStore calls:
+
+| DataStore Call | API Replacement |
+|---|---|
+| `Amplify.DataStore.save()` | `Amplify.API.mutate()` with `ModelMutations.create()` / `.update()` |
+| `Amplify.DataStore.delete()` | `Amplify.API.mutate()` with `ModelMutations.delete()` |
+| `Amplify.DataStore.query()` | `Amplify.API.query()` with `ModelQueries.get()` / `.list()` |
+| `Amplify.DataStore.observe()` | `Amplify.API.subscribe()` with `ModelSubscriptions.onCreate/onUpdate/onDelete()` |
+| `Amplify.DataStore.observeQuery()` | Initial list query + three subscriptions (see [Migrate to Amplify API](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-to-api/#observequery)) |
+| `Amplify.DataStore.clear()` | No longer needed (no local DataStore to clear) |
+| `Amplify.DataStore.start()` / `stop()` | No longer needed |
+
+<Callout>
+
+Keep `amplify_auth_cognito` (or other auth plugins) if you still use Amplify for authentication or other services. You only need to remove the DataStore plugin and dependency.
+
+</Callout>
+
+<Callout>
+
+**`Amplify.DataStore.clear()` in sign-out flows:** If your sign-out flow calls `Amplify.DataStore.clear()` to wipe local data before signing out, remove that call entirely — there is no local DataStore to clear after migration.
+
+</Callout>

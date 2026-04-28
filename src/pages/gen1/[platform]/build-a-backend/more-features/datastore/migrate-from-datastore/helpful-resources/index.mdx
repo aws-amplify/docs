@@ -1,0 +1,62 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Helpful resources',
+  description: 'Additional documentation, third-party packages, and references for the Flutter DataStore migration.',
+  platforms: [
+    'flutter'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Amplify API
+
+- [Amplify API Category — GraphQL](https://docs.amplify.aws/gen1/flutter/build-a-backend/graphqlapi/)
+- [Amplify API — Mutate Data](https://docs.amplify.aws/gen1/flutter/build-a-backend/graphqlapi/mutate-data/)
+- [Amplify API — Query Data](https://docs.amplify.aws/gen1/flutter/build-a-backend/graphqlapi/query-data/)
+- [Amplify API — Subscribe to Data](https://docs.amplify.aws/gen1/flutter/build-a-backend/graphqlapi/subscribe-data/)
+
+## AWS AppSync
+
+- [Conflict detection and resolution](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html)
+
+## Amplify DataStore (Legacy)
+
+- [How DataStore works](https://docs.amplify.aws/gen1/flutter/build-a-backend/more-features/datastore/how-it-works/)
+- [Schema updates](https://docs.amplify.aws/gen1/flutter/build-a-backend/more-features/datastore/schema-updates/)
+
+## General
+
+- [Android Offline First Guide](https://developer.android.com/topic/architecture/data-layer/offline-first)
+- [Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/)
+
+## Local storage packages
+
+While migrating off of DataStore, we found a few third-party packages to share. We do not maintain any of these packages and our experiences are limited to the versions we tested on.
+
+| Feature | [isar-community](https://pub.dev/packages/isar_community) | [Drift](https://pub.dev/packages/drift) | [sqlite3](https://pub.dev/packages/sqlite3) |
+|---|---|---|---|
+| Model Schemas | ✅ | ✅ | ✅ |
+| Nested Models | ✅ | ✅ | ✅ |
+| Custom Primary Key | ✅ | ✅ | ✅ |
+| CRUD | ✅ | ✅ | ✅ |
+| Query Predicates | ✅ | [Have to use where()](https://drift.simonbinder.eu/docs/dart-api/select/#where) | ✅ |
+| Observe/ObserveQuery | ✅ | ✅ | [Via `updates` stream](https://pub.dev/documentation/sqlite3/latest/common/CommonDatabase/updates.html) |
+
+<Callout>
+
+Isar does not support Gradle 8, which is a requirement for Amplify Flutter Android, but there is a [fork](https://github.com/isar/isar/issues/1470#issuecomment-1978766200) that resolves this. Drift is used with the Amplify Flutter packages, which can result in restrictions for what Drift versions you can use.
+
+</Callout>

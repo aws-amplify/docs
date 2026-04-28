@@ -1908,12 +1908,29 @@ export const directory = {
                             {
                               path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/add-local-caching/index.mdx'
                             },
-
                             {
                               path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/advanced-patterns/index.mdx'
                             },
                             {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/remove-datastore/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-to-api/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/local-caching/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/offline-first/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/authorization-and-data/index.mdx'
+                            },
+                            {
                               path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/helpful-resources/index.mdx'
                             }
                           ]
                         }

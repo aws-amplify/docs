@@ -3,10 +3,11 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 
 export const meta = {
   title: 'Migrate from DataStore',
-  description: 'Learn how to migrate from Amplify DataStore to Apollo Client for queries, mutations, and caching with Amplify subscriptions for real-time updates.',
+  description: 'Learn how to migrate from Amplify DataStore to Apollo Client or the Amplify API category.',
   route: '/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore',
   platforms: [
     'angular',
+    'flutter',
     'javascript',
     'nextjs',
     'react',
@@ -32,15 +33,27 @@ export function getStaticProps(context) {
 
 ## Understanding DataStore
 
-AWS Amplify DataStore provided a local-first data layer that automatically synchronized data between your app and the cloud. When you used DataStore, you got several powerful capabilities without writing any synchronization logic yourself: a local database (IndexedDB in the browser) that persisted data across sessions, automatic bidirectional sync with your AppSync backend, built-in conflict resolution using version tracking, full offline support with mutation queuing and replay, and real-time updates through `observe()` and `observeQuery()`.
+AWS Amplify DataStore provided a local-first data layer that automatically synchronized data between your app and the cloud. When you used DataStore, you got several powerful capabilities without writing any synchronization logic yourself: a local database that persisted data across sessions, automatic bidirectional sync with your AppSync backend, built-in conflict resolution using version tracking, full offline support with mutation queuing and replay, and real-time updates through `observe()` and `observeQuery()`.
 
 DataStore abstracted away the complexity of GraphQL operations, network state management, and data consistency. You worked with simple `save`, `query`, and `delete` methods on local models, and DataStore handled everything else behind the scenes.
 
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
 This guide shows you how to use Apollo Client for queries, mutations, and caching, combined with the Amplify library's built-in subscription support for real-time updates. Depending on how much of DataStore's feature set your app actually uses, you may find the migration simpler than expected.
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+This guide shows you how to migrate from DataStore to the Amplify API category for queries, mutations, and subscriptions. Depending on how much of DataStore's feature set your app actually uses, you may find the migration simpler than expected.
+
+</InlineFilter>
 
 Once frontend clients have been migrated off DataStore, [disable conflict resolution](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/) on the backend to remove the sync infrastructure, simplify mutations (no more `_version` tracking), and switch from soft deletes to hard deletes.
 
 ## What this guide covers
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
 This guide walks you through the migration path from DataStore to Apollo Client. You will set up Apollo Client with your AppSync endpoint, migrate all CRUD operations and relationships, and optionally add persistent caching and optimistic updates.
 
@@ -177,5 +190,67 @@ If you followed the optional [Add local caching](/gen1/[platform]/build-a-backen
 - Update the sign-out flow to purge the persistent cache in addition to clearing the in-memory cache
 
 </Accordion>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+This guide walks you through the migration path from DataStore to the Amplify API category. You will replace DataStore operations with API equivalents, and optionally add local caching and offline-first support using third-party Flutter packages.
+
+## Quick comparison: before and after
+
+Here is a quick look at how common DataStore operations translate to the Amplify API category:
+
+| DataStore Operation | Amplify API Equivalent |
+|---------------------|------------------------|
+| `Amplify.DataStore.save()` (create) | `Amplify.API.mutate(request: ModelMutations.create(...))` |
+| `Amplify.DataStore.save()` (update) | `Amplify.API.mutate(request: ModelMutations.update(...))` |
+| `Amplify.DataStore.delete()` | `Amplify.API.mutate(request: ModelMutations.delete(...))` |
+| `Amplify.DataStore.query()` (single) | `Amplify.API.query(request: ModelQueries.get(...))` |
+| `Amplify.DataStore.query()` (list) | `Amplify.API.query(request: ModelQueries.list(...))` |
+| `Amplify.DataStore.observe()` | `Amplify.API.subscribe(ModelSubscriptions.onCreate/onUpdate/onDelete(...))` |
+| `Amplify.DataStore.observeQuery()` | Initial `ModelQueries.list()` + three subscriptions (no direct equivalent) |
+| `Amplify.DataStore.clear()` | No longer needed (no local DataStore to clear) |
+| `Amplify.DataStore.start()` / `stop()` | No longer needed |
+
+## Use cases
+
+Not all customers need the full extent of DataStore's capabilities. Depending on your specific use case, migration can be straightforward:
+
+1. **Ease of API:** If your main reason for using DataStore was to simplify managing GraphQL queries or APIs, and your application does not need offline or local caching, migrate to the Amplify API category. This allows you to continue working with a simplified data management interface while consuming your existing Amplify resources.
+2. **Local caching:** If you used DataStore primarily as a local caching layer, storing data temporarily on the device but not relying heavily on its offline-first capabilities, consider migrating to a simpler local caching solution using third-party Flutter packages.
+3. **Offline-first:** If your business requirements rely on fully supporting offline-first functionality, the [offline-first](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/offline-first/) guide provides a high-level approach for migrating to a new offline-first solution.
+
+## How to use this guide
+
+Follow the pages in order. Each step builds on the previous one.
+
+1. **[Remove DataStore](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/remove-datastore/).** Remove the DataStore dependency from your project and configure the API plugin to use your models.
+
+2. **[Migrate to Amplify API](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-to-api/).** Replace all DataStore operations with API equivalents. Migrate `save`, `query`, `delete`, `observe`, and `observeQuery`.
+
+3. **[Optional: Local caching](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/local-caching/).** Set up a local cache for offline data access using third-party Flutter packages.
+
+4. **[Offline-first](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/offline-first/).** Build full offline support with remote sync, live syncing, network detection, and offline mutations.
+
+5. **[Authorization and data handling](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/authorization-and-data/).** Manage auth rules and handle existing customer data during migration.
+
+6. **[Disable conflict resolution](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/).** Once ALL frontend clients are migrated off DataStore, remove the sync infrastructure, simplify mutations, and switch from soft deletes to hard deletes.
+
+7. **[Helpful resources](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/helpful-resources/).** Additional documentation, third-party packages, and references.
+
+## Migration checklist
+
+Use this checklist to plan and track your migration:
+
+1. **Update `pubspec.yaml`** — Remove the `amplify_datastore` dependency (see [Remove DataStore](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/remove-datastore/))
+2. **Update Amplify configuration** — Remove the DataStore plugin and pass `ModelProvider` to the API plugin
+3. **Migrate CRUD operations** — Replace `DataStore.save()`, `DataStore.query()`, and `DataStore.delete()` with API equivalents (see [Migrate to Amplify API](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-to-api/))
+4. **Migrate real-time listeners** — Replace `DataStore.observe()` and `DataStore.observeQuery()` with API subscriptions
+5. **Handle API response differences** — Adapt to `GraphQLResponse` types and token-based pagination
+6. **Test** — Verify all CRUD operations, real-time subscriptions, and error handling
+7. **Disable conflict resolution** — Once all clients are migrated (see [Disable conflict resolution](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/))
+
+</InlineFilter>
 
 <Overview childPageNodes={props.childPageNodes} />
