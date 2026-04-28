@@ -61,9 +61,9 @@ Features that are natively supported in Gen 2 are code-generated using the nativ
 
 Stateful resources (user pools, S3 buckets, etc.) are also code-generated, meaning new empty instances will be deployed in the Gen 2 environment. The refactor step will later replace these empty resources with your actual Gen 1 resources.
 
-<Callout info>
+<Callout warning>
 
-DynamoDB tables that host your models are not cloned as part of the Gen 2 deployment and therefore do not participate in the refactoring step. Your Gen 2 application will have access to Gen 1 model data immediately after deployment.
+DynamoDB tables that host your models are not cloned as part of the Gen 2 deployment and therefore do not participate in the refactoring step. Your Gen 2 application will have access to Gen 1 model data immediately after deployment. It is imperative to first run the migration on a [cloned environment](#step-0-clone), to ensure no unintended changes are made to your production data.
 
 </Callout>
 
@@ -535,7 +535,21 @@ By default, sandbox creates its own DynamoDB tables and does not share Gen 1 mod
 </Accordion>
 
 
-### Step 6: Refactor
+### Step 6: Functional Tests
+
+After deployment, verify that the Gen 2 environment is working as expected by testing all aspects of your frontend application. This includes:
+
+- User sign-up, sign-in, and sign-out flows
+- Data operations — creating, reading, updating, and deleting entities
+- File uploads and downloads via Storage
+- API calls (GraphQL and REST)
+- Any custom business logic handled by Lambda functions
+
+If any functionality does not work as expected, review and adjust the generated Gen 2 code accordingly. The migration tool provides a starting point, but some configurations may require manual refinement to match your application's specific behavior.
+
+Remember that with the exception of DynamoDB model tables (which are shared), the Gen 2 environment has its own stateful resources separate from Gen 1.
+
+### Step 7: Refactor
 
 <Accordion title="Validations">
 
@@ -593,7 +607,7 @@ amplify gen2-migration lock --rollback
 amplify push
 ```
 
-### Step 7: Post-Refactor (CRITICAL)
+### Step 8: Post-Refactor (CRITICAL)
 
 <Callout warning backgroundColor="var(--amplify-colors-red-10)">
 
@@ -627,7 +641,7 @@ If your application contains a Kinesis stream, update the frontend to point back
 + streamName: '<gen1-stream-name>',
 ```
 
-### Step 8: Deploy
+### Step 9: Deploy
 
 Push the changes and wait for the deployment to finish:
 
