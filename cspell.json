@@ -1650,7 +1650,12 @@
     "posttags",
     "callouts",
     "immer",
-    "ERESOLVE"
+    "ERESOLVE",
+    "graphqls",
+    "swiftpm",
+    "xcshareddata",
+    "unsynced",
+    "vararg"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

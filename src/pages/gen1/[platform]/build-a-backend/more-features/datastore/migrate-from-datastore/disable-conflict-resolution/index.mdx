@@ -4,11 +4,14 @@ export const meta = {
   title: 'Disable conflict resolution',
   description: 'Disable AppSync conflict resolution and prepare your backend for migration from DataStore to a standard GraphQL client with zero downtime.',
   platforms: [
+    'android',
     'angular',
+    'flutter',
     'javascript',
     'nextjs',
     'react',
     'react-native',
+    'swift',
     'vue'
   ]
 };
@@ -28,7 +31,7 @@ export function getStaticProps(context) {
 
 <Callout warning>
 
-**Complete the frontend migration first.** This page covers the **final backend step** of the migration. Before following these instructions, migrate all frontend clients from DataStore to Apollo Client (or the Amplify API category) using the preceding pages in this guide. Disabling conflict resolution while any client still uses DataStore will break that client immediately.
+**Complete the frontend migration first.** This page covers the **final backend step** of the migration. Before following these instructions, migrate all frontend clients from DataStore using the preceding pages in this guide. Disabling conflict resolution while any client still uses DataStore will break that client immediately.
 
 </Callout>
 
