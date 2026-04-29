@@ -5,7 +5,8 @@ export const meta = {
   description: 'Set up local caching as an alternative to DataStore local storage for Flutter and Android.',
   platforms: [
     'android',
-    'flutter'
+    'flutter',
+    'swift'
   ]
 };
 
@@ -69,6 +70,115 @@ Stream<void> observe() {
   return localRepository.observe();
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+DataStore directly uses [SQLite](https://github.com/stephencelis/SQLite.swift) APIs, but the option you choose may depend on your caching requirements.
+
+## Apollo normalized cache
+
+Apollo iOS includes the option to use SQLite as a [normalized cache](https://www.apollographql.com/docs/ios/caching/introduction). The normalized cache is straightforward to set up and allows Apollo to replay previous queries from the cache to improve latency, reduce bandwidth consumption, and replay queries while offline.
+
+For setup instructions on the normalized cache, see the [Migrate DataStore to Apollo — ObserveQuery](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/#observequery) section which covers the `watch()` function that leverages the cache.
+
+## Custom caching with SwiftData
+
+For more advanced use cases where you want richer access to cached data, you can use your own caching layer instead of, or in addition to, Apollo's provided cache. Two popular frameworks for this approach are [SwiftData](https://developer.apple.com/documentation/swiftdata) and [CoreData](https://developer.apple.com/documentation/coredata). The following examples use SwiftData.
+
+### Local models
+
+You can use the `Model()` macro to annotate a separate entity for local storage that corresponds to your Apollo generated model:
+
+```swift
+@Model
+class PostEntity {
+  @Attribute(.unique) var id: String
+  var updatedAt: String
+  var createdAt: String
+  var status: PostEntityStatus?
+  var title: String
+  var rating: Int?
+  var content: String?
+
+  init(id: String,
+       updatedAt: String,
+       createdAt: String,
+       status: PostEntityStatus? = nil,
+       title: String,
+       rating: Int? = nil,
+       content: String? = nil) {
+    self.id = id
+    self.updatedAt = updatedAt
+    self.createdAt = createdAt
+    self.status = status
+    self.title = title
+    self.rating = rating
+    self.content = content
+  }
+}
+
+enum PostEntityStatus: Codable {
+  case active
+  case inactive
+}
+```
+
+You can then configure the model storage using `ModelContainer`:
+
+```swift
+let container = try ModelContainer(for: PostEntity.self)
+```
+
+### Model mapping
+
+Extension initializers can help map the remote model to your local model:
+
+```swift
+extension PostEntity {
+  convenience init(postDetails: PostDetails) {
+    self.init(id: postDetails.id,
+              updatedAt: postDetails.updatedAt ?? "",
+              createdAt: postDetails.createdAt ?? "",
+              status: (postDetails.status == .case(.active)) ? .active : .inactive,
+              title: postDetails.title,
+              rating: postDetails.rating,
+              content: postDetails.content)
+  }
+}
+```
+
+### Populate the cache
+
+Once your SwiftData models have been set up, you can populate the data by writing the results of Apollo queries into the cache:
+
+```swift
+func populate(apolloClient: ApolloClient, context: ModelContext) {
+  var nextToken: String? = nil
+  repeat {
+    let query = GetPostsQuery(
+      nextToken: nextToken.flatMap { .some($0) } ?? .none)
+    apolloClient.fetch(query: query) { result in
+      guard let data = try? result.get().data else { return }
+      if let items = data.listPosts?.items {
+        for item in items {
+          guard let postDetails = item?.fragments.postDetails
+            else { continue }
+          let model = PostEntity(postDetails: postDetails)
+          context.insert(model)
+          try? context.save()
+        }
+      }
+      nextToken = data.listPosts?.nextToken
+    }
+  } while (nextToken != nil)
+}
+```
+
+### Observability
+
+You can observe the [`.NSPersistentStoreRemoteChange`](https://developer.apple.com/documentation/foundation/nsnotification/name/3180044-nspersistentstoreremotechange) notification to listen to changes in the persistent store. The notification object contains the transaction's history token which you can use to fetch and process the history of transactions.
 
 </InlineFilter>
 

@@ -4,7 +4,8 @@ export const meta = {
   title: 'Schema and GraphQL operations',
   description: 'Retrieve your AppSync schema and define GraphQL operations for Apollo Kotlin code generation.',
   platforms: [
-    'android'
+    'android',
+    'swift'
   ]
 };
 
@@ -21,7 +22,17 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={["android"]}>
+
 Apollo's code generation plugin reads your schema and GraphQL operation files to generate type-safe Kotlin code. This page covers how to retrieve your AppSync schema and define the GraphQL operations you need.
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+The schema is used by Apollo's code generation tool to generate type-safe Swift code that helps you execute GraphQL operations. This page covers how to retrieve your AppSync schema and define the GraphQL operations you need.
+
+</InlineFilter>
 
 ## Retrieve your AWS AppSync GraphQL schema
 
@@ -30,7 +41,17 @@ Apollo's code generation plugin reads your schema and GraphQL operation files to
 1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
 2. On the left side, select **Schema**
 3. Select the **Export Schema** dropdown and download the `schema.json` file
+<InlineFilter filters={["android"]}>
+
 4. Place this file at `app/src/main/graphql/schema.json` in your project (or the location configured in your Apollo Gradle plugin — see [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location))
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+4. Place this file in your project directory (e.g., alongside your `.xcodeproj`).
+
+</InlineFilter>
 
 ### Using the AWS CLI
 
@@ -50,7 +71,17 @@ You can find your API ID in the [AWS AppSync console](https://console.aws.amazon
 aws appsync list-graphql-apis --region <region>
 ```
 
+<InlineFilter filters={["android"]}>
+
 2. Place the downloaded `schema.json` at `app/src/main/graphql/schema.json` in your project.
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+2. Place the downloaded `schema.json` in your project directory.
+
+</InlineFilter>
 
 ## Prepare GraphQL operations (queries, mutations, subscriptions)
 

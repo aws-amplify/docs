@@ -5,7 +5,8 @@ export const meta = {
   description: 'Additional documentation, third-party packages, and references for the DataStore migration.',
   platforms: [
     'android',
-    'flutter'
+    'flutter',
+    'swift'
   ]
 };
 
@@ -63,6 +64,36 @@ While migrating off of DataStore, we found a few third-party packages to share. 
 Isar does not support Gradle 8, which is a requirement for Amplify Flutter Android, but there is a [fork](https://github.com/isar/isar/issues/1470#issuecomment-1978766200) that resolves this. Drift is used with the Amplify Flutter packages, which can result in restrictions for what Drift versions you can use.
 
 </Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+## AWS AppSync
+
+- [AWS AppSync Apollo Extensions documentation (Swift)](https://docs.amplify.aws/swift/build-a-backend/data/aws-appsync-apollo-extensions/)
+- [AWS AppSync Apollo Extensions GitHub repository](https://github.com/aws-amplify/aws-appsync-apollo-extensions-swift)
+- [AWS AppSync Delta Sync guide](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-delta-sync.html)
+- [Conflict detection and resolution](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html)
+
+## Apollo iOS
+
+- [Apollo iOS documentation](https://www.apollographql.com/docs/ios)
+- [Apollo iOS Getting Started](https://www.apollographql.com/docs/ios/get-started)
+- [Apollo iOS GitHub repository](https://github.com/apollographql/apollo-ios)
+- [Apollo iOS Normalized Cache](https://www.apollographql.com/docs/ios/caching/introduction)
+- [Apollo iOS Watching Queries](https://www.apollographql.com/docs/ios/fetching/queries#watching-queries)
+
+## Amplify DataStore (Legacy)
+
+- [How DataStore works](https://docs.amplify.aws/gen1/swift/build-a-backend/more-features/datastore/how-it-works/)
+- [Schema updates](https://docs.amplify.aws/gen1/swift/build-a-backend/more-features/datastore/schema-updates/)
+- [Client code generation (Amplify CLI)](https://docs.amplify.aws/gen1/swift/tools/cli-legacy/client-codegen/)
+
+## Local storage frameworks
+
+- [SwiftData documentation](https://developer.apple.com/documentation/swiftdata/)
+- [CoreData documentation](https://developer.apple.com/documentation/coredata)
 
 </InlineFilter>
 

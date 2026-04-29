@@ -2,9 +2,10 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Migrate DataStore to Apollo',
-  description: 'Replace every Amplify DataStore operation with its Apollo Kotlin equivalent for Android.',
+  description: 'Replace every Amplify DataStore operation with its Apollo Kotlin or Apollo iOS equivalent.',
   platforms: [
-    'android'
+    'android',
+    'swift'
   ]
 };
 
@@ -21,9 +22,21 @@ export function getStaticProps(context) {
   };
 }
 
+<InlineFilter filters={["android"]}>
+
 This page covers how to replace every `Amplify.DataStore.*` call with the equivalent Apollo Kotlin operation. The examples below use the schema and GraphQL operations created in the [Schema and GraphQL operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/schema-and-operations/) page.
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+This page covers how to replace every `Amplify.DataStore.*` call with the equivalent Apollo iOS operation. The examples below use the schema and GraphQL operations created in the [Schema and GraphQL operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/schema-and-operations/) page.
+
+</InlineFilter>
+
 ## Create, update, and delete (save/delete)
+
+<InlineFilter filters={["android"]}>
 
 In Apollo Kotlin, you create, update, and delete data using the [mutations](https://www.apollographql.com/docs/kotlin/essentials/mutations) defined in your schema.
 
@@ -54,6 +67,57 @@ val input = DeletePostInput(
 val response = apolloClient.mutation(DeletePostMutation(input)).execute()
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In Apollo iOS, you create, update, and delete data using the [mutations](https://www.apollographql.com/docs/ios/fetching/mutations) defined in your schema.
+
+```swift
+// Create — include all required fields from your schema
+let createPostInput = CreatePostInput(
+  title: "post",
+  status: .some(.case(.active)),
+  rating: .some(5),
+  content: .some("content"))
+
+apolloClient.perform(
+  mutation: CreatePostMutation(input: createPostInput)
+) { result in
+  guard let data = try? result.get().data else { return }
+  print("Post: \(String(describing: data.createPost?.fragments.postDetails))")
+}
+
+// Update — use .some() for fields you want to change
+let updatePostInput = UpdatePostInput(
+  id: "post1",
+  status: .some(.case(.inactive)))
+
+apolloClient.perform(
+  mutation: UpdatePostMutation(input: updatePostInput)
+) { result in
+  guard let data = try? result.get().data else { return }
+  print("Post updated: \(String(describing: data.updatePost?.fragments.postDetails))")
+}
+
+// Delete
+let deletePostInput = DeletePostInput(id: "post1")
+apolloClient.perform(
+  mutation: DeletePostMutation(input: deletePostInput)
+) { result in
+  guard let data = try? result.get().data else { return }
+  print("Post deleted: \(String(describing: data.deletePost?.id))")
+}
+```
+
+<Callout>
+
+**`GraphQLNullable`:** Apollo iOS uses a `GraphQLNullable<T>` type for optional input fields. This type distinguishes between "not provided" (`.none`), "explicitly null" (`.null`), and "has a value" (`.some(value)`). When setting optional fields with runtime values, you must use `.some(value)` explicitly — for example, `.some(.case(.active))` for enums or `.some(5)` for integers.
+
+</Callout>
+
+</InlineFilter>
+
 <Callout warning>
 
 **Include all required fields in creates.** If your schema defines `content: String!`, you must pass `content` in `CreatePostInput` — Apollo code generation makes it a required constructor parameter and the mutation will fail without it.
@@ -68,6 +132,8 @@ val response = apolloClient.mutation(DeletePostMutation(input)).execute()
 
 ## Query
 
+<InlineFilter filters={["android"]}>
+
 In Apollo Kotlin, you query data using the [queries](https://www.apollographql.com/docs/kotlin/essentials/queries) defined in your schema.
 
 ```kotlin
@@ -78,6 +144,30 @@ val response = apolloClient.query(query).execute()
 // List items
 val response = apolloClient.query(GetPostsQuery()).execute()
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+In Apollo iOS, you query data using the [queries](https://www.apollographql.com/docs/ios/fetching/queries) defined in your schema.
+
+```swift
+// Single Item
+let query = GetPostQuery(id: "post1")
+apolloClient.fetch(query: query) { result in
+  guard let data = try? result.get().data else { return }
+  print("Query results: \(String(describing: data.getPost?.fragments.postDetails))")
+}
+
+// List Items
+let query = GetPostsQuery()
+apolloClient.fetch(query: query) { result in
+  guard let data = try? result.get().data else { return }
+  print("List results: \(String(describing: data.listPosts?.items))")
+}
+```
+
+</InlineFilter>
 
 <Callout warning>
 

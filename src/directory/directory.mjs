@@ -1921,6 +1921,9 @@ export const directory = {
                               path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo-kotlin/index.mdx'
                             },
                             {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo-ios/index.mdx'
+                            },
+                            {
                               path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/index.mdx'
                             },
                             {
