@@ -197,6 +197,72 @@ The migration tool does not convert your GraphQL schema to the native Gen 2 sche
 | Function templates: Serverless express | Yes | Yes | 🟢 |
 | Function templates: Lambda trigger | Yes | Yes | 🟢 |
 
+### Hosting
+
+<Callout info>
+
+The migration tool generates an `amplify.yml` buildspec file so that you can deploy and publish the app via the Amplify Hosting service. See [Build specification reference](https://docs.aws.amazon.com/amplify/latest/userguide/yml-specification-syntax.html) for details.
+
+</Callout>
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| Amplify Console (Git-based Continuous deployment) | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#type-of-deployments) | Yes |
+| Amplify Console (Manual deployment) | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#type-of-deployments) | No |
+| Amazon CloudFront and S3 | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#amazon-s3-and-amazon-cloudfront) | No |
+
+> See the full [Deploy and Host](/[platform]/deploy-and-host/) documentation for comprehensive guidance on Gen 2 deployment options.
+
+In Gen 1, deployment was typically done via `amplify push` (backend) and `amplify publish` (frontend) in a custom pipeline, or automatically through the Amplify Hosting service. In Gen 2, these commands no longer exist.
+
+#### Amplify Hosting
+
+The simplest path is to connect your Git branch in the Amplify Console (_App Settings → Branch Settings → Add Branch_). See [branch deployments](https://docs.amplify.aws/react/deploy-and-host/fullstack-branching/branch-deployments/) for details.
+
+If you use a custom backend pipeline but still want Amplify Hosting for the frontend, update the `amplify.yml` build spec to run `npx ampx generate outputs` instead of `pipeline-deploy`, and use an incoming webhook to trigger the frontend build after your backend pipeline succeeds.
+
+<Callout warning>
+
+If your Gen 1 app uses **manual deployment** (i.e. it is not connected to a Git repository), the Amplify Console does not allow you to add Git-based branch deployments to the same app. In this case, you must create a new Amplify app and connect your Git repository to it.
+
+</Callout>
+
+#### Custom Pipelines
+
+Unlike Gen 1, Gen 2 deployments always require an Amplify app ID and a branch name. If you use your own CI/CD system (AWS CodePipeline, Jenkins, CodeCatalyst, etc.) or a non-Git VCS like SVN, you can drive Gen 2 deployments directly using the `ampx` CLI. You will need to perform some one-time setup:
+
+```bash
+# (Optional) Create a new Amplify App — only needed if not reusing your existing app
+aws amplify create-app --name my-app
+
+# Register a branch name for your pipeline to deploy to
+# (this is a logical name, not necessarily a real Git branch)
+aws amplify create-branch --app-id <APP_ID> --branch-name gen2-main
+
+# Disable auto-build so Amplify doesn't build on git push
+aws amplify update-branch --app-id <APP_ID> --branch-name gen2-main --no-enable-auto-build
+```
+
+Then, in your pipeline build steps:
+
+```bash
+npm ci
+export CI=1
+npx ampx pipeline-deploy --branch gen2-main --app-id <AMPLIFY_APP_ID>
+```
+
+<Callout info>
+
+The `--branch` parameter is a logical name, not a Git ref. You can use any string (e.g. `trunk`, `release-1.0`). The `amplify/` folder must be present in your working directory at build time.
+
+</Callout>
+
+See the [custom pipelines guide](/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/) for full details.
+
+#### Frontend Hosting Without Amplify
+
+If you host your frontend separately (S3 + CloudFront, on-prem, etc.), run `npx ampx generate outputs` in your pipeline to produce `amplify_outputs.json`, then bundle it with your frontend build artifacts.
+
 ### Other categories
 
 <InlineFilter filters={['android', 'swift']}>
@@ -247,20 +313,6 @@ The migration tool does not convert your GraphQL schema to the native Gen 2 sche
 | Custom (CFN) | Yes | [Yes with CfnInclude](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.cloudformation_include.CfnInclude.html) | 🔴 |
 
 </InlineFilter>
-
-### Hosting
-
-<Callout info>
-
-The migration tool generates an `amplify.yml` buildspec file so that you can deploy and publish the app via the Amplify Hosting service. See [Build specification reference](https://docs.aws.amazon.com/amplify/latest/userguide/yml-specification-syntax.html) for details.
-
-</Callout>
-
-| Feature | Gen 1 | Gen 2 |
-|---|---|---|
-| Amplify Console (Git-based Continuous deployment) | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#type-of-deployments) | Yes |
-| Amplify Console (Manual deployment) | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#type-of-deployments) | No |
-| Amazon CloudFront and S3 | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#amazon-s3-and-amazon-cloudfront) | No |
 
 ## Tooling and Workflows
 
