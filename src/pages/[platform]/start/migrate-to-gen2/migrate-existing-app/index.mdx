@@ -66,7 +66,7 @@ Migration is driven by a new `gen2-migration` subcommand in the Gen 1 CLI. It wa
 <img src="/images/gen2-migration/workflow.png" alt="Migration workflow showing resource state at each step" width="1200" />
 </div>
 
-After completing the migration, you will have two functionally equivalent Amplify applications that access the same data. You will no longer be able to update your Gen 1 environment — push updates to the Gen 2 code instead.
+During migration, both environments run side by side so you can validate the Gen 2 environment before switching over. Once you are confident it is working correctly, the Gen 2 environment becomes your primary one and the Gen 1 environment can be [decommissioned](#decommissioning-gen-1). After refactoring, the Gen 1 environment is locked and all future updates should be pushed to the Gen 2 code.
 
 ### Generating the Gen2 Application
 
@@ -162,16 +162,29 @@ amplify push
 
 ### AWS Credentials
 
-The migration tool requires the following API actions in addition to the standard Amplify CLI permissions:
+The migration tool requires the following API actions in addition to the standard Amplify CLI permissions. Add the following policy to your IAM role:
 
-- `cloudformation:CreateStackRefactor`
-- `cloudformation:DescribeStackRefactor`
-- `cloudformation:ExecuteStackRefactor`
-- `cloudformation:GetStackPolicy`
-- `cloudformation:SetStackPolicy`
-- `cloudformation:DeleteChangeSet`
-- `s3:GetBucketVersioning`
-- `s3:GetEncryptionConfiguration`
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:CreateStackRefactor",
+        "cloudformation:DescribeStackRefactor",
+        "cloudformation:ExecuteStackRefactor",
+        "cloudformation:GetStackPolicy",
+        "cloudformation:SetStackPolicy",
+        "cloudformation:DeleteChangeSet",
+        "s3:GetBucketVersioning",
+        "s3:GetEncryptionConfiguration"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
 
 <Callout info>
 
@@ -262,7 +275,7 @@ Before starting the migration, evaluate whether your Gen 1 environment is ready:
 amplify gen2-migration assess
 ```
 
-This command is read-only with no side effects. It discovers all resources in your Gen 1 environment and produces a report showing migration support for each resource across the `generate` and `refactor` steps. If a resource or feature is not supported for `generate`, the tool skips it and you can manually add the configuration to the generated Gen 2 code. If not supported for `refactor`, you will need to manually move or migrate data from those resources.
+This command is read-only. It discovers all resources in your Gen 1 environment and produces a report showing migration support for each resource across the `generate` and `refactor` steps. If a resource or feature is not supported for `generate`, the tool skips it and you can manually add the configuration to the generated Gen 2 code. If not supported for `refactor`, the tool skips it and you will need to manually move or migrate data from those resources.
 
 <Callout info>
 
@@ -645,7 +658,7 @@ git commit -m "fix: post refactor"
 git push origin gen2-main
 ```
 
-## Decommission Gen 1
+## Decommissioning Gen 1
 
 <Callout warning backgroundColor="var(--amplify-colors-red-10)">
 

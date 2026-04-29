@@ -43,11 +43,11 @@ The tool can generate the Gen 2 code and refactor the existing resource.
 
 **🟠 Generate only**
 
-The tool can produce Gen 2 code, but the feature requires refactoring support which the tool does not have. To complete migration, you will need to perform manual data replication. For example, Geo (GeofenceCollection) can be code-generated but the existing geofence data cannot be automatically moved to the new Gen 2 resource.
+The tool can produce Gen 2 code, but the feature requires refactoring support which the tool does not have. If instructed to skip during refactor, you will need to manually move or migrate data from those resources. For example, Geo (GeofenceCollection) can be code-generated but the existing geofence data cannot be automatically moved to the new Gen 2 resource.
 
 **🔴 Unsupported**
 
-The tool cannot code-generate this feature. Some unsupported features involve stateful resources that will require manual data replication - for example, `@searchable` creates an OpenSearch domain with indexed data that you would need to recreate and repopulate in Gen 2. Other features can be purely stateless and only need to be manually configured by writing CDK code - for example, a Python Lambda function just needs to be redefined using CDK in your Gen 2 code, with no data migration involved.
+The tool does not support this feature during generate or refactor. If instructed to skip, it will proceed without it. To complete migration, you will need to manually write the Gen 2 code and migrate any associated data. Some unsupported features involve stateful resources that will require manual data replication - for example, `@searchable` creates an OpenSearch domain with indexed data that you would need to recreate and repopulate in Gen 2. Other features can be purely stateless and only need to be manually configured by writing CDK code - for example, a Python Lambda function just needs to be redefined using CDK in your Gen 2 code, with no data migration involved.
 
 If a feature you need is not yet supported, [create a feature request](https://github.com/aws-amplify/amplify-cli/issues/new?labels=gen2-migration,feature-request&template=2.feature_request.yaml).
 

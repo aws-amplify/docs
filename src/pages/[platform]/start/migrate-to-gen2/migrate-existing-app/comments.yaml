@@ -1,4 +1,1 @@
-- before we get started, lets talk about the approach
-- you will have two functionally equivalent Amplify applications that access the same data. (explain why two environments)
 - IAM actions - create a policy.
-- note about what do to with resources that are not supported (in the legend, and in the preserve data sharing section)
