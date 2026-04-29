@@ -6,6 +6,7 @@ export const meta = {
   description: 'Learn how to migrate from Amplify DataStore to Apollo Client or the Amplify API category.',
   route: '/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore',
   platforms: [
+    'android',
     'angular',
     'flutter',
     'javascript',
@@ -46,6 +47,12 @@ This guide shows you how to use Apollo Client for queries, mutations, and cachin
 <InlineFilter filters={["flutter"]}>
 
 This guide shows you how to migrate from DataStore to the Amplify API category for queries, mutations, and subscriptions. Depending on how much of DataStore's feature set your app actually uses, you may find the migration simpler than expected.
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+This guide shows you how to migrate from DataStore to [Apollo Kotlin](https://www.apollographql.com/docs/kotlin) and the [AWS AppSync Apollo Extensions library](https://docs.amplify.aws/android/build-a-backend/data/aws-appsync-apollo-extensions/) for queries, mutations, and subscriptions. Depending on how much of DataStore's feature set your app actually uses, you may find the migration simpler than expected.
 
 </InlineFilter>
 
@@ -250,6 +257,67 @@ Use this checklist to plan and track your migration:
 5. **Handle API response differences** — Adapt to `GraphQLResponse` types and token-based pagination
 6. **Test** — Verify all CRUD operations, real-time subscriptions, and error handling
 7. **Disable conflict resolution** — Once all clients are migrated (see [Disable conflict resolution](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/))
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+This guide walks you through the migration path from DataStore to Apollo Kotlin. You will set up Apollo Kotlin with your AppSync endpoint, migrate all CRUD operations, and optionally add local caching and offline-first support.
+
+## Quick comparison: before and after
+
+Here is a quick look at how common DataStore operations translate to Apollo Kotlin:
+
+| DataStore Operation | Apollo Kotlin Equivalent |
+|---------------------|--------------------------|
+| `Amplify.DataStore.save()` | Apollo mutations (`CreatePostMutation`, `UpdatePostMutation`) |
+| `Amplify.DataStore.delete()` | Apollo mutations (`DeletePostMutation`) |
+| `Amplify.DataStore.query()` | Apollo queries (`GetPostQuery`, `GetPostsQuery`) |
+| `Amplify.DataStore.observe()` | Apollo subscriptions (`OnCreateSubscription`, etc.) via `toFlow()` |
+| `Amplify.DataStore.observeQuery()` | Apollo normalized cache + `watch()` |
+| `Amplify.DataStore.clear()` | No longer needed (no local DataStore to clear) |
+| `Amplify.DataStore.start()` / `stop()` | No longer needed |
+
+## Use cases
+
+Not all customers need the full extent of DataStore's capabilities. Depending on your specific use case, migration can be straightforward:
+
+1. **Local caching:** If you used DataStore primarily as a local caching layer, storing data temporarily on the device but not relying heavily on its offline-first capabilities, Apollo Kotlin can provide lightweight data caching without the complexities of managing full offline sync, making it a good fit if your application is mostly connected and only occasionally requires offline access.
+2. **Offline-first:** If your business requirements rely on fully supporting offline-first functionality, the [offline-first](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/offline-first/) guide provides a high-level approach for migrating to a new offline-first solution.
+
+## How to use this guide
+
+Follow the pages in order. Each step builds on the previous one.
+
+1. **[Remove DataStore](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/remove-datastore/).** Remove the DataStore dependency and plugin from your project.
+
+2. **[Schema and GraphQL operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/schema-and-operations/).** Retrieve your AppSync schema and define your GraphQL operations for Apollo code generation.
+
+3. **[Set up Apollo Kotlin](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo-kotlin/).** Add dependencies, configure the Gradle plugin, and set up the Apollo client with your AppSync endpoint and authentication.
+
+4. **[Migrate DataStore to Apollo](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/).** Replace all DataStore operations with Apollo equivalents. Migrate `save`, `query`, `delete`, `observe`, and `observeQuery`.
+
+5. **[Optional: Local caching](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/local-caching/).** Set up a local cache using Apollo's normalized cache or a custom caching layer with Room.
+
+6. **[Offline-first](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/offline-first/).** Build full offline support with remote sync, live syncing, network detection, and offline mutations.
+
+7. **[Disable conflict resolution](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/).** Once ALL frontend clients are migrated off DataStore, remove the sync infrastructure, simplify mutations, and switch from soft deletes to hard deletes.
+
+8. **[Helpful resources](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/helpful-resources/).** Additional documentation, third-party packages, and references.
+
+## Migration checklist
+
+Use this checklist to plan and track your migration:
+
+1. **Remove the DataStore dependency** — Remove `com.amplifyframework:aws-datastore` from your `build.gradle.kts` (see [Remove DataStore](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/remove-datastore/))
+2. **Remove the DataStore plugin** — Remove `AWSDataStorePlugin()` from your `Amplify.addPlugin()` calls
+3. **Delete generated model files** — Remove DataStore-generated model classes
+4. **Set up schema and operations** — Retrieve your AppSync schema and define GraphQL operations (see [Schema and GraphQL operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/schema-and-operations/))
+5. **Set up Apollo Kotlin** — Add dependencies and configure the Apollo client (see [Set up Apollo Kotlin](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo-kotlin/))
+6. **Migrate CRUD operations** — Replace `DataStore.save()`, `DataStore.query()`, and `DataStore.delete()` with Apollo equivalents (see [Migrate DataStore to Apollo](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/))
+7. **Migrate real-time listeners** — Replace `DataStore.observe()` and `DataStore.observeQuery()` with Apollo subscriptions and cache watchers
+8. **Test** — Verify all CRUD operations, real-time subscriptions, and error handling
+9. **Disable conflict resolution** — Once all clients are migrated (see [Disable conflict resolution](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/))
 
 </InlineFilter>
 

@@ -1,0 +1,225 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate DataStore to Apollo',
+  description: 'Replace every Amplify DataStore operation with its Apollo Kotlin equivalent for Android.',
+  platforms: [
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This page covers how to replace every `Amplify.DataStore.*` call with the equivalent Apollo Kotlin operation. The examples below use the schema and GraphQL operations created in the [Schema and GraphQL operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/schema-and-operations/) page.
+
+## Create, update, and delete (save/delete)
+
+In Apollo Kotlin, you create, update, and delete data using the [mutations](https://www.apollographql.com/docs/kotlin/essentials/mutations) defined in your schema.
+
+```kotlin
+// Create — include all required fields from your schema
+val input = CreatePostInput(
+  title = title,
+  content = content,
+  rating = Optional.present(rating),
+  status = status
+)
+val response = apolloClient.mutation(CreatePostMutation(input)).execute()
+
+// Update — use Optional.present() for fields you want to change.
+// Pass _version from the last query/mutation response for conflict resolution.
+val input = UpdatePostInput(
+  id = post.id,
+  status = Optional.present(PostStatus.ACTIVE),
+  _version = Optional.present(post._version)
+)
+val response = apolloClient.mutation(UpdatePostMutation(input)).execute()
+
+// Delete — also requires _version for conflict resolution
+val input = DeletePostInput(
+  id = post.id,
+  _version = Optional.present(post._version)
+)
+val response = apolloClient.mutation(DeletePostMutation(input)).execute()
+```
+
+<Callout warning>
+
+**Include all required fields in creates.** If your schema defines `content: String!`, you must pass `content` in `CreatePostInput` — Apollo code generation makes it a required constructor parameter and the mutation will fail without it.
+
+</Callout>
+
+<Callout warning>
+
+**`_version` is required for updates and deletes.** If your AppSync API uses DataStore conflict resolution, you must pass the `_version` field when updating or deleting items. The `_version` is returned from every query and mutation response (via the `PostDetails` fragment). Always store the latest `_version` and pass it in subsequent mutations. If you omit `_version`, the mutation will fail with a `ConflictUnhandled` error.
+
+</Callout>
+
+## Query
+
+In Apollo Kotlin, you query data using the [queries](https://www.apollographql.com/docs/kotlin/essentials/queries) defined in your schema.
+
+```kotlin
+// Single item
+val query = GetPostQuery(id = id)
+val response = apolloClient.query(query).execute()
+
+// List items
+val response = apolloClient.query(GetPostsQuery()).execute()
+```
+
+<Callout warning>
+
+**Soft-deleted items:** If your AppSync API uses DataStore conflict resolution, `listPosts` will return soft-deleted items with `_deleted: true`. DataStore filtered these out automatically, but with Apollo you **must filter them yourself** when displaying results:
+
+```kotlin
+val posts = response.data?.listPosts?.items
+  ?.mapNotNull { it?.postDetails }
+  ?.filter { it._deleted != true }
+  ?: emptyList()
+```
+
+Failing to filter `_deleted` items will show deleted posts in your UI.
+
+</Callout>
+
+### Filtering
+
+DataStore supported predicate queries (for example, `Post.RATING.gt(3)`) which were executed locally. With Apollo, you have two options:
+
+1. **Server-side filtering** using AppSync's `ModelPostFilterInput`. Update your `GetPosts` query to accept a filter:
+
+```graphql
+query GetPosts($filter: ModelPostFilterInput, $nextToken: String) {
+  listPosts(filter: $filter, nextToken: $nextToken) {
+    items { ... PostDetails }
+    nextToken
+  }
+}
+```
+
+Then pass the filter in Kotlin:
+
+```kotlin
+val filter = ModelPostFilterInput(
+  rating = Optional.present(ModelIntInput(gt = Optional.present(3)))
+)
+val response = apolloClient.query(
+  GetPostsQuery(filter = Optional.present(filter))
+).execute()
+```
+
+2. **Client-side filtering** using Kotlin collection operations on the query results:
+
+```kotlin
+val allPosts = response.data?.listPosts?.items
+  ?.mapNotNull { it?.postDetails }
+  ?: emptyList()
+val filtered = allPosts.filter { (it.rating ?: 0) > 3 }
+```
+
+### Sorting
+
+DataStore's `QuerySortBy` does not have a direct Apollo equivalent for the default `listPosts` query. Apply sorting client-side:
+
+```kotlin
+val sorted = posts.sortedByDescending { it.createdAt?.toString() ?: "" }
+```
+
+### Pagination
+
+DataStore supported offset-based pagination (`Page.startingAt(n).withLimit(5)`). AppSync uses cursor-based pagination with `nextToken`. You can either paginate through all results using `nextToken` or apply client-side offset pagination with `.drop()` and `.take()`:
+
+```kotlin
+val page = 0
+val pageSize = 5
+val pagedPosts = allPosts.drop(page * pageSize).take(pageSize)
+```
+
+## Observe
+
+In Apollo Kotlin, you observe data using the [subscriptions](https://www.apollographql.com/docs/kotlin/essentials/subscriptions) defined in your schema. Apollo Kotlin exposes subscriptions as a Kotlin `Flow` via the built-in `toFlow()` method:
+
+```kotlin
+apolloClient.subscription(OnCreateSubscription()).toFlow().collect { response ->
+  // Handle created post
+}
+```
+
+<Callout>
+
+Unlike DataStore's single `observe()` which emits create, update, and delete events through one stream, Apollo requires **separate subscriptions** for each event type (`onCreatePost`, `onUpdatePost`, `onDeletePost`). You need to launch each subscription flow independently.
+
+</Callout>
+
+## ObserveQuery
+
+DataStore's `observeQuery` allows you to submit a query and then receive updates when the results change. To replicate this behavior with Apollo Kotlin, you use a [normalized cache](https://www.apollographql.com/docs/kotlin/caching/normalized-cache) and the [watch](https://www.apollographql.com/docs/kotlin/caching/query-watchers) function.
+
+To set this up, you need to:
+
+1. **Add the normalized cache dependency** to your `build.gradle.kts`:
+
+```kotlin
+implementation("com.apollographql.apollo:apollo-normalized-cache:4.1.0")
+// For SQLite-backed persistent cache:
+implementation("com.apollographql.apollo:apollo-normalized-cache-sqlite:4.1.0")
+```
+
+2. **Configure the cache** when building your Apollo client:
+
+```kotlin
+val cacheFactory = MemoryCacheFactory(maxSizeBytes = 10 * 1024 * 1024)
+// Or for SQLite: SqlNormalizedCacheFactory(context, "apollo_cache.db")
+
+val apolloClient = ApolloClient.Builder()
+  .serverUrl(endpoint.serverUrl.toString())
+  .addHttpInterceptor(AppSyncInterceptor(authorizer))
+  .normalizedCache(cacheFactory)
+  .build()
+```
+
+3. **Watch the query** to receive updates:
+
+```kotlin
+val query = GetPostQuery(id = id)
+apolloClient.query(query).watch().collect { post ->
+  // This re-emits whenever the cached data for this query changes
+}
+```
+
+<Callout>
+
+The normalized cache tracks data by unique IDs, so mutations and subscription updates that write to the cache will automatically trigger `watch()` to re-emit with updated data.
+
+</Callout>
+
+<Callout>
+
+**No `isSynced` equivalent:** DataStore's `observeQuery()` provided an `isSynced` boolean indicating whether the local store was fully synced with the cloud. Apollo's `watch()` does not provide an equivalent sync status indicator. If your app relies on showing sync status, you need to track this manually (for example, by setting a flag after your initial query completes and subscriptions are established).
+
+</Callout>
+
+## Quick reference table
+
+| DataStore Method | Apollo Kotlin Equivalent | Key Difference |
+|---|---|---|
+| `Amplify.DataStore.save()` (create) | `apolloClient.mutation(CreatePostMutation(input)).execute()` | No `_version` needed for creates |
+| `Amplify.DataStore.save()` (update) | `apolloClient.mutation(UpdatePostMutation(input)).execute()` | Must pass `_version` from last query |
+| `Amplify.DataStore.delete()` | `apolloClient.mutation(DeletePostMutation(input)).execute()` | Must pass `_version` from last query |
+| `Amplify.DataStore.query()` (single) | `apolloClient.query(GetPostQuery(id)).execute()` | Returns null if not found |
+| `Amplify.DataStore.query()` (list) | `apolloClient.query(GetPostsQuery()).execute()` | Must filter `_deleted` records |
+| `Amplify.DataStore.observe()` | `apolloClient.subscription(...).toFlow().collect {}` | Separate subscription per event type |
+| `Amplify.DataStore.observeQuery()` | `apolloClient.query(...).watch().collect {}` | Requires normalized cache setup |
+| `Amplify.DataStore.clear()` | No longer needed | No local DataStore to clear |

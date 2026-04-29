@@ -2,8 +2,9 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Offline-first',
-  description: 'Build full offline support with remote sync, live syncing, network detection, and offline mutations for Flutter.',
+  description: 'Build full offline support with remote sync, live syncing, network detection, and offline mutations.',
   platforms: [
+    'android',
     'flutter'
   ]
 };
@@ -23,9 +24,21 @@ export function getStaticProps(context) {
 
 For a better understanding of Amplify DataStore's opinionated approach, consult these resources:
 
+<InlineFilter filters={["flutter"]}>
+
 - [How DataStore works](https://docs.amplify.aws/gen1/flutter/build-a-backend/more-features/datastore/how-it-works/)
 - [Conflict detection and resolution](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html)
 - [Schema updates](https://docs.amplify.aws/gen1/flutter/build-a-backend/more-features/datastore/schema-updates/)
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+- [How DataStore works](https://docs.amplify.aws/gen1/android/build-a-backend/more-features/datastore/how-it-works/)
+- [Conflict detection and resolution](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html)
+- [Schema updates](https://docs.amplify.aws/gen1/android/build-a-backend/more-features/datastore/schema-updates/)
+
+</InlineFilter>
 
 To further explore and understand the principles of building offline-first applications, we recommend reviewing the [Android guide for building offline-first apps](https://developer.android.com/topic/architecture/data-layer/offline-first).
 
@@ -36,6 +49,8 @@ We understand the importance of these capabilities to your applications, and whi
 By regularly synchronizing your local store, it can serve as the primary source for your application, allowing for read operations that can be done offline. Opting to manage offline writes will introduce additional complexity to your application, so it is crucial to consider whether you want to handle this for each individual model.
 
 ## Live syncing
+
+<InlineFilter filters={["flutter"]}>
 
 You can achieve real-time detection of changes to a remote repository by leveraging `Amplify.API.subscribe` with `onCreate`, `onUpdate`, and `onDelete`, as long as you are connected to the internet. This method is not sufficient on its own since the subscriptions do not activate when the app is offline.
 
@@ -73,9 +88,44 @@ Future<void> _syncItem(
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+You can achieve real-time detection of changes (create, update, delete) to a remote repository by leveraging AWS AppSync subscriptions, as long as you are connected to the internet. The following function subscribes to remote creation, updates, and deletion and propagates those changes into your Room database. These subscriptions will need to be established each time your application reconnects to the internet.
+
+```kotlin
+suspend fun startSubscriptions() = supervisorScope {
+  // Subscribe to creates
+  apolloClient.subscription(OnCreateSubscription()).toFlow().onEach { response ->
+    response.data?.onCreatePost?.postDetails?.let { post ->
+      postDao.insert(post.toLocalModel())
+    }
+  }.launchIn(this)
+
+  // Subscribe to updates
+  apolloClient.subscription(OnUpdateSubscription()).toFlow().onEach { response ->
+    response.data?.onUpdatePost?.postDetails?.let { post ->
+      postDao.insert(post.toLocalModel())
+    }
+  }.launchIn(this)
+
+  // Subscribe to deletes
+  apolloClient.subscription(OnDeleteSubscription()).toFlow().onEach { response ->
+    response.data?.onDeletePost?.postDetails?.let { post ->
+      postDao.delete(post.toLocalModel())
+    }
+  }.launchIn(this)
+}
+```
+
+</InlineFilter>
+
 ## Local cache refresh
 
 Whenever your app reconnects to the internet, whether through launching the app or network updates, perform a complete refresh of your local store to ensure that you receive all the updates that you may have missed.
+
+<InlineFilter filters={["flutter"]}>
 
 ```dart
 Future<void> _syncAll() async {
@@ -90,7 +140,33 @@ Future<void> _syncAll() async {
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kotlin
+suspend fun syncAllPosts() {
+  // Sync all pages of posts until there is no nextToken
+  var nextToken: String? = null
+  do {
+    val query = GetPostsQuery(nextToken = Optional.presentIfNotNull(nextToken))
+    val response = apolloClient.query(query).execute()
+    response.data?.listPosts?.items?.let { posts ->
+      val mapped = posts.mapNotNull { it?.postDetails?.toLocalModel() }
+      postDao.insertAll(mapped)
+    }
+    nextToken = response.data?.listPosts?.nextToken
+  } while (nextToken != null)
+}
+```
+
+If you often sync large amounts of data, configuring AWS AppSync Delta Sync operations can reduce the amount of time it takes to refresh your local store. Read more about how to configure and implement Delta Sync functionality in the [AWS AppSync Delta Sync guide](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-delta-sync.html).
+
+</InlineFilter>
+
 ## Detect network status
+
+<InlineFilter filters={["flutter"]}>
 
 You can reactively detect network status updates by waiting for an `Amplify.API.mutate` operation to throw an exception or for your subscription observers to send an error.
 
@@ -162,6 +238,64 @@ Future<void> _offlineDetected() async {
 }
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+You can proactively detect network status updates via Android's [ConnectivityManager](https://developer.android.com/training/monitoring-device-state/connectivity-status-type). This allows you to identify scenarios where your local cache needs to be synced and subscriptions need to be reestablished.
+
+```kotlin
+class NetworkMonitor {
+
+  enum class Status {
+    Connected,
+    Disconnected
+  }
+
+  fun monitor(context: Context) = callbackFlow {
+    val networkCallback = object : ConnectivityManager.NetworkCallback() {
+      override fun onAvailable(network: Network) {
+        super.onAvailable(network)
+        trySend(Status.Connected)
+      }
+
+      override fun onLost(network: Network) {
+        super.onLost(network)
+        trySend(Status.Disconnected)
+      }
+    }
+
+    val networkRequest = NetworkRequest.Builder()
+      .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+      .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+      .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+      .build()
+
+    val connectivityManager =
+      context.getSystemService(ConnectivityManager::class.java)
+        as ConnectivityManager
+    connectivityManager.requestNetwork(networkRequest, networkCallback)
+
+    awaitClose {
+      connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
+  }
+}
+
+class SyncEngine(val networkMonitor: NetworkMonitor) {
+  suspend fun start(context: Context) {
+    networkMonitor.monitor(context).collect { networkStatus ->
+      when (networkStatus) {
+        NetworkMonitor.Status.Connected -> startSync()
+        NetworkMonitor.Status.Disconnected -> stopSync()
+      }
+    }
+  }
+}
+```
+
+</InlineFilter>
+
 ## Offline mutations
 
 By storing any changes made locally in a separate pending mutations table and synchronizing them at a later time, you can enable your users to work offline. Your pending mutations table should contain:
@@ -169,6 +303,8 @@ By storing any changes made locally in a separate pending mutations table and sy
 1. Auto incrementing primary key (not your model's normal primary key)
 2. Enum for type of mutation (create, update, or delete)
 3. The state of the model at the time of the action
+
+<InlineFilter filters={["flutter"]}>
 
 As you are syncing your pending mutations table, handle your `Amplify.API.mutate` responses per the following table:
 
@@ -199,3 +335,50 @@ void disableSync() {
   _syncEnabled = false;
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+<Callout>
+
+Offline mutations can introduce significant complexity to your application. Synchronization, reconciliation, and conflict resolution can each be a non-trivial problem. You should carefully consider the pros and cons before deciding to support offline mutations.
+
+</Callout>
+
+As an example, a pending mutation for the sample `Post` type might look like the following:
+
+```kotlin
+enum class MutationType {
+  Create,
+  Update,
+  Delete
+}
+
+@Entity(tableName = "post_mutation")
+data class PostMutationEntity(
+  val postId: String,
+  val type: MutationType,
+  val title: String?,
+  val content: String?,
+  val status: PostStatus?,
+  val rating: Int?,
+  val timestamp: String,
+  @PrimaryKey(autoGenerate = true) val id: Int = 0
+)
+```
+
+### Apply pending mutations
+
+These pending mutations can be synced to AWS AppSync when the application has connectivity. To incorporate pending mutation table entries into your app before syncing, you must aggregate them with the results of your local store queries. You can fetch both the `PostEntity` and `PostMutationEntity` instances, and conflate the two into a single display model, optimistically applying the mutation before it is processed by AWS AppSync.
+
+```kotlin
+fun PostMutationEntity.applyTo(post: PostEntity) = post.copy(
+  title = title ?: post.title,
+  content = content ?: post.content,
+  status = status ?: post.status,
+  rating = rating ?: post.rating
+)
+```
+
+</InlineFilter>
