@@ -5,6 +5,7 @@ export const meta = {
   description: 'A standalone client for streaming data to Amazon Data Firehose with offline support, automatic batching, and configurable flushing.',
   platforms: [
     'android',
+    'flutter',
     'swift',
   ],
 };
@@ -64,6 +65,19 @@ Add `AmplifyFirehoseClient` to your project using Swift Package Manager. In Xcod
 
 </InlineFilter>
 
+<InlineFilter filters={['flutter']}>
+
+Add the dependency to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  amplify_firehose: ^2.11.0
+  amplify_flutter: ^2.10.0
+  amplify_auth_cognito: ^2.10.0
+```
+
+</InlineFilter>
+
 ### Initialize the client
 
 <InlineFilter filters={['android']}>
@@ -90,6 +104,21 @@ let firehose = try AmplifyFirehoseClient(
     credentialsProvider: credentialsProvider
 )
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+import 'package:amplify_firehose/amplify_firehose.dart';
+
+final firehose = await AmplifyFirehoseClient.create(
+  region: 'us-east-1',
+  credentialsProvider: credentialsProvider,
+);
+```
+
+The Flutter client automatically resolves the local storage path using `path_provider`. On web, it uses IndexedDB with an in-memory fallback.
 
 </InlineFilter>
 
@@ -177,6 +206,40 @@ options: .init(flushStrategy: .none)
 
 </InlineFilter>
 
+<InlineFilter filters={['flutter']}>
+
+| Option | Default | Description |
+|---|---|---|
+| `cacheMaxBytes` | 5 MB | Maximum size of the local record cache in bytes. |
+| `maxRetries` | 5 | Maximum retry attempts per record before it is discarded. |
+| `flushStrategy` | `FlushInterval(interval: Duration(seconds: 30))` | Automatic flush interval. Use `FlushNone()` for manual-only flushing. |
+
+```dart
+import 'package:amplify_firehose/amplify_firehose.dart';
+
+final firehose = await AmplifyFirehoseClient.create(
+  region: 'us-east-1',
+  credentialsProvider: credentialsProvider,
+  options: const AmplifyFirehoseClientOptions(
+    cacheMaxBytes: 10 * 1024 * 1024, // 10 MB
+    maxRetries: 5,
+    flushStrategy: FlushInterval(
+      interval: Duration(seconds: 30),
+    ),
+  ),
+);
+```
+
+To disable automatic flushing:
+
+```dart
+options: const AmplifyFirehoseClientOptions(
+  flushStrategy: FlushNone(),
+)
+```
+
+</InlineFilter>
+
 ## Usage
 
 ### Record data
@@ -209,6 +272,26 @@ let result = try await firehose.record(
 
 </InlineFilter>
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+import 'dart:convert';
+import 'dart:typed_data';
+
+final result = await firehose.record(
+  data: Uint8List.fromList(utf8.encode('Hello Firehose')),
+  streamName: 'my-delivery-stream',
+);
+switch (result) {
+  case Ok():
+    // recorded successfully
+  case Error(:final error):
+    // handle error
+}
+```
+
+</InlineFilter>
+
 Records submitted while the client is disabled are silently dropped.
 
 ### Flush records
@@ -235,6 +318,19 @@ print("Flushed \(flushResult.recordsFlushed) records")
 
 </InlineFilter>
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+switch (await firehose.flush()) {
+  case Ok(:final value):
+    print('Flushed ${value.recordsFlushed} records');
+  case Error(:final error):
+    print('Flush error: $error');
+}
+```
+
+</InlineFilter>
+
 Each flush sends at most one batch per stream (up to 500 records or 4 MB). Remaining records are picked up in subsequent flush cycles. If a flush is already in progress, the call returns immediately with `flushInProgress: true`.
 
 Manual flushes work even when the client is disabled, allowing you to drain cached records without re-enabling collection.
@@ -255,6 +351,14 @@ firehose.clearCache()
 
 ```swift
 let cleared = try await firehose.clearCache()
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final result = await firehose.clearCache();
 ```
 
 </InlineFilter>
@@ -287,6 +391,18 @@ await firehose.enable()
 
 </InlineFilter>
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+firehose.disable();
+// Records are dropped, auto-flush paused
+
+firehose.enable();
+// Collection and auto-flush resume
+```
+
+</InlineFilter>
+
 ## Advanced
 
 ### Escape hatch
@@ -306,6 +422,15 @@ val sdkClient = firehose.firehoseClient
 
 ```swift
 let sdkClient = firehose.getFirehoseClient()
+// Use sdkClient for direct Firehose API calls
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final sdkClient = firehose.firehoseClient;
 // Use sdkClient for direct Firehose API calls
 ```
 
@@ -367,6 +492,43 @@ do {
         print("Storage error: \(desc)")
     case .unknown(let desc, _, _):
         print("Unknown error: \(desc)")
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+| Error type | Description |
+|---|---|
+| `FirehoseValidationException` | Record input validation failed (oversized record). |
+| `FirehoseLimitExceededException` | Local cache is full. Call `flush()` or `clearCache()` to free space. |
+| `FirehoseStorageException` | Local database error. |
+| `FirehoseUnknownException` | Unexpected or uncategorized error. |
+
+Operations return `Result<T>` which can be pattern-matched:
+
+```dart
+final result = await firehose.record(
+  data: payload,
+  streamName: 'stream',
+);
+switch (result) {
+  case Ok():
+    // success
+  case Error(:final error):
+    switch (error) {
+      case FirehoseValidationException():
+        print('Validation error: ${error.message}');
+      case FirehoseLimitExceededException():
+        print('Cache full');
+      case FirehoseStorageException():
+        print('Storage error: ${error.message}');
+      case FirehoseUnknownException():
+        print('Unknown error: ${error.message}');
+      default:
+        print('Error: $error');
     }
 }
 ```
