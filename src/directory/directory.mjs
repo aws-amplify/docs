@@ -1900,6 +1900,59 @@ export const directory = {
                         },
                         {
                           path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/app-uninstall/index.mdx'
+                        },
+                        {
+                          path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/index.mdx',
+                          children: [
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-crud-operations/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-relationships/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/add-local-caching/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/advanced-patterns/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/remove-datastore/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/schema-and-operations/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo-kotlin/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo-ios/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-to-api/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/local-caching/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/offline-first/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/authorization-and-data/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/index.mdx'
+                            },
+                            {
+                              path: 'src/pages/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/helpful-resources/index.mdx'
+                            }
+                          ]
                         }
                       ]
                     },

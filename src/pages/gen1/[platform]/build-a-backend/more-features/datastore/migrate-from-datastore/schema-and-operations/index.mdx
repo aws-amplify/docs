@@ -1,0 +1,222 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Schema and GraphQL operations',
+  description: 'Retrieve your AppSync schema and define GraphQL operations for Apollo Kotlin code generation.',
+  platforms: [
+    'android',
+    'swift'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["android"]}>
+
+Apollo's code generation plugin reads your schema and GraphQL operation files to generate type-safe Kotlin code. This page covers how to retrieve your AppSync schema and define the GraphQL operations you need.
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+The schema is used by Apollo's code generation tool to generate type-safe Swift code that helps you execute GraphQL operations. This page covers how to retrieve your AppSync schema and define the GraphQL operations you need.
+
+</InlineFilter>
+
+## Retrieve your AWS AppSync GraphQL schema
+
+### Using the AWS AppSync web console
+
+1. Navigate to your API on the [AWS AppSync console](https://console.aws.amazon.com/appsync/home)
+2. On the left side, select **Schema**
+3. Select the **Export Schema** dropdown and download the `schema.json` file
+<InlineFilter filters={["android"]}>
+
+4. Place this file at `app/src/main/graphql/schema.json` in your project (or the location configured in your Apollo Gradle plugin — see [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location))
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+4. Place this file in your project directory (e.g., alongside your `.xcodeproj`).
+
+</InlineFilter>
+
+### Using the AWS CLI
+
+1. Run the following command with the [AWS CLI](https://aws.amazon.com/cli/) to download the schema:
+
+```bash
+aws appsync get-introspection-schema \
+  --api-id <api-id> \
+  --format JSON \
+  --region <region> \
+  schema.json
+```
+
+You can find your API ID in the [AWS AppSync console](https://console.aws.amazon.com/appsync/home) or by running:
+
+```bash
+aws appsync list-graphql-apis --region <region>
+```
+
+<InlineFilter filters={["android"]}>
+
+2. Place the downloaded `schema.json` at `app/src/main/graphql/schema.json` in your project.
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+2. Place the downloaded `schema.json` in your project directory.
+
+</InlineFilter>
+
+## Prepare GraphQL operations (queries, mutations, subscriptions)
+
+### Import from Amplify CLI
+
+The Amplify CLI can auto-generate queries (`queries.graphql`), mutations (`mutations.graphql`), and subscriptions (`subscriptions.graphql`) for your Amplify API / AppSync projects. Follow the [Client code generation guide](https://docs.amplify.aws/gen1/android/tools/cli-legacy/client-codegen/) to generate these files. Once generated, add them to your project as directed by the [Apollo documentation](https://www.apollographql.com/docs/kotlin/advanced/plugin-recipes#specifying-the-schema-location).
+
+<Callout>
+
+Using Amplify-generated files is a good way to get started, but we recommend writing your own queries to selectively limit the queried data to your use case and to use GraphQL fragments for model reuse across your application.
+
+</Callout>
+
+### Write your own
+
+Place your GraphQL operations in `app/src/main/graphql/`, which is the default location the Apollo Gradle plugin looks for these files. When writing your own operations, the [AWS AppSync Query Editor](https://docs.aws.amazon.com/appsync/latest/devguide/console-tour.html#queries-editor) is helpful for testing.
+
+#### Fragment
+
+Create a [fragment](https://www.apollographql.com/docs/kotlin/essentials/fragments) to reuse in all of your operations:
+
+```graphql
+# fragments.graphql
+
+fragment PostDetails on Post {
+  id
+  updatedAt
+  createdAt
+  title
+  content
+  status
+  rating
+  _version
+  _deleted
+  _lastChangedAt
+}
+```
+
+<Callout warning>
+
+**Include all fields your app uses.** Your fragment must include every field required by your mutations. For example, if `content` is a required field (`String!`) in your schema, you must include it in your fragment and mutation inputs — otherwise mutations will fail with a validation error.
+
+</Callout>
+
+<Callout>
+
+**DataStore conflict resolution fields:** If your AppSync API uses DataStore conflict resolution, your schema includes `_version`, `_deleted`, and `_lastChangedAt` fields. You **must** include `_version` in your fragment and pass it in update and delete mutations — otherwise mutations will fail with a `ConflictUnhandled` error.
+
+</Callout>
+
+#### Mutations
+
+Create [mutations](https://www.apollographql.com/docs/kotlin/essentials/mutations) that modify or create posts. Using the `PostDetails` fragment returns the same data type in each mutation:
+
+```graphql
+# mutations.graphql
+
+# Create
+mutation CreatePost($input: CreatePostInput!) {
+  createPost(input: $input) {
+    ... PostDetails
+  }
+}
+
+# Update
+mutation UpdatePost($input: UpdatePostInput!) {
+  updatePost(input: $input) {
+    ... PostDetails
+  }
+}
+
+# Delete
+mutation DeletePost($input: DeletePostInput!) {
+  deletePost(input: $input) {
+    id
+  }
+}
+```
+
+#### Queries
+
+Create [queries](https://www.apollographql.com/docs/kotlin/essentials/queries) that fetch `PostDetails` from AWS AppSync:
+
+```graphql
+# queries.graphql
+
+# Single Item
+query GetPost($id: ID!) {
+  getPost(id: $id) {
+    ... PostDetails
+  }
+}
+
+# List Items
+query GetPosts($nextToken: String) {
+  listPosts(nextToken: $nextToken) {
+    items {
+      ... PostDetails
+    }
+    nextToken
+  }
+}
+```
+
+#### Subscriptions
+
+Create [subscriptions](https://www.apollographql.com/docs/kotlin/essentials/subscriptions) that notify the app when a post is created, updated, or deleted:
+
+```graphql
+# subscriptions.graphql
+
+# Create
+subscription onCreateSubscription {
+  onCreatePost {
+    ... PostDetails
+  }
+}
+
+# Update
+subscription onUpdateSubscription {
+  onUpdatePost {
+    ... PostDetails
+  }
+}
+
+# Delete
+subscription onDeleteSubscription {
+  onDeletePost {
+    id
+  }
+}
+```
+
+<Callout>
+
+**Generated class names:** Apollo Kotlin generates a class for each operation using the operation name from your `.graphql` file. For example, `subscription onCreateSubscription` generates a class named `OnCreateSubscription`. If you named it `subscription OnCreatePost`, the generated class would be `OnCreatePostSubscription` (Apollo appends `Subscription` / `Query` / `Mutation` to the class name if it is not already in the operation name). Check the generated code in `build/generated/source/apollo/` to confirm the class names.
+
+</Callout>

@@ -1,0 +1,310 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Optional: Local caching',
+  description: 'Set up local caching as an alternative to DataStore local storage for Flutter and Android.',
+  platforms: [
+    'android',
+    'flutter',
+    'swift'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+To guarantee quick and continuous access for customers, Amplify DataStore employs a local cached version of remote data. During your transition from Amplify DataStore, you should choose a local storage solution that aligns with your models to avoid unnecessary complexity.
+
+<InlineFilter filters={["flutter"]}>
+
+See the [helpful resources](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/helpful-resources/) page for third-party package suggestions.
+
+## Local models
+
+You will need to create a separate model for local storage that corresponds to your Amplify GraphQL generated model. To exclusively use your Amplify models, you must develop functions for mapping between your Amplify and local models, ensuring the local model remains concealed from the rest of your implementation.
+
+```dart
+static LocalModel _toLocalModel(RemoteModel remote) {
+  return LocalModel(
+    id: remote.id,
+    someString: remote.someString,
+    createdAt: remote.createdAt?.getDateTimeInUtc(),
+    updatedAt: remote.updatedAt?.getDateTimeInUtc(),
+  );
+}
+
+static RemoteModel _toRemoteModel(LocalModel local) {
+  return RemoteModel(
+    id: local.id,
+    someString: local.someString,
+  );
+}
+```
+
+Certain database libraries lack or offer limited support for custom primary keys. You have the option to use the libraries' limited primary keys alongside your model's primary keys, but it is advisable to choose a database that accommodates the structure of your models. When changing your schema version, DataStore will discard your data to prevent any model incompatibilities.
+
+## CRUD
+
+The standard practice in local store operations involves the implementation of interfaces for creating, reading, updating, and deleting. However, it is crucial to consider the relationships between your models. In SQL, when handling 1:1 or 1:many relationships with models, it becomes necessary to create multiple tables and corresponding joins for CRUD operations. When dealing with NoSQL, a basic query for models with a many-to-many relationship may require the use of multiple sub-queries to link the relational data.
+
+### Queries
+
+Amplify DataStore uses query predicates, pagination, and sort by parameters to generate queries for Amplify API and its local store solution. Storing all data locally simplifies implementation by only requiring handling of local store queries. Otherwise, you have to generate matching queries for Amplify API and your local store.
+
+### Observability
+
+To support a responsive app, pick a local store that supports observing data changes. Alternatively, you can create your own observe Stream that you trigger after every create, update, or delete.
+
+```dart
+Stream<void> observe() {
+  return localRepository.observe();
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+DataStore directly uses [SQLite](https://github.com/stephencelis/SQLite.swift) APIs, but the option you choose may depend on your caching requirements.
+
+## Apollo normalized cache
+
+Apollo iOS includes the option to use SQLite as a [normalized cache](https://www.apollographql.com/docs/ios/caching/introduction). The normalized cache is straightforward to set up and allows Apollo to replay previous queries from the cache to improve latency, reduce bandwidth consumption, and replay queries while offline.
+
+For setup instructions on the normalized cache, see the [Migrate DataStore to Apollo — ObserveQuery](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/#observequery) section which covers the `watch()` function that leverages the cache.
+
+## Custom caching with SwiftData
+
+For more advanced use cases where you want richer access to cached data, you can use your own caching layer instead of, or in addition to, Apollo's provided cache. Two popular frameworks for this approach are [SwiftData](https://developer.apple.com/documentation/swiftdata) and [CoreData](https://developer.apple.com/documentation/coredata). The following examples use SwiftData.
+
+### Local models
+
+You can use the `Model()` macro to annotate a separate entity for local storage that corresponds to your Apollo generated model:
+
+```swift
+@Model
+class PostEntity {
+  @Attribute(.unique) var id: String
+  var updatedAt: String
+  var createdAt: String
+  var status: PostEntityStatus?
+  var title: String
+  var rating: Int?
+  var content: String?
+
+  init(id: String,
+       updatedAt: String,
+       createdAt: String,
+       status: PostEntityStatus? = nil,
+       title: String,
+       rating: Int? = nil,
+       content: String? = nil) {
+    self.id = id
+    self.updatedAt = updatedAt
+    self.createdAt = createdAt
+    self.status = status
+    self.title = title
+    self.rating = rating
+    self.content = content
+  }
+}
+
+enum PostEntityStatus: Codable {
+  case active
+  case inactive
+}
+```
+
+You can then configure the model storage using `ModelContainer`:
+
+```swift
+let container = try ModelContainer(for: PostEntity.self)
+```
+
+### Model mapping
+
+Extension initializers can help map the remote model to your local model:
+
+```swift
+extension PostEntity {
+  convenience init(postDetails: PostDetails) {
+    self.init(id: postDetails.id,
+              updatedAt: postDetails.updatedAt ?? "",
+              createdAt: postDetails.createdAt ?? "",
+              status: (postDetails.status == .case(.active)) ? .active : .inactive,
+              title: postDetails.title,
+              rating: postDetails.rating,
+              content: postDetails.content)
+  }
+}
+```
+
+### Populate the cache
+
+Once your SwiftData models have been set up, you can populate the data by writing the results of Apollo queries into the cache:
+
+```swift
+func populate(apolloClient: ApolloClient, context: ModelContext) {
+  var nextToken: String? = nil
+  repeat {
+    let query = GetPostsQuery(
+      nextToken: nextToken.flatMap { .some($0) } ?? .none)
+    apolloClient.fetch(query: query) { result in
+      guard let data = try? result.get().data else { return }
+      if let items = data.listPosts?.items {
+        for item in items {
+          guard let postDetails = item?.fragments.postDetails
+            else { continue }
+          let model = PostEntity(postDetails: postDetails)
+          context.insert(model)
+          try? context.save()
+        }
+      }
+      nextToken = data.listPosts?.nextToken
+    }
+  } while (nextToken != nil)
+}
+```
+
+### Observability
+
+You can observe the [`.NSPersistentStoreRemoteChange`](https://developer.apple.com/documentation/foundation/nsnotification/name/3180044-nspersistentstoreremotechange) notification to listen to changes in the persistent store. The notification object contains the transaction's history token which you can use to fetch and process the history of transactions.
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+DataStore directly uses Android's built-in SQLite database APIs, but the option you choose may depend on your caching requirements. See the [helpful resources](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/helpful-resources/) page for library suggestions.
+
+## Apollo normalized cache
+
+Apollo Kotlin includes the option to use SQLite as a [normalized cache](https://www.apollographql.com/docs/kotlin/caching/normalized-cache#sqlite-cache). The normalized cache is straightforward to set up and allows Apollo to replay previous queries from the cache to improve latency, reduce bandwidth consumption, and replay queries while offline.
+
+For setup instructions on the normalized cache, see the [Migrate DataStore to Apollo — ObserveQuery](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/#observequery) section which covers adding the dependency and configuring the cache.
+
+## Custom caching with Room
+
+For more advanced use cases where you want richer access to cached data, you can use your own caching layer instead of, or in addition to, Apollo's provided cache. Two popular libraries for this approach are [SQLDelight](https://sqldelight.github.io/sqldelight) and [Room](https://developer.android.com/training/data-storage/room). The following examples use Room.
+
+### Local models
+
+To cache models in your own cache, create a separate entity for local storage that corresponds to your Apollo generated model. In Room, the entity corresponding to the `PostDetails` fragment might look like this:
+
+```kotlin
+@Entity(tableName = "post")
+data class PostEntity(
+  @PrimaryKey val id: String,
+  val updatedAt: String,
+  val createdAt: String,
+  val title: String,
+  val content: String,
+  val status: PostStatus,
+  val rating: Int
+)
+```
+
+You can then store, query, and mutate these entities with a DAO:
+
+```kotlin
+@Dao
+interface PostDao {
+  @Query("SELECT * FROM post")
+  suspend fun getAll(): List<PostEntity>
+
+  @Query("SELECT * FROM post WHERE id = :id")
+  suspend fun get(id: String): PostEntity
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insert(vararg posts: PostEntity)
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insertAll(posts: List<PostEntity>)
+
+  @Delete
+  suspend fun delete(post: PostEntity)
+}
+```
+
+### Model mapping
+
+Extension functions let you map one model type to the other:
+
+```kotlin
+fun PostDetails.toLocalModel() = PostEntity(
+  id = id,
+  updatedAt = updatedAt,
+  createdAt = createdAt,
+  title = title,
+  content = content,
+  status = status,
+  rating = rating
+)
+
+fun PostEntity.toRemoteModel() = PostDetails(
+  id = id,
+  updatedAt = updatedAt,
+  createdAt = createdAt,
+  title = title,
+  content = content,
+  status = status,
+  rating = rating
+)
+```
+
+When changing your schema version, DataStore will discard your data to prevent any model incompatibilities. In Room, you can instead use a [migration](https://developer.android.com/training/data-storage/room/migrating-db-versions) to keep your cached data intact.
+
+### Populate the cache
+
+Once your Room database has been created you can populate the data by writing the results of Apollo queries into the cache. The following code saves all `Post` objects in the local database:
+
+```kotlin
+suspend fun syncAllPosts() {
+  // Sync all pages of posts until there is no nextToken
+  var nextToken: String? = null
+  do {
+    val query = GetPostsQuery(nextToken = Optional.presentIfNotNull(nextToken))
+    val response = apolloClient.query(query).execute()
+    response.data?.listPosts?.items?.let { posts ->
+      val mapped = posts.mapNotNull { it?.postDetails?.toLocalModel() }
+      postDao.insertAll(mapped)
+    }
+    nextToken = response.data?.listPosts?.nextToken
+  } while (nextToken != null)
+}
+```
+
+### Observability
+
+To support a responsive app, pick a local store that supports observing data changes. When using Room, you can react to changes in the database by changing your DAO to [return a Kotlin Flow](https://developer.android.com/training/data-storage/room/async-queries#observable). The updated observable DAO looks like this:
+
+```kotlin
+@Dao
+interface PostDao {
+  @Query("SELECT * FROM post")
+  fun getAll(): Flow<List<PostEntity>>
+
+  @Query("SELECT * FROM post WHERE id = :id")
+  fun get(id: String): Flow<PostEntity>
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insert(vararg posts: PostEntity)
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insertAll(posts: List<PostEntity>)
+
+  @Delete
+  suspend fun delete(post: PostEntity)
+}
+```
+
+</InlineFilter>

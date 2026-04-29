@@ -1,0 +1,52 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Authorization and data handling',
+  description: 'Manage authorization rules and handle existing customer data during the migration from DataStore to Amplify API for Flutter.',
+  platforms: [
+    'flutter'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+## Authorization rules
+
+As part of the transition from Amplify DataStore, it is essential to understand how to manage authorization rules for your models using AWS AppSync, which continues to serve as the source of truth for all auth rules. While DataStore previously handled the synchronization and application of these rules automatically, the responsibility now shifts to you as the developer to integrate these auth rules into your chosen local data storage solution.
+
+Here are some key considerations:
+
+- **AppSync as the source of truth:** AWS AppSync remains the authoritative service for defining and enforcing authorization rules for your models. Ensure that your local data handling and synchronization strategies are aligned with the rules set in AppSync to maintain security and data consistency.
+- **Managing local storage:** You are responsible for implementing the logic to save data to your selected local storage solution. This includes ensuring that your offline models are compatible with the authorization rules defined in AppSync.
+- **Clearing local storage on sign-out:** As a best practice, clear your local storage whenever a user signs out of your application. This helps to prevent unauthorized access to data and ensures that each user's session begins with a fresh, secure state aligned with the current auth rules.
+
+## Handle existing customer data
+
+As you transition from Amplify DataStore to a new local storage solution, it is important to carefully manage the data currently stored on users' devices. The approach varies depending on whether your application is connected to AWS AppSync for remote synchronization or operates entirely in a local-only mode.
+
+### Connected apps using AWS AppSync
+
+If your application connects to AWS AppSync for data synchronization, AWS AppSync should be treated as the single source of truth. During migration:
+
+1. **Sync unsynced data.** Before transitioning to the new local store, ensure that any unsynced data on the device is successfully pushed to AWS AppSync.
+2. **Re-sync from AppSync.** Once the unsynced data is uploaded, clear the existing local storage and initialize the new local store. Use AWS AppSync to re-sync all necessary data down to the device.
+3. **Validate data.** After re-syncing, perform validation checks to confirm that the data in your new local store matches the data in AWS AppSync.
+
+### Local-only users
+
+If your application operates without a remote sync to AWS AppSync, handle the migration of local data manually.
+
+1. **Back up local data.** Before starting the migration, create a backup of the existing local data.
+2. **Query and migrate local data.** Query all existing data from the current local store. Depending on the structure of your data, you may need to transform or reformat the data to fit the schema of your new local storage solution.
+3. **Map data.** Carefully map the data from your existing store to your new solution, ensuring that all fields and relationships are preserved.
