@@ -176,7 +176,13 @@ The migration tool requires the following API actions in addition to the standar
         "cloudformation:ExecuteStackRefactor",
         "cloudformation:GetStackPolicy",
         "cloudformation:SetStackPolicy",
-        "cloudformation:DeleteChangeSet",
+        "cloudformation:DeleteChangeSet"
+      ],
+      "Resource": "arn:aws:cloudformation:*:*:stack/amplify-*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "s3:GetBucketVersioning",
         "s3:GetEncryptionConfiguration"
       ],
