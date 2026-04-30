@@ -57,6 +57,31 @@ We understand the importance of these capabilities to your applications, and whi
 
 By regularly synchronizing your local store, it can serve as the primary source for your application, allowing for read operations that can be done offline. Opting to manage offline writes will introduce additional complexity to your application, so it is crucial to consider whether you want to handle this for each individual model.
 
+<InlineFilter filters={["swift"]}>
+
+## Cascade delete
+
+SwiftData supports cascade delete for models with relationships and provides different options to handle deletions. Relationships can be defined using [`Relationship(_:deleteRule:minimumModelCount:maximumModelCount:originalName:inverse:hashModifier:)`](https://developer.apple.com/documentation/swiftdata/relationship(_:deleterule:minimummodelcount:maximummodelcount:originalname:inverse:hashmodifier:)) modifier.
+
+```swift
+@Model
+class Trip {
+    var name: String
+    var destination: String
+    var startDate: Date
+    var endDate: Date
+    var accommodation: Accommodation?
+}
+```
+
+Deletion rule can be set using [DeleteRule](https://developer.apple.com/documentation/swiftdata/schema/relationship/deleterule-swift.enum).
+
+```swift
+@Relationship(.cascade) var accommodation: Accommodation?
+```
+
+</InlineFilter>
+
 ## Live syncing
 
 <InlineFilter filters={["flutter"]}>
@@ -130,6 +155,49 @@ suspend fun startSubscriptions() = supervisorScope {
 
 </InlineFilter>
 
+<InlineFilter filters={["swift"]}>
+
+You can achieve real-time detection of changes (create, update, delete) to a remote repository by leveraging AWS AppSync, as long as you are connected to the internet. The following snippet subscribes to remote creation, updates, and deletion of our `Post` type, and propagates those changes into our SwiftData local store. These subscriptions will need to be established each time your application reconnects to the internet.
+
+```swift
+let createSubscription = apolloClient.subscribe(
+    subscription: OnCreateSubscriptionSubscription()
+) { result in
+    guard let data = try? result.get().data else { return }
+    if let postDetails = data.onCreatePost?.fragments.postDetails {
+        let model = PostEntity(postDetails: postDetails)
+        context.insert(model)
+        try? context.save()
+    }
+}
+
+let deleteSubscription = apolloClient.subscribe(
+    subscription: OnDeleteSubscriptionSubscription()
+) { result in
+    guard let data = try? result.get().data else { return }
+    if let deletedId = data.onDeletePost?.id {
+        let fetchDescriptor = FetchDescriptor<PostEntity>(
+            predicate: #Predicate { $0.id == deletedId })
+        if let post = try? context.fetch(fetchDescriptor).first {
+            context.delete(post)
+        }
+    }
+}
+
+let updateSubscription = apolloClient.subscribe(
+    subscription: OnUpdateSubscriptionSubscription()
+) { result in
+    guard let data = try? result.get().data else { return }
+    if let postDetails = data.onUpdatePost?.fragments.postDetails {
+        let model = PostEntity(postDetails: postDetails)
+        context.insert(model)  // upsert via @Attribute(.unique) on id
+        try? context.save()
+    }
+}
+```
+
+</InlineFilter>
+
 ## Local cache refresh
 
 Whenever your app reconnects to the internet, whether through launching the app or network updates, perform a complete refresh of your local store to ensure that you receive all the updates that you may have missed.
@@ -166,6 +234,33 @@ suspend fun syncAllPosts() {
     }
     nextToken = response.data?.listPosts?.nextToken
   } while (nextToken != null)
+}
+```
+
+If you often sync large amounts of data, configuring AWS AppSync Delta Sync operations can reduce the amount of time it takes to refresh your local store. Read more about how to configure and implement Delta Sync functionality in the [AWS AppSync Delta Sync guide](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-delta-sync.html).
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+func syncAllPosts(apolloClient: ApolloClient, context: ModelContext) {
+    var nextToken: String? = nil
+    repeat {
+        let query = GetPostsQuery(nextToken: nextToken.flatMap { .some($0) } ?? .none)
+        apolloClient.fetch(query: query) { result in
+            guard let data = try? result.get().data else { return }
+            if let items = data.listPosts?.items {
+                for item in items {
+                    guard let postDetails = item?.fragments.postDetails else { continue }
+                    let model = PostEntity(postDetails: postDetails)
+                    context.insert(model)
+                    try? context.save()
+                }
+            }
+            nextToken = data.listPosts?.nextToken
+        }
+    } while (nextToken != nil)
 }
 ```
 
@@ -305,6 +400,42 @@ class SyncEngine(val networkMonitor: NetworkMonitor) {
 
 </InlineFilter>
 
+<InlineFilter filters={["swift"]}>
+
+You can proactively detect network status using `NWPathMonitor`. This allows you to identify scenarios where your local cache needs to be synced and subscriptions need to be reestablished.
+
+```swift
+protocol NetworkMonitor: AnyObject {
+    var isOnline: Bool { get }
+    func startMonitoring(using queue: DispatchQueue)
+    func stopMonitoring()
+}
+
+extension NWPathMonitor: NetworkMonitor {
+    var isOnline: Bool {
+        currentPath.status == .satisfied
+    }
+
+    func startMonitoring(using queue: DispatchQueue) {
+        self.pathUpdateHandler = { [weak self] path in
+            let isConnected = path.status == .satisfied
+            if isConnected {
+                // start sync and reestablish subscriptions
+            } else {
+                // stop sync
+            }
+        }
+        start(queue: queue)
+    }
+
+    func stopMonitoring() {
+        cancel()
+    }
+}
+```
+
+</InlineFilter>
+
 ## Offline mutations
 
 By storing any changes made locally in a separate pending mutations table and synchronizing them at a later time, you can enable your users to work offline. Your pending mutations table should contain:
@@ -388,6 +519,69 @@ fun PostMutationEntity.applyTo(post: PostEntity) = post.copy(
   status = status ?: post.status,
   rating = rating ?: post.rating
 )
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+<Callout>
+
+Offline mutations can introduce significant complexity to your application. Synchronization, reconciliation, and conflict resolution can each be a non-trivial problem. You should carefully consider the pros and cons before deciding to support offline mutations.
+
+</Callout>
+
+As an example, a pending mutation for our sample `Post` type might look like the following:
+
+```swift
+enum MutationType: Codable {
+    case create
+    case update
+    case delete
+}
+
+@Model
+class PostMutationEntity {
+    var postId: String
+    var type: MutationType
+    var title: String?
+    var content: String?
+    var status: PostEntityStatus?
+    var rating: Int?
+    var timestamp: String
+    
+    init(postId: String,
+         type: MutationType,
+         title: String? = nil,
+         content: String? = nil,
+         status: PostEntityStatus? = nil,
+         rating: Int? = nil,
+         timestamp: String) {
+        self.postId = postId
+        self.type = type
+        self.title = title
+        self.content = content
+        self.status = status
+        self.rating = rating
+        self.timestamp = timestamp
+    }
+}
+```
+
+### Apply pending mutations
+
+These pending mutations can be synced to AWS AppSync when the application has connectivity. To incorporate pending mutation table entries into your app before syncing, you must aggregate them with the results of your local store queries. In our example you can fetch both the `PostEntity` and `PostMutationEntity` instances, and conflate the two into a single display model, optimistically applying the mutation before it is processed by AWS AppSync.
+
+```swift
+extension PostMutationEntity {
+    func applyTo(model: PostEntity) -> PostEntity {
+        if let title = self.title { model.title = title }
+        if let content = self.content { model.content = content }
+        if let rating = self.rating { model.rating = rating }
+        if let status = self.status { model.status = status }
+        return model
+    }
+}
 ```
 
 </InlineFilter>
