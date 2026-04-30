@@ -51,8 +51,9 @@ Throughout this guide, we refer to two types of resources that are handled diffe
 Migrating your backend to Gen2 is done in a (partial) blue/green deployment approach:
 
 1. Generate the necessary Gen2 definition files based on your deployed Gen1 environment.
-2. Deploy the Gen 2 code to create a new environment (in Gen 2 these are referred to as branches). This environment runs alongside your Gen 1 environment, giving you time to test and validate before it becomes your production environment and the Gen 1 environment is decommissioned.
-3. Refactor your underlying CloudFormation stacks such that any Gen1 stateful resource will be managed by the new Gen2 deployment.
+2. Deploy the Gen 2 code to create a new environment (in Gen 2 these are referred to as branches). This environment runs alongside your Gen 1 environment until it eventually becomes your production environment and the Gen 1 environment is decommissioned.
+3. Thoroughly test the new Gen 2 environment to confirm it behaves correctly. This is a critical step — the refactor that follows is difficult to reverse, so you want high confidence before proceeding.
+4. Refactor your underlying CloudFormation stacks such that any Gen1 stateful resource will be managed by the new Gen2 deployment.
 
 <Callout info>
 
@@ -72,7 +73,7 @@ During migration, both environments run side by side so you can validate the Gen
 
 The migration tool introspects your Gen 1 CloudFormation stacks and Amplify configuration files to produce the equivalent Gen 2 TypeScript backend definitions in the `amplify/` directory.
 
-Features that are natively supported in Gen 2 are code-generated using the native Gen 2 APIs (e.g. `defineAuth`, `defineData`, `defineStorage`). Features that are not natively supported are code-generated as CDK constructs and [escape hatches](https://docs.aws.amazon.com/cdk/v2/guide/cfn-layer.html#develop-customize-escape).
+Features that are natively supported in Gen 2 are code-generated using the native Gen 2 APIs (e.g. `defineAuth`, `defineData`, `defineStorage`). Features that are not natively supported are code-generated as [CDK constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) and [escape hatches](https://docs.aws.amazon.com/cdk/v2/guide/cfn-layer.html#develop-customize-escape).
 
 Stateful resources (user pools, S3 buckets, etc.) are also code-generated, meaning new empty instances will be deployed in the Gen 2 environment. The refactor step will later replace these empty resources with your actual Gen 1 resources.
 
@@ -340,7 +341,7 @@ Both features show `—` for refactor because they only require code generation.
 
 </Accordion>
 
-During the migration period your Gen 1 environment should not undergo any changes. Lock it by running:
+During the migration period your Gen 1 environment should not undergo any changes. Disable any automatic pipelines that deploy to your Gen 1 environment, then lock it by running:
 
 ```bash
 amplify gen2-migration lock
@@ -360,7 +361,7 @@ amplify gen2-migration lock --rollback
 
 <Callout warning>
 
-Do not rollback the lock if the Gen 1 stack has already been refactored (and not rolled back). Pushing Gen 1 updates to a refactored stack can cause resource conflicts. It is also advisable to disable any automatic pipelines that deploy to your Gen 1 environment.
+Do not rollback the lock if the Gen 1 stack has already been refactored (and not rolled back). Pushing Gen 1 updates to a refactored stack can cause resource conflicts.
 
 </Callout>
 
@@ -546,7 +547,13 @@ By default, sandbox creates its own DynamoDB tables and does not share Gen 1 mod
 </Accordion>
 
 
-### Step 6: Functional Tests
+### Step 6: Functional Tests (CRITICAL)
+
+<Callout warning>
+
+Do not proceed to the refactor step until you have thoroughly tested the Gen 2 environment. Refactoring moves your stateful resources into the Gen 2 stacks and directly impacts your production environment. Take the time to verify everything works correctly.
+
+</Callout>
 
 After deployment, verify that the Gen 2 environment is working as expected by testing all aspects of your frontend application. This includes:
 
