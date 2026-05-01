@@ -614,6 +614,12 @@ Since `generate` replaces the Gen 1 `amplify/` directory, the Amplify configurat
 
 </Callout>
 
+<Callout info>
+
+After the refactor step, a `.amplify/gen2-migration/refactor.operations/` directory is created containing snapshots of every CloudFormation operation performed — templates, parameters, and resource mappings. These files can help with auditing or troubleshooting and are safe to delete once migration is confirmed successful.
+
+</Callout>
+
 If the refactor fails or produces undesired results, roll it back:
 
 ```bash
