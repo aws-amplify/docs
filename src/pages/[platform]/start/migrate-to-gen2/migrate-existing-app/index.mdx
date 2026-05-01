@@ -605,14 +605,9 @@ Then, run the refactor:
 
 ```bash
 git checkout main
+amplify pull --appId <appId> --envName main
 amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
-
-<Callout warning>
-
-Since `generate` replaces the Gen 1 `amplify/` directory, the Amplify configuration file that specifies which AWS profile to use is lost. If you are using a non-default profile, set the `AWS_PROFILE` environment variable or run `amplify pull` to restore the configuration before proceeding.
-
-</Callout>
 
 <Callout info>
 
