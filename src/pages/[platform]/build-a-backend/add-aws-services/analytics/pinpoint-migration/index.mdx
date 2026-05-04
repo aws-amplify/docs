@@ -1,0 +1,279 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from Pinpoint push campaigns to Amazon Connect',
+  description: 'Guide for migrating Pinpoint push notification campaigns to Amazon Connect Journeys with End User Messaging',
+  route: "/[platform]/build-a-backend/add-aws-services/analytics/pinpoint-migration",
+  platforms: [
+    'flutter',
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+[AWS will end support for Amazon Pinpoint on October 30, 2026](https://docs.aws.amazon.com/pinpoint/latest/userguide/migrate.html). This guide covers migrating your Pinpoint push notification campaigns to Amazon Connect, using End User Messaging (the rebranded Pinpoint messaging API) for push delivery.
+
+## What doesn't change
+
+Firebase Cloud Messaging (FCM) and Apple Push Notification service (APNs) still deliver pushes to devices. Pinpoint was never sending pushes directly — it called FCM/APNs via End User Messaging. **That API is not deprecated.** Your on-device push handling code (notification display, tap handling, deep linking, permissions) does not need to change.
+
+What changes is how pushes are **triggered** (Connect Journeys instead of Pinpoint campaigns) and how device tokens are **registered** (Connect Customer Profiles instead of Pinpoint endpoints).
+
+## Choose your migration path
+
+### Option A: Direct send (no campaign UI needed)
+
+If you already manage your own device token lists and just need to send pushes, you can skip Connect entirely and call End User Messaging directly. This is the simplest migration.
+
+```python
+import boto3
+
+eum = boto3.client('pinpoint', region_name='us-east-1')
+APP_ID = 'your-end-user-messaging-app-id'
+
+devices = [
+    {'token': 'fcm-token-abc123', 'channel': 'GCM'},
+    {'token': 'apns-token-xyz789', 'channel': 'APNS'},
+]
+
+for device in devices:
+    response = eum.send_messages(
+        ApplicationId=APP_ID,
+        MessageRequest={
+            'Addresses': {
+                device['token']: {'ChannelType': device['channel']}
+            },
+            'MessageConfiguration': {
+                'GCMMessage': {
+                    'Title': 'Your notification title',
+                    'Body': 'Your notification body',
+                    'Action': 'OPEN_APP',
+                },
+                'APNSMessage': {
+                    'Title': 'Your notification title',
+                    'Body': 'Your notification body',
+                    'Action': 'OPEN_APP',
+                }
+            }
+        }
+    )
+```
+
+**Pros:** Minimal migration. No Connect setup. Keep your existing workflow.
+
+**Cons:** No segmentation UI, no campaign scheduling, no targeting by user attributes. You manage everything yourself.
+
+### Option B: Connect Journeys (for segmentation and campaign UI)
+
+If you want to target users by attributes and use a campaign management UI, migrate to Amazon Connect.
+
+#### Step 1: Create a Connect Customer Profiles domain
+
+```bash
+aws customer-profiles create-domain \
+  --domain-name my-push-domain \
+  --default-expiration-days 365 \
+  --region us-east-1
+```
+
+#### Step 2: Create the device profile object type
+
+This tells Connect how to store device tokens on user profiles.
+
+```bash
+aws customer-profiles put-profile-object-type \
+  --domain-name my-push-domain \
+  --object-type-name AmplifyDevice \
+  --description "Mobile device for push notifications" \
+  --keys '{
+    "deviceIdKey": [{"StandardIdentifiers": ["UNIQUE"], "FieldNames": ["deviceId"]}],
+    "userIdKey": [{"StandardIdentifiers": ["PROFILE"], "FieldNames": ["userId"]}]
+  }' \
+  --fields '{
+    "deviceId": {"Source": "_source.deviceId", "Target": "_source.deviceId", "ContentType": "STRING"},
+    "deviceToken": {"Source": "_source.deviceToken", "Target": "_source.deviceToken", "ContentType": "STRING"},
+    "channelType": {"Source": "_source.channelType", "Target": "_source.channelType", "ContentType": "STRING"},
+    "platform": {"Source": "_source.platform", "Target": "_source.platform", "ContentType": "STRING"},
+    "userId": {"Source": "_source.userId", "Target": "_source.userId", "ContentType": "STRING"}
+  }' \
+  --allow-profile-creation \
+  --region us-east-1
+```
+
+#### Step 3: Export and import your Pinpoint endpoints
+
+Follow the [official Pinpoint migration guide](https://docs.aws.amazon.com/pinpoint/latest/userguide/migrate.html#migration-steps) to export your endpoints, then import them as Customer Profiles. For push endpoints (GCM/APNS), also register them as device profile objects:
+
+```python
+import boto3, json
+
+cp = boto3.client('customer-profiles', region_name='us-east-1')
+DOMAIN = 'my-push-domain'
+
+# For each push device from your Pinpoint export:
+cp.put_profile_object(
+    DomainName=DOMAIN,
+    ObjectTypeName='AmplifyDevice',
+    Object=json.dumps({
+        'userId': 'user-001',
+        'deviceId': 'pinpoint-endpoint-id',
+        'deviceToken': 'fcm-or-apns-token',
+        'channelType': 'GCM',
+        'platform': 'Android',
+    })
+)
+```
+
+#### Step 4: Deploy the push delivery Lambda
+
+Amazon Connect Journeys support email, SMS, WhatsApp, and voice as native channels — but **not push notifications**. To send pushes from a Journey, you need a Lambda function that bridges the gap. The Journey invokes this Lambda via a "Custom Action" block, and the Lambda reads device tokens from the user's profile objects and calls End User Messaging (the rebranded Pinpoint messaging API) to deliver the push via FCM/APNs.
+
+Here's the Lambda implementation:
+
+```python
+# push_delivery_lambda.py
+import boto3
+import json
+
+cp = boto3.client('customer-profiles')
+eum = boto3.client('pinpoint')  # End User Messaging uses the same SDK client
+
+DOMAIN = 'my-push-domain'
+EUM_APP_ID = 'your-end-user-messaging-app-id'
+
+def handler(event, context):
+    """
+    Invoked by a Connect Journey's Custom Action block.
+    Receives batched CustomerProfiles, reads their device tokens,
+    and sends push notifications via End User Messaging.
+    """
+    results = []
+
+    for record in event.get('CustomerProfiles', []):
+        profile_id = record['ProfileId']
+
+        # Get device tokens from profile objects
+        devices_response = cp.list_profile_objects(
+            DomainName=DOMAIN,
+            ObjectTypeName='AmplifyDevice',
+            ProfileId=profile_id
+        )
+
+        for obj in devices_response.get('Items', []):
+            device = json.loads(obj['Object'])
+            token = device.get('deviceToken')
+            channel = device.get('channelType', 'GCM')
+
+            if not token:
+                continue
+
+            # Build the message for the appropriate platform
+            msg_config = {}
+            if channel == 'GCM':
+                msg_config['GCMMessage'] = {
+                    'Title': event.get('title', 'Notification'),
+                    'Body': event.get('body', ''),
+                    'Action': 'OPEN_APP',
+                }
+            elif channel in ('APNS', 'APNS_SANDBOX'):
+                msg_config['APNSMessage'] = {
+                    'Title': event.get('title', 'Notification'),
+                    'Body': event.get('body', ''),
+                    'Action': 'OPEN_APP',
+                }
+
+            # Send via End User Messaging (FCM/APNs delivery)
+            response = eum.send_messages(
+                ApplicationId=EUM_APP_ID,
+                MessageRequest={
+                    'Addresses': {token: {'ChannelType': channel}},
+                    'MessageConfiguration': msg_config,
+                }
+            )
+
+            status = response['MessageResponse']['Result'].get(
+                token, {}
+            ).get('DeliveryStatus', 'UNKNOWN')
+            results.append({
+                'profileId': profile_id,
+                'deviceId': device.get('deviceId'),
+                'status': status
+            })
+
+    return {'results': results}
+```
+
+Deploy it and wire it to your Connect instance:
+
+```bash
+# Deploy and wire to Connect
+aws lambda create-function \
+  --function-name push-delivery \
+  --runtime python3.12 \
+  --handler push_delivery_lambda.handler \
+  --role arn:aws:iam::ACCOUNT:role/push-delivery-role \
+  --zip-file fileb://lambda.zip
+
+aws lambda add-permission \
+  --function-name push-delivery \
+  --statement-id connect-invoke \
+  --action lambda:InvokeFunction \
+  --principal connect.amazonaws.com
+
+aws connect associate-lambda-function \
+  --instance-id YOUR_CONNECT_INSTANCE_ID \
+  --function-arn arn:aws:lambda:us-east-1:ACCOUNT:function:push-delivery
+```
+
+#### Step 5: Create a Journey and send
+
+1. Open the Connect console → Outbound campaigns → Create Journey
+2. Choose your segment (filter by profile attributes like `plan = premium`)
+3. Add a **Custom Action** block → select your `push-delivery` Lambda
+4. Run the Journey
+
+## Registering devices from your mobile app
+
+Once your backend is set up, each device needs to register its push token with Connect Customer Profiles by calling `PutProfileObject` with the `AmplifyDevice` object type. This can be done via:
+
+- **Android/Swift:** The AWS SDK for Kotlin or Swift `CustomerProfilesClient.putProfileObject()` directly from the app
+- **Flutter:** A backend Lambda proxy, or a SigV4-signed HTTP request to the Customer Profiles REST API
+- **Any platform:** A thin backend endpoint that accepts the token and calls `PutProfileObject` on the customer's behalf
+
+The device object shape is the same as shown in Step 3 above — `userId`, `deviceId`, `deviceToken`, `channelType`, and `platform`. The `UNIQUE` key on `deviceId` means re-registering with the same device ID updates the token in place (handles token refreshes).
+
+<Callout warning>
+
+**New Amplify libraries for Connect are in development.** When available, they will provide `connectClient.registerDevice(token)` that handles this automatically. This guide will be updated at that time.
+
+</Callout>
+
+## Pinpoint to Connect mapping
+
+| Pinpoint concept | Connect equivalent |
+|---|---|
+| Endpoint | Customer Profile + AmplifyDevice profile object |
+| Endpoint ID | `deviceId` on AmplifyDevice object |
+| Endpoint Address (push token) | `deviceToken` on AmplifyDevice object |
+| Endpoint Attributes | Profile Attributes map |
+| Segment | Connect Segment (Classic segmentation) |
+| Campaign (push) | Journey with Custom Action → Lambda → End User Messaging |
+| UpdateEndpoint | `identifyUser()` + `registerDevice()` |
+
+<Callout warning>
+
+**New Amplify libraries for Connect and push are in development.** When available, they will wrap the manual AWS SDK calls shown above into simple APIs like `connectClient.identifyUser()` and `connectClient.registerDevice()`. This guide will be updated at that time.
+
+</Callout>
