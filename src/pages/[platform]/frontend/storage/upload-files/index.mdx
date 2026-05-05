@@ -1469,6 +1469,128 @@ private void uploadFile() {
 </BlockSwitcher>
 </InlineFilter>
 
+<InlineFilter filters={["android"]}>
+
+## Upload using a presigned URL
+
+You can use the `getUrl` API with `StorageAccessMethod.PUT` to generate a presigned URL for uploading files directly to S3. This is useful when:
+
+- You need to integrate with third-party tools or libraries that only accept standard HTTP URL endpoints
+- You want to share a temporary upload link with another client or service
+- You need to upload from a context where the Amplify SDK is not available
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSS3StorageGetPresignedUrlOptions options = AWSS3StorageGetPresignedUrlOptions.builder()
+    .method(StorageAccessMethod.PUT)
+    .expires(3600)
+    .build();
+
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/uploads/photo.jpg"),
+    options,
+    result -> {
+        URL presignedUrl = result.getUrl();
+        Log.i("MyAmplifyApp", "Presigned upload URL: " + presignedUrl);
+    },
+    error -> Log.e("MyAmplifyApp", "Failed to generate URL", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = AWSS3StorageGetPresignedUrlOptions.builder()
+    .method(StorageAccessMethod.PUT)
+    .expires(3600)
+    .build()
+
+Amplify.Storage.getUrl(
+    StoragePath.fromString("public/uploads/photo.jpg"),
+    options,
+    { Log.i("MyAmplifyApp", "Presigned upload URL: ${it.url}") },
+    { Log.e("MyAmplifyApp", "Failed to generate URL", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = AWSS3StorageGetPresignedUrlOptions.builder()
+    .method(StorageAccessMethod.PUT)
+    .expires(3600)
+    .build()
+
+try {
+    val result = Amplify.Storage.getUrl(
+        StoragePath.fromString("public/uploads/photo.jpg"),
+        options
+    )
+    Log.i("MyAmplifyApp", "Presigned upload URL: ${result.url}")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Failed to generate URL", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSS3StorageGetPresignedUrlOptions options = AWSS3StorageGetPresignedUrlOptions.builder()
+    .method(StorageAccessMethod.PUT)
+    .expires(3600)
+    .build();
+
+RxAmplify.Storage.getUrl(StoragePath.fromString("public/uploads/photo.jpg"), options)
+    .subscribe(
+        result -> Log.i("MyAmplifyApp", "Presigned upload URL: " + result.getUrl()),
+        error -> Log.e("MyAmplifyApp", "Failed to generate URL", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+Then use the presigned URL to upload the file with a standard HTTP `PUT` request:
+
+```kotlin
+val presignedUrl = result.url
+val connection = presignedUrl.openConnection() as HttpURLConnection
+connection.doOutput = true
+connection.requestMethod = "PUT"
+connection.setRequestProperty("Content-Type", "image/jpeg")
+
+connection.outputStream.use { outputStream ->
+    outputStream.write(imageData)
+}
+
+val responseCode = connection.responseCode
+Log.i("MyAmplifyApp", "Upload status: $responseCode")
+connection.disconnect()
+```
+
+<Callout warning>
+
+When `StorageAccessMethod.PUT` is specified, the `validateObjectExistence` option is ignored since the object may not exist yet.
+
+</Callout>
+
+### Presigned URL upload options
+
+Option | Type | Default | Description |
+| -- | -- | :--: | ----------- |
+| method | StorageAccessMethod | GET | `GET` generates a download URL. `PUT` generates an upload URL. |
+| expires | int | 18000 | Number of seconds before the URL expires. |
+| bucket | StorageBucket | Default bucket from Amplify configuration | The bucket in which the object is stored. |
+| validateObjectExistence | boolean | false | Whether to check the object exists before generating the URL. Skipped when method is `PUT`. |
+| useAccelerateEndpoint | boolean | false | Whether to use the S3 Transfer Acceleration endpoint. |
+
+</InlineFilter>
+
 <InlineFilter filters={["react", "angular", "javascript", "vue", "nextjs", "react-native"]}>
 ### Pause, resume, and cancel uploads
 
