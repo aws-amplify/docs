@@ -1,9 +1,19 @@
 import { useContext, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { Badge, Button, Flex, View, VisuallyHidden } from '@aws-amplify/ui-react';
+import {
+  Badge,
+  Button,
+  Flex,
+  View,
+  VisuallyHidden
+} from '@aws-amplify/ui-react';
 import classNames from 'classnames';
 import { Platform } from '@/data/platforms';
-import { SECTIONS, SectionKey, getDefaultPathForSection } from '@/data/sections';
+import {
+  SECTIONS,
+  SectionKey,
+  getDefaultPathForSection
+} from '@/data/sections';
 import Link from 'next/link';
 import {
   ALGOLIA_API_KEY,
@@ -31,7 +41,9 @@ export const LayoutHeader = ({
   showLastUpdatedDate = true,
   showTOC,
   activeSection,
-  onSectionChange
+  onSectionChange,
+  featureRoute,
+  pageSection
 }: {
   currentPlatform: Platform;
   isGen1: boolean;
@@ -40,6 +52,8 @@ export const LayoutHeader = ({
   showTOC?: boolean;
   activeSection?: string;
   onSectionChange?: (section: SectionKey) => void;
+  featureRoute?: string;
+  pageSection?: SectionKey;
 }) => {
   const { menuOpen, toggleMenuOpen } = useContext(LayoutContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -50,10 +64,27 @@ export const LayoutHeader = ({
   const [platformFilter, setPlatformFilter] = useState<PlatformFilter>('all');
   const [genFilter, setGenFilter] = useState<GenFilter>('gen2');
 
-  const searchParams = useMemo(() => ({
-    ...(platformFilter !== 'all' && { optionalFacetFilters: [`platform:${platformFilter}`] }),
-    ...(genFilter !== 'both' && { facetFilters: [`gen:${genFilter}`] })
-  }), [platformFilter, genFilter]);
+  const getSectionHref = (key: SectionKey): string => {
+    if (
+      featureRoute &&
+      pageSection &&
+      ((pageSection === 'backend' && key === 'frontend') ||
+        (pageSection === 'frontend' && key === 'backend'))
+    ) {
+      return featureRoute.replace('[platform]', currentPlatform);
+    }
+    return getDefaultPathForSection(key, currentPlatform);
+  };
+
+  const searchParams = useMemo(
+    () => ({
+      ...(platformFilter !== 'all' && {
+        optionalFacetFilters: [`platform:${platformFilter}`]
+      }),
+      ...(genFilter !== 'both' && { facetFilters: [`gen:${genFilter}`] })
+    }),
+    [platformFilter, genFilter]
+  );
 
   const handleMenuToggle = () => {
     if (!menuOpen) {
@@ -155,22 +186,22 @@ export const LayoutHeader = ({
               {(Object.keys(SECTIONS) as SectionKey[])
                 .filter((key) => !SECTIONS[key].hideFromNav)
                 .map((key) => {
-                const section = SECTIONS[key];
-                const isActive = activeSection === key;
-                return (
-                  <Link
-                    key={key}
-                    href={getDefaultPathForSection(key, currentPlatform)}
-                    className={`section-nav-sidebar__tab ${isActive ? 'section-nav-sidebar__tab--active' : ''}`}
-                    onClick={() => {
-                      onSectionChange?.(key);
-                      toggleMenuOpen(false);
-                    }}
-                  >
-                    {section.label}
-                  </Link>
-                );
-              })}
+                  const section = SECTIONS[key];
+                  const isActive = activeSection === key;
+                  return (
+                    <Link
+                      key={key}
+                      href={getSectionHref(key)}
+                      className={`section-nav-sidebar__tab ${isActive ? 'section-nav-sidebar__tab--active' : ''}`}
+                      onClick={() => {
+                        onSectionChange?.(key);
+                        toggleMenuOpen(false);
+                      }}
+                    >
+                      {section.label}
+                    </Link>
+                  );
+                })}
             </div>
           )}
 

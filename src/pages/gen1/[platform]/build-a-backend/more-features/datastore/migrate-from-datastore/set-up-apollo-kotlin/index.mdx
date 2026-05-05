@@ -1,0 +1,254 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Apollo Kotlin',
+  description: 'Add Apollo Kotlin dependencies, configure the Gradle plugin, and set up the Apollo client with your AppSync endpoint and authentication.',
+  platforms: [
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Apollo Kotlin includes two main components: a Gradle plugin that reads your schema and operation files to generate type-safe Kotlin code, and a runtime client that executes requests using the generated code. This page covers adding dependencies, configuring the Gradle plugin, and setting up the Apollo client.
+
+## Add dependencies
+
+Add the following to your version catalog (`gradle/libs.versions.toml`):
+
+```toml
+[versions]
+apollo = "4.1.0"
+apolloAppsync = "1.0.0"
+
+[libraries]
+apollo-runtime = { group = "com.apollographql.apollo", name = "apollo-runtime", version.ref = "apollo" }
+apollo-appsync = { group = "com.amplifyframework", name = "apollo-appsync", version.ref = "apolloAppsync" }
+apollo-appsync-amplify = { group = "com.amplifyframework", name = "apollo-appsync-amplify", version.ref = "apolloAppsync" }
+
+[plugins]
+apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
+```
+
+<Callout warning>
+
+You need **two** AppSync Apollo Extensions dependencies:
+- `com.amplifyframework:apollo-appsync` — provides core classes: `AppSyncEndpoint`, `AppSyncInterceptor`, and authorizer types (`ApiKeyAuthorizer`, `AuthTokenAuthorizer`, `IamAuthorizer`)
+- `com.amplifyframework:apollo-appsync-amplify` — provides Amplify integration: `ApolloAmplifyConnector` for reading Amplify config and fetching auth tokens
+
+The base `apollo-appsync` library is **not** automatically exposed as a transitive dependency of `apollo-appsync-amplify`, so you must add both explicitly.
+
+</Callout>
+
+Add the Apollo plugin to your root `build.gradle.kts`:
+
+```kotlin
+plugins {
+  // ... existing plugins
+  alias(libs.plugins.apollo) apply false
+}
+```
+
+Add the plugin and dependencies to your app `build.gradle.kts`:
+
+```kotlin
+plugins {
+  // ... existing plugins
+  alias(libs.plugins.apollo)
+}
+
+dependencies {
+  // Apollo Kotlin
+  implementation(libs.apollo.runtime)
+
+  // AWS AppSync Apollo Extensions
+  implementation(libs.apollo.appsync)
+  implementation(libs.apollo.appsync.amplify)
+
+  // Keep your existing Amplify Auth dependencies (if using Amplify for auth)
+  // implementation(libs.amplify.auth.cognito)
+  // implementation(libs.amplify.api)
+}
+```
+
+## Configure the Apollo Gradle plugin
+
+Read the Apollo Kotlin [Getting Started section](https://www.apollographql.com/docs/kotlin#getting-started) for more information, and the [Gradle Plugin configuration](https://www.apollographql.com/docs/kotlin/advanced/plugin-configuration) documentation for all configuration options.
+
+Your Apollo configuration should look similar to this:
+
+```kotlin
+apollo {
+  service("example") {
+    packageName.set("com.example.appsync")
+    schemaFile.set(file("src/main/graphql/schema.json"))
+
+    // Map AppSync custom scalars to Kotlin String.
+    // Without this, fields like createdAt and updatedAt will be
+    // generated as `Any` instead of `String`.
+    // IMPORTANT: Only include scalars that are actually used in your schema.
+    // Apollo will error on unknown scalars. Check your downloaded schema.json
+    // to see which custom scalars your API uses.
+    mapScalarToKotlinString("AWSDateTime")
+    mapScalarToKotlinString("AWSTimestamp")
+    // Add any of the following only if your schema uses them:
+    // mapScalarToKotlinString("AWSDate")
+    // mapScalarToKotlinString("AWSTime")
+    // mapScalarToKotlinString("AWSEmail")
+    // mapScalarToKotlinString("AWSJSON")
+    // mapScalarToKotlinString("AWSURL")
+    // mapScalarToKotlinString("AWSPhone")
+    // mapScalarToKotlinString("AWSIPAddress")
+  }
+}
+```
+
+<Callout>
+
+**Custom scalars:** AWS AppSync uses custom GraphQL scalar types (such as `AWSDateTime`, `AWSJSON`). By default, Apollo generates these as `Any` in Kotlin, which means fields like `createdAt` and `updatedAt` will have type `Any` instead of `String`. Use `mapScalarToKotlinString()` to map them to `String`. Only map scalars that exist in your downloaded `schema.json` — Apollo 4.x will fail with an "unknown scalar" error if you map a scalar not present in the schema. A typical DataStore-backed AppSync schema uses `AWSDateTime` and `AWSTimestamp`. See the [AppSync Apollo Extensions type mapping docs](https://docs.amplify.aws/android/build-a-backend/data/aws-appsync-apollo-extensions/#type-mapping-appsync-scalars) for more details.
+
+</Callout>
+
+<Callout>
+
+**Scalar type generation:** In some Apollo versions, `mapScalarToKotlinString()` may not fully propagate to fragment fields — fields like `createdAt` and `updatedAt` may still be generated as `Any` in the `PostDetails` fragment class. At runtime, these values are strings, so you can safely use `.toString()` to work with them (for example, `post.createdAt?.toString()`). Check the generated code in `build/generated/source/apollo/` to verify the actual types.
+
+</Callout>
+
+<Callout warning>
+
+**Generated enum types:** Apollo Kotlin generates GraphQL enum types as **Kotlin sealed classes** rather than Java-style enums. Standard Java enum methods like `.values()` and `.valueOf()` will **not** work. Use `.knownEntries` instead:
+
+```kotlin
+// This will NOT compile — Apollo enums are not Java enums
+PostStatus.values()
+
+// Use this instead
+PostStatus.knownEntries
+```
+
+If your UI code uses `.values()` to populate dropdowns or pickers, update all occurrences to `.knownEntries`.
+
+</Callout>
+
+## Configure the Apollo client
+
+The runtime component of Apollo must be configured to connect to AWS AppSync, including handling authorization modes and the subscription protocol. The [AWS AppSync Apollo Extensions library](https://docs.amplify.aws/android/build-a-backend/data/aws-appsync-apollo-extensions/) implements the required logic.
+
+### With Amplify Gen 2 config (`amplify_outputs.json`)
+
+If your project uses Amplify Gen 2 (or you have converted your Gen 1 config — see the note below), you can use `ApolloAmplifyConnector` to read the endpoint and configure authorization automatically.
+
+**For API Key auth:**
+
+```kotlin
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val apolloClient = ApolloClient.Builder()
+  .serverUrl(connector.endpoint.serverUrl.toString())
+  .addHttpInterceptor(AppSyncInterceptor(connector.apiKeyAuthorizer()))
+  .build()
+```
+
+**For Cognito User Pool auth (owner-based authorization):**
+
+```kotlin
+val connector = ApolloAmplifyConnector(context, AmplifyOutputs(R.raw.amplify_outputs))
+val apolloClient = ApolloClient.Builder()
+  .serverUrl(connector.endpoint.serverUrl.toString())
+  .addHttpInterceptor(AppSyncInterceptor(connector.cognitoUserPoolAuthorizer()))
+  .build()
+```
+
+<Callout>
+
+**Gen 1 to Gen 2 config conversion:** If your project uses Amplify Gen 1 (`amplifyconfiguration.json`), `ApolloAmplifyConnector` will **not** work with it directly — it requires the Gen 2 format (`amplify_outputs.json`). You can generate `amplify_outputs.json` from your existing Gen 1 backend using the `ampx` CLI:
+
+```bash
+npx ampx generate outputs \
+  --stack <your-cloudformation-stack-name> \
+  --out-dir app/src/main/res/raw \
+  --outputs-version 1
+```
+
+Find your stack name in `amplify/backend/amplify-meta.json` or in the AWS CloudFormation console. Alternatively, use the Amplify App ID:
+
+```bash
+npx ampx generate outputs \
+  --app-id <your-amplify-app-id> \
+  --branch <branch-name> \
+  --out-dir app/src/main/res/raw \
+  --outputs-version 1
+```
+
+The `--outputs-version` flag controls the output format: version `0` produces the classic `amplify-configuration` format, while version `1` produces the newer `amplify_outputs` format needed by `ApolloAmplifyConnector`. After running this command, place the generated `amplify_outputs.json` in `app/src/main/res/raw/`.
+
+</Callout>
+
+### With Amplify Gen 1 config (`amplifyconfiguration.json`) — manual endpoint
+
+If you want to keep using your existing Gen 1 `amplifyconfiguration.json` for Amplify Auth without converting config formats, you can configure the Apollo client manually. You are still using Amplify (for authentication) — only the Apollo endpoint configuration is done manually.
+
+**For API Key auth:**
+
+```kotlin
+val endpoint = AppSyncEndpoint("<your-appsync-endpoint>")
+val authorizer = ApiKeyAuthorizer("<your-api-key>")
+val apolloClient = ApolloClient.Builder()
+  .serverUrl(endpoint.serverUrl.toString())
+  .addHttpInterceptor(AppSyncInterceptor(authorizer))
+  .build()
+```
+
+**For Cognito User Pool auth (using Amplify Auth for token fetching):**
+
+If you are still using Amplify for Cognito authentication but configuring Apollo manually, you can use `ApolloAmplifyConnector.fetchLatestCognitoAuthToken` to get the auth token. This method uses **callback-based** Java `Consumer` parameters, not Kotlin coroutines, so you need to wrap it with `suspendCoroutine`:
+
+```kotlin
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
+
+val endpoint = AppSyncEndpoint("<your-appsync-endpoint>")
+val authorizer = AuthTokenAuthorizer {
+  suspendCoroutine { cont ->
+    ApolloAmplifyConnector.fetchLatestCognitoAuthToken(
+      { token -> cont.resume(token) },
+      { error -> cont.resumeWithException(error) }
+    )
+  }
+}
+
+val apolloClient = ApolloClient.Builder()
+  .serverUrl(endpoint.serverUrl.toString())
+  .addHttpInterceptor(AppSyncInterceptor(authorizer))
+  .build()
+```
+
+<Callout>
+
+**Which approach should you use?** If you are migrating a Gen 1 project and do not want to deal with config conversion, the manual endpoint approach is the simplest path — you keep `amplifyconfiguration.json` for Amplify Auth and point Apollo at your AppSync endpoint directly. If you prefer a single unified config, convert to `amplify_outputs.json` using the `ampx` CLI (see the Gen 2 Config section above).
+
+</Callout>
+
+<Callout>
+
+**Finding your AppSync endpoint:** You can find your AppSync endpoint URL in the [AWS AppSync console](https://console.aws.amazon.com/appsync/home) under your API's **Settings** page, or in your `amplifyconfiguration.json` under `api > plugins > awsAPIPlugin > <api-name> > endpoint`.
+
+</Callout>
+
+<Callout>
+
+**Import note:** `AppSyncEndpoint` and `AppSyncInterceptor` are in `com.amplifyframework.apollo.appsync`. `AuthTokenAuthorizer` and `ApiKeyAuthorizer` are in `com.amplifyframework.apollo.appsync.authorizers`. `ApolloAmplifyConnector` is in `com.amplifyframework.apollo.appsync` (provided by the `apollo-appsync-amplify` artifact).
+
+</Callout>

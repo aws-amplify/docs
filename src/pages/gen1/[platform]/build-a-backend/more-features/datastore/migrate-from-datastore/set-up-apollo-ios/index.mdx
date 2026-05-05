@@ -1,0 +1,358 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up Apollo iOS',
+  description: 'Add Apollo iOS dependencies, install the CLI, run code generation, and configure the Apollo client with your AppSync endpoint and authentication.',
+  platforms: [
+    'swift'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Read the Apollo iOS [Getting Started section](https://www.apollographql.com/docs/ios/get-started) for information about adding Apollo iOS to your project.
+
+## Add dependencies
+
+Follow these steps to add the required packages in Xcode:
+
+### Step 1: Add the Apollo iOS package
+
+1. In Xcode, go to **File → Add Package Dependencies...**
+2. In the dialog that appears, paste the following URL into the search field at the top right:
+
+```
+https://github.com/apollographql/apollo-ios.git
+```
+
+3. Wait for Xcode to fetch the package metadata (this may take 10–30 seconds).
+4. **Set the version constraint:** Select the version dropdown and choose **"Up to Next Major Version"**. Set the range to start from **`1.0.0`** with an upper bound of **`2.0.0`**. This ensures you get Apollo iOS 1.x, which is required by the AWS AppSync Apollo Extensions library. **Do not use Apollo iOS 2.x.**
+5. Select **"Add Package"**.
+6. In the product selection dialog, check the **"Apollo"** checkbox. Make sure your app target is selected. Select **"Add Package"**.
+
+### Step 2: Add the AWS AppSync Apollo Extensions package
+
+1. Go to **File → Add Package Dependencies...**
+2. Paste the following URL:
+
+```
+https://github.com/aws-amplify/aws-appsync-apollo-extensions-swift.git
+```
+
+3. Set the version to **"Up to Next Major Version"** from **`1.0.0`**.
+4. Select **"Add Package"**, select **"AWSAppSyncApolloExtensions"**, and add it to your target.
+
+### Step 3: Keep Amplify Auth (if needed)
+
+If you use Amplify for authentication, your existing `amplify-swift` package should already be in your project. Make sure **`AWSPluginsCore`** is added to your target's **Frameworks, Libraries, and Embedded Content** — it is needed for `AuthCognitoTokensProvider` when configuring the Apollo client with Cognito auth. To check:
+
+1. Select the **blue project icon** in the Navigator → select your app under **TARGETS** → **General** tab.
+2. Scroll to **Frameworks, Libraries, and Embedded Content**.
+3. If `AWSPluginsCore` is not listed, select the **+ (plus)** button and select it from the list.
+
+### Summary of packages
+
+| Package | URL | Version | Product to Add |
+|---|---|---|---|
+| Apollo iOS | `https://github.com/apollographql/apollo-ios.git` | `1.0.0..<2.0.0` | `Apollo` |
+| AWS AppSync Apollo Extensions | `https://github.com/aws-amplify/aws-appsync-apollo-extensions-swift.git` | `1.0.0..<2.0.0` | `AWSAppSyncApolloExtensions` |
+| Amplify Swift (if using Amplify Auth) | `https://github.com/aws-amplify/amplify-swift.git` | Keep existing | `AWSPluginsCore` |
+
+## Install the Apollo iOS CLI
+
+The Apollo iOS CLI (`apollo-ios-cli`) is used for code generation. It is **not** available via Homebrew. You can obtain it in one of these ways:
+
+1. **Download from GitHub Releases** (recommended): Go to [Apollo iOS Releases](https://github.com/apollographql/apollo-ios/releases), find the release matching your Apollo iOS library version, and download the `apollo-ios-cli.tar.gz` asset from the release assets.
+
+After downloading:
+
+```bash
+# Extract the binary from the archive
+tar -xzf apollo-ios-cli.tar.gz
+
+# Make the binary executable (macOS may require this)
+chmod +x apollo-ios-cli
+
+# Move it to your project directory (same level as apollo-codegen-config.json)
+mv apollo-ios-cli /path/to/your/project/
+```
+
+2. **Build from source**: Clone the `apollo-ios` repo at the matching tag and build the CLI.
+
+<Callout warning>
+
+**Version matching is critical.** The Apollo iOS CLI version **must exactly match** your resolved Apollo iOS library version. A mismatched CLI version produces Swift files that are incompatible with the library, causing compile errors such as `Type 'PostDetails' does not conform to protocol 'SelectionSet'` on every generated type.
+
+**To check your resolved library version:**
+- In Xcode: **File → Packages → Resolved Versions** (or check `Package.resolved` in your `.xcworkspace/xcshareddata/swiftpm/` directory)
+- Look for the `apollo-ios` entry and note the exact version (e.g., `1.25.3`)
+- Download the CLI release with that **exact same version number**
+
+**Recommended workflow:**
+1. Add Apollo iOS package to your project (Step 1 above)
+2. Let Xcode/SPM resolve the package version
+3. Check the resolved version
+4. Download the matching Apollo iOS CLI version
+5. Then proceed to code generation
+
+</Callout>
+
+## Code generation
+
+Place your `schema.json` and `.graphql` operation files in a `graphql/` subdirectory of your project (you should have done this in the [Schema and GraphQL operations](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/schema-and-operations/) page). Your project directory should look like:
+
+```
+YourProject/
+├── YourProject.xcodeproj
+├── schema.json
+├── apollo-ios-cli
+├── apollo-codegen-config.json
+├── graphql/
+│   ├── fragments.graphql
+│   ├── mutations.graphql
+│   ├── queries.graphql
+│   └── subscriptions.graphql
+└── YourProject/
+    └── (your Swift source files)
+```
+
+You can either initialize the config and modify it, or create `apollo-codegen-config.json` directly. Here is the configuration you need:
+
+```json
+{
+  "schemaNamespace": "ApolloCodeGen",
+  "input": {
+    "operationSearchPaths": [
+      "./graphql/fragments.graphql",
+      "./graphql/mutations.graphql",
+      "./graphql/queries.graphql",
+      "./graphql/subscriptions.graphql"
+    ],
+    "schemaSearchPaths": [
+      "./schema.json"
+    ]
+  },
+  "output": {
+    "testMocks": {
+      "none": {}
+    },
+    "schemaTypes": {
+      "path": "./ApolloCodeGen",
+      "moduleType": {
+        "swiftPackageManager": {}
+      }
+    },
+    "operations": {
+      "inSchemaModule": {}
+    }
+  }
+}
+```
+
+<Callout>
+
+If you prefer, you can generate an initial config using `./apollo-ios-cli init --schema-namespace ApolloCodeGen --module-type swiftPackageManager` and then modify the `operationSearchPaths` and `schemaSearchPaths` to match the paths above. The default config uses `**/*.graphqls` for `schemaSearchPaths`, but AppSync exports the schema as `schema.json`, so you must update the path.
+
+</Callout>
+
+Generate the Swift files:
+
+```bash
+./apollo-ios-cli generate
+```
+
+This creates an `ApolloCodeGen` directory containing a Swift package with all generated types.
+
+## Add generated code to your Xcode project
+
+After code generation, add the generated Swift package to your project:
+
+1. In Xcode, go to **File → Add Package Dependencies...**
+2. At the **bottom-left** of the dialog, select the **"Add Local..."** button (this is not the URL search field at the top).
+3. In the file picker, navigate to and select the generated `ApolloCodeGen` directory inside your project.
+4. Xcode will recognize it as a local Swift package. Select **"Add Package"**.
+5. Make sure the **ApolloCodeGen** library product is added to your app target. If it does not appear automatically, go to your target's **General** tab → **Frameworks, Libraries, and Embedded Content** → select **+ (plus)** → select **ApolloCodeGen** from the list.
+
+<Callout>
+
+**Generated types and namespacing:** All generated types live inside the `ApolloCodeGen` module. When referencing generated types in your Swift code (such as enums), you must use the fully qualified name `ApolloCodeGen.PostStatus` or add `import ApolloCodeGen` at the top of your file. This is different from Amplify DataStore's generated models, which lived in your app module directly. For example:
+
+```swift
+// Before (DataStore):
+let status: PostStatus = .active
+
+// After (Apollo):
+let status: ApolloCodeGen.PostStatus = .case(.active)
+// or: import ApolloCodeGen, then use GraphQLEnum<PostStatus>
+```
+
+</Callout>
+
+## Configure the Apollo client
+
+The runtime component of Apollo must be configured to connect to AWS AppSync, including handling authorization modes and the subscription protocol. The [AWS AppSync Apollo Extensions library](https://docs.amplify.aws/swift/build-a-backend/data/aws-appsync-apollo-extensions/) implements the required logic.
+
+### With Amplify Gen 2 config (`amplify_outputs.json`)
+
+If your project uses Amplify Gen 2 (or you have converted your Gen 1 config — see the note below), you can use `AWSAppSyncConfiguration` to read the endpoint and configure authorization automatically.
+
+**For API Key auth:**
+
+```swift
+let store = ApolloStore(cache: InMemoryNormalizedCache())
+// 1. Read AWS AppSync API configuration from amplify_outputs.json
+let configuration = try AWSAppSyncConfiguration(with: .amplifyOutputs)
+
+// 2. Use configuration.apiKey with APIKeyAuthorizer
+let authorizer = APIKeyAuthorizer(apiKey: configuration.apiKey ?? "")
+let interceptor = AppSyncInterceptor(authorizer)
+let interceptorProvider = DefaultPrependInterceptorProvider(
+  interceptor: interceptor,
+  store: store)
+
+// 3. Use configuration.endpoint with RequestChainNetworkTransport
+let transport = RequestChainNetworkTransport(
+  interceptorProvider: interceptorProvider,
+  endpointURL: configuration.endpoint)
+let apolloClient = ApolloClient(
+  networkTransport: transport,
+  store: store)
+```
+
+**For Cognito User Pool auth (owner-based authorization):**
+
+```swift
+import AWSPluginsCore
+
+let store = ApolloStore(cache: InMemoryNormalizedCache())
+let configuration = try AWSAppSyncConfiguration(with: .amplifyOutputs)
+
+let authorizer = AuthTokenAuthorizer {
+  let session = try await Amplify.Auth.fetchAuthSession()
+  if let tokenProvider = session as? AuthCognitoTokensProvider {
+    let tokens = try tokenProvider.getCognitoTokens().get()
+    return tokens.accessToken
+  }
+  throw AuthError.unknown("Unable to get Cognito tokens")
+}
+
+let interceptor = AppSyncInterceptor(authorizer)
+let interceptorProvider = DefaultPrependInterceptorProvider(
+  interceptor: interceptor,
+  store: store)
+let transport = RequestChainNetworkTransport(
+  interceptorProvider: interceptorProvider,
+  endpointURL: configuration.endpoint)
+let apolloClient = ApolloClient(
+  networkTransport: transport,
+  store: store)
+```
+
+<Callout>
+
+`AuthCognitoTokensProvider` requires importing **`AWSPluginsCore`** from the `amplify-swift` package. Make sure to add this library product to your target.
+
+</Callout>
+
+<Callout>
+
+**Gen 1 to Gen 2 config conversion:** If your project uses Amplify Gen 1 (`amplifyconfiguration.json`), `AWSAppSyncConfiguration(with: .amplifyOutputs)` will **not** work with it directly — it requires the Gen 2 format (`amplify_outputs.json`). You can generate `amplify_outputs.json` from your existing Gen 1 backend using the `ampx` CLI:
+
+```bash
+npx ampx generate outputs \
+  --stack <your-cloudformation-stack-name> \
+  --out-dir . \
+  --outputs-version 1
+```
+
+Find your stack name in `amplify/backend/amplify-meta.json` (under `providers.awscloudformation.StackName`) or in the AWS CloudFormation console. Alternatively, use the Amplify App ID:
+
+```bash
+npx ampx generate outputs \
+  --app-id <your-amplify-app-id> \
+  --branch <branch-name> \
+  --out-dir . \
+  --outputs-version 1
+```
+
+The `--outputs-version 1` flag ensures the correct format is generated. After running this command, add the generated `amplify_outputs.json` to your Xcode project.
+
+</Callout>
+
+### Without Amplify (or keeping Gen 1 config)
+
+If you prefer not to convert your config format (for example, if you want to keep using your existing Gen 1 `amplifyconfiguration.json` for Amplify Auth), you can configure the Apollo client manually:
+
+**For API Key auth:**
+
+```swift
+let store = ApolloStore(cache: InMemoryNormalizedCache())
+let authorizer = APIKeyAuthorizer(apiKey: "<your-api-key>")
+
+let interceptor = AppSyncInterceptor(authorizer)
+let interceptorProvider = DefaultPrependInterceptorProvider(
+  interceptor: interceptor,
+  store: store)
+let transport = RequestChainNetworkTransport(
+  interceptorProvider: interceptorProvider,
+  endpointURL: URL(string: "<your-appsync-endpoint>")!)
+let apolloClient = ApolloClient(
+  networkTransport: transport,
+  store: store)
+```
+
+**For Cognito User Pool auth (using Amplify Auth for token fetching):**
+
+If you use Amplify for Cognito authentication but configure Apollo manually, you need to provide the endpoint URL from your AppSync configuration and use `AuthCognitoTokensProvider` to get the auth token:
+
+```swift
+import AWSPluginsCore
+
+let store = ApolloStore(cache: InMemoryNormalizedCache())
+
+// Get your endpoint URL from amplifyconfiguration.json or the AppSync console
+let endpointURL = URL(string: "<your-appsync-endpoint>")!
+
+let authorizer = AuthTokenAuthorizer {
+  let session = try await Amplify.Auth.fetchAuthSession()
+  if let tokenProvider = session as? AuthCognitoTokensProvider {
+    let tokens = try tokenProvider.getCognitoTokens().get()
+    return tokens.accessToken
+  }
+  throw AuthError.unknown("Unable to get Cognito tokens")
+}
+
+let interceptor = AppSyncInterceptor(authorizer)
+let interceptorProvider = DefaultPrependInterceptorProvider(
+  interceptor: interceptor,
+  store: store)
+let transport = RequestChainNetworkTransport(
+  interceptorProvider: interceptorProvider,
+  endpointURL: endpointURL)
+let apolloClient = ApolloClient(
+  networkTransport: transport,
+  store: store)
+```
+
+<Callout>
+
+You can find your AppSync endpoint URL in `amplifyconfiguration.json` under `api.<api-name>.endpoint`, or in the [AWS AppSync console](https://console.aws.amazon.com/appsync/home) under your API's settings.
+
+</Callout>
+
+<Callout>
+
+**Which approach should you use?** If you are migrating a Gen 1 project and do not want to deal with config conversion, the manual endpoint approach is the simplest path — you keep `amplifyconfiguration.json` for Amplify Auth and point Apollo at your AppSync endpoint directly. If you prefer a single unified config, convert to `amplify_outputs.json` using the `ampx` CLI (see the Gen 2 Config section above).
+
+</Callout>

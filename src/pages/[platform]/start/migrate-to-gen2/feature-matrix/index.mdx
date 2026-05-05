@@ -1,0 +1,390 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Feature Parity',
+  description: 'Compare Gen 1 and Gen 2 feature availability and migration tool support.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Use this page to understand what Gen 1 features are available in Gen 2 and how they've changed.
+
+## Backend Categories
+
+The tables below compare Gen 1 and Gen 2 feature availability with respect to backend resource definitions. The **Migration Tool** column indicates the level of support the [migration tool](/[platform]/start/migrate-to-gen2/migrate-existing-app/) provides for this feature.
+
+<Accordion title="Migration Tool legend">
+
+**🟢 Fully supported**
+
+The tool can generate the Gen 2 code and refactor the existing resource.
+
+**🟠 Generate only**
+
+The tool can produce Gen 2 code, but the feature requires refactoring support which the tool does not have. If instructed to skip during refactor, you will need to manually move or migrate data from those resources. For example, Geo (GeofenceCollection) can be code-generated but the existing geofence data cannot be automatically moved to the new Gen 2 resource.
+
+**🔴 Unsupported**
+
+The tool does not support this feature during generate or refactor. If instructed to skip, it will proceed without it. To complete migration, you will need to manually write the Gen 2 code and migrate any associated data. Some unsupported features involve stateful resources that will require manual data replication - for example, `@searchable` creates an OpenSearch domain with indexed data that you would need to recreate and repopulate in Gen 2. Other features can be purely stateless and only need to be manually configured by writing CDK code - for example, a Python Lambda function just needs to be redefined using CDK in your Gen 2 code, with no data migration involved.
+
+If a feature you need is not yet supported, [create a feature request](https://github.com/aws-amplify/amplify-cli/issues/new?labels=gen2-migration,feature-request&template=2.feature_request.yaml).
+
+</Accordion>
+
+### Auth
+
+| Feature | Gen 1 | Gen 2 | Migration Tool |
+|---|---|---|---|
+| Configure username | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🟢 |
+| Configure email | Yes | Yes | 🟢 |
+| Configure phone number | Yes | Yes | 🟢 |
+| Facebook | Yes | Yes | 🟠 |
+| Google | Yes | Yes | 🟠 |
+| Amazon | Yes | [Yes](/[platform]/build-a-backend/auth/concepts/external-identity-providers/) | 🔴 |
+| Sign-in with Apple | Yes | [Yes](/[platform]/build-a-backend/auth/concepts/external-identity-providers/) | 🔴 |
+| Add user pool groups | Yes | Yes | 🟢 |
+| User pool group preference | Yes | Yes | 🟢 |
+| Sign-up attributes | Yes | Yes | 🟢 |
+| Auth trigger support | Yes | Yes | 🟢 |
+| Auth trigger templates: Add Google reCaptcha Challenge | Yes | Yes | 🟢 |
+| Auth trigger templates: Add user to Group | Yes | Yes | 🟢 |
+| Auth trigger templates: Email Domain Filtering (denylist) | Yes | Yes | 🟢 |
+| Auth trigger templates: Email Domain Filtering (allowlist) | Yes | Yes | 🟢 |
+| Auth trigger templates: Override ID Token Claims | Yes | Yes | 🟢 |
+| Auth trigger templates: Custom Auth Challenge Flow | Yes | Yes | 🟢 |
+| Auth trigger templates: Email verification link redirect | Yes | [Yes](/[platform]/build-a-backend/auth/customize-auth-lifecycle/) | 🔴 |
+| Configure default password policy | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🟢 |
+| Configure read/write capabilities for attributes | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
+| Oauth flow: Configure authorization v implicit grant | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
+| Admin queries | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
+| MFA: OFF | Yes | Yes | 🟢 |
+| MFA: ON | Yes | Yes | 🟢 |
+| MFA: OPTIONAL | Yes | Yes | 🟢 |
+| MFA: SMS | Yes | Yes | 🟢 |
+| MFA: TOTP | Yes | Yes | 🟢 |
+| Configure Oauth scopes | Yes | [Yes](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
+| Email verification - code | Yes | Yes | 🟢 |
+| Email based user registration/forgot password | Yes | [Yes](/[platform]/build-a-backend/auth/concepts/email/) | 🔴 |
+| Oauth flow: Configure redirect URIs | Yes | [Yes](/[platform]/build-a-backend/auth/concepts/external-identity-providers/) | 🔴 |
+| Ability to set a friendly name for User Pool | Yes | Yes | - |
+| Unauthenticated logins | Yes | Yes | 🟢 |
+| Custom attributes | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🟢 |
+| Oauth flow: Configure domain name prefix | Yes | [Yes with CDK](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
+| First class OIDC support | No | Yes | - |
+| First class SAML support | No | Yes | - |
+| Import auth | Yes | Yes | 🟢 |
+| Override auth | Yes | [Yes](/[platform]/build-a-backend/auth/modify-resources-with-cdk/) | 🔴 |
+| Lambda Triggers (all types) | Yes | Yes | 🟢 |
+
+### Data
+
+<Callout info>
+
+The migration tool does not convert your GraphQL schema to the native Gen 2 schema builder APIs (e.g. `a.model()`, `a.string()`). Instead, your existing string-based GraphQL schema is preserved as-is within the Gen 2 data definition.
+
+</Callout>
+
+| Feature | Gen 1 | Gen 2 | Migration Tool |
+|---|---|---|---|
+| model | Yes | Yes | 🟢 |
+| primaryKey | Yes | Yes | 🟢 |
+| secondaryKey (name, sortKeyFields, query) | Yes | Yes | 🟢 |
+| hasOne | Yes | Yes | 🟢 |
+| hasMany | Yes | Yes | 🟢 |
+| belongsTo | Yes | Yes | 🟢 |
+| manyToMany | Yes | No | 🔴 |
+| default | Yes | Yes | 🟢 |
+| auth - public - apiKey | Yes | Yes | 🟢 |
+| auth - public - iam | Yes | Yes | 🟢 |
+| auth - owner - userPools | Yes | Yes | 🟢 |
+| auth - private - userPools | Yes | Yes | 🟢 |
+| auth - private - iam | Yes | Yes | 🟢 |
+| auth - group - userPools | Yes | Yes | 🟢 |
+| auth - custom - function | Yes | Yes | 🟢 |
+| searchable | Yes | No (guide using Zero-ETL DynamoDB-to-OpenSearch) | 🔴 |
+| predictions | Yes | No (guide with AI service integrations) | 🔴 |
+| Custom Mutations, Queries, Subscriptions | Yes | Yes | 🟢 |
+| VTL handler | Yes | Yes with CDK | 🟢 |
+| JavaScript resolver handler | No | Yes | - |
+| function handler | Yes | Yes | 🟢 |
+| http handler | Yes | Yes (custom data sources including `http`) | 🟢 |
+| DataStore support | Yes | No | 🔴 |
+| MySQL and PostgreSQL support | No | Yes | - |
+
+### API
+
+| Feature | Gen 1 | Gen 2 | Migration Tool |
+|---|---|---|---|
+| GraphQL: API Key auth | Yes | Yes | 🟢 |
+| GraphQL: Cognito User Pool auth | Yes | Yes | 🟢 |
+| GraphQL: IAM auth | Yes | Yes | 🟢 |
+| GraphQL: OpenID Connect auth | Yes | Yes | 🔴 |
+| GraphQL: Lambda auth | Yes | Yes | 🔴 |
+| GraphQL: Conflict detection (DataStore) | Yes | No | 🔴 |
+| REST API | Yes | Yes | 🟢 |
+| REST: Restrict API access | Yes | Yes | 🟢 |
+| REST: Auth/Guest/Group permissions | Yes | Yes | 🟢 |
+| Custom JS/VTL resolvers | Yes | Yes | 🔴 |
+| Override/Extend Amplify resolvers | Yes | Yes | 🔴 |
+| Override API | Yes | [Yes (via CDK)](/[platform]/build-a-backend/data/override-resources/) | 🔴 |
+
+### Storage
+
+| Feature | Gen 1 | Gen 2 | Migration Tool |
+|---|---|---|---|
+| Ability to provision S3 bucket | Yes | Yes | 🟢 |
+| Auth and Guest access | Yes | [Yes](/[platform]/build-a-backend/storage/authorization/#for-gen-1-public-protected-and-private-access-pattern) | 🟢 |
+| Auth - Configure CRUD access | Yes | Yes | 🟢 |
+| Configure Cognito Group CRUD access | Yes | Yes | 🟢 |
+| Guest - Configure CRUD access | Yes | Yes | 🟢 |
+| Lambda trigger for S3 bucket | Yes | Yes | 🟢 |
+| Import a single S3 bucket | Yes | [Yes](https://docs.amplify.aws/react/frontend/storage/use-with-custom-s3/) | 🔴 |
+| Import multiple S3 buckets | No | [Yes](https://docs.amplify.aws/react/frontend/storage/use-with-custom-s3/) | 🔴 |
+| Override Storage | Yes | [Yes](/[platform]/build-a-backend/storage/extend-s3-resources/) | 🔴 |
+| S3 Lambda triggers | Yes | Yes | 🟢 |
+| NoSQL Database | Yes | Yes | 🟢 |
+| NoSQL: Sort key, Global secondary indexes | Yes | Yes | 🟢 |
+| NoSQL: Lambda Trigger | Yes | Yes | 🟢 |
+
+### Functions
+
+| Feature | Gen 1 | Gen 2 | Migration Tool |
+|---|---|---|---|
+| Function runtime: TypeScript | No | Yes | - |
+| Function runtime: NodeJS | Yes | Yes | 🟢 |
+| Function runtime: .NET 6 | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) | 🔴 |
+| Function runtime: Go | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) | 🔴 |
+| Function runtime: Java | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) | 🔴 |
+| Function runtime: JavaScript | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) | 🔴 |
+| Function runtime: Python | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/custom-functions/) | 🔴 |
+| Function resource access permissions: auth | Yes | Yes | 🟢 |
+| Function resource access permissions: function | Yes | [Yes](/[platform]/build-a-backend/functions/grant-access-to-other-resources/) | 🔴 |
+| Function resource access permissions: API | Yes | Yes | 🟢 |
+| Function resource access permissions: custom | No | Yes | - |
+| Function resource access permissions CRUD operations | Yes | Yes | 🟢 |
+| Function resource access permissions: geo | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk) | 🔴 |
+| Function resource access permissions: analytics | Yes | [Yes with CDK](/[platform]/build-a-backend/functions/grant-access-to-other-resources/#using-cdk) | 🟢 |
+| Environment variables | Yes | Yes | 🟢 |
+| Secrets | Yes | [Yes](/[platform]/build-a-backend/functions/environment-variables-and-secrets/) | 🔴 |
+| Cron jobs | Yes | Yes | 🟢 |
+| Configure memory size | Yes | Yes | 🟢 |
+| Lambda layers | Yes | [Yes](/[platform]/build-a-backend/functions/add-lambda-layers/) | 🔴 |
+| Custom IAM policies | Yes | [Yes](/[platform]/build-a-backend/functions/grant-access-to-other-resources/) | 🔴 |
+| Function templates: Hello World | Yes | Yes | 🟢 |
+| Function templates: CRUD for DynamoDB | Yes | Yes | 🟢 |
+| Function templates: Serverless express | Yes | Yes | 🟢 |
+| Function templates: Lambda trigger | Yes | Yes | 🟢 |
+
+### Hosting
+
+<Callout info>
+
+The migration tool generates an `amplify.yml` buildspec file so that you can deploy and publish the app via the Amplify Hosting service. See [Build specification reference](https://docs.aws.amazon.com/amplify/latest/userguide/yml-specification-syntax.html) for details.
+
+</Callout>
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| Amplify Console (Git-based Continuous deployment) | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#type-of-deployments) | Yes |
+| Amplify Console (Manual deployment) | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#type-of-deployments) | No |
+| Amazon CloudFront and S3 | [Yes](https://docs.amplify.aws/gen1/javascript/tools/cli/hosting/#amazon-s3-and-amazon-cloudfront) | No |
+
+> See the full [Deploy and Host](/[platform]/deploy-and-host/) documentation for comprehensive guidance on Gen 2 deployment options.
+
+In Gen 1, deployment was typically done via `amplify push` (backend) and `amplify publish` (frontend) in a custom pipeline, or automatically through the Amplify Hosting service. In Gen 2, these commands no longer exist.
+
+#### Amplify Hosting
+
+The simplest path is to connect your Git branch in the Amplify Console (_App Settings → Branch Settings → Add Branch_). See [branch deployments](https://docs.amplify.aws/react/deploy-and-host/fullstack-branching/branch-deployments/) for details.
+
+If you use a custom backend pipeline but still want Amplify Hosting for the frontend, update the `amplify.yml` build spec to run `npx ampx generate outputs` instead of `pipeline-deploy`, and use an incoming webhook to trigger the frontend build after your backend pipeline succeeds.
+
+<Callout warning>
+
+If your Gen 1 app uses **manual deployment** (i.e. it is not connected to a Git repository), the Amplify Console does not allow you to add Git-based branch deployments to the same app. In this case, you must create a new Amplify app and connect your Git repository to it.
+
+</Callout>
+
+#### Custom Pipelines
+
+Unlike Gen 1, Gen 2 deployments always require an Amplify app ID and a branch name. If you use your own CI/CD system (AWS CodePipeline, Jenkins, CodeCatalyst, etc.) or a non-Git VCS like SVN, you can drive Gen 2 deployments directly using the `ampx` CLI. You will need to perform some one-time setup:
+
+```bash
+# (Optional) Create a new Amplify App — only needed if not reusing your existing app
+aws amplify create-app --name my-app
+
+# Register a branch name for your pipeline to deploy to
+# (this is a logical name, not necessarily a real Git branch)
+aws amplify create-branch --app-id <APP_ID> --branch-name gen2-main
+
+# Disable auto-build so Amplify doesn't build on git push
+aws amplify update-branch --app-id <APP_ID> --branch-name gen2-main --no-enable-auto-build
+```
+
+Then, in your pipeline build steps:
+
+```bash
+npm ci
+export CI=1
+npx ampx pipeline-deploy --branch gen2-main --app-id <AMPLIFY_APP_ID>
+```
+
+<Callout info>
+
+The `--branch` parameter is a logical name, not a Git ref. You can use any string (e.g. `trunk`, `release-1.0`). The `amplify/` folder must be present in your working directory at build time.
+
+</Callout>
+
+See the [custom pipelines guide](/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/) for full details.
+
+#### Frontend Hosting Without Amplify
+
+If you host your frontend separately (S3 + CloudFront, on-prem, etc.), run `npx ampx generate outputs` in your pipeline to produce `amplify_outputs.json`, then bundle it with your frontend build artifacts.
+
+### Other categories
+
+<InlineFilter filters={['android', 'swift']}>
+
+[Amplify JS Auth API documentation](/[platform]/frontend/auth/)
+
+| Feature | Gen 1 | Gen 2 | Migration Tool |
+|---|---|---|---|
+| REST API | Yes | No | - |
+| Analytics | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/analytics/) | 🔴 |
+| Geo (Map) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/geo/) | 🟢 |
+| Geo (PlaceIndex) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/geo/) | 🟢 |
+| Geo (GeofenceCollection) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/geo/) | 🟠 |
+| Predictions | Yes | No | 🔴 |
+| Interactions | Yes | No | 🔴 |
+| Custom (CDK) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/custom-resources/) | 🔴 |
+| Custom (CFN) | Yes | [Yes with CfnInclude](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.cloudformation_include.CfnInclude.html) | 🔴 |
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+| Feature | Gen 1 | Gen 2 | Migration Tool |
+|---|---|---|---|
+| REST API | Yes | Yes with custom CDK | - |
+| Analytics | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/analytics/) | 🔴 |
+| Geo | No | No | - |
+| Predictions | No | No | - |
+| Interactions | No | No | - |
+| Custom (CDK) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/custom-resources/) | 🔴 |
+| Custom (CFN) | Yes | [Yes with CfnInclude](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.cloudformation_include.CfnInclude.html) | 🔴 |
+
+</InlineFilter>
+
+<InlineFilter filters={['angular','javascript','nextjs','react','react-native','vue']}>
+
+| Feature | Gen 1 | Gen 2 | Migration Tool |
+|---|---|---|---|
+| REST API | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/rest-api/) | 🟢 |
+| Analytics (Kinesis) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/analytics/) | 🟢 |
+| Analytics (Pinpoint) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/analytics/) | 🔴 |
+| Geo (Map) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/geo/) | 🟢 |
+| Geo (PlaceIndex) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/geo/) | 🟢 |
+| Geo (GeofenceCollection) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/geo/) | 🟠 |
+| Predictions | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/predictions/) | 🔴 |
+| Interactions | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/interactions/) | 🔴 |
+| Custom (CDK) | Yes | [Yes with custom CDK](/[platform]/build-a-backend/add-aws-services/custom-resources/) | 🔴 |
+| Custom (CFN) | Yes | [Yes with CfnInclude](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.cloudformation_include.CfnInclude.html) | 🔴 |
+
+</InlineFilter>
+
+## Tooling and Workflows
+
+### CLI
+
+Gen 2 replaces the Gen 1 CLI wizard approach with a code-first model using TypeScript and CDK. The following table summarizes the key differences:
+
+| Aspect | Gen 1 | Gen 2 |
+|---|---|---|
+| CLI installation | Global (`npm i -g @aws-amplify/cli`) | Local devDep (`npm i @aws-amplify/backend-cli`), run via `npx` |
+| Backend definition | CLI wizard + JSON/GraphQL files in `amplify/` | TypeScript + CDK in `amplify/` |
+| Environment management | `amplify env add/checkout/list` | Git branches (or logical branch names in custom pipelines) |
+| Local development | `amplify mock` (local emulation) | `npx ampx sandbox` (real cloud resources per developer) |
+| Deployment | `amplify push` | `npx ampx pipeline-deploy` or Amplify Hosting auto-build |
+| Frontend config file | `amplifyconfiguration.json` / `aws-exports.js` | `amplify_outputs.json` |
+| Resource overrides | `amplify override <category>` | Direct CDK access in `amplify/backend.ts` |
+| Adding resources | `amplify add <category>` | TypeScript definitions using `define*()` functions |
+| Secrets | `amplify function update` secret prompts | `npx ampx sandbox secret set <NAME>` or console + `secret()` in code |
+| Codegen | `amplify codegen` / `amplify codegen model` | Not needed, but optionally `npx ampx generate graphql-client-code` |
+
+The Gen 2 CLI (`@aws-amplify/backend-cli`) is invoked via `npx ampx <command>`. All commands support AWS CLI environment variables (`AWS_PROFILE`, `AWS_REGION`). See the full [CLI commands reference](https://docs.amplify.aws/react/reference/cli-commands/).
+
+<Accordion title="Full command mapping table">
+
+| Gen 1 Command | Gen 2 Equivalent | Notes |
+|---|---|---|
+| `amplify init` | No equivalent | Gen 2 projects are initialized by creating an `amplify/` folder with TypeScript definitions. Use `npm create amplify@latest` for new projects. |
+| `amplify add auth` | `defineAuth()` in `amplify/auth/resource.ts` | Code-first definition. No CLI command needed. |
+| `amplify add api` | `defineData()` in `amplify/data/resource.ts` | GraphQL schema defined in TypeScript. |
+| `amplify add storage` | `defineStorage()` in `amplify/storage/resource.ts` | S3 bucket configuration in code. |
+| `amplify add function` | `defineFunction()` in `amplify/functions/<name>/resource.ts` | Lambda functions defined in code. Gen 2 defaults to TypeScript runtime. |
+| `amplify add hosting` | Removed | Use Amplify Hosting branch deployments or custom pipelines. For Amplify Hosting use the [aws amplify CLI](https://docs.aws.amazon.com/cli/latest/reference/amplify/). |
+| `amplify push` | `npx ampx pipeline-deploy --branch <branch> --app-id <id>` | Deploys backend infrastructure. In sandbox mode, use `npx ampx sandbox`. |
+| `amplify publish` | Removed | Was a wrapper for push + frontend deploy. Use your pipeline or Amplify Hosting instead. |
+| `amplify pull` | `npx ampx generate outputs --branch <branch> --app-id <id>` | Generates `amplify_outputs.json` for the frontend. |
+| `amplify env add` | Create a new git branch | Gen 2 environments map to git branches. Each branch gets its own CloudFormation stack. |
+| `amplify env checkout` | `git checkout <branch>` + `npx ampx generate outputs` | Switch branch, then regenerate outputs. |
+| `amplify env list` | Check Amplify Console or [list branches](https://docs.aws.amazon.com/cli/latest/reference/amplify/list-branches.html) | No direct CLI equivalent. |
+| `amplify status` | `npx ampx sandbox` (watch mode shows drift) | No direct status command. Sandbox provides live feedback. |
+| `amplify delete` | `npx ampx sandbox delete` (sandbox only) | For branch environments, disconnect the branch in the Amplify Console. |
+| `amplify codegen` | `npx ampx generate graphql-client-code` | Generates GraphQL statements and types. |
+| `amplify codegen model` | `npx ampx generate graphql-client-code --format modelgen` | Generates model classes for mobile/JS. |
+| `amplify configure` | AWS CLI profile configuration | Gen 2 uses standard AWS profiles. No Amplify-specific configure step. |
+| `amplify mock` | `npx ampx sandbox` | Sandbox deploys real cloud resources per developer. There is no local mock in Gen 2. |
+| `amplify override <category>` | Direct CDK modifications in `amplify/backend.ts` | Gen 2 gives you full CDK access natively. |
+
+</Accordion>
+
+### Console & Developer Experience
+
+These are runtime, console, and tooling features that are not part of backend resource definitions and do not involve infrastructure migration.
+
+| Feature | Gen 1 | Gen 2 |
+|---|---|---|
+| Auth configuration in console | Yes | No |
+| User management in console | Yes | Yes |
+| Zero-config Authenticator support | Yes | Yes |
+| Data visual configuration (Studio) | Yes | No (Gen 2 is code-first by design) |
+| In-IDE end-to-end type safety | No | Yes |
+| Storage file browser in console | Yes | Yes |
+| Storage visual configuration (Studio) | Yes | No (Gen 2 is code-first by design) |
+| Local testing | `amplify mock` | `npx ampx sandbox` (cloud sandbox) |
+| Function logs in console | Yes | Yes |
+
+### UI Builder
+
+The Gen 1 UI Builder is part of Amplify Studio, the visual tool for managing Gen 1 applications. No such UI exists for Gen 2, but near-full feature parity can be achieved using the [Amplify UI Builder Figma Plugin](https://www.figma.com/community/plugin/1040722185526429545).
+
+Prerequisites: design using Figma based on the [Amplify UI Kit](https://www.figma.com/community/file/1047600760128127424), and install the Amplify UI Builder Plugin.
+
+| Feature | Gen 1 (Studio) | Gen 2 (Figma Plugin) |
+|---|---|---|
+| Adjusting theme and creating custom components | Supported | Supported |
+| Connect data model to components before export | Supported (requires existing data model) | Not supported. Connect to Amplify Data as part of the engineering effort. |
+| Exporting components into the project | Supported via UI Builder | Supported via Plugin |

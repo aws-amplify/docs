@@ -37,6 +37,7 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { Gen2MaintenanceBanner } from '@/components/Gen2MaintenanceBanner';
 import { CrossLink } from '@/components/CrossLink';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
 import { getPageSection } from '@/utils/getPageSection';
@@ -331,6 +332,8 @@ export const Layout = ({
                   activeSection={activeSection}
                   onSectionChange={handleSectionChange}
                   currentPlatform={currentPlatform}
+                  featureRoute={featureRoute}
+                  pageSection={pageSection}
                 />
                 <LayoutHeader
                   showTOC={showTOC}
@@ -340,6 +343,8 @@ export const Layout = ({
                   showLastUpdatedDate={showLastUpdatedDate}
                   activeSection={activeSection}
                   onSectionChange={handleSectionChange}
+                  featureRoute={featureRoute}
+                  pageSection={pageSection}
                 ></LayoutHeader>
                 <View key={asPathWithNoHash} className="layout-main">
                   <Flex
@@ -356,6 +361,7 @@ export const Layout = ({
                       />
                     ) : null}
                     {isGen1 && <Gen1Banner currentPlatform={currentPlatform} />}
+                    {!isGen1 && <Gen2MaintenanceBanner />}
                     {crossLinkProps && <CrossLink {...crossLinkProps} />}
                     {useCustomTitle ? null : (
                       <Flex
@@ -375,9 +381,10 @@ export const Layout = ({
                     {(asPathWithNoHash.includes('/push-notifications/') ||
                       asPathWithNoHash.includes('/analytics/') ||
                       asPathWithNoHash.includes('/in-app-messaging/')) &&
-                      !asPathWithNoHash.includes('/kinesis') && (
-                      <PinpointEOLBanner />
-                    )}
+                      !asPathWithNoHash.includes('/kinesis') &&
+                      !asPathWithNoHash.includes('/firehose') && (
+                        <PinpointEOLBanner />
+                      )}
                     {asPathWithNoHash.includes('/interactions/') && (
                       <LexV1EOLBanner />
                     )}

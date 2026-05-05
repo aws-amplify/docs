@@ -32,6 +32,12 @@ Amplify Auth supports multi-factor authentication (MFA) for user sign-in flows. 
 
 In this guide we will review how you can set up MFA with each of these methods and the discuss tradeoffs between them to help you choose the right setup for your application. We will also review how to set up MFA to remember a device and reduce sign-in friction for your users.
 
+<Callout warning>
+
+**MFA and passwordless cannot be used together.** Amazon Cognito does not support enabling both MFA and passwordless sign-in (including passkeys, SMS OTP, and email OTP) for the same user. If a user has MFA configured, passwordless sign-in options will not be available. For more details, see the [Amazon Cognito MFA prerequisites](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html#user-pool-settings-mfa-prerequisites).
+
+</Callout>
+
 ## Configure multi-factor authentication
 
 Use `defineAuth` to enable MFA for your app. The example below is setting up MFA with TOTP but not SMS as you can see that the phone number is not a required attribute. 

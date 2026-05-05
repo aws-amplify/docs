@@ -36,6 +36,8 @@ export interface NavProps {
   activeSection?: SectionKey;
   onSectionChange?: (section: SectionKey) => void;
   currentPlatform?: Platform;
+  featureRoute?: string;
+  pageSection?: SectionKey;
 }
 
 export function GlobalNav({
@@ -46,10 +48,29 @@ export function GlobalNav({
   socialLinks,
   activeSection,
   onSectionChange,
-  currentPlatform
+  currentPlatform,
+  featureRoute,
+  pageSection
 }: NavProps) {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const platform = currentPlatform || 'react';
+
+  /**
+   * Resolve the href for a section tab. If the user is on a page that has
+   * a matching route in the target section (featureRoute), link there
+   * instead of the generic section landing page.
+   */
+  const getSectionHref = (key: SectionKey): string => {
+    if (
+      featureRoute &&
+      pageSection &&
+      ((pageSection === 'backend' && key === 'frontend') ||
+        (pageSection === 'frontend' && key === 'backend'))
+    ) {
+      return featureRoute.replace('[platform]', platform);
+    }
+    return getDefaultPathForSection(key, platform);
+  };
 
   return (
     <View
@@ -72,26 +93,26 @@ export function GlobalNav({
             {(Object.keys(SECTIONS) as SectionKey[])
               .filter((key) => !SECTIONS[key].hideFromNav)
               .map((key) => {
-              const section = SECTIONS[key];
-              const isActive = activeSection === key;
-              return (
-                <Link
-                  key={key}
-                  href={getDefaultPathForSection(key, platform)}
-                  className={`section-nav__tab ${isActive ? 'section-nav__tab--active' : ''}`}
-                  onClick={() => onSectionChange?.(key)}
-                >
-                  <span className="section-nav__tab__label">
-                    {section.label}
-                  </span>
-                  {section.subtitle && isActive && (
-                    <span className="section-nav__tab__subtitle">
-                      {section.subtitle}
+                const section = SECTIONS[key];
+                const isActive = activeSection === key;
+                return (
+                  <Link
+                    key={key}
+                    href={getSectionHref(key)}
+                    className={`section-nav__tab ${isActive ? 'section-nav__tab--active' : ''}`}
+                    onClick={() => onSectionChange?.(key)}
+                  >
+                    <span className="section-nav__tab__label">
+                      {section.label}
                     </span>
-                  )}
-                </Link>
-              );
-            })}
+                    {section.subtitle && isActive && (
+                      <span className="section-nav__tab__subtitle">
+                        {section.subtitle}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
           </Flex>
         )}
 

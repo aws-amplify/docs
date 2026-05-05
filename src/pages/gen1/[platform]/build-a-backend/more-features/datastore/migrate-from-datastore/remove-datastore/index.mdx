@@ -1,0 +1,231 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Remove DataStore',
+  description: 'Remove Amplify DataStore from your project and prepare for migration to the Amplify API category or Apollo Kotlin.',
+  platforms: [
+    'android',
+    'flutter',
+    'swift'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+<InlineFilter filters={["flutter"]}>
+
+Before migrating your DataStore calls, remove Amplify DataStore from your project and configure the API plugin to use your models.
+
+## Update dependencies
+
+Remove the `amplify_datastore` package from your `pubspec.yaml` and ensure the `amplify_api` package is present:
+
+```yaml
+dependencies:
+  # Remove this line:
+  # amplify_datastore: ^2.x.x
+
+  # Keep or add these:
+  amplify_flutter: ^2.x.x
+  amplify_api: ^2.x.x
+  amplify_auth_cognito: ^2.x.x  # if using auth
+```
+
+After updating `pubspec.yaml`, run:
+
+```bash
+flutter pub get
+```
+
+## Update Amplify configuration
+
+When using DataStore, the `ModelProvider` was passed to the `AmplifyDataStore` plugin. After removing DataStore, you **must** pass `ModelProvider.instance` to the `AmplifyAPI` plugin instead. Without this, `ModelMutations` and `ModelQueries` cannot serialize and deserialize your models, and API calls will fail at runtime.
+
+**Before (with DataStore):**
+
+```dart
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:amplify_api/amplify_api.dart';
+import 'models/ModelProvider.dart';
+
+final datastorePlugin = AmplifyDataStore(modelProvider: ModelProvider.instance);
+final api = AmplifyAPI();
+
+await Amplify.addPlugins([datastorePlugin, api]);
+await Amplify.configure(amplifyConfig);
+```
+
+**After (API only):**
+
+```dart
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_api/model_queries.dart';
+import 'package:amplify_api/model_mutations.dart';
+import 'package:amplify_api/model_subscriptions.dart';
+import 'models/ModelProvider.dart';
+
+// Pass ModelProvider to the API plugin
+final api = AmplifyAPI(
+  options: APIPluginOptions(modelProvider: ModelProvider.instance),
+);
+
+await Amplify.addPlugins([api]);
+await Amplify.configure(amplifyConfig);
+```
+
+<Callout warning>
+
+If you forget to pass `ModelProvider.instance` to `AmplifyAPI`, model-based queries and mutations will not work. This is the most common migration mistake.
+
+</Callout>
+
+## Remove all DataStore calls
+
+Search your codebase and remove or replace all DataStore calls:
+
+| DataStore Call | API Replacement |
+|---|---|
+| `Amplify.DataStore.save()` | `Amplify.API.mutate()` with `ModelMutations.create()` / `.update()` |
+| `Amplify.DataStore.delete()` | `Amplify.API.mutate()` with `ModelMutations.delete()` |
+| `Amplify.DataStore.query()` | `Amplify.API.query()` with `ModelQueries.get()` / `.list()` |
+| `Amplify.DataStore.observe()` | `Amplify.API.subscribe()` with `ModelSubscriptions.onCreate/onUpdate/onDelete()` |
+| `Amplify.DataStore.observeQuery()` | Initial list query + three subscriptions (see [Migrate to Amplify API](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-to-api/#observequery)) |
+| `Amplify.DataStore.clear()` | No longer needed (no local DataStore to clear) |
+| `Amplify.DataStore.start()` / `stop()` | No longer needed |
+
+<Callout>
+
+Keep `amplify_auth_cognito` (or other auth plugins) if you still use Amplify for authentication or other services. You only need to remove the DataStore plugin and dependency.
+
+</Callout>
+
+<Callout>
+
+**`Amplify.DataStore.clear()` in sign-out flows:** If your sign-out flow calls `Amplify.DataStore.clear()` to wipe local data before signing out, remove that call entirely — there is no local DataStore to clear after migration.
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+Before adding Apollo, remove Amplify DataStore from your project.
+
+## Remove DataStore frameworks from your target
+
+1. In the Xcode **Navigator panel** (left sidebar), select the **blue project icon** at the very top (the document icon labeled with your project name). This opens the **Project Editor**.
+2. In the Project Editor, you will see two columns: **PROJECT** and **TARGETS**. Select your app name under **TARGETS** (not under PROJECT).
+3. Select the **"General"** tab at the top.
+4. Scroll down to the **"Frameworks, Libraries, and Embedded Content"** section (below "Supported Destinations" and "Minimum Deployments").
+5. Remove the DataStore-related frameworks by selecting each one and selecting the **⊖ (minus)** button at the bottom of the list. Remove at minimum:
+   - `AWSDataStorePlugin`
+   - `AWSAPIPlugin` (if it was only used by DataStore)
+
+<Callout>
+
+A typical Amplify project may have many framework products linked beyond DataStore, such as `AWSCloudWatchLoggingPlugin`, `AWSLocationGeoPlugin`, `AWSPinpointAnalyticsPlugin`, `AWSPinpointPushNotificationsPlugin`, `AWSPredictionsPlugin`, `AWSS3StoragePlugin`, etc. Remove all frameworks that you are not actively using. **Keep** the frameworks you still need — for example, if you use Amplify for authentication, keep `Amplify`, `AWSCognitoAuthPlugin`, `AWSPluginsCore`, and `Authenticator` (if using the Amplify Authenticator SwiftUI component).
+
+</Callout>
+
+## Remove the DataStore plugin from app initialization
+
+Remove the DataStore and API plugin registration from your Amplify configuration code:
+
+```swift
+// Remove these lines:
+try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels()))
+try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+```
+
+Keep any other plugins you still need (e.g., `AWSCognitoAuthPlugin`).
+
+## Delete DataStore generated model files
+
+If you used Amplify codegen, delete the generated model classes. These are typically found in a `Models/` directory and include files like:
+- `Post.swift`
+- `Post+Schema.swift`
+- `AmplifyModels.swift`
+
+These will be replaced by Apollo's generated types.
+
+## Remove all `Amplify.DataStore.*` calls
+
+Search your codebase and remove or replace all DataStore calls:
+
+| DataStore Call | Apollo Replacement |
+|---|---|
+| `Amplify.DataStore.save()` | Apollo mutations (see [Migrate DataStore to Apollo](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/)) |
+| `Amplify.DataStore.delete()` | Apollo mutations (see [Migrate DataStore to Apollo](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/)) |
+| `Amplify.DataStore.query()` | Apollo queries (see [Migrate DataStore to Apollo](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/)) |
+| `Amplify.DataStore.observe()` | Apollo subscriptions (see [Migrate DataStore to Apollo](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/)) |
+| `Amplify.DataStore.observeQuery()` | Apollo cache watchers (see [Migrate DataStore to Apollo](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/#observequery)) |
+| `Amplify.DataStore.clear()` | `apolloClient.store.clearCache()` |
+| `Amplify.DataStore.start()` / `.stop()` | No longer needed |
+
+<Callout>
+
+Keep `AWSCognitoAuthPlugin` (or other auth plugins) if you still use Amplify for authentication or other services. You only need to remove the DataStore plugin and the API plugin (if only used by DataStore). If you use the Amplify `Authenticator` SwiftUI view, keep `Authenticator` and `AWSCognitoAuthPlugin` — they work independently of DataStore.
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+Before adding Apollo, remove Amplify DataStore from your project.
+
+## Remove the DataStore dependency
+
+Remove `com.amplifyframework:aws-datastore` (or its version catalog alias) from your `build.gradle.kts` (or `libs.versions.toml`).
+
+## Remove the DataStore plugin
+
+Remove the DataStore plugin from your `Application` class:
+
+```kotlin
+// Remove this line from your Amplify.addPlugin() calls:
+Amplify.addPlugin(AWSDataStorePlugin())
+```
+
+## Delete DataStore generated model files
+
+If you used Amplify codegen, delete the generated model classes (for example, `Post.java`, `PostStatus.java`, `AmplifyModelProvider.java` under `com/amplifyframework/datastore/generated/model/`). These will be replaced by Apollo's generated types.
+
+## Remove all `Amplify.DataStore.*` calls
+
+Remove all DataStore API calls throughout your code:
+
+| DataStore Call | Apollo Replacement |
+|---|---|
+| `Amplify.DataStore.save()` | Apollo mutations |
+| `Amplify.DataStore.delete()` | Apollo mutations |
+| `Amplify.DataStore.query()` | Apollo queries |
+| `Amplify.DataStore.observe()` | Apollo subscriptions |
+| `Amplify.DataStore.observeQuery()` | Apollo cache watchers (see [Migrate DataStore to Apollo](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/migrate-datastore-to-apollo/#observequery)) |
+| `Amplify.DataStore.clear()` | No longer needed (no local DataStore to clear) |
+| `Amplify.DataStore.start()` / `stop()` | No longer needed |
+
+<Callout>
+
+Keep `AWSApiPlugin` and `AWSCognitoAuthPlugin` (or other auth plugins) if you still use Amplify for authentication or other services. You only need to remove the DataStore plugin and dependency.
+
+</Callout>
+
+<Callout>
+
+**`Amplify.DataStore.clear()` in sign-out flows:** If your sign-out flow calls `Amplify.DataStore.clear()` to wipe local data before signing out, remove that call entirely — there is no local DataStore to clear after migration.
+
+</Callout>
+
+</InlineFilter>
