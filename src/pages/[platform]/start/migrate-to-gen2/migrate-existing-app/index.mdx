@@ -500,6 +500,23 @@ See [Secrets](https://docs.amplify.aws/react/build-a-backend/functions/environme
 
 </Callout>
 
+#### External Identity Providers
+
+If your Gen 1 app uses social sign-in (Facebook, Google, Apple, Amazon, or OIDC/SAML), the generated `callbackUrls` and `logoutUrls` in `./amplify/auth/resource.ts` are inherited from Gen 1 and reference the Gen 1 Amplify Hosting URLs only. The Gen 2 hosting URL must be added before the Hosted UI will accept sign-ins from the Gen 2 frontend.
+
+The generator emits a comment above each URL list as a reminder. Add the Gen 2 URL to both locations:
+
+```diff
+ callbackUrls: [
+   'https://main.<gen1-appId>.amplifyapp.com/',
++  'https://gen2-main.<gen2-appId>.amplifyapp.com/',
+ ],
+```
+
+The top-level `externalProviders.callbackUrls`/`logoutUrls` configure the web client used by the frontend. The `oAuth.callbackUrls`/`logoutUrls` inside `applyEscapeHatches` configure a separate native app client — update both if present.
+
+The corresponding redirect URIs in the external provider's developer console must also be updated, but only after the Gen 2 environment is deployed (see [Configure external identity providers](#configure-external-identity-providers) below).
+
 ### Step 5: Deploy
 
 Push the generated Gen 2 code to your repository:
@@ -545,6 +562,14 @@ npx ampx sandbox --once
 By default, sandbox creates its own DynamoDB tables and does not share Gen 1 model data. To share them, set `branchName` to `"sandbox"` in `./amplify/data/resource.ts`.
 
 </Accordion>
+
+#### Configure external identity providers
+
+If your app uses social sign-in, the Gen 2 deployment creates a new Cognito User Pool Domain distinct from the Gen 1 one. The external provider's developer console must be updated to accept redirects from the new domain before Hosted UI sign-in will work on the Gen 2 frontend.
+
+Open the [Cognito console](https://console.aws.amazon.com/cognito/), select the user pool owned by your Gen 2 branch, and note the domain under _App integration → Domain_.
+
+Then, add the domain to each external provider's console following the standard [External identity providers](/[platform]/build-a-backend/auth/concepts/external-identity-providers/) guide. You do not need to replace the existing Gen 1 entries — add the Gen 2 domain alongside them so both environments work during the transition.
 
 
 ### Step 6: Functional Tests (CRITICAL)
@@ -628,6 +653,8 @@ amplify gen2-migration lock --rollback
 amplify push
 ```
 
+If you had already completed [Step 8: Post-Refactor](#step-8-post-refactor-critical) before rolling back, re-comment `postRefactor();` in `./amplify/backend.ts` on the `gen2-main` branch and push. The function targets resources that the Gen 2 stack no longer owns after rollback and will fail at synth otherwise.
+
 ### Step 8: Post-Refactor (CRITICAL)
 
 <Callout warning backgroundColor="var(--amplify-colors-red-10)">
@@ -651,7 +678,7 @@ Edit `./amplify/backend.ts`:
 
 <Callout info>
 
-This function must remain uncommented permanently — even after migration is complete. Commenting it out or removing it will cause deployment failures.
+This function must remain uncommented after the refactor is complete. Commenting it out or removing it will cause deployment failures. The only exception is if you subsequently run `refactor --rollback` — see [Step 7](#step-7-refactor).
 
 </Callout>
 
