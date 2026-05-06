@@ -502,7 +502,7 @@ See [Secrets](https://docs.amplify.aws/react/build-a-backend/functions/environme
 
 #### External Identity Providers
 
-If your Gen 1 app uses social sign-in (Facebook, Google, Apple, Amazon, or OIDC/SAML), the generated `callbackUrls` and `logoutUrls` in `./amplify/auth/resource.ts` are inherited from Gen 1 and reference the Gen 1 Amplify Hosting URLs only. The Gen 2 hosting URL must be added before the Hosted UI will accept sign-ins from the Gen 2 frontend.
+If your Gen 1 app uses social sign-in (Facebook, Google), the generated `callbackUrls` and `logoutUrls` in `./amplify/auth/resource.ts` are inherited from Gen 1 and reference the Gen 1 Amplify Hosting URLs only. The Gen 2 hosting URL must be added before the Hosted UI will accept sign-ins from the Gen 2 frontend.
 
 The generator emits a comment above each URL list as a reminder. Add the Gen 2 URL to both locations:
 
