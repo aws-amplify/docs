@@ -515,7 +515,7 @@ The generator emits a comment above each URL list as a reminder. Add the Gen 2 U
 
 The top-level `externalProviders.callbackUrls`/`logoutUrls` configure the web client used by the frontend. The `oAuth.callbackUrls`/`logoutUrls` inside `applyEscapeHatches` configure a separate native app client — update both if present.
 
-The corresponding redirect URIs in the external provider's developer console must also be updated, but only after the Gen 2 environment is deployed (see [Configure external identity providers](#configure-external-identity-providers) below).
+The corresponding redirect URIs in the external provider's developer console must also be updated, after the Gen 2 environment is deployed (see [Configure external identity providers](#configure-external-identity-providers) below).
 
 ### Step 5: Deploy
 
@@ -646,14 +646,14 @@ If the refactor fails or produces undesired results, roll it back:
 amplify gen2-migration refactor --to <gen2-root-stack-name> --rollback
 ```
 
+If you had already completed [Step 8: Post-Refactor](#step-8-post-refactor-critical) before rolling back, re-comment `postRefactor();` in `./amplify/backend.ts` on the `gen2-main` branch and push. The function targets resources that the Gen 2 stack no longer owns after rollback and will fail at synth otherwise.
+
 After rolling back, you will need to unlock the Gen 1 environment and redeploy it to restore normal operation:
 
 ```bash
 amplify gen2-migration lock --rollback
 amplify push
 ```
-
-If you had already completed [Step 8: Post-Refactor](#step-8-post-refactor-critical) before rolling back, re-comment `postRefactor();` in `./amplify/backend.ts` on the `gen2-main` branch and push. The function targets resources that the Gen 2 stack no longer owns after rollback and will fail at synth otherwise.
 
 ### Step 8: Post-Refactor (CRITICAL)
 
