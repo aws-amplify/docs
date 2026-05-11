@@ -401,6 +401,20 @@ firehose.enable();
 
 </InlineFilter>
 
+### Close the client
+
+When you're done with the client, close it to release resources:
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+await firehose.close();
+```
+
+</InlineFilter>
+
+After closing, all operations return an error. Create a new client instance if needed.
+
 ## Advanced
 
 ### Escape hatch
