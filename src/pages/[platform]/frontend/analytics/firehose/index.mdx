@@ -517,6 +517,7 @@ do {
 | `FirehoseValidationException` | Record input validation failed (oversized record). |
 | `FirehoseLimitExceededException` | Local cache is full. Call `flush()` or `clearCache()` to free space. |
 | `FirehoseStorageException` | Local database error. |
+| `FirehoseClientClosedException` | Operation attempted on a closed client. |
 | `FirehoseUnknownException` | Unexpected or uncategorized error. |
 
 Operations return `Result<T>` which can be pattern-matched:
@@ -537,6 +538,8 @@ switch (result) {
         print('Cache full');
       case FirehoseStorageException():
         print('Storage error: ${error.message}');
+      case FirehoseClientClosedException():
+        print('Client is closed');
       case FirehoseUnknownException():
         print('Unknown error: ${error.message}');
       default:
