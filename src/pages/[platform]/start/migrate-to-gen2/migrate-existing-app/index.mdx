@@ -775,15 +775,15 @@ The Gen 1 CloudFormation stacks may still contain resources (such as auth trigge
 To decommission the Gen 1 stacks:
 
 1. Verify that no users or applications are still accessing the Gen 1 stateless resources by inspecting CloudWatch traffic metrics or your organizational tracking systems.
-2. Apply the `Retain` [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) to all resources in the Gen 1 CloudFormation stacks. This prevents CloudFormation from deleting any physical resources when the stack is removed. You can do this by updating each stack (including nested ones) to set `DeletionPolicy: Retain` on every resource and updating the stacks via the CLI or the CloudFormation console.
-3. Manually delete individual stateless resources that are no longer needed (e.g. AppSync APIs, Lambda functions, IAM roles) — verifying each one is safe to remove.
-4. Delete the Gen 1 root CloudFormation stack. Since all resources have the `Retain` policy, the stack deletion will only remove the stack metadata without affecting any underlying resources.
+2. Apply the `Retain` deletion policy to resources in the Gen 1 nested CloudFormation stacks. This prevents CloudFormation from deleting the retained resources when the root stack is removed. Note that the `retain` command only applies to resources in the nested stacks — resources in the root stack itself are not retained.
 
-<Callout info>
+```bash
+amplify gen2-migration retain
+```
 
-We are working on a CLI command to automate the process of retaining all resources in your Gen 1 environment. This section will be updated when it is available.
+3. Delete the Gen 1 root CloudFormation stack. Resources in the nested stacks will be retained (orphaned) thanks to the deletion policy applied in the previous step. Resources in the root stack itself will be deleted normally.
+4. Manually delete individual orphaned resources that are no longer needed (e.g. AppSync APIs, Lambda functions, IAM roles) — verifying each one is safe to remove.
 
-</Callout>
 
 ## Troubleshooting
 
