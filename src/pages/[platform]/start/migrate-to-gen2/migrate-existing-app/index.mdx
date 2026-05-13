@@ -188,6 +188,13 @@ The migration tool requires the following API actions in addition to the standar
         "s3:GetEncryptionConfiguration"
       ],
       "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:GetResource"
+      ],
+      "Resource": "*"
     }
   ]
 }
@@ -347,6 +354,37 @@ During the migration period your Gen 1 environment should not undergo any change
 amplify gen2-migration lock
 ```
 
+The lock step also sets a `Retain` deletion policy on all stateful resources in your Gen 1 stacks to protect them during migration.
+
+<Accordion title="Custom stateful resource types">
+
+The migration tool maintains a default list of CloudFormation resource types it considers stateful (e.g. `AWS::Cognito::UserPool`, `AWS::S3::Bucket`, `AWS::DynamoDB::Table`). During the lock step, only resources matching these types receive the `Retain` deletion policy.
+
+If your application includes custom resources that contain stateful CloudFormation types not in the default list, you can provide them using the `--additional-stateful-resource-types` option. Create a JSON file with an array of CloudFormation resource type strings:
+
+```json
+[
+  "AWS::Elasticsearch::Domain",
+  "AWS::RDS::DBInstance"
+]
+```
+
+Then pass the file path to the lock command:
+
+```bash
+amplify gen2-migration lock --additional-stateful-resource-types ./my-stateful-types.json
+```
+
+The types you provide are merged with the built-in defaults. This ensures the tool correctly identifies and protects your custom stateful resources.
+
+<Callout info>
+
+You will need to pass the same file to the `generate` and `refactor` commands later.
+
+</Callout>
+
+</Accordion>
+
 Once validated, the following restrictive IAM policy is attached to the root stack:
 
 ```json
@@ -386,6 +424,29 @@ amplify gen2-migration generate
 ```
 
 This command introspects your deployed Gen 1 CloudFormation stacks and generates the equivalent Gen 2 TypeScript backend definition files, overriding your local `./amplify` directory. The generated code is a starting point — some features require manual edits before deploying (see below).
+
+<Accordion title="Custom stateful resource types">
+
+The migration tool maintains a default list of CloudFormation resource types it considers stateful (e.g. `AWS::Cognito::UserPool`, `AWS::S3::Bucket`, `AWS::DynamoDB::Table`). During code generation, the tool uses this list to produce a `Retain` deletion policy in the Gen 2 CDK code for these resources, ensuring they don't override the deletion policy of the Gen 1 resources after refactoring.
+
+If your application includes custom resources that contain stateful CloudFormation types not in the default list, you can provide them using the `--additional-stateful-resource-types` option. Create a JSON file with an array of CloudFormation resource type strings:
+
+```json
+[
+  "AWS::Elasticsearch::Domain",
+  "AWS::RDS::DBInstance"
+]
+```
+
+Then pass the file path to the generate command:
+
+```bash
+amplify gen2-migration generate --additional-stateful-resource-types ./my-stateful-types.json
+```
+
+The types you provide are merged with the built-in defaults. This ensures the generated Gen 2 code includes retention policies for your custom stateful resources.
+
+</Accordion>
 
 Once successful, clean up and reinstall dependencies to avoid stale resolution artifacts from the Gen 1 dependency tree:
 
@@ -436,6 +497,8 @@ If you use the standard `Amplify.configure(...)` call and access resources throu
 - apiName: '<gen1-rest-api-name>',
 + apiName: '<gen2-rest-api-name>',
 ```
+
+In addition, follow these [instructions](https://docs.amplify.aws/react/build-a-backend/add-aws-services/rest-api/set-up-rest-api/#initialize-amplify-api) to reconfigure your `Amplify` instance based on the outputs structure of Gen2.
 
 **Kinesis** — If your frontend sends analytics events to a Kinesis stream, update the stream name to point to the new Gen 2 stream:
 
@@ -609,6 +672,29 @@ amplify pull --appId <appId> --envName main
 amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
 
+<Accordion title="Custom stateful resource types">
+
+The migration tool maintains a default list of CloudFormation resource types it considers stateful (e.g. `AWS::Cognito::UserPool`, `AWS::S3::Bucket`, `AWS::DynamoDB::Table`). During refactoring, only resources matching these types are moved from your Gen 1 stacks into Gen 2.
+
+If your application includes custom resources that contain stateful CloudFormation types not in the default list, you can provide them using the `--additional-stateful-resource-types` option — the same file you used in the [lock step](#step-2-lock). Create a JSON file with an array of CloudFormation resource type strings:
+
+```json
+[
+  "AWS::Elasticsearch::Domain",
+  "AWS::RDS::DBInstance"
+]
+```
+
+Then pass the file path to the refactor command:
+
+```bash
+amplify gen2-migration refactor --to <gen2-root-stack-name> --additional-stateful-resource-types ./my-stateful-types.json
+```
+
+The types you provide are merged with the built-in defaults. This ensures the tool correctly identifies and transfers your custom stateful resources during the refactoring step.
+
+</Accordion>
+
 <Callout info>
 
 After the refactor step, a `.amplify/gen2-migration/refactor.operations/` directory is created containing snapshots of every CloudFormation operation performed — templates, parameters, and resource mappings. These files can help with auditing or troubleshooting and are safe to delete once migration is confirmed successful.
@@ -625,7 +711,7 @@ After rolling back, you will need to unlock the Gen 1 environment and redeploy i
 
 ```bash
 amplify gen2-migration lock --rollback
-amplify push
+amplify push --force
 ```
 
 ### Step 8: Post-Refactor (CRITICAL)
