@@ -256,6 +256,52 @@ do {
 
 </InlineFilter>
 
+## Reusing authorization rules
+
+You can create reusable authorization rule functions to share common access patterns across your schema. This approach helps reduce duplication and makes your authorization logic more maintainable, especially when you have multiple models that will use the same access patterns.
+
+```typescript
+// Reusable product catalog rules - public read, admin write
+const productCatalogRules: a.AuthorizationCallback = (allow) => [
+  allow.publicApiKey().to(['read']),
+  allow.group('ProductManagers').to(['create', 'update']),
+  allow.group('Admins')
+];
+
+// Reusable customer data rules - owner access plus support staff read
+const customerDataRules: a.AuthorizationCallback = (allow) => [
+  allow.owner(),
+  allow.group('CustomerSupport').to(['read'])
+];
+
+const schema = a.schema({
+  Product: a.model({
+    name: a.string(),
+    description: a.string(),
+    price: a.float()
+  }).authorization(productCatalogRules),
+  
+  Category: a.model({
+    name: a.string(),
+    description: a.string()
+  }).authorization(productCatalogRules),
+  
+  Order: a.model({
+    items: a.string(),
+    total: a.float(),
+    status: a.string()
+  }).authorization(customerDataRules),
+  
+  CustomerAddress: a.model({
+    street: a.string(),
+    city: a.string(),
+    zipCode: a.string()
+  }).authorization(customerDataRules)
+});
+```
+
+This pattern is particularly useful for applications with complex authorization requirements or when working with large schemas that have consistent access patterns across different data models.
+
 ## IAM authorization
 
 All Amplify Gen 2 projects enable IAM authorization for data access. This ensures that the Amplify console's [data manager](/[platform]/build-a-backend/data/manage-with-amplify-console/) will be able to access your API. It also allows you to authorize other administrative or machine-to-machine access using your own IAM policies. See the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/security_iam_service-with-iam.html) for details on how AWS AppSync works with IAM.
