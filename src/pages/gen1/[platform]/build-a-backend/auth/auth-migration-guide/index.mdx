@@ -2263,7 +2263,7 @@ In v6, the `Auth.forgotPassword` API has become `resetPassword`. It uses named p
       confirmationCode,
       clientMetadata
     }) => {
-      await confirmResetPassword: ({
+      await confirmResetPassword({
         username,
         newPassword,
         confirmationCode,
