@@ -314,7 +314,7 @@ export const auth = defineAuth({
 
 ### Attribute mapping
 
-Identity provider (IdP) services store user attributes in different formats. When using external IdPs with Amazon Cognito user pools, attribute mapping allows you to standardize these varying formats into a consistent schema. 
+Identity provider (IdP) services store user attributes in different formats. When using external IdPs with Amazon Cognito user pools, attribute mapping allows you to standardize these varying formats into a consistent schema.
 
 Learn more about [mapping IdP attributes to user pool profiles and tokens](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
 
@@ -552,9 +552,26 @@ await signInWithRedirect({
 });
 ```
 
+By default the current browser tab is used to initiate the sign-in process.
+In some rare cases this behavior might need to be adjusted, which can be achieved by using the `authSessionOpener` option
+
+```ts title="src/example.js"
+import { signInWithRedirect } from 'aws-amplify/auth';
+
+await signInWithRedirect({
+  provider: 'Amazon',
+  options: {
+    authSessionOpener: (url: string) => {
+      // initiate the sign-in process with the external identity provider
+      window.location.href = url;
+    }
+  }
+});
+```
+
 ### Redirect URLs
 
-_Sign in_ & _Sign out_ redirect URL(s) are used to redirect end users after the sign in or sign out operation has occurred. You may want to specify multiple URLs for various use-cases such as having different URLs for development/ production or redirect users to an intermediate URL before returning them to the app. 
+_Sign in_ & _Sign out_ redirect URL(s) are used to redirect end users after the sign in or sign out operation has occurred. You may want to specify multiple URLs for various use-cases such as having different URLs for development/ production or redirect users to an intermediate URL before returning them to the app.
 
 #### Specifying a redirect URL on sign out
 If you have multiple sign out redirect URLs configured, you may choose to override the default behavior of selecting a redirect URL and provide the one of your choosing when calling `signOut`. The provided redirect URL should match at least one of the configured redirect URLs. If no redirect URL is provided to `signOut`, one will be selected based on the current app domain.
@@ -640,7 +657,7 @@ signInWithRedirect({
 
 ### Redirect URLs
 
-_Sign in_ & _Sign out_ redirect URL(s) are used to redirect end users after the sign in or sign out operation has occurred. You may want to specify multiple URLs for various use-cases such as having different URLs for development/ production or redirect users to an intermediate URL before returning them to the app. 
+_Sign in_ & _Sign out_ redirect URL(s) are used to redirect end users after the sign in or sign out operation has occurred. You may want to specify multiple URLs for various use-cases such as having different URLs for development/ production or redirect users to an intermediate URL before returning them to the app.
 
 #### Specifying a redirect URL on sign out
 If you have multiple sign out redirect URLs configured, you may choose to override the default behavior of selecting a redirect URL and provide the one of your choosing when calling `signOut`. The provided redirect URL should match at least one of the configured redirect URLs. If no redirect URL is provided to `signOut`, the first item from the the configured redirect URLs list that does not contain a HTTP nor HTTPS prefix will be picked.
