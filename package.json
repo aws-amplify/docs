@@ -45,7 +45,7 @@
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
     "axios": "^1.11.0",
-    "cheerio": "^1.0.0-rc.12",
+    "cheerio": "^1.2.0",
     "classnames": "^2.3.2",
     "cross-env": "^7.0.3",
     "cspell": "^8.9.0",
