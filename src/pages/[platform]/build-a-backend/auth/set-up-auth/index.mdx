@@ -128,7 +128,7 @@ Creating and correctly implementing the sign-in flow can be challenging and time
 
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide, we are focusing on those for web applications.
 
-<InlineFilter filters={["javascript", "react"]}>
+<InlineFilter filters={["javascript", "nextjs", "react"]}>
 
 First, install the `@aws-amplify/ui-react` library:
 
@@ -136,9 +136,38 @@ First, install the `@aws-amplify/ui-react` library:
 npm add @aws-amplify/ui-react
 ```
 
+<InlineFilter filters={["javascript", "react"]}>
+
+Next, open **pages/App.tsx** and add the `Authenticator` component.
+
+```tsx title="pages/App.tsx"
+import { Authenticator } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
+import '@aws-amplify/ui-react/styles.css';
+
+Amplify.configure(outputs);
+
+export default function App() {
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <h1>Hello {user?.username}</h1>
+          <button onClick={signOut}>Sign out</button>
+        </main>
+      )}
+    </Authenticator>
+  );
+};
+```
+
+</InlineFilter>
+<InlineFilter filters={["nextjs"]}>
+
 Next, open **pages/\_app.tsx** and add the `Authenticator` component.
 
-```ts title="pages/_app.tsx"
+```tsx title="pages/_app.tsx"
 import type { AppProps } from 'next/app';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
@@ -162,6 +191,7 @@ export default function App({ Component, pageProps }: AppProps) {
 };
 ```
 
+</InlineFilter>
 </InlineFilter>
 <InlineFilter filters={["vue"]}>
 <BlockSwitcher>
@@ -211,7 +241,7 @@ npm add @aws-amplify/ui-components
 
 Now open **src/main.ts** and add the following below your last import:
 
-```js title="src/main.ts"
+```ts title="src/main.ts"
 import '@aws-amplify/ui-components';
 import {
   applyPolyfills,
@@ -232,7 +262,7 @@ Next, open **src/App.ts** and add the `amplify-authenticator` component.
 
 The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by your backend Auth resources. The optional `amplify-sign-out` component is available if you would like to render a sign-out button.
 
-```html title="src/App.ts"
+```html title="src/App.vue"
 <template>
   <amplify-authenticator>
     <div>
@@ -257,7 +287,7 @@ npm add @aws-amplify/ui-angular
 
 Now open **app.module.ts** and add the Amplify imports and configuration:
 
-```js title="app.module.ts"
+```ts title="app.module.ts"
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
@@ -342,14 +372,19 @@ npx expo prebuild
 </Callout>
 Next, update the `App.tsx` file with the following to set up the authentication flow:
 
-```typescript
-import React from "react";
-import { Button, View, StyleSheet } from "react-native";
+```tsx
+import { Button, View, StyleSheet, SafeAreaView } from "react-native";
 import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
 import outputs from "./amplify_outputs.json";
 
 Amplify.configure(outputs);
+
+const styles = StyleSheet.create({
+  signOutButton: {
+    alignSelf: "flex-end",
+  },
+});
 
 const SignOutButton = () => {
   const { signOut } = useAuthenticator();
@@ -370,12 +405,6 @@ const App = () => {
     </Authenticator.Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  signOutButton: {
-    alignSelf: "flex-end",
-  },
-});
 
 export default App;
 ```
