@@ -46,7 +46,7 @@ export const weeklyDigest = defineFunction({
 });
 ```
 
-Function schedules are powered by [Amazon EventBridge rules](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html), and can be leveraged to address use cases such as:
+Function schedules are powered by [Amazon EventBridge Scheduler](https://docs.aws.amazon.com/eventbridge/latest/userguide/using-eventbridge-scheduler.html), and can be leveraged to address use cases such as:
 
 - generating a "front page" of top-performing posts
 - generating a weekly digest of top-performing posts
@@ -154,4 +154,22 @@ export const remindMe = defineFunction({
     "0 9 ? * 6 *",
   ]
 })
+```
+
+## Timezone
+
+Schedules can be set with a timezone.
+
+```ts title="amplify/jobs/monthly-report/resource.ts"
+import { defineFunction } from "@aws-amplify/backend";
+
+export const monthlyReport = defineFunction({
+  name: "monthly-report",
+  schedule: [
+    // 1st day of every month at 0am with Asia/Tokyo
+    { cron: "0 0 1 * ? *", timezone: "Asia/Tokyo" },
+    // the first of the month at midnight with America/New_York
+    { rate: "every month", timezone: "America/New_York" },
+  ]
+});
 ```
