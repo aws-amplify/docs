@@ -12,7 +12,7 @@
     },
     "version": {
       "description": "Version of this schema",
-      "const": "1"
+      "const": "1.1"
     },
     "analytics": {
       "description": "Outputs manually specified by developers for use with frontend library",
@@ -337,6 +337,12 @@
         },
         "bucket_name": {
           "type": "string"
+        },
+        "buckets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/amplify_storage_bucket"
+          }
         }
       },
       "required": ["aws_region", "bucket_name"]
@@ -348,6 +354,22 @@
   },
   "required": ["version"],
   "$defs": {
+    "amplify_storage_bucket": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "bucket_name": {
+          "type": "string"
+        },
+        "aws_region": {
+          "type": "string"
+        }
+      },
+      "required": ["bucket_name", "aws_region", "name"]
+    },
     "aws_region": {
       "type": "string"
     },
