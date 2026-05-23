@@ -219,7 +219,7 @@ export const LayoutHeader = ({
               activeSection={activeSection}
             />
             {!isGen1 && (
-              <a
+              <Link
                 href={`/gen1/${currentPlatform}/`}
                 className="layout-sidebar-legacy__link"
               >
@@ -228,7 +228,7 @@ export const LayoutHeader = ({
                   <Badge backgroundColor="neutral.20">Legacy</Badge>
                 </span>
                 <IconChevron className="icon-rotate-270" />
-              </a>
+              </Link>
             )}
             <div className="layout-sidebar-feedback">
               <RepoActions router={router}></RepoActions>
