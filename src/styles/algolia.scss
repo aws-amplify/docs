@@ -105,3 +105,44 @@
     box-shadow: inset 0 0 0 2px var(--amplify-colors-border-focus);
   }
 }
+
+// Search filters — compact row below search input inside the modal
+.search-filters {
+  display: flex;
+  align-items: center;
+  gap: var(--amplify-space-xs);
+  padding: 6px var(--amplify-space-small);
+  border-bottom: 1px solid var(--amplify-colors-border-tertiary);
+  font-size: 11px;
+
+  &__group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__label {
+    color: var(--amplify-colors-font-tertiary);
+  }
+
+  &__separator {
+    width: 1px;
+    height: 16px;
+    background: var(--amplify-colors-border-tertiary);
+  }
+
+  &__select {
+    font-size: 11px;
+    padding: 2px 4px;
+    border: 1px solid var(--amplify-colors-border-secondary);
+    border-radius: var(--amplify-radii-small);
+    background: var(--amplify-colors-background-primary);
+    color: var(--amplify-colors-font-primary);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--amplify-colors-border-focus);
+      outline-offset: 1px;
+    }
+  }
+}

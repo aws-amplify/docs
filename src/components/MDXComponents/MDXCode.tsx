@@ -35,6 +35,10 @@ const addVersions = (code: string) => {
     /ANDROID_APPSYNC_SDK_VERSION/g,
     versions.ANDROID_APPSYNC_SDK_VERSION
   );
+  code = code.replace(
+    /ANDROID_DESUGAR_VERSION/g,
+    versions.ANDROID_DESUGAR_VERSION
+  );
   return code;
 };
 

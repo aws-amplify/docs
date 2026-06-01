@@ -7,7 +7,8 @@ const routerMock = {
   __esModule: true,
   useRouter: () => {
     return {
-      query: { platform: 'react' }
+      query: { platform: 'react' },
+      pathname: '/gen1/[platform]/build-a-backend'
     };
   }
 };

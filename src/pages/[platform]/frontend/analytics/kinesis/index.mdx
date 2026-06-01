@@ -1,0 +1,553 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Kinesis Data Streams client',
+  description: 'A standalone client for streaming data to Amazon Kinesis Data Streams with offline support, automatic batching, and configurable flushing.',
+  platforms: [
+    'swift',
+    'android',
+    'flutter'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+`AmplifyKinesisClient` is a standalone client for streaming data to [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/). It provides:
+
+- Local persistence for offline support
+- Automatic retry for failed records
+- Automatic batching (up to 500 records or 10 MB per request)
+- Interval-based automatic flushing (default: every 30 seconds)
+- Enable/disable toggle that silently drops new records while preserving cached ones
+
+<Callout>
+
+This is a standalone client, separate from the Amplify Analytics category plugin. It communicates directly with the Kinesis Data Streams API using `PutRecords`.
+
+</Callout>
+
+<Callout>
+
+Before using this client, ensure your backend is configured with the required IAM permissions. See [Set up Kinesis Data Streams](/[platform]/build-a-backend/add-aws-services/analytics/kinesis/).
+
+</Callout>
+
+## Getting started
+
+### Installation
+
+<InlineFilter filters={['android']}>
+
+Add the dependency to your module's `build.gradle.kts`:
+
+```kotlin
+dependencies {
+    implementation("com.amplifyframework:aws-kinesis:LATEST_VERSION")
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+Add `AmplifyKinesisClient` to your project using Swift Package Manager. In Xcode, go to **File > Add Package Dependencies** and enter the repository URL for the Amplify Swift SDK.
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+Add the dependency to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  amplify_kinesis: ^2.11.0
+```
+
+</InlineFilter>
+
+### Initialize the client
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.kinesis.AmplifyKinesisClient
+
+val kinesis = AmplifyKinesisClient(
+    context = applicationContext,
+    region = "us-east-1",
+    credentialsProvider = credentialsProvider
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+import AmplifyKinesisClient
+
+let kinesis = try AmplifyKinesisClient(
+    region: "us-east-1",
+    credentialsProvider: credentialsProvider
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+import 'package:amplify_kinesis/amplify_kinesis.dart';
+
+final kinesis = await AmplifyKinesisClient.create(
+    region: 'us-east-1',
+    credentialsProvider: credentialsProvider,
+);
+```
+
+</InlineFilter>
+
+### Configuration options
+
+You can customize the client behavior by passing an options object:
+
+<InlineFilter filters={['android']}>
+
+| Option | Default | Description |
+|---|---|---|
+| `cacheMaxBytes` | 5 MB | Maximum size of the local record cache in bytes. |
+| `maxRetries` | 5 | Maximum retry attempts per record before it is discarded. |
+| `flushStrategy` | `FlushStrategy.Interval(30.seconds)` | Automatic flush interval. Use `FlushStrategy.None` for manual-only flushing. |
+| `configureClient` | `null` | Escape hatch to customize the underlying AWS SDK `KinesisClient`. |
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+| Option | Default | Description |
+|---|---|---|
+| `cacheMaxBytes` | 5 MB | Maximum size of the local record cache in bytes. |
+| `maxRetries` | 5 | Maximum retry attempts per record before it is discarded. |
+| `flushStrategy` | `.interval(30)` | Automatic flush interval in seconds. Use `.none` for manual-only flushing. |
+| `configureClient` | `nil` | Closure to customize the underlying `KinesisClientConfiguration`. |
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+| Option | Default | Description |
+|---|---|---|
+| `cacheMaxBytes` | 5 MB | Maximum size of the local record cache in bytes. |
+| `maxRetries` | 5 | Maximum retry attempts per record before it is discarded. |
+| `flushStrategy` | `FlushInterval(interval: Duration(seconds: 30))` | Automatic flush interval. Use `FlushNone()` for manual-only flushing. |
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.kinesis.AmplifyKinesisClient
+import com.amplifyframework.kinesis.AmplifyKinesisClientOptions
+import com.amplifyframework.recordcache.FlushStrategy
+import kotlin.time.Duration.Companion.seconds
+
+val kinesis = AmplifyKinesisClient(
+    context = applicationContext,
+    region = "us-east-1",
+    credentialsProvider = credentialsProvider,
+    options = AmplifyKinesisClientOptions {
+        cacheMaxBytes = 10L * 1024 * 1024  // 10 MB
+        maxRetries = 3
+        flushStrategy = FlushStrategy.Interval(60.seconds)
+        configureClient {
+            retryStrategy { maxAttempts = 10 }
+        }
+    }
+)
+```
+
+To disable automatic flushing:
+
+```kotlin
+options = AmplifyKinesisClientOptions {
+    flushStrategy = FlushStrategy.None
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let kinesis = try AmplifyKinesisClient(
+    region: "us-east-1",
+    credentialsProvider: credentialsProvider,
+    options: .init(
+        cacheMaxBytes: 10 * 1_024 * 1_024,  // 10 MB
+        maxRetries: 3,
+        flushStrategy: .interval(60),
+        configureClient: { config in
+            // Customize the underlying KinesisClientConfiguration
+        }
+    )
+)
+```
+
+To disable automatic flushing:
+
+```swift
+options: .init(flushStrategy: .none)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final kinesis = await AmplifyKinesisClient.create(
+    region: 'us-east-1',
+    credentialsProvider: credentialsProvider,
+    options: AmplifyKinesisClientOptions(
+        cacheMaxBytes: 10 * 1024 * 1024,  // 10 MB
+        maxRetries: 3,
+        flushStrategy: FlushInterval(interval: Duration(seconds: 60)),
+    ),
+);
+```
+
+To disable automatic flushing:
+
+```dart
+options: AmplifyKinesisClientOptions(
+    flushStrategy: FlushNone(),
+),
+```
+
+</InlineFilter>
+
+## Usage
+
+### Record data
+
+Use `record()` to persist data to the local cache. Records are sent to Kinesis during the next flush cycle (automatic or manual).
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val result = kinesis.record(
+    data = "Hello Kinesis".toByteArray(),
+    partitionKey = "partition-1",
+    streamName = "my-stream"
+)
+when (result) {
+    is Result.Success -> { /* recorded successfully */ }
+    is Result.Failure -> { /* handle error */ }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let result = try await kinesis.record(
+    data: "Hello Kinesis".data(using: .utf8)!,
+    partitionKey: "partition-1",
+    streamName: "my-stream"
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final result = await kinesis.record(
+    data: Uint8List.fromList(utf8.encode('Hello Kinesis')),
+    partitionKey: 'partition-1',
+    streamName: 'my-stream',
+);
+switch (result) {
+    case Ok(): print('Recorded');
+    case Error(:final error): print('Error: $error');
+}
+```
+
+</InlineFilter>
+
+Records submitted while the client is disabled are silently dropped.
+
+### Flush records
+
+The client automatically flushes cached records at the configured interval (default: 30 seconds). You can also trigger a manual flush:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+when (val result = kinesis.flush()) {
+    is Result.Success -> println("Flushed ${result.data.recordsFlushed} records")
+    is Result.Failure -> println("Flush error: ${result.error}")
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let flushResult = try await kinesis.flush()
+print("Flushed \(flushResult.recordsFlushed) records")
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+switch (await kinesis.flush()) {
+    case Ok(:final value):
+        print('Flushed ${value.recordsFlushed} records');
+    case Error(:final error):
+        print('Flush failed: $error');
+}
+```
+
+</InlineFilter>
+
+Each flush sends at most one batch per stream (up to 500 records or 10 MB). Remaining records are picked up in subsequent flush cycles. If a flush is already in progress, the call returns immediately with `flushInProgress: true`.
+
+Manual flushes work even when the client is disabled, allowing you to drain cached records without re-enabling collection.
+
+### Clear cache
+
+Delete all cached records from local storage:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+kinesis.clearCache()
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let cleared = try await kinesis.clearCache()
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+await kinesis.clearCache();
+```
+
+</InlineFilter>
+
+### Enable and disable
+
+You can toggle record collection and automatic flushing at runtime. When disabled, new records are silently dropped but already-cached records remain in storage.
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+kinesis.disable()
+// Records are dropped, auto-flush paused
+
+kinesis.enable()
+// Collection and auto-flush resume
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+await kinesis.disable()
+// Records are dropped, auto-flush paused
+
+await kinesis.enable()
+// Collection and auto-flush resume
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+kinesis.disable();
+// Records are dropped, auto-flush paused
+
+kinesis.enable();
+// Collection and auto-flush resume
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+### Close the client
+
+When you're done with the client, release its resources. The client cannot be reused after closing.
+
+```dart
+await kinesis.close();
+```
+
+</InlineFilter>
+
+## Advanced
+
+### Escape hatch
+
+Access the underlying AWS SDK `KinesisClient` for operations not covered by this client's API:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val sdkClient = kinesis.kinesisClient
+// Use sdkClient for direct Kinesis API calls
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let sdkClient = kinesis.getKinesisClient()
+// Use sdkClient for direct Kinesis API calls
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final sdkClient = kinesis.kinesisClient;
+// Use sdkClient for direct Kinesis API calls
+```
+
+</InlineFilter>
+
+### Error handling
+
+All operations surface errors through a sealed exception hierarchy:
+
+<InlineFilter filters={['android']}>
+
+| Error type | Description |
+|---|---|
+| `AmplifyKinesisValidationException` | Record input validation failed (oversized record, invalid partition key). |
+| `AmplifyKinesisLimitExceededException` | Local cache is full. Call `flush()` or `clearCache()` to free space. |
+| `AmplifyKinesisStorageException` | Local database error. |
+| `AmplifyKinesisUnknownException` | Unexpected or uncategorized error. |
+
+Operations return `Result<T, AmplifyKinesisException>`:
+
+```kotlin
+when (val result = kinesis.record(...)) {
+    is Result.Success -> { /* success */ }
+    is Result.Failure -> when (result.error) {
+        is AmplifyKinesisValidationException -> { /* invalid input */ }
+        is AmplifyKinesisLimitExceededException -> { /* cache full */ }
+        is AmplifyKinesisStorageException -> { /* database error */ }
+        is AmplifyKinesisUnknownException -> { /* unexpected error */ }
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+| Error type | Description |
+|---|---|
+| `KinesisError.validation` | Record input validation failed (oversized record, invalid partition key). |
+| `KinesisError.cacheLimitExceeded` | Local cache is full. Call `flush()` or `clearCache()` to free space. |
+| `KinesisError.cache` | Local database error. |
+| `KinesisError.unknown` | Unexpected or uncategorized error. |
+
+Operations throw `KinesisError`:
+
+```swift
+do {
+    try await kinesis.record(
+        data: payload,
+        partitionKey: "key",
+        streamName: "stream"
+    )
+} catch let error as KinesisError {
+    switch error {
+    case .validation(let desc, _, _):
+        print("Validation error: \(desc)")
+    case .cacheLimitExceeded:
+        print("Cache full")
+    case .cache(let desc, _, _):
+        print("Storage error: \(desc)")
+    case .unknown(let desc, _, _):
+        print("Unknown error: \(desc)")
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+| Error type | Description |
+|---|---|
+| `KinesisValidationException` | Record input validation failed (oversized record, invalid partition key). |
+| `KinesisLimitExceededException` | Local cache is full. Call `flush()` or `clearCache()` to free space. |
+| `KinesisStorageException` | Local database error. |
+| `KinesisUnknownException` | Unexpected or uncategorized error. |
+| `ClientClosedException` | The client was closed and cannot be used. |
+
+Operations return `Result<T>` with `AmplifyKinesisException` subtypes:
+
+```dart
+switch (await kinesis.record(...)) {
+    case Ok(): break;
+    case Error(:final error):
+        switch (error) {
+            case KinesisValidationException(): // invalid input
+            case KinesisLimitExceededException(): // cache full
+            case KinesisStorageException(): // database error
+            case KinesisUnknownException(): // unexpected error
+            case ClientClosedException(): // client was closed
+        }
+}
+```
+
+</InlineFilter>
+
+### Retry behavior
+
+- All `PutRecords` error codes (`ProvisionedThroughputExceededException`, `InternalFailure`) are treated as retryable.
+- Each failed record's retry count is incremented after each attempt.
+- Records exceeding `maxRetries` (default: 5) are permanently deleted from the cache.
+- SDK-level Kinesis errors are logged and skipped per-stream, so other streams can still flush.
+- Non-SDK errors (network failures, storage errors) abort the flush entirely.
+
+### Kinesis service limits
+
+The client enforces these limits before sending to the service:
+
+| Limit | Value |
+|---|---|
+| Max records per `PutRecords` request | 500 |
+| Max single record size | 10 MB |
+| Max total payload per `PutRecords` request | 10 MB |
+| Max partition key length | 256 characters |

@@ -1,3 +1,14 @@
+/* Style bold links inside cards to look like navigable pillar links */
+.amplify-card strong a:not([class]) {
+  font-size: var(--amplify-font-sizes-large);
+  color: var(--amplify-colors-primary-80);
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: var(--amplify-colors-primary-60);
+  }
+}
+
 .overview {
   gap: var(--amplify-space-xxl);
   &__link {

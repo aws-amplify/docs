@@ -2,10 +2,12 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
   title: 'Troubleshoot "Cannot find module $amplify/env/<function-name>"',
-  description: 'Addressing "Cannot find module $amplify/env/<function-name>" error message',
+  description:
+    'Addressing "Cannot find module $amplify/env/<function-name>" error message',
   platforms: [
     'angular',
     'javascript',
+    'flutter',
     'nextjs',
     'react',
     'react-native',
@@ -25,7 +27,7 @@ export function getStaticProps(context) {
   };
 }
 
-<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react"]}>
+<InlineFilter filters={["javascript",  "react-native", "angular", "flutter", "nextjs", "react"]}>
 
 When deploying a Amplify Gen 2 app, you may encounter the error message `Cannot find module $amplify/env/<function-name>` in your frontend build on Amplify Console. This error occurs when your framework `tsconfig.json` configuration picks up the `amplify` directory and tries to resolve it as a module. This module is a placeholder for environment variables that are injected at build time by Amplify. To resolve this error, you need to exclude the `amplify` directory.
 
@@ -53,7 +55,6 @@ Alternatively, if you work within a monorepo you can move your backend to its ow
 ```
 
 </InlineFilter>
-
 
 <InlineFilter filters={["vue"]}>
 

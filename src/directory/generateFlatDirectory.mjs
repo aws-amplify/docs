@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { writeFile } from 'fs/promises';
-import directory from './directory.json' assert { type: 'json' };
+import directory from './directory.json' with { type: 'json' };
 
 function flattenJSON(jsonObj, flattened = {}) {
   if (Array.isArray(jsonObj.children)) {

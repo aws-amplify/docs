@@ -1,0 +1,126 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Steering files',
+  description:
+    'Configure project-level context files to guide AI coding assistants when building Amplify applications.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Steering files are project-level configuration files that guide AI coding assistants with your project's conventions, patterns, and constraints. When an AI assistant reads these files, it generates code that follows your team's standards and Amplify best practices.
+
+## Why use steering files
+
+AI assistants work best when they understand your project's context. Without steering files, the assistant may:
+- Use outdated API patterns or incorrect import paths
+- Generate code that doesn't match your auth/data model conventions
+- Miss Amplify-specific patterns like `defineAuth()`, `defineData()`, or `defineStorage()`
+
+Steering files solve this by giving the assistant persistent context about your project.
+
+## Kiro steering
+
+[Kiro](/[platform]/develop-with-ai/kiro/) uses steering files to maintain consistency across your project. Create steering rules that describe your Amplify project conventions:
+
+- Data model naming patterns and authorization rules
+- Auth configuration preferences (social providers, MFA settings)
+- Frontend framework patterns (React hooks, Next.js App Router vs Pages Router)
+- Testing conventions
+
+Learn more in the [Kiro steering documentation](https://kiro.dev/docs/features/steering/).
+
+## CLAUDE.md for Claude Code
+
+If you use [Claude Code](https://docs.anthropic.com/en/docs/claude-code), create a `CLAUDE.md` file in your project root. This file is automatically loaded into every conversation.
+
+Example `CLAUDE.md` for an Amplify project:
+
+```markdown
+# Project conventions
+
+This is an AWS Amplify Gen 2 project using TypeScript.
+
+## Structure
+- `amplify/` — Backend resources (auth, data, storage, functions)
+- `amplify/data/resource.ts` — Data model schema using `@aws-amplify/backend`
+- `amplify/auth/resource.ts` — Auth configuration using `defineAuth()`
+- `src/` — Frontend application code
+
+## Amplify patterns
+- Use `a.model()` for data models with `.authorization()` chains
+- Use `allow.owner()` for user-owned data, `allow.guest()` for public read
+- Import client operations from `aws-amplify/api` with `generateClient<Schema>()`
+- Use `Amplify.configure(outputs)` with the generated `amplify_outputs.json`
+
+## Testing
+- Run `npx ampx sandbox` for local development
+- Backend changes auto-deploy on file save during sandbox
+```
+
+## Cursor rules
+
+For [Cursor](https://cursor.com), create rules in the `.cursor/rules/` directory:
+
+```
+.cursor/
+  rules/
+    amplify.mdc     # Amplify-specific conventions
+```
+
+Example `.cursor/rules/amplify.mdc`:
+
+```markdown
+---
+description: Amplify Gen 2 conventions
+globs: amplify/**/*
+---
+
+- Backend resources are defined in `amplify/` using TypeScript
+- Data models use `a.schema({})` with `a.model()` definitions
+- Authorization uses `.authorization(allow => [...])` chains
+- Auth is configured with `defineAuth()` in `amplify/auth/resource.ts`
+- Storage uses `defineStorage()` in `amplify/storage/resource.ts`
+- Use `@aws-amplify/backend` for backend definitions
+- Use `aws-amplify` for frontend client operations
+```
+
+## Amazon Q Developer context
+
+[Amazon Q Developer](/[platform]/develop-with-ai/q-developer/) supports workspace context through the `@workspace` command. You can add reference files to help Q Developer understand your Amplify conventions:
+
+- <a href="/images/gen2/q-developer/general.md" download>general.md</a> — General Amplify Gen 2 conventions and file structure
+- <a href="/images/gen2/q-developer/authentication.md" download>authentication.md</a> — Auth configuration patterns and examples
+- <a href="/images/gen2/q-developer/modeling-schema.md" download>modeling-schema.md</a> — Data model schema best practices
+- <a href="/images/gen2/q-developer/modeling-relationships.md" download>modeling-relationships.md</a> — Data relationship patterns
+
+Download these files and place them in a `context/` folder in your project root.
+
+## Tips for effective steering
+
+- **Be specific about imports** — Tell the assistant which packages to import from (`@aws-amplify/backend` for backend, `aws-amplify` for frontend)
+- **Document your auth model** — Describe which authorization strategies your app uses (owner-based, group-based, public)
+- **Include file paths** — Reference where backend resources are defined so the assistant edits the right files
+- **Keep it updated** — Update steering files when you add new Amplify features or change conventions

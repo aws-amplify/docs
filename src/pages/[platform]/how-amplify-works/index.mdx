@@ -1,5 +1,6 @@
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { Card } from '@aws-amplify/ui-react';
 
 export const meta = {
   title: 'How Amplify works',
@@ -27,10 +28,38 @@ export function getStaticProps(context) {
   const childPageNodes = getChildPageNodes(meta.route);
   return {
     props: {
+      platform: context.params.platform,
       meta,
       childPageNodes
     }
   };
 }
+
+AWS Amplify is a complete toolkit for building fullstack apps. It consists of four independent pillars that can be used together or separately:
+
+<Columns columns={2}>
+  <Card variation="outlined">
+    **[Backend](/[platform]/build-a-backend/)**
+
+    Define cloud resources like authentication, data, storage, and functions using TypeScript. Amplify provisions and manages the AWS infrastructure for you.
+  </Card>
+  <Card variation="outlined">
+    **[Frontend Libraries](/[platform]/frontend/)**
+
+    Libraries that connect your web or mobile app to backend services. Available for JavaScript, React, React Native, Swift, Android, and Flutter.
+  </Card>
+  <Card variation="outlined">
+    **[UI Libraries](/[platform]/build-ui/)**
+
+    Pre-built, themeable UI components like Authenticator, Storage Manager, and AI conversation interfaces. Drop-in components that handle complex workflows.
+  </Card>
+  <Card variation="outlined">
+    **[Hosting](/[platform]/deploy-and-host/)**
+
+    Deploy and host fullstack web apps with Git-based CI/CD, branch previews, custom domains, and server-side rendering support.
+  </Card>
+</Columns>
+
+Each pillar works independently — use just the frontend libraries with your own backend, or just hosting for a static site. Together, they provide an integrated fullstack development experience.
 
 <Overview childPageNodes={props.childPageNodes} />

@@ -1,0 +1,462 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate to Amplify API',
+  description: 'Replace DataStore save, query, delete, observe, and observeQuery with Amplify API equivalents for Flutter.',
+  platforms: [
+    'flutter'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amplify DataStore is built on top of the API category, using GraphQL queries, mutations, and subscriptions to interact with AWS AppSync. When migrating from DataStore, the API category provides the core building blocks to replicate DataStore's remote sync functionality. This page covers how to migrate every DataStore operation to its Amplify API equivalent.
+
+## Handle API responses
+
+A key difference between DataStore and the API category is the response type. DataStore methods return model objects or lists directly, while API methods return `GraphQLResponse` wrappers that may contain errors.
+
+```dart
+// API query returns GraphQLResponse<PaginatedResult<Todo>>, not List<Todo>
+final request = ModelQueries.list(Todo.classType);
+final response = await Amplify.API.query(request: request).response;
+
+// Always check for errors
+if (response.hasErrors) {
+  safePrint('Errors: ${response.errors}');
+  return;
+}
+
+// Access items from PaginatedResult — items may contain nulls
+final todos = response.data?.items.nonNulls.toList() ?? [];
+```
+
+**Error handling patterns:**
+
+| Scenario | How to Detect | Action |
+|---|---|---|
+| Network error | `try/catch` around API call | Show offline message, retry later |
+| GraphQL validation error | `response.hasErrors == true` and `response.data == null` | Fix request or show error |
+| Partial success | `response.hasErrors == true` and `response.data != null` | Use data, log errors |
+| Success | `response.hasErrors == false` and `response.data != null` | Use data |
+
+## Create and update (save)
+
+DataStore's `save()` handled both creating new items and updating existing ones. With the API category, you use separate `ModelMutations.create()` and `ModelMutations.update()` methods.
+
+**Before (DataStore):**
+
+```dart
+// Create or update — DataStore decides based on whether the item exists
+await Amplify.DataStore.save(todo);
+```
+
+**After (API) — create:**
+
+```dart
+// Create — no _version needed, AppSync sets it to 1 automatically
+final todo = Todo(name: 'my first todo', description: 'todo description');
+final request = ModelMutations.create(todo);
+final response = await Amplify.API.mutate(request: request).response;
+
+if (response.hasErrors) {
+  safePrint('Create failed: ${response.errors}');
+} else {
+  safePrint('Created: ${response.data}');
+}
+```
+
+**After (API) — update:**
+
+```dart
+// Update — the model instance carries _version internally.
+// Always use a freshly queried instance to avoid ConditionalCheckFailedException.
+final todoWithNewName = originalTodo.copyWith(name: 'new name');
+final updateRequest = ModelMutations.update(todoWithNewName);
+final updateResponse =
+    await Amplify.API.mutate(request: updateRequest).response;
+
+if (updateResponse.hasErrors) {
+  safePrint('Update failed: ${updateResponse.errors}');
+} else {
+  safePrint('Updated: ${updateResponse.data}');
+}
+```
+
+<Callout warning>
+
+**`_version` is required for updates.** The Amplify Flutter model objects carry `_version` internally, so `ModelMutations.update()` includes it automatically — but only if the model instance has the current version. Always query the record first to get the latest `_version`. If you see `ConditionalCheckFailedException`, you are passing a stale `_version`.
+
+</Callout>
+
+## Delete
+
+DataStore's `delete()` method removes an item by passing the model instance. The API equivalent uses `ModelMutations.delete()`. When conflict resolution is enabled, delete is a **soft delete** — the record's `_deleted` field is set to `true` in DynamoDB, but the record is not physically removed.
+
+**Before (DataStore):**
+
+```dart
+await Amplify.DataStore.delete(todo);
+```
+
+**After (API):**
+
+```dart
+final request = ModelMutations.delete(todo);
+final response = await Amplify.API.mutate(request: request).response;
+
+if (response.hasErrors) {
+  safePrint('Delete failed: ${response.errors}');
+} else {
+  safePrint('Deleted: ${response.data}');
+}
+```
+
+You can also delete by ID using `ModelMutations.deleteById()`:
+
+```dart
+final request = ModelMutations.deleteById(
+  Todo.classType,
+  TodoModelIdentifier(id: todoId),
+);
+final response = await Amplify.API.mutate(request: request).response;
+```
+
+<Callout warning>
+
+**`_version` is required for deletes.** Like updates, the model instance must carry the current `_version`. Query the record first if you are not sure you have the latest version.
+
+</Callout>
+
+## Soft deletes and `_deleted`
+
+When conflict resolution is enabled, deletes are **soft deletes** — the record's `_deleted` field is set to `true` in DynamoDB, but the record is not physically removed. DataStore filtered these automatically; the API category does not. This means `ModelQueries.list()` returns soft-deleted records alongside active ones.
+
+The Amplify Flutter codegen models do not expose `_deleted` as a Dart property by default. To enable client-side filtering, add `_deleted` to your models in `schema.graphql` and re-run `amplify codegen models`:
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+  _deleted: Boolean
+}
+```
+
+Then filter in Dart on every list query:
+
+```dart
+final todos = response.data?.items.nonNulls
+    .where((t) => t.deleted != true)
+    .toList() ?? [];
+```
+
+Once you [disable conflict resolution](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/disable-conflict-resolution/) as the final migration step, soft deletes stop and this filtering is no longer needed.
+
+## Query
+
+DataStore's `query()` method supports query predicates, sorting, and page-based pagination. The API category supports query predicates through the `where` parameter but handles sorting and pagination differently.
+
+**Before (DataStore):**
+
+```dart
+final todos = await Amplify.DataStore.query(
+  Todo.classType,
+  where: Todo.NAME.contains('important'),
+  sortBy: [Todo.CREATEDAT.descending()],
+  pagination: QueryPagination(page: 0, limit: 10),
+);
+// Returns List<Todo> directly
+```
+
+**After (API) — single item:**
+
+```dart
+final request = ModelQueries.get(
+  Todo.classType,
+  queriedTodo.modelIdentifier,
+);
+final response = await Amplify.API.query(request: request).response;
+final todo = response.data; // Todo? — may be null
+```
+
+**After (API) — list with predicates:**
+
+```dart
+final request = ModelQueries.list(
+  Todo.classType,
+  where: Todo.NAME.contains('important'),
+);
+final response = await Amplify.API.query(request: request).response;
+final todos = response.data?.items.nonNulls
+    .where((t) => t.deleted != true)
+    .toList() ?? [];
+```
+
+### Sorting
+
+The API category's `ModelQueries.list()` does not support a `sortBy` parameter. You must implement sorting on the client side after receiving results:
+
+```dart
+final request = ModelQueries.list(Todo.classType);
+final response = await Amplify.API.query(request: request).response;
+final todos = response.data?.items.nonNulls
+    .where((t) => t.deleted != true)
+    .toList() ?? [];
+
+// Client-side sort (e.g., by creation date, newest first)
+todos.sort((a, b) {
+  final aDate = a.createdAt?.getDateTimeInUtc() ?? DateTime(0);
+  final bDate = b.createdAt?.getDateTimeInUtc() ?? DateTime(0);
+  return bDate.compareTo(aDate);
+});
+```
+
+### Pagination
+
+DataStore uses page-based pagination (`QueryPagination(page: N, limit: M)`), while the API category uses **token-based pagination** via `nextToken` on `PaginatedResult`. To paginate through all results:
+
+```dart
+List<Todo> allTodos = [];
+GraphQLRequest<PaginatedResult<Todo>> request = ModelQueries.list(
+  Todo.classType,
+  limit: 100,
+);
+
+while (true) {
+  final response = await Amplify.API.query(request: request).response;
+  final page = response.data;
+  if (page == null) break;
+
+  allTodos.addAll(page.items.nonNulls);
+
+  if (page.hasNextResult) {
+    request = page.requestForNextResult!;
+  } else {
+    break;
+  }
+}
+```
+
+If you need page-based pagination in your UI, you can implement it on the client side by fetching all items and then slicing:
+
+```dart
+final pageSize = 10;
+final pageIndex = 0; // zero-based
+
+// Fetch all (or use token-based pagination to fetch enough)
+final allTodos = await _fetchAllTodos();
+
+// Slice for display
+final pageItems = allTodos.skip(pageIndex * pageSize).take(pageSize).toList();
+final totalPages = (allTodos.length / pageSize).ceil();
+```
+
+## Observe
+
+DataStore's `observe()` returns a single stream with events that include an `EventType` (create, update, delete). The API category uses three separate subscription streams — one each for `onCreate`, `onUpdate`, and `onDelete`.
+
+**Before (DataStore):**
+
+```dart
+final stream = Amplify.DataStore.observe(Todo.classType);
+stream.listen((event) {
+  switch (event.eventType) {
+    case EventType.create:
+      safePrint('Created: ${event.item}');
+      break;
+    case EventType.update:
+      safePrint('Updated: ${event.item}');
+      break;
+    case EventType.delete:
+      safePrint('Deleted: ${event.item}');
+      break;
+  }
+});
+```
+
+**After (API) — three separate subscriptions:**
+
+```dart
+late StreamSubscription<GraphQLResponse<Todo>> _createSub;
+late StreamSubscription<GraphQLResponse<Todo>> _updateSub;
+late StreamSubscription<GraphQLResponse<Todo>> _deleteSub;
+
+void _initSubscriptions() {
+  // onCreate
+  final onCreateRequest = ModelSubscriptions.onCreate(Todo.classType);
+  _createSub = Amplify.API
+      .subscribe(onCreateRequest,
+          onEstablished: () =>
+              safePrint('onCreate subscription established'))
+      .listen(
+    (event) {
+      safePrint('Created: ${event.data}');
+    },
+    onError: (Object e) => safePrint('onCreate error: $e'),
+  );
+
+  // onUpdate
+  final onUpdateRequest = ModelSubscriptions.onUpdate(Todo.classType);
+  _updateSub = Amplify.API
+      .subscribe(onUpdateRequest,
+          onEstablished: () =>
+              safePrint('onUpdate subscription established'))
+      .listen(
+    (event) {
+      safePrint('Updated: ${event.data}');
+    },
+    onError: (Object e) => safePrint('onUpdate error: $e'),
+  );
+
+  // onDelete
+  final onDeleteRequest = ModelSubscriptions.onDelete(Todo.classType);
+  _deleteSub = Amplify.API
+      .subscribe(onDeleteRequest,
+          onEstablished: () =>
+              safePrint('onDelete subscription established'))
+      .listen(
+    (event) {
+      safePrint('Deleted: ${event.data}');
+    },
+    onError: (Object e) => safePrint('onDelete error: $e'),
+  );
+}
+
+@override
+void dispose() {
+  _createSub.cancel();
+  _updateSub.cancel();
+  _deleteSub.cancel();
+  super.dispose();
+}
+```
+
+<Callout>
+
+Unlike DataStore's single `observe()` stream, you now manage three separate subscriptions. Remember to cancel all three when your widget or controller is disposed.
+
+</Callout>
+
+## ObserveQuery
+
+DataStore's `observeQuery()` combines an initial query with real-time updates, returning a `QuerySnapshot` that contains the full list of matching items and an `isSynced` flag. There is no direct equivalent in the API category — you must compose this behavior yourself using an initial list query plus subscriptions.
+
+**Before (DataStore):**
+
+```dart
+final stream = Amplify.DataStore.observeQuery(
+  Todo.classType,
+  where: Todo.STATUS.eq(TodoStatus.ACTIVE),
+  sortBy: [Todo.CREATEDAT.descending()],
+);
+
+stream.listen((QuerySnapshot<Todo> snapshot) {
+  safePrint(
+      'Items: ${snapshot.items.length}, isSynced: ${snapshot.isSynced}');
+  setState(() {
+    _todos = snapshot.items;
+  });
+});
+```
+
+**After (API) — initial query + subscriptions for reactive updates:**
+
+```dart
+List<Todo> _todos = [];
+bool _isLoading = true;
+late StreamSubscription _createSub;
+late StreamSubscription _updateSub;
+late StreamSubscription _deleteSub;
+
+Future<void> _initObserveQuery() async {
+  // Step 1: Perform initial list query
+  await _refreshList();
+
+  // Step 2: Subscribe to changes and refresh on each event
+  final onCreate = ModelSubscriptions.onCreate(Todo.classType);
+  _createSub =
+      Amplify.API.subscribe(onCreate).listen((_) => _refreshList());
+
+  final onUpdate = ModelSubscriptions.onUpdate(Todo.classType);
+  _updateSub =
+      Amplify.API.subscribe(onUpdate).listen((_) => _refreshList());
+
+  final onDelete = ModelSubscriptions.onDelete(Todo.classType);
+  _deleteSub =
+      Amplify.API.subscribe(onDelete).listen((_) => _refreshList());
+}
+
+Future<void> _refreshList() async {
+  final request = ModelQueries.list(
+    Todo.classType,
+    where: Todo.STATUS.eq(TodoStatus.ACTIVE),
+  );
+  final response = await Amplify.API.query(request: request).response;
+
+  if (response.hasErrors) {
+    safePrint('Query errors: ${response.errors}');
+    return;
+  }
+
+  final items = response.data?.items.nonNulls
+      .where((t) => t.deleted != true)
+      .toList() ?? [];
+
+  // Client-side sort (API does not support sortBy)
+  items.sort((a, b) {
+    final aDate = a.createdAt?.getDateTimeInUtc() ?? DateTime(0);
+    final bDate = b.createdAt?.getDateTimeInUtc() ?? DateTime(0);
+    return bDate.compareTo(aDate);
+  });
+
+  setState(() {
+    _todos = items;
+    _isLoading = false;
+  });
+}
+
+@override
+void dispose() {
+  _createSub.cancel();
+  _updateSub.cancel();
+  _deleteSub.cancel();
+  super.dispose();
+}
+```
+
+<Callout>
+
+DataStore's `QuerySnapshot.isSynced` flag is not available through the API category. If you relied on this flag to show sync status in your UI, you will need to track loading state manually (as shown with `_isLoading` above).
+
+</Callout>
+
+<Callout>
+
+**Performance tip:** For an optimized approach, instead of re-querying the entire list on every subscription event, you can update the local list in-place by adding, updating, or removing the item from the subscription event data. This avoids unnecessary network calls but requires more code to manage the list state.
+
+</Callout>
+
+## Quick reference table
+
+| DataStore Method | Amplify API Equivalent | Key Difference |
+|---|---|---|
+| `Amplify.DataStore.save()` (create) | `Amplify.API.mutate(request: ModelMutations.create(...))` | Must check `response.hasErrors`; no `_version` needed for creates |
+| `Amplify.DataStore.save()` (update) | `Amplify.API.mutate(request: ModelMutations.update(...))` | Must query first to get latest `_version`; model carries it internally |
+| `Amplify.DataStore.delete()` | `Amplify.API.mutate(request: ModelMutations.delete(...))` | Must query first to get latest `_version`; delete is a soft delete when conflict resolution is enabled |
+| `Amplify.DataStore.query()` (single) | `Amplify.API.query(request: ModelQueries.get(...))` | Returns `GraphQLResponse` wrapper |
+| `Amplify.DataStore.query()` (list) | `Amplify.API.query(request: ModelQueries.list(...))` | Token-based pagination, no `sortBy`; returns soft-deleted records |
+| `Amplify.DataStore.observe()` | `Amplify.API.subscribe(ModelSubscriptions.onCreate/onUpdate/onDelete(...))` | Three separate subscriptions |
+| `Amplify.DataStore.observeQuery()` | Initial list query + three subscriptions | No direct equivalent; compose manually |
+| `Amplify.DataStore.clear()` | No longer needed | No local DataStore to clear |

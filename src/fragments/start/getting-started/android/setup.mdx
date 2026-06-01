@@ -89,10 +89,8 @@ Add the following lines:
 ```groovy
 android {
     compileOptions {
-        // Support for Java 8 features
+        // Support for modern Java features
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -101,12 +99,12 @@ dependencies {
     implementation 'com.amplifyframework:aws-api:ANDROID_VERSION'
     implementation 'com.amplifyframework:aws-datastore:ANDROID_VERSION'
 
-    // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    // Support for modern Java features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:ANDROID_DESUGAR_VERSION'
 }
 ```
 
-- Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
+- Set `coreLibraryDesugaringEnabled` to allow your application to make use of modern Java features like Lambda expressions
 - Add Amplify API, Datastore, and Desugaring libraries to the `dependencies` block
 
 4. Run **Gradle Sync**

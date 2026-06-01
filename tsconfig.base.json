@@ -15,7 +15,7 @@
     "removeComments": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "target": "es2017"
+    "target": "ES2024"
   },
   "exclude": ["node_modules"]
 }

@@ -6,20 +6,18 @@ Add the following dependencies to your **build.gradle (Module :app)** file and c
 dependencies {
     implementation 'com.amplifyframework:aws-datastore:ANDROID_VERSION'
 
-    // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    // Support for modern Java features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:ANDROID_DESUGAR_VERSION'
 }
 ```
 
-At the top of the same file, add `compileOptions` to support the Java 8 features used by Amplify:
+At the top of the same file, add `compileOptions` to support the modern Java features used by Amplify:
 
 ```groovy
 android {
     compileOptions {
-        // Support for Java 8 features
+        // Support for modern Java features
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 ```

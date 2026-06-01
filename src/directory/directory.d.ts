@@ -62,4 +62,11 @@ export type PageNode = {
    * This flag indicates that the item is new and will display a "new" badge
    */
   isNew?: boolean;
+
+  /**
+   * Denotes which top-level section this page belongs to for section-based nav filtering.
+   * 'backend' = Build a Backend, 'frontend' = Frontend Libraries, 'both' = shown in all sections.
+   * Pages without this field are shown in all sections (backward compatible).
+   */
+  section?: 'backend' | 'frontend' | 'quickstart' | 'hosting' | 'ui' | 'reference' | 'both';
 };

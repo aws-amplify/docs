@@ -2,14 +2,79 @@ import { promises as fs } from 'fs';
 import { fileURLToPath } from 'url';
 import { cwd } from 'node:process';
 import path from 'path';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 import JSON5 from 'json5';
 import { directory } from './directory.mjs';
 import { writeFile } from 'fs/promises';
-import { getLastModifiedDate } from 'git-jiggy';
 import { API_CATEGORIES, API_SUB_CATEGORIES } from '../data/api-categories.mjs';
+
+const execFileAsync = promisify(execFile);
 
 // Set up the root path so that we can get the correct path from the current working directory
 const rootPath = path.resolve(cwd(), 'src/pages');
+
+let gitDatesCache;
+
+/**
+ * Initializes and caches Git last-modified dates for files under `rootPath`.
+ * Executes:
+ *   git log --follow --name-only --pretty=format:%ct -- .
+ * The output is a sequence of lines like:
+ *   1625030400
+ *   src/pages/index.js
+ *   src/pages/about.js
+ *
+ * Parses lines of Unix timestamps and file paths, mapping each file to the ISO date
+ * of its most recent commit. Caches the result to avoid repeated Git invocations.
+ */
+async function initializeGitCache() {
+  if (gitDatesCache) return gitDatesCache;
+
+  try {
+    const { stdout } = await execFileAsync(
+      'git',
+      ['log', '--follow', '--name-only', '--pretty=format:%ct', '--', '.'],
+      { cwd: rootPath, maxBuffer: 50 * 1024 * 1024, timeout: 30000 }
+    );
+
+    const cache = new Map();
+    let currentDate;
+
+    for (const line of stdout.trim().split('\n')) {
+      if (/^\d+$/.test(line)) {
+        currentDate = new Date(Number(line) * 1000).toISOString();
+      } else if (line && !cache.has(line)) {
+        cache.set(line, currentDate);
+      }
+    }
+
+    gitDatesCache = cache;
+  } catch (err) {
+    console.warn(`Git operation failed: ${err.message}`);
+    gitDatesCache = new Map();
+  }
+
+  return gitDatesCache;
+}
+
+/**
+ * Retrieves the last modified date for a given file by looking it up
+ * in the cached Git dates map. Initializes the cache on first invocation.
+ *
+ * @param {string} filePath - Absolute path to the target file.
+ * @returns {Promise<string>} ISO 8601 date string of the last Git commit touching that file.
+ * @throws {Error} If no Git date is found for the given file.
+ */
+async function getLastModifiedDate(filePath) {
+  const cache = await initializeGitCache();
+
+  if (!cache.has(filePath)) {
+    throw new Error(`Git date not found for: ${filePath}`);
+  }
+
+  return cache.get(filePath);
+}
 
 /**
  * Helper function to use RegEx to grab the "meta" object

@@ -14,7 +14,7 @@ const GEN1_V6_REALTIME_DATA_PAGE_PATH =
   'src/pages/gen1/[platform]/build-a-backend/graphqlapi/subscribe-data/index.mdx';
 
 const GEN2_REALTIME_DATA_PAGE_PATH =
-  'src/pages/[platform]/build-a-backend/data/subscribe-data/index.mdx';
+  'src/pages/[platform]/frontend/data/subscribe-data/index.mdx';
 
 // DATA MODELING
 

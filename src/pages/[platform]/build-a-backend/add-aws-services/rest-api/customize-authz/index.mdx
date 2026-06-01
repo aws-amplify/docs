@@ -32,6 +32,32 @@ When determining the authorization mode for your REST endpoint, there are a few 
 
 By default, the API will be using IAM authorization and the requests will be signed for you automatically. IAM authorization has two modes: one using an **unauthenticated** role, and one using an **authenticated** role. When the user has not signed in, the unauthenticated role is used by default. Once the user has signed in, the authenticate role is used, instead.
 
+For public REST APIs you can change the default behavior by using the `defaultAuthMode` attribute. You can change this per request:
+
+```javascript
+await get({
+  apiName: 'myApi', 
+  path: '/public-endpoint',
+  options: {
+    defaultAuthMode: 'none' // Skip default IAM authentication for this request
+  }
+});
+````
+
+or globally through `libraryOptions`:
+
+```javascript
+Amplify.configure({
+  // ... other config
+}, {
+  API: {
+    REST: {
+      defaultAuthMode: 'none' // Default mode for all REST calls
+    }
+  }
+});
+```
+
 ## API Key
 
 If you want to configure a public REST API, you can set an API key in Amazon API Gateway or create one using the [CDK construct](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_apigateway.ApiKey.html). Then, you can set the API key header in the API configuration which will be applied to all requests.

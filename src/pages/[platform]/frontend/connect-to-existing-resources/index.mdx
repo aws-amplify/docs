@@ -1,0 +1,1199 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect to existing AWS resources',
+  description:
+    'Use Amplify client libraries with your own AWS infrastructure. Configure Auth, Data, Storage, Analytics, Geo, and Notifications programmatically or via amplify_outputs.json — no Amplify backend required.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amplify client libraries can be used **independently** without the Amplify backend workflow. If you've provisioned AWS resources with CDK, Terraform, CloudFormation, or the AWS Console, you can connect Amplify libraries directly to those resources.
+
+This means you can adopt Amplify's client libraries for authentication, data, storage, and more — while keeping full control over your infrastructure.
+
+## When to use this approach
+
+- You already have AWS resources provisioned with **CDK**, **Terraform**, or **CloudFormation**
+- You want to use Amplify client libraries without adopting the Amplify backend (`ampx`) workflow
+- You need to connect to shared infrastructure managed by a platform team
+- You want **programmatic control** over configuration for testing or environment switching
+
+## How it works
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+There are two ways to configure Amplify client libraries with your own resources:
+
+### Option 1: Manual `amplify_outputs.json`
+
+Create an `amplify_outputs.json` file in your project with the configuration for your resources. See the [full `amplify_outputs.json` specification](/[platform]/reference/amplify_outputs/) for all supported fields.
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "us-east-1_abc123",
+    "user_pool_client_id": "abcdef123456"
+  },
+  "storage": {
+    "aws_region": "us-east-1",
+    "bucket_name": "my-app-bucket"
+  }
+}
+```
+
+Then configure Amplify in your app:
+
+```typescript
+import { Amplify } from 'aws-amplify';
+import outputs from './amplify_outputs.json';
+
+Amplify.configure(outputs);
+```
+
+### Option 2: Direct `Amplify.configure()` with a `ResourcesConfig` object
+
+Pass the configuration directly without a JSON file:
+
+```typescript
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: 'us-east-1_abc123',
+      userPoolClientId: 'abcdef123456',
+      identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555',
+      loginWith: {
+        email: true
+      }
+    }
+  },
+  Storage: {
+    S3: {
+      bucket: 'my-app-bucket',
+      region: 'us-east-1'
+    }
+  }
+});
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+There are two ways to configure Amplify client libraries with your own resources:
+
+### Option 1: Manual `amplify_outputs.json`
+
+Create an `amplify_outputs.json` file in your Xcode project. See the [full specification](/[platform]/reference/amplify_outputs/) for all supported fields.
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "us-east-1_abc123",
+    "user_pool_client_id": "abcdef123456",
+    "identity_pool_id": "us-east-1:11111111-2222-3333-4444-555555555555"
+  }
+}
+```
+
+Then configure Amplify as usual:
+
+```swift
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.configure(with: .amplifyOutputs)
+```
+
+### Option 2: Programmatic configuration with `AmplifyOutputsData`
+
+Build the configuration in code without any JSON files:
+
+```swift
+import Amplify
+import AWSCognitoAuthPlugin
+
+let config = AmplifyOutputsData(
+    auth: .init(
+        awsRegion: "us-east-1",
+        userPoolId: "us-east-1_abc123",
+        userPoolClientId: "abcdef123456"
+    )
+)
+
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.configure(config)
+```
+
+This approach is ideal for:
+- **Unit testing** — Configure Amplify without bundling JSON files
+- **Environment switching** — Build different configurations for dev/staging/prod
+- **Dynamic configuration** — Fetch configuration from a remote source at runtime
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+There are two ways to configure Amplify client libraries with your own resources:
+
+### Option 1: Manual `amplify_outputs.json`
+
+Create an `amplify_outputs.json` file in your `app/src/main/res/raw/` directory. See the [full specification](/[platform]/reference/amplify_outputs/) for all supported fields.
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "us-east-1_abc123",
+    "user_pool_client_id": "abcdef123456",
+    "identity_pool_id": "us-east-1:11111111-2222-3333-4444-555555555555"
+  }
+}
+```
+
+Then configure Amplify as usual:
+
+```kotlin
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.configure(applicationContext)
+```
+
+### Option 2: Programmatic configuration with `AmplifyOutputsData`
+
+Build the configuration in code without any JSON files:
+
+```kotlin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.configuration.AmplifyOutputsData
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+
+val config = AmplifyOutputsData(
+    auth = Auth(
+        awsRegion = "us-east-1",
+        userPoolId = "us-east-1_abc123",
+        userPoolClientId = "abcdef123456"
+    )
+)
+
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.configure(config, applicationContext)
+```
+
+This approach is ideal for:
+- **Unit testing** — Configure Amplify without bundling JSON files
+- **Environment switching** — Build different configurations for dev/staging/prod
+- **Dynamic configuration** — Fetch configuration from a remote source at runtime
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+There are two ways to configure Amplify client libraries with your own resources:
+
+### Option 1: Manual `amplify_outputs.json`
+
+Create an `amplify_outputs.json` file with your resource configuration. See the [full specification](/[platform]/reference/amplify_outputs/) for all supported fields.
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "us-east-1_abc123",
+    "user_pool_client_id": "abcdef123456",
+    "identity_pool_id": "us-east-1:11111111-2222-3333-4444-555555555555"
+  }
+}
+```
+
+Then generate the Dart configuration and configure Amplify:
+
+```bash
+npx ampx generate outputs --outputs-format dart --outputs-out-dir lib
+```
+
+```dart
+import 'amplify_outputs.dart';
+
+await Amplify.addPlugin(AmplifyAuthCognito());
+await Amplify.configure(amplifyConfig);
+```
+
+### Option 2: Programmatic configuration with `AmplifyOutputs`
+
+Build the configuration in code without any files:
+
+```dart
+import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+
+final config = AmplifyOutputs(
+  auth: AuthOutputs(
+    awsRegion: 'us-east-1',
+    userPoolId: 'us-east-1_abc123',
+    userPoolClientId: 'abcdef123456',
+  ),
+);
+
+await Amplify.addPlugin(AmplifyAuthCognito());
+await Amplify.configure(config);
+```
+
+This approach is ideal for:
+- **Unit testing** — Configure Amplify without bundling files
+- **Environment switching** — Build different configurations for dev/staging/prod
+- **Dynamic configuration** — Fetch configuration from a remote source at runtime
+
+</InlineFilter>
+
+## Configure Auth (Amazon Cognito)
+
+Connect to an existing Cognito User Pool and Identity Pool.
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+```typescript
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: 'us-east-1_abc123',
+      userPoolClientId: 'abcdef123456',
+      identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555',
+      loginWith: {
+        email: true
+      },
+      signUpVerificationMethod: 'code',
+      userAttributes: {
+        email: { required: true }
+      },
+      allowGuestAccess: true,
+      passwordFormat: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireNumbers: true,
+        requireSpecialCharacters: true
+      }
+    }
+  }
+});
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let config = AmplifyOutputsData(
+    auth: .init(
+        awsRegion: "us-east-1",
+        userPoolId: "us-east-1_abc123",
+        userPoolClientId: "abcdef123456",
+        identityPoolId: "us-east-1:11111111-2222-3333-4444-555555555555",
+        passwordPolicy: .init(
+            minLength: 8,
+            requireNumbers: true,
+            requireLowercase: true,
+            requireUppercase: true,
+            requireSymbols: false
+        ),
+        oauth: .init(
+            identityProviders: ["GOOGLE", "SIGN_IN_WITH_APPLE"],
+            domain: "myapp.auth.us-east-1.amazoncognito.com",
+            scopes: ["openid", "email", "profile"],
+            redirectSignInUri: ["myapp://callback"],
+            redirectSignOutUri: ["myapp://signout"],
+            responseType: "code"
+        ),
+        standardRequiredAttributes: [.email],
+        usernameAttributes: [.email],
+        userVerificationTypes: [.email],
+        unauthenticatedIdentitiesEnabled: true,
+        mfaConfiguration: "OPTIONAL",
+        mfaMethods: ["SMS", "TOTP"]
+    )
+)
+
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.configure(config)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val config = AmplifyOutputsData(
+    auth = Auth(
+        awsRegion = "us-east-1",
+        userPoolId = "us-east-1_abc123",
+        userPoolClientId = "abcdef123456",
+        identityPoolId = "us-east-1:11111111-2222-3333-4444-555555555555",
+        passwordPolicy = Auth.PasswordPolicy(
+            minLength = 8,
+            requireNumbers = true,
+            requireLowercase = true,
+            requireUppercase = true,
+            requireSymbols = false
+        ),
+        oauth = Auth.Oauth(
+            identityProviders = listOf(
+                IdentityProviders.GOOGLE,
+                IdentityProviders.SIGN_IN_WITH_APPLE
+            ),
+            domain = "myapp.auth.us-east-1.amazoncognito.com",
+            scopes = listOf("openid", "email", "profile"),
+            redirectSignInUri = listOf("myapp://callback"),
+            redirectSignOutUri = listOf("myapp://signout"),
+            responseType = ResponseType.Code
+        ),
+        standardRequiredAttributes = listOf(
+            AmazonCognitoStandardAttributes.EMAIL
+        ),
+        usernameAttributes = listOf(
+            UsernameAttributes.EMAIL
+        ),
+        userVerificationTypes = listOf(
+            VerificationMechanism.EMAIL
+        ),
+        unauthenticatedIdentitiesEnabled = true,
+        mfaConfiguration = MfaConfiguration.OPTIONAL,
+        mfaMethods = listOf(
+            MfaMethods.SMS,
+            MfaMethods.TOTP
+        )
+    )
+)
+
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.configure(config, applicationContext)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final config = AmplifyOutputs(
+  auth: AuthOutputs(
+    awsRegion: 'us-east-1',
+    userPoolId: 'us-east-1_abc123',
+    userPoolClientId: 'abcdef123456',
+    identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555',
+    passwordPolicy: PasswordPolicy(
+      minLength: 8,
+      requireNumbers: true,
+      requireLowercase: true,
+      requireUppercase: true,
+      requireSymbols: false,
+    ),
+    oauth: OAuthOutputs(
+      identityProviders: [IdentityProvider.google, IdentityProvider.apple],
+      domain: 'myapp.auth.us-east-1.amazoncognito.com',
+      scopes: ['openid', 'email', 'profile'],
+      redirectSignInUri: ['myapp://callback'],
+      redirectSignOutUri: ['myapp://signout'],
+      responseType: 'code',
+    ),
+    standardRequiredAttributes: [CognitoStandardAttribute.email],
+    usernameAttributes: [UsernameAttribute.email],
+    userVerificationTypes: [VerificationType.email],
+    unauthenticatedIdentitiesEnabled: true,
+    mfaConfiguration: MfaEnforcement.optional,
+    mfaMethods: [MfaMethod.sms, MfaMethod.totp],
+  ),
+);
+
+await Amplify.addPlugin(AmplifyAuthCognito());
+await Amplify.configure(config);
+```
+
+</InlineFilter>
+
+### Auth required fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `awsRegion` | Yes | AWS region (e.g. `us-east-1`) |
+| `userPoolId` | Yes | Cognito User Pool ID |
+| `userPoolClientId` | Yes | Cognito app client ID |
+| `identityPoolId` | No | Cognito Identity Pool ID (needed for guest access and IAM-based auth) |
+| `passwordPolicy` | No | Password requirements (min length, character types) |
+| `oauth` | No | OAuth/Hosted UI configuration (social sign-in) |
+| `mfaConfiguration` | No | MFA mode: `NONE`, `OPTIONAL`, or `REQUIRED` |
+| `mfaMethods` | No | MFA types: `SMS`, `TOTP` |
+
+## Configure Data (AWS AppSync)
+
+Connect to an existing AppSync GraphQL API.
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "data": {
+    "aws_region": "us-east-1",
+    "url": "https://abc123.appsync-api.us-east-1.amazonaws.com/graphql",
+    "api_key": "da2-abcdefghijklmno",
+    "default_authorization_type": "API_KEY",
+    "authorization_types": ["API_KEY"]
+  }
+}
+```
+
+```typescript
+import { Amplify } from 'aws-amplify';
+import outputs from './amplify_outputs.json';
+
+Amplify.configure(outputs);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let config = AmplifyOutputsData(
+    data: .init(
+        awsRegion: "us-east-1",
+        url: "https://abc123.appsync-api.us-east-1.amazonaws.com/graphql",
+        apiKey: "da2-abcdefghijklmno",
+        defaultAuthorizationType: .apiKey,
+        authorizationTypes: [.apiKey, .amazonCognitoUserPools]
+    )
+)
+
+try Amplify.add(plugin: AWSAPIPlugin())
+try Amplify.configure(config)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val config = AmplifyOutputsData(
+    data = Data(
+        awsRegion = "us-east-1",
+        url = "https://abc123.appsync-api.us-east-1.amazonaws.com/graphql",
+        apiKey = "da2-abcdefghijklmno",
+        defaultAuthorizationType = AwsAppsyncAuthorizationType.API_KEY,
+        authorizationTypes = listOf(
+            AwsAppsyncAuthorizationType.API_KEY,
+            AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS
+        )
+    )
+)
+
+Amplify.addPlugin(AWSApiPlugin())
+Amplify.configure(config, applicationContext)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final config = AmplifyOutputs(
+  data: DataOutputs(
+    awsRegion: 'us-east-1',
+    url: 'https://abc123.appsync-api.us-east-1.amazonaws.com/graphql',
+    apiKey: 'da2-abcdefghijklmno',
+    defaultAuthorizationType: AuthorizationType.apiKey,
+    authorizationTypes: [AuthorizationType.apiKey, AuthorizationType.userPools],
+  ),
+);
+
+await Amplify.addPlugin(AmplifyAPI());
+await Amplify.configure(config);
+```
+
+</InlineFilter>
+
+### Data required fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `awsRegion` | Yes | AWS region |
+| `url` | Yes | AppSync GraphQL endpoint URL |
+| `defaultAuthorizationType` | Yes | Default auth mode: `API_KEY`, `AMAZON_COGNITO_USER_POOLS`, `AWS_IAM`, or `OPENID_CONNECT` |
+| `authorizationTypes` | Yes | All supported auth modes |
+| `apiKey` | No | Required if using `API_KEY` auth |
+
+## Configure Storage (Amazon S3)
+
+Connect to an existing S3 bucket.
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+```typescript
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: 'us-east-1_abc123',
+      userPoolClientId: 'abcdef123456',
+      identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555'
+    }
+  },
+  Storage: {
+    S3: {
+      bucket: 'my-app-bucket',
+      region: 'us-east-1'
+    }
+  }
+});
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let config = AmplifyOutputsData(
+    auth: .init(
+        awsRegion: "us-east-1",
+        userPoolId: "us-east-1_abc123",
+        userPoolClientId: "abcdef123456",
+        identityPoolId: "us-east-1:11111111-2222-3333-4444-555555555555"
+    ),
+    storage: .init(
+        awsRegion: "us-east-1",
+        bucketName: "my-app-bucket"
+    )
+)
+
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.add(plugin: AWSS3StoragePlugin())
+try Amplify.configure(config)
+```
+
+### Multiple buckets
+
+```swift
+let config = AmplifyOutputsData(
+    storage: .init(
+        awsRegion: "us-east-1",
+        bucketName: "primary-bucket",
+        buckets: [
+            .init(name: "media", bucketName: "my-media-bucket", awsRegion: "us-east-1"),
+            .init(name: "logs", bucketName: "my-logs-bucket", awsRegion: "us-west-2")
+        ]
+    )
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val config = AmplifyOutputsData(
+    auth = Auth(
+        awsRegion = "us-east-1",
+        userPoolId = "us-east-1_abc123",
+        userPoolClientId = "abcdef123456",
+        identityPoolId = "us-east-1:11111111-2222-3333-4444-555555555555"
+    ),
+    storage = Storage(
+        awsRegion = "us-east-1",
+        bucketName = "my-app-bucket"
+    )
+)
+
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.addPlugin(AWSS3StoragePlugin())
+Amplify.configure(config, applicationContext)
+```
+
+### Multiple buckets
+
+```kotlin
+val config = AmplifyOutputsData(
+    storage = Storage(
+        awsRegion = "us-east-1",
+        bucketName = "primary-bucket",
+        buckets = listOf(
+            Storage.Bucket(
+                name = "media",
+                bucketName = "my-media-bucket",
+                awsRegion = "us-east-1"
+            ),
+            Storage.Bucket(
+                name = "logs",
+                bucketName = "my-logs-bucket",
+                awsRegion = "us-west-2"
+            )
+        )
+    )
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final config = AmplifyOutputs(
+  auth: AuthOutputs(
+    awsRegion: 'us-east-1',
+    userPoolId: 'us-east-1_abc123',
+    userPoolClientId: 'abcdef123456',
+    identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555',
+  ),
+  storage: StorageOutputs(
+    awsRegion: 'us-east-1',
+    bucketName: 'my-app-bucket',
+  ),
+);
+
+await Amplify.addPlugin(AmplifyAuthCognito());
+await Amplify.addPlugin(AmplifyStorageS3());
+await Amplify.configure(config);
+```
+
+### Multiple buckets
+
+```dart
+final config = AmplifyOutputs(
+  storage: StorageOutputs(
+    awsRegion: 'us-east-1',
+    bucketName: 'primary-bucket',
+    buckets: [
+      BucketOutputs(name: 'media', bucketName: 'my-media-bucket', awsRegion: 'us-east-1'),
+      BucketOutputs(name: 'logs', bucketName: 'my-logs-bucket', awsRegion: 'us-west-2'),
+    ],
+  ),
+);
+```
+
+</InlineFilter>
+
+<Callout informational>
+
+Storage requires Auth (Cognito Identity Pool) for authorization. Always configure Auth alongside Storage.
+
+</Callout>
+
+### Storage required fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `awsRegion` | Yes | AWS region |
+| `bucketName` | Yes | Default S3 bucket name |
+| `buckets` | No | Additional named buckets for multi-bucket setups |
+
+## Configure Analytics (Amazon Pinpoint)
+
+Connect to an existing Pinpoint application.
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "analytics": {
+    "amazon_pinpoint": {
+      "aws_region": "us-east-1",
+      "app_id": "abc123def456"
+    }
+  }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let config = AmplifyOutputsData(
+    analytics: .init(
+        amazonPinpoint: .init(
+            awsRegion: "us-east-1",
+            appId: "abc123def456"
+        )
+    )
+)
+
+try Amplify.add(plugin: AWSPinpointAnalyticsPlugin())
+try Amplify.configure(config)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val config = AmplifyOutputsData(
+    analytics = Analytics(
+        amazonPinpoint = Analytics.AmazonPinpoint(
+            awsRegion = "us-east-1",
+            appId = "abc123def456"
+        )
+    )
+)
+
+Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
+Amplify.configure(config, applicationContext)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final config = AmplifyOutputs(
+  analytics: AnalyticsOutputs(
+    amazonPinpoint: AmazonPinpointOutputs(
+      awsRegion: 'us-east-1',
+      appId: 'abc123def456',
+    ),
+  ),
+);
+
+await Amplify.addPlugin(AmplifyAnalyticsPinpoint());
+await Amplify.configure(config);
+```
+
+</InlineFilter>
+
+## Configure Geo (Amazon Location Service)
+
+Connect to existing Location Service resources.
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "geo": {
+    "aws_region": "us-east-1",
+    "maps": {
+      "items": {
+        "myMap": { "style": "VectorEsriStreets" }
+      },
+      "default": "myMap"
+    },
+    "search_indices": {
+      "items": ["myPlaceIndex"],
+      "default": "myPlaceIndex"
+    },
+    "geofence_collections": {
+      "items": ["myGeofenceCollection"],
+      "default": "myGeofenceCollection"
+    }
+  }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let config = AmplifyOutputsData(
+    geo: .init(
+        awsRegion: "us-east-1",
+        maps: .init(
+            items: ["myMap": .init(style: "VectorEsriStreets")],
+            default: "myMap"
+        ),
+        searchIndices: .init(
+            items: ["myPlaceIndex"],
+            default: "myPlaceIndex"
+        ),
+        geofenceCollections: .init(
+            items: ["myGeofenceCollection"],
+            default: "myGeofenceCollection"
+        )
+    )
+)
+
+try Amplify.add(plugin: AWSLocationGeoPlugin())
+try Amplify.configure(config)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val config = AmplifyOutputsData(
+    geo = Geo(
+        awsRegion = "us-east-1",
+        maps = Geo.Maps(
+            items = mapOf(
+                "myMap" to AmazonLocationServiceConfig(
+                    style = "VectorEsriStreets"
+                )
+            ),
+            default = "myMap"
+        ),
+        searchIndices = Geo.SearchIndices(
+            items = listOf("myPlaceIndex"),
+            default = "myPlaceIndex"
+        ),
+        geofenceCollections = Geo.GeofenceCollections(
+            items = listOf("myGeofenceCollection"),
+            default = "myGeofenceCollection"
+        )
+    )
+)
+
+Amplify.addPlugin(AWSLocationGeoPlugin())
+Amplify.configure(config, applicationContext)
+```
+
+</InlineFilter>
+
+## Configure Notifications (Push)
+
+Connect to an existing Pinpoint application for push notifications.
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let config = AmplifyOutputsData(
+    notifications: .init(
+        awsRegion: "us-east-1",
+        amazonPinpointAppId: "abc123def456",
+        channels: [.apns, .fcm, .inAppMessaging]
+    )
+)
+
+try Amplify.add(plugin: AWSPinpointPushNotificationsPlugin())
+try Amplify.configure(config)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val config = AmplifyOutputsData(
+    notifications = Notifications(
+        awsRegion = "us-east-1",
+        amazonPinpointAppId = "abc123def456",
+        channels = listOf(
+            AmazonPinpointChannels.FCM,
+            AmazonPinpointChannels.IN_APP_MESSAGING
+        )
+    )
+)
+
+Amplify.addPlugin(AWSPinpointPushNotificationsPlugin())
+Amplify.configure(config, applicationContext)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter', 'javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+```json title="amplify_outputs.json"
+{
+  "version": "1",
+  "notifications": {
+    "aws_region": "us-east-1",
+    "amazon_pinpoint_app_id": "abc123def456",
+    "channels": ["APNS", "FCM", "IN_APP_MESSAGING"]
+  }
+}
+```
+
+</InlineFilter>
+
+## Multi-category configuration
+
+You can configure multiple services together. This example sets up Auth, Data, and Storage in a single configuration.
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let config = AmplifyOutputsData(
+    auth: .init(
+        awsRegion: "us-east-1",
+        userPoolId: "us-east-1_abc123",
+        userPoolClientId: "abcdef123456",
+        identityPoolId: "us-east-1:11111111-2222-3333-4444-555555555555"
+    ),
+    data: .init(
+        awsRegion: "us-east-1",
+        url: "https://abc123.appsync-api.us-east-1.amazonaws.com/graphql",
+        defaultAuthorizationType: .amazonCognitoUserPools,
+        authorizationTypes: [.amazonCognitoUserPools, .awsIAM]
+    ),
+    storage: .init(
+        awsRegion: "us-east-1",
+        bucketName: "my-app-bucket"
+    )
+)
+
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.add(plugin: AWSAPIPlugin())
+try Amplify.add(plugin: AWSS3StoragePlugin())
+try Amplify.configure(config)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val config = AmplifyOutputsData(
+    auth = Auth(
+        awsRegion = "us-east-1",
+        userPoolId = "us-east-1_abc123",
+        userPoolClientId = "abcdef123456",
+        identityPoolId = "us-east-1:11111111-2222-3333-4444-555555555555"
+    ),
+    data = Data(
+        awsRegion = "us-east-1",
+        url = "https://abc123.appsync-api.us-east-1.amazonaws.com/graphql",
+        defaultAuthorizationType = AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS,
+        authorizationTypes = listOf(
+            AwsAppsyncAuthorizationType.AMAZON_COGNITO_USER_POOLS,
+            AwsAppsyncAuthorizationType.AWS_IAM
+        )
+    ),
+    storage = Storage(
+        awsRegion = "us-east-1",
+        bucketName = "my-app-bucket"
+    )
+)
+
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.addPlugin(AWSApiPlugin())
+Amplify.addPlugin(AWSS3StoragePlugin())
+Amplify.configure(config, applicationContext)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+final config = AmplifyOutputs(
+  auth: AuthOutputs(
+    awsRegion: 'us-east-1',
+    userPoolId: 'us-east-1_abc123',
+    userPoolClientId: 'abcdef123456',
+    identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555',
+  ),
+  data: DataOutputs(
+    awsRegion: 'us-east-1',
+    url: 'https://abc123.appsync-api.us-east-1.amazonaws.com/graphql',
+    defaultAuthorizationType: AuthorizationType.userPools,
+    authorizationTypes: [AuthorizationType.userPools, AuthorizationType.iam],
+  ),
+  storage: StorageOutputs(
+    awsRegion: 'us-east-1',
+    bucketName: 'my-app-bucket',
+  ),
+);
+
+await Amplify.addPlugin(AmplifyAuthCognito());
+await Amplify.addPlugin(AmplifyAPI());
+await Amplify.addPlugin(AmplifyStorageS3());
+await Amplify.configure(config);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+```typescript
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: 'us-east-1_abc123',
+      userPoolClientId: 'abcdef123456',
+      identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555'
+    }
+  },
+  API: {
+    GraphQL: {
+      endpoint: 'https://abc123.appsync-api.us-east-1.amazonaws.com/graphql',
+      defaultAuthMode: 'userPool'
+    }
+  },
+  Storage: {
+    S3: {
+      bucket: 'my-app-bucket',
+      region: 'us-east-1'
+    }
+  }
+});
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+## Inspecting resolved configuration
+
+You can inspect the configuration resolved from `amplify_outputs.json`:
+
+```swift
+let outputs = try AmplifyOutputs.amplifyOutputs.resolveConfiguration()
+
+if let auth = outputs.auth {
+    print("User Pool ID: \(auth.userPoolId)")
+    print("Region: \(auth.awsRegion)")
+    print("Identity Pool: \(auth.identityPoolId ?? "none")")
+}
+
+if let storage = outputs.storage {
+    print("Bucket: \(storage.bucketName)")
+    print("Additional buckets: \(storage.buckets?.count ?? 0)")
+}
+
+if let data = outputs.data {
+    print("GraphQL endpoint: \(data.url)")
+    print("Default auth: \(data.defaultAuthorizationType)")
+}
+```
+
+</InlineFilter>
+
+## Environment-specific configuration
+
+<InlineFilter filters={['swift']}>
+
+Switch between dev, staging, and production without separate JSON files:
+
+```swift
+let region: String
+let userPoolId: String
+let clientId: String
+
+switch environment {
+case .dev:
+    region = "us-east-1"
+    userPoolId = "us-east-1_dev123"
+    clientId = "devClient123"
+case .staging:
+    region = "us-west-2"
+    userPoolId = "us-west-2_staging456"
+    clientId = "stagingClient456"
+case .prod:
+    region = "us-east-1"
+    userPoolId = "us-east-1_prod789"
+    clientId = "prodClient789"
+}
+
+let config = AmplifyOutputsData(
+    auth: .init(
+        awsRegion: region,
+        userPoolId: userPoolId,
+        userPoolClientId: clientId
+    )
+)
+
+try Amplify.configure(config)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+Switch between dev, staging, and production without separate JSON files:
+
+```kotlin
+val (region, userPoolId, clientId) = when (BuildConfig.BUILD_TYPE) {
+    "debug" -> Triple("us-east-1", "us-east-1_dev123", "devClient123")
+    "staging" -> Triple("us-west-2", "us-west-2_staging456", "stagingClient456")
+    else -> Triple("us-east-1", "us-east-1_prod789", "prodClient789")
+}
+
+val config = AmplifyOutputsData(
+    auth = Auth(
+        awsRegion = region,
+        userPoolId = userPoolId,
+        userPoolClientId = clientId
+    )
+)
+
+Amplify.configure(config, applicationContext)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+Switch between dev, staging, and production without separate files:
+
+```dart
+final environment = const String.fromEnvironment('ENV', defaultValue: 'dev');
+
+final AuthOutputs authConfig;
+switch (environment) {
+  case 'prod':
+    authConfig = AuthOutputs(
+      awsRegion: 'us-east-1',
+      userPoolId: 'us-east-1_prod789',
+      userPoolClientId: 'prodClient789',
+    );
+  case 'staging':
+    authConfig = AuthOutputs(
+      awsRegion: 'us-west-2',
+      userPoolId: 'us-west-2_staging456',
+      userPoolClientId: 'stagingClient456',
+    );
+  default:
+    authConfig = AuthOutputs(
+      awsRegion: 'us-east-1',
+      userPoolId: 'us-east-1_dev123',
+      userPoolClientId: 'devClient123',
+    );
+}
+
+final config = AmplifyOutputs(auth: authConfig);
+await Amplify.configure(config);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+You can maintain separate `amplify_outputs.json` files per environment:
+
+```typescript
+import devOutputs from './amplify_outputs.dev.json';
+import prodOutputs from './amplify_outputs.prod.json';
+
+const outputs = process.env.NODE_ENV === 'production' ? prodOutputs : devOutputs;
+Amplify.configure(outputs);
+```
+
+</InlineFilter>
+
+## `amplify_outputs.json` schema reference
+
+For the full schema of all supported configuration fields, see the [amplify_outputs.json reference](/[platform]/reference/amplify_outputs/).

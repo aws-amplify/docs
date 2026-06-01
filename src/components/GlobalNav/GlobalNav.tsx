@@ -4,8 +4,14 @@ import { useState } from 'react';
 import { NavMenuIconType } from './components/icons/IconLink';
 import { RightNavLinks } from './components/RightNavLinks';
 import { AmplifyNavLink } from './components/AmplifyNavLink';
-import { LeftNavLinks } from './components/LeftNavLinks';
 import { SkipToMain } from '@/components/SkipToMain';
+import {
+  SECTIONS,
+  SectionKey,
+  getDefaultPathForSection
+} from '@/data/sections';
+import { Platform } from '@/data/platforms';
+import Link from 'next/link';
 
 export enum NavMenuItemType {
   DEFAULT = 'DEFAULT',
@@ -22,23 +28,49 @@ export interface NavMenuItem {
 }
 
 export interface NavProps {
-  leftLinks: NavMenuItem[];
   rightLinks: NavMenuItem[];
   socialLinks?: NavMenuItem[];
   currentSite: string;
   isGen1?: boolean;
   mainId: string;
+  activeSection?: SectionKey;
+  onSectionChange?: (section: SectionKey) => void;
+  currentPlatform?: Platform;
+  featureRoute?: string;
+  pageSection?: SectionKey;
 }
 
 export function GlobalNav({
   currentSite,
   isGen1,
-  leftLinks,
   mainId,
   rightLinks,
-  socialLinks
+  socialLinks,
+  activeSection,
+  onSectionChange,
+  currentPlatform,
+  featureRoute,
+  pageSection
 }: NavProps) {
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const platform = currentPlatform || 'react';
+
+  /**
+   * Resolve the href for a section tab. If the user is on a page that has
+   * a matching route in the target section (featureRoute), link there
+   * instead of the generic section landing page.
+   */
+  const getSectionHref = (key: SectionKey): string => {
+    if (
+      featureRoute &&
+      pageSection &&
+      ((pageSection === 'backend' && key === 'frontend') ||
+        (pageSection === 'frontend' && key === 'backend'))
+    ) {
+      return featureRoute.replace('[platform]', platform);
+    }
+    return getDefaultPathForSection(key, platform);
+  };
 
   return (
     <View
@@ -54,11 +86,35 @@ export function GlobalNav({
           setIsCollapsed={setIsCollapsed}
         />
 
-        <LeftNavLinks
-          isCollapsed={isCollapsed}
-          leftLinks={leftLinks}
-          currentSite={currentSite}
-        />
+        {!isGen1 && (
+          <Flex
+            className={`section-nav ${isCollapsed ? 'collapsed-menu' : ''}`}
+          >
+            {(Object.keys(SECTIONS) as SectionKey[])
+              .filter((key) => !SECTIONS[key].hideFromNav)
+              .map((key) => {
+                const section = SECTIONS[key];
+                const isActive = activeSection === key;
+                return (
+                  <Link
+                    key={key}
+                    href={getSectionHref(key)}
+                    className={`section-nav__tab ${isActive ? 'section-nav__tab--active' : ''}`}
+                    onClick={() => onSectionChange?.(key)}
+                  >
+                    <span className="section-nav__tab__label">
+                      {section.label}
+                    </span>
+                    {section.subtitle && isActive && (
+                      <span className="section-nav__tab__subtitle">
+                        {section.subtitle}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+          </Flex>
+        )}
 
         <RightNavLinks
           rightLinks={rightLinks}

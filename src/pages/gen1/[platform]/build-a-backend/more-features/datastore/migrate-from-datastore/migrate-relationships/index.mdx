@@ -1,0 +1,507 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate relationships',
+  description: 'Migrate DataStore hasMany, belongsTo, hasOne, and manyToMany relationships to Apollo Client with GraphQL selection sets.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Relationship handling is where DataStore and Apollo Client differ most fundamentally. DataStore **lazy-loads** relationships: you access a field and it fetches on demand, returning a Promise (for `belongsTo`/`hasOne`) or an AsyncCollection (for `hasMany`). Apollo Client **eagerly loads** relationships based on what you include in your GraphQL selection set. This gives you explicit control over data fetching granularity but requires you to think about what data you need upfront.
+
+## Schema reference
+
+All examples on this page use the following illustrative schema definitions from your Gen 1 backend:
+
+```graphql title="amplify/backend/api/<your-api>/schema.graphql"
+type Post @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String!
+  content: String
+  status: String
+  rating: Int
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+  tags: [PostTag] @hasMany(indexName: "byPostTag", fields: ["id"])
+  metadata: PostMetadata @hasOne(fields: ["id"])
+}
+
+type Comment @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  content: String!
+  postID: ID! @index(name: "byPost")
+  post: Post @belongsTo(fields: ["postID"])
+}
+
+type Tag @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  posts: [PostTag] @hasMany(indexName: "byTag", fields: ["id"])
+}
+
+type PostTag @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  postID: ID! @index(name: "byPostTag")
+  tagID: ID! @index(name: "byTag")
+  post: Post @belongsTo(fields: ["postID"])
+  tag: Tag @belongsTo(fields: ["tagID"])
+}
+
+type PostMetadata @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  postID: ID! @index(name: "byPost")
+  views: Int
+  likes: Int
+  post: Post @belongsTo(fields: ["postID"])
+}
+```
+
+<Callout>
+
+All relationship examples include `_version`, `_deleted`, and `_lastChangedAt` fields in selections for conflict-resolution-enabled backends. See the [Set up Apollo Client](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo/) page for details.
+
+</Callout>
+
+<Callout warning>
+
+**Gen 1 field casing reminder:** Gen 1 backends use uppercase ID suffixes (`postID`, `tagID`) -- see [Set up Apollo Client](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/set-up-apollo/) for details. Match your actual schema field names exactly; mismatches silently return `null`.
+
+</Callout>
+
+## hasMany: Post to Comments
+
+A `hasMany` relationship means a parent record has zero or more child records. The key change: DataStore's `AsyncCollection` with `.toArray()` becomes a nested GraphQL selection with an `items` wrapper object.
+
+### DataStore (before)
+
+```ts
+const post = await DataStore.query(Post, '123');
+const comments = await post.comments.toArray();
+// comments is Comment[] -- fetched on demand when you called .toArray()
+```
+
+### Apollo Client (after) -- eager loading (nested selection)
+
+Define a GraphQL query that includes the comments in the selection set:
+
+```ts
+const GET_POST_WITH_COMMENTS = gql`
+  ${POST_DETAILS_FRAGMENT}
+  query GetPostWithComments($id: ID!) {
+    getPost(id: $id) {
+      ...PostDetails
+      comments {
+        items {
+          id
+          content
+          createdAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+
+const { data } = await apolloClient.query({
+  query: GET_POST_WITH_COMMENTS,
+  variables: { id: '123' },
+});
+
+const post = data.getPost;
+const comments = data.getPost.comments.items.filter(c => !c._deleted);
+```
+
+The comments come back in the same response as the post -- no second request needed.
+
+<Callout warning>
+
+Always filter `_deleted` records from nested `items` arrays. Soft-deleted child records are still returned by AppSync.
+
+</Callout>
+
+### Apollo Client (after) -- lazy loading (separate query)
+
+If you do not always need comments, omit them from the initial query and fetch them separately when needed:
+
+```ts
+const LIST_COMMENTS_BY_POST = gql`
+  query ListCommentsByPost($filter: ModelCommentFilterInput) {
+    listComments(filter: $filter) {
+      items {
+        id
+        content
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+    }
+  }
+`;
+
+// Fetch comments for a specific post on demand
+const { data } = await apolloClient.query({
+  query: LIST_COMMENTS_BY_POST,
+  variables: { filter: { postID: { eq: '123' } } },
+});
+const comments = data.listComments.items.filter(c => !c._deleted);
+```
+
+<Callout>
+
+**Over-fetching warning:** Use the nested selection (eager) pattern for data you always display together. Use the separate query (lazy) pattern for data that is optional or loaded on user action (for example, expanding a comments section).
+
+</Callout>
+
+<InlineFilter filters={["react", "nextjs", "react-native"]}>
+
+### React hook example
+
+```tsx
+import { useQuery } from '@apollo/client';
+
+function PostWithComments({ postId }: { postId: string }) {
+  const { data, loading, error } = useQuery(GET_POST_WITH_COMMENTS, {
+    variables: { id: postId },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading post.</p>;
+
+  const post = data.getPost;
+  const comments = post.comments.items.filter(c => !c._deleted);
+
+  return (
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+      <h2>Comments ({comments.length})</h2>
+      {comments.map(comment => (
+        <div key={comment.id}>
+          <p>{comment.content}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+</InlineFilter>
+
+## belongsTo: Comment to Post
+
+A `belongsTo` relationship means a child record references its parent. The key change: DataStore resolves the parent automatically via a Promise. Apollo uses a nested selection to include the parent in the response.
+
+### DataStore (before)
+
+```ts
+const comment = await DataStore.query(Comment, 'abc');
+const post = await comment.post; // Promise resolves to the parent Post
+```
+
+### Apollo Client (after)
+
+```ts
+const GET_COMMENT_WITH_POST = gql`
+  query GetCommentWithPost($id: ID!) {
+    getComment(id: $id) {
+      id
+      content
+      post {
+        id
+        title
+        status
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+
+const { data } = await apolloClient.query({
+  query: GET_COMMENT_WITH_POST,
+  variables: { id: 'abc' },
+});
+
+const comment = data.getComment;
+const post = comment.post; // Parent Post is already loaded -- no extra request
+```
+
+The parent object is directly available as a nested field. No Promise, no `.then()` -- it is already resolved in the response.
+
+<Callout>
+
+The foreign key field (`postID`) is also available on the Comment if you only need the parent's ID without fetching the full parent record.
+
+</Callout>
+
+## hasOne: Post to PostMetadata
+
+A `hasOne` relationship represents 1:1 ownership. Similar to `belongsTo` -- DataStore returns a Promise, Apollo uses a nested selection. The result is `null` if no related record exists.
+
+### DataStore (before)
+
+```ts
+const post = await DataStore.query(Post, '123');
+const metadata = await post.metadata; // Promise resolves to PostMetadata or undefined
+```
+
+### Apollo Client (after)
+
+```ts
+const GET_POST_WITH_METADATA = gql`
+  ${POST_DETAILS_FRAGMENT}
+  query GetPostWithMetadata($id: ID!) {
+    getPost(id: $id) {
+      ...PostDetails
+      metadata {
+        id
+        views
+        likes
+        _version
+        _deleted
+        _lastChangedAt
+      }
+    }
+  }
+`;
+
+const { data } = await apolloClient.query({
+  query: GET_POST_WITH_METADATA,
+  variables: { id: '123' },
+});
+
+const post = data.getPost;
+const metadata = post.metadata; // PostMetadata object or null
+```
+
+## manyToMany: Post and Tag
+
+Many-to-many relationships use an explicit join table model. Posts and Tags are connected through the `PostTag` join model. The key change: instead of getting tags directly, you query `PostTag` join records and then extract the `tag` from each one.
+
+### DataStore (before)
+
+```ts
+const post = await DataStore.query(Post, '123');
+const postTags = await post.tags.toArray();
+const tags = await Promise.all(postTags.map(pt => pt.tag));
+```
+
+### Apollo Client (after) -- querying tags for a post
+
+```ts
+const GET_POST_WITH_TAGS = gql`
+  ${POST_DETAILS_FRAGMENT}
+  query GetPostWithTags($id: ID!) {
+    getPost(id: $id) {
+      ...PostDetails
+      tags {
+        items {
+          id
+          tag {
+            id
+            name
+            _version
+            _deleted
+            _lastChangedAt
+          }
+          _version
+          _deleted
+        }
+      }
+    }
+  }
+`;
+
+const { data } = await apolloClient.query({
+  query: GET_POST_WITH_TAGS,
+  variables: { id: '123' },
+});
+
+// Extract tags from the join records, filtering out deleted join entries
+const tags = data.getPost.tags.items
+  .filter(pt => !pt._deleted)
+  .map(pt => pt.tag);
+```
+
+<Callout warning>
+
+Filter `_deleted` on the **join records** (`PostTag`), not just the tags themselves. A deleted join record means the association was removed even if the Tag still exists.
+
+</Callout>
+
+### Create a many-to-many association
+
+To associate a Post with a Tag, create a `PostTag` join record:
+
+```ts
+const CREATE_POST_TAG = gql`
+  mutation CreatePostTag($input: CreatePostTagInput!) {
+    createPostTag(input: $input) {
+      id
+      postID
+      tagID
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+
+await apolloClient.mutate({
+  mutation: CREATE_POST_TAG,
+  variables: { input: { postID: '123', tagID: '456' } },
+});
+```
+
+### Remove a many-to-many association
+
+To remove an association, delete the `PostTag` join record (you need its `id` and `_version`):
+
+```ts
+const DELETE_POST_TAG = gql`
+  mutation DeletePostTag($input: DeletePostTagInput!) {
+    deletePostTag(input: $input) {
+      id
+      _version
+    }
+  }
+`;
+
+await apolloClient.mutate({
+  mutation: DELETE_POST_TAG,
+  variables: {
+    input: {
+      id: postTagRecord.id,
+      _version: postTagRecord._version,
+    },
+  },
+});
+```
+
+Deleting the `PostTag` join record removes the association between the Post and Tag. It does **not** delete the Post or the Tag themselves.
+
+## Create related records
+
+When creating a child record that belongs to a parent, the key difference is how you specify the relationship.
+
+**DataStore (before):** DataStore accepted the model instance for the relationship:
+
+```ts
+const existingPost = await DataStore.query(Post, '123');
+await DataStore.save(
+  new Comment({
+    content: 'Great post!',
+    post: existingPost, // Pass the model instance
+  })
+);
+```
+
+**Apollo Client (after):** Apollo requires the foreign key ID, not the model instance:
+
+```ts
+const CREATE_COMMENT = gql`
+  mutation CreateComment($input: CreateCommentInput!) {
+    createComment(input: $input) {
+      id
+      content
+      postID
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+
+await apolloClient.mutate({
+  mutation: CREATE_COMMENT,
+  variables: {
+    input: {
+      content: 'Great post!',
+      postID: '123', // Pass the foreign key ID directly
+    },
+  },
+});
+```
+
+## Quick reference table
+
+| Relationship | DataStore Access Pattern | Apollo Client Access Pattern | Key Change |
+|---|---|---|---|
+| **hasMany** (Post to Comments) | `await post.comments.toArray()` | Nested `comments { items { ... } }` selection | AsyncCollection becomes `items` wrapper; eager-loaded in single request |
+| **belongsTo** (Comment to Post) | `await comment.post` | Nested `post { ... }` selection | Promise becomes nested object; no await needed |
+| **hasOne** (Post to Metadata) | `await post.metadata` | Nested `metadata { ... }` selection | Promise becomes nested object or `null` |
+| **manyToMany** (Post to Tag) | `await post.tags.toArray()` then `await pt.tag` | Nested `tags { items { tag { ... } } }` selection | Must query through join table; filter `_deleted` on join records |
+| **Creating children** | `new Comment({ post: existingPost })` | `{ input: { postID: '123' } }` | Model instance becomes foreign key ID |
+
+## Performance considerations
+
+### Eager vs. lazy loading
+
+DataStore always lazy-loaded relationships. Apollo gives you the choice:
+
+- **Eager loading** (nested selection): Fetches related data in the same GraphQL request. Use this for data you always display together.
+- **Lazy loading** (separate query): Fetches related data only when needed. Use this for data that is optional or loaded on user action.
+
+### The N+1 query problem
+
+DataStore hid the N+1 problem because all data was local -- lazy-loading from IndexedDB was effectively free. With Apollo, each separate query is a network request:
+
+```ts
+// BAD: N+1 -- separate query for each post's comments
+const { data } = await apolloClient.query({ query: LIST_POSTS });
+for (const post of data.listPosts.items) {
+  await apolloClient.query({
+    query: LIST_COMMENTS_BY_POST,
+    variables: { filter: { postID: { eq: post.id } } },
+  });
+}
+
+// GOOD: include comments in the list query
+const LIST_POSTS_WITH_COMMENTS = gql`
+  query ListPostsWithComments($filter: ModelPostFilterInput, $limit: Int) {
+    listPosts(filter: $filter, limit: $limit) {
+      items {
+        ...PostDetails
+        comments {
+          items { id content _version _deleted }
+        }
+      }
+      nextToken
+    }
+  }
+`;
+```
+
+### Recommendations
+
+1. **Use nested selections** for data you always need together. One request is always faster than multiple.
+2. **Use separate queries** for optional or on-demand data.
+3. **Be mindful of depth.** Limit nesting to 2-3 levels to avoid large response sizes.
+4. **Apollo's cache helps.** Once a related record is fetched, Apollo caches it by `__typename` and `id`. Subsequent queries for the same record may resolve from cache.

@@ -99,12 +99,12 @@ The `filter` parameter in the search query has a searchable type field that corr
 
 - `eq` - which uses the OpenSearch keyword type to match for the exact term.
 - `ne` - this is the inverse operation of `eq`.
-- `matchPhrase` - searches using OpenSearch's [Match Phrase Query](https://opensearch.org/docs/opensearch/query-dsl/full-text/#match-phrase) to filter the documents in the search query.
-- `matchPhrasePrefix` - This uses OpenSearch's [Match Phrase Prefix Query](https://opensearch.org/docs/opensearch/query-dsl/full-text/#match-phrase-prefix) to filter the documents in the search query.
-- `multiMatch` - Corresponds to the OpenSearch [Multi Match Query](https://opensearch.org/docs/opensearch/query-dsl/full-text/#multi-match).
-- `exists` - Corresponds to the OpenSearch [Exists Query](https://opensearch.org/docs/opensearch/query-dsl/term/#exists).
-- `wildcard` - Corresponds to the OpenSearch [Wildcard Query](https://opensearch.org/docs/opensearch/query-dsl/term/#wildcards).
-- `regexp` - Corresponds to the OpenSearch [Regexp Query](https://opensearch.org/docs/opensearch/query-dsl/term/#regex).
+- `matchPhrase` - searches using OpenSearch's [Match Phrase Query](https://docs.opensearch.org/latest/query-dsl/full-text/match-phrase/) to filter the documents in the search query.
+- `matchPhrasePrefix` - This uses OpenSearch's [Match Phrase Prefix Query](https://docs.opensearch.org/latest/query-dsl/full-text/match-phrase-prefix/) to filter the documents in the search query.
+- `multiMatch` - Corresponds to the OpenSearch [Multi Match Query](https://docs.opensearch.org/latest/query-dsl/full-text/multi-match/).
+- `exists` - Corresponds to the OpenSearch [Exists Query](https://docs.opensearch.org/latest/query-dsl/term/exists/).
+- `wildcard` - Corresponds to the OpenSearch [Wildcard Query](https://docs.opensearch.org/latest/query-dsl/term/wildcard/).
+- `regexp` - Corresponds to the OpenSearch [Regexp Query](https://docs.opensearch.org/latest/query-dsl/term/regexp/).
 
 The `sort` parameter can be used to specify the order of the search results, can be ascending (`asc`) or descending (`desc`), if not specified ascending order is used.
 
