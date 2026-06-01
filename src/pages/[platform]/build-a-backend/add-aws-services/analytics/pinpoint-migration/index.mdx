@@ -18,6 +18,7 @@ export const getStaticPaths = async () => {
 export function getStaticProps(context) {
   return {
     props: {
+      platform: context.params.platform,
       meta
     }
   };
@@ -112,7 +113,7 @@ aws customer-profiles create-domain \
 
 This tells Connect how to store device tokens on user profiles.
 
-<Accordion title="put-profile-object-type CLI command">
+<Accordion title="put-profile-object-type CLI command" headingLevel='4' eyebrow='Walkthrough'>
 
 ```bash
 aws customer-profiles put-profile-object-type \
@@ -166,7 +167,7 @@ cp.put_profile_object(
 
 Amazon Connect Journeys support email, SMS, WhatsApp, and voice as native channels — but **not push notifications**. To send pushes from a Journey, you need a Lambda function that bridges the gap. The Journey invokes this Lambda via a "Custom Action" block, and the Lambda reads device tokens from the user's profile objects and calls End User Messaging to deliver the push via FCM/APNs.
 
-<Accordion title="Lambda IAM role policy">
+<Accordion title="Lambda IAM role policy" headingLevel='4' eyebrow='Learn more'>
 
 Create an execution role with these permissions:
 
@@ -214,7 +215,7 @@ Trust policy:
 
 </Accordion>
 
-<Accordion title="Lambda implementation (push_delivery_lambda.py)">
+<Accordion title="Lambda implementation (push_delivery_lambda.py)" headingLevel='4' eyebrow='Walkthrough'>
 
 The Lambda receives a batch of customer profiles from the Journey's Custom Action block. It reads each profile's device tokens and sends push notifications via End User Messaging. Notification content comes from environment variables so you can update it without redeploying code.
 
