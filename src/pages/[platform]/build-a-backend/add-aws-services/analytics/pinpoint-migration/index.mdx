@@ -112,6 +112,8 @@ aws customer-profiles create-domain \
 
 This tells Connect how to store device tokens on user profiles.
 
+<Accordion title="put-profile-object-type CLI command">
+
 ```bash
 aws customer-profiles put-profile-object-type \
   --domain-name my-push-domain \
@@ -131,6 +133,10 @@ aws customer-profiles put-profile-object-type \
   --allow-profile-creation \
   --region us-east-1
 ```
+
+</Accordion>
+
+This creates an `AmplifyDevice` object type with fields for `deviceId`, `deviceToken`, `channelType`, `platform`, and `userId`. The `UNIQUE` key on `deviceId` ensures one record per device; the `PROFILE` key on `userId` links devices to profiles.
 
 #### Step 3: Export and import your Pinpoint endpoints
 
@@ -160,7 +166,7 @@ cp.put_profile_object(
 
 Amazon Connect Journeys support email, SMS, WhatsApp, and voice as native channels — but **not push notifications**. To send pushes from a Journey, you need a Lambda function that bridges the gap. The Journey invokes this Lambda via a "Custom Action" block, and the Lambda reads device tokens from the user's profile objects and calls End User Messaging to deliver the push via FCM/APNs.
 
-##### Lambda IAM role
+<Accordion title="Lambda IAM role policy">
 
 Create an execution role with these permissions:
 
@@ -206,7 +212,9 @@ Trust policy:
 }
 ```
 
-##### Lambda implementation
+</Accordion>
+
+<Accordion title="Lambda implementation (push_delivery_lambda.py)">
 
 The Lambda receives a batch of customer profiles from the Journey's Custom Action block. It reads each profile's device tokens and sends push notifications via End User Messaging. Notification content comes from environment variables so you can update it without redeploying code.
 
@@ -288,6 +296,8 @@ def handler(event, context):
     return {'Items': {'CustomerProfiles': response_items}}
 ```
 
+</Accordion>
+
 ##### Deploy the Lambda
 
 ```bash
@@ -357,13 +367,122 @@ cp.create_profile(
 
 ## Registering devices from your mobile app
 
-Once your backend is set up, each device needs to register its push token with Connect Customer Profiles by calling `PutProfileObject` with the `AmplifyDevice` object type. This can be done via:
+Once your backend is set up, each device needs to register its push token with Connect Customer Profiles by calling `PutProfileObject` with the `AmplifyDevice` object type.
 
-- **Android/Swift:** The AWS SDK for Kotlin or Swift `CustomerProfilesClient.putProfileObject()` directly from the app
-- **Flutter:** A backend Lambda proxy, or a SigV4-signed HTTP request to the Customer Profiles REST API
-- **Any platform:** A thin backend endpoint that accepts the token and calls `PutProfileObject` on the customer's behalf
+<BlockSwitcher>
 
-The device object shape is the same as shown in Step 3 — `userId`, `deviceId`, `deviceToken`, `channelType`, and `platform`. The `UNIQUE` key on `deviceId` means re-registering with the same device ID updates the token in place (handles token refreshes).
+<Block name="Kotlin">
+
+```kotlin
+import aws.sdk.kotlin.services.customerprofiles.CustomerProfilesClient
+import aws.sdk.kotlin.services.customerprofiles.model.PutProfileObjectRequest
+import kotlinx.serialization.json.*
+
+val cpClient = CustomerProfilesClient { region = "us-east-1" }
+
+suspend fun registerDevice(userId: String, token: String, deviceId: String) {
+    val deviceObject = buildJsonObject {
+        put("userId", userId)
+        put("deviceId", deviceId)
+        put("deviceToken", token)
+        put("channelType", "GCM")
+        put("platform", "Android")
+    }
+
+    cpClient.putProfileObject(PutProfileObjectRequest {
+        domainName = "my-push-domain"
+        objectTypeName = "AmplifyDevice"
+        `object` = deviceObject.toString()
+    })
+}
+```
+
+</Block>
+
+<Block name="Swift">
+
+```swift
+import AWSCustomerProfiles
+
+let cpClient = try CustomerProfilesClient(region: "us-east-1")
+
+func registerDevice(userId: String, token: String, deviceId: String) async throws {
+    let deviceObject: [String: String] = [
+        "userId": userId,
+        "deviceId": deviceId,
+        "deviceToken": token,
+        "channelType": "APNS",
+        "platform": "iOS"
+    ]
+
+    let objectJson = try JSONSerialization.data(withJSONObject: deviceObject)
+
+    let input = PutProfileObjectInput(
+        domainName: "my-push-domain",
+        object: String(data: objectJson, encoding: .utf8)!,
+        objectTypeName: "AmplifyDevice"
+    )
+    _ = try await cpClient.putProfileObject(input: input)
+}
+```
+
+</Block>
+
+<Block name="Dart (via backend)">
+
+```dart
+// Flutter apps should call a backend endpoint that proxies to Customer Profiles.
+// Example backend Lambda (Python):
+
+import boto3, json
+
+cp = boto3.client('customer-profiles', region_name='us-east-1')
+
+def handler(event, context):
+    body = json.loads(event['body'])
+    cp.put_profile_object(
+        DomainName='my-push-domain',
+        ObjectTypeName='AmplifyDevice',
+        Object=json.dumps({
+            'userId': body['userId'],
+            'deviceId': body['deviceId'],
+            'deviceToken': body['deviceToken'],
+            'channelType': body['channelType'],
+            'platform': body['platform'],
+        })
+    )
+    return {'statusCode': 200}
+```
+
+```dart
+// Flutter client call:
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+Future<void> registerDevice({
+  required String userId,
+  required String deviceId,
+  required String token,
+  required String platform,
+}) async {
+  await http.post(
+    Uri.parse('https://your-api.execute-api.us-east-1.amazonaws.com/register-device'),
+    body: jsonEncode({
+      'userId': userId,
+      'deviceId': deviceId,
+      'deviceToken': token,
+      'channelType': platform == 'android' ? 'GCM' : 'APNS',
+      'platform': platform,
+    }),
+  );
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+The `UNIQUE` key on `deviceId` means re-registering with the same device ID updates the token in place (handles token refreshes).
 
 <Callout warning>
 
