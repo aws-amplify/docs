@@ -24,25 +24,25 @@ export function getStaticProps(context) {
   };
 }
 
-[AWS will end support for Amazon Pinpoint on October 30, 2026](https://docs.aws.amazon.com/pinpoint/latest/userguide/migrate.html). This guide covers migrating your Pinpoint push notification campaigns to Amazon Connect, using End User Messaging (the rebranded Pinpoint messaging API) for push delivery.
+[AWS will end support for Amazon Pinpoint on October 30, 2026](https://docs.aws.amazon.com/pinpoint/latest/userguide/migrate.html). This guide covers migrating your Pinpoint push notification campaigns to Amazon Connect, using End User Messaging for push delivery.
 
 ## If you only use Amplify Analytics
 
-If you only use Amplify Analytics (`recordEvent`, session tracking) and don't use push notifications, your migration path is **Amazon Kinesis Data Streams** — not Connect. See [Set up Kinesis Data Streams](/[platform]/build-a-backend/add-aws-services/analytics/streaming-analytics/) for setup instructions. The Amplify Kinesis client is already available.
+If you only use Amplify Analytics (`recordEvent`, session tracking) and don't use push notifications, migrate to **Amazon Kinesis Data Streams** instead of Connect. See [Set up Kinesis Data Streams](/[platform]/build-a-backend/add-aws-services/analytics/streaming-analytics/) for setup instructions. The Amplify Kinesis client is already available.
 
 The rest of this guide is for teams migrating **push notification campaigns**.
 
 ## What doesn't change
 
-Firebase Cloud Messaging (FCM) and Apple Push Notification service (APNs) still deliver pushes to devices. Pinpoint was never sending pushes directly — it called FCM/APNs via End User Messaging. **That API is not deprecated.** Your on-device push handling code (notification display, tap handling, deep linking, permissions) does not need to change.
+Firebase Cloud Messaging (FCM) and Apple Push Notification service (APNs) still deliver pushes to devices. Pinpoint called FCM/APNs through End User Messaging to deliver pushes. **That API is not deprecated.** Your on-device push handling code (notification display, tap handling, deep linking, permissions) does not need to change.
 
-What changes is how pushes are **triggered** (Connect Journeys instead of Pinpoint campaigns) and how device tokens are **registered** (Connect Customer Profiles instead of Pinpoint endpoints).
+Two things change: push **triggering** moves from Pinpoint campaigns to Connect Journeys, and device token **registration** moves from Pinpoint endpoints to Connect Customer Profiles.
 
 ## Choose your migration path
 
 ### Option A: Direct send (no campaign UI needed)
 
-If you already manage your own device token lists and just need to send pushes, you can skip Connect entirely and call End User Messaging directly. This is the simplest migration.
+If you manage your own device token lists and only need to send pushes, call End User Messaging directly without setting up Connect.
 
 <Callout info>
 
@@ -166,7 +166,7 @@ await client.send(new PutProfileObjectCommand({
 
 #### Step 4: Deploy the push delivery Lambda
 
-Amazon Connect Journeys support email, SMS, WhatsApp, and voice as native channels — but **not push notifications**. To send pushes from a Journey, you need a Lambda function that bridges the gap. The Journey invokes this Lambda via a "Custom Action" block, and the Lambda reads device tokens from the user's profile objects and calls End User Messaging to deliver the push via FCM/APNs.
+Amazon Connect Journeys support email, SMS, WhatsApp, and voice as native channels, but **not push notifications**. To send pushes from a Journey, add a Lambda function as a "Custom Action" block. The Lambda reads device tokens from profile objects and calls End User Messaging to deliver via FCM/APNs.
 
 <Accordion title="Lambda IAM role policy" headingLevel='4' eyebrow='Learn more'>
 
