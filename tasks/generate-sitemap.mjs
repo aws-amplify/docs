@@ -257,8 +257,14 @@ export async function writeSitemap() {
 }
 
 export const writeRobots = async () => {
-  let robotsContent = `User-agent: *\nDisallow:\n`;
+  // Content Signals declare how crawlers may use this content once fetched.
+  // We allow search indexing, AI answer-input (assistants reading pages to
+  // answer questions), and AI training. See https://contentsignals.org/
+  const contentSignal = `Content-Signal: search=yes, ai-input=yes, ai-train=yes\n`;
+
+  let robotsContent = `User-agent: *\n${contentSignal}Disallow:\n`;
   if (typeof process.env.ALLOW_ROBOTS === 'undefined') {
+    // Non-crawlable preview/build: block everything and omit content signals.
     robotsContent = `User-agent: *\nDisallow: /\n`;
   }
   if (process.env.BUILD_ENV === 'production') {
