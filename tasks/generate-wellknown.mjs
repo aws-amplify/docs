@@ -17,8 +17,14 @@ const ROOT_PATH = './client/www/next-build';
  *
  * This is a documentation site rather than a hosted API, so the catalog
  * advertises the machine-readable documentation resources the build already
- * produces (the llms.txt index, the full export, and the sitemap) instead of
- * an OpenAPI service description, which does not exist for this site.
+ * produces instead of an OpenAPI service description, which does not exist for
+ * this site. The relations map to the RFC 9727 link relations:
+ *   - service-desc: llms-full.txt, the complete machine-readable export that
+ *     best stands in for a service description for an agent.
+ *   - service-doc: llms.txt, the human/agent-readable documentation index.
+ *   - service-meta: the sitemap, which enumerates the catalog's pages.
+ *
+ * Each relation is an array of { href, type } objects per RFC 9727 Appendix A.
  *
  * @returns {string} Pretty-printed application/linkset+json document
  */
@@ -27,22 +33,24 @@ export function generateApiCatalog(domain = DOMAIN) {
     linkset: [
       {
         anchor: `${domain}/`,
-        'service-doc': [
-          {
-            href: `${domain}/ai/llms.txt`,
-            type: 'text/plain',
-            title: 'AWS Amplify documentation index for LLMs (llms.txt)'
-          },
+        'service-desc': [
           {
             href: `${domain}/ai/llms-full.txt`,
             type: 'text/plain',
             title: 'AWS Amplify documentation full export for LLMs'
           }
         ],
-        related: [
+        'service-doc': [
+          {
+            href: `${domain}/ai/llms.txt`,
+            type: 'text/plain',
+            title: 'AWS Amplify documentation index for LLMs (llms.txt)'
+          }
+        ],
+        'service-meta': [
           {
             href: `${domain}/sitemap.xml`,
-            type: 'text/xml',
+            type: 'application/xml',
             title: 'Sitemap'
           }
         ]

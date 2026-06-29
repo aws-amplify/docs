@@ -19,19 +19,39 @@ describe('generate-wellknown', () => {
       expect(parsed.linkset[0].anchor).toBe('https://docs.amplify.aws/');
     });
 
-    it('should advertise the llms.txt resources as service-doc links', () => {
+    it('should advertise the full export as a service-desc link (RFC 9727)', () => {
+      const parsed = JSON.parse(generateApiCatalog('https://docs.amplify.aws'));
+      const entry = parsed.linkset[0];
+
+      expect(Array.isArray(entry['service-desc'])).toBe(true);
+      const hrefs = entry['service-desc'].map((l: any) => l.href);
+      expect(hrefs).toContain('https://docs.amplify.aws/ai/llms-full.txt');
+    });
+
+    it('should advertise the llms.txt index as a service-doc link', () => {
       const parsed = JSON.parse(generateApiCatalog('https://docs.amplify.aws'));
       const hrefs = parsed.linkset[0]['service-doc'].map((l: any) => l.href);
 
       expect(hrefs).toContain('https://docs.amplify.aws/ai/llms.txt');
-      expect(hrefs).toContain('https://docs.amplify.aws/ai/llms-full.txt');
     });
 
-    it('should advertise the sitemap as a related link', () => {
+    it('should advertise the sitemap as a service-meta link', () => {
       const parsed = JSON.parse(generateApiCatalog('https://docs.amplify.aws'));
-      const hrefs = parsed.linkset[0].related.map((l: any) => l.href);
+      const hrefs = parsed.linkset[0]['service-meta'].map((l: any) => l.href);
 
       expect(hrefs).toContain('https://docs.amplify.aws/sitemap.xml');
+    });
+
+    it('should represent each relation as an array of href/type objects', () => {
+      const parsed = JSON.parse(generateApiCatalog('https://docs.amplify.aws'));
+      const entry = parsed.linkset[0];
+
+      for (const rel of ['service-desc', 'service-doc', 'service-meta']) {
+        for (const link of entry[rel]) {
+          expect(typeof link.href).toBe('string');
+          expect(typeof link.type).toBe('string');
+        }
+      }
     });
 
     it('should honor the provided domain', () => {
