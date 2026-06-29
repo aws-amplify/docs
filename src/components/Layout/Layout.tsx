@@ -312,7 +312,7 @@ export const Layout = ({
         >
           <IconsProvider icons={defaultIcons}>
             <ApiModalProvider>
-              <Modal isGen1={isGen1} />
+              <Modal />
               <View
                 className={classNames(
                   'layout-wrapper',
