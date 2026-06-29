@@ -45,6 +45,7 @@ import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
 import { LexV1EOLBanner } from '../LexV1EOLBanner';
 import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
 import { MarkdownMenu, getMarkdownUrl } from '@/components/MarkdownMenu';
+import { WebMcp } from '@/components/WebMcp';
 
 export const Layout = ({
   children,
@@ -314,6 +315,7 @@ export const Layout = ({
           key="twitter:image"
         />
       </Head>
+      {markdownUrl && <WebMcp route={asPathWithNoHash} />}
       <LayoutProvider
         value={{
           colorMode,
