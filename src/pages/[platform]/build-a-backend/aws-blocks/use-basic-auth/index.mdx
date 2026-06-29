@@ -117,18 +117,20 @@ await authApi.setAuthState({
 const profile = await api.getProfile();
 ```
 
-Handle bad credentials with the Block's typed errors:
+Handle bad credentials with the Block's typed errors. `setAuthState` does not throw — it returns the new auth state with an `errorName`, so branch on it with `hasAuthError`:
 
 ```ts
-import { isBlocksError } from '@aws-blocks/core';
+import { hasAuthError } from '@aws-blocks/core';
 import { AuthBasicErrors } from '@aws-blocks/bb-auth-basic';
 
-try {
-  await authApi.setAuthState({ action: 'signIn', username, password });
-} catch (e) {
-  if (isBlocksError(e, AuthBasicErrors.InvalidCredentials)) {
-    // show "invalid username or password"
-  }
+const next = await authApi.setAuthState({
+  action: 'signIn',
+  username: 'alice',
+  password: 'hunter2!'
+});
+
+if (hasAuthError(next, AuthBasicErrors.InvalidCredentials)) {
+  // show "invalid username or password"
 }
 ```
 

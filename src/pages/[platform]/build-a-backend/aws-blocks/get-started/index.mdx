@@ -75,7 +75,7 @@ No changes are committed, so you can review the diff before committing.
 | `aws-blocks/` | Your Blocks backend workspace. Define APIs, auth, and data in `aws-blocks/index.ts`. |
 | `amplify/blocks.ts` | Wires Blocks into your Amplify backend and passes your Cognito configuration to the Blocks Lambda. |
 | `amplify/backend.ts` | Patched to import `./blocks` and call `initBlocks(backend)`. |
-| `package.json` | Adds the `aws-blocks` workspace, dependencies, and scripts (`sandbox`, `blocks:generate-client`). |
+| `package.json` | Adds the `aws-blocks` workspace, dependencies, and scripts (`sandbox`, `sandbox:delete`, `blocks:dev`, `blocks:generate-client`). |
 | `amplify.yml` | Adds the `NODE_OPTIONS="--conditions=cdk"` condition so CDK constructs load during the backend build. |
 
 After scaffolding, your `amplify/backend.ts` calls `initBlocks(backend)`, which creates a nested CDK stack and forwards your Cognito user pool to Blocks:

@@ -91,6 +91,11 @@ export const api = new ApiNamespace(scope, 'api', (context) => ({
       throw new Error('Not found');
     }
     return agent.getConversation(conversationId);
+  },
+
+  // Expose the Realtime channel so the client can subscribe to streamed chunks
+  async getChannel(channelId: string) {
+    return agent.getChannel(channelId);
   }
 }));
 ```
