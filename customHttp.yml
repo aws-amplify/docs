@@ -16,12 +16,19 @@ customHeaders:
         value: 'upgrade-insecure-requests;'
       # CSP also set in _document.tsx meta tag
       # Link headers advertise agent-discovery resources (RFC 8288 / RFC 9727):
-      # the API catalog, the agent skills index, and the LLM-friendly docs index.
+      # the API catalog, the agent skills index, the MCP server card, and the
+      # LLM-friendly documentation index.
       - key: 'Link'
-        value: '</.well-known/api-catalog>; rel="api-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json", </ai/llms.txt>; rel="service-doc"; type="text/plain"'
+        value: '</.well-known/api-catalog>; rel="api-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json", </.well-known/mcp/server-card.json>; rel="mcp-server"; type="application/json", </ai/llms.txt>; rel="service-doc"; type="text/plain"'
   # The API catalog has no file extension, so set its media type explicitly
   # (RFC 9727 / RFC 9264).
   - pattern: '.well-known/api-catalog'
     headers:
       - key: 'Content-Type'
         value: 'application/linkset+json'
+  # Serve the generated agent-facing markdown twins as markdown so agents that
+  # request them get the correct media type (these live under /ai/**).
+  - pattern: '/ai/**/*.md'
+    headers:
+      - key: 'Content-Type'
+        value: 'text/markdown; charset=utf-8'

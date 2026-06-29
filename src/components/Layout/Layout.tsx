@@ -44,7 +44,7 @@ import { getPageSection } from '@/utils/getPageSection';
 import { PinpointEOLBanner } from '@/components/PinpointEOLBanner';
 import { LexV1EOLBanner } from '../LexV1EOLBanner';
 import { ApiModalProvider } from '../ApiDocs/ApiModalProvider';
-import { MarkdownMenu } from '@/components/MarkdownMenu';
+import { MarkdownMenu, getMarkdownUrl } from '@/components/MarkdownMenu';
 
 export const Layout = ({
   children,
@@ -170,6 +170,14 @@ export const Layout = ({
     children?.props?.childPageNodes?.length != 'undefined' &&
     children?.props?.childPageNodes?.length > 0;
 
+  // Per-page markdown alternate for agent autodiscovery. Only Gen2 content
+  // pages have a generated /ai/pages/*.md twin — mirror the MarkdownMenu gate
+  // (skip Gen1, home, and overview pages) so we never advertise a missing file.
+  const markdownUrl =
+    !isGen1 && !isHome && !isOverview
+      ? getMarkdownUrl(asPathWithNoHash)
+      : null;
+
   const showNextPrev = NEXT_PREVIOUS_SECTIONS.some(
     (section) =>
       pathname.includes(section) &&
@@ -267,6 +275,14 @@ export const Layout = ({
     <>
       <Head>
         <title>{`${title}`}</title>
+        {markdownUrl && (
+          <link
+            rel="alternate"
+            type="text/markdown"
+            href={markdownUrl}
+            key="markdown-alternate"
+          />
+        )}
         <meta property="og:title" content={title} key="og:title" />
         <meta name="description" content={description} />
         <meta

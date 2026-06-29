@@ -8,7 +8,7 @@ interface MarkdownMenuProps {
   isOverview?: boolean;
 }
 
-function getMarkdownUrl(route: string): string {
+export function getMarkdownUrl(route: string): string {
   // Strip platform prefix and trailing slash
   // e.g. /react/build-a-backend/auth/set-up-auth/ → build-a-backend/auth/set-up-auth
   const parts = route.replace(/^\//, '').replace(/\/$/, '').split('/');

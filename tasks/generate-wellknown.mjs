@@ -68,3 +68,65 @@ export async function writeApiCatalog() {
     console.error(`Error writing api-catalog to ${catalogPath}:`, error);
   }
 }
+
+// The AWS Knowledge MCP Server is a fully managed, public (no-auth) remote MCP
+// server that AWS hosts and that authoritatively indexes AWS Amplify
+// documentation. See https://github.com/awslabs/mcp (aws-knowledge-mcp-server).
+const AWS_KNOWLEDGE_MCP_ENDPOINT = 'https://knowledge-mcp.global.api.aws';
+
+/**
+ * Build the MCP Server Card (SEP-1649 style) for agent discovery.
+ *
+ * This documentation site does not run its own MCP server, so the card points
+ * at the official AWS Knowledge MCP Server, which is AWS-managed, requires no
+ * authentication, and indexes this site's content (AWS Amplify documentation).
+ * It is a truthful pointer to the real server agents should connect to rather
+ * than a claim that docs.amplify.aws is itself an MCP endpoint.
+ *
+ * @returns {string} Pretty-printed server card JSON document
+ */
+export function generateMcpServerCard() {
+  const card = {
+    serverInfo: {
+      name: 'aws-knowledge-mcp-server',
+      description:
+        'Fully managed, public AWS Knowledge MCP Server hosted by AWS. Provides search and retrieval over the latest AWS documentation, including AWS Amplify documentation, plus AWS agent skills. This site (docs.amplify.aws) does not host its own MCP server; connect to the AWS-managed server below.'
+    },
+    transport: {
+      type: 'http',
+      endpoint: AWS_KNOWLEDGE_MCP_ENDPOINT
+    },
+    authentication: {
+      required: false
+    },
+    capabilities: {
+      tools: [
+        'search_documentation',
+        'read_documentation',
+        'list_regions',
+        'get_regional_availability',
+        'retrieve_skill'
+      ]
+    },
+    documentation: 'https://github.com/awslabs/mcp'
+  };
+
+  return JSON.stringify(card, null, 2);
+}
+
+/**
+ * Writes the MCP server card to /.well-known/mcp/server-card.json in the build
+ * output.
+ */
+export async function writeMcpServerCard() {
+  const mcpDir = path.join(ROOT_PATH, '.well-known', 'mcp');
+  const cardPath = path.join(mcpDir, 'server-card.json');
+
+  try {
+    await fs.mkdir(mcpDir, { recursive: true });
+    await fs.writeFile(cardPath, generateMcpServerCard());
+    console.log(`mcp server-card written to ${cardPath}`);
+  } catch (error) {
+    console.error(`Error writing mcp server-card to ${cardPath}:`, error);
+  }
+}

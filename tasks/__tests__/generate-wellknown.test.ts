@@ -1,4 +1,7 @@
-import { generateApiCatalog } from '../generate-wellknown.mjs';
+import {
+  generateApiCatalog,
+  generateMcpServerCard
+} from '../generate-wellknown.mjs';
 
 describe('generate-wellknown', () => {
   describe('generateApiCatalog', () => {
@@ -35,6 +38,42 @@ describe('generate-wellknown', () => {
       const parsed = JSON.parse(generateApiCatalog('https://example.com'));
 
       expect(parsed.linkset[0].anchor).toBe('https://example.com/');
+    });
+  });
+
+  describe('generateMcpServerCard', () => {
+    it('should return a valid server card JSON document', () => {
+      const parsed = JSON.parse(generateMcpServerCard());
+
+      expect(parsed.serverInfo).toBeDefined();
+      expect(parsed.serverInfo.name).toBe('aws-knowledge-mcp-server');
+    });
+
+    it('should point at the public AWS Knowledge MCP endpoint over HTTP', () => {
+      const parsed = JSON.parse(generateMcpServerCard());
+
+      expect(parsed.transport.type).toBe('http');
+      expect(parsed.transport.endpoint).toBe(
+        'https://knowledge-mcp.global.api.aws'
+      );
+    });
+
+    it('should declare that no authentication is required', () => {
+      const parsed = JSON.parse(generateMcpServerCard());
+
+      expect(parsed.authentication.required).toBe(false);
+    });
+
+    it('should advertise the documentation and skill tools', () => {
+      const parsed = JSON.parse(generateMcpServerCard());
+
+      expect(parsed.capabilities.tools).toEqual(
+        expect.arrayContaining([
+          'search_documentation',
+          'read_documentation',
+          'retrieve_skill'
+        ])
+      );
     });
   });
 });

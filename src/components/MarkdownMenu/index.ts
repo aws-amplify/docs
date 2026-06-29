@@ -1,1 +1,1 @@
-export { MarkdownMenu } from './MarkdownMenu';
+export { MarkdownMenu, getMarkdownUrl } from './MarkdownMenu';
