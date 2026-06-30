@@ -1,5 +1,10 @@
 [
 	{
+		"source": "/.well-known/api-catalog",
+		"target": "/.well-known/api-catalog.json",
+		"status": "200"
+	},
+	{
 		"source": "/lib/ssr/ssr/q/platform/js/",
 		"target": "/gen1/javascript/prev/build-a-backend/server-side-rendering/",
 		"status": "301"

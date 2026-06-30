@@ -2,6 +2,7 @@ import {
   generateApiCatalog,
   generateMcpServerCard
 } from '../generate-wellknown.mjs';
+import redirects from '../../redirects.json';
 
 describe('generate-wellknown', () => {
   describe('generateApiCatalog', () => {
@@ -94,6 +95,22 @@ describe('generate-wellknown', () => {
           'retrieve_skill'
         ])
       );
+    });
+  });
+
+  // The site builds with trailingSlash: true, so the extensionless canonical
+  // path /.well-known/api-catalog is 301-redirected to a trailing-slash URL
+  // that 404s. A 200-rewrite to the .json file keeps the canonical path
+  // resolving with a 200 (the status the RFC 9727 scanner requires).
+  describe('api-catalog routing', () => {
+    it('rewrites the canonical path to the .json file with status 200', () => {
+      const rule = (redirects as any[]).find(
+        (r) => r.source === '/.well-known/api-catalog'
+      );
+
+      expect(rule).toBeDefined();
+      expect(rule.target).toBe('/.well-known/api-catalog.json');
+      expect(rule.status).toBe('200');
     });
   });
 });

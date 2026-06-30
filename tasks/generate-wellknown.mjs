@@ -62,11 +62,19 @@ export function generateApiCatalog(domain = DOMAIN) {
 }
 
 /**
- * Writes the API catalog to /.well-known/api-catalog in the build output.
+ * Writes the API catalog to the build output.
+ *
+ * The file is written with a `.json` extension (api-catalog.json) because the
+ * site builds with `trailingSlash: true`: Amplify Hosting 301-redirects
+ * extensionless paths (e.g. /.well-known/api-catalog) to a trailing-slash URL
+ * that has no corresponding file, returning 404. Files with an extension are
+ * served directly with a 200. A 200-rewrite in redirects.json maps the
+ * RFC 9727 canonical path /.well-known/api-catalog to this file so the
+ * extensionless path resolves with a 200 in place.
  */
 export async function writeApiCatalog() {
   const wellKnownDir = path.join(ROOT_PATH, '.well-known');
-  const catalogPath = path.join(wellKnownDir, 'api-catalog');
+  const catalogPath = path.join(wellKnownDir, 'api-catalog.json');
 
   try {
     await fs.mkdir(wellKnownDir, { recursive: true });
