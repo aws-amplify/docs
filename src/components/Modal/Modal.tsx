@@ -119,7 +119,7 @@ export const Modal = (_props: ViewProps) => {
           onClick={() => handleDialogAction()}
           className="modal-action modal-action--secondary"
         >
-          AWS Blocks documentation
+          Get Started with Blocks
           <IconExternalLink />
         </Button>
       </Flex>

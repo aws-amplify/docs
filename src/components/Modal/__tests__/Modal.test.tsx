@@ -88,11 +88,11 @@ describe('Modal', () => {
     expect(blocksLink).toBeInTheDocument();
   });
 
-  it('should render an external link to the AWS Blocks documentation', async () => {
+  it('should render an external link to get started with Blocks', async () => {
     render(<Modal />);
 
     const awsLink = screen.getByRole('link', {
-      name: /AWS Blocks documentation/
+      name: /Get Started with Blocks/
     });
 
     expect(awsLink).toHaveAttribute(
