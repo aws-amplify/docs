@@ -95,6 +95,12 @@
   }
 }
 
+.modal-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--amplify-space-xs);
+}
+
 .modal-action--primary {
   background-color: var(--amplify-colors-purple-20);
   color: var(--amplify-colors-black);
