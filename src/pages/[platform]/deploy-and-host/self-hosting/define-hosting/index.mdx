@@ -1,0 +1,258 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Configure hosting',
+  description: 'Customize your hosting infrastructure with domains, AWS WAF, compute settings, and AWS CDK escape hatches.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+{/* PREVIEW-BANNER-START */}
+<Callout warning>
+
+**This feature is in preview** and part of our [RFC](https://github.com/aws-amplify/amplify-backend/issues/3211). It is not recommended for production workloads yet, and APIs may change before general availability. See the RFC for instructions on installing the preview release.
+
+</Callout>
+{/* PREVIEW-BANNER-END */}
+
+In this guide, you will learn how to customize your self-hosted infrastructure with custom domains, WAF rules, compute and CDN configuration, custom adapters, and CDK escape hatches.
+
+## Framework detection
+
+By default, `defineHosting()` auto-detects your framework from `package.json`. You can override this explicitly:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  framework: 'nextjs',
+  buildCommand: 'npm run build',
+  buildOutputDir: '.next'
+});
+```
+
+The `buildCommand` and `buildOutputDir` options let you customize the build step if your project uses a non-standard setup.
+
+## Overriding the build output directory
+
+If your framework outputs to a non-standard directory, you can override `buildOutputDir` without changing any other defaults:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  buildOutputDir: './dist',
+});
+```
+
+This tells the construct where to find compiled assets after the build step completes.
+
+## Adding a custom domain
+
+Attach a custom domain to your Amazon CloudFront distribution with automatic ACM certificate provisioning:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  domain: {
+    domainName: 'app.example.com',
+    hostedZone: 'example.com'
+  }
+});
+```
+
+The construct creates a TLS certificate in `us-east-1` (required for Amazon CloudFront), validates it via DNS, and adds the appropriate Amazon Route 53 alias record.
+
+## Enabling WAF protection
+
+Add AWS WAF to your distribution to protect against common web exploits:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  domain: {
+    domainName: 'app.example.com',
+    hostedZone: 'example.com'
+  },
+  waf: {
+    enabled: true
+  }
+});
+```
+
+This attaches an AWS WAF Web ACL with AWS managed rule groups to your Amazon CloudFront distribution. You can further customize WAF rules using CDK escape hatches on the generated resources.
+
+## Tuning compute settings
+
+Control the Lambda function that handles server-side rendering:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  compute: {
+    memorySize: 1024,
+    timeout: 30,
+    runtime: 'nodejs20.x'
+  }
+});
+```
+
+The `memorySize` is in MB, and `timeout` is in seconds. Increase these values for applications with heavy server-side rendering workloads.
+
+## Customizing CDN behavior
+
+Fine-tune Amazon CloudFront caching and behavior settings:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  cdn: {
+    cachePolicy: {
+      defaultTtl: 86400,
+      maxTtl: 31536000
+    },
+    geoRestriction: {
+      restrictionType: 'whitelist',
+      locations: ['US', 'CA', 'GB', 'DE']
+    }
+  }
+});
+```
+
+## Adding a content security policy
+
+Set a Content-Security-Policy header on all responses from your Amazon CloudFront distribution:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  cdn: {
+    contentSecurityPolicy: "default-src 'self'; script-src 'self' 'unsafe-inline'",
+  },
+});
+```
+
+You can combine this with the other `cdn` options like `cachePolicy` and `geoRestriction` in the same object.
+
+## Configuring logging
+
+Enable access logging to an Amazon S3 bucket for your Amazon CloudFront distribution:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  logging: {
+    enabled: true
+  }
+});
+```
+
+## Configuring storage
+
+Control how the Amazon S3 bucket backing your deployment stores and retains data:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  storage: {
+    encryption: 'KMS',
+    retainOnDelete: true,
+    buildRetentionDays: 30,
+  },
+});
+```
+
+The `encryption` option sets the server-side encryption type (`S3` or `KMS`). Set `retainOnDelete` to `true` to preserve the Amazon S3 bucket when the stack is deleted. The `buildRetentionDays` value automatically removes old build artifacts after the specified number of days.
+
+## Using a custom adapter
+
+If your framework is not natively supported, provide a custom adapter:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+import { myCustomAdapter } from './my-adapter';
+
+export const hosting = defineHosting({
+  customAdapter: myCustomAdapter
+});
+```
+
+A custom adapter is a function that transforms your framework's build output into the format expected by the hosting construct (static assets and a server handler).
+
+## AWS CDK escape hatches
+
+The `defineHosting()` return value exposes the underlying AWS CDK resources. Use these to apply any customization not covered by the high-level API:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting();
+
+const { bucket, distribution, distributionUrl } = hosting.resources;
+
+// Add a custom response header to the distribution
+distribution.addBehavior('/api/*', origin, {
+  viewerProtocolPolicy: ViewerProtocolPolicy.HTTPS_ONLY
+});
+
+// Access the underlying Amazon S3 bucket
+bucket.addLifecycleRule({
+  expiration: Duration.days(90),
+  prefix: 'logs/'
+});
+```
+
+You can also create additional AWS CDK stacks scoped to your hosting:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+import * as wafv2 from 'aws-cdk-lib/aws-wafv2';
+
+export const hosting = defineHosting();
+
+const wafStack = hosting.createStack('WafStack');
+
+new wafv2.CfnWebACL(wafStack, 'CustomWebAcl', {
+  defaultAction: { allow: {} },
+  scope: 'CLOUDFRONT',
+  visibilityConfig: {
+    cloudWatchMetricsEnabled: true,
+    metricName: 'customWaf',
+    sampledRequestsEnabled: true
+  },
+  rules: []
+});
+```
+
+## Next steps
+
+- [Set up a CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/define-pipeline/) to automate deployments
+- [Use an external CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/external-pipelines/) with GitHub Actions or GitLab CI

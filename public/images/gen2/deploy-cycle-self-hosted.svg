@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 480" width="520" height="480">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a37de6"/>
+      <stop offset="100%" stop-color="#7c4dbd"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff9900"/>
+      <stop offset="100%" stop-color="#e88600"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="520" height="480" rx="12" fill="#1e1e2e"/>
+
+  <!-- SECTION 1: DEVELOP — y=12, height=156, bottom=168 -->
+  <rect x="16" y="12" width="488" height="156" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="36" y="38" fill="rgba(255,255,255,0.7)" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" letter-spacing="1">DEVELOP</text>
+
+  <!-- Dev A -->
+  <rect x="28" y="50" width="224" height="60" rx="8" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+  <text x="140" y="76" text-anchor="middle" fill="#fff" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600">Dev A</text>
+  <text x="140" y="98" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="ui-monospace, SFMono-Regular, monospace" font-size="16">localhost:3000</text>
+
+  <!-- Arrow Dev A (bidirectional) -->
+  <line x1="140" y1="110" x2="140" y2="126" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+  <polygon points="135,113 140,110 145,113" fill="rgba(255,255,255,0.6)"/>
+  <polygon points="135,123 140,126 145,123" fill="rgba(255,255,255,0.6)"/>
+  <text x="158" y="122" fill="rgba(255,255,255,0.5)" font-family="ui-monospace, monospace" font-size="13">ampx sandbox</text>
+
+  <!-- Cloud Sandbox A -->
+  <rect x="28" y="130" width="224" height="32" rx="6" fill="rgba(148,105,214,0.25)" stroke="rgba(148,105,214,0.5)" stroke-width="1"/>
+  <text x="140" y="151" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-family="system-ui, -apple-system, sans-serif" font-size="16">☁ Cloud Sandbox A</text>
+
+  <!-- Dev B -->
+  <rect x="268" y="50" width="224" height="60" rx="8" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+  <text x="380" y="76" text-anchor="middle" fill="#fff" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600">Dev B</text>
+  <text x="380" y="98" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="ui-monospace, SFMono-Regular, monospace" font-size="16">localhost:3000</text>
+
+  <!-- Arrow Dev B (bidirectional) -->
+  <line x1="380" y1="110" x2="380" y2="126" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+  <polygon points="375,113 380,110 385,113" fill="rgba(255,255,255,0.6)"/>
+  <polygon points="375,123 380,126 385,123" fill="rgba(255,255,255,0.6)"/>
+  <text x="398" y="122" fill="rgba(255,255,255,0.5)" font-family="ui-monospace, monospace" font-size="13">ampx sandbox</text>
+
+  <!-- Cloud Sandbox B -->
+  <rect x="268" y="130" width="224" height="32" rx="6" fill="rgba(148,105,214,0.25)" stroke="rgba(148,105,214,0.5)" stroke-width="1"/>
+  <text x="380" y="151" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-family="system-ui, -apple-system, sans-serif" font-size="16">☁ Cloud Sandbox B</text>
+
+  <!-- ARROW: Develop → Git (connects bottom of section 1 to top of section 2) -->
+  <!-- Section 1 bottom = 168, Section 2 top = 206 -->
+  <line x1="260" y1="168" x2="260" y2="206" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <polygon points="255,200 260,206 265,200" fill="rgba(255,255,255,0.5)"/>
+  <text x="272" y="190" fill="rgba(255,255,255,0.5)" font-family="system-ui, sans-serif" font-size="16" font-style="italic">git push</text>
+
+  <!-- SECTION 2: GIT REPOSITORY — y=206, height=90, bottom=296 -->
+  <rect x="16" y="206" width="488" height="90" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="260" y="232" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" letter-spacing="1">GIT REPOSITORY</text>
+
+  <!-- Branch pills — centered as a group: 2 pills × 140 + 1 gap × 20 = 300. start=(520-300)/2=110 -->
+  <rect x="110" y="244" width="140" height="42" rx="21" fill="#835bd9"/>
+  <text x="180" y="272" text-anchor="middle" fill="#fff" font-family="ui-monospace, SFMono-Regular, monospace" font-size="18" font-weight="500">beta</text>
+
+  <rect x="270" y="244" width="140" height="42" rx="21" fill="#835bd9"/>
+  <text x="340" y="272" text-anchor="middle" fill="#fff" font-family="ui-monospace, SFMono-Regular, monospace" font-size="18" font-weight="500">main</text>
+
+  <!-- ARROW: Git → Deploy (connects bottom of section 2 to top of section 3) -->
+  <!-- Section 2 bottom = 296, Section 3 top = 334 -->
+  <line x1="260" y1="296" x2="260" y2="334" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <polygon points="255,328 260,334 265,328" fill="rgba(255,255,255,0.5)"/>
+  <text x="272" y="318" fill="rgba(255,255,255,0.5)" font-family="system-ui, sans-serif" font-size="16" font-style="italic">auto deploy</text>
+
+  <!-- SECTION 3: YOUR AWS ACCOUNT — y=334, height=134, bottom=468 -->
+  <rect x="16" y="334" width="488" height="134" rx="10" fill="rgba(255,153,0,0.08)" stroke="rgba(255,153,0,0.4)" stroke-width="1.5"/>
+  <text x="260" y="362" text-anchor="middle" fill="rgba(255,153,0,0.9)" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" letter-spacing="1">YOUR AWS ACCOUNT</text>
+
+  <!-- Description -->
+  <text x="260" y="390" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="system-ui, -apple-system, sans-serif" font-size="17" font-weight="500">Each branch deploys its own stack</text>
+
+  <!-- Per-branch URLs -->
+  <rect x="32" y="406" width="220" height="48" rx="8" fill="rgba(255,153,0,0.12)" stroke="rgba(255,153,0,0.3)" stroke-width="1"/>
+  <text x="142" y="435" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14">beta.example.com</text>
+
+  <rect x="268" y="406" width="220" height="48" rx="8" fill="rgba(255,153,0,0.12)" stroke="rgba(255,153,0,0.3)" stroke-width="1"/>
+  <text x="378" y="435" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14">app.example.com</text>
+
+</svg>

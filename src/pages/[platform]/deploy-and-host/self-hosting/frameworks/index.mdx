@@ -1,0 +1,99 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Supported frameworks',
+  description: 'Frameworks supported by self-managed hosting and their feature capabilities.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+{/* PREVIEW-BANNER-START */}
+<Callout warning>
+
+**This feature is in preview** and part of our [RFC](https://github.com/aws-amplify/amplify-backend/issues/3211). It is not recommended for production workloads yet, and APIs may change before general availability. See the RFC for instructions on installing the preview release.
+
+</Callout>
+{/* PREVIEW-BANNER-END */}
+
+When you call `defineHosting()`, the construct auto-detects your framework by inspecting `package.json` dependencies. Each framework maps to a specific build adapter that determines which hosting features are available.
+
+## Detected frameworks
+
+The following frameworks are detected automatically:
+
+**Next.js** — Detected when `next` is present in your dependencies. Uses the `@opennextjs/aws` adapter to deploy server-rendered pages, API routes, middleware, and image optimization as Lambda@Edge or AWS Lambda functions behind Amazon CloudFront.
+
+**Nuxt / Nitro** — Detected from `nuxt` or `nitropack` in dependencies. Uses the Nitro server engine with an AWS Lambda adapter for server routes, middleware, and hybrid rendering.
+
+**Astro** — Detected when `astro` is present in your dependencies. Supports both static output and on-demand server rendering through its SSR adapter.
+
+**Static / React SPA / Vite / CRA** — Fallback when no server framework is detected. Your app is built as static files and served directly from Amazon S3 through Amazon CloudFront with no server compute required.
+
+**Custom frameworks** — If your framework is not auto-detected, use the `customAdapter` option in `defineHosting()` to provide your own build and routing logic:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  customAdapter: {
+    buildCommand: 'npm run build',
+    outputDirectory: './dist',
+    serverEntry: './dist/server/entry.mjs'
+  }
+});
+```
+
+## Feature matrix
+
+The table below shows which features each framework supports when deployed with self-managed hosting.
+
+| Feature | Next.js | Nuxt / Nitro | Astro | Static / SPA |
+|---------|---------|--------------|-------|--------------|
+| Static hosting | ✅ | ✅ | ✅ | ✅ |
+| Server-side rendering | ✅ | ✅ | ✅ | — |
+| Streaming SSR | ✅ | ✅ | ✅ | — |
+| Streaming (RSC) | ✅ | — | — | — |
+| Middleware (edge) | ✅ | ✅ | ✅ | — |
+| Image optimization | ✅ | ✅ | ✅ | — |
+| ISR with revalidation | ✅ | — | — | — |
+| SWR (stale-while-revalidate) | ✅ | ✅ | — | — |
+| Atomic deployments | ✅ | ✅ | ✅ | ✅ |
+| Custom domains | ✅ | ✅ | ✅ | ✅ |
+| WAF | ✅ | ✅ | ✅ | ✅ |
+
+## Feature details
+
+**Streaming SSR** enables your application to send HTML to the browser in chunks as each component resolves, rather than waiting for the full page. This reduces time-to-first-byte and lets users see content sooner.
+
+**Streaming (RSC)** is a Next.js-specific capability that streams React Server Component payloads to the client. Server components render on the server without client-side JavaScript, and their output streams to the browser as it becomes ready.
+
+**ISR with revalidation** allows Next.js pages to be statically generated at build time and then regenerated on-demand after a configured time interval. Subsequent requests receive the updated page without a full redeploy.
+
+**SWR (stale-while-revalidate)** serves cached responses immediately while fetching updated content in the background. The next request after revalidation completes receives the fresh response.
+
+**Middleware (edge)** runs code at Amazon CloudFront edge locations before the request reaches your origin server. Use it for redirects, rewrites, authentication checks, A/B testing, and header manipulation.
+
+**Image optimization** automatically resizes, reformats, and caches images on-demand through an AWS Lambda function. Requests for images are processed at the configured quality and dimensions, then served through the CDN.
+
+**Atomic deployments** ensure that all assets for a deployment become available at the same instant. There is no window where old and new assets are mixed, preventing broken references during rollouts.

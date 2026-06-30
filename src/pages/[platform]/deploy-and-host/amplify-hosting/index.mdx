@@ -1,0 +1,56 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Amplify Hosting',
+  description:
+    'Managed CI/CD and hosting for static and server-rendered apps. Auto-deploy from Git with per-branch environments and PR previews.',
+  route: '/[platform]/deploy-and-host/amplify-hosting',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+AWS Amplify Hosting is a fully managed CI/CD and hosting service for static and server-side rendered apps. Connect your Git repository and Amplify builds, deploys, and serves your application on every push.
+
+Amplify Hosting supports frameworks like Next.js, React, Vue, Angular, Nuxt, and Gatsby. It provisions SSL certificates, manages custom domains, and handles cache invalidation automatically.
+
+## Key capabilities
+
+**Git-based deployments** — Push to your repository and Amplify builds and deploys both your frontend and backend resources together. Each branch gets its own environment.
+
+**PR previews** — Open a pull request and get a preview URL with the proposed changes deployed to an isolated environment.
+
+**Secrets and environment variables** — Store API keys, configuration values, and secrets that are injected at build time without committing them to your repository.
+
+**Multi-repo and monorepo support** — Deploy from monorepos with multiple apps, or coordinate deployments across separate repositories.
+
+**Custom CI/CD pipelines** — Override the default build process with your own pipeline configuration for advanced build requirements.
+
+**Cross-account deployments** — Deploy backend resources to different AWS accounts while keeping your hosting in a central account.
+
+## Get started
+
+<Overview childPageNodes={props.childPageNodes} />

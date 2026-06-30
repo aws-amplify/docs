@@ -1,5 +1,6 @@
 import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { Card } from '@aws-amplify/ui-react';
 
 export const meta = {
   title: 'Deployment',
@@ -32,4 +33,23 @@ export function getStaticProps(context) {
   };
 }
 
-<Overview childPageNodes={props.childPageNodes} />
+Amplify provides two ways to deploy and host your frontend application. You can use fully managed hosting through the Amplify console, or deploy to your own AWS account with full infrastructure control.
+
+## Choose your hosting approach
+
+<Columns columns={2}>
+  <Card variation="outlined">
+    **[Amplify Hosting](/[platform]/deploy-and-host/amplify-hosting/)**
+
+    Managed CI/CD and hosting. Connect your Git repository and Amplify builds, deploys, and serves your app on every push. Includes custom domains, branch previews, and SSR support.
+  </Card>
+  <Card variation="outlined">
+    **[Self-managed hosting](/[platform]/deploy-and-host/self-hosting/)**
+
+    Deploy to your AWS account with `defineHosting()`. Full AWS CDK control over Amazon CloudFront, Amazon S3, and Lambda@Edge. Use your own CI/CD pipeline or provision one with `definePipeline()`.
+  </Card>
+</Columns>
+
+## Cloud sandbox environments
+
+Regardless of which hosting approach you choose, you use [cloud sandbox environments](/[platform]/deploy-and-host/sandbox-environments/) for local development. Each team member gets an isolated set of backend resources that deploy in seconds, giving you a personal cloud environment to iterate against without affecting shared environments.

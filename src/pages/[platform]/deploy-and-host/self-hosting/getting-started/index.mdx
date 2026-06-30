@@ -1,0 +1,101 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Getting started with self-hosting',
+  description: 'Install the hosting package and deploy your first app.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+{/* PREVIEW-BANNER-START */}
+<Callout warning>
+
+**This feature is in preview** and part of our [RFC](https://github.com/aws-amplify/amplify-backend/issues/3211). It is not recommended for production workloads yet, and APIs may change before general availability. See the RFC for instructions on installing the preview release.
+
+</Callout>
+{/* PREVIEW-BANNER-END */}
+
+In this guide, you will learn how to install the hosting package, configure your first `defineHosting()` definition, and deploy your frontend to your own AWS account.
+
+## Prerequisites
+
+<Callout warning>
+
+Before you begin, ensure that your AWS account has been bootstrapped with AWS CDK and that you have valid AWS credentials configured in your environment. Run `cdk bootstrap aws://ACCOUNT_ID/REGION` if you have not done so already.
+
+</Callout>
+
+You need an existing Amplify Gen 2 project with a backend already defined in `amplify/backend.ts`. If you do not have one yet, follow the [quickstart guide](/[platform]/start/quickstart/) first.
+
+## Installing the hosting package
+
+Add the `@aws-amplify/hosting` package to your project:
+
+```bash title="Terminal"
+npm add @aws-amplify/hosting
+```
+
+## Creating the hosting definition
+
+Create a new file at `amplify/hosting.ts`. This file lives alongside your `amplify/backend.ts` but defines your frontend infrastructure separately.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting();
+```
+
+By default, the framework is auto-detected from your `package.json`. Supported frameworks include `nextjs`, `nuxt`, `astro`, `nitro`, `spa`, and `static`. You can optionally override the framework detection if needed.
+
+## Deploying your application
+
+Run `ampx deploy` to synthesize and deploy both your backend and hosting stacks:
+
+```bash title="Terminal"
+npx ampx deploy --identifier production
+```
+
+The `--identifier` flag names your deployment environment. This command deploys everything: backend resources, the frontend build, and the hosting infrastructure (S3 bucket, CloudFront distribution, and compute layer).
+
+Once complete, the CLI prints your CloudFront distribution URL where your application is live.
+
+## Deploying only the frontend
+
+If your backend is already deployed and you only need to update the frontend:
+
+```bash title="Terminal"
+npx ampx deploy --identifier production --frontend
+```
+
+This skips the backend stack and only rebuilds and deploys your frontend assets.
+
+## Verifying your deployment
+
+After deployment, the CLI outputs the distribution URL. Open it in a browser to confirm your application is serving correctly. You can also find the Amazon CloudFront distribution in the AWS Console under the Amazon CloudFront service.
+
+## Next steps
+
+- [Configure hosting](/[platform]/deploy-and-host/self-hosting/define-hosting/) to add custom domains, WAF, and CDN tuning
+- [Set up a CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/define-pipeline/) with CodePipeline
+- [Use an external CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/external-pipelines/) with GitHub Actions or GitLab CI
