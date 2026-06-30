@@ -82,17 +82,17 @@ describe('Modal', () => {
     render(<Modal />);
 
     const blocksLink = screen.getByRole('link', {
-      name: /Explore AWS Blocks/
+      name: /Explore Blocks with Amplify/
     });
 
     expect(blocksLink).toBeInTheDocument();
   });
 
-  it('should render an external link to AWS Blocks on AWS', async () => {
+  it('should render an external link to the AWS Blocks documentation', async () => {
     render(<Modal />);
 
     const awsLink = screen.getByRole('link', {
-      name: /AWS Blocks on AWS/
+      name: /AWS Blocks documentation/
     });
 
     expect(awsLink).toHaveAttribute(

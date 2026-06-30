@@ -74,8 +74,9 @@ export const Modal = (_props: ViewProps) => {
               Composable backend capabilities
             </Text>
             <Text className="modal-key-point-text">
-              Add the Blocks you need — AI agents, auth, storage, and more —
-              alongside your existing Amplify resources.
+              Add the Blocks you need — PostgreSQL databases, realtime
+              messaging, metrics, logging, and more — alongside your existing
+              Amplify resources.
             </Text>
           </Flex>
         </Flex>
@@ -95,18 +96,6 @@ export const Modal = (_props: ViewProps) => {
         </Flex>
       </Flex>
       <Flex className="modal-actions">
-        <Button
-          as="a"
-          size="small"
-          href={AWS_BLOCKS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => handleDialogAction()}
-          className="modal-action modal-action--secondary"
-        >
-          AWS Blocks on AWS
-          <IconExternalLink />
-        </Button>
         <InternalLinkButton
           as="a"
           size="small"
@@ -118,9 +107,21 @@ export const Modal = (_props: ViewProps) => {
           variation="primary"
           className="modal-action modal-action--primary"
         >
-          Explore AWS Blocks
+          Explore Blocks with Amplify
           <IconChevron className="icon-rotate-270" />
         </InternalLinkButton>
+        <Button
+          as="a"
+          size="small"
+          href={AWS_BLOCKS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => handleDialogAction()}
+          className="modal-action modal-action--secondary"
+        >
+          AWS Blocks documentation
+          <IconExternalLink />
+        </Button>
       </Flex>
     </Flex>
   );
