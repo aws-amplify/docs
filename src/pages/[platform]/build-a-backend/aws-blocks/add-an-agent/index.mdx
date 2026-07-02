@@ -61,36 +61,35 @@ const auth = new CognitoVerifier({
   tokenUse: 'id'
 });
 
+// `model` is optional and defaults to BedrockModels.BALANCED.
 const agent = new Agent(scope, 'support-agent', {
-  model: { deployed: BedrockModels.DEFAULT },
+  model: { deployed: BedrockModels.BALANCED },
   systemPrompt: 'You are a helpful support agent.'
 });
 
+// These methods return the shapes the `useChat` client hook expects
+// ({ conversationId } and { messages }) so the frontend can wire in directly.
 export const api = new ApiNamespace(scope, 'api', (context) => ({
   // Start a conversation for the signed-in Amplify user
-  async startConversation() {
+  async createConversation() {
     const user = await auth.requireAuth(context);
-    return agent.createConversationId(user.sub);
+    return { conversationId: await agent.createConversationId(user.sub) };
   },
 
-  // Send a message — the agent streams chunks to a Realtime channel
-  async sendMessage(conversationId: string, message: string) {
-    const user = await auth.requireAuth(context);
-    const result = await agent.stream(message, {
-      conversationId,
-      userId: user.sub
-    });
-    return { channelId: result.channelId };
+  // Send a message — the agent streams chunks to the given Realtime channel
+  async sendMessage(conversationId: string, message: string, channelId: string) {
+    await auth.requireAuth(context);
+    await agent.stream(message, { conversationId, channelId });
   },
 
   // Read history — verify the conversation belongs to this user first
-  async getMessages(conversationId: string) {
+  async getConversation(conversationId: string) {
     const user = await auth.requireAuth(context);
     const owned = await agent.listConversations(user.sub);
     if (!owned.some((c) => c.conversationId === conversationId)) {
       throw new Error('Not found');
     }
-    return agent.getConversation(conversationId);
+    return { messages: await agent.getConversation(conversationId) };
   },
 
   // Expose the Realtime channel so the client can subscribe to streamed chunks
@@ -102,7 +101,7 @@ export const api = new ApiNamespace(scope, 'api', (context) => ({
 
 <Callout warning>
 
-The `Agent` Block scopes data by an unguessable `conversationId` but does not authorize the caller on read paths. Always derive the user from `requireAuth(context)` and confirm the conversation belongs to them — as `getMessages` does above — before returning history.
+The `Agent` Block scopes data by an unguessable `conversationId` but does not authorize the caller on read paths. Always derive the user from `requireAuth(context)` and confirm the conversation belongs to them — as `getConversation` does above — before returning history.
 
 </Callout>
 
@@ -114,7 +113,7 @@ The agent runs on Amazon Bedrock, so deploy it with the rest of your backend:
 npm run sandbox
 ```
 
-Make sure [model access is enabled](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for the default Bedrock model in your account and Region.
+Make sure [model access is enabled](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for the Bedrock model your agent uses in your account and Region.
 
 <InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
 
@@ -132,14 +131,12 @@ The `Agent` Block ships a `useChat` helper that manages the conversation, subscr
 import { api } from 'aws-blocks';
 import { useChat } from '@aws-blocks/bb-agent/client';
 
-const conversationId = await api.startConversation();
-
 const chat = useChat({
   api: {
-    sendMessage: (conversationId, message) =>
-      api.sendMessage(conversationId, message),
-    createConversation: () => api.startConversation(),
-    getConversation: (id) => api.getMessages(id)
+    sendMessage: (conversationId, message, channelId) =>
+      api.sendMessage(conversationId, message, channelId),
+    createConversation: () => api.createConversation(),
+    getConversation: (id) => api.getConversation(id)
   },
   subscribe: async (channelId, handler) => {
     const channel = await api.getChannel(channelId);
@@ -153,7 +150,7 @@ await chat.sendMessage('When are you open tomorrow?');
 
 <Callout info>
 
-`useChat` is a factory function, not a React hook — call it once (for example, in a ref or outside your component), not on every render.
+Despite the name, `useChat` is a factory function, not a React hook — call it once (for example, in a ref or outside your component), not on every render.
 
 </Callout>
 
@@ -163,7 +160,7 @@ await chat.sendMessage('When are you open tomorrow?');
 
 ## Call the agent from your frontend
 
-Generate the native client for your platform from your backend's `blocks.spec.json` and attach your Amplify Auth session token as a `Bearer` token on each request, as described in [Connect your frontend](/[platform]/build-a-backend/aws-blocks/connect-your-frontend/). Call `startConversation` to get a conversation ID, then `sendMessage`, and subscribe to the returned Realtime channel to receive streamed chunks.
+Generate the native client for your platform from your backend's `blocks.spec.json` and attach your Amplify Auth session token as a `Bearer` token on each request, as described in [Connect your frontend](/[platform]/build-a-backend/aws-blocks/connect-your-frontend/). Call `createConversation` to get a conversation ID, then `sendMessage` with a channel ID, and subscribe to that Realtime channel to receive streamed chunks.
 
 </InlineFilter>
 
