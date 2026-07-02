@@ -78,8 +78,8 @@ export const api = new ApiNamespace(scope, 'api', (context) => ({
 
   // Send a message — the agent streams chunks to the given Realtime channel
   async sendMessage(conversationId: string, message: string, channelId: string) {
-    await auth.requireAuth(context);
-    await agent.stream(message, { conversationId, channelId });
+    const user = await auth.requireAuth(context);
+    await agent.stream(message, { conversationId, channelId, userId: user.sub });
   },
 
   // Read history — verify the conversation belongs to this user first
