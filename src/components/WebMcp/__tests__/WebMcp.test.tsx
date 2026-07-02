@@ -71,4 +71,24 @@ describe('WebMcp', () => {
       markdown: '# Set up auth\n\nReal markdown content.'
     });
   });
+
+  it('registers the second tool even if the first registration rejects', async () => {
+    const registerTool = jest
+      .fn()
+      .mockRejectedValueOnce(new Error('duplicate tool name'))
+      .mockResolvedValueOnce(undefined);
+    (document as unknown as { modelContext: unknown }).modelContext = {
+      registerTool
+    };
+
+    await act(async () => {
+      render(<WebMcp route="/react/build-a-backend/auth/set-up-auth/" />);
+    });
+
+    await waitFor(() => expect(registerTool).toHaveBeenCalledTimes(2));
+
+    const toolNames = registerTool.mock.calls.map((c) => c[0].name);
+    expect(toolNames).toContain('get_current_page_markdown');
+    expect(toolNames).toContain('get_documentation_index');
+  });
 });

@@ -168,7 +168,7 @@ export const Layout = ({
   };
 
   const isOverview =
-    children?.props?.childPageNodes?.length != 'undefined' &&
+    typeof children?.props?.childPageNodes?.length !== 'undefined' &&
     children?.props?.childPageNodes?.length > 0;
 
   // Per-page markdown alternate for agent autodiscovery. Only Gen2 content

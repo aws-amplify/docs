@@ -112,5 +112,21 @@ describe('generate-wellknown', () => {
       expect(rule.target).toBe('/.well-known/api-catalog.json');
       expect(rule.status).toBe('200');
     });
+
+    it('orders the rewrite before any catch-all that could shadow it', () => {
+      const rules = redirects as any[];
+      const catalogIndex = rules.findIndex(
+        (r) => r.source === '/.well-known/api-catalog'
+      );
+      // Redirects apply top-down; a broad wildcard placed earlier would win.
+      const firstCatchAllIndex = rules.findIndex((r) =>
+        /<\*>|\/\*/.test(r.source)
+      );
+
+      expect(catalogIndex).toBeGreaterThanOrEqual(0);
+      if (firstCatchAllIndex !== -1) {
+        expect(catalogIndex).toBeLessThan(firstCatchAllIndex);
+      }
+    });
   });
 });

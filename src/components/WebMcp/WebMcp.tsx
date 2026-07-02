@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getMarkdownUrl } from '@/components/MarkdownMenu';
+import { getMarkdownUrl, fetchPageMarkdown } from '@/components/MarkdownMenu';
 
 /**
  * Minimal shape of the WebMCP API we depend on. The spec exposes
@@ -39,21 +39,20 @@ function getModelContext(): ModelContextLike | null {
 }
 
 /**
- * Fetch a markdown document and return its text, guarding against the SPA
- * fallback returning an HTML page (e.g. a 404) instead of markdown.
+ * Register a single tool, isolating failures so one rejected registration
+ * (e.g. a transient duplicate-name error during abort/re-register on fast
+ * client-side navigation) can't prevent the others from registering.
  */
-async function fetchMarkdown(url: string): Promise<string> {
-  const response = await fetch(url, {
-    headers: { accept: 'text/markdown, text/plain' }
-  });
-  if (!response.ok) {
-    throw new Error(`Request for ${url} failed with status ${response.status}`);
+async function safeRegister(
+  modelContext: ModelContextLike,
+  tool: ModelContextTool,
+  signal: AbortSignal
+): Promise<void> {
+  try {
+    await modelContext.registerTool(tool, { signal });
+  } catch {
+    // Registration is best-effort; ignore failures for this tool.
   }
-  const text = await response.text();
-  if (/^\s*<!doctype/i.test(text) || /^\s*<html/i.test(text)) {
-    throw new Error(`No markdown available at ${url}`);
-  }
-  return text;
 }
 
 /**
@@ -74,44 +73,38 @@ export function WebMcp({ route }: { route: string }) {
     const { signal } = controller;
     const origin = window.location.origin;
 
-    const register = async () => {
-      try {
-        await modelContext.registerTool(
-          {
-            name: 'get_current_page_markdown',
-            description:
-              'Return the current AWS Amplify documentation page as clean Markdown, ideal for reading or summarizing without HTML chrome.',
-            inputSchema: { type: 'object', properties: {} },
-            annotations: { readOnlyHint: true },
-            execute: async () => {
-              const markdown = await fetchMarkdown(origin + getMarkdownUrl(route));
-              return { markdown };
-            }
-          },
-          { signal }
-        );
+    // Each tool is registered independently so one failure can't block the rest.
+    safeRegister(
+      modelContext,
+      {
+        name: 'get_current_page_markdown',
+        description:
+          'Return the current AWS Amplify documentation page as clean Markdown, ideal for reading or summarizing without HTML chrome.',
+        inputSchema: { type: 'object', properties: {} },
+        annotations: { readOnlyHint: true },
+        execute: async () => {
+          const markdown = await fetchPageMarkdown(origin + getMarkdownUrl(route));
+          return { markdown };
+        }
+      },
+      signal
+    );
 
-        await modelContext.registerTool(
-          {
-            name: 'get_documentation_index',
-            description:
-              'Return the AWS Amplify documentation index (llms.txt), a Markdown list of all documentation pages with descriptions and links to their Markdown versions.',
-            inputSchema: { type: 'object', properties: {} },
-            annotations: { readOnlyHint: true },
-            execute: async () => {
-              const index = await fetchMarkdown(origin + '/ai/llms.txt');
-              return { index };
-            }
-          },
-          { signal }
-        );
-      } catch {
-        // Registration is best-effort; ignore failures (e.g. duplicate names
-        // during fast client-side navigations or unsupported environments).
-      }
-    };
-
-    register();
+    safeRegister(
+      modelContext,
+      {
+        name: 'get_documentation_index',
+        description:
+          'Return the AWS Amplify documentation index (llms.txt), a Markdown list of all documentation pages with descriptions and links to their Markdown versions.',
+        inputSchema: { type: 'object', properties: {} },
+        annotations: { readOnlyHint: true },
+        execute: async () => {
+          const index = await fetchPageMarkdown(origin + '/ai/llms.txt');
+          return { index };
+        }
+      },
+      signal
+    );
 
     return () => controller.abort();
   }, [route]);

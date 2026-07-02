@@ -1,16 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import dotenv from 'dotenv';
-
-dotenv.config({ path: './.env.custom' });
-
-const DOMAIN = process.env.SITEMAP_DOMAIN
-  ? process.env.SITEMAP_DOMAIN
-  : 'https://docs.amplify.aws';
-
-// Path of the Next.js static HTML build output (same target used for
-// robots.txt, sitemap.xml, and the API catalog in postBuildTasks).
-const ROOT_PATH = './client/www/next-build';
+import { DOMAIN, ROOT_PATH, CANONICAL_PLATFORM } from './build-constants.mjs';
 
 // Agent Skills Discovery RFC v0.2.0 well-known location.
 const INDEX_SUBPATH = '.well-known/agent-skills/index.json';
@@ -38,7 +28,7 @@ function getSkills(domain) {
       type: 'claude-skill',
       description:
         'Build and deploy full-stack web and mobile apps with AWS Amplify Gen2 (TypeScript code-first). Covers auth (Cognito), data (AppSync/DynamoDB), storage (S3), functions, APIs, and AI (Amplify AI Kit with Bedrock) across React, Next.js, Vue, Angular, React Native, Flutter, Swift, and Android.',
-      url: `${domain}/react/develop-with-ai/agent-plugins/`
+      url: `${domain}/${CANONICAL_PLATFORM}/develop-with-ai/agent-plugins/`
     }
   ];
 }
@@ -69,6 +59,9 @@ export async function writeAgentSkillsIndex() {
     await fs.writeFile(indexPath, generateAgentSkillsIndex());
     console.log(`agent-skills index written to ${indexPath}`);
   } catch (error) {
+    // Fail the build: the global Link header advertises this file, so shipping
+    // without it would point agents at a 404.
     console.error(`Error writing agent-skills index to ${indexPath}:`, error);
+    throw error;
   }
 }

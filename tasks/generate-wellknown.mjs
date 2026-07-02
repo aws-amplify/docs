@@ -1,16 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import dotenv from 'dotenv';
-
-dotenv.config({ path: './.env.custom' });
-
-const DOMAIN = process.env.SITEMAP_DOMAIN
-  ? process.env.SITEMAP_DOMAIN
-  : 'https://docs.amplify.aws';
-
-// Path of the Next.js static HTML build output (same target used for
-// robots.txt and sitemap.xml in postBuildTasks).
-const ROOT_PATH = './client/www/next-build';
+import { DOMAIN, ROOT_PATH } from './build-constants.mjs';
 
 /**
  * Build the API catalog linkset document (RFC 9727 / RFC 9264).
@@ -81,7 +71,10 @@ export async function writeApiCatalog() {
     await fs.writeFile(catalogPath, generateApiCatalog());
     console.log(`api-catalog written to ${catalogPath}`);
   } catch (error) {
+    // Fail the build: the global Link header advertises this file, so shipping
+    // without it would point agents at a 404.
     console.error(`Error writing api-catalog to ${catalogPath}:`, error);
+    throw error;
   }
 }
 
@@ -143,6 +136,9 @@ export async function writeMcpServerCard() {
     await fs.writeFile(cardPath, generateMcpServerCard());
     console.log(`mcp server-card written to ${cardPath}`);
   } catch (error) {
+    // Fail the build: the global Link header advertises this file, so shipping
+    // without it would point agents at a 404.
     console.error(`Error writing mcp server-card to ${cardPath}:`, error);
+    throw error;
   }
 }
