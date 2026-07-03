@@ -65,9 +65,9 @@ export const Modal = (_props: ViewProps) => {
             aria-hidden="true"
             className="modal-key-point-left"
             textAlign="center"
-            fontSize="xxxl"
+            fontSize="xxl"
           >
-            🧩
+            <IconStar />
           </View>
           <Flex className="modal-key-point-right">
             <Text as="h3" className="modal-key-point-heading">
@@ -81,7 +81,12 @@ export const Modal = (_props: ViewProps) => {
           </Flex>
         </Flex>
         <Flex className="modal-key-point">
-          <View className="modal-key-point-left" aria-hidden="true">
+          <View
+            aria-hidden="true"
+            className="modal-key-point-left"
+            textAlign="center"
+            fontSize="xxl"
+          >
             <IconAWS />
           </View>
           <Flex className="modal-key-point-right">
