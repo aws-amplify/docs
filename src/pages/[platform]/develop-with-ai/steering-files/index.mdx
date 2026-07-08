@@ -141,7 +141,7 @@ If you see a "Plugin not found" error, refresh the marketplace index first with 
 <Accordion title="Skills CLI (Cursor, and other tools)" headingLevel="4">
 
 ```bash
-npx skills add aws/agent-toolkit-for-aws/skills
+npx skills add aws/agent-toolkit-for-aws/skills --skill aws-blocks
 ```
 
 </Accordion>
@@ -158,72 +158,11 @@ Then launch Codex, run `/plugins`, and install the **aws-core** plugin.
 
 For the full list of tools and setup options, see the [AWS agent toolkit](https://github.com/aws/agent-toolkit-for-aws) repository.
 
-### Or add your own steering rules
+### Scaffold the project rules
 
-If you prefer project-committed rules — or want to layer your team's own conventions on top of the skill — add a steering file with the guidelines below. The same content works across assistants; use the file format your tool expects.
+`create-blocks-app` can generate an `AGENTS.md` that documents the Blocks integration patterns for AI assistants, so in most cases you don't need to write steering rules by hand. To add AWS Blocks to your project, see [Add AWS Blocks to your Amplify project](/[platform]/build-a-backend/aws-blocks/get-started/).
 
-<Accordion title="Claude (Code/Desktop)" headingLevel="3">
-
-Add to your `CLAUDE.md` file in the project root:
-
-```markdown title="CLAUDE.md"
-# AWS Blocks integration
-
-This Amplify Gen 2 project uses AWS Blocks for backend capabilities.
-
-- Define backend APIs, auth, and data in `aws-blocks/index.ts` using Building Blocks.
-- Use Building Blocks (`KVStore`, `DistributedTable`, `FileBucket`, etc.) for all persistence — never local files, in-memory arrays, or local databases.
-- Authenticate protected operations with `CognitoVerifier` and `requireAuth(context)`; it verifies the Amplify-issued Cognito token. Do not create a second user pool.
-- After changing the API surface, regenerate the client with `npm run blocks:generate-client`, then import and call the typed `api` (for example, `import { api } from 'aws-blocks'`). The JSON-RPC transport is invisible — do not build request payloads by hand.
-- Deploy and test Amplify and Blocks together with `npm run sandbox`.
-```
-
-</Accordion>
-
-<Accordion title="Cursor" headingLevel="3">
-
-Create a rules file at `.cursor/rules/aws-blocks.mdc`:
-
-```markdown title=".cursor/rules/aws-blocks.mdc"
----
-description: AWS Blocks integration for Amplify
-globs:
-  - "aws-blocks/**"
-  - "amplify/**"
----
-
-# AWS Blocks integration
-
-This Amplify Gen 2 project uses AWS Blocks for backend capabilities.
-
-- Define backend APIs, auth, and data in `aws-blocks/index.ts` using Building Blocks.
-- Use Building Blocks for all persistence — never local files, in-memory arrays, or local databases.
-- Authenticate protected operations with `CognitoVerifier` and `requireAuth(context)`; it verifies the Amplify-issued Cognito token. Do not create a second user pool.
-- After changing the API surface, regenerate the client with `npm run blocks:generate-client`, then import and call the typed `api`. The JSON-RPC transport is invisible — do not build request payloads by hand.
-- Deploy and test Amplify and Blocks together with `npm run sandbox`.
-```
-
-</Accordion>
-
-<Accordion title="Kiro (IDE/CLI)" headingLevel="3">
-
-Create a steering file at `.kiro/steering/aws-blocks.md`:
-
-```markdown title=".kiro/steering/aws-blocks.md"
-# AWS Blocks integration
-
-This Amplify Gen 2 project uses AWS Blocks for backend capabilities.
-
-- Define backend APIs, auth, and data in `aws-blocks/index.ts` using Building Blocks.
-- Use Building Blocks for all persistence — never local files, in-memory arrays, or local databases.
-- Authenticate protected operations with `CognitoVerifier` and `requireAuth(context)`; it verifies the Amplify-issued Cognito token. Do not create a second user pool.
-- After changing the API surface, regenerate the client with `npm run blocks:generate-client`, then import and call the typed `api`. The JSON-RPC transport is invisible — do not build request payloads by hand.
-- Deploy and test Amplify and Blocks together with `npm run sandbox`.
-```
-
-</Accordion>
-
-To add AWS Blocks to your project in the first place, see [Add AWS Blocks to your Amplify project](/[platform]/build-a-backend/aws-blocks/get-started/).
+For authoritative, always-current guidance, point your assistant at the [`aws-blocks` skill](https://github.com/aws/agent-toolkit-for-aws/tree/main/skills/core-skills/aws-blocks) or an `AGENTS.md` rather than maintaining a separate copy of the rules, which can drift out of date as the Blocks APIs evolve.
 
 ## Tips for effective steering
 
