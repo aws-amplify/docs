@@ -158,11 +158,11 @@ Then launch Codex, run `/plugins`, and install the **aws-core** plugin.
 
 For the full list of tools and setup options, see the [AWS agent toolkit](https://github.com/aws/agent-toolkit-for-aws) repository.
 
-### Scaffold the project rules
+### Add project-level rules
 
-`create-blocks-app` can generate an `AGENTS.md` that documents the Blocks integration patterns for AI assistants, so in most cases you don't need to write steering rules by hand. To add AWS Blocks to your project, see [Add AWS Blocks to your Amplify project](/[platform]/build-a-backend/aws-blocks/get-started/).
+Adding AWS Blocks to an existing Amplify project doesn't scaffold an `AGENTS.md` — `create-blocks-app` only generates one when you create a standalone Blocks app. So for an Amplify project, the official `aws-blocks` skill above is the simplest way to keep assistants aligned.
 
-For authoritative, always-current guidance, point your assistant at the [`aws-blocks` skill](https://github.com/aws/agent-toolkit-for-aws/tree/main/skills/core-skills/aws-blocks) or an `AGENTS.md` rather than maintaining a separate copy of the rules, which can drift out of date as the Blocks APIs evolve.
+If you prefer file-based rules that live in your repo, add an `AGENTS.md` (or your tool's steering file — `CLAUDE.md`, `.cursor/rules/`, `.kiro/steering/`) yourself. Rather than copying a list of rules that can drift out of date as the Blocks APIs evolve, point that file at the authoritative sources — the [`aws-blocks` skill](https://github.com/aws/agent-toolkit-for-aws/tree/main/skills/core-skills/aws-blocks) and the `AGENTS.md` that `create-blocks-app` generates for a standalone Blocks app.
 
 ## Tips for effective steering
 
