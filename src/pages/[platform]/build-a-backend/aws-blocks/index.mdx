@@ -1,0 +1,74 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'AWS Blocks',
+  description:
+    'Add AWS Blocks to your Amplify Gen 2 backend. Compose self-contained backend capabilities that run locally, deploy as CDK, and reuse your Amplify Cognito user pool.',
+  route: '/[platform]/build-a-backend/aws-blocks',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+You can extend your existing Amplify Gen 2 backend with [AWS Blocks](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html) (Preview). AWS Blocks is a backend toolkit where each Block is a self-contained capability — such as an AI agent, a key-value store, or background jobs — that bundles your application code, a local development setup, and the infrastructure to run it. You add the Blocks you need to your Gen 2 app, and they deploy alongside your existing `defineBackend` resources.
+
+AWS Blocks complements Amplify Gen 2 — it isn't a replacement for it. Your Amplify Auth, Data, Storage, and Functions stay exactly as they are. Blocks plug in next to them to provision additional capabilities that aren't part of your Amplify backend today, and they reuse what Amplify already provides — most notably the Cognito user pool for authentication.
+
+When you add AWS Blocks to an Amplify Gen 2 project, the `create-blocks-app` CLI detects your `amplify/backend.ts` and wires Blocks in as a nested AWS CDK stack alongside your Amplify resources. Your Blocks deploy together with the rest of your backend through `ampx`, with a single deploy command and a single `amplify_outputs.json`.
+
+<Callout info>
+
+AWS Blocks is in preview and is published separately from Amplify. This section covers how to add Blocks to an existing Amplify Gen 2 backend. For the complete Block catalog and per-Block API reference, see the [AWS Blocks Developer Guide](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html).
+
+</Callout>
+
+## How AWS Blocks fits with Amplify
+
+The same code adapts to where it runs, with no code changes:
+
+- **Local development** — Blocks use in-memory and filesystem implementations, so your app runs on your machine without an AWS account or credentials.
+- **Deployment** — Blocks produce CDK constructs. Amplify's `ampx` CLI synthesizes them into the same CloudFormation deployment as your `defineBackend` resources.
+- **Runtime** — Blocks call AWS services through the SDK from a Lambda function.
+
+Because Blocks deploy as a nested stack inside your Amplify backend, you keep a single deploy command and a single `amplify_outputs.json`. The Blocks API URL is surfaced under `custom.blocks_api_url` in that file so your frontend can discover it, and protected Blocks operations verify the same Cognito tokens that Amplify issues.
+
+## Available Blocks
+
+| Category | Blocks |
+| --- | --- |
+| Data & storage | `KVStore`, `DistributedTable`, `Database`, `DistributedDatabase`, `FileBucket` |
+| Authentication | `AuthBasic`, `AuthCognito`, `AuthOIDC` |
+| Compute & background | `AsyncJob`, `CronJob` |
+| AI | `Agent`, `KnowledgeBase` |
+| Communication | `Realtime`, `EmailClient` |
+| Configuration | `AppSetting` |
+| Observability | `Logger`, `Metrics`, `Tracer`, `Dashboard` |
+| Hosting | `Hosting` |
+
+For the full catalog and API reference for each Block, see the [AWS Blocks Developer Guide](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html).
+
+<Overview childPageNodes={props.childPageNodes} />

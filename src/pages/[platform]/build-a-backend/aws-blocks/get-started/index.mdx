@@ -1,0 +1,160 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Add AWS Blocks to your Amplify project',
+  description:
+    'Use the create-blocks-app CLI to add AWS Blocks to an existing Amplify Gen 2 project. The CLI detects your Amplify backend and scaffolds the integration for you.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide shows how to add AWS Blocks to an existing Amplify Gen 2 project. The `create-blocks-app` CLI detects your Amplify backend and scaffolds the integration — you don't wire it up by hand.
+
+## Prerequisites
+
+- An existing Amplify Gen 2 project (a project with an `amplify/backend.ts` file).
+- [Node.js](https://nodejs.org/) 22 or later and npm 10 or later.
+
+<Callout info>
+
+AWS Blocks requires Node.js 22 or later. If your Amplify project currently targets an earlier version, upgrade Node before adding Blocks.
+
+</Callout>
+
+## Add Blocks to your project
+
+From the root of your Amplify project, run the CLI:
+
+```bash
+npx @aws-blocks/create-blocks-app
+```
+
+When it finds `amplify/backend.ts`, the CLI integrates with your existing backend instead of creating a new app:
+
+```
+🔍 Detected Amplify Gen 2 project (amplify/backend.ts found)
+
+This will add Blocks to your existing Amplify project:
+
+  CREATE  aws-blocks/           (Blocks backend workspace)
+  CREATE  amplify/blocks.ts     (wires Blocks into Amplify backend)
+  MODIFY  amplify/backend.ts    (adds import for blocks.ts)
+  MODIFY  package.json          (adds workspace, deps, scripts)
+  MODIFY  .gitignore            (adds Blocks entries)
+  CREATE  amplify.yml           (or modify existing — adds CDK conditions)
+```
+
+No changes are committed, so you can review the diff before committing.
+
+## What gets scaffolded
+
+| Path | Purpose |
+| --- | --- |
+| `aws-blocks/` | Your Blocks backend workspace. Define APIs, auth, and data in `aws-blocks/index.ts`. |
+| `amplify/blocks.ts` | Wires Blocks into your Amplify backend and passes your Cognito configuration to the Blocks Lambda. |
+| `amplify/backend.ts` | Patched to import `./blocks` and call `initBlocks(backend)`. |
+| `package.json` | Adds the `aws-blocks` workspace, dependencies, and scripts (`sandbox`, `sandbox:delete`, `blocks:generate-client`). |
+| `amplify.yml` | Adds the `NODE_OPTIONS="--conditions=cdk"` condition so CDK constructs load during the backend build. |
+
+After scaffolding, your `amplify/backend.ts` calls `initBlocks(backend)`, which creates a nested CDK stack and forwards your Cognito user pool to Blocks:
+
+```ts title="amplify/blocks.ts"
+export async function initBlocks(backend: any) {
+  const blocksStack = backend.createStack('blocks');
+  const sandboxMode = process.env.AMPLIFY_SANDBOX === 'true';
+  const blocks = await createBlocksBackend(blocksStack, sandboxMode);
+
+  // Pass Amplify's Cognito config to the Blocks Lambda (if auth is configured)
+  if (backend.auth?.resources?.cfnResources) {
+    const { cfnUserPool, cfnUserPoolClient } = backend.auth.resources.cfnResources;
+    blocks.handler.addEnvironment('COGNITO_USER_POOL_ID', cfnUserPool.ref);
+    blocks.handler.addEnvironment('COGNITO_CLIENT_ID', cfnUserPoolClient.ref);
+    blocks.handler.addEnvironment('COGNITO_REGION', blocksStack.region);
+  }
+
+  // Surface Blocks API URL in amplify_outputs.json
+  backend.addOutput({
+    custom: {
+      blocks_api_url: blocks.apiUrl
+    }
+  });
+
+  return blocks;
+}
+```
+
+## Define a Block
+
+Your backend lives in `aws-blocks/index.ts`. The scaffolded example exposes a public method and two protected methods that store per-user data in a `KVStore`, authenticating against your Amplify Cognito pool:
+
+```ts title="aws-blocks/index.ts"
+import { ApiNamespace, Scope } from '@aws-blocks/blocks';
+import { KVStore } from '@aws-blocks/bb-kv-store';
+import { CognitoVerifier } from './cognito-verifier.js';
+
+const scope = new Scope('my-app');
+const store = new KVStore(scope, 'notes', {});
+
+const auth = new CognitoVerifier({
+  userPoolId: process.env.COGNITO_USER_POOL_ID!,
+  clientId: process.env.COGNITO_CLIENT_ID!,
+  tokenUse: 'id'
+});
+
+export const api = new ApiNamespace(scope, 'api', (context) => ({
+  // Public — no auth required
+  async greet(name: string) {
+    return { message: `Hello from Blocks, ${name}!`, timestamp: Date.now() };
+  },
+
+  // Protected — requires a signed-in Amplify user
+  async putNote(key: string, value: string) {
+    const user = await auth.requireAuth(context);
+    await store.put(`${user.sub}:${key}`, value);
+    return { success: true };
+  },
+
+  async getNote(key: string) {
+    const user = await auth.requireAuth(context);
+    return { value: await store.get(`${user.sub}:${key}`) };
+  }
+}));
+```
+
+## Deploy to a sandbox
+
+Deploy Amplify and Blocks together to a [cloud sandbox](/[platform]/deploy-and-host/sandbox-environments/setup/):
+
+```bash
+npm run sandbox
+```
+
+This runs `ampx sandbox` with the CDK conditions set, synthesizes both your Amplify resources and the Blocks nested stack, and writes the Blocks API URL into `amplify_outputs.json`. Your Blocks API is available alongside your Amplify backend.
+
+## Next steps
+
+- [Connect your frontend](/[platform]/build-a-backend/aws-blocks/connect-your-frontend/) to call your Blocks API.
+- Learn [how the integration works](/[platform]/build-a-backend/aws-blocks/how-it-works/) under the hood.
+- Add a [steering file](/[platform]/develop-with-ai/steering-files/) so AI coding assistants follow the Blocks integration patterns.

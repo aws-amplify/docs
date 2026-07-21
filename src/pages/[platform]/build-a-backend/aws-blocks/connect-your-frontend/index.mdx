@@ -1,0 +1,129 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Connect your frontend',
+  description:
+    'Generate a typed AWS Blocks client and call your Blocks API from your frontend, authenticated with your Amplify Cognito session.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+AWS Blocks generates a typed client from your backend so your frontend calls methods directly — there is no code to write for the transport. How you generate and authenticate the client depends on your platform.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+## Generate the client
+
+After you deploy (so `amplify_outputs.json` exists), generate the client from your backend exports:
+
+```bash
+npm run blocks:generate-client
+```
+
+This writes `aws-blocks/client.js`. The generated client reads the Blocks API URL from `amplify_outputs.json` and registers a middleware that attaches your Amplify Cognito token to every request:
+
+```js title="aws-blocks/client.js (generated)"
+import { fetchAuthSession } from 'aws-amplify/auth';
+import { registerMiddleware } from '@aws-blocks/blocks/client';
+import outputs from '../amplify_outputs.json';
+
+const BLOCKS_API_URL = outputs.custom?.blocks_api_url;
+
+// Attach Cognito bearer token to every Blocks API call
+registerMiddleware({
+  async onRequest(req) {
+    const session = await fetchAuthSession();
+    const token = session.tokens?.idToken?.toString();
+    if (token) req.headers['Authorization'] = `Bearer ${token}`;
+    return req;
+  }
+});
+```
+
+Regenerate the client whenever you change your API surface in `aws-blocks/index.ts`.
+
+## Call the API
+
+Import the typed `api` and call its methods. The middleware injects the token automatically, so signed-in users authenticate transparently:
+
+```ts
+import { api } from 'aws-blocks';
+
+// Public method — no sign-in required
+const { message } = await api.greet('world');
+
+// Protected methods — use the signed-in Amplify user's token
+await api.putNote('draft', 'Buy milk');
+const { value } = await api.getNote('draft');
+```
+
+Make sure `Amplify.configure(outputs)` has run during app startup (as in any Amplify app) so `fetchAuthSession()` can return the current user's tokens.
+
+</InlineFilter>
+
+<InlineFilter filters={["swift", "android", "flutter"]}>
+
+AWS Blocks provides native clients for Swift, Kotlin, and Dart/Flutter. These are build-time code generators that produce a type-safe client from your backend's Blocks spec (`blocks.spec.json`), paired with a runtime library that calls your backend over JSON-RPC.
+
+<Callout info>
+
+The Amplify auto-integration scaffolds a JavaScript client and Cognito middleware automatically. For native clients, you generate the client from the Blocks spec and attach the Amplify session token yourself, as shown below. See the [AWS Blocks Developer Guide](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html) for the per-platform setup.
+
+</Callout>
+
+## Generate the native client
+
+Each native client generates type-safe code from your backend's `blocks.spec.json`:
+
+<InlineFilter filters={["swift"]}>
+
+- **Swift** — a Swift Package (iOS, macOS) using a SwiftPM build plugin plus a Foundation-based runtime.
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+- **Kotlin** — Kotlin Multiplatform (Android, iOS, JVM) using a Gradle plugin plus a KMP runtime.
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+- **Dart/Flutter** — generates a typed Dart client from your Blocks spec.
+
+</InlineFilter>
+
+Find the Blocks API URL under `custom.blocks_api_url` in the `amplify_outputs.json` produced by your deployment, and point the generated client at it.
+
+## Authenticate with your Amplify session
+
+Protected Blocks operations expect the Cognito token Amplify issues. Use the [Amplify Auth library](/[platform]/build-a-backend/auth/) for your platform to fetch the current session's ID token and attach it as a `Bearer` token on requests the native client sends. On the backend, `CognitoVerifier` validates that token against the same user pool — no separate sign-in is required.
+
+</InlineFilter>
+
+## Next steps
+
+- Review [how the integration works](/[platform]/build-a-backend/aws-blocks/how-it-works/).
+- See the [AWS Blocks Developer Guide](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html) for the full client and API reference.

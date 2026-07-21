@@ -45,16 +45,16 @@ describe('Modal', () => {
     render(<Modal />);
 
     const modal = screen.getByRole('dialog', {
-      name: 'Introducing Amplify Gen 2'
+      name: 'Introducing AWS Blocks'
     });
 
     expect(modal).toBeInTheDocument();
     expect(modal).toHaveAttribute('open');
   });
 
-  it('should render Modal with no open attribute when gen2ModalDismissed exists in localStorage', async () => {
+  it('should render Modal with no open attribute when awsBlocksModalDismissed exists in localStorage', async () => {
     window.localStorage.setItem(
-      'gen2ModalDismissed',
+      'awsBlocksModalDismissed',
       JSON.stringify({ data: 'true' })
     );
 
@@ -67,34 +67,37 @@ describe('Modal', () => {
     expect(modal).not.toHaveAttribute('open');
   });
 
-  it('should set gen2ModalDismissed in localStorage when close button clicked', async () => {
+  it('should set awsBlocksModalDismissed in localStorage when close button clicked', async () => {
     render(<Modal />);
 
     const closeButton = await screen.findByRole('button', {
-      name: 'Dismiss Gen 2 introduction dialog'
+      name: 'Dismiss AWS Blocks introduction dialog'
     });
 
     userEvent.click(closeButton);
-    expect(localStorage.getItem('gen2ModalDismissed')).toEqual('true');
+    expect(localStorage.getItem('awsBlocksModalDismissed')).toEqual('true');
   });
 
-  it('should render Gen 1 link if isGen1 is false (default)', async () => {
+  it('should render an internal link to the AWS Blocks docs section', async () => {
     render(<Modal />);
 
-    const gen1Link = screen.getByRole('link', {
-      name: 'Back to Gen 1 Docs'
+    const blocksLink = screen.getByRole('link', {
+      name: /Explore Blocks with Amplify/
     });
 
-    expect(gen1Link).toBeInTheDocument();
+    expect(blocksLink).toBeInTheDocument();
   });
 
-  it('should not render Gen 1 link if isGen1 is true', async () => {
-    render(<Modal isGen1={true} />);
+  it('should render an external link to get started with Blocks', async () => {
+    render(<Modal />);
 
-    const gen1Link = screen.queryByRole('link', {
-      name: 'Back to Gen 1 Docs'
+    const awsLink = screen.getByRole('link', {
+      name: /Get Started with Blocks/
     });
 
-    expect(gen1Link).toBeNull();
+    expect(awsLink).toHaveAttribute(
+      'href',
+      'https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html'
+    );
   });
 });

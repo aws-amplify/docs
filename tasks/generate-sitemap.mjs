@@ -2,17 +2,10 @@ import { promises as fs } from 'fs';
 import { execSync } from 'child_process';
 import crypto from 'node:crypto';
 import * as cheerio from 'cheerio';
-import dotenv from 'dotenv';
 import flatDirectory from '../src/directory/flatDirectory.json' with { type: 'json' };
+import { DOMAIN, ROOT_PATH } from './build-constants.mjs';
 
-dotenv.config({ path: './.env.custom' });
-
-const SITEMAP_DOMAIN = process.env.SITEMAP_DOMAIN
-  ? process.env.SITEMAP_DOMAIN
-  : 'https://docs.amplify.aws';
-
-// Path of the Next.js static HTML build output
-const ROOT_PATH = './client/www/next-build';
+const SITEMAP_DOMAIN = DOMAIN;
 
 const formatDate = (date) => date.toISOString();
 const getPriority = () => 0.5;
@@ -257,8 +250,14 @@ export async function writeSitemap() {
 }
 
 export const writeRobots = async () => {
-  let robotsContent = `User-agent: *\nDisallow:\n`;
+  // Content Signals declare how crawlers may use this content once fetched.
+  // We allow search indexing, AI answer-input (assistants reading pages to
+  // answer questions), and AI training. See https://contentsignals.org/
+  const contentSignal = `Content-Signal: search=yes, ai-input=yes, ai-train=yes\n`;
+
+  let robotsContent = `User-agent: *\n${contentSignal}Disallow:\n`;
   if (typeof process.env.ALLOW_ROBOTS === 'undefined') {
+    // Non-crawlable preview/build: block everything and omit content signals.
     robotsContent = `User-agent: *\nDisallow: /\n`;
   }
   if (process.env.BUILD_ENV === 'production') {

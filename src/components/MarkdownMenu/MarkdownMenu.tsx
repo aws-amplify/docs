@@ -8,12 +8,34 @@ interface MarkdownMenuProps {
   isOverview?: boolean;
 }
 
-function getMarkdownUrl(route: string): string {
-  // Strip platform prefix and trailing slash
-  // e.g. /react/build-a-backend/auth/set-up-auth/ → build-a-backend/auth/set-up-auth
-  const parts = route.replace(/^\//, '').replace(/\/$/, '').split('/');
+export function getMarkdownUrl(route: string): string {
+  // Strip any query string / hash, then the platform prefix and trailing slash.
+  // e.g. /react/build-a-backend/auth/set-up-auth/?foo=bar#x
+  //        → build-a-backend/auth/set-up-auth
+  const pathOnly = route.replace(/[?#].*$/, '');
+  const parts = pathOnly.replace(/^\//, '').replace(/\/$/, '').split('/');
   const withoutPlatform = parts.slice(1).join('/');
   return `/ai/pages/${withoutPlatform}.md`;
+}
+
+/**
+ * Fetch a page's generated Markdown, rejecting the SPA HTML fallback (e.g. a
+ * 404 page) that Amplify serves when the .md file is missing. Shared by the
+ * copy/open menu and the WebMCP tools so the fallback detection lives in one
+ * place.
+ */
+export async function fetchPageMarkdown(url: string): Promise<string> {
+  const response = await fetch(url, {
+    headers: { accept: 'text/markdown, text/plain' }
+  });
+  if (!response.ok) {
+    throw new Error(`Request for ${url} failed with status ${response.status}`);
+  }
+  const text = await response.text();
+  if (/^\s*<!doctype/i.test(text) || /^\s*<html/i.test(text)) {
+    throw new Error(`No markdown available at ${url}`);
+  }
+  return text;
 }
 
 export function MarkdownMenu({ route, isGen1, isHome, isOverview }: MarkdownMenuProps) {
@@ -27,17 +49,13 @@ export function MarkdownMenu({ route, isGen1, isHome, isOverview }: MarkdownMenu
 
   const handleCopy = useCallback(async () => {
     try {
-      const response = await fetch(mdUrl);
-      if (!response.ok) return;
-      const text = await response.text();
-      // Guard against accidentally copying HTML (e.g. 404 page)
-      if (/^\s*<!doctype/i.test(text) || /^\s*<html/i.test(text)) return;
+      const text = await fetchPageMarkdown(mdUrl);
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setIsOpen(false);
       copiedTimerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Silently fail if clipboard not available
+      // Silently fail if the markdown is unavailable or clipboard is blocked
     }
   }, [mdUrl]);
 

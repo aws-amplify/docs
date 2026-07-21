@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Steering files',
   description:
-    'Configure project-level context files to guide AI coding assistants when building Amplify applications.',
+    'Configure project-level context files to guide AI coding assistants when building Amplify applications, including AWS Blocks integration patterns.',
   platforms: [
     'android',
     'angular',
@@ -117,6 +117,52 @@ globs: amplify/**/*
 - <a href="/images/gen2/q-developer/modeling-relationships.md" download>modeling-relationships.md</a> — Data relationship patterns
 
 Download these files and place them in a `context/` folder in your project root.
+
+## AWS Blocks integration
+
+If your project uses [AWS Blocks](/[platform]/build-a-backend/aws-blocks/) alongside Amplify, you can guide AI coding assistants to follow the Blocks integration patterns — defining backend capability in `aws-blocks/index.ts`, authenticating with your Amplify Cognito pool, and calling the generated typed client instead of constructing requests by hand.
+
+### Use the official AWS Blocks skill (recommended)
+
+AWS publishes an [AWS agent toolkit](https://github.com/aws/agent-toolkit-for-aws) — official, AWS-supported skills and plugins for AI coding agents — that includes an **`aws-blocks` skill**. The skill loads on demand when your task involves AWS Blocks (for example, when your project has an `aws-blocks/` directory or imports `@aws-blocks` packages) and keeps the assistant aligned with the current Blocks APIs and best practices, so you don't have to hand-maintain steering rules.
+
+Install it once for your assistant:
+
+<Accordion title="Claude Code" headingLevel="4">
+
+```bash
+/plugin install aws-core@claude-plugins-official
+```
+
+If you see a "Plugin not found" error, refresh the marketplace index first with `/plugin marketplace update claude-plugins-official`.
+
+</Accordion>
+
+<Accordion title="Skills CLI (Cursor, and other tools)" headingLevel="4">
+
+```bash
+npx skills add aws/agent-toolkit-for-aws/skills --skill aws-blocks
+```
+
+</Accordion>
+
+<Accordion title="Codex" headingLevel="4">
+
+```bash
+codex plugin marketplace add aws/agent-toolkit-for-aws
+```
+
+Then launch Codex, run `/plugins`, and install the **aws-core** plugin.
+
+</Accordion>
+
+For the full list of tools and setup options, see the [AWS agent toolkit](https://github.com/aws/agent-toolkit-for-aws) repository.
+
+### Add project-level rules
+
+Adding AWS Blocks to an existing Amplify project doesn't scaffold an `AGENTS.md` — `create-blocks-app` only generates one when you create a standalone Blocks app. So for an Amplify project, the official `aws-blocks` skill above is the simplest way to keep assistants aligned.
+
+If you prefer file-based rules that live in your repo, add an `AGENTS.md` (or your tool's steering file — `CLAUDE.md`, `.cursor/rules/`, `.kiro/steering/`) yourself. Rather than copying a list of rules that can drift out of date as the Blocks APIs evolve, point that file at the authoritative sources — the [`aws-blocks` skill](https://github.com/aws/agent-toolkit-for-aws/tree/main/skills/core-skills/aws-blocks) and the `AGENTS.md` that `create-blocks-app` generates for a standalone Blocks app.
 
 ## Tips for effective steering
 

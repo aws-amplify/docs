@@ -15,3 +15,34 @@ customHeaders:
       - key: 'Content-Security-Policy'
         value: 'upgrade-insecure-requests;'
       # CSP also set in _document.tsx meta tag
+      # Link headers advertise agent-discovery resources (RFC 8288 / RFC 9727):
+      # the API catalog, the agent skills index, the MCP server card, and the
+      # LLM-friendly documentation index.
+      #
+      # Deliberately kept on the global block. Amplify header patterns are
+      # positive-match only (no exclusion), and with trailingSlash: true the
+      # actual page requests are extensionless directory URLs (e.g.
+      # /react/build-a-backend/), so an `**/*.html` pattern would miss real
+      # page loads and drop the header where agents need it most. The header
+      # therefore also rides asset responses (a few extra bytes); the
+      # missing-file risk this could have amplified is eliminated because the
+      # generators now fail the build if a linked file is not written.
+      - key: 'Link'
+        value: '</.well-known/api-catalog>; rel="api-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json", </.well-known/mcp/server-card.json>; rel="mcp-server"; type="application/json", </ai/llms.txt>; rel="service-doc"; type="text/plain"'
+  # Serve the API catalog as a linkset (RFC 9727 / RFC 9264) at both the
+  # canonical extensionless path (served via a 200-rewrite in redirects.json)
+  # and the underlying .json file.
+  - pattern: '/.well-known/api-catalog'
+    headers:
+      - key: 'Content-Type'
+        value: 'application/linkset+json'
+  - pattern: '/.well-known/api-catalog.json'
+    headers:
+      - key: 'Content-Type'
+        value: 'application/linkset+json'
+  # Serve the generated agent-facing markdown twins as markdown so agents that
+  # request them get the correct media type (these live under /ai/**).
+  - pattern: '/ai/**/*.md'
+    headers:
+      - key: 'Content-Type'
+        value: 'text/markdown; charset=utf-8'

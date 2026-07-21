@@ -6,30 +6,33 @@ import {
   Text,
   View
 } from '@aws-amplify/ui-react';
-import { IconChevron, IconStar, IconX, IconTSBoxed } from '@/components/Icons';
+import {
+  IconChevron,
+  IconStar,
+  IconX,
+  IconAWS,
+  IconExternalLink
+} from '@/components/Icons';
 import { useEffect, useId, useState } from 'react';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { DEFAULT_PLATFORM } from '@/data/platforms';
-import { useGen1Path } from './useGen1Path';
 
-interface ModalProps extends ViewProps {
-  isGen1?: boolean;
-}
+const AWS_BLOCKS_URL =
+  'https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html';
 
-export const Modal = ({ isGen1 }: ModalProps) => {
+export const Modal = (_props: ViewProps) => {
   const headingId = useId();
   const [isVisible, setIsVisible] = useState(false);
   const platform = useCurrentPlatform() || DEFAULT_PLATFORM;
   const handleDialogAction = () => {
-    localStorage.setItem('gen2ModalDismissed', 'true');
+    localStorage.setItem('awsBlocksModalDismissed', 'true');
     setIsVisible(false);
   };
-  const gen1Path = useGen1Path(platform);
 
   useEffect(() => {
-    const hasDismissedGen2Modal = localStorage.getItem('gen2ModalDismissed');
-    if (!hasDismissedGen2Modal) {
+    const hasDismissedModal = localStorage.getItem('awsBlocksModalDismissed');
+    if (!hasDismissedModal) {
       setIsVisible(true);
     }
   }, []);
@@ -43,31 +46,37 @@ export const Modal = ({ isGen1 }: ModalProps) => {
     >
       <Flex className="modal-header">
         <Flex as="h2" className="modal-heading" id={headingId}>
-          <IconStar /> Introducing Amplify Gen 2
+          <IconStar /> Introducing AWS Blocks
         </Flex>
         <Button
           onClick={() => handleDialogAction()}
           variation="link"
           className="modal-dismiss"
         >
-          <VisuallyHidden>Dismiss Gen 2 introduction dialog</VisuallyHidden>
+          <VisuallyHidden>Dismiss AWS Blocks introduction dialog</VisuallyHidden>
           <IconX />
         </Button>
       </Flex>
-      Amplify has re-imagined the way frontend developers build fullstack
-      applications. Develop and deploy without the hassle.
+      Extend your Amplify Gen 2 app with AWS Blocks — self-contained backend
+      capabilities you compose into your existing backend.
       <Flex className="modal-key-points">
         <Flex className="modal-key-point">
-          <View className="modal-key-point-left" aria-hidden="true">
-            <IconTSBoxed />
+          <View
+            aria-hidden="true"
+            className="modal-key-point-left"
+            textAlign="center"
+            fontSize="xxl"
+          >
+            <IconStar />
           </View>
           <Flex className="modal-key-point-right">
             <Text as="h3" className="modal-key-point-heading">
-              Fullstack TypeScript
+              Composable backend capabilities
             </Text>
             <Text className="modal-key-point-text">
-              Write your app&apos;s data model, auth, storage, and functions in
-              TypeScript; Amplify will do the rest.
+              Add the Blocks you need — PostgreSQL databases, realtime
+              messaging, metrics, logging, and more — alongside your existing
+              Amplify resources.
             </Text>
           </Flex>
         </Flex>
@@ -76,46 +85,48 @@ export const Modal = ({ isGen1 }: ModalProps) => {
             aria-hidden="true"
             className="modal-key-point-left"
             textAlign="center"
-            fontSize="xxxl"
+            fontSize="xxl"
           >
-            🚀
+            <IconAWS />
           </View>
           <Flex className="modal-key-point-right">
             <Text as="h3" className="modal-key-point-heading">
-              Built with the AWS CDK
+              Local-first, built on the AWS CDK
             </Text>
             <Text className="modal-key-point-text">
-              Use any cloud resource your app needs. Never worry about scale.
+              Run your whole app locally with no AWS account, then deploy the
+              same code to AWS with the AWS CDK.
             </Text>
           </Flex>
         </Flex>
       </Flex>
       <Flex className="modal-actions">
-        {isGen1 ? null : (
-          <InternalLinkButton
-            as="a"
-            size="small"
-            href={gen1Path}
-            onClick={() => handleDialogAction()}
-            className="modal-action modal-action--secondary"
-          >
-            Back to Gen 1 Docs
-          </InternalLinkButton>
-        )}
         <InternalLinkButton
           as="a"
           size="small"
           href={{
-            pathname: '/[platform]/how-amplify-works',
+            pathname: '/[platform]/build-a-backend/aws-blocks',
             query: { platform: platform }
           }}
           onClick={() => handleDialogAction()}
           variation="primary"
           className="modal-action modal-action--primary"
         >
-          Learn more about Gen 2
+          Explore Blocks with Amplify
           <IconChevron className="icon-rotate-270" />
         </InternalLinkButton>
+        <Button
+          as="a"
+          size="small"
+          href={AWS_BLOCKS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => handleDialogAction()}
+          className="modal-action modal-action--secondary"
+        >
+          Get Started with Blocks
+          <IconExternalLink />
+        </Button>
       </Flex>
     </Flex>
   );

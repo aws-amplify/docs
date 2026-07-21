@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MarkdownMenu } from '../MarkdownMenu';
+import {
+  MarkdownMenu,
+  getMarkdownUrl,
+  fetchPageMarkdown
+} from '../MarkdownMenu';
 
 // Mock fetch and clipboard
 const mockFetch = jest.fn();
@@ -75,7 +79,10 @@ describe('MarkdownMenu', () => {
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-        '/ai/pages/build-a-backend/auth/set-up-auth.md'
+        '/ai/pages/build-a-backend/auth/set-up-auth.md',
+        expect.objectContaining({
+          headers: expect.objectContaining({ accept: expect.any(String) })
+        })
       );
     });
     expect(mockWriteText).toHaveBeenCalledWith(mdContent);
@@ -119,7 +126,10 @@ describe('MarkdownMenu', () => {
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-        '/ai/pages/build-a-backend/auth/set-up-auth.md'
+        '/ai/pages/build-a-backend/auth/set-up-auth.md',
+        expect.objectContaining({
+          headers: expect.objectContaining({ accept: expect.any(String) })
+        })
       );
     });
   });
@@ -145,5 +155,55 @@ describe('MarkdownMenu', () => {
     await waitFor(() => {
       expect(screen.getByText('Copied!')).toBeInTheDocument();
     });
+  });
+});
+
+describe('getMarkdownUrl', () => {
+  it('maps a platform route to its markdown twin', () => {
+    expect(getMarkdownUrl('/react/build-a-backend/auth/set-up-auth/')).toBe(
+      '/ai/pages/build-a-backend/auth/set-up-auth.md'
+    );
+  });
+
+  it('strips a query string before building the URL', () => {
+    expect(
+      getMarkdownUrl('/react/build-a-backend/auth/set-up-auth/?foo=bar')
+    ).toBe('/ai/pages/build-a-backend/auth/set-up-auth.md');
+  });
+
+  it('strips a hash fragment before building the URL', () => {
+    expect(
+      getMarkdownUrl('/react/build-a-backend/auth/set-up-auth/#section')
+    ).toBe('/ai/pages/build-a-backend/auth/set-up-auth.md');
+  });
+});
+
+describe('fetchPageMarkdown', () => {
+  beforeEach(() => {
+    global.fetch = mockFetch;
+    mockFetch.mockReset();
+  });
+
+  it('returns the markdown text on a successful response', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve('# Title\n\nBody')
+    });
+    await expect(fetchPageMarkdown('/ai/pages/x.md')).resolves.toBe(
+      '# Title\n\nBody'
+    );
+  });
+
+  it('throws when the response is not ok', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: false, status: 404 });
+    await expect(fetchPageMarkdown('/ai/pages/missing.md')).rejects.toThrow();
+  });
+
+  it('throws when the SPA HTML fallback is served instead of markdown', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve('<!DOCTYPE html><html><body>404</body></html>')
+    });
+    await expect(fetchPageMarkdown('/ai/pages/x.md')).rejects.toThrow();
   });
 });

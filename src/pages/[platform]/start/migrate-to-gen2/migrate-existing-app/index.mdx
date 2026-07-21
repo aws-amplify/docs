@@ -188,6 +188,13 @@ The migration tool requires the following API actions in addition to the standar
         "s3:GetEncryptionConfiguration"
       ],
       "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:GetResource"
+      ],
+      "Resource": "*"
     }
   ]
 }
@@ -347,6 +354,37 @@ During the migration period your Gen 1 environment should not undergo any change
 amplify gen2-migration lock
 ```
 
+The lock step also sets a `Retain` deletion policy on all stateful resources in your Gen 1 stacks to protect them during migration.
+
+<Accordion title="Custom stateful resource types">
+
+The migration tool maintains a default list of CloudFormation resource types it considers stateful (e.g. `AWS::Cognito::UserPool`, `AWS::S3::Bucket`, `AWS::DynamoDB::Table`). During the lock step, only resources matching these types receive the `Retain` deletion policy.
+
+If your application includes custom resources that contain stateful CloudFormation types not in the default list, you can provide them using the `--additional-stateful-resource-types` option. Create a JSON file with an array of CloudFormation resource type strings:
+
+```json
+[
+  "AWS::Elasticsearch::Domain",
+  "AWS::RDS::DBInstance"
+]
+```
+
+Then pass the file path to the lock command:
+
+```bash
+amplify gen2-migration lock --additional-stateful-resource-types ./my-stateful-types.json
+```
+
+The types you provide are merged with the built-in defaults. This ensures the tool correctly identifies and protects your custom stateful resources.
+
+<Callout info>
+
+You will need to pass the same file to the `generate` and `refactor` commands later.
+
+</Callout>
+
+</Accordion>
+
 Once validated, the following restrictive IAM policy is attached to the root stack:
 
 ```json
@@ -386,6 +424,29 @@ amplify gen2-migration generate
 ```
 
 This command introspects your deployed Gen 1 CloudFormation stacks and generates the equivalent Gen 2 TypeScript backend definition files, overriding your local `./amplify` directory. The generated code is a starting point — some features require manual edits before deploying (see below).
+
+<Accordion title="Custom stateful resource types">
+
+The migration tool maintains a default list of CloudFormation resource types it considers stateful (e.g. `AWS::Cognito::UserPool`, `AWS::S3::Bucket`, `AWS::DynamoDB::Table`). During code generation, the tool uses this list to produce a `Retain` deletion policy in the Gen 2 CDK code for these resources, ensuring they don't override the deletion policy of the Gen 1 resources after refactoring.
+
+If your application includes custom resources that contain stateful CloudFormation types not in the default list, you can provide them using the `--additional-stateful-resource-types` option. Create a JSON file with an array of CloudFormation resource type strings:
+
+```json
+[
+  "AWS::Elasticsearch::Domain",
+  "AWS::RDS::DBInstance"
+]
+```
+
+Then pass the file path to the generate command:
+
+```bash
+amplify gen2-migration generate --additional-stateful-resource-types ./my-stateful-types.json
+```
+
+The types you provide are merged with the built-in defaults. This ensures the generated Gen 2 code includes retention policies for your custom stateful resources.
+
+</Accordion>
 
 Once successful, clean up and reinstall dependencies to avoid stale resolution artifacts from the Gen 1 dependency tree:
 
@@ -436,6 +497,8 @@ If you use the standard `Amplify.configure(...)` call and access resources throu
 - apiName: '<gen1-rest-api-name>',
 + apiName: '<gen2-rest-api-name>',
 ```
+
+In addition, follow these [instructions](https://docs.amplify.aws/react/build-a-backend/add-aws-services/rest-api/set-up-rest-api/#initialize-amplify-api) to reconfigure your `Amplify` instance based on the outputs structure of Gen2.
 
 **Kinesis** — If your frontend sends analytics events to a Kinesis stream, update the stream name to point to the new Gen 2 stream:
 
@@ -500,6 +563,25 @@ See [Secrets](https://docs.amplify.aws/react/build-a-backend/functions/environme
 
 </Callout>
 
+#### Auth
+
+##### External Identity Providers
+
+If your Gen 1 app uses social sign-in (Facebook, Google), the generated `callbackUrls` and `logoutUrls` in `./amplify/auth/resource.ts` are inherited from Gen 1 and reference the Gen 1 Amplify Hosting URLs only. The Gen 2 hosting URL must be added before the Hosted UI will accept sign-ins from the Gen 2 frontend.
+
+The generator emits a comment above each URL list as a reminder. Add the Gen 2 URL to both locations:
+
+```diff
+ callbackUrls: [
+   'https://main.<gen1-appId>.amplifyapp.com/',
++  'https://gen2-main.<gen2-appId>.amplifyapp.com/',
+ ],
+```
+
+The top-level `externalProviders.callbackUrls`/`logoutUrls` configure the web client used by the frontend. The `oAuth.callbackUrls`/`logoutUrls` inside `applyEscapeHatches` configure a separate native app client — update both if present.
+
+The corresponding redirect URIs in the external provider's developer console must also be updated, after the Gen 2 environment is deployed (see [Configure external identity providers](#configure-external-identity-providers) below).
+
 ### Step 5: Deploy
 
 Push the generated Gen 2 code to your repository:
@@ -545,6 +627,14 @@ npx ampx sandbox --once
 By default, sandbox creates its own DynamoDB tables and does not share Gen 1 model data. To share them, set `branchName` to `"sandbox"` in `./amplify/data/resource.ts`.
 
 </Accordion>
+
+#### Configure external identity providers
+
+If your app uses social sign-in, the Gen 2 deployment creates a new Cognito User Pool Domain distinct from the Gen 1 one. The external provider's developer console must be updated to accept redirects from the new domain before Hosted UI sign-in will work on the Gen 2 frontend.
+
+Open the [Cognito console](https://console.aws.amazon.com/cognito/), select the user pool owned by your Gen 2 branch, and note the domain under _App integration → Domain_.
+
+Then, add the domain to each external provider's console following the standard [External identity providers](/[platform]/build-a-backend/auth/concepts/external-identity-providers/) guide. You do not need to replace the existing Gen 1 entries — add the Gen 2 domain alongside them so both environments work during the transition.
 
 
 ### Step 6: Functional Tests (CRITICAL)
@@ -609,6 +699,29 @@ amplify pull --appId <appId> --envName main
 amplify gen2-migration refactor --to <gen2-root-stack-name>
 ```
 
+<Accordion title="Custom stateful resource types">
+
+The migration tool maintains a default list of CloudFormation resource types it considers stateful (e.g. `AWS::Cognito::UserPool`, `AWS::S3::Bucket`, `AWS::DynamoDB::Table`). During refactoring, only resources matching these types are moved from your Gen 1 stacks into Gen 2.
+
+If your application includes custom resources that contain stateful CloudFormation types not in the default list, you can provide them using the `--additional-stateful-resource-types` option — the same file you used in the [lock step](#step-2-lock). Create a JSON file with an array of CloudFormation resource type strings:
+
+```json
+[
+  "AWS::Elasticsearch::Domain",
+  "AWS::RDS::DBInstance"
+]
+```
+
+Then pass the file path to the refactor command:
+
+```bash
+amplify gen2-migration refactor --to <gen2-root-stack-name> --additional-stateful-resource-types ./my-stateful-types.json
+```
+
+The types you provide are merged with the built-in defaults. This ensures the tool correctly identifies and transfers your custom stateful resources during the refactoring step.
+
+</Accordion>
+
 <Callout info>
 
 After the refactor step, a `.amplify/gen2-migration/refactor.operations/` directory is created containing snapshots of every CloudFormation operation performed — templates, parameters, and resource mappings. These files can help with auditing or troubleshooting and are safe to delete once migration is confirmed successful.
@@ -621,11 +734,13 @@ If the refactor fails or produces undesired results, roll it back:
 amplify gen2-migration refactor --to <gen2-root-stack-name> --rollback
 ```
 
+If you had already completed [Step 8: Post-Refactor](#step-8-post-refactor-critical) before rolling back, re-comment `postRefactor();` in `./amplify/backend.ts` on the `gen2-main` branch and push. The function targets resources that the Gen 2 stack no longer owns after rollback and will fail at synth otherwise.
+
 After rolling back, you will need to unlock the Gen 1 environment and redeploy it to restore normal operation:
 
 ```bash
 amplify gen2-migration lock --rollback
-amplify push
+amplify push --force
 ```
 
 ### Step 8: Post-Refactor (CRITICAL)
@@ -651,7 +766,7 @@ Edit `./amplify/backend.ts`:
 
 <Callout info>
 
-This function must remain uncommented permanently — even after migration is complete. Commenting it out or removing it will cause deployment failures.
+This function must remain uncommented after the refactor is complete. Commenting it out or removing it will cause deployment failures. The only exception is if you subsequently run `refactor --rollback` — see [Step 7](#step-7-refactor).
 
 </Callout>
 
@@ -689,15 +804,15 @@ The Gen 1 CloudFormation stacks may still contain resources (such as auth trigge
 To decommission the Gen 1 stacks:
 
 1. Verify that no users or applications are still accessing the Gen 1 stateless resources by inspecting CloudWatch traffic metrics or your organizational tracking systems.
-2. Apply the `Retain` [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) to all resources in the Gen 1 CloudFormation stacks. This prevents CloudFormation from deleting any physical resources when the stack is removed. You can do this by updating each stack (including nested ones) to set `DeletionPolicy: Retain` on every resource and updating the stacks via the CLI or the CloudFormation console.
-3. Manually delete individual stateless resources that are no longer needed (e.g. AppSync APIs, Lambda functions, IAM roles) — verifying each one is safe to remove.
-4. Delete the Gen 1 root CloudFormation stack. Since all resources have the `Retain` policy, the stack deletion will only remove the stack metadata without affecting any underlying resources.
+2. Apply the `Retain` deletion policy to resources in the Gen 1 nested CloudFormation stacks. This prevents CloudFormation from deleting the retained resources when the root stack is removed. Note that the `retain` command only applies to resources in the nested stacks — resources in the root stack itself are not retained.
 
-<Callout info>
+```bash
+amplify gen2-migration retain
+```
 
-We are working on a CLI command to automate the process of retaining all resources in your Gen 1 environment. This section will be updated when it is available.
+3. Delete the Gen 1 root CloudFormation stack. Resources in the nested stacks will be retained (orphaned) thanks to the deletion policy applied in the previous step. Resources in the root stack itself will be deleted normally.
+4. Manually delete individual orphaned resources that are no longer needed (e.g. AppSync APIs, Lambda functions, IAM roles) — verifying each one is safe to remove.
 
-</Callout>
 
 ## Troubleshooting
 

@@ -1,0 +1,104 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'How the Amplify integration works',
+  description:
+    'Understand how AWS Blocks integrates with Amplify Gen 2 — the nested CDK stack, conditional exports, endpoint discovery, and the Cognito token flow.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+When you add AWS Blocks to an Amplify Gen 2 project, four mechanisms connect the two. Understanding them helps you reason about deployment, authentication, and how your frontend reaches the Blocks API.
+
+## Blocks deploy as a nested CDK stack
+
+Amplify Gen 2 builds your backend with `defineBackend`. The scaffolded `amplify/blocks.ts` calls `backend.createStack('blocks')` to create a nested AWS CDK stack and provisions the Blocks backend (a Lambda function and an API endpoint) inside it:
+
+```ts title="amplify/blocks.ts"
+const blocksStack = backend.createStack('blocks');
+const blocks = await createBlocksBackend(blocksStack, sandboxMode);
+```
+
+Because the Blocks stack is nested inside your Amplify backend, both deploy through the same `ampx` command and the same CloudFormation deployment. There is no second deploy step and no separate CLI.
+
+## Conditional exports select the right implementation
+
+A Block ships several implementations of the same code and selects one using Node.js [conditional exports](https://nodejs.org/api/packages.html#conditional-exports):
+
+- **Local development** — in-memory and filesystem implementations, so no AWS account is required.
+- **CDK synthesis** — the `--conditions=cdk` condition loads CDK constructs. The scaffolded `sandbox` script sets `NODE_OPTIONS="--conditions=cdk"`, and `amplify.yml` sets it for the hosted backend build.
+- **AWS runtime** — the `--conditions=aws-runtime` condition loads code that calls AWS services through the SDK inside Lambda.
+
+This is why the same `new KVStore(scope, 'notes')` line becomes a local store during development and an Amazon DynamoDB table once deployed — without code changes.
+
+## Your frontend discovers the API through amplify_outputs.json
+
+`initBlocks` adds the deployed Blocks API URL to your Amplify outputs:
+
+```ts title="amplify/blocks.ts"
+backend.addOutput({
+  custom: {
+    blocks_api_url: blocks.apiUrl
+  }
+});
+```
+
+After deployment, `amplify_outputs.json` contains the Blocks endpoint under `custom.blocks_api_url`, next to your Amplify Auth and Data configuration. The generated Blocks client reads this value, so you don't hardcode the URL. See [Connect your frontend](/[platform]/build-a-backend/aws-blocks/connect-your-frontend/) for how the client uses it.
+
+## Protected operations reuse your Amplify Cognito pool
+
+Blocks does not create a second user pool. `initBlocks` passes your Amplify Cognito user pool ID and client ID to the Blocks Lambda as environment variables, and the backend verifies the tokens Amplify already issues. In your Block, `CognitoVerifier` performs stateless verification of the incoming bearer token:
+
+```ts title="aws-blocks/index.ts"
+const auth = new CognitoVerifier({
+  userPoolId: process.env.COGNITO_USER_POOL_ID!,
+  clientId: process.env.COGNITO_CLIENT_ID!,
+  tokenUse: 'id'
+});
+
+// Throws 401 if the request has no valid Amplify-issued token
+const user = await auth.requireAuth(context);
+```
+
+`requireAuth(context)` returns the verified user (including `sub` and Cognito `groups`) or throws a `401`. Use `requireGroup(context, 'admins')` to additionally require group membership. Because verification is stateless, there is no session store on the Blocks side — your Amplify frontend continues to manage the user's session.
+
+<Callout info>
+
+The Blocks API speaks JSON-RPC over HTTP, but the transport is invisible. Call the generated, typed client instead of constructing requests by hand.
+
+</Callout>
+
+## Putting it together
+
+1. You sign in with Amplify Auth on the client; Amplify manages the session.
+2. The generated Blocks client attaches the Cognito token to each Blocks API call.
+3. The request reaches the Blocks Lambda in the nested stack.
+4. `CognitoVerifier` validates the token against your Amplify user pool and returns the user.
+5. Your Block scopes data to that user and responds.
+
+## Next steps
+
+- [Connect your frontend](/[platform]/build-a-backend/aws-blocks/connect-your-frontend/) and call the typed API.
+- Review the full architecture in the [AWS Blocks Developer Guide](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html).

@@ -1,0 +1,170 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Add an AI agent to your Amplify app',
+  description:
+    'Use the AWS Blocks Agent to add a conversational AI agent to your Amplify Gen 2 app, authenticated with your Amplify Cognito user pool.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide adds a conversational AI agent to an Amplify Gen 2 app using the AWS Blocks [`Agent`](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html) Block. The agent streams responses, persists conversations, and authenticates each request against the Cognito user pool your Amplify backend already provisions.
+
+This guide assumes you have already [added AWS Blocks to your Amplify project](/[platform]/build-a-backend/aws-blocks/get-started/).
+
+## Install the Agent Block
+
+Add the Block to your `aws-blocks` workspace:
+
+```bash
+npm install @aws-blocks/bb-agent zod
+```
+
+The `Agent` Block uses [Zod](https://zod.dev) schemas (v4) to validate tool parameters, so `zod` is a required peer dependency.
+
+## Define the agent
+
+In `aws-blocks/index.ts`, create an `Agent` and expose API methods that authenticate the caller with the Amplify Cognito pool before touching a conversation. The `CognitoVerifier` scaffolded into your project verifies the same tokens Amplify issues:
+
+```ts title="aws-blocks/index.ts"
+import { ApiNamespace, Scope } from '@aws-blocks/blocks';
+import { Agent, BedrockModels } from '@aws-blocks/bb-agent';
+import { CognitoVerifier } from './cognito-verifier.js';
+
+const scope = new Scope('my-app');
+
+const auth = new CognitoVerifier({
+  userPoolId: process.env.COGNITO_USER_POOL_ID!,
+  clientId: process.env.COGNITO_CLIENT_ID!,
+  tokenUse: 'id'
+});
+
+// `model` is optional and defaults to BedrockModels.BALANCED.
+const agent = new Agent(scope, 'support-agent', {
+  model: { deployed: BedrockModels.BALANCED },
+  systemPrompt: 'You are a helpful support agent.'
+});
+
+// These methods return the shapes the `useChat` client hook expects
+// ({ conversationId } and { messages }) so the frontend can wire in directly.
+export const api = new ApiNamespace(scope, 'api', (context) => ({
+  // Start a conversation for the signed-in Amplify user
+  async createConversation() {
+    const user = await auth.requireAuth(context);
+    return { conversationId: await agent.createConversationId(user.sub) };
+  },
+
+  // Send a message — the agent streams chunks to the given Realtime channel
+  async sendMessage(conversationId: string, message: string, channelId: string) {
+    const user = await auth.requireAuth(context);
+    await agent.stream(message, { conversationId, channelId, userId: user.sub });
+  },
+
+  // Read history — verify the conversation belongs to this user first
+  async getConversation(conversationId: string) {
+    const user = await auth.requireAuth(context);
+    const owned = await agent.listConversations(user.sub);
+    if (!owned.some((c) => c.conversationId === conversationId)) {
+      throw new Error('Not found');
+    }
+    return { messages: await agent.getConversation(conversationId) };
+  },
+
+  // Expose the Realtime channel so the client can subscribe to streamed chunks
+  async getChannel(channelId: string) {
+    return agent.getChannel(channelId);
+  }
+}));
+```
+
+<Callout warning>
+
+The `Agent` Block scopes data by an unguessable `conversationId` but does not authorize the caller on read paths. Always derive the user from `requireAuth(context)` and confirm the conversation belongs to them — as `getConversation` does above — before returning history.
+
+</Callout>
+
+## Deploy
+
+The agent runs on Amazon Bedrock, so deploy it with the rest of your backend:
+
+```bash
+npm run sandbox
+```
+
+Make sure [model access is enabled](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for the Bedrock model your agent uses in your account and Region.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+## Call the agent from your frontend
+
+Regenerate the typed client so it includes the new methods:
+
+```bash
+npm run blocks:generate-client
+```
+
+The `Agent` Block ships a `useChat` helper that manages the conversation, subscribes to the streaming channel before sending (so no early chunks are dropped), and surfaces messages to your UI. Because your generated client already attaches the Amplify Cognito token to every request, signed-in users authenticate transparently:
+
+```ts
+import { api } from 'aws-blocks';
+import { useChat } from '@aws-blocks/bb-agent/client';
+
+const chat = useChat({
+  api: {
+    sendMessage: (conversationId, message, channelId) =>
+      api.sendMessage(conversationId, message, channelId),
+    createConversation: () => api.createConversation(),
+    getConversation: (id) => api.getConversation(id)
+  },
+  subscribe: async (channelId, handler) => {
+    const channel = await api.getChannel(channelId);
+    return channel.subscribe(handler);
+  },
+  onMessagesChange: (msgs) => renderMessages(msgs)
+});
+
+await chat.sendMessage('When are you open tomorrow?');
+```
+
+<Callout info>
+
+Despite the name, `useChat` is a factory function, not a React hook — call it once (for example, in a ref or outside your component), not on every render.
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift", "android", "flutter"]}>
+
+## Call the agent from your frontend
+
+Generate the native client for your platform from your backend's `blocks.spec.json` and attach your Amplify Auth session token as a `Bearer` token on each request, as described in [Connect your frontend](/[platform]/build-a-backend/aws-blocks/connect-your-frontend/). Call `createConversation` to get a conversation ID, then `sendMessage` with a channel ID, and subscribe to that Realtime channel to receive streamed chunks.
+
+</InlineFilter>
+
+## Next steps
+
+- Add tools to your agent so it can call your other Blocks or external APIs — see the [AWS Blocks Developer Guide](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html).
+- [Use BasicAuth with an Amplify backend](/[platform]/build-a-backend/aws-blocks/use-basic-auth/) if you need lightweight auth instead of Cognito.

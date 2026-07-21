@@ -1,0 +1,165 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use BasicAuth with an Amplify backend',
+  description:
+    'Use the AWS Blocks AuthBasic Block for username and password authentication on your Blocks API within an Amplify Gen 2 app.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+This guide secures your Blocks API with the AWS Blocks [`AuthBasic`](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html) Block — simple username and password authentication with JWT sessions.
+
+<Callout info>
+
+For production apps, authenticate your Blocks API with your existing Amplify Cognito user pool — see [Connect your frontend](/[platform]/build-a-backend/aws-blocks/connect-your-frontend/). `AuthBasic` is a good fit for prototypes, internal tools, and MVPs where you want lightweight auth on the Blocks portion of your app without configuring Cognito. It does not replace [Amplify Auth](/[platform]/build-a-backend/auth/).
+
+</Callout>
+
+This guide assumes you have already [added AWS Blocks to your Amplify project](/[platform]/build-a-backend/aws-blocks/get-started/).
+
+## Install the AuthBasic Block
+
+Add the Block to your `aws-blocks` workspace:
+
+```bash
+npm install @aws-blocks/bb-auth-basic
+```
+
+## Define authentication
+
+In `aws-blocks/index.ts`, create an `AuthBasic` instance, protect your API methods with `requireAuth`, and export the authentication API the frontend uses to sign users in and out:
+
+```ts title="aws-blocks/index.ts"
+import { ApiNamespace, Scope } from '@aws-blocks/blocks';
+import { AuthBasic } from '@aws-blocks/bb-auth-basic';
+
+const scope = new Scope('my-app');
+
+const auth = new AuthBasic(scope, 'auth', {
+  sessionDuration: 86400, // 24 hours
+  passwordPolicy: { minLength: 8, requireDigits: true }
+});
+
+export const api = new ApiNamespace(scope, 'api', (context) => ({
+  async getProfile() {
+    const user = await auth.requireAuth(context);
+    return { username: user.username, createdAt: user.createdAt };
+  }
+}));
+
+// Export the auth API for the frontend sign-in / sign-up flows
+export const authApi = auth.createApi();
+```
+
+`requireAuth(context)` returns the signed-in user or throws a `401` (`SessionExpiredException`). `AuthBasic` manages the session with an HTTP cookie, so there is no token to attach manually.
+
+## Deploy
+
+Deploy with the rest of your backend:
+
+```bash
+npm run sandbox
+```
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+## Sign users in from your frontend
+
+Regenerate the typed client so it includes both `api` and `authApi`:
+
+```bash
+npm run blocks:generate-client
+```
+
+Drive the sign-up and sign-in flows through the `setAuthState` action on `authApi`. Each action is a single flat input — `{ action, ...fields }`:
+
+```ts
+import { api, authApi } from 'aws-blocks';
+
+// Sign up (immediate, since no code delivery is configured)
+await authApi.setAuthState({
+  action: 'signUp',
+  username: 'alice',
+  password: 'hunter2!'
+});
+
+// Sign in — sets the session cookie
+await authApi.setAuthState({
+  action: 'signIn',
+  username: 'alice',
+  password: 'hunter2!'
+});
+
+// Authenticated calls now succeed
+const profile = await api.getProfile();
+```
+
+Handle bad credentials with the Block's typed errors. `setAuthState` does not throw — it returns the new auth state with an `errorName`, so branch on it with `hasAuthError`:
+
+```ts
+import { hasAuthError } from '@aws-blocks/core';
+import { AuthBasicErrors } from '@aws-blocks/bb-auth-basic';
+
+const next = await authApi.setAuthState({
+  action: 'signIn',
+  username: 'alice',
+  password: 'hunter2!'
+});
+
+if (hasAuthError(next, AuthBasicErrors.InvalidCredentials)) {
+  // show "invalid username or password"
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift", "android", "flutter"]}>
+
+## Sign users in from your frontend
+
+Generate the native client for your platform from your backend's `blocks.spec.json` (see [Connect your frontend](/[platform]/build-a-backend/aws-blocks/connect-your-frontend/)). Call the `setAuthState` action with `{ action: 'signUp', ... }` and `{ action: 'signIn', ... }` to register and authenticate users. `AuthBasic` sets a session cookie, so subsequent authenticated calls do not need a token attached.
+
+</InlineFilter>
+
+## Optional: confirm sign-up with a code
+
+To require email confirmation, provide a `codeDelivery` callback. This puts new users in an unconfirmed state until they verify a 6-digit code, and enables password reset:
+
+```ts title="aws-blocks/index.ts"
+const auth = new AuthBasic(scope, 'auth', {
+  passwordPolicy: { minLength: 8, requireDigits: true },
+  codeDelivery: async (username, code) => {
+    await sendEmail(username, `Your verification code: ${code}`);
+  }
+});
+```
+
+You could deliver the code with the AWS Blocks `EmailClient` Block. Users then complete sign-up with `{ action: 'confirmSignUp', username, code, password }`.
+
+## Next steps
+
+- [Add an AI agent to your Amplify app](/[platform]/build-a-backend/aws-blocks/add-an-agent/).
+- See the [AWS Blocks Developer Guide](https://docs.aws.amazon.com/blocks/latest/devguide/what-is-blocks.html) for the full `AuthBasic` API, including password reset and cross-domain sessions.

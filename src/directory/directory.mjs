@@ -67,6 +67,33 @@ export const directory = {
           section: 'backend',
           children: [
             {
+              path: 'src/pages/[platform]/build-a-backend/aws-blocks/index.mdx',
+              section: 'backend',
+              isNew: true,
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/aws-blocks/get-started/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/aws-blocks/how-it-works/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/aws-blocks/connect-your-frontend/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/aws-blocks/add-an-agent/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/aws-blocks/use-basic-auth/index.mdx',
+                  section: 'backend'
+                }
+              ]
+            },
+            {
               path: 'src/pages/[platform]/build-a-backend/auth/index.mdx',
               section: 'backend',
               children: [
