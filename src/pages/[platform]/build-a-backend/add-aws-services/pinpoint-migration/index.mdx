@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Migrate from Pinpoint-backed features',
   description:
-    'Migrate the Pinpoint-backed Analytics, Push Notifications, and In-App Messaging features in the Amplify libraries before Amazon Pinpoint reaches end of support on October 30, 2026.',
+    'Migrate the Pinpoint-backed Analytics and Push Notifications features in the Amplify libraries before Amazon Pinpoint reaches end of support on October 30, 2026.',
   platforms: [
     'javascript',
     'react-native',
@@ -36,7 +36,6 @@ The affected capabilities are:
 
 - **Analytics**: user identification, event and metrics recording backed by Pinpoint
 - **Push Notifications**: device registration, campaigns, and message handling backed by Pinpoint
-- **In-App Messaging**: Pinpoint-driven in-app campaigns
 
 ## Migration paths at a glance
 
@@ -45,8 +44,6 @@ The affected capabilities are:
 | User identification (`identifyUser`) | Amazon Connect Customer Profiles |
 | Push device registration and campaigns | Amazon Connect Customer Profiles and Amazon Connect outbound campaigns |
 | Analytics event recording | Amazon Kinesis Data Streams or Amazon Data Firehose |
-
-Guidance for migrating In-App Messaging campaigns will be added to this page.
 
 ## Migrate user identification and push notifications to Amazon Connect Customer Profiles
 
