@@ -1,0 +1,516 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from Pinpoint push campaigns to Amazon Connect',
+  description: 'Guide for migrating Pinpoint push notification campaigns to Amazon Connect Journeys with End User Messaging',
+  route: "/[platform]/build-a-backend/add-aws-services/analytics/pinpoint-migration",
+  platforms: [
+    'flutter',
+    'swift',
+    'android'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+[AWS will end support for Amazon Pinpoint on October 30, 2026](https://docs.aws.amazon.com/pinpoint/latest/userguide/migrate.html). This guide covers migrating your Pinpoint push notification campaigns to Amazon Connect, using End User Messaging for push delivery.
+
+## If you only use Amplify Analytics
+
+If you only use Amplify Analytics (`recordEvent`, session tracking) and don't use push notifications, migrate to **Amazon Kinesis Data Streams** instead of Connect. See [Set up Kinesis Data Streams](/[platform]/build-a-backend/add-aws-services/analytics/streaming-analytics/) for setup instructions. The Amplify Kinesis client is already available.
+
+The rest of this guide is for teams migrating **push notification campaigns**.
+
+## What doesn't change
+
+Firebase Cloud Messaging (FCM) and Apple Push Notification service (APNs) still deliver pushes to devices. Pinpoint called FCM/APNs through End User Messaging to deliver pushes. **That API is not deprecated.** Your on-device push handling code (notification display, tap handling, deep linking, permissions) does not need to change.
+
+Two things change: push **triggering** moves from Pinpoint campaigns to Connect Journeys, and device token **registration** moves from Pinpoint endpoints to Connect Customer Profiles.
+
+## Choose your migration path
+
+### Option A: Direct send (no campaign UI needed)
+
+If you manage your own device token lists and only need to send pushes, call End User Messaging directly without setting up Connect.
+
+<Callout info>
+
+**End User Messaging App ID:** This is your existing Pinpoint Application ID. After the rebrand, the same ID is used by the End User Messaging APIs. Find it in the AWS console under **End User Messaging → Applications**, or via `aws pinpoint get-apps`.
+
+</Callout>
+
+```typescript
+import { PinpointClient, SendMessagesCommand } from '@aws-sdk/client-pinpoint';
+
+const client = new PinpointClient({ region: 'us-east-1' });
+const APP_ID = 'your-end-user-messaging-app-id'; // Your existing Pinpoint Application ID
+
+const devices = [
+  { token: 'fcm-token-abc123', channel: 'GCM' as const },
+  { token: 'apns-token-xyz789', channel: 'APNS' as const },
+];
+
+for (const device of devices) {
+  await client.send(new SendMessagesCommand({
+    ApplicationId: APP_ID,
+    MessageRequest: {
+      Addresses: {
+        [device.token]: { ChannelType: device.channel }
+      },
+      MessageConfiguration: {
+        GCMMessage: {
+          Title: 'Your notification title',
+          Body: 'Your notification body',
+          Action: 'OPEN_APP',
+        },
+        APNSMessage: {
+          Title: 'Your notification title',
+          Body: 'Your notification body',
+          Action: 'OPEN_APP',
+        }
+      }
+    }
+  }));
+}
+```
+
+**Pros:** Minimal migration. No Connect setup. Keep your existing workflow.
+
+**Cons:** No segmentation UI, no campaign scheduling, no targeting by user attributes. You manage everything yourself.
+
+### Option B: Connect Journeys (for segmentation and campaign UI)
+
+If you want to target users by attributes and use a campaign management UI, migrate to Amazon Connect.
+
+## Prerequisites
+
+Before starting Option B, you need:
+
+- **An Amazon Connect instance** with outbound campaigns enabled. Find your instance ID via `aws connect list-instances` or from the Connect console URL (the UUID after `/instance/`).
+- **Customer Profiles enabled** and linked to your Connect instance. Enable it in the Connect console under **Customer Profiles**.
+- **An End User Messaging app** (your existing Pinpoint Application ID). Find it via `aws pinpoint get-apps` or in the console under **End User Messaging → Applications**.
+
+#### Step 1: Create a Connect Customer Profiles domain
+
+```bash
+aws customer-profiles create-domain \
+  --domain-name my-push-domain \
+  --default-expiration-days 365 \
+  --region us-east-1
+```
+
+#### Step 2: Create the device profile object type
+
+This tells Connect how to store device tokens on user profiles.
+
+<Accordion title="put-profile-object-type CLI command" headingLevel='4' eyebrow='Walkthrough'>
+
+```bash
+aws customer-profiles put-profile-object-type \
+  --domain-name my-push-domain \
+  --object-type-name AmplifyDevice \
+  --description "Mobile device for push notifications" \
+  --keys '{
+    "deviceIdKey": [{"StandardIdentifiers": ["UNIQUE"], "FieldNames": ["deviceId"]}],
+    "userIdKey": [{"StandardIdentifiers": ["PROFILE"], "FieldNames": ["userId"]}]
+  }' \
+  --fields '{
+    "deviceId": {"Source": "_source.deviceId", "Target": "_source.deviceId", "ContentType": "STRING"},
+    "deviceToken": {"Source": "_source.deviceToken", "Target": "_source.deviceToken", "ContentType": "STRING"},
+    "channelType": {"Source": "_source.channelType", "Target": "_source.channelType", "ContentType": "STRING"},
+    "platform": {"Source": "_source.platform", "Target": "_source.platform", "ContentType": "STRING"},
+    "userId": {"Source": "_source.userId", "Target": "_source.userId", "ContentType": "STRING"}
+  }' \
+  --allow-profile-creation \
+  --region us-east-1
+```
+
+</Accordion>
+
+This creates an `AmplifyDevice` object type with fields for `deviceId`, `deviceToken`, `channelType`, `platform`, and `userId`. The `UNIQUE` key on `deviceId` ensures one record per device; the `PROFILE` key on `userId` links devices to profiles.
+
+#### Step 3: Export and import your Pinpoint endpoints
+
+Follow the [official Pinpoint migration guide](https://docs.aws.amazon.com/pinpoint/latest/userguide/migrate.html#migration-steps) to export your endpoints, then import them as Customer Profiles. For push endpoints (GCM/APNS), also register them as device profile objects:
+
+```typescript
+import { CustomerProfilesClient, PutProfileObjectCommand } from '@aws-sdk/client-customer-profiles';
+
+const client = new CustomerProfilesClient({ region: 'us-east-1' });
+const DOMAIN = 'my-push-domain';
+
+// For each push device from your Pinpoint export:
+await client.send(new PutProfileObjectCommand({
+  DomainName: DOMAIN,
+  ObjectTypeName: 'AmplifyDevice',
+  Object: JSON.stringify({
+    userId: 'user-001',
+    deviceId: 'pinpoint-endpoint-id',
+    deviceToken: 'fcm-or-apns-token',
+    channelType: 'GCM',
+    platform: 'Android',
+  })
+}));
+```
+
+#### Step 4: Deploy the push delivery Lambda
+
+Amazon Connect Journeys support email, SMS, WhatsApp, and voice as native channels, but **not push notifications**. To send pushes from a Journey, add a Lambda function as a "Custom Action" block. The Lambda reads device tokens from profile objects and calls End User Messaging to deliver via FCM/APNs.
+
+<Accordion title="Lambda IAM role policy" headingLevel='4' eyebrow='Learn more'>
+
+Create an execution role with these permissions:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "mobiletargeting:SendMessages",
+      "Resource": "arn:aws:mobiletargeting:us-east-1:ACCOUNT:apps/YOUR_EUM_APP_ID/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "profile:ListProfileObjects",
+      "Resource": "arn:aws:profile:us-east-1:ACCOUNT:domains/my-push-domain"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:us-east-1:ACCOUNT:*"
+    }
+  ]
+}
+```
+
+Trust policy:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {"Service": "lambda.amazonaws.com"},
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+```
+
+</Accordion>
+
+<Accordion title="Lambda implementation (push_delivery_lambda.py)" headingLevel='4' eyebrow='Walkthrough'>
+
+The Lambda receives a batch of customer profiles from the Journey's Custom Action block. It reads each profile's device tokens and sends push notifications via End User Messaging. Notification content comes from environment variables so you can update it without redeploying code.
+
+```typescript
+// push-delivery/index.ts
+import { CustomerProfilesClient, ListProfileObjectsCommand } from '@aws-sdk/client-customer-profiles';
+import { PinpointClient, SendMessagesCommand } from '@aws-sdk/client-pinpoint';
+import type { MessageConfiguration } from '@aws-sdk/client-pinpoint';
+
+// Push delivery uses the mobiletargeting API (@aws-sdk/client-pinpoint),
+// which remains available after Pinpoint EOL.
+const cp = new CustomerProfilesClient({});
+const eum = new PinpointClient({});
+
+const DOMAIN = process.env.CUSTOMER_PROFILES_DOMAIN!;
+const EUM_APP_ID = process.env.EUM_APP_ID!;
+const NOTIFICATION_TITLE = process.env.NOTIFICATION_TITLE ?? 'Notification';
+const NOTIFICATION_BODY = process.env.NOTIFICATION_BODY ?? '';
+
+interface CampaignEvent {
+  Items: {
+    CustomerProfiles: Array<{
+      ProfileId: string;
+      CustomerData: string;
+      IdempotencyToken: string;
+    }>;
+  };
+}
+
+/**
+ * Invoked by a Connect Journey Custom Action block.
+ * Event format: https://docs.aws.amazon.com/connect/latest/adminguide/lambda-invoke-functions.html
+ */
+export const handler = async (event: CampaignEvent) => {
+  const profiles = event.Items.CustomerProfiles;
+  const responseItems = [];
+
+  for (const record of profiles) {
+    const { ProfileId } = record;
+
+    const devicesResponse = await cp.send(new ListProfileObjectsCommand({
+      DomainName: DOMAIN,
+      ObjectTypeName: 'AmplifyDevice',
+      ProfileId,
+    }));
+
+    const statuses: string[] = [];
+    for (const obj of devicesResponse.Items ?? []) {
+      const device = JSON.parse(obj.Object!);
+      const token: string | undefined = device.deviceToken;
+      const channel: string = device.channelType ?? 'GCM';
+
+      if (!token) continue;
+
+      const MessageConfiguration: MessageConfiguration = {};
+      if (channel === 'GCM') {
+        MessageConfiguration.GCMMessage = {
+          Title: NOTIFICATION_TITLE,
+          Body: NOTIFICATION_BODY,
+          Action: 'OPEN_APP',
+        };
+      } else if (channel === 'APNS' || channel === 'APNS_SANDBOX') {
+        MessageConfiguration.APNSMessage = {
+          Title: NOTIFICATION_TITLE,
+          Body: NOTIFICATION_BODY,
+          Action: 'OPEN_APP',
+        };
+      }
+
+      const resp = await eum.send(new SendMessagesCommand({
+        ApplicationId: EUM_APP_ID,
+        MessageRequest: {
+          Addresses: { [token]: { ChannelType: channel } },
+          MessageConfiguration,
+        },
+      }));
+
+      const status = resp.MessageResponse?.Result?.[token]?.DeliveryStatus ?? 'UNKNOWN';
+      statuses.push(status);
+    }
+
+    responseItems.push({ Id: ProfileId, ResultData: { deliveryStatuses: statuses } });
+  }
+
+  return { Items: { CustomerProfiles: responseItems } };
+};
+```
+
+</Accordion>
+
+##### Deploy the Lambda
+
+```bash
+# Bundle and deploy (using esbuild)
+npx esbuild push-delivery/index.ts --bundle --platform=node --outfile=dist/index.js
+
+cd dist && zip -r ../lambda.zip index.js && cd ..
+
+aws lambda create-function \
+  --function-name push-delivery \
+  --runtime nodejs20.x \
+  --handler index.handler \
+  --role arn:aws:iam::ACCOUNT:role/push-delivery-role \
+  --zip-file fileb://lambda.zip \
+  --environment 'Variables={CUSTOMER_PROFILES_DOMAIN=my-push-domain,EUM_APP_ID=your-end-user-messaging-app-id,NOTIFICATION_TITLE=Your Title,NOTIFICATION_BODY=Your message body}'
+
+aws lambda add-permission \
+  --function-name push-delivery \
+  --statement-id connect-invoke \
+  --action lambda:InvokeFunction \
+  --principal connect.amazonaws.com
+```
+
+##### Register the Lambda with Connect
+
+<Callout warning>
+
+The `associate-lambda-function` CLI command is for **contact flows**, not outbound campaigns. For Journey Custom Actions, register your Lambda via the Connect console:
+
+1. Open the [Amazon Connect console](https://console.aws.amazon.com/connect/)
+2. Select your instance
+3. In the navigation pane, go to **Channels and communications → Outbound campaigns**
+4. Under **Set up custom actions**, use the **Lambda functions** dropdown to select your function
+5. Choose **Add Lambda Function**
+
+</Callout>
+
+#### Step 5: Create a Journey and send
+
+1. Open the Connect console → Outbound campaigns → Create Journey
+2. Choose your segment (filter by profile attributes like `plan = premium`)
+3. Add a **Custom Action** block → select your `push-delivery` Lambda
+4. Run the Journey
+
+## Migrating `identifyUser`
+
+Amplify's `identifyUser` API mapped to Pinpoint's `UpdateEndpoint`. The replacement is creating or updating a Connect Customer Profile with the same attributes.
+
+| Pinpoint (`identifyUser`) field | Connect Customer Profile field |
+|---|---|
+| `name` | `FirstName` / `LastName` |
+| `email` | `EmailAddress` |
+| `plan` (custom attribute) | `Attributes.plan` |
+| Custom user attributes | `Attributes` map |
+
+```typescript
+import { CustomerProfilesClient, CreateProfileCommand } from '@aws-sdk/client-customer-profiles';
+
+const client = new CustomerProfilesClient({ region: 'us-east-1' });
+
+// Equivalent of identifyUser({ userId: 'user-001', name: 'Jane Doe', email: '...' })
+await client.send(new CreateProfileCommand({
+  DomainName: 'my-push-domain',
+  FirstName: 'Jane',
+  LastName: 'Doe',
+  EmailAddress: 'jane@example.com',
+  Attributes: { plan: 'premium', locale: 'en_US' }
+}));
+```
+
+## Registering devices from your mobile app
+
+Once your backend is set up, each device needs to register its push token with Connect Customer Profiles by calling `PutProfileObject` with the `AmplifyDevice` object type.
+
+<BlockSwitcher>
+
+<Block name="Kotlin">
+
+```kotlin
+import aws.sdk.kotlin.services.customerprofiles.CustomerProfilesClient
+import aws.sdk.kotlin.services.customerprofiles.model.PutProfileObjectRequest
+import kotlinx.serialization.json.*
+
+val cpClient = CustomerProfilesClient { region = "us-east-1" }
+
+suspend fun registerDevice(userId: String, token: String, deviceId: String) {
+    val deviceObject = buildJsonObject {
+        put("userId", userId)
+        put("deviceId", deviceId)
+        put("deviceToken", token)
+        put("channelType", "GCM")
+        put("platform", "Android")
+    }
+
+    cpClient.putProfileObject(PutProfileObjectRequest {
+        domainName = "my-push-domain"
+        objectTypeName = "AmplifyDevice"
+        `object` = deviceObject.toString()
+    })
+}
+```
+
+</Block>
+
+<Block name="Swift">
+
+```swift
+import AWSCustomerProfiles
+
+let cpClient = try CustomerProfilesClient(region: "us-east-1")
+
+func registerDevice(userId: String, token: String, deviceId: String) async throws {
+    let deviceObject: [String: String] = [
+        "userId": userId,
+        "deviceId": deviceId,
+        "deviceToken": token,
+        "channelType": "APNS",
+        "platform": "iOS"
+    ]
+
+    let objectJson = try JSONSerialization.data(withJSONObject: deviceObject)
+
+    let input = PutProfileObjectInput(
+        domainName: "my-push-domain",
+        object: String(data: objectJson, encoding: .utf8)!,
+        objectTypeName: "AmplifyDevice"
+    )
+    _ = try await cpClient.putProfileObject(input: input)
+}
+```
+
+</Block>
+
+<Block name="Dart (via backend)">
+
+```typescript
+// Flutter apps should call a backend endpoint that proxies to Customer Profiles.
+// Example backend Lambda (TypeScript):
+import { CustomerProfilesClient, PutProfileObjectCommand } from '@aws-sdk/client-customer-profiles';
+import type { APIGatewayProxyHandler } from 'aws-lambda';
+
+const client = new CustomerProfilesClient({});
+
+export const handler: APIGatewayProxyHandler = async (event) => {
+  const body = JSON.parse(event.body!);
+  await client.send(new PutProfileObjectCommand({
+    DomainName: 'my-push-domain',
+    ObjectTypeName: 'AmplifyDevice',
+    Object: JSON.stringify({
+      userId: body.userId,
+      deviceId: body.deviceId,
+      deviceToken: body.deviceToken,
+      channelType: body.channelType,
+      platform: body.platform,
+    })
+  }));
+  return { statusCode: 200, body: '' };
+};
+```
+
+```dart
+// Flutter client call:
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+Future<void> registerDevice({
+  required String userId,
+  required String deviceId,
+  required String token,
+  required String platform,
+}) async {
+  await http.post(
+    Uri.parse('https://your-api.execute-api.us-east-1.amazonaws.com/register-device'),
+    body: jsonEncode({
+      'userId': userId,
+      'deviceId': deviceId,
+      'deviceToken': token,
+      'channelType': platform == 'android' ? 'GCM' : 'APNS',
+      'platform': platform,
+    }),
+  );
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+The `UNIQUE` key on `deviceId` means re-registering with the same device ID updates the token in place (handles token refreshes).
+
+<Callout warning>
+
+**New Amplify libraries for Connect are in development.** When available, they will provide `connectClient.registerDevice(token)` and `connectClient.identifyUser()` that handle this automatically. This guide will be updated at that time.
+
+</Callout>
+
+## Pinpoint to Connect mapping
+
+| Pinpoint concept | Connect equivalent |
+|---|---|
+| Endpoint | Customer Profile + AmplifyDevice profile object |
+| Endpoint ID | `deviceId` on AmplifyDevice object |
+| Endpoint Address (push token) | `deviceToken` on AmplifyDevice object |
+| Endpoint Attributes | Profile Attributes map |
+| Segment | Connect Segment (Classic segmentation) |
+| Campaign (push) | Journey with Custom Action → Lambda → End User Messaging |
+| `identifyUser` / `UpdateEndpoint` | `CreateProfile` / `UpdateProfile` |
