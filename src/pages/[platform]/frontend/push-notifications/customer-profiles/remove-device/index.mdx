@@ -4,7 +4,7 @@ export const meta = {
   title: 'Remove a device',
   description:
     'De-register a push device from Amazon Connect Customer Profiles, and why removal must happen before signing a user out.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue', 'react-native']
+  platforms: ['react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -46,16 +46,6 @@ Reversing the order leaves the device registered against the signed-out user's p
 
 </Callout>
 
-<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'vue']}>
-
-<Callout info>
-
-`removeDevice` is supported on React Native only. On web it throws a `PlatformNotSupportedError`. A web application that also ships a React Native application should perform device removal there.
-
-</Callout>
-
-</InlineFilter>
-
 ## Sign a user out safely
 
 Handle a failed removal deliberately rather than letting it block sign-out. The following pattern signs the user out even when de-registration fails, which avoids trapping a user in a signed-in state because of a network error:
@@ -83,15 +73,11 @@ Call `removeDevice` in these situations:
 - When a user turns off notifications in your application's settings.
 - Before deleting a user's account.
 
-<InlineFilter filters={['react-native']}>
-
 You do not need to call `removeDevice` when the push token is replaced. Registration is keyed on a device identifier that is stable for the installation, so registering with a new token updates the existing record. See [Register a device](/[platform]/frontend/push-notifications/customer-profiles/register-device/).
 
 ## Register the device again
 
 The device identifier persists after removal, so a user who opts back in can be registered again with `registerDevice`. Removing a device does not reset the identifier or require your application to store one.
-
-</InlineFilter>
 
 ## Handle errors
 

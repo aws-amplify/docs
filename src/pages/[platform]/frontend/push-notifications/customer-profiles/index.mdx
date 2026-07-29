@@ -6,7 +6,7 @@ export const meta = {
   description:
     'Send profile information and register push devices with Amazon Connect Customer Profiles from your application.',
   route: '/[platform]/frontend/push-notifications/customer-profiles',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue', 'react-native']
+  platforms: ['react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -34,38 +34,7 @@ This page assumes you have already deployed a notifications resource. See [Set u
 
 </Callout>
 
-## Platform support
-
-The device APIs interact with the native push notification system, so support varies by platform:
-
-| API | Web | React Native |
-| --- | --- | --- |
-| `identifyUser` | Supported | Supported |
-| `initializePushNotifications` | Not supported | Supported |
-| `registerDevice` | Not supported | Supported |
-| `removeDevice` | Not supported | Supported |
-
-<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'vue']}>
-
-<Callout warning>
-
-On web, `initializePushNotifications`, `registerDevice`, and `removeDevice` throw a `PlatformNotSupportedError`. Use [`identifyUser`](/[platform]/frontend/push-notifications/customer-profiles/identify-user/) to send profile information from a web application, and register devices from your React Native application.
-
-</Callout>
-
-</InlineFilter>
-
 ## Install the library
-
-<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'vue']}>
-
-```bash title="Terminal" showLineNumbers={false}
-npm add aws-amplify
-```
-
-</InlineFilter>
-
-<InlineFilter filters={['react-native']}>
 
 Push notifications require the native module in addition to `aws-amplify`:
 
@@ -78,24 +47,9 @@ Because push notifications interact with the native platform, you also need to l
 - On iOS, run `npx pod-install`, add the push notification capability to your target in Xcode, and forward the remote notification callbacks from your `AppDelegate` to `AmplifyPushNotification`.
 - On Android, no additional integration steps are required beyond installing the packages above.
 
-</InlineFilter>
-
 ## Configure Amplify
 
 Pass `amplify_outputs.json` to `Amplify.configure()`. The endpoint and Region that your backend deployed are read from the `notifications` section of that file.
-
-<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'vue']}>
-
-```ts title="src/main.ts"
-import { Amplify } from 'aws-amplify';
-import outputs from '../amplify_outputs.json';
-
-Amplify.configure(outputs);
-```
-
-</InlineFilter>
-
-<InlineFilter filters={['react-native']}>
 
 Configure Amplify and initialize push notifications at your application's root entry point. Initializing early allows your application to process notifications that arrive while it is in a terminated state.
 
@@ -117,8 +71,6 @@ AppRegistry.registerComponent(appName, () => App);
 `initializePushNotifications` sets up the native listeners the category depends on. Calling it more than once has no effect. Until it has been called, `registerDevice` and `removeDevice` throw a validation error.
 
 Once initialized, the library registers the device automatically the first time the native platform issues a push token, so most applications do not call `registerDevice` themselves. See [Register a device](/[platform]/frontend/push-notifications/customer-profiles/register-device/).
-
-</InlineFilter>
 
 <Callout warning>
 

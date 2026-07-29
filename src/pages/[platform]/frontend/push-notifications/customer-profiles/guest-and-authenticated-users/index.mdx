@@ -4,7 +4,7 @@ export const meta = {
   title: 'Guest and authenticated users',
   description:
     'How Amazon Connect Customer Profiles notifications work for guest and signed-in users, and how a device moves to the authenticated identity on sign-in.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue', 'react-native']
+  platforms: ['react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -39,8 +39,6 @@ A guest identity is scoped to the installation, not to a person. Treat a guest p
 
 </Callout>
 
-<InlineFilter filters={['react-native']}>
-
 ## A device moves to the authenticated identity on sign-in
 
 A guest user's push token and a signed-in user's push token are the same value, because the native platform issues the token to the installation rather than to a user. Without any handling, a device registered as a guest would stay attached to the guest identity after the user signed in, and journeys targeting the authenticated profile would not reach it.
@@ -61,8 +59,6 @@ initializePushNotifications();
 Re-registration on sign-in is a best-effort operation. A failure is logged and does not interrupt sign-in, so a device may briefly remain on the guest identity if the request fails. The device is re-registered on the next sign-in.
 
 If no push token has been issued yet when a user signs in, there is nothing to move. The first registration then happens against the authenticated identity once the native platform issues the token.
-
-</InlineFilter>
 
 ## Sign a user out
 

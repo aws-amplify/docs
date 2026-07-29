@@ -4,7 +4,7 @@ export const meta = {
   title: 'Identify a user',
   description:
     'Send profile information for the current user to Amazon Connect Customer Profiles with the identifyUser API.',
-  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue', 'react-native']
+  platforms: ['react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -79,15 +79,11 @@ Call `identifyUser` when the profile information you hold changes, for example:
 
 `identifyUser` sends profile information only and performs no device work. To manage push devices, use [`registerDevice`](/[platform]/frontend/push-notifications/customer-profiles/register-device/) and [`removeDevice`](/[platform]/frontend/push-notifications/customer-profiles/remove-device/).
 
-<InlineFilter filters={['react-native']}>
-
 <Callout info>
 
 `identifyUser` does not require `initializePushNotifications`. Its only prerequisites are a configured endpoint and identity pool credentials, so you can call it before push notifications are initialized.
 
 </Callout>
-
-</InlineFilter>
 
 ## Personalize messages with profile values
 
