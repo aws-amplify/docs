@@ -24,7 +24,7 @@ export function getStaticProps(context) {
   };
 }
 
-The Amazon Connect Customer Profiles APIs let your application send profile information for the current user and manage that person's registered push devices. Devices are stored separately from the Customer Profile—in a DynamoDB device store, associated by `principalId`—rather than embedded inside the profile. Requests are signed with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) using Amazon Cognito identity pool credentials, and your backend derives the profile identity from the signed request.
+The Amazon Connect Customer Profiles APIs let your application send profile information for the current user and manage that person's registered push devices. Devices are stored separately from the Customer Profile, in a DynamoDB device store, associated by `principalId`, rather than embedded inside the profile. Requests are signed with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) using Amazon Cognito identity pool credentials, and your backend derives the profile identity from the signed request.
 
 These APIs are exported from the `aws-amplify/push-notifications/customer-profiles` sub-path.
 

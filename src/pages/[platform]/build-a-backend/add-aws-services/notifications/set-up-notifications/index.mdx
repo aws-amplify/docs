@@ -26,7 +26,7 @@ The `defineNotifications` construct adds an Amazon Connect Customer Profiles-bac
 
 Before you begin, complete the following steps:
 
-1. Add authentication to your backend. The notification APIs are called with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) signed requests using Amazon Cognito identity pool credentials, so an `auth` resource is required. Both signed-in and guest users can call the APIs — see [Guest access](/[platform]/build-a-backend/auth/concepts/guest-access/).
+1. Add authentication to your backend. The notification APIs are called with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) signed requests using Amazon Cognito identity pool credentials, so an `auth` resource is required. Both signed-in and guest users can call the APIs; see [Guest access](/[platform]/build-a-backend/auth/concepts/guest-access/).
 2. Install the notifications package:
 
 ```bash title="Terminal" showLineNumbers={false}
@@ -35,8 +35,8 @@ npm add @aws-amplify/backend-notifications
 
 3. Gather the credentials for each push channel you want to enable:
 
-   - **Apple Push Notification service (APNs)** — a token-based signing key (`.p8`), its key ID, your Apple team ID, and your application's bundle ID.
-   - **Firebase Cloud Messaging (FCM)** — the service account JSON for your Firebase project.
+   - **Apple Push Notification service (APNs)**: a token-based signing key (`.p8`), its key ID, your Apple team ID, and your application's bundle ID.
+   - **Firebase Cloud Messaging (FCM)**: the service account JSON for your Firebase project.
 
 4. Store the sensitive credentials as secrets. The signing key and the service account JSON are referenced with `secret()` rather than written into your backend code:
 
@@ -69,8 +69,8 @@ defineBackend({
 
 Two optional properties are available in this mode:
 
-- `instanceAlias` — the alias for the new Amazon Connect instance. Aliases are globally unique within an AWS Region. When you omit this property, Amplify generates a stable name for your Amplify project.
-- `expirationDays` — how long Customer Profiles retains profile data in the new domain.
+- `instanceAlias`: the alias for the new Amazon Connect instance. Aliases are globally unique within an AWS Region. When you omit this property, Amplify generates a stable name for your Amplify project.
+- `expirationDays`: how long Customer Profiles retains profile data in the new domain.
 
 ```ts title="amplify/backend.ts"
 notifications: defineNotifications({
@@ -112,7 +112,7 @@ For the requirements your existing domain must meet, see [Use existing resources
 
 ## Configure push channels
 
-Add `apns`, `fcm`, or both to enable the corresponding channel on the AWS End User Messaging application that Amplify creates. Channels are optional and independent — omit one to leave it unconfigured.
+Add `apns`, `fcm`, or both to enable the corresponding channel on the AWS End User Messaging application that Amplify creates. Channels are optional and independent; omit one to leave it unconfigured.
 
 ```ts title="amplify/backend.ts"
 import { defineBackend, secret } from '@aws-amplify/backend';
@@ -153,7 +153,7 @@ The `fcm` property is:
 
 <Callout warning>
 
-Pass `tokenKey` and `serviceJson` with `secret()`. Do not paste the key material into `amplify/backend.ts` — it would be committed to your repository.
+Pass `tokenKey` and `serviceJson` with `secret()`. Do not paste the key material into `amplify/backend.ts`; it would be committed to your repository.
 
 </Callout>
 
@@ -180,5 +180,5 @@ When the deployment finishes, the invoke endpoint and region are written to `amp
 
 ## Next steps
 
-- [Author message templates](/[platform]/build-a-backend/add-aws-services/notifications/author-message-templates/) — create the push message content in Amazon Q in Connect.
-- [Push notifications](/[platform]/frontend/push-notifications/customer-profiles/) — call the notification APIs from your application.
+- [Author message templates](/[platform]/build-a-backend/add-aws-services/notifications/author-message-templates/): create the push message content in Amazon Q in Connect.
+- [Push notifications](/[platform]/frontend/push-notifications/customer-profiles/): call the notification APIs from your application.

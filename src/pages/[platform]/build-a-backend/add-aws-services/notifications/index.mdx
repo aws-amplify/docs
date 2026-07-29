@@ -24,7 +24,7 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify push notifications are backed by [Amazon Connect Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/customer-profiles.html). A Customer Profile holds the profile information for one person, keyed on a server-derived `principalId`. That person's registered push devices are stored separately, in a DynamoDB device store, associated to the same `principalId`—they are not embedded in the Customer Profile object. You send a notification by targeting profiles from an [Amazon Connect journey](https://docs.aws.amazon.com/connect/latest/adminguide/journeys.html), which calls into your Amplify backend to deliver the message to that person's devices.
+Amplify push notifications are backed by [Amazon Connect Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/customer-profiles.html). A Customer Profile holds the profile information for one person, keyed on a server-derived `principalId`. That person's registered push devices are stored separately, in a DynamoDB device store, associated to the same `principalId`; they are not embedded in the Customer Profile object. You send a notification by targeting profiles from an [Amazon Connect journey](https://docs.aws.amazon.com/connect/latest/adminguide/journeys.html), which calls into your Amplify backend to deliver the message to that person's devices.
 
 Add the resource to your backend with the `defineNotifications` construct:
 
@@ -45,7 +45,7 @@ Deploying `defineNotifications` provisions the following resources:
 
 - An **`AmplifyProfile` Customer Profiles object type**, registered on your Customer Profiles domain. It is keyed on `principalId`, a searchable and unique field that holds the Amazon Cognito identity pool `identityId` of the caller. Your backend derives `principalId` from the signed request, so a client never sends it and cannot write to another person's profile.
 - A **DynamoDB device store** that holds the registered push devices. Device records live in this table rather than in Customer Profiles.
-- Three **HTTP API routes** — `identify-user`, `register-device`, and `remove-device` — authorized with AWS Identity and Access Management (IAM) and called with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) signed requests. A single least-privilege Lambda function serves all three routes.
+- Three **HTTP API routes** (`identify-user`, `register-device`, and `remove-device`), authorized with AWS Identity and Access Management (IAM) and called with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) signed requests. A single least-privilege Lambda function serves all three routes.
 - A **push-delivery Lambda function**, invoked as a custom action from an Amazon Connect journey. It looks up the target profile's devices and sends the message to each one.
 - An **AWS End User Messaging application**, with the APNs and FCM channels you configure.
 
