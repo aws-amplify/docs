@@ -127,6 +127,13 @@ describe('Layout', () => {
       expect(document.body.textContent).not.toContain('Amazon Pinpoint');
     });
 
+    it('is not rendered for the Customer Profiles push-notifications child pages', async () => {
+      routerState.asPath =
+        '/react/frontend/push-notifications/customer-profiles/register-device/';
+      render(layoutComponent);
+      expect(document.body.textContent).not.toContain('Amazon Pinpoint');
+    });
+
     it('is rendered for the legacy (gen1) push-notifications pages', async () => {
       routerState.asPath =
         '/gen1/react/build-a-backend/push-notifications/set-up-push-notifications/';

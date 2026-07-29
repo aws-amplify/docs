@@ -26,6 +26,8 @@ export function getStaticProps(context) {
 
 Amplify push notifications are backed by [Amazon Connect Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/customer-profiles.html). A Customer Profile holds the profile information for one person, keyed on a server-derived `principalId`. That person's registered push devices are stored separately, in a DynamoDB device store, associated to the same `principalId`; they are not embedded in the Customer Profile object. You send a notification by targeting profiles from an [Amazon Connect journey](https://docs.aws.amazon.com/connect/latest/adminguide/journeys.html), which calls into your Amplify backend to deliver the message to that person's devices.
 
+If you are moving an existing application off the Pinpoint-backed push notifications feature, start with [Migrate from Pinpoint-backed features](/[platform]/build-a-backend/add-aws-services/pinpoint-migration/).
+
 Add the resource to your backend with the `defineNotifications` construct:
 
 ```ts title="amplify/backend.ts"
