@@ -396,7 +396,10 @@ export const Layout = ({
                         />
                       </Flex>
                     )}
-                    {(asPathWithNoHash.includes('/push-notifications/') ||
+                    {((asPathWithNoHash.includes('/push-notifications/') &&
+                      !asPathWithNoHash.includes(
+                        '/push-notifications/customer-profiles'
+                      )) ||
                       asPathWithNoHash.includes('/analytics/') ||
                       asPathWithNoHash.includes('/in-app-messaging/')) &&
                       !asPathWithNoHash.includes('/kinesis') &&
