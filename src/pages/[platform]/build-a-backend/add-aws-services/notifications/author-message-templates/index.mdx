@@ -3,8 +3,8 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Author message templates',
   description:
-    'Create a push message template in Amazon Q in Connect and connect it to an Amazon Connect journey custom action.',
-  platforms: ['javascript', 'react-native']
+    'Create a push message template with the Amazon Q in Connect API and connect it to an Amazon Connect journey custom action.',
+  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -20,11 +20,11 @@ export function getStaticProps(context) {
   };
 }
 
-Amplify provisions the delivery path for your notifications, but not the message content. The text your users receive comes from a **push message template** that you author in [Amazon Q in Connect](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-q-connect.html).
+Amplify provisions the delivery path for your notifications, but not the message content. The text your users receive comes from a **push message template** stored in an Amazon Q in Connect knowledge base.
 
 <Callout warning>
 
-This is a required post-deployment step that you complete in the AWS Management Console. Amplify does not create message templates, and a journey that has no matching template falls back to default placeholder copy.
+**The Amazon Q in Connect console does not support authoring PUSH-channel message templates.** You create and publish push templates with the `qconnect` AWS CLI (or the underlying Amazon Q in Connect API), against the knowledge base that `defineNotifications` provisions. Amplify does not create the templates themselves, and a journey that has no matching template falls back to default placeholder copy.
 
 </Callout>
 
@@ -32,48 +32,73 @@ This is a required post-deployment step that you complete in the AWS Management 
 
 When an Amazon Connect journey reaches a custom action block that targets your push-delivery Lambda function, the function resolves the template for that journey run:
 
-1. It reads the campaign and action identifiers from the journey event. The action identifier is the **name of the custom action block** in your journey.
-2. It discovers the Amazon Q in Connect knowledge base associated with the Amazon Connect instance that the campaign belongs to.
-3. It lists the message templates in that knowledge base and selects the one whose channel is `PUSH` and whose **name exactly matches the custom action block name**.
-4. It renders the active version of that template once per target profile and sends the result to each of the profile's registered devices.
+1. It calls `connectcampaignsv2:DescribeCampaign` on the campaign ID from the event to get the Connect instance ID.
+2. It calls `connect:ListIntegrationAssociations`, filtered to the `Q_MESSAGE_TEMPLATES` integration type, to get the knowledge base ID.
+3. It calls `wisdom:ListMessageTemplates` on that knowledge base and selects the template whose `channelSubtype` is `PUSH` and whose **name equals the journey custom action block name** (the event's `ActionId`).
+4. It calls `wisdom:RenderMessageTemplate` for `<templateId>:$ACTIVE_VERSION` once per target profile, so only a published version is ever delivered, and sends the result to each of the profile's registered devices.
 
-The match is on the exact template name, so the following two values must be identical:
+The template name is the wiring, so these two values must be identical:
 
-- The name of the message template in Amazon Q in Connect.
+- The `--name` you give the message template.
 - The name of the custom action block in your Amazon Connect journey.
 
-If no template matches, delivery still proceeds using default copy, and the function records a `template.noMatch` entry in its Amazon CloudWatch log group. Check that log group first when your users receive placeholder text.
+If no template matches, delivery still proceeds using default copy, and the same default-copy path applies when the campaign metadata, the knowledge base association, or a matching template cannot be found.
+
+## Find your knowledge base ID
+
+In create mode, `defineNotifications` provisions an empty `MESSAGE_TEMPLATES` knowledge base and associates it with your Amazon Connect instance through the `Q_MESSAGE_TEMPLATES` integration. In attach mode, associate a `MESSAGE_TEMPLATES` knowledge base with your existing Connect instance yourself so this lookup resolves.
+
+Either way, look up the knowledge base ID with the AWS CLI:
+
+```bash title="Terminal" showLineNumbers={false}
+aws connect list-integration-associations \
+  --instance-id <INSTANCE_ID> \
+  --integration-type Q_MESSAGE_TEMPLATES
+```
+
+The knowledge base ID is the last segment of the returned `IntegrationArn`, which ends in `knowledge-base/<KB_ID>`.
 
 ## Create the message template
 
-1. Open the [Amazon Connect console](https://console.aws.amazon.com/connect/) and sign in to your Amazon Connect instance.
-2. Confirm that Amazon Q in Connect is enabled on the instance. The push-delivery function reads templates from the knowledge base that Amazon Q in Connect associates with the instance, so an instance without it cannot resolve templates.
-3. Navigate to **Amazon Q** > **Message templates**, then choose **Create template**.
-4. For the channel, choose **Push**.
-5. For **Name**, enter the name you will give the custom action block in your journey. Record this value.
-6. Enter the title and body for each platform you support. A push template holds separate content for Apple Push Notification service (APNs) and Firebase Cloud Messaging (FCM), which lets you tailor the copy per platform. Content you leave empty for a platform falls back to default copy for that platform.
-7. Save the template. The push-delivery function renders the template's active version, so publish or activate the version you want your users to receive.
+Create the template with `qconnect create-message-template`, using the same name you will give the journey's custom action block:
+
+```bash title="Terminal" showLineNumbers={false}
+aws qconnect create-message-template \
+  --knowledge-base-id <KB_ID> \
+  --name 'Push Notification' \
+  --channel-subtype PUSH \
+  --content '{"push":{"apns":{"title":"Hello {{Attributes.firstName}}","body":{"content":"Your order shipped."}},"fcm":{"title":"Hello {{Attributes.firstName}}","body":{"content":"Your order shipped."}}}}'
+```
+
+Per-platform content maps to channels as `push.apns` (Apple Push Notification service, including the sandbox channel) and `push.fcm` (Firebase Cloud Messaging). A platform entry needs both a title and a body to be used; a platform you leave out falls back to default copy for that platform.
+
+Publishing a version is required — rendering always targets `$ACTIVE_VERSION`, so a saved template with no published version is not delivered. Publish a version after every copy change:
+
+```bash title="Terminal" showLineNumbers={false}
+aws qconnect create-message-template-version \
+  --knowledge-base-id <KB_ID> \
+  --message-template-id <TEMPLATE_ID>
+```
 
 ## Personalize the message
 
-Templates support Handlebars variables that are filled in per profile at delivery time. Reference a profile field with the `Attributes` namespace:
+Templates support `{{Attributes.<key>}}` variables, resolved per profile at delivery time:
 
 ```handlebars
 Hello {{Attributes.firstName}}, your order is on the way.
 ```
 
-The values available to a template come from the target Customer Profile:
+The values available to a template come from the target Customer Profile: its top-level fields (such as `firstName`) and every entry of its custom attributes — which your application sets with [`identifyUser`](/[platform]/frontend/push-notifications/customer-profiles/identify-user/) — are passed to the template as flat attributes. A variable with no matching profile value stays literal in the rendered copy, so use variables only for fields you populate consistently, and prefer copy that reads correctly when a value is absent.
 
-- Top-level profile fields, such as `firstName`.
-- Every entry in the profile's custom attributes, which your application sets with [`identifyUser`](/[platform]/frontend/push-notifications/customer-profiles/identify-user/).
-
-Custom attribute entries take precedence over top-level fields when both use the same key. A variable that a profile has no value for is left in the message as literal text, so use variables only for fields you populate consistently, and prefer copy that reads correctly when a value is absent.
+See the [Amazon Q in Connect message template API reference](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_CreateMessageTemplate.html) for the full content schema.
 
 ## Add the custom action to your journey
 
+Building the journey itself is done in the Amazon Connect console — only template authoring is CLI-only:
+
 1. In the Amazon Connect console, navigate to **Journeys** and open or create a journey.
 2. Add a **custom action** block and point it at the push-delivery Lambda function that Amplify deployed.
-3. Set the block name to the template name from step 5 above. The names must match exactly, including capitalization.
+3. Set the block name to the exact `--name` value you gave the template above, including capitalization.
 4. Publish the journey.
 
 ## Next steps

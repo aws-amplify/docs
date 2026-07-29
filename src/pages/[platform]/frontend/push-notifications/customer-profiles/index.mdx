@@ -6,7 +6,7 @@ export const meta = {
   description:
     'Send profile information and register push devices with Amazon Connect Customer Profiles from your application.',
   route: '/[platform]/frontend/push-notifications/customer-profiles',
-  platforms: ['javascript', 'react-native']
+  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -24,7 +24,7 @@ export function getStaticProps(context) {
   };
 }
 
-The Amazon Connect Customer Profiles APIs let your application send profile information for the current user and manage the push devices that belong to them. Requests are signed with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) using Amazon Cognito identity pool credentials, and your backend derives the profile identity from the signed request.
+The Amazon Connect Customer Profiles APIs let your application send profile information for the current user and manage that person's registered push devices. Devices are stored separately from the Customer Profile—in a DynamoDB device store, associated by `principalId`—rather than embedded inside the profile. Requests are signed with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) using Amazon Cognito identity pool credentials, and your backend derives the profile identity from the signed request.
 
 These APIs are exported from the `aws-amplify/push-notifications/customer-profiles` sub-path.
 
@@ -45,7 +45,7 @@ The device APIs interact with the native push notification system, so support va
 | `registerDevice` | Not supported | Supported |
 | `removeDevice` | Not supported | Supported |
 
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'vue']}>
 
 <Callout warning>
 
@@ -57,7 +57,7 @@ On web, `initializePushNotifications`, `registerDevice`, and `removeDevice` thro
 
 ## Install the library
 
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'vue']}>
 
 ```bash title="Terminal" showLineNumbers={false}
 npm add aws-amplify
@@ -84,7 +84,7 @@ Because push notifications interact with the native platform, you also need to l
 
 Pass `amplify_outputs.json` to `Amplify.configure()`. The endpoint and Region that your backend deployed are read from the `notifications` section of that file.
 
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'vue']}>
 
 ```ts title="src/main.ts"
 import { Amplify } from 'aws-amplify';

@@ -4,7 +4,7 @@ export const meta = {
   title: 'Register a device',
   description:
     'Register a push device with Amazon Connect Customer Profiles so that Amazon Connect journeys can deliver notifications to it.',
-  platforms: ['javascript', 'react-native']
+  platforms: ['javascript', 'angular', 'nextjs', 'react', 'vue', 'react-native']
 };
 
 export const getStaticPaths = async () => {
@@ -22,7 +22,7 @@ export function getStaticProps(context) {
 
 A device must be registered before an Amazon Connect journey can deliver a notification to it. Registering stores the device's push token against the current user's profile identity, so your backend knows where to send messages.
 
-<InlineFilter filters={['javascript']}>
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'vue']}>
 
 <Callout warning>
 
