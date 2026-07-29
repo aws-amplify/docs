@@ -80,7 +80,7 @@ aws qconnect create-message-template-version \
 
 ## Personalize the message
 
-Templates support `{{Attributes.<key>}}` variables, which resolve to the target Customer Profile's fields, including custom attributes you set with [`identifyUser`](/[platform]/frontend/push-notifications/customer-profiles/identify-user/):
+Templates support `{{Attributes.<key>}}` variables, which resolve to the target Customer Profile's fields, including custom attributes set on the profile:
 
 ```handlebars
 Hello {{Attributes.firstName}}, your order is on the way.
@@ -98,7 +98,3 @@ Building the journey itself is done in the Amazon Connect console; only template
 2. Add a **custom action** block and point it at the push-delivery Lambda function that Amplify deployed.
 3. Set the block name to the exact `--name` value you gave the template above, including capitalization.
 4. Publish the journey.
-
-## Next steps
-
-- [Push notifications](/[platform]/frontend/push-notifications/customer-profiles/): register devices and send profile information from your application.
