@@ -28,21 +28,9 @@ Amplify provisions the delivery path for your notifications, but not the message
 
 </Callout>
 
-## How the template is matched
+## Name the template to match your journey
 
-When an Amazon Connect journey reaches a custom action block that targets your push-delivery Lambda function, the function resolves the template for that journey run:
-
-1. It calls `connectcampaignsv2:DescribeCampaign` on the campaign ID from the event to get the Connect instance ID.
-2. It calls `connect:ListIntegrationAssociations`, filtered to the `Q_MESSAGE_TEMPLATES` integration type, to get the knowledge base ID.
-3. It calls `wisdom:ListMessageTemplates` on that knowledge base and selects the template whose `channelSubtype` is `PUSH` and whose **name equals the journey custom action block name** (the event's `ActionId`).
-4. It calls `wisdom:RenderMessageTemplate` for `<templateId>:$ACTIVE_VERSION` once per target profile, so only a published version is ever delivered, and sends the result to each of the profile's registered devices.
-
-The template name is the wiring, so these two values must be identical:
-
-- The `--name` you give the message template.
-- The name of the custom action block in your Amazon Connect journey.
-
-If no template matches, delivery still proceeds using default copy, and the same default-copy path applies when the campaign metadata, the knowledge base association, or a matching template cannot be found.
+A push template's name is the only way Amplify links it to a journey: give the template the exact same name as the custom action block in your Amazon Connect journey.
 
 ## Find your knowledge base ID
 
@@ -72,7 +60,7 @@ aws qconnect create-message-template \
 
 Per-platform content maps to channels as `push.apns` (Apple Push Notification service, including the sandbox channel) and `push.fcm` (Firebase Cloud Messaging). A platform entry needs both a title and a body to be used; a platform you leave out falls back to default copy for that platform.
 
-Publishing a version is required: rendering always targets `$ACTIVE_VERSION`, so a saved template with no published version is not delivered. Publish a version after every copy change:
+Publish a version after every copy change:
 
 ```bash title="Terminal" showLineNumbers={false}
 aws qconnect create-message-template-version \
@@ -82,13 +70,13 @@ aws qconnect create-message-template-version \
 
 ## Personalize the message
 
-Templates support `{{Attributes.<key>}}` variables, resolved per profile at delivery time:
+Templates support `{{Attributes.<key>}}` variables, which resolve to the target Customer Profile's fields, including custom attributes you set with [`identifyUser`](/[platform]/frontend/push-notifications/customer-profiles/identify-user/):
 
 ```handlebars
 Hello {{Attributes.firstName}}, your order is on the way.
 ```
 
-The values available to a template come from the target Customer Profile: its top-level fields (such as `firstName`) and every entry of its custom attributes, which your application sets with [`identifyUser`](/[platform]/frontend/push-notifications/customer-profiles/identify-user/), are passed to the template as flat attributes. A variable with no matching profile value stays literal in the rendered copy, so use variables only for fields you populate consistently, and prefer copy that reads correctly when a value is absent.
+A variable with no matching profile value stays literal in the rendered copy, so use variables only for fields you populate consistently, and prefer copy that reads correctly when a value is absent.
 
 See the [Amazon Q in Connect message template API reference](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_CreateMessageTemplate.html) for the full content schema.
 
