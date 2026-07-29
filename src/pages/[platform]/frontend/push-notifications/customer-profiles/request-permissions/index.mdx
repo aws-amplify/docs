@@ -1,0 +1,88 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Request permissions',
+  description:
+    'Check and request permission to display push notifications on the device.',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Before a device can receive push notifications, the user must grant permission. Use `getPermissionStatus` and `requestPermissions` to check and request that permission. Call `initializePushNotifications()` first; see [Push notifications](/[platform]/frontend/push-notifications/customer-profiles/).
+
+## Check the current permission status
+
+Use `getPermissionStatus` to determine whether you need to request permission, and how:
+
+```ts
+import { getPermissionStatus } from 'aws-amplify/push-notifications/customer-profiles';
+
+const status = await getPermissionStatus();
+```
+
+`getPermissionStatus` resolves to one of the following values:
+
+| Status | Meaning |
+| --- | --- |
+| `granted` | Permission has already been granted. No further action is needed. |
+| `denied` | The user has denied permission. Requesting again will not show a system prompt; direct the user to their device settings instead. |
+| `shouldRequest` | Permission has not been requested yet, so you can request it directly. |
+| `shouldExplainThenRequest` | Explain why your application sends notifications before requesting permission. |
+
+## Request permission
+
+Use `requestPermissions` to show the system permission prompt:
+
+```ts
+import { requestPermissions } from 'aws-amplify/push-notifications/customer-profiles';
+
+const granted = await requestPermissions();
+```
+
+`requestPermissions` resolves to a boolean indicating whether permission was granted. By default, it requests all supported permissions. Pass an object to request a subset:
+
+```ts
+import { requestPermissions } from 'aws-amplify/push-notifications/customer-profiles';
+
+await requestPermissions({
+  alert: true,
+  badge: true,
+  sound: false
+});
+```
+
+`alert`, `badge`, and `sound` are each optional booleans. Android ignores these individual flags and requests a single combined permission.
+
+## Combine both APIs into a request flow
+
+Check the status before requesting, and use it to decide whether to show your own explanation first:
+
+```ts
+import {
+  getPermissionStatus,
+  requestPermissions
+} from 'aws-amplify/push-notifications/customer-profiles';
+
+const status = await getPermissionStatus();
+
+if (status === 'shouldRequest') {
+  await requestPermissions();
+} else if (status === 'shouldExplainThenRequest') {
+  // Explain why your application sends notifications, then request permission.
+  await requestPermissions();
+}
+```
+
+A token is issued to the device only after the user grants permission, so a device is not registered for push notifications until this flow completes. See [Manage the device token](/[platform]/frontend/push-notifications/customer-profiles/manage-device-token/).

@@ -901,6 +901,18 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/guest-and-authenticated-users/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/request-permissions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/manage-device-token/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/interact-with-notifications/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/app-badge-count/index.mdx'
                 }
               ]
             },

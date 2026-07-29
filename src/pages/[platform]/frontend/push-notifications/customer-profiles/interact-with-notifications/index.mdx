@@ -1,0 +1,125 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Interact with notifications',
+  description:
+    'Respond to push notifications being received and opened across the states your application can be in.',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Your application can be in one of three states when a notification arrives or is opened, and you handle each differently. Call `initializePushNotifications()` first; see [Push notifications](/[platform]/frontend/push-notifications/customer-profiles/).
+
+- **Foreground**: your application is running, active, and visible.
+- **Background**: your application is still running but is not active or visible. The user is typically on the home screen or in another application.
+- **Terminated**: your application is not running at all, even in the background.
+
+## Respond to a notification being received
+
+|          App state          | Handle with                          |
+| ---------------------------- | ------------------------------------- |
+| Foreground                   | `onNotificationReceivedInForeground`  |
+| Background or terminated     | `onNotificationReceivedInBackground`  |
+
+### Received in the foreground
+
+Notifications received while your application is in the foreground are not displayed by the system. Use their content to update your application instead, for example to refresh a list.
+
+```ts
+import { onNotificationReceivedInForeground } from 'aws-amplify/push-notifications/customer-profiles';
+
+const listener = onNotificationReceivedInForeground((notification) => {
+  // Update your application with the notification's content.
+});
+```
+
+### Received in the background or while terminated
+
+```ts
+import { onNotificationReceivedInBackground } from 'aws-amplify/push-notifications/customer-profiles';
+
+const listener = onNotificationReceivedInBackground(async (notification) => {
+  // Process the notification, for example by fetching fresh data.
+});
+```
+
+To handle notifications received while your application is terminated, register this listener at your application's root entry point, before you register your application component. React Native runs it through [Headless JS](https://reactnative.dev/docs/headless-js-android), so your application does not mount when the listener runs:
+
+```ts title="index.js"
+import { AppRegistry } from 'react-native';
+import { Amplify } from 'aws-amplify';
+import {
+  initializePushNotifications,
+  onNotificationReceivedInBackground
+} from 'aws-amplify/push-notifications/customer-profiles';
+import outputs from './amplify_outputs.json';
+
+import App from './App';
+import { name as appName } from './app.json';
+
+Amplify.configure(outputs);
+initializePushNotifications();
+
+onNotificationReceivedInBackground(async (notification) => {
+  // Process the notification, for example by fetching fresh data.
+});
+
+AppRegistry.registerComponent(appName, () => App);
+```
+
+Registering the listener at this entry point means you do not need to remove it.
+
+Every listener returned by these APIs can be removed by calling `remove` on it:
+
+```ts
+listener.remove();
+```
+
+## Respond to a notification being opened
+
+|         App state         | Handle with              |
+| -------------------------- | -------------------------- |
+| Foreground or background   | `onNotificationOpened`     |
+| Terminated                 | `getLaunchNotification`    |
+
+### Opened from the foreground or background
+
+Add an `onNotificationOpened` listener to respond when a user taps a notification while your application is running:
+
+```ts
+import { onNotificationOpened } from 'aws-amplify/push-notifications/customer-profiles';
+
+const listener = onNotificationOpened((notification) => {
+  // Take action based on the notification the user tapped, such as following a deep link.
+});
+```
+
+### Launched from a terminated state
+
+When a notification launches your application from a terminated state, call `getLaunchNotification` to retrieve it:
+
+```ts
+import { getLaunchNotification } from 'aws-amplify/push-notifications/customer-profiles';
+
+const launchNotification = await getLaunchNotification();
+
+// Take action based on the notification, such as following a deep link.
+```
+
+`getLaunchNotification` consumes the launch notification. It resolves to `null` if:
+
+- You call it more than once, so only the first call after launch resolves to the notification.
+- Another notification was opened while your application was already running.
+- Your application was brought to the foreground by some other means, such as the user tapping the app icon.

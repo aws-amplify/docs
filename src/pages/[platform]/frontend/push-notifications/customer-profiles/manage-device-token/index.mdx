@@ -1,0 +1,52 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Manage the device token',
+  description:
+    'Listen for the push notification token the native platform issues to the device.',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The native platform issues a token that uniquely identifies the device for push delivery. Use `onTokenReceived` to listen for that token. Call `initializePushNotifications()` first; see [Push notifications](/[platform]/frontend/push-notifications/customer-profiles/).
+
+## Listen for the token
+
+Add an `onTokenReceived` listener to be notified when a token is issued:
+
+```ts
+import { onTokenReceived } from 'aws-amplify/push-notifications/customer-profiles';
+
+const listener = onTokenReceived((token) => {
+  // Use the token for your own purposes, such as logging or diagnostics.
+});
+```
+
+A token is delivered to your listener:
+
+- On every app launch, including the first install, once the user has granted notification permission.
+- Whenever the token changes, which can happen if the native platform invalidates the previous token.
+
+Remove the listener when you no longer need it by calling `remove` on the value `onTokenReceived` returns:
+
+```ts
+listener.remove();
+```
+
+## Relationship to device registration
+
+You do not need to call `registerDevice` yourself in most applications. The library already listens for this token internally: once `initializePushNotifications` has been called, it registers the device automatically the first time a token arrives, and re-registers it when a user signs in, moving the registration from the guest identity to the authenticated one. See [Register a device](/[platform]/frontend/push-notifications/customer-profiles/register-device/) and [Guest and authenticated users](/[platform]/frontend/push-notifications/customer-profiles/guest-and-authenticated-users/).
+
+Add your own `onTokenReceived` listener only when you need the token value for something beyond registration, such as sending it to a system outside Amplify.
