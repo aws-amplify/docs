@@ -1,0 +1,77 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Notifications',
+  description:
+    'Send push notifications to your users with a backend powered by Amazon Connect Customer Profiles.',
+  route: '/[platform]/build-a-backend/add-aws-services/notifications',
+  platforms: ['javascript', 'react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+Amplify push notifications are backed by [Amazon Connect Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/customer-profiles.html). A Customer Profile holds the profile information for one person, and the push devices that belong to them. You send a notification by targeting profiles from an [Amazon Connect journey](https://docs.aws.amazon.com/connect/latest/adminguide/journeys.html), which calls into your Amplify backend to deliver the message.
+
+Add the resource to your backend with the `defineNotifications` construct:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { defineNotifications } from '@aws-amplify/backend-notifications';
+import { auth } from './auth/resource';
+
+defineBackend({
+  auth,
+  notifications: defineNotifications()
+});
+```
+
+## What gets deployed
+
+Deploying `defineNotifications` provisions the following resources:
+
+- An **`AmplifyProfile` Customer Profiles object type**, registered on your Customer Profiles domain. It is keyed on `principalId`, a searchable and unique field that holds the Amazon Cognito identity pool `identityId` of the caller. Your backend derives `principalId` from the signed request, so a client never sends it and cannot write to another person's profile.
+- A **DynamoDB device store** that holds the registered push devices. Device records live in this table rather than in Customer Profiles.
+- Three **HTTP API routes** — `identify-user`, `register-device`, and `remove-device` — authorized with AWS Identity and Access Management (IAM) and called with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) signed requests. A single least-privilege Lambda function serves all three routes.
+- A **push-delivery Lambda function**, invoked as a custom action from an Amazon Connect journey. It looks up the target profile's devices and sends the message to each one.
+- An **AWS End User Messaging application**, with the APNs and FCM channels you configure.
+
+Depending on the mode you choose, an Amazon Connect instance and a Customer Profiles domain are created for you, or an existing domain is used. See [Set up notifications](/[platform]/build-a-backend/add-aws-services/notifications/set-up-notifications/) for both modes.
+
+## Review the generated configuration
+
+After a successful deployment, the invoke endpoint and region are written to the `notifications` section of `amplify_outputs.json`:
+
+```json title="amplify_outputs.json"
+{
+  "notifications": {
+    "amazon_connect": {
+      "endpoint": "https://abcdefghij.execute-api.us-east-1.amazonaws.com",
+      "aws_region": "us-east-1"
+    }
+  }
+}
+```
+
+Your frontend reads these values when you pass `amplify_outputs.json` to `Amplify.configure()`. To call the notification APIs from your application, see [Push notifications](/[platform]/frontend/push-notifications/customer-profiles/).
+
+<Callout info>
+
+Message content is not provisioned by Amplify. After you deploy, author a push message template in Amazon Q in Connect and connect it to a journey. See [Author message templates](/[platform]/build-a-backend/add-aws-services/notifications/author-message-templates/).
+
+</Callout>
+
+<Overview childPageNodes={props.childPageNodes} />

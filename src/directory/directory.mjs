@@ -513,6 +513,24 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/notifications/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/notifications/set-up-notifications/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/notifications/author-message-templates/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/notifications/existing-resources/index.mdx',
+                  section: 'backend'
+                }
+              ]
+            },
+            {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
               section: 'backend',
               children: [
@@ -866,6 +884,23 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/frontend/analytics/app-uninstall/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/identify-user/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/register-device/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/remove-device/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/guest-and-authenticated-users/index.mdx'
                 }
               ]
             },

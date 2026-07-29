@@ -1,0 +1,108 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Identify a user',
+  description:
+    'Send profile information for the current user to Amazon Connect Customer Profiles with the identifyUser API.',
+  platforms: ['javascript', 'react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Use `identifyUser` to send profile information for the current user to Amazon Connect Customer Profiles. The values you send populate the Customer Profile that your Amazon Connect journeys target and personalize messages with.
+
+```ts
+import { identifyUser } from 'aws-amplify/push-notifications/customer-profiles';
+
+await identifyUser({
+  userProfile: {
+    email: 'jane@example.com',
+    name: 'Jane Doe',
+    phone: '+15551234567',
+    location: {
+      city: 'Seattle',
+      country: 'US',
+      postalCode: '98101',
+      region: 'WA'
+    },
+    customAttributes: {
+      plan: 'premium',
+      favoriteCategory: 'outdoors'
+    }
+  }
+});
+```
+
+Every field is optional, so send only the values your application has. Each call replaces the fields you provide on the profile.
+
+## User profile fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `email` | `string` | The user's email address. |
+| `name` | `string` | The user's name. |
+| `phone` | `string` | The user's phone number. |
+| `location` | `object` | The user's location. Accepts `city`, `country`, `postalCode`, and `region`, each a `string`. |
+| `customAttributes` | `Record<string, string>` | Additional key-value pairs to store on the profile. |
+
+Values are validated before the request is sent. Every string, along with each `customAttributes` key and value, must be 255 characters or fewer, and `customAttributes` values must be strings. A profile that violates these bounds throws a validation error.
+
+<Callout info>
+
+`principalId` is a reserved `customAttributes` key and is rejected. Your backend uses it to store the profile identity.
+
+</Callout>
+
+## How the profile identity is resolved
+
+Your application does not send a user identifier. Requests are signed with Signature Version 4 using Amazon Cognito identity pool credentials, and your backend derives the `principalId` for the profile from the signer identity of the request. A caller therefore cannot write to another user's profile, and there is no identifier for your application to manage.
+
+Because the identity comes from the credentials, `identifyUser` works for both signed-in and guest users. See [Guest and authenticated users](/[platform]/frontend/push-notifications/customer-profiles/guest-and-authenticated-users/).
+
+## When to call identifyUser
+
+Call `identifyUser` when the profile information you hold changes, for example:
+
+- After a user signs in, to associate their profile details with their authenticated identity.
+- After a user updates their contact details or preferences.
+
+`identifyUser` sends profile information only and performs no device work. To manage push devices, use [`registerDevice`](/[platform]/frontend/push-notifications/customer-profiles/register-device/) and [`removeDevice`](/[platform]/frontend/push-notifications/customer-profiles/remove-device/).
+
+<InlineFilter filters={['react-native']}>
+
+<Callout info>
+
+`identifyUser` does not require `initializePushNotifications`. Its only prerequisites are a configured endpoint and identity pool credentials, so you can call it before push notifications are initialized.
+
+</Callout>
+
+</InlineFilter>
+
+## Personalize messages with profile values
+
+Message templates reference profile values with the `Attributes` namespace, so a `customAttributes` entry named `favoriteCategory` is available to a template as `{{Attributes.favoriteCategory}}`. See [Author message templates](/[platform]/build-a-backend/add-aws-services/notifications/author-message-templates/).
+
+## Handle errors
+
+`identifyUser` returns a promise that rejects when validation fails or the endpoint returns an error, so handle failures where a rejected promise would otherwise go unobserved:
+
+```ts
+import { identifyUser } from 'aws-amplify/push-notifications/customer-profiles';
+
+try {
+  await identifyUser({ userProfile: { email: 'jane@example.com' } });
+} catch (error) {
+  console.error('Failed to identify user', error);
+}
+```

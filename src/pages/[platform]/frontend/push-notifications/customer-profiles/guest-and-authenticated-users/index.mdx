@@ -1,0 +1,98 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Guest and authenticated users',
+  description:
+    'How Amazon Connect Customer Profiles notifications work for guest and signed-in users, and how a device moves to the authenticated identity on sign-in.',
+  platforms: ['javascript', 'react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The Customer Profiles notification APIs work for guest users and signed-in users. Both are supported through the same mechanism, so your application does not need a separate code path for each.
+
+## How both identities are supported
+
+Every request to your notifications backend is signed with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) using credentials from your Amazon Cognito identity pool:
+
+- A **guest** user receives credentials from the identity pool's unauthenticated role.
+- A **signed-in** user receives credentials from the identity pool's authenticated role.
+
+Both are signed identically, and your backend derives the profile identity, `principalId`, from the signer identity of the request. Because that identifier comes from the credentials rather than from your application, no identity field is sent by the client and no code change is needed to support guests.
+
+Guest access must be enabled on your `auth` resource for unauthenticated callers to receive credentials. See [Guest access](/[platform]/build-a-backend/auth/concepts/guest-access/).
+
+<Callout info>
+
+A guest identity is scoped to the installation, not to a person. Treat a guest profile as belonging to the device until a user signs in.
+
+</Callout>
+
+<InlineFilter filters={['react-native']}>
+
+## A device moves to the authenticated identity on sign-in
+
+A guest user's push token and a signed-in user's push token are the same value, because the native platform issues the token to the installation rather than to a user. Without any handling, a device registered as a guest would stay attached to the guest identity after the user signed in, and journeys targeting the authenticated profile would not reach it.
+
+The library handles this for you. After `initializePushNotifications` has been called, it listens for the sign-in event and re-registers the device, which moves the existing registration from the guest identity to the authenticated one. Because registration is an idempotent operation keyed on a device identifier that is stable for the installation, this updates the existing record rather than creating a second one.
+
+No application code is required for this to happen:
+
+```ts title="index.js"
+import { Amplify } from 'aws-amplify';
+import { initializePushNotifications } from 'aws-amplify/push-notifications/customer-profiles';
+import outputs from './amplify_outputs.json';
+
+Amplify.configure(outputs);
+initializePushNotifications();
+```
+
+Re-registration on sign-in is a best-effort operation. A failure is logged and does not interrupt sign-in, so a device may briefly remain on the guest identity if the request fails. The device is re-registered on the next sign-in.
+
+If no push token has been issued yet when a user signs in, there is nothing to move. The first registration then happens against the authenticated identity once the native platform issues the token.
+
+</InlineFilter>
+
+## Sign a user out
+
+Signing a user out does not de-register their device. Call `removeDevice` while the user is still signed in, because de-registration is signed with their credentials:
+
+```ts
+import { signOut } from 'aws-amplify/auth';
+import { removeDevice } from 'aws-amplify/push-notifications/customer-profiles';
+
+await removeDevice();
+await signOut();
+```
+
+After `signOut` completes, subsequent calls are signed as a new guest identity. See [Remove a device](/[platform]/frontend/push-notifications/customer-profiles/remove-device/).
+
+## Profile information for guests
+
+`identifyUser` works for guest users, so you can store profile details before a user creates an account. Those details are written to the guest profile.
+
+A guest profile and an authenticated profile are separate profiles, because they have different `principalId` values. Profile information is not copied between them when a user signs in, so call `identifyUser` after sign-in to populate the authenticated profile with the details you hold:
+
+```ts
+import { identifyUser } from 'aws-amplify/push-notifications/customer-profiles';
+
+await identifyUser({
+  userProfile: {
+    email: 'jane@example.com',
+    name: 'Jane Doe'
+  }
+});
+```
+
+See [Identify a user](/[platform]/frontend/push-notifications/customer-profiles/identify-user/).

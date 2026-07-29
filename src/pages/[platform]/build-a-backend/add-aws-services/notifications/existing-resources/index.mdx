@@ -1,0 +1,58 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use existing AWS resources',
+  description:
+    'Attach your Amplify notifications resource to an Amazon Connect Customer Profiles domain that already exists.',
+  platforms: ['javascript', 'react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Pass `domainName` to `defineNotifications` to attach to an Amazon Connect Customer Profiles domain that already exists:
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { defineNotifications } from '@aws-amplify/backend-notifications';
+import { auth } from './auth/resource';
+
+defineBackend({
+  auth,
+  notifications: defineNotifications({
+    domainName: 'amazon-connect-my-instance'
+  })
+});
+```
+
+In this mode Amplify **attaches** to the domain rather than creating one. It registers the `AmplifyProfile` object type into the domain additively and does not create an Amazon Connect instance or a Customer Profiles domain. Object types that already exist on the domain are left unchanged, so you can attach to a domain that other workloads are using.
+
+## Requirements for the existing domain
+
+The domain must meet the following requirements:
+
+- **Same AWS account and Region as your Amplify project.** The construct references the domain by name, which resolves only within the account and Region your backend deploys to.
+- **The name must begin with `amazon-connect-`.** This is a functional requirement, not a naming preference. The AWS-managed `AmazonConnectServiceLinkedRolePolicy` grants your Amazon Connect instance access to Customer Profiles only on domains matching `arn:aws:profile:*:*:domains/amazon-connect-*`. A domain named otherwise is unreachable by the instance, and the Amazon Connect console reports that it does not have permission to access Customer Profiles. Because the service-linked role and its managed policy cannot be edited, the domain name is the only way to satisfy the policy.
+- **Customer Profiles enabled on your Amazon Connect instance.** The most common domain to attach to is the one Amazon Connect creates for you when you enable Customer Profiles, which is named `amazon-connect-<instance-alias>`.
+
+<Callout info>
+
+To find the domain name, open the [Amazon Connect console](https://console.aws.amazon.com/connect/), select your instance, and choose **Customer Profiles**.
+
+</Callout>
+
+## Properties that do not apply
+
+`instanceAlias` and `expirationDays` configure a domain that Amplify creates, so they cannot be combined with `domainName`. Set the data retention period on the existing domain in the Amazon Connect console instead.
+
+To have Amplify create the Amazon Connect instance and the domain for you, see [Set up notifications](/[platform]/build-a-backend/add-aws-services/notifications/set-up-notifications/).
