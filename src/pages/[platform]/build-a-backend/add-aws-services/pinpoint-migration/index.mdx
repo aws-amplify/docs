@@ -1,0 +1,129 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Migrate from Pinpoint-backed features',
+  description:
+    'Migrate the Pinpoint-backed Analytics and Push Notifications features in the Amplify libraries before Amazon Pinpoint reaches end of support on October 30, 2026.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amazon Pinpoint will reach end of support on October 30, 2026. The Pinpoint-backed features in the Amplify libraries are in maintenance mode until that date and will stop functioning afterward. This guide walks you through migrating each affected capability to its replacement.
+
+The affected capabilities are:
+
+- **Analytics**: user identification, event and metrics recording backed by Pinpoint
+- **Push Notifications**: device registration, campaigns, and message handling backed by Pinpoint
+
+## Migration paths at a glance
+
+| Pinpoint-backed capability | Replacement |
+| --- | --- |
+| User identification (`identifyUser`) | Amazon Connect Customer Profiles |
+| Push device registration and campaigns | Amazon Connect Customer Profiles and Amazon Connect outbound campaigns |
+| Analytics event recording | Amazon Kinesis Data Streams or Amazon Data Firehose |
+
+## Migrate user identification and push notifications to Amazon Connect Customer Profiles
+
+The Amplify libraries now support Amazon Connect Customer Profiles as the backend for identifying users and registering devices for push notifications. The migration has two parts: deploy the new backend, then update your app code. You do not need to move any data to get started. As your users sign in and open your app, their profiles are created in Customer Profiles and their devices are registered automatically.
+
+### 1. Add the notifications backend
+
+Add the notifications resource to your Amplify backend. This provisions an Amazon Connect Customer Profiles domain and the API your app communicates with.
+
+```bash title="Terminal"
+npm add @aws-amplify/backend-notifications
+```
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { defineNotifications } from '@aws-amplify/backend-notifications';
+import { auth } from './auth/resource';
+
+defineBackend({
+  auth,
+  notifications: defineNotifications()
+});
+```
+
+Deploy your backend. The generated `amplify_outputs.json` now contains a `notifications` section that the Amplify libraries read automatically. No manual client configuration is required.
+
+### 2. Update your application code
+
+The Customer Profiles provider exposes three APIs: `identifyUser` to associate profile attributes with the current user, `registerDevice` to register the device push token, and `removeDevice` to deregister it (for example, on sign-out).
+
+Update your `identifyUser` calls to the new provider. User attributes now live on the profile as `customAttributes`, and device details are handled by the library.
+
+```ts
+// Before (Pinpoint provider)
+import { identifyUser } from 'aws-amplify/push-notifications';
+
+await identifyUser({
+  userId: 'user-123',
+  userProfile: { email: 'user@example.com' },
+  options: {
+    userAttributes: { interests: ['food'] }
+  }
+});
+```
+
+```ts
+// After (Customer Profiles provider)
+import { identifyUser } from 'aws-amplify/push-notifications/customer-profiles';
+
+await identifyUser({
+  userProfile: {
+    email: 'user@example.com',
+    customAttributes: { interests: 'food' }
+  }
+});
+```
+
+A few things to note:
+
+- You no longer pass a `userId`. The backend derives the caller's identity from the request, for both signed-in and guest users.
+- Device registration requires no code change beyond switching the import for `initializePushNotifications`. The token registration that previously updated a Pinpoint endpoint now registers a device with Customer Profiles. You can also call `registerDevice` directly if you manage tokens yourself.
+- Call `removeDevice` on sign-out if you want the device to stop receiving push notifications for that user.
+
+The Amplify Swift, Android, and Flutter libraries expose the same three APIs through their Connect client packages.
+
+### 3. Let your user profiles repopulate
+
+Once the updated app version is released, profiles build back up on their own: each time a user signs in and your app calls `identifyUser`, their profile is created or updated in Customer Profiles, and their device is registered the next time the app receives a push token. Ship the backend change first, then the app update, and your active users carry over as they use the app.
+
+## Migrate analytics event recording
+
+<InlineFilter filters={['android', 'flutter', 'swift']}>
+
+If you use Pinpoint-backed Analytics to record events, migrate to streaming events with Amazon Kinesis Data Streams or Amazon Data Firehose. Both are supported today in the Amplify libraries:
+
+- [Record events with Amazon Kinesis](/[platform]/build-a-backend/add-aws-services/analytics/kinesis/)
+- [Record events with Amazon Data Firehose](/[platform]/build-a-backend/add-aws-services/analytics/firehose/)
+
+</InlineFilter>
+
+## Moving existing Pinpoint endpoint data
+
+For most applications, no bulk data migration is needed: profiles repopulate organically as described above, and inactive endpoints age out with your Pinpoint project. If you need to carry over attributes for users before they next open your app, you can export your Pinpoint endpoints and write the relevant attributes to Customer Profiles using the [Amazon Connect Customer Profiles APIs](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/Welcome.html). Detailed guidance for this workflow will be added to this page.

@@ -513,6 +513,10 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/pinpoint-migration/index.mdx',
+              section: 'backend'
+            },
+            {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/geo/index.mdx',
               section: 'backend',
               children: [
