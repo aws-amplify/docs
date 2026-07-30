@@ -1,0 +1,66 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Interact with bots',
+  description: 'Learn more about how to integrate chat bot interactions into your application using Amplify.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+
+## Send messages to bot
+You can send a text message to chatbot backend with `send()` command. The method returns a promise that includes the chatbot response.
+
+```javascript title="src/App.tsx"
+import { Interactions } from '@aws-amplify/interactions';
+
+const userInput = "I want to reserve a hotel for tonight";
+
+// Provide a bot name and user input
+const response = await Interactions.send({
+  botName: "TheBotName",
+  message: userInput
+});
+
+// Log chatbot response
+console.log(response.message);
+```
+
+## Display end of chat message
+
+You can use `onComplete()` method to register a function to catch errors or chatbot confirmations when the session successfully ends.
+
+```typescript title="src/App.tsx"
+import { Interactions } from '@aws-amplify/interactions';
+
+Interactions.onComplete({
+  botName: "TheBotName",
+  callback: (error?: Error, completion?: {[key: string]: any}) => {
+     if (error) {
+        alert('bot conversation failed');
+     } else if (completion) {
+        console.debug('done: ' + JSON.stringify(completion, null, 2));
+        alert('Trip booked. Thank you! What would you like to do next?');
+     }
+  }
+});
+```

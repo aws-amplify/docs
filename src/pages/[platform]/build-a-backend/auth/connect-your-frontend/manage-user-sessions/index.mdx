@@ -1,0 +1,324 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Manage user sessions',
+  description: 'Learn how to manage user sessions',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export function getStaticPaths() {
+  return getCustomStaticPath(meta.platforms);
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      meta,
+    }
+  };
+}
+
+Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app.
+
+<InlineFilter filters={["angular", "javascript", "nextjs", "react", "react-native", "vue"]}>
+
+
+## Retrieve your current authenticated user
+
+You can use the `getCurrentUser` API to get information about the currently authenticated user including the `username`, `userId` and `signInDetails`.
+
+```ts
+import { getCurrentUser } from 'aws-amplify/auth';
+
+const { username, userId, signInDetails } = await getCurrentUser();
+
+console.log("username", username);
+console.log("user id", userId);
+console.log("sign-in details", signInDetails);
+```
+
+This method can be used to check if a user is signed in. It throws an error if the user is not authenticated.
+
+<Callout info>
+
+The user's `signInDetails` are not supported when using the `Hosted UI` or the `signInWithRedirect` API.
+
+</Callout>
+
+## Retrieve a user session
+
+Your user's session is their signed-in state, which grants them access to your app. When your users sign in, their credentials are exchanged for temporary access tokens. You can get session details to access these tokens and use this information to validate user access or perform actions unique to that user.
+
+If you only need the session details, you can use the `fetchAuthSession` API which returns a `tokens` object containing the JSON Web Tokens (JWT).
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+const session = await fetchAuthSession();
+
+console.log("id token", session.tokens.idToken)
+console.log("access token", session.tokens.accessToken)
+```
+
+### Refreshing sessions
+
+The `fetchAuthSession` API automatically refreshes the user's session when the authentication tokens have expired and a valid `refreshToken` is present. Additionally, you can also refresh the session explicitly by calling the `fetchAuthSession` API with the `forceRefresh` flag enabled. 
+
+```ts
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+await fetchAuthSession({ forceRefresh: true });
+```
+
+<Callout warning>
+
+**Warning:** by default, sessions from external identity providers cannot be refreshed.
+
+</Callout>
+
+</InlineFilter>
+<InlineFilter filters={["flutter"]}>
+An intentional decision with Amplify Auth was to avoid any public methods exposing credentials or manipulating them.
+
+With Auth, you simply sign in and it handles everything else needed to keep the credentials up to date and vend them to the other categories.
+
+However, if you need to access them in relation to working with an API outside Amplify or want access to AWS specific identifying information (e.g. IdentityId), you can access these implementation details by calling `fetchAuthSession` on the Cognito Auth Plugin. This will return a `CognitoAuthSession`, which has additional attributes compared to `AuthSession`, which is typically returned by `fetchAuthSession`. See the example below:
+
+```dart
+Future<void> fetchAuthSession() async {
+  try {
+    final result = await Amplify.Auth.fetchAuthSession();
+    safePrint('User is signed in: ${result.isSignedIn}');
+  } on AuthException catch (e) {
+    safePrint('Error retrieving auth session: ${e.message}');
+  }
+}
+```
+
+## Retrieving AWS credentials
+
+Sometimes it can be helpful to retrieve the instance of the underlying plugin which has more specific typing. In case of Cognito, calling `fetchAuthSession` on the Cognito plugin returns AWS-specific values such as the identity ID, AWS credentials, and Cognito User Pool tokens.
+
+```dart
+Future<void> fetchCognitoAuthSession() async {
+  try {
+    final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+    final result = await cognitoPlugin.fetchAuthSession();
+    final identityId = result.identityIdResult.value;
+    safePrint("Current user's identity ID: $identityId");
+  } on AuthException catch (e) {
+    safePrint('Error retrieving auth session: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
+<InlineFilter filters={['android']}>
+
+An intentional decision with Amplify Auth was to avoid any public methods exposing credentials or manipulating them.
+
+With Auth, you simply sign in and it handles everything else needed to keep the credentials up to date and vend them to the other categories.
+
+However, if you need to access them in relation to working with an API outside Amplify or want access to AWS specific identifying information (e.g. IdentityId), you can access these implementation details by casting the result of `fetchAuthSession` as follows:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.fetchAuthSession(
+    result -> {
+        AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
+            switch(cognitoAuthSession.getIdentityIdResult().getType()) {
+                case SUCCESS:
+                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityIdResult().getValue());
+                    break;
+                case FAILURE:
+                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityIdResult().getError().toString());
+            }
+        },
+        error -> Log.e("AuthQuickStart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.fetchAuthSession(
+    {
+        val session = it as AWSCognitoAuthSession
+        when (session.identityIdResult.type) {
+            AuthSessionResult.Type.SUCCESS ->
+                Log.i("AuthQuickStart", "IdentityId = ${session.identityIdResult.value}")
+            AuthSessionResult.Type.FAILURE ->
+                Log.w("AuthQuickStart", "IdentityId not found", session.identityIdResult.error)
+        }
+    },
+    { Log.e("AuthQuickStart", "Failed to fetch session", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val session = Amplify.Auth.fetchAuthSession() as AWSCognitoAuthSession
+    val id = session.identityIdResult
+    if (id.type == AuthSessionResult.Type.SUCCESS) {
+        Log.i("AuthQuickStart", "IdentityId: ${id.value}")
+    } else if (id.type == AuthSessionResult.Type.FAILURE) {
+        Log.i("AuthQuickStart", "IdentityId not present: ${id.error}")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Failed to fetch session", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.fetchAuthSession()
+    .subscribe(
+        result -> {
+            AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
+
+            switch (cognitoAuthSession.getIdentityIdResult().getType()) {
+                case SUCCESS:
+                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityIdResult().getValue());
+                    break;
+                case FAILURE:
+                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityIdResult().getError().toString());
+            }
+        },
+        error -> Log.e("AuthQuickStart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+## Force refreshing session
+
+Through the plugin, you can force refresh the internal session by setting the `forceRefresh` option when calling the fetchAuthSession API.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AuthFetchSessionOptions options = AuthFetchSessionOptions.builder().forceRefresh(true).build();
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val option = AuthFetchSessionOptions.builder().forceRefresh(true).build()
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val option = AuthFetchSessionOptions.builder().forceRefresh(true).build()
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AuthFetchSessionOptions options = AuthFetchSessionOptions.builder().forceRefresh(true).build();
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+<InlineFilter filters={['swift']}>
+
+An intentional decision with Amplify Auth was to avoid any public methods exposing credentials or manipulating them.
+
+With Auth, you simply sign in and it handles everything else needed to keep the credentials up to date and vend them to the other categories.
+
+However, if you need to access them in relation to working with an API outside Amplify or want access to AWS specific identifying information (e.g. IdentityId), you can access these implementation details by casting the result of `fetchAuthSession` as follows:
+
+```swift
+import AWSPluginsCore
+
+do {
+    let session = try await Amplify.Auth.fetchAuthSession()
+
+    // Get user sub or identity id
+    if let identityProvider = session as? AuthCognitoIdentityProvider {
+        let usersub = try identityProvider.getUserSub().get()
+        let identityId = try identityProvider.getIdentityId().get()
+        print("User sub - \(usersub) and identity id \(identityId)")
+    }
+
+    // Get AWS credentials
+    if let awsCredentialsProvider = session as? AuthAWSCredentialsProvider {
+        let credentials = try awsCredentialsProvider.getAWSCredentials().get()
+        // Do something with the credentials
+    }
+
+    // Get cognito user pool token
+    if let cognitoTokenProvider = session as? AuthCognitoTokensProvider {
+        let tokens = try cognitoTokenProvider.getCognitoTokens().get()
+        // Do something with the JWT tokens
+    }
+} catch let error as AuthError {
+    print("Fetch auth session failed with error - \(error)")
+} catch {
+}
+```
+If you have enabled guest user in Cognito Identity Pool and no user is signed in, you will be able to access only identityId and AWS credentials. All other session details will give you an error.
+
+```swift
+import AWSPluginsCore
+
+do {
+    let session = try await Amplify.Auth.fetchAuthSession()
+
+    // Get identity id
+    if let identityProvider = session as? AuthCognitoIdentityProvider {
+        let identityId = try identityProvider.getIdentityId().get()
+        print("Identity id \(identityId)")
+    }
+
+    // Get AWS credentials
+    if let awsCredentialsProvider = session as? AuthAWSCredentialsProvider {
+        let credentials = try awsCredentialsProvider.getAWSCredentials().get()
+        // Do something with the credentials
+    }
+} catch let error as AuthError {
+    print("Fetch auth session failed with error - \(error)")
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+
+## Force refreshing session
+
+Through the plugin, you can force refresh the internal session by passing an api options `forceRefresh` while calling the fetchAuthSession api.
+
+```swift
+Amplify.Auth.fetchAuthSession(options: .forceRefresh())
+
+```
+</InlineFilter>
+
+{/* ## Next steps */}
+{/* https://github.com/aws-amplify/docs/issues/7355 */}
+{/* - [Learn how to access and validate user sessions server-side](/[platform]/build-a-backend/auth/connect-your-frontend/server-side/#session-validation) */}
+

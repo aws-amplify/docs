@@ -1,0 +1,441 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Create, update, and delete application data',
+  description: 'Mutate application data in an API by generating the client, adding items, updating existing items, deleting items, troubleshooting unauthorized errors, and canceling requests.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' Data client.
+
+Before you begin, you will need:
+
+- An [application connected to the API](/[platform]/build-a-backend/data/connect-to-API/)
+
+## Create an item
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+You can create an item by first generating the Data client with your backend Data schema. Then you can add an item:
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource'
+
+const client = generateClient<Schema>();
+
+const { errors, data: newTodo } = await client.models.Todo.create({
+  content: "My new todo",
+  isDone: true,
+})
+```
+
+<Callout>
+
+**Note:** You do not need to specify `createdAt` or `updatedAt` fields because Amplify automatically populates these fields for you.
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+You can run a GraphQL mutation with `Amplify.API.mutate` to create an item.
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+Make sure you have the following imports at the top of your file:
+
+```swift
+import Amplify
+```
+
+```swift
+func createTodo() async {
+    // Retrieve your Todo using Amplify.API.query
+    var todo = Todo(name: "my first todo", description: "todo description")
+    todo.description = "created description"
+    do {
+        let result = try await Amplify.API.mutate(request: .create(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully created todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to create todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+You can run a GraphQL mutation with `Amplify.API.mutate`. Make sure you have the following imports at the top of your file:
+
+```swift
+import Amplify
+import Combine
+```
+
+```swift
+func createTodo() -> AnyCancellable {
+    // Retrieve your Todo using Amplify.API.query
+    var todo = Todo(name: "my first todo", description: "todo description")
+    todo.description = "created description"
+    let todoCreated = todo
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.mutate(request: .create(todoCreated))
+    }
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Got failed event with error \(error)")
+        }
+    }
+    receiveValue: { result in
+        switch result {
+        case .success(let todo):
+            print("Successfully created todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    }
+    return sink
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.mutate` to create your data.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Todo todo = Todo.builder()
+    .name("My todo")
+    .build();
+
+Amplify.API.mutate(ModelMutation.create(todo),
+    response -> Log.i("MyAmplifyApp", "Todo with id: " + response.getData().getId()),
+    error -> Log.e("MyAmplifyApp", "Create failed", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val todo = Todo.builder()
+    .name("My todo")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(todo),
+    { Log.i("MyAmplifyApp", "Todo with id: ${it.data.id}") }
+    { Log.e("MyAmplifyApp", "Create failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val todo = Todo.builder()
+    .name("My todo")
+    .build()
+try {
+    val response = Amplify.API.mutate(ModelMutation.create(todo))
+    Log.i("MyAmplifyApp", "Todo with id: ${response.data.id}")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Create failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+Todo todo = Todo.builder()
+        .name("My todo")
+        .build();
+
+RxAmplify.API.mutate(ModelMutation.create(todo))
+        .subscribe(
+            response -> Log.i("MyAmplifyApp", "Todo with id: " + response.getData().getId()),
+            error -> Log.e("MyAmplifyApp", "Create failed", error)
+        );
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+You can run a GraphQL mutation with `Amplify.API.mutate` to create your data.
+
+```dart
+Future<void> createTodo() async {
+  try {
+    final todo = Todo(name: 'my first todo', description: 'todo description');
+    final request = ModelMutations.create(todo);
+    final response = await Amplify.API.mutate(request: request).response;
+
+    final createdTodo = response.data;
+    if (createdTodo == null) {
+      safePrint('errors: ${response.errors}');
+      return;
+    }
+    safePrint('Mutation result: ${createdTodo.name}');
+  } on ApiException catch (e) {
+    safePrint('Mutation failed: $e');
+  }
+}
+```
+
+</InlineFilter>
+
+
+## Update an item
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+To update the item, use the `update` function:
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource';
+
+const client = generateClient<Schema>();
+
+const todo = {
+  id: 'some_id',
+  content: 'Updated content',
+};
+
+const { data: updatedTodo, errors } = await client.models.Todo.update(todo);
+```
+
+<Callout>
+
+**Notes:**
+
+- You do not need to specify the `updatedAt` field. Amplify will automatically populate this field for you.
+- If you specify _extra_ input fields not expected by the API, this query will fail. You can see this in the `errors` field returned by the query. With Amplify Data, errors are not thrown like exceptions. Instead, any errors are captured and returned as part of the query result in the `errors` field.
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+To update data, replace the request with `.update`.
+
+```swift
+try await Amplify.API.mutate(request: .update(todo))
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+To update data, use `ModelMutation.update(todo)` instead.
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+To update the `Todo` with a new name:
+
+```dart
+Future<void> updateTodo(Todo originalTodo) async {
+  final todoWithNewName = originalTodo.copyWith(name: 'new name');
+
+  final request = ModelMutations.update(todoWithNewName);
+  final response = await Amplify.API.mutate(request: request).response;
+  safePrint('Response: $response');
+}
+```
+
+</InlineFilter>
+
+## Delete an item
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+You can then delete the Todo by using the delete mutation. To specify which item to delete, you only need to provide the `id` of that item:
+
+```js
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource'
+
+const client = generateClient<Schema>();
+
+const toBeDeletedTodo = {
+  id: '123123213'
+}
+
+const { data: deletedTodo, errors } = await client.models.Todo.delete(toBeDeletedTodo)
+```
+
+<Callout>
+
+**Note:** When deleting items in many-to-many relationships, the join table records must be deleted before deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record before deleting a Post or Tag. Review [Many-to-many relationships](/[platform]/build-a-backend/data/data-modeling/relationships/) for more details.
+
+</Callout>
+
+<Accordion title='Troubleshoot unauthorized errors' headingLevel='4' eyebrow='Troubleshooting'>
+
+Each API request uses an authorization mode. If you get unauthorized errors, you may need to update your authorization mode. To override the default authorization mode defined in your **amplify/data/resource.ts** file, pass an `authMode` property to the request or the client. The following examples show how you can mutate data with a custom authorization mode:
+
+```ts
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../amplify/data/resource';
+
+const client = generateClient<Schema>();
+
+const { errors, data: newTodo } = await client.models.Todo.create(
+  {
+    content: 'My new todo',
+    isDone: true,
+  },
+  {
+    authMode: 'apiKey',
+  }
+);
+```
+
+</Accordion>
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+To delete data, replace the request with `.delete`.
+
+```swift
+try await Amplify.API.mutate(request: .delete(todo))
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+To delete data, use `ModelMutation.delete(todo)`.
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+To delete the `Todo`:
+
+```dart
+Future<void> deleteTodo(Todo todoToDelete) async {
+  final request = ModelMutations.delete(todoToDelete);
+  final response = await Amplify.API.mutate(request: request).response;
+  safePrint('Response: $response');
+}
+```
+
+Or you can delete by ID, which is ideal if you do not have the instance in memory yet:
+
+```dart
+Future<void> deleteTodoById(Todo todoToDelete) async {
+  final request = ModelMutations.deleteById(
+    Todo.classType,
+    TodoModelIdentifier(id: '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775'),
+  );
+  final response = await Amplify.API.mutate(request: request).response;
+  safePrint('Response: $response');
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["javascript",  "react-native", "angular", "nextjs", "react", "vue"]}>
+
+## Cancel create, update, and delete requests
+
+You can cancel any mutation API request by calling `.cancel` on the mutation request promise that's returned by `.create(...)`, `.update(...)`, or `.delete(...)`.
+
+```ts
+const promise = client.models.Todo.create({ content: 'New Todo' });
+//  ^ Note: we're not awaiting the request, we're returning the promise
+
+try {
+  await promise;
+} catch (error) {
+  console.log(error);
+  // If the error is because the request was cancelled you can confirm here.
+  if (client.isCancelError(error)) {
+    console.log(error.message); // "my message for cancellation"
+    // handle user cancellation logic
+  }
+}
+
+//...
+
+// To cancel the above request
+client.cancel(promise, 'my message for cancellation');
+```
+
+You need to ensure that the promise returned from `.create()`, `.update()`, and `.delete()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will **not** work:
+
+```ts
+async function makeAPICall() {
+  return client.models.Todo.create({ content: 'New Todo' });
+}
+const promise = makeAPICall();
+
+// The following will NOT cancel the request.
+client.cancel(promise, 'my error message');
+```
+
+</InlineFilter>
+
+## Conclusion
+
+Congratulations! You have finished the **Create, update, and delete application data** guide. In this guide, you created, updated, and deleted your app data.
+
+### Next steps
+
+Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
+
+- [Read application data](/[platform]/build-a-backend/data/query-data/)
+- [Subscribe to real-time events](/[platform]/build-a-backend/data/subscribe-data/)

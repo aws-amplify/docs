@@ -1,0 +1,117 @@
+import { getCustomStaticPath } from "@/utils/getCustomStaticPath";
+
+export const meta = {
+  title: "Data Extraction",
+  description:
+    "How to extract data from unstructured text.",
+  platforms: [
+    "javascript",
+    "react-native",
+    "angular",
+    "nextjs",
+    "react",
+    "vue",
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      showBreadcrumbs: false,
+    },
+  };
+}
+
+Data extraction allows you to parse unstructured text and extract structured data using AI. This is useful for converting free-form text into typed objects that can be used in your application.
+
+The following example shows how to extract product details from an unstructured product description. The AI model will analyze the text and return a structured object containing the product name, summary, price, and category.
+
+```typescript title="amplify/data/resource.ts"
+const schema = a.schema({
+  ProductDetails: a.customType({
+    name: a.string().required(),
+    summary: a.string().required(),
+    price: a.float().required(),
+    category: a.string().required(),
+  }),
+
+  extractProductDetails: a.generation({
+    aiModel: a.ai.model('Claude 3.5 Haiku'),
+    systemPrompt: 'Extract the property details from the text provided',
+  })
+    .arguments({
+      productDescription: a.string()
+    })
+    .returns(a.ref('ProductDetails'))
+    .authorization((allow) => allow.authenticated()),
+});
+```
+
+<InlineFilter filters={["javascript","angular","vue"]}>
+```ts title="Data Client Request"
+import type { Schema } from "../amplify/data/resource";
+import { generateClient } from "aws-amplify/api";
+
+export const client = generateClient<Schema>();
+
+const productDescription = `The NBA Official Game Basketball is a premium
+regulation-size basketball crafted with genuine leather and featuring
+official NBA specifications. This professional-grade ball offers superior grip
+and durability, with deep channels and a moisture-wicking surface that ensures
+consistent performance during intense game play. Priced at $159.99, this high-end
+basketball belongs in our Professional Sports Equipment category and is the same model
+used in NBA games.`
+
+const { data, errors } = await client.generations
+  .extractProductDetails({ productDescription })
+
+/**
+Example response:
+{
+  "name": "NBA Official Game Basketball",
+  "summary": "Premium regulation-size NBA basketball made with genuine leather. Features official NBA specifications, superior grip, deep channels, and moisture-wicking surface for consistent game play performance.",
+  "price": 159.99,
+  "category": "Professional Sports Equipment"
+}
+*/
+```
+</InlineFilter>
+
+
+<InlineFilter filters={['react','react-native','nextjs']}>
+
+```ts title="src/components/Example.tsx"
+import type { Schema } from "../amplify/data/resource";
+import { generateClient } from "aws-amplify/api";
+import { createAIHooks } from "@aws-amplify/ui-react-ai";
+
+const client = generateClient<Schema>({ authMode: "userPool" });
+const { useAIGeneration } = createAIHooks(client);
+
+export default function Example() {
+  const productDescription = `The NBA Official Game Basketball is a premium
+  regulation-size basketball crafted with genuine leather and featuring
+  official NBA specifications. This professional-grade ball offers superior grip
+  and durability, with deep channels and a moisture-wicking surface that ensures
+  consistent performance during intense game play. Priced at $159.99, this high-end
+  basketball belongs in our Professional Sports Equipment category and is the same model
+  used in NBA games.`
+
+  // data is React state and will be populated when the generation is returned
+  const [{ data, isLoading }, extractProductDetails] =
+    useAIGeneration("extractProductDetails");
+
+  const productDetails = async () => {
+    extractProductDetails({
+      productDescription
+    });
+  };
+}
+```
+</InlineFilter>
