@@ -1,0 +1,120 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Register a device',
+  description:
+    'Register a push device with Amazon Connect Customer Profiles so that Amazon Connect journeys can deliver notifications to it.',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+A device must be registered before an Amazon Connect journey can deliver a notification to it. Registering stores the device's push token against the current user's profile identity, so your backend knows where to send messages.
+
+## Registration happens automatically
+
+In most applications you do not call `registerDevice` yourself. After you call `initializePushNotifications`, the library listens for the push token that the native platform issues and registers the device the first time a token arrives.
+
+```ts title="index.js"
+import { Amplify } from 'aws-amplify';
+import { initializePushNotifications } from 'aws-amplify/push-notifications/customer-profiles';
+import outputs from './amplify_outputs.json';
+
+Amplify.configure(outputs);
+initializePushNotifications();
+```
+
+The library also re-registers the device when a user signs in, which moves the existing registration from the guest identity to the authenticated one. See [Guest and authenticated users](/[platform]/frontend/push-notifications/customer-profiles/guest-and-authenticated-users/).
+
+A token is issued only after the user grants notification permission, so request permission during your onboarding flow:
+
+```ts
+import {
+  getPermissionStatus,
+  requestPermissions
+} from 'aws-amplify/push-notifications/customer-profiles';
+
+const status = await getPermissionStatus();
+
+if (status === 'shouldRequest') {
+  await requestPermissions();
+} else if (status === 'shouldExplainThenRequest') {
+  // Explain why your application sends notifications, then request permission.
+  await requestPermissions();
+}
+```
+
+`getPermissionStatus` resolves to `'granted'`, `'denied'`, `'shouldRequest'`, or `'shouldExplainThenRequest'`. `requestPermissions` resolves to a boolean indicating whether permission was granted.
+
+## Register a device manually
+
+Call `registerDevice` with a push token when you need to control registration yourself, for example to register only after a user opts in to notifications in your own settings screen. Obtain the token with `onTokenReceived`:
+
+```ts
+import {
+  onTokenReceived,
+  registerDevice
+} from 'aws-amplify/push-notifications/customer-profiles';
+
+const listener = onTokenReceived(async (token) => {
+  await registerDevice({ token });
+});
+```
+
+The `token` is the only value you provide. The library resolves the remaining device fields for you:
+
+| Field | Source |
+| --- | --- |
+| `deviceId` | A stable identifier the library generates and persists per installation. |
+| `platform` | Derived from the operating system. |
+| `channelType` | Derived from the operating system, which selects the APNs or FCM channel. |
+
+Registration is an idempotent operation keyed on `deviceId`, so calling `registerDevice` again with a new token updates the existing record rather than creating a second one.
+
+## The device belongs to the current identity
+
+The registered device is stored against the `principalId` that your backend derives from the signed request, so a device always belongs to the identity that registered it. Your application never sends a user identifier, and one user cannot register a device against another user's profile.
+
+Because the identity comes from Amazon Cognito identity pool credentials, registration works for guest users as well as signed-in users.
+
+## When to call registerDevice
+
+Call `registerDevice` in these situations:
+
+- After a user opts in to notifications, when you are managing registration manually rather than relying on automatic registration.
+- After receiving a replacement token from `onTokenReceived`, if you are not relying on the automatic listener.
+
+You do not need to call `registerDevice` on every application start, or after a user signs in. The registration persists, and sign-in re-registration is handled for you.
+
+## Handle errors
+
+`registerDevice` rejects in the following cases:
+
+- **Push notifications are not initialized.** Call `initializePushNotifications` before registering a device.
+- **No token is available.** Pass a token, or wait until `onTokenReceived` has fired.
+- **The request failed.** The endpoint returned a non-success status, or the request could not complete.
+
+```ts
+import { registerDevice } from 'aws-amplify/push-notifications/customer-profiles';
+
+try {
+  await registerDevice({ token });
+} catch (error) {
+  console.error('Failed to register device', error);
+}
+```
+
+## Next steps
+
+- [Remove a device](/[platform]/frontend/push-notifications/customer-profiles/remove-device/): de-register a device before signing a user out.

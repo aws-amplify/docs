@@ -1,0 +1,100 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Author message templates',
+  description:
+    'Create a push message template with the Amazon Q in Connect API and connect it to an Amazon Connect journey custom action.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Amplify provisions the delivery path for your notifications, but not the message content. The text your users receive comes from a **push message template** stored in an Amazon Q in Connect knowledge base.
+
+<Callout warning>
+
+**The Amazon Q in Connect console does not support authoring PUSH-channel message templates.** You create and publish push templates with the `qconnect` AWS CLI (or the underlying Amazon Q in Connect API), against the knowledge base that `defineNotifications` provisions. Amplify does not create the templates themselves, and a journey that has no matching template falls back to default placeholder copy.
+
+</Callout>
+
+## Name the template to match your journey
+
+A push template's name is the only way Amplify links it to a journey: give the template the exact same name as the custom action block in your Amazon Connect journey.
+
+## Find your knowledge base ID
+
+In create mode, `defineNotifications` provisions an empty `MESSAGE_TEMPLATES` knowledge base and associates it with your Amazon Connect instance through the `Q_MESSAGE_TEMPLATES` integration. In attach mode, associate a `MESSAGE_TEMPLATES` knowledge base with your existing Connect instance yourself so this lookup resolves.
+
+Either way, look up the knowledge base ID with the AWS CLI:
+
+```bash title="Terminal" showLineNumbers={false}
+aws connect list-integration-associations \
+  --instance-id <INSTANCE_ID> \
+  --integration-type Q_MESSAGE_TEMPLATES
+```
+
+The knowledge base ID is the last segment of the returned `IntegrationArn`, which ends in `knowledge-base/<KB_ID>`.
+
+## Create the message template
+
+Create the template with `qconnect create-message-template`, using the same name you will give the journey's custom action block:
+
+```bash title="Terminal" showLineNumbers={false}
+aws qconnect create-message-template \
+  --knowledge-base-id <KB_ID> \
+  --name 'Push Notification' \
+  --channel-subtype PUSH \
+  --content '{"push":{"apns":{"title":"Hello {{Attributes.firstName}}","body":{"content":"Your order shipped."}},"fcm":{"title":"Hello {{Attributes.firstName}}","body":{"content":"Your order shipped."}}}}'
+```
+
+Per-platform content maps to channels as `push.apns` (Apple Push Notification service, including the sandbox channel) and `push.fcm` (Firebase Cloud Messaging). A platform entry needs both a title and a body to be used; a platform you leave out falls back to default copy for that platform.
+
+Publish a version after every copy change:
+
+```bash title="Terminal" showLineNumbers={false}
+aws qconnect create-message-template-version \
+  --knowledge-base-id <KB_ID> \
+  --message-template-id <TEMPLATE_ID>
+```
+
+## Personalize the message
+
+Templates support `{{Attributes.<key>}}` variables, which resolve to the target Customer Profile's fields, including custom attributes set on the profile:
+
+```handlebars
+Hello {{Attributes.firstName}}, your order is on the way.
+```
+
+A variable with no matching profile value stays literal in the rendered copy, so use variables only for fields you populate consistently, and prefer copy that reads correctly when a value is absent.
+
+See the [Amazon Q in Connect message template API reference](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_CreateMessageTemplate.html) for the full content schema.
+
+## Add the custom action to your journey
+
+Building the journey itself is done in the Amazon Connect console; only template authoring is CLI-only:
+
+1. In the Amazon Connect console, navigate to **Journeys** and open or create a journey.
+2. Add a **custom action** block and point it at the push-delivery Lambda function that Amplify deployed.
+3. Set the block name to the exact `--name` value you gave the template above, including capitalization.
+4. Publish the journey.

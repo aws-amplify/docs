@@ -3,13 +3,18 @@ import { render, screen } from '@testing-library/react';
 import { Layout } from '../index';
 import userEvent from '@testing-library/user-event';
 
+const routerState: { asPath: string; pathname: string } = {
+  asPath: '/[platform]/start/getting-started/introduction/',
+  pathname: '/[platform]/start/getting-started/introduction/'
+};
+
 const routerMock = {
   __esModule: true,
   useRouter: () => {
     return {
       query: { platform: 'react' },
-      pathname: '/[platform]/start/getting-started/introduction/',
-      asPath: '/[platform]/start/getting-started/introduction/'
+      pathname: routerState.pathname,
+      asPath: routerState.asPath
     };
   }
 };
@@ -31,6 +36,11 @@ describe('Layout', () => {
       <></>
     </Layout>
   );
+
+  beforeEach(() => {
+    routerState.asPath = '/[platform]/start/getting-started/introduction/';
+    routerState.pathname = '/[platform]/start/getting-started/introduction/';
+  });
 
   it('should render the Layout component', async () => {
     render(layoutComponent);
@@ -107,5 +117,41 @@ describe('Layout', () => {
     expect(closeButton.classList).not.toContain(
       'layout-sidebar__mobile-toggle--open'
     );
+  });
+
+  describe('PinpointEOLBanner', () => {
+    it('is not rendered for the Customer Profiles push-notifications client pages', async () => {
+      routerState.asPath =
+        '/react/frontend/push-notifications/customer-profiles/';
+      render(layoutComponent);
+      expect(document.body.textContent).not.toContain('Amazon Pinpoint');
+    });
+
+    it('is not rendered for the Customer Profiles push-notifications child pages', async () => {
+      routerState.asPath =
+        '/react/frontend/push-notifications/customer-profiles/register-device/';
+      render(layoutComponent);
+      expect(document.body.textContent).not.toContain('Amazon Pinpoint');
+    });
+
+    it('is rendered for a non-Customer-Profiles push-notifications sibling route', async () => {
+      routerState.asPath =
+        '/react/frontend/push-notifications/customer-profiles-legacy/';
+      render(layoutComponent);
+      expect(document.body.textContent).toContain('Amazon Pinpoint');
+    });
+
+    it('is rendered for the legacy (gen1) push-notifications pages', async () => {
+      routerState.asPath =
+        '/gen1/react/build-a-backend/push-notifications/set-up-push-notifications/';
+      render(layoutComponent);
+      expect(document.body.textContent).toContain('Amazon Pinpoint');
+    });
+
+    it('is rendered for analytics pages', async () => {
+      routerState.asPath = '/react/build-a-backend/add-aws-services/analytics/';
+      render(layoutComponent);
+      expect(document.body.textContent).toContain('Amazon Pinpoint');
+    });
   });
 });

@@ -1,0 +1,51 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'App badge count',
+  description:
+    'Get and set the number displayed on your application icon.',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Use `getBadgeCount` and `setBadgeCount` to read and update the number displayed on your application's icon. Call `initializePushNotifications()` first; see [Push notifications](/[platform]/frontend/push-notifications/customer-profiles/).
+
+## Get the current badge count
+
+```ts
+import { getBadgeCount } from 'aws-amplify/push-notifications/customer-profiles';
+
+const badgeCount = await getBadgeCount();
+```
+
+`getBadgeCount` resolves to the current count, or `null` on a platform that does not support badges.
+
+## Set the badge count
+
+```ts
+import { setBadgeCount } from 'aws-amplify/push-notifications/customer-profiles';
+
+setBadgeCount(3);
+```
+
+Set the count to `0` to clear the badge from your application's icon:
+
+```ts
+import { setBadgeCount } from 'aws-amplify/push-notifications/customer-profiles';
+
+setBadgeCount(0);
+```
+
+`setBadgeCount` is safe to call on a platform that does not support badges. The call is ignored rather than throwing an error.

@@ -1,0 +1,81 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Push Notifications',
+  description:
+    'Send profile information and register push devices with Amazon Connect Customer Profiles from your application.',
+  route: '/[platform]/frontend/push-notifications/customer-profiles',
+  platforms: ['react-native']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      platform: context.params.platform,
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+The Amazon Connect Customer Profiles APIs let your application send profile information for the current user and manage that person's registered push devices. Devices are stored separately from the Customer Profile, in a DynamoDB device store, associated by `principalId`, rather than embedded inside the profile. Requests are signed with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) using Amazon Cognito identity pool credentials, and your backend derives the profile identity from the signed request.
+
+These APIs are exported from the `aws-amplify/push-notifications/customer-profiles` sub-path.
+
+<Callout info>
+
+This page assumes you have already deployed a notifications resource. See [Set up notifications](/[platform]/build-a-backend/add-aws-services/notifications/set-up-notifications/).
+
+</Callout>
+
+## Install the library
+
+Push notifications require the native module in addition to `aws-amplify`:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add aws-amplify @aws-amplify/react-native @aws-amplify/rtn-push-notification @react-native-async-storage/async-storage react-native-get-random-values
+```
+
+Because push notifications interact with the native platform, you also need to link the native module and grant your application the permission to receive remote notifications:
+
+- On iOS, run `npx pod-install`, add the push notification capability to your target in Xcode, and forward the remote notification callbacks from your `AppDelegate` to `AmplifyPushNotification`.
+- On Android, no additional integration steps are required beyond installing the packages above.
+
+## Configure Amplify
+
+Pass `amplify_outputs.json` to `Amplify.configure()`. The endpoint and Region that your backend deployed are read from the `notifications` section of that file.
+
+Configure Amplify and initialize push notifications at your application's root entry point. Initializing early allows your application to process notifications that arrive while it is in a terminated state.
+
+```ts title="index.js"
+import { AppRegistry } from 'react-native';
+import { Amplify } from 'aws-amplify';
+import { initializePushNotifications } from 'aws-amplify/push-notifications/customer-profiles';
+import outputs from './amplify_outputs.json';
+
+import App from './App';
+import { name as appName } from './app.json';
+
+Amplify.configure(outputs);
+initializePushNotifications();
+
+AppRegistry.registerComponent(appName, () => App);
+```
+
+`initializePushNotifications` sets up the native listeners the category depends on. Calling it more than once has no effect. Until it has been called, `registerDevice` and `removeDevice` throw a validation error.
+
+Once initialized, the library registers the device automatically the first time the native platform issues a push token, so most applications do not call `registerDevice` themselves. See [Register a device](/[platform]/frontend/push-notifications/customer-profiles/register-device/).
+
+<Callout warning>
+
+Call `removeDevice` before signing a user out. De-registration is signed with the current user's credentials, so it cannot succeed after `signOut` has completed. See [Remove a device](/[platform]/frontend/push-notifications/customer-profiles/remove-device/).
+
+</Callout>
+
+<Overview childPageNodes={props.childPageNodes} />
