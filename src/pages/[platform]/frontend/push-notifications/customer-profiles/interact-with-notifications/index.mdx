@@ -28,10 +28,10 @@ Your application can be in one of three states when a notification arrives or is
 
 ## Respond to a notification being received
 
-|          App state          | Handle with                          |
-| ---------------------------- | ------------------------------------- |
-| Foreground                   | `onNotificationReceivedInForeground`  |
-| Background or terminated     | `onNotificationReceivedInBackground`  |
+| App state                | Handle with                          |
+| ------------------------ | ------------------------------------ |
+| Foreground               | `onNotificationReceivedInForeground` |
+| Background or terminated | `onNotificationReceivedInBackground` |
 
 ### Received in the foreground
 
@@ -89,10 +89,10 @@ listener.remove();
 
 ## Respond to a notification being opened
 
-|         App state         | Handle with              |
-| -------------------------- | -------------------------- |
-| Foreground or background   | `onNotificationOpened`     |
-| Terminated                 | `getLaunchNotification`    |
+| App state                | Handle with             |
+| ------------------------ | ----------------------- |
+| Foreground or background | `onNotificationOpened`  |
+| Terminated               | `getLaunchNotification` |
 
 ### Opened from the foreground or background
 

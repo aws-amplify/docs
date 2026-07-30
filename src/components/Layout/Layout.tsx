@@ -398,7 +398,7 @@ export const Layout = ({
                     )}
                     {((asPathWithNoHash.includes('/push-notifications/') &&
                       !asPathWithNoHash.includes(
-                        '/push-notifications/customer-profiles'
+                        '/push-notifications/customer-profiles/'
                       )) ||
                       asPathWithNoHash.includes('/analytics/') ||
                       asPathWithNoHash.includes('/in-app-messaging/')) &&
