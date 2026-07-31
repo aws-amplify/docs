@@ -200,8 +200,13 @@ import 'package:flutter/services.dart' show rootBundle;
 final raw = await rootBundle.loadString('amplify_outputs.json');
 final outputs = jsonDecode(raw) as Map<String, dynamic>;
 
+// Amplify.configure parses only its own sections, so remove the
+// notifications key before configuring. The Connect client reads it
+// from the decoded map instead.
+final authOutputs = Map<String, dynamic>.from(outputs)..remove('notifications');
+
 await Amplify.addPlugin(AmplifyAuthCognito());
-await Amplify.configure(raw);
+await Amplify.configure(jsonEncode(authOutputs));
 
 final client = AmplifyConnectClientFlutter.createFromAmplifyOutputs(
   amplifyOutputs: outputs,
