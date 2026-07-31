@@ -4,7 +4,7 @@ export const meta = {
   title: 'Remove a device',
   description:
     'De-register a push device from Amazon Connect Customer Profiles, and why removal must happen before signing a user out.',
-  platforms: ['react-native']
+  platforms: ['android', 'flutter', 'react-native', 'swift']
 };
 
 export const getStaticPaths = async () => {
@@ -22,25 +22,45 @@ export function getStaticProps(context) {
 
 Use `removeDevice` to de-register the current device so that Amazon Connect journeys stop delivering notifications to it.
 
+<InlineFilter filters={['react-native']}>
+
 ```ts
 import { removeDevice } from 'aws-amplify/push-notifications/customer-profiles';
 
 await removeDevice();
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val result = client.removeDevice()
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+await client.removeDevice();
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+try await client.removeDevice()
+```
+
+</InlineFilter>
 
 `removeDevice` takes no arguments. The library resolves the device identifier for you, and your backend permits removal only of a device that the calling identity owns.
 
 <Callout warning>
 
-**Call `removeDevice` before `signOut`.** De-registration is signed with the current user's credentials, and your backend removes a device only when the calling identity owns it. After `signOut` completes those credentials are gone and the caller signs as a new guest identity, so a removal attempted at that point cannot de-register the signed-in user's device. Always await `removeDevice` first:
-
-```ts
-import { signOut } from 'aws-amplify/auth';
-import { removeDevice } from 'aws-amplify/push-notifications/customer-profiles';
-
-await removeDevice();
-await signOut();
-```
+**Call `removeDevice` before signing out.** De-registration is signed with the current user's credentials, and your backend removes a device only when the calling identity owns it. After sign-out completes those credentials are gone and the caller signs as a new guest identity, so a removal attempted at that point cannot de-register the signed-in user's device.
 
 Reversing the order leaves the device registered against the signed-out user's profile, and a later journey can deliver their notifications to a device they no longer use.
 
@@ -49,6 +69,8 @@ Reversing the order leaves the device registered against the signed-out user's p
 ## Sign a user out safely
 
 Handle a failed removal deliberately rather than letting it block sign-out. The following pattern signs the user out even when de-registration fails, which avoids trapping a user in a signed-in state because of a network error:
+
+<InlineFilter filters={['react-native']}>
 
 ```ts
 import { signOut } from 'aws-amplify/auth';
@@ -64,6 +86,57 @@ const handleSignOut = async () => {
   await signOut();
 };
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.foundation.result.Result
+
+suspend fun handleSignOut() {
+    val result = client.removeDevice()
+    if (result is Result.Failure) {
+        Log.w("SignOut", "Failed to remove device before sign out", result.error)
+    }
+
+    Amplify.Auth.signOut { /* handle sign-out result */ }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> handleSignOut() async {
+  try {
+    await client.removeDevice();
+  } on ConnectClientException catch (e) {
+    safePrint('Failed to remove device before sign out: $e');
+  }
+
+  await Amplify.Auth.signOut();
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+func handleSignOut() async {
+    do {
+        try await client.removeDevice()
+    } catch {
+        print("Failed to remove device before sign out: \(error)")
+    }
+
+    _ = await Amplify.Auth.signOut()
+}
+```
+
+</InlineFilter>
 
 ## When to call removeDevice
 
@@ -81,7 +154,29 @@ The device identifier persists after removal, so a user who opts back in can be 
 
 ## Handle errors
 
+<InlineFilter filters={['react-native']}>
+
 `removeDevice` rejects in the following cases:
 
 - **Push notifications are not initialized.** Call `initializePushNotifications` before removing a device.
 - **The request failed.** The endpoint returned a non-success status, or the request could not complete.
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+`removeDevice` returns a `Result` that fails with a network, credentials, or service exception when the request cannot complete. When no device has ever been registered on this installation there is nothing to remove, so the call succeeds without contacting the endpoint.
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+`removeDevice` throws a `ConnectClientException` subtype when the request cannot complete. When no device has ever been registered on this installation there is nothing to remove, so the call returns without contacting the endpoint.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+`removeDevice` throws a `ConnectError` when the request cannot complete, and throws `ConnectError.validation` when no device has ever been registered on this installation, because there is no registration to remove.
+
+</InlineFilter>

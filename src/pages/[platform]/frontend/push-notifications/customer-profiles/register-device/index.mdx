@@ -4,7 +4,7 @@ export const meta = {
   title: 'Register a device',
   description:
     'Register a push device with Amazon Connect Customer Profiles so that Amazon Connect journeys can deliver notifications to it.',
-  platforms: ['react-native']
+  platforms: ['android', 'flutter', 'react-native', 'swift']
 };
 
 export const getStaticPaths = async () => {
@@ -21,6 +21,8 @@ export function getStaticProps(context) {
 }
 
 A device must be registered before an Amazon Connect journey can deliver a notification to it. Registering stores the device's push token against the current user's profile identity, so your backend knows where to send messages.
+
+<InlineFilter filters={['react-native']}>
 
 ## Registration happens automatically
 
@@ -72,13 +74,124 @@ const listener = onTokenReceived(async (token) => {
 });
 ```
 
-The `token` is the only value you provide. The library resolves the remaining device fields for you:
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+## Register with the FCM registration token
+
+Obtain the token from Firebase Cloud Messaging and pass it to `registerDevice`:
+
+```kotlin
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.tasks.await
+
+val token = FirebaseMessaging.getInstance().token.await()
+val result = client.registerDevice(token)
+```
+
+Register again whenever FCM rotates the token, by calling `registerDevice` from your `FirebaseMessagingService.onNewToken` callback. Requesting notification permission and receiving messages remain your application's responsibility through Firebase; the client only registers the token with your backend.
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+## Register with the platform push token
+
+Obtain the token from your push provider, for example Firebase Cloud Messaging, and pass it to `registerDevice`:
+
+```dart
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+final token = await FirebaseMessaging.instance.getToken();
+if (token != null) {
+  await client.registerDevice(token: token);
+}
+
+// Register again whenever the token rotates.
+FirebaseMessaging.instance.onTokenRefresh.listen((token) async {
+  await client.registerDevice(token: token);
+});
+```
+
+Requesting notification permission and receiving messages remain your application's responsibility through your push provider; the client only registers the token with your backend.
+
+<Callout info>
+
+Device registration requires a push channel, so `registerDevice` throws `ConnectUnsupportedOperationException` on web and desktop platforms. `identifyUser` works on every platform.
+
+</Callout>
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+## Register with the APNs device token
+
+Obtain the token from your application delegate's remote notification callback and pass it to `registerDevice`:
+
+```swift
+func application(
+    _ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+) {
+    let token = deviceToken.map { String(format: "%02x", $0) }.joined()
+    Task {
+        try await client.registerDevice(token: token)
+    }
+}
+```
+
+Requesting notification permission with `UNUserNotificationCenter` and calling `registerForRemoteNotifications()` remain your application's responsibility; the client only registers the token with your backend.
+
+</InlineFilter>
+
+## The token is the only value you provide
+
+The library resolves the remaining device fields for you:
+
+<InlineFilter filters={['react-native']}>
 
 | Field | Source |
 | --- | --- |
 | `deviceId` | A stable identifier the library generates and persists per installation. |
 | `platform` | Derived from the operating system. |
 | `channelType` | Derived from the operating system, which selects the APNs or FCM channel. |
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+| Field | Source |
+| --- | --- |
+| `deviceId` | A stable identifier the library generates and persists per installation, shared with other Amplify libraries. |
+| `platform` | The `platform` string passed when creating the client. |
+| `appVersion` | The `appVersion` string passed when creating the client. |
+| `channelType` | The `channelType` passed when creating the client. Defaults to `ChannelType.GCM`. |
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+| Field | Source |
+| --- | --- |
+| `deviceId` | A stable identifier the library generates and persists per installation, shared with other Amplify libraries. |
+| `platform` | Derived from the operating system. |
+| `appVersion` | The `appVersion` string passed when creating the client, if provided. |
+| `channelType` | Derived from the operating system and build mode: FCM on Android, and APNs on iOS, where debug builds use the APNs sandbox. Pass `channelType` when creating the client to override. |
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+| Field | Source |
+| --- | --- |
+| `deviceId` | A stable identifier the library generates and persists per installation, shared with other Amplify libraries. |
+| `platform` | The current operating system. |
+| `appVersion` | The host application's `CFBundleShortVersionString`, if present. |
+| `channelType` | `APNS_SANDBOX` for debug builds, `APNS` otherwise. |
+
+</InlineFilter>
 
 Registration is an idempotent operation keyed on `deviceId`, so calling `registerDevice` again with a new token updates the existing record rather than creating a second one.
 
@@ -90,6 +203,8 @@ Because the identity comes from Amazon Cognito identity pool credentials, regist
 
 ## When to call registerDevice
 
+<InlineFilter filters={['react-native']}>
+
 Call `registerDevice` in these situations:
 
 - After a user opts in to notifications, when you are managing registration manually rather than relying on automatic registration.
@@ -97,7 +212,23 @@ Call `registerDevice` in these situations:
 
 You do not need to call `registerDevice` on every application start, or after a user signs in. The registration persists, and sign-in re-registration is handled for you.
 
+</InlineFilter>
+
+<InlineFilter filters={['android', 'flutter', 'swift']}>
+
+Call `registerDevice` in these situations:
+
+- After the user grants notification permission and the platform issues a push token.
+- Whenever the platform rotates the token.
+- After a user signs in, to move the device registration from the guest identity to the authenticated one. See [Guest and authenticated users](/[platform]/frontend/push-notifications/customer-profiles/guest-and-authenticated-users/).
+
+You do not need to call `registerDevice` on every application start. The registration persists until it is removed or the token changes.
+
+</InlineFilter>
+
 ## Handle errors
+
+<InlineFilter filters={['react-native']}>
 
 `registerDevice` rejects in the following cases:
 
@@ -114,6 +245,51 @@ try {
   console.error('Failed to register device', error);
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+`registerDevice` returns a `Result` that fails with a `ConnectValidationException` when the token is blank, or with a network, credentials, or service exception when the request cannot complete:
+
+```kotlin
+import com.amplifyframework.foundation.result.Result
+
+when (val result = client.registerDevice(token)) {
+    is Result.Success -> { /* device registered */ }
+    is Result.Failure -> { /* inspect result.error */ }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+`registerDevice` throws a `ConnectClientException` subtype when the token is invalid, the platform has no push channel, or the request cannot complete:
+
+```dart
+try {
+  await client.registerDevice(token: token);
+} on ConnectClientException catch (e) {
+  safePrint('Failed to register device: $e');
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+`registerDevice` throws a `ConnectError` when the token is invalid or the request cannot complete:
+
+```swift
+do {
+    try await client.registerDevice(token: token)
+} catch {
+    print("Failed to register device: \(error)")
+}
+```
+
+</InlineFilter>
 
 ## Next steps
 

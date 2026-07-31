@@ -4,7 +4,7 @@ export const meta = {
   title: 'Identify a user',
   description:
     'Send profile information for the current user to Amazon Connect Customer Profiles with the identifyUser API.',
-  platforms: ['react-native']
+  platforms: ['android', 'flutter', 'react-native', 'swift']
 };
 
 export const getStaticPaths = async () => {
@@ -21,6 +21,8 @@ export function getStaticProps(context) {
 }
 
 Use `identifyUser` to send profile information for the current user to Amazon Connect Customer Profiles. The values you send populate the Customer Profile that your Amazon Connect journeys target and personalize messages with.
+
+<InlineFilter filters={['react-native']}>
 
 ```ts
 import { identifyUser } from 'aws-amplify/push-notifications/customer-profiles';
@@ -44,6 +46,87 @@ await identifyUser({
 });
 ```
 
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.connect.UserProfile
+import com.amplifyframework.connect.UserProfileLocation
+
+val result = client.identifyUser(
+    UserProfile(
+        email = "jane@example.com",
+        name = "Jane Doe",
+        phone = "+15551234567",
+        location = UserProfileLocation(
+            city = "Seattle",
+            country = "US",
+            postalCode = "98101",
+            region = "WA"
+        ),
+        customAttributes = mapOf(
+            "plan" to "premium",
+            "favoriteCategory" to "outdoors"
+        )
+    )
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+import 'package:amplify_connect_client/amplify_connect_client.dart';
+
+await client.identifyUser(
+  userProfile: const UserProfile(
+    email: 'jane@example.com',
+    name: 'Jane Doe',
+    phone: '+15551234567',
+    location: Location(
+      city: 'Seattle',
+      country: 'US',
+      postalCode: '98101',
+      region: 'WA',
+    ),
+    customAttributes: {
+      'plan': 'premium',
+      'favoriteCategory': 'outdoors',
+    },
+  ),
+);
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+import AmplifyConnectClient
+
+try await client.identifyUser(
+    userProfile: UserProfile(
+        email: "jane@example.com",
+        name: "Jane Doe",
+        phone: "+15551234567",
+        customAttributes: [
+            "plan": "premium",
+            "favoriteCategory": "outdoors"
+        ],
+        location: UserProfileLocation(
+            city: "Seattle",
+            country: "US",
+            postalCode: "98101",
+            region: "WA"
+        )
+    )
+)
+```
+
+</InlineFilter>
+
 Every field is optional, so send only the values your application has. Each call replaces the fields you provide on the profile.
 
 ## User profile fields
@@ -54,9 +137,9 @@ Every field is optional, so send only the values your application has. Each call
 | `name` | `string` | The user's name. |
 | `phone` | `string` | The user's phone number. |
 | `location` | `object` | The user's location. Accepts `city`, `country`, `postalCode`, and `region`, each a `string`. |
-| `customAttributes` | `Record<string, string>` | Additional key-value pairs to store on the profile. |
+| `customAttributes` | `map` | Additional string key-value pairs to store on the profile. |
 
-Values are validated before the request is sent. Every string, along with each `customAttributes` key and value, must be 255 characters or fewer, and `customAttributes` values must be strings. A profile that violates these bounds throws a validation error.
+Values are validated before the request is sent. Every string, along with each `customAttributes` key and value, must be 255 characters or fewer. A profile that violates these bounds produces a validation error.
 
 <Callout info>
 
@@ -79,17 +162,23 @@ Call `identifyUser` when the profile information you hold changes, for example:
 
 `identifyUser` sends profile information only and performs no device work. To manage push devices, use [`registerDevice`](/[platform]/frontend/push-notifications/customer-profiles/register-device/) and [`removeDevice`](/[platform]/frontend/push-notifications/customer-profiles/remove-device/).
 
+<InlineFilter filters={['react-native']}>
+
 <Callout info>
 
 `identifyUser` does not require `initializePushNotifications`. Its only prerequisites are a configured endpoint and identity pool credentials, so you can call it before push notifications are initialized.
 
 </Callout>
 
+</InlineFilter>
+
 ## Personalize messages with profile values
 
 Message templates reference profile values with the `Attributes` namespace, so a `customAttributes` entry named `favoriteCategory` is available to a template as `{{Attributes.favoriteCategory}}`. See [Author message templates](/[platform]/build-a-backend/add-aws-services/notifications/author-message-templates/).
 
 ## Handle errors
+
+<InlineFilter filters={['react-native']}>
 
 `identifyUser` returns a promise that rejects when validation fails or the endpoint returns an error, so handle failures where a rejected promise would otherwise go unobserved:
 
@@ -102,3 +191,64 @@ try {
   console.error('Failed to identify user', error);
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+`identifyUser` returns a `Result` with an `AmplifyConnectException` failure type, so no call throws. Inspect the result to handle failures:
+
+```kotlin
+import com.amplifyframework.connect.ConnectValidationException
+import com.amplifyframework.foundation.result.Result
+
+when (val result = client.identifyUser(UserProfile(email = "jane@example.com"))) {
+    is Result.Success -> { /* profile sent */ }
+    is Result.Failure -> when (result.error) {
+        is ConnectValidationException -> { /* a value exceeded the bounds */ }
+        else -> { /* network, credentials, or service error */ }
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+`identifyUser` throws a `ConnectClientException` subtype when validation fails or the endpoint returns an error:
+
+```dart
+try {
+  await client.identifyUser(
+    userProfile: const UserProfile(email: 'jane@example.com'),
+  );
+} on ConnectValidationException {
+  // A value exceeded the bounds.
+} on ConnectClientException catch (e) {
+  // Network, credentials, or service error.
+  safePrint('Failed to identify user: $e');
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+`identifyUser` throws a `ConnectError` when validation fails or the endpoint returns an error:
+
+```swift
+do {
+    try await client.identifyUser(
+        userProfile: UserProfile(email: "jane@example.com")
+    )
+} catch let error as ConnectError {
+    switch error {
+    case .validation(let description, _, _):
+        print("Validation error: \(description)")
+    default:
+        print("Failed to identify user: \(error)")
+    }
+}
+```
+
+</InlineFilter>

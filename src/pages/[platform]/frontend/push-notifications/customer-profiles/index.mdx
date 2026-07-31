@@ -6,7 +6,7 @@ export const meta = {
   description:
     'Send profile information and register push devices with Amazon Connect Customer Profiles from your application.',
   route: '/[platform]/frontend/push-notifications/customer-profiles',
-  platforms: ['react-native']
+  platforms: ['android', 'flutter', 'react-native', 'swift']
 };
 
 export const getStaticPaths = async () => {
@@ -26,7 +26,29 @@ export function getStaticProps(context) {
 
 The Amazon Connect Customer Profiles APIs let your application send profile information for the current user and manage that person's registered push devices. Devices are stored separately from the Customer Profile, in a DynamoDB device store, associated by `principalId`, rather than embedded inside the profile. Requests are signed with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) using Amazon Cognito identity pool credentials, and your backend derives the profile identity from the signed request.
 
+<InlineFilter filters={['react-native']}>
+
 These APIs are exported from the `aws-amplify/push-notifications/customer-profiles` sub-path.
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+These APIs are provided by `AmplifyConnectClient`, a standalone client in the `aws-connect` library. It exposes three methods: `identifyUser`, `registerDevice`, and `removeDevice`.
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+These APIs are provided by `AmplifyConnectClientFlutter`, a standalone client in the `amplify_connect_client` package. It exposes three methods: `identifyUser`, `registerDevice`, and `removeDevice`.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+These APIs are provided by `AmplifyConnectClient`, a standalone client distributed with the Amplify Swift libraries. It exposes three methods: `identifyUser`, `registerDevice`, and `removeDevice`.
+
+</InlineFilter>
 
 <Callout info>
 
@@ -35,6 +57,8 @@ This page assumes you have already deployed a notifications resource. See [Set u
 </Callout>
 
 ## Install the library
+
+<InlineFilter filters={['react-native']}>
 
 Push notifications require the native module in addition to `aws-amplify`:
 
@@ -46,6 +70,47 @@ Because push notifications interact with the native platform, you also need to l
 
 - On iOS, run `npx pod-install`, add the push notification capability to your target in Xcode, and forward the remote notification callbacks from your `AppDelegate` to `AmplifyPushNotification`.
 - On Android, no additional integration steps are required beyond installing the packages above.
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+Add the dependency to your module's `build.gradle.kts`:
+
+```kotlin
+dependencies {
+    implementation("com.amplifyframework:aws-connect:LATEST_VERSION")
+}
+```
+
+The client is annotated as an experimental Amplify API, so opt in at the use site:
+
+```kotlin
+@OptIn(ExperimentalAmplifyApi::class)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+Add the dependency to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  amplify_connect_client: ^2.14.0
+```
+
+The client resolves AWS credentials through Amplify Auth, so your application also needs `amplify_flutter` and `amplify_auth_cognito` configured. See [Set up Auth](/[platform]/build-a-backend/auth/set-up-auth/).
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+Add `AmplifyConnectClient` to your project using Swift Package Manager. In Xcode, go to **File > Add Package Dependencies** and enter the repository URL for the Amplify Swift SDK, then select the `AmplifyConnectClient` product.
+
+</InlineFilter>
+
+<InlineFilter filters={['react-native']}>
 
 ## Configure Amplify
 
@@ -72,9 +137,151 @@ AppRegistry.registerComponent(appName, () => App);
 
 Once initialized, the library registers the device automatically the first time the native platform issues a push token, so most applications do not call `registerDevice` themselves. See [Register a device](/[platform]/frontend/push-notifications/customer-profiles/register-device/).
 
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+## Create the client
+
+The endpoint and Region that your backend deployed are read from the `notifications.amazon_connect` section of `amplify_outputs.json`. Create the client with a Cognito-backed credentials provider:
+
+```kotlin
+import com.amplifyframework.auth.CognitoCredentialsProvider
+import com.amplifyframework.connect.AmplifyConnectClient
+import com.amplifyframework.connect.ChannelType
+import com.amplifyframework.connect.ConnectClientConfiguration
+import com.amplifyframework.core.configuration.AmplifyOutputs
+import com.amplifyframework.core.configuration.AmplifyOutputsData
+import com.amplifyframework.foundation.credentials.toAwsCredentialsProvider
+
+val configuration = ConnectClientConfiguration.fromAmplifyOutputs(
+    AmplifyOutputsData.deserialize(context, AmplifyOutputs(R.raw.amplify_outputs))
+)
+
+val client = AmplifyConnectClient(
+    context = applicationContext,
+    configuration = configuration,
+    credentialsProvider = CognitoCredentialsProvider().toAwsCredentialsProvider(),
+    platform = "Android",
+    appVersion = "1.0.0",
+    channelType = ChannelType.GCM
+)
+```
+
+`platform` and `appVersion` are optional strings stored on the device registration. `channelType` selects the push channel for this device and defaults to `ChannelType.GCM`; `APNS` and `APNS_SANDBOX` are also available.
+
+You can also construct the configuration manually:
+
+```kotlin
+val configuration = ConnectClientConfiguration(
+    endpoint = "https://<api-id>.execute-api.<region>.amazonaws.com",
+    region = "us-east-1"
+)
+```
+
+The endpoint must be an `https://` URL.
+
+</InlineFilter>
+
+<InlineFilter filters={['flutter']}>
+
+## Create the client
+
+The endpoint and Region that your backend deployed are read from the `notifications.amazon_connect` section of `amplify_outputs.json`. Create the client from the decoded outputs after configuring Amplify Auth:
+
+```dart
+import 'dart:convert';
+
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_connect_client/amplify_connect_client.dart';
+import 'package:amplify_flutter/amplify_flutter.dart' hide UserProfile;
+import 'package:flutter/services.dart' show rootBundle;
+
+final raw = await rootBundle.loadString('amplify_outputs.json');
+final outputs = jsonDecode(raw) as Map<String, dynamic>;
+
+await Amplify.addPlugin(AmplifyAuthCognito());
+await Amplify.configure(raw);
+
+final client = AmplifyConnectClientFlutter.createFromAmplifyOutputs(
+  amplifyOutputs: outputs,
+);
+```
+
+By default the client resolves credentials from Amplify Auth and persists the device identifier in shared preferences. The push channel type is resolved from the platform and build mode; pass an explicit `channelType` when you need to override it, for example a release-mode build that delivers through the APNs sandbox.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+## Create the client
+
+The endpoint and Region that your backend deployed are read from the `notifications.amazon_connect` section of `amplify_outputs.json` in your main bundle. Create the client with a credentials provider that resolves credentials from Amplify Auth:
+
+```swift
+import Amplify
+import AmplifyConnectClient
+import AmplifyFoundation
+import AWSCognitoAuthPlugin
+import AWSPluginsCore
+
+let configuration = try ConnectClientConfiguration()
+
+let client = AmplifyConnectClient(
+    configuration: configuration,
+    credentialsProvider: CognitoConnectCredentialsProvider()
+)
+```
+
+The credentials provider bridges the Amplify Auth session to the `AWSCredentialsProvider` protocol from the Amplify Swift foundation packages:
+
+```swift
+struct CognitoConnectCredentialsProvider: AmplifyFoundation.AWSCredentialsProvider {
+    func resolve() async throws -> AmplifyFoundation.AWSCredentials {
+        let session = try await Amplify.Auth.fetchAuthSession()
+        guard let provider = session as? AuthAWSCredentialsProvider else {
+            throw ConnectError.credentials(
+                "Auth session does not vend AWS credentials.",
+                "Configure Amplify Auth with a Cognito identity pool."
+            )
+        }
+        let credentials = try provider.getAWSCredentials().get()
+
+        if let temporary = credentials as? AWSPluginsCore.AWSTemporaryCredentials {
+            return TemporaryCredentials(
+                accessKeyId: temporary.accessKeyId,
+                secretAccessKey: temporary.secretAccessKey,
+                sessionToken: temporary.sessionToken,
+                expiration: temporary.expiration
+            )
+        }
+        return StaticCredentials(
+            accessKeyId: credentials.accessKeyId,
+            secretAccessKey: credentials.secretAccessKey
+        )
+    }
+}
+
+struct StaticCredentials: AmplifyFoundation.AWSCredentials {
+    let accessKeyId: String
+    let secretAccessKey: String
+}
+
+struct TemporaryCredentials: AmplifyFoundation.AWSTemporaryCredentials {
+    let accessKeyId: String
+    let secretAccessKey: String
+    let sessionToken: String
+    let expiration: Date
+}
+```
+
+You can also construct the configuration manually with `ConnectClientConfiguration(region:endpoint:)`. The endpoint must be an `https://` URL.
+
+</InlineFilter>
+
 <Callout warning>
 
-Call `removeDevice` before signing a user out. De-registration is signed with the current user's credentials, so it cannot succeed after `signOut` has completed. See [Remove a device](/[platform]/frontend/push-notifications/customer-profiles/remove-device/).
+Call `removeDevice` before signing a user out. De-registration is signed with the current user's credentials, so it cannot succeed after sign-out has completed. See [Remove a device](/[platform]/frontend/push-notifications/customer-profiles/remove-device/).
 
 </Callout>
 
