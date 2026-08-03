@@ -145,8 +145,15 @@ await Amplify.Auth.signOut();
 <InlineFilter filters={['swift']}>
 
 ```swift
-try await client.removeDevice()
-_ = await Amplify.Auth.signOut()
+func handleSignOut() async {
+    do {
+        try await client.removeDevice()
+    } catch {
+        print("Failed to remove device before sign out: \(error)")
+    }
+
+    _ = await Amplify.Auth.signOut()
+}
 ```
 
 </InlineFilter>

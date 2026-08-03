@@ -139,7 +139,7 @@ Every field is optional, so send only the values your application has. Each call
 | `location` | `object` | The user's location. Accepts `city`, `country`, `postalCode`, and `region`, each a `string`. |
 | `customAttributes` | `map` | Additional string key-value pairs to store on the profile. |
 
-Values are validated before the request is sent. Every string, along with each `customAttributes` key and value, must be 255 characters or fewer. A profile that violates these bounds produces a validation error.
+Values are validated before the request is sent. `customAttributes` values must be strings, and every string, along with each `customAttributes` key, must be 255 characters or fewer. A profile that violates these bounds produces a validation error.
 
 <Callout info>
 
