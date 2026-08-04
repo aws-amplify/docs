@@ -124,6 +124,85 @@ If you use Pinpoint-backed Analytics to record events, migrate to streaming even
 
 </InlineFilter>
 
+<InlineFilter filters={['javascript', 'react-native', 'angular', 'nextjs', 'react', 'vue']}>
+
+If you use Pinpoint-backed Analytics to record events, migrate to streaming events with Amazon Kinesis Data Streams or Amazon Data Firehose. Both are supported today in the Amplify library:
+
+- [Stream analytics data with Amazon Kinesis](/[platform]/build-a-backend/add-aws-services/analytics/streaming-data/)
+- [Store analytics data with Amazon Data Firehose](/[platform]/build-a-backend/add-aws-services/analytics/storing-data/)
+
+### 1. Update your event recording calls
+
+Each streaming provider exposes `record` and `flushEvents` from its own subpath of `aws-amplify/analytics`. Switch the import to the provider you chose, then pass the destination stream alongside your event payload. The event name, attributes, and metrics you previously passed as separate fields become the `data` blob written to the stream.
+
+```ts
+// Before (Pinpoint provider)
+import { record } from 'aws-amplify/analytics';
+
+record({
+  name: 'albumVisit',
+  attributes: { genre: 'jazz' },
+  metrics: { minutesListened: 30 }
+});
+```
+
+```ts
+// After (Kinesis provider)
+import { record } from 'aws-amplify/analytics/kinesis';
+
+record({
+  streamName: 'myKinesisStream',
+  partitionKey: 'myPartitionKey',
+  data: {
+    name: 'albumVisit',
+    genre: 'jazz',
+    minutesListened: 30
+  }
+});
+```
+
+To send records to a Firehose delivery stream instead, import from `aws-amplify/analytics/kinesis-firehose` and pass the delivery stream as `streamName`. Firehose records do not take a `partitionKey`.
+
+Records are buffered and delivered periodically, so keep any existing `flushEvents` calls and update their import to match the provider you now record with.
+
+```ts
+import { flushEvents } from 'aws-amplify/analytics/kinesis';
+
+flushEvents();
+```
+
+### 2. Update automatic tracking
+
+`configureAutoTrack` is available on both streaming providers and keeps the same `session`, `pageView`, and `event` tracking types. Because each automatically tracked event needs a destination, add the stream coordinates to `options`.
+
+```ts
+// Before (Pinpoint provider)
+import { configureAutoTrack } from 'aws-amplify/analytics';
+
+configureAutoTrack({
+  enable: true,
+  type: 'session'
+});
+```
+
+```ts
+// After (Kinesis provider)
+import { configureAutoTrack } from 'aws-amplify/analytics/kinesis';
+
+configureAutoTrack({
+  enable: true,
+  type: 'session',
+  options: {
+    streamName: 'myKinesisStream',
+    partitionKey: 'myPartitionKey'
+  }
+});
+```
+
+The streaming providers record events only; they do not provide an `identifyUser` API. Move your Analytics `identifyUser` calls to Amazon Connect Customer Profiles as described in [Migrate user identification and push notifications](#migrate-user-identification-and-push-notifications-to-amazon-connect-customer-profiles).
+
+</InlineFilter>
+
 ## Moving existing Pinpoint endpoint data
 
 For most applications, no bulk data migration is needed: profiles repopulate organically as described above, and inactive endpoints age out with your Pinpoint project. If you need to carry over attributes for users before they next open your app, you can export your Pinpoint endpoints and write the relevant attributes to Customer Profiles using the [Amazon Connect Customer Profiles APIs](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/Welcome.html). Detailed guidance for this workflow will be added to this page.
