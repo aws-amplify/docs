@@ -24,9 +24,9 @@ export function getStaticProps(context) {
 
 ## iOS
 
-Amplify requires a minimum deployment target of 13.0 and Xcode 15.0 or higher when targeting iOS. Follow the steps below to update the minimum deployment target.
+Amplify requires a minimum deployment target of 15.0 and Xcode 26.0 or higher when targeting iOS. Follow the steps below to update the minimum deployment target.
 
-Open `ios/Podfile` and update the target iOS platform to 13.0 or higher.
+Open `ios/Podfile` and update the target iOS platform to 15.0 or higher.
 
 <Callout info>
 If there is no file located at `ios/Podfile`, add `amplify_flutter` to your `pubspec.yaml` and run `pub get`. This will automatically create the file.
@@ -35,16 +35,16 @@ If there is no file located at `ios/Podfile`, add `amplify_flutter` to your `pub
 ```diff title="ios/Podfile"
 - # Uncomment this line to define a global platform for your project
 - # platform :ios, '12.0'
-+ platform :ios, '13.0'
++ platform :ios, '15.0'
 ```
 
-Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the iOS version to 13.0 or higher.
+Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the iOS version to 15.0 or higher.
 
-![Setting the iOS version to 13.0 or higher in the minimum deployments section of the Runner general window.](/images/project-setup/flutter/ios/target-min-deployment-version.png)
+![Setting the iOS version to 15.0 or higher in the minimum deployments section of the Runner general window.](/images/project-setup/flutter/ios/target-min-deployment-version.png)
 
-Select Runner, Project -> Runner and then the "Build Settings" tab. Update "iOS Deployment Target" to 13.0 or higher.
+Select Runner, Project -> Runner and then the "Build Settings" tab. Update "iOS Deployment Target" to 15.0 or higher.
 
-![Setting the iOS version to 13.0 or higher in the deployment targets section of the Runner info window.](/images/project-setup/flutter/ios/project-min-deployment-version.png)
+![Setting the iOS version to 15.0 or higher in the deployment targets section of the Runner info window.](/images/project-setup/flutter/ios/project-min-deployment-version.png)
 
 ## Android
 
@@ -208,7 +208,7 @@ There are no Amplify specific requirements or setup instructions when targeting 
 
 ## macOS
 
-Amplify requires a minimum deployment target of 10.15 and Xcode 15.0 or higher when targeting macOS. Additionally, you will need to enable networking, keychain entitlements, and code signing.
+Amplify requires a minimum deployment target of 10.15 and Xcode 26.0 or higher when targeting macOS. Additionally, you will need to enable networking, keychain entitlements, and code signing.
 
 ### Update Minimum Version
 
@@ -218,7 +218,7 @@ Open `macos/Podfile` and update the target macOS platform to 10.15 or higher.
 If there is no file located at `macos/Podfile`, add `amplify_flutter` to your `pubspec.yaml` and run `pub get`. This will automatically create the file.
 </Callout>
 
-```diff title="ios/Podfile"
+```diff title="macos/Podfile"
 - platform :osx, '10.14'
 + platform :osx, '10.15'
 ```
