@@ -18,7 +18,11 @@ Future<void> updateTodo(Todo originalTodo) async {
 }
 ```
 
+<Callout>
+
 `copyWith` cannot assign `null` to a nullable field: a null argument keeps the current value. Use `copyWithModelFieldValues` instead:
+
+</Callout>
 
 ```dart
 Future<void> clearTodoDescription(Todo originalTodo) async {
