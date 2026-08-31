@@ -367,6 +367,50 @@
   }
 }
 
+// Amplify JavaScript v5 maintenance-mode banner
+.js-v5-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--amplify-space-small);
+  padding: var(--amplify-space-small) var(--amplify-space-medium);
+  background-color: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: var(--amplify-radii-medium);
+  margin-bottom: var(--amplify-space-medium);
+
+  @include darkMode {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+}
+
+.js-v5-banner__badge {
+  display: inline-block;
+  background-color: #b45309;
+  color: var(--amplify-colors-white);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: var(--amplify-radii-small);
+  flex-shrink: 0;
+}
+
+.js-v5-banner__text {
+  font-size: var(--amplify-font-sizes-small);
+  color: var(--amplify-colors-font-primary);
+}
+
+.js-v5-banner__link {
+  color: var(--amplify-colors-primary-80);
+  font-weight: 600;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 // Gen2 maintenance-mode banner (dismissable)
 .gen2-maintenance-banner {
   display: flex;
