@@ -382,7 +382,11 @@ export const Layout = ({
                       />
                     ) : null}
                     {isGen1 && <Gen1Banner currentPlatform={currentPlatform} />}
-                    {isJsV5 && <JsV5MaintenanceBanner />}
+                    {isJsV5 && (
+                      <JsV5MaintenanceBanner
+                        currentPlatform={currentPlatform}
+                      />
+                    )}
                     {!isGen1 && <Gen2MaintenanceBanner />}
                     {crossLinkProps && <CrossLink {...crossLinkProps} />}
                     {useCustomTitle ? null : (

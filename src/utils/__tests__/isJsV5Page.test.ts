@@ -1,3 +1,4 @@
+import { PLATFORM_VERSIONS, Platform } from '@/data/platforms';
 import { isJsV5Page } from '../isJsV5Page';
 
 describe('isJsV5Page', () => {
@@ -30,5 +31,16 @@ describe('isJsV5Page', () => {
     expect(isJsV5Page('')).toBe(false);
     expect(isJsV5Page('/')).toBe(false);
     expect(isJsV5Page('/contribute/')).toBe(false);
+    expect(isJsV5Page('/gen1/not-a-platform/prev/')).toBe(false);
+  });
+
+  // Guards against the banner outliving v5: it must follow PLATFORM_VERSIONS
+  // rather than assuming "JS platform + prev" always means v5.
+  it('tracks PLATFORM_VERSIONS rather than assuming prev means v5', () => {
+    Object.keys(PLATFORM_VERSIONS).forEach((platform) => {
+      const isV5 = PLATFORM_VERSIONS[platform as Platform].prev === 'v5';
+
+      expect(isJsV5Page(`/gen1/${platform}/prev/build-a-backend/`)).toBe(isV5);
+    });
   });
 });

@@ -1,1 +1,4 @@
-export { JsV5MaintenanceBanner } from './JsV5MaintenanceBanner';
+export {
+  JsV5MaintenanceBanner,
+  getMigrationGuideUrl
+} from './JsV5MaintenanceBanner';

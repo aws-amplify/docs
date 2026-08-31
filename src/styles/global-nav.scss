@@ -323,16 +323,21 @@
   margin-top: -2px;
 }
 
-// Gen1 page-level legacy banner
-.gen1-page-banner {
+// Shared building blocks for page-level notice banners. Extended by the Gen1,
+// Gen2 maintenance and JavaScript v5 banners below.
+%page-banner {
   display: flex;
   align-items: center;
   gap: var(--amplify-space-small);
   padding: var(--amplify-space-small) var(--amplify-space-medium);
-  background-color: #fef3c7;
-  border: 1px solid #f59e0b;
   border-radius: var(--amplify-radii-medium);
   margin-bottom: var(--amplify-space-medium);
+}
+
+// Filled amber treatment used by the top-level maintenance banners.
+%page-banner--amber {
+  background-color: #fef3c7;
+  border: 1px solid #f59e0b;
 
   @include darkMode {
     background-color: rgba(245, 158, 11, 0.1);
@@ -340,10 +345,8 @@
   }
 }
 
-.gen1-page-banner__badge {
+%page-banner__badge {
   display: inline-block;
-  background-color: #b45309;
-  color: var(--amplify-colors-white);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -353,12 +356,12 @@
   flex-shrink: 0;
 }
 
-.gen1-page-banner__text {
+%page-banner__text {
   font-size: var(--amplify-font-sizes-small);
   color: var(--amplify-colors-font-primary);
 }
 
-.gen1-page-banner__link {
+%page-banner__link {
   color: var(--amplify-colors-primary-80);
   font-weight: 600;
   text-decoration: none;
@@ -367,93 +370,80 @@
   }
 }
 
-// Amplify JavaScript v5 maintenance-mode banner
+// Gen1 page-level legacy banner
+.gen1-page-banner {
+  @extend %page-banner;
+  @extend %page-banner--amber;
+}
+
+.gen1-page-banner__badge {
+  @extend %page-banner__badge;
+  background-color: #b45309;
+  color: var(--amplify-colors-white);
+}
+
+.gen1-page-banner__text {
+  @extend %page-banner__text;
+}
+
+.gen1-page-banner__link {
+  @extend %page-banner__link;
+}
+
+// Amplify JavaScript v5 maintenance-mode banner.
+// Deliberately a lighter, left-accented variant rather than the filled amber
+// treatment: on v5 pages it renders directly beneath the Gen1 banner, so it
+// reads as a more specific sub-notice instead of a second identical banner.
 .js-v5-banner {
-  display: flex;
-  align-items: center;
-  gap: var(--amplify-space-small);
-  padding: var(--amplify-space-small) var(--amplify-space-medium);
-  background-color: #fef3c7;
-  border: 1px solid #f59e0b;
-  border-radius: var(--amplify-radii-medium);
-  margin-bottom: var(--amplify-space-medium);
+  @extend %page-banner;
+  background-color: rgba(245, 158, 11, 0.08);
+  border-left: 3px solid #b45309;
 
   @include darkMode {
-    background-color: rgba(245, 158, 11, 0.1);
-    border-color: rgba(245, 158, 11, 0.3);
+    background-color: rgba(245, 158, 11, 0.06);
+    border-left-color: rgba(251, 191, 36, 0.6);
   }
 }
 
 .js-v5-banner__badge {
-  display: inline-block;
-  background-color: #b45309;
-  color: var(--amplify-colors-white);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 2px 8px;
-  border-radius: var(--amplify-radii-small);
-  flex-shrink: 0;
+  @extend %page-banner__badge;
+  background-color: transparent;
+  border: 1px solid #b45309;
+  color: #b45309;
+
+  @include darkMode {
+    border-color: rgba(251, 191, 36, 0.6);
+    color: #fbbf24;
+  }
 }
 
 .js-v5-banner__text {
-  font-size: var(--amplify-font-sizes-small);
-  color: var(--amplify-colors-font-primary);
+  @extend %page-banner__text;
 }
 
 .js-v5-banner__link {
-  color: var(--amplify-colors-primary-80);
-  font-weight: 600;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
+  @extend %page-banner__link;
 }
 
 // Gen2 maintenance-mode banner (dismissable)
 .gen2-maintenance-banner {
-  display: flex;
-  align-items: center;
-  gap: var(--amplify-space-small);
-  padding: var(--amplify-space-small) var(--amplify-space-medium);
-  background-color: #fef3c7;
-  border: 1px solid #f59e0b;
-  border-radius: var(--amplify-radii-medium);
-  margin-bottom: var(--amplify-space-medium);
-
-  @include darkMode {
-    background-color: rgba(245, 158, 11, 0.1);
-    border-color: rgba(245, 158, 11, 0.3);
-  }
+  @extend %page-banner;
+  @extend %page-banner--amber;
 }
 
 .gen2-maintenance-banner__badge {
-  display: inline-block;
+  @extend %page-banner__badge;
   background-color: #92400e;
   color: var(--amplify-colors-white);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 2px 8px;
-  border-radius: var(--amplify-radii-small);
-  flex-shrink: 0;
 }
 
 .gen2-maintenance-banner__text {
-  font-size: var(--amplify-font-sizes-small);
-  color: var(--amplify-colors-font-primary);
+  @extend %page-banner__text;
   flex: 1;
 }
 
 .gen2-maintenance-banner__link {
-  color: var(--amplify-colors-primary-80);
-  font-weight: 600;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
+  @extend %page-banner__link;
 }
 
 .gen2-maintenance-banner__close {
