@@ -37,6 +37,8 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { JsV5MaintenanceBanner } from '@/components/JsV5MaintenanceBanner';
+import { isJsV5Page } from '@/utils/isJsV5Page';
 import { Gen2MaintenanceBanner } from '@/components/Gen2MaintenanceBanner';
 import { CrossLink } from '@/components/CrossLink';
 import { findDirectoryNode } from '@/utils/findDirectoryNode';
@@ -81,6 +83,7 @@ export const Layout = ({
   const metaUrl = url ? url : basePath + asPathWithNoHash;
   const pathname = router.pathname;
   const isGen1 = asPathWithNoHash.split('/')[1] === 'gen1';
+  const isJsV5 = isJsV5Page(asPathWithNoHash);
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isHome = pageType === 'home';
@@ -379,6 +382,11 @@ export const Layout = ({
                       />
                     ) : null}
                     {isGen1 && <Gen1Banner currentPlatform={currentPlatform} />}
+                    {isJsV5 && (
+                      <JsV5MaintenanceBanner
+                        currentPlatform={currentPlatform}
+                      />
+                    )}
                     {!isGen1 && <Gen2MaintenanceBanner />}
                     {crossLinkProps && <CrossLink {...crossLinkProps} />}
                     {useCustomTitle ? null : (
