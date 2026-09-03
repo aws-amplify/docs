@@ -255,17 +255,18 @@ The only AWS account available to you is: <your-aws-account-id>
 Using the account ID <your-aws-account-id>
 The only role available to you is: amplify-policy
 Using the role name "amplify-policy"
-CLI default client Region [us-east-1]: <your-region>
+default client Region [us-east-1]: <your-region>
 CLI default output format [None]:
 ```
 
 **Make sure to set the profile name to `default`**. Alternatively, remember the auto-generated profile name; you will need this later.
 
 ```console title="Terminal" showLineNumbers={false}
-CLI profile name [amplify-policy-<your-aws-account-id>]: default
-To use this profile, specify the profile name using --profile, as shown:
+Profile name [amplify-policy-<your-aws-account-id>]: default
+The AWS CLI is now configured to use the default profile.
+Run the following command to verify your configuration:
 
-aws s3 ls --profile default
+aws sts get-caller-identity
 ```
 
 If you inspect `~/.aws/config`, you should now see the SSO profile:
@@ -274,10 +275,10 @@ If you inspect `~/.aws/config`, you should now see the SSO profile:
 [profile default]
 sso_session = amplify-admin
 sso_account_id = <your-aws-account-id>
-sso_role_name = AdministratorAccess
+sso_role_name = amplify-policy
 region = <your-region>
 [sso-session amplify-admin]
-sso_start_url = https://xxxxxx.awsapps.com/start#
+sso_start_url = https://xxxxxx.awsapps.com/start
 sso_region = <your-region>
 sso_registration_scopes = sso:account:access
 ```
