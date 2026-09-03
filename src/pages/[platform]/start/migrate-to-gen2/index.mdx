@@ -34,4 +34,10 @@ export function getStaticProps(context) {
 
 Whether you're migrating an existing Gen 1 environment or exploring what's changed in Gen 2, these guides will help you navigate the transition.
 
+<Callout warning>
+
+**Gen 2 requires Amplify JavaScript v6.** Gen 2 backends are not compatible with `aws-amplify` v5. If your frontend is still on v5, you must complete the [v5 to v6 migration](/gen1/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/) before proceeding with the Gen 2 migration.
+
+</Callout>
+
 <Overview childPageNodes={props.childPageNodes} />
