@@ -2,6 +2,7 @@ import { Flex, Text, Button, VisuallyHidden } from '@aws-amplify/ui-react';
 import { AmplifyLogo } from './icons';
 import { IconChevron } from '@/components/Icons';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
+import Link from 'next/link';
 
 export function AmplifyNavLink({ isCollapsed, setIsCollapsed, isGen1 }) {
   const chevronRotation = isCollapsed ? '0' : '180';
@@ -9,9 +10,8 @@ export function AmplifyNavLink({ isCollapsed, setIsCollapsed, isGen1 }) {
 
   return (
     <Flex className="navbar__logo-container">
-      <Flex
+      <Link
         className={`navbar-logo-link${isGen1 ? ' navbar-logo-link--gen1' : ''}`}
-        as="a"
         href={isGen1 ? `/gen1/${currentPlatform}` : `/${currentPlatform}`}
       >
         <AmplifyLogo />
@@ -19,7 +19,7 @@ export function AmplifyNavLink({ isCollapsed, setIsCollapsed, isGen1 }) {
           <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
           <span style={{ fontWeight: '300' }}>Docs</span>
         </Text>
-      </Flex>
+      </Link>
 
       <Button
         aria-expanded={!isCollapsed}
