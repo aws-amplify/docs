@@ -117,7 +117,7 @@ export default function HowItWorks() {
           <Text>
             If this is your first approved pull request, the Amplify team
             designates you as a Contributor in the{' '}
-            <ExternalLink href="https://discord.com/invite/amplify">
+            <ExternalLink href="https://discord.gg/amplify" rel="noopener">
               Amplify Community Discord server <IconExternalLink />
             </ExternalLink>
             .

@@ -251,7 +251,7 @@ export default function GettingStarted() {
         <Text>Learn more about the AWS Amplify JS library.</Text>
 
         <Heading level={4}>
-          <ExternalLink href="https://discord.com/invite/amplify">
+          <ExternalLink href="https://discord.gg/amplify">
             Amplify Community Discord server <IconExternalLink />
           </ExternalLink>
         </Heading>
@@ -270,7 +270,7 @@ export default function GettingStarted() {
           Amplify JS.
         </Text>
         <Heading level={4}>
-          <ExternalLink href="https://discord.com/invite/amplify">
+          <ExternalLink href="https://discord.gg/amplify">
             Amplify Discord Office Hours <IconExternalLink />
           </ExternalLink>
         </Heading>

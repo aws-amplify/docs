@@ -6,19 +6,25 @@ interface LinkCardProps {
   href?: string;
   children: React.ReactNode;
   icon: () => React.ReactNode;
+  /**
+   * @default "noopener noreferrer"
+   */
+  rel?: string;
 }
 
 const LinkCard: React.FC<LinkCardProps> = ({
   isExternal,
   href,
   children,
-  icon
+  icon,
+  rel
 }) => {
   return (
     href && (
       <Link
         href={href}
         isExternal={isExternal}
+        rel={rel || 'noopener noreferrer'}
         className="link-card"
         aria-label={children + ' (opens in new tab)'}
       >
