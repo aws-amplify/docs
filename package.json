@@ -27,7 +27,7 @@
     "react-icons": "^5.5.0"
   },
   "devDependencies": {
-    "@actions/core": "^1.11.1",
+    "@actions/core": "^3.0.0",
     "@axe-core/puppeteer": "^4.9.1",
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/mdx": "^2.3.0",
