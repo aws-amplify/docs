@@ -1111,7 +1111,7 @@ import { TodosComponent } from './todos/todos.component';
 import { Amplify } from 'aws-amplify';
 import outputs from '../../amplify_outputs.json';
 // highlight-next-line
-import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 Amplify.configure(outputs);
 
@@ -1125,11 +1125,9 @@ Amplify.configure(outputs);
 })
 export class AppComponent {
   title = 'amplify-angular-template';
-  // highlight-start
-  constructor(public authenticator: AuthenticatorService) {
-    Amplify.configure(outputs);
-  }
-  // highlight-end
+
+  constructor() {}
+
 }
 ```
 Update the application UI and include styles.
