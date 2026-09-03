@@ -20,7 +20,13 @@ export const BlockSwitcher = ({ children }: BlockSwitcherProps) => {
    * convert names with spaces to valid ID attribute values
    */
   const convertNameToValue = (name: string) => {
-    return `${name.split(' ').join('-').toLowerCase()}-${uniqueId}`;
+    return `${name
+      .replace(/\p{Emoji}/gu, '')
+      .split(' ')
+      // filter out leftover whitespace from emoji replacement
+      .filter(Boolean)
+      .join('-')
+      .toLowerCase()}-${uniqueId}`;
   };
 
   return (

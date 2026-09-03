@@ -86,10 +86,41 @@ describe('BlockSwitcher', () => {
 
   it('should throw an error if only a single block exists', () => {
     const singleBlock = (
+      // @ts-expect-error we're testing for an error
       <BlockSwitcher>
         <Block name="JavaScript">{blockAContent}</Block>
       </BlockSwitcher>
     );
     expect(() => render(singleBlock)).toThrow(BlockSwitcherErrorMessage);
+  });
+
+  it('should convert children names with spaces to values with dashes', () => {
+    const component = (
+      <BlockSwitcher>
+        <Block name="the first tab">sample content</Block>
+        <Block name="the second tab">sample content</Block>
+      </BlockSwitcher>
+    );
+    render(component);
+    const tabs = screen.getAllByRole('tab');
+    expect(tabs[0]).toHaveAttribute(
+      'id',
+      expect.stringMatching(/^the-first-tab\-.*/)
+    );
+  });
+
+  it('should convert children names with emojis to values without emojis', () => {
+    const component = (
+      <BlockSwitcher>
+        <Block name="🚀 rocket">sample content</Block>
+        <Block name="a second tab">sample content</Block>
+      </BlockSwitcher>
+    );
+    render(component);
+    const tabs = screen.getAllByRole('tab');
+    expect(tabs[0]).toHaveAttribute(
+      'id',
+      expect.stringMatching(/^rocket\-.*\-tab$/)
+    );
   });
 });
