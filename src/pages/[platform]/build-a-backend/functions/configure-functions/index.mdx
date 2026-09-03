@@ -118,3 +118,44 @@ export const myDemoFunction = defineFunction({
   resourceGroupName: 'data'
 });
 ```
+
+## `logging`
+
+By default, Amplify will use a default cloudwatch log group for your function logs.
+If you want to modify options like log retention, you can do so by specifying the `logging` property.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  logging: {
+    format: 'json', // 'json' or 'text'
+    level: 'info', // 'info', 'warn', 'error', or 'debug'
+    retention: '5 days' // See below for available retention options
+  }
+});
+```
+
+Available retention options are:
+
+- `1 day`
+- `3 days`
+- `5 days`
+- `1 week`
+- `2 weeks` (default)
+- `1 month`
+- `2 months`
+- `3 months`
+- `4 months`
+- `5 months`
+- `6 months`
+- `1 year`
+- `13 months`
+- `18 months`
+- `2 years`
+- `3 years`
+- `5 years`
+- `6 years`
+- `7 years`
+- `8 years`
+- `9 years`
+- `10 years`
+- `infinite`
