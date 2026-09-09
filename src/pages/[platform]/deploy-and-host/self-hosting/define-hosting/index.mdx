@@ -28,14 +28,6 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview** and part of our [RFC](https://github.com/aws-amplify/amplify-backend/issues/3211). It is not recommended for production workloads yet, and APIs may change before general availability. See the RFC for instructions on installing the preview release.
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
-
 In this guide, you will learn how to customize your self-hosted infrastructure with custom domains, WAF rules, compute and CDN configuration, custom adapters, and CDK escape hatches.
 
 ## Framework detection
@@ -115,13 +107,12 @@ import { defineHosting } from '@aws-amplify/hosting';
 export const hosting = defineHosting({
   compute: {
     memorySize: 1024,
-    timeout: 30,
-    runtime: 'nodejs20.x'
+    timeout: 30
   }
 });
 ```
 
-The `memorySize` is in MB, and `timeout` is in seconds. Increase these values for applications with heavy server-side rendering workloads.
+The `memorySize` is in MB, and `timeout` accepts a plain number of seconds (or a CDK `Duration`). Increase these values for applications with heavy server-side rendering workloads.
 
 ## Customizing CDN behavior
 
@@ -129,20 +120,22 @@ Fine-tune Amazon CloudFront caching and behavior settings:
 
 ```ts title="amplify/hosting.ts"
 import { defineHosting } from '@aws-amplify/hosting';
+import { Duration } from 'aws-cdk-lib';
 
 export const hosting = defineHosting({
   cdn: {
-    cachePolicy: {
-      defaultTtl: 86400,
-      maxTtl: 31536000
-    },
+    // Edge-cache SSR/compute responses that have no Cache-Control header.
+    // The origin can still override with s-maxage/no-store.
+    ssrDefaultTtl: Duration.seconds(86400),
     geoRestriction: {
-      restrictionType: 'whitelist',
-      locations: ['US', 'CA', 'GB', 'DE']
+      type: 'whitelist',
+      countries: ['US', 'CA', 'GB', 'DE']
     }
   }
 });
 ```
+
+The `ssrDefaultTtl` accepts a CDK `Duration` and defaults to `Duration.seconds(0)` (no edge caching unless the origin opts in). `geoRestriction.type` is `'whitelist'` or `'blacklist'`, and `countries` is a list of ISO 3166 country codes.
 
 ## Adding a content security policy
 
@@ -158,7 +151,7 @@ export const hosting = defineHosting({
 });
 ```
 
-You can combine this with the other `cdn` options like `cachePolicy` and `geoRestriction` in the same object.
+You can combine this with the other `cdn` options like `ssrDefaultTtl` and `geoRestriction` in the same object.
 
 ## Configuring logging
 
@@ -190,7 +183,41 @@ export const hosting = defineHosting({
 });
 ```
 
-The `encryption` option sets the server-side encryption type (`S3` or `KMS`). Set `retainOnDelete` to `true` to preserve the Amazon S3 bucket when the stack is deleted. The `buildRetentionDays` value automatically removes old build artifacts after the specified number of days.
+The `encryption` option sets the server-side encryption type (`S3_MANAGED` or `KMS`). Set `retainOnDelete` to `true` to preserve the Amazon S3 bucket when the stack is deleted. The `buildRetentionDays` value automatically removes old build artifacts after the specified number of days.
+
+## Monitoring and alarms
+
+CloudWatch alarms are **enabled by default**, giving you out-of-the-box visibility into CloudFront 5xx rate, SSR Lambda errors and throttles, image-optimization errors, and revalidation queue depth. Idle cost is a few cents per month per alarm. Provide your own SNS topic for alarm actions, or opt out entirely:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  monitoring: {
+    enabled: true,
+    snsTopicArn: 'arn:aws:sns:us-east-1:123456789012:my-alerts'
+  }
+});
+```
+
+When `snsTopicArn` is omitted, an SNS topic is created for you. Set `monitoring: { enabled: false }` to disable alarms.
+
+## Skew protection
+
+Cookie-based skew protection is **enabled by default**. Viewers mid-session keep receiving assets from their original build, preventing asset mismatches during rolling deploys:
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  skewProtection: {
+    enabled: true,
+    maxAge: 86400
+  }
+});
+```
+
+The `maxAge` (in seconds, default `86400`) controls how long old build cookies are honored. Keep it aligned with `storage.buildRetentionDays` — a `maxAge` longer than your build retention can pin a returning viewer to a build prefix that has already been deleted (resulting in a 403).
 
 ## Using a custom adapter
 
@@ -254,5 +281,6 @@ new wafv2.CfnWebACL(wafStack, 'CustomWebAcl', {
 
 ## Next steps
 
+- [Add secrets and environment variables](/[platform]/deploy-and-host/self-hosting/secrets-and-environment-variables/) for your server-side code
 - [Set up a CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/define-pipeline/) to automate deployments
 - [Use an external CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/external-pipelines/) with GitHub Actions or GitLab CI

@@ -28,14 +28,6 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview** and part of our [RFC](https://github.com/aws-amplify/amplify-backend/issues/3211). It is not recommended for production workloads yet, and APIs may change before general availability. See the RFC for instructions on installing the preview release.
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
-
 When you call `defineHosting()`, the construct auto-detects your framework by inspecting `package.json` dependencies. Each framework maps to a specific build adapter that determines which hosting features are available.
 
 ## Detected frameworks
@@ -48,20 +40,23 @@ The following frameworks are detected automatically:
 
 **Astro** — Detected when `astro` is present in your dependencies. Supports both static output and on-demand server rendering through its SSR adapter.
 
+**SvelteKit** — Detected when `@sveltejs/kit` is present in your dependencies. Uses the SvelteKit adapter for server routes and hybrid rendering.
+
 **Static / React SPA / Vite / CRA** — Fallback when no server framework is detected. Your app is built as static files and served directly from Amazon S3 through Amazon CloudFront with no server compute required.
 
-**Custom frameworks** — If your framework is not auto-detected, use the `customAdapter` option in `defineHosting()` to provide your own build and routing logic:
+**Custom frameworks** — If your framework is not auto-detected, pass a `customAdapter` function to `defineHosting()`. An adapter is a `FrameworkAdapterFn`: it receives the project directory, runs your build, and returns a `DeployManifest` describing the static assets and server handler to deploy.
 
 ```ts title="amplify/hosting.ts"
 import { defineHosting } from '@aws-amplify/hosting';
+import type { FrameworkAdapterFn } from '@aws-amplify/hosting';
 
-export const hosting = defineHosting({
-  customAdapter: {
-    buildCommand: 'npm run build',
-    outputDirectory: './dist',
-    serverEntry: './dist/server/entry.mjs'
-  }
-});
+const customAdapter: FrameworkAdapterFn = async (projectDir) => {
+  // Build your project, then return a DeployManifest that points the
+  // hosting construct at the built static assets and server handler.
+  return buildMyFrameworkManifest(projectDir);
+};
+
+export const hosting = defineHosting({ customAdapter });
 ```
 
 ## Feature matrix
@@ -81,6 +76,8 @@ The table below shows which features each framework supports when deployed with 
 | Atomic deployments | ✅ | ✅ | ✅ | ✅ |
 | Custom domains | ✅ | ✅ | ✅ | ✅ |
 | WAF | ✅ | ✅ | ✅ | ✅ |
+
+**SvelteKit** is also supported (via `@sveltejs/adapter-node` for server-side rendering, plus static and prerendered output). Static hosting, SSR, atomic deployments, custom domains, and WAF apply the same as the other SSR frameworks; per-feature support for the remaining rows is being finalized.
 
 ## Feature details
 

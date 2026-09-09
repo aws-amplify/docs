@@ -13,6 +13,8 @@
     "_userauth.sign_up",
     "agentic",
     "awslabs",
+    "maxage",
+    "prerendered",
     "@aws-amplify/auth",
     "@aws-amplify/core",
     "@aws-amplify/storage",

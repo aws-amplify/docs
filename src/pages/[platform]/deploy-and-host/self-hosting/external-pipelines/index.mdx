@@ -28,14 +28,6 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview** and part of our [RFC](https://github.com/aws-amplify/amplify-backend/issues/3211). It is not recommended for production workloads yet, and APIs may change before general availability. See the RFC for instructions on installing the preview release.
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
-
 In this guide, you will learn how to deploy your self-hosted application using GitHub Actions, GitLab CI, or any CI runner that can execute shell commands with AWS credentials.
 
 ## Understanding deployment flags
@@ -47,9 +39,10 @@ The `ampx deploy` command accepts flags that control which stacks are deployed:
 | `--backend` | Deploy only the backend stack (auth, data, functions) |
 | `--frontend` | Deploy only the frontend hosting stack |
 | `--pipeline` | Deploy only the pipeline stack |
+| `--yes` (`-y`) | Skip the confirmation prompt — required in non-interactive CI |
 | (no flag) | Deploy all stacks |
 
-In most CI workflows, you deploy the backend first, then the frontend. This ensures `amplify_outputs.json` is generated before the frontend build bundles it.
+Pass `--yes` in every CI job: `ampx deploy` prompts for confirmation before running, and without it the command blocks waiting for input. `--backend` and `--frontend` are mutually exclusive — deploy the backend first, then the frontend, in separate steps. This ordering ensures `amplify_outputs.json` is generated before the frontend build bundles it.
 
 ## Deploying with GitHub Actions
 
@@ -85,10 +78,10 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy backend
-        run: npx ampx deploy --identifier production --backend
+        run: npx ampx deploy --identifier production --backend --yes
 
       - name: Deploy frontend
-        run: npx ampx deploy --identifier production --frontend
+        run: npx ampx deploy --identifier production --frontend --yes
 ```
 
 <Callout>
@@ -113,8 +106,8 @@ deploy:
   before_script:
     - npm ci
   script:
-    - npx ampx deploy --identifier production --backend
-    - npx ampx deploy --identifier production --frontend
+    - npx ampx deploy --identifier production --backend --yes
+    - npx ampx deploy --identifier production --frontend --yes
   variables:
     AWS_REGION: us-east-1
 ```
@@ -129,8 +122,8 @@ The `ampx deploy` command works in any environment with Node.js and valid AWS cr
 
 ```bash title="Generic CI script"
 npm ci
-npx ampx deploy --identifier production --backend
-npx ampx deploy --identifier production --frontend
+npx ampx deploy --identifier production --backend --yes
+npx ampx deploy --identifier production --frontend --yes
 ```
 
 ## Splitting backend and frontend across jobs
@@ -162,7 +155,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::123456789012:role/GitHubActionsDeployRole
           aws-region: us-east-1
-      - run: npx ampx deploy --identifier production --backend
+      - run: npx ampx deploy --identifier production --backend --yes
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -178,7 +171,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::123456789012:role/GitHubActionsDeployRole
           aws-region: us-east-1
-      - run: npx ampx deploy --identifier production --frontend
+      - run: npx ampx deploy --identifier production --frontend --yes
 ```
 
 ## Environment-specific deployments
@@ -187,7 +180,7 @@ Use branch names or environment variables to deploy to different environments:
 
 ```yaml title=".github/workflows/deploy.yml"
 - name: Deploy
-  run: npx ampx deploy --identifier ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+  run: npx ampx deploy --identifier ${{ github.ref_name == 'main' && 'production' || 'staging' }} --yes
 ```
 
 ## Next steps

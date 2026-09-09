@@ -28,14 +28,6 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview** and part of our [RFC](https://github.com/aws-amplify/amplify-backend/issues/3211). It is not recommended for production workloads yet, and APIs may change before general availability. See the RFC for instructions on installing the preview release.
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
-
 In this guide, you will learn how to define a CI/CD pipeline that automatically deploys your application on every push, with support for multi-stage deployments, approval gates, and bake times.
 
 ## Defining a basic pipeline
@@ -70,6 +62,7 @@ Deploy through multiple stages to catch issues before they reach production:
 
 ```ts title="amplify/pipeline.ts"
 import { definePipeline } from '@aws-amplify/hosting/pipeline';
+import { Duration } from 'aws-cdk-lib';
 
 export const pipeline = definePipeline({
   source: {
@@ -82,14 +75,14 @@ export const pipeline = definePipeline({
       branch: 'main',
       stages: [
         { name: 'staging' },
-        { name: 'production', requireApproval: true, bakeTime: 30 }
+        { name: 'production', requireApproval: true, bakeTime: Duration.minutes(30) }
       ]
     }
   ]
 });
 ```
 
-The `requireApproval` option pauses the pipeline before deploying to that stage, waiting for manual approval in the AWS CodePipeline console. The `bakeTime` value (in minutes) adds a waiting period after deployment to monitor for errors before proceeding.
+The `requireApproval` option pauses the pipeline before deploying to that stage, waiting for manual approval in the AWS CodePipeline console. The `bakeTime` value is a CDK `Duration` that adds a waiting period after deployment to monitor for errors before proceeding.
 
 ## Cross-account deployments
 
@@ -124,26 +117,31 @@ Use `getStageConfig()` in your hosting definition to vary configuration by stage
 import { defineHosting } from '@aws-amplify/hosting';
 import { getStageConfig } from '@aws-amplify/hosting/pipeline';
 
-const config = getStageConfig<{
+// getStageConfig() returns the current stage (name, env, and the user-defined
+// `config`) inside a pipeline, or `undefined` for a plain `ampx deploy`.
+const stage = getStageConfig<{
   domain: string;
   memorySize: number;
 }>();
 
 export const hosting = defineHosting({
   domain: {
-    domainName: config.domain,
+    domainName: stage?.config?.domain ?? 'app.example.com',
     hostedZone: 'example.com'
   },
   compute: {
-    memorySize: config.memorySize
+    memorySize: stage?.config?.memorySize ?? 512
   }
 });
 ```
+
+The per-stage values you set in `definePipeline()` are available under `stage.config`. Because `getStageConfig()` returns `undefined` outside a pipeline (for example during a local `ampx deploy`), guard the access and provide sensible fallbacks.
 
 Then provide the config values in your pipeline stages:
 
 ```ts title="amplify/pipeline.ts"
 import { definePipeline } from '@aws-amplify/hosting/pipeline';
+import { Duration } from 'aws-cdk-lib';
 
 export const pipeline = definePipeline({
   source: {
@@ -165,7 +163,7 @@ export const pipeline = definePipeline({
         {
           name: 'production',
           requireApproval: true,
-          bakeTime: 30,
+          bakeTime: Duration.minutes(30),
           config: {
             domain: 'app.example.com',
             memorySize: 1024
@@ -223,6 +221,7 @@ Override the default synth step commands, compute type, or environment variables
 
 ```ts title="amplify/pipeline.ts"
 import { definePipeline } from '@aws-amplify/hosting/pipeline';
+import { ComputeType } from 'aws-cdk-lib/aws-codebuild';
 
 export const pipeline = definePipeline({
   source: {
@@ -234,9 +233,9 @@ export const pipeline = definePipeline({
     commands: [
       'npm ci',
       'npm run build',
-      'npx ampx deploy --identifier $STAGE_NAME --frontend --backend'
+      'npx cdk synth'
     ],
-    computeType: 'large',
+    computeType: ComputeType.LARGE,
     dockerEnabled: true,
     env: {
       NODE_OPTIONS: '--max-old-space-size=4096'
@@ -251,7 +250,7 @@ export const pipeline = definePipeline({
 });
 ```
 
-The `computeType` option accepts `small`, `medium`, `large`, or `xlarge` and controls the CodeBuild instance size. Enable `dockerEnabled` if your build process requires Docker (for example, building container images).
+The synth step **synthesizes** the CDK cloud assembly — the pipeline then deploys each stage automatically, so you do not call `ampx deploy` here. The `computeType` option takes a CodeBuild `ComputeType` (`SMALL`, `MEDIUM`, or `LARGE`) and controls the build instance size; the default is `ComputeType.MEDIUM`. Enable `dockerEnabled` if your build process requires Docker (for example, building container images).
 
 ## Custom install commands and output directory
 
@@ -278,10 +277,10 @@ The `installCommands` run before `commands` in the synth step. Use them for depe
 
 ## Deploying the pipeline
 
-Deploy the pipeline itself with the `--pipeline` flag:
+Deploy the pipeline itself with the `--pipeline` flag. Pipeline stack and stage names come from `amplify/pipeline.ts`, so `--pipeline` cannot be combined with `--identifier`:
 
 ```bash title="Terminal"
-npx ampx deploy --identifier production --pipeline
+npx ampx deploy --pipeline
 ```
 
 Once deployed, the pipeline is self-mutating. Any changes to `amplify/pipeline.ts` are picked up on the next push and the pipeline updates itself.

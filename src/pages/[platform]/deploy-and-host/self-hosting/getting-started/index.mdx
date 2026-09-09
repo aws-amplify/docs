@@ -28,14 +28,6 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview** and part of our [RFC](https://github.com/aws-amplify/amplify-backend/issues/3211). It is not recommended for production workloads yet, and APIs may change before general availability. See the RFC for instructions on installing the preview release.
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
-
 In this guide, you will learn how to install the hosting package, configure your first `defineHosting()` definition, and deploy your frontend to your own AWS account.
 
 ## Prerequisites
@@ -66,7 +58,7 @@ import { defineHosting } from '@aws-amplify/hosting';
 export const hosting = defineHosting();
 ```
 
-By default, the framework is auto-detected from your `package.json`. Supported frameworks include `nextjs`, `nuxt`, `astro`, `nitro`, `spa`, and `static`. You can optionally override the framework detection if needed.
+By default, the framework is auto-detected from your `package.json`. Supported frameworks include `nextjs`, `nuxt`, `nitro`, `astro`, `sveltekit`, `spa`, and `static`. You can optionally override the framework detection if needed.
 
 ## Deploying your application
 
@@ -97,5 +89,6 @@ After deployment, the CLI outputs the distribution URL. Open it in a browser to 
 ## Next steps
 
 - [Configure hosting](/[platform]/deploy-and-host/self-hosting/define-hosting/) to add custom domains, WAF, and CDN tuning
+- [Add secrets and environment variables](/[platform]/deploy-and-host/self-hosting/secrets-and-environment-variables/) for your server-side code
 - [Set up a CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/define-pipeline/) with CodePipeline
 - [Use an external CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/external-pipelines/) with GitHub Actions or GitLab CI

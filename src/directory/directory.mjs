@@ -1229,6 +1229,9 @@ export const directory = {
                   path: 'src/pages/[platform]/deploy-and-host/self-hosting/define-hosting/index.mdx'
                 },
                 {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/secrets-and-environment-variables/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/deploy-and-host/self-hosting/define-pipeline/index.mdx'
                 },
                 {
