@@ -1239,7 +1239,56 @@ export const directory = {
           section: 'hosting',
           children: [
             {
-              path: 'src/pages/[platform]/deploy-and-host/hosting/index.mdx'
+              path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/branch-deployments/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/pr-previews/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/secrets-and-vars/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/share-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/custom-pipelines/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/cross-account-deployments/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/mono-and-multi-repos/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/monorepos/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/deploy-and-host/self-hosting/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/getting-started/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/frameworks/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/define-hosting/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/secrets-and-environment-variables/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/define-pipeline/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/external-pipelines/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/deploy-and-host/sandbox-environments/index.mdx',
@@ -1252,35 +1301,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/deploy-and-host/sandbox-environments/seed/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/branch-deployments/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/share-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/mono-and-multi-repos/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/monorepos/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/pr-previews/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx'
                 }
               ]
             }

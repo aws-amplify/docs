@@ -128,7 +128,7 @@ npx ampx generate schema-from-database --connection-uri-secret SQL_CONNECTION_ST
 
 The Lambda function will then use the specified root CA to validate connections to the database.
 
-When deploying your app to production, you need to [add the PEM-encoded public CA certificate as a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). Make sure to add the certificate with the same secret name you used in the sandbox environment. For example, we used `CUSTOM_SSL_CERT` above. Make sure to preserve the newlines and the `------BEGIN CERTIFICATE------` and `------END CERTIFICATE------` delimiters in the value. Finally, make sure the size of the entire value does not exceed 4KB.
+When deploying your app to production, you need to [add the PEM-encoded public CA certificate as a secret](/[platform]/deploy-and-host/amplify-hosting/secrets-and-vars/#set-secrets). Make sure to add the certificate with the same secret name you used in the sandbox environment. For example, we used `CUSTOM_SSL_CERT` above. Make sure to preserve the newlines and the `------BEGIN CERTIFICATE------` and `------END CERTIFICATE------` delimiters in the value. Finally, make sure the size of the entire value does not exceed 4KB.
 
 </Accordion>
 
@@ -201,7 +201,7 @@ const { data: events } = await client.models.event.list()
 
 ## Step 5 - Configuring database connection for production
 
-When deploying your app to production, you need to [add the database connection string as a secret](/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/#set-secrets). Make sure to add the appropriate database connection string with the same secret name you used in the sandbox environment. For example, we used `SQL_CONNECTION_STRING` above.
+When deploying your app to production, you need to [add the database connection string as a secret](/[platform]/deploy-and-host/amplify-hosting/secrets-and-vars/#set-secrets). Make sure to add the appropriate database connection string with the same secret name you used in the sandbox environment. For example, we used `SQL_CONNECTION_STRING` above.
 
 <Video autoPlay={true} muted={true} loop={true} width="100%" playsInline={true} description="Video - Configuring database connection for production" src="/images/gen2/secrets-and-vars/secrets.mp4">
 </Video>

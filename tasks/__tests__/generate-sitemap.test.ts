@@ -6,8 +6,8 @@ jest.mock('node:crypto', () => {
 });
 
 const flatDirectoryMock = {
-  '/[platform]/deploy-and-host/fullstack-branching/cross-account-deployments': {
-    path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx',
+  '/[platform]/deploy-and-host/amplify-hosting/cross-account-deployments': {
+    path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/cross-account-deployments/index.mdx',
     title: 'Cross-account deployments',
     description:
       'Set up a cross-account deployment pipeline powered by Amazon CodeCatalyst and AWS Amplify Hosting.',
@@ -24,7 +24,7 @@ const flatDirectoryMock = {
     ],
     lastUpdated: '2024-03-18T14:51:00.000Z',
     route:
-      '/[platform]/deploy-and-host/fullstack-branching/cross-account-deployments'
+      '/[platform]/deploy-and-host/amplify-hosting/cross-account-deployments'
   },
   '/gen1/[platform]/start/getting-started/introduction': {
     path: 'src/pages/gen1/[platform]/start/getting-started/introduction/index.mdx',
@@ -74,14 +74,14 @@ describe('generate-sitemap', () => {
     it('should find the canonical page based on the platforms ranking', () => {
       const pages = PLATFORMS.map(
         (platform) =>
-          `/${platform}/deploy-and-host/fullstack-branching/cross-account-deployments/index.html`
+          `/${platform}/deploy-and-host/amplify-hosting/cross-account-deployments/index.html`
       );
 
       const result = findCanonicalPage(pages);
 
       expect(result).toEqual({
         directoryObject: {
-          path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx',
+          path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/cross-account-deployments/index.mdx',
           title: 'Cross-account deployments',
           description:
             'Set up a cross-account deployment pipeline powered by Amazon CodeCatalyst and AWS Amplify Hosting.',
@@ -98,10 +98,10 @@ describe('generate-sitemap', () => {
           ],
           lastUpdated: '2024-03-18T14:51:00.000Z',
           route:
-            '/[platform]/deploy-and-host/fullstack-branching/cross-account-deployments'
+            '/[platform]/deploy-and-host/amplify-hosting/cross-account-deployments'
         },
         canonicalPageName:
-          '/react/deploy-and-host/fullstack-branching/cross-account-deployments/'
+          '/react/deploy-and-host/amplify-hosting/cross-account-deployments/'
       });
     });
 

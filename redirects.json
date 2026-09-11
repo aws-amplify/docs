@@ -9656,12 +9656,12 @@
 	},
 	{
 		"source": "/gen2/deploy-and-host/fullstack-branching/",
-		"target": "/gen1/gen2/deploy-and-host/fullstack-branching/",
+		"target": "/react/deploy-and-host/amplify-hosting/",
 		"status": "301"
 	},
 	{
 		"source": "/gen2/deploy-and-host/hosting/",
-		"target": "/gen1/gen2/deploy-and-host/hosting/",
+		"target": "/react/deploy-and-host/amplify-hosting/",
 		"status": "301"
 	},
 	{
@@ -9836,12 +9836,12 @@
 	},
 	{
 		"source": "/gen1/gen2/deploy-and-host/hosting/",
-		"target": "/react/deploy-and-host/hosting/",
+		"target": "/react/deploy-and-host/amplify-hosting/",
 		"status": "301"
 	},
 	{
 		"source": "/gen1/gen2/deploy-and-host/fullstack-branching/",
-		"target": "/react/deploy-and-host/fullstack-branching/",
+		"target": "/react/deploy-and-host/amplify-hosting/",
 		"status": "301"
 	},
 	{
@@ -10432,6 +10432,61 @@
 	{
 		"source": "/<platform>/start/mcp-server/<*>",
 		"target": "/<platform>/develop-with-ai/mcp-server/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/hosting/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/hosting/<*>",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/<*>",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/branch-deployments/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/branch-deployments/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/pr-previews/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/pr-previews/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/secrets-and-vars/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/secrets-and-vars/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/share-resources/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/share-resources/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/custom-pipelines/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/custom-pipelines/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/cross-account-deployments/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/cross-account-deployments/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/mono-and-multi-repos/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/mono-and-multi-repos/",
+		"status": "301"
+	},
+	{
+		"source": "/<platform>/deploy-and-host/fullstack-branching/monorepos/",
+		"target": "/<platform>/deploy-and-host/amplify-hosting/monorepos/",
 		"status": "301"
 	}
 ]

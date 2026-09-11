@@ -19,11 +19,11 @@ describe('FeatureLists', () => {
   const featureListComponent = (
     <FeatureList heading="Deploy" level={2}>
       <FeatureItem
-        linkText="SSR/SSG/ISR hosting support"
-        href="/react/deploy-and-host/hosting/"
+        linkText="Managed hosting with Git CI/CD"
+        href="/react/deploy-and-host/amplify-hosting/"
       >
-        Deploy apps in Next.js, Nuxt.js, Gatsby, React, Vue, Angular (and more)
-        by simply connecting your Git repository.
+        Connect your Git repository to Amplify Hosting. Your app builds and
+        deploys on every push with SSR, SSG, and ISR support.
       </FeatureItem>
     </FeatureList>
   );
@@ -41,7 +41,7 @@ describe('FeatureLists', () => {
     render(featureListComponent);
 
     const link = await screen.findByRole('link', {
-      name: 'SSR/SSG/ISR hosting support'
+      name: 'Managed hosting with Git CI/CD'
     });
 
     expect(link).toBeInTheDocument();

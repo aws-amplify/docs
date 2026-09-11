@@ -1,0 +1,61 @@
+import { getChildPageNodes } from '@/utils/getChildPageNodes';
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Self-managed hosting',
+  description: 'Deploy your frontend to your own AWS account with full AWS CDK control.',
+  route: '/[platform]/deploy-and-host/self-hosting',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  const childPageNodes = getChildPageNodes(meta.route);
+  return {
+    props: {
+      meta,
+      childPageNodes
+    }
+  };
+}
+
+Self-managed hosting gives you full ownership of your frontend infrastructure. You deploy to your own AWS account using AWS CDK constructs, giving you complete control over Amazon S3 buckets, Amazon CloudFront distributions, Lambda@Edge functions, and every other resource in your stack.
+
+## How it works
+
+You define your hosting configuration in `amplify/hosting.ts` using `defineHosting()`. This generates an AWS CDK stack with all the resources needed to serve your application. You deploy with the `ampx deploy` CLI command, which synthesizes and deploys both backend and frontend stacks to your AWS account.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting();
+```
+
+## Deployment options
+
+You have three ways to deploy self-hosted applications:
+
+**Manual deployment** with `ampx deploy` runs directly from your local machine or any environment with AWS credentials.
+
+**Built-in pipeline** with `definePipeline()` provisions a self-mutating AWS CodePipeline V2 that deploys on every push to your repository.
+
+**External CI/CD** using GitHub Actions, GitLab CI, or any CI runner that can execute `ampx deploy` with the appropriate flags.
+
+## When to use self-managed hosting
+
+Self-managed hosting is the right choice when you need direct access to your infrastructure resources, want to customize CDN behavior, require AWS WAF protection, or need to integrate hosting into an existing AWS organization with specific compliance requirements.
+
+<Overview childPageNodes={props.childPageNodes} />
