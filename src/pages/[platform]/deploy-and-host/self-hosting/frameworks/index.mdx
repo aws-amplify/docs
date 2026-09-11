@@ -46,9 +46,9 @@ The following frameworks are detected automatically:
 
 **Custom frameworks** — If your framework is not auto-detected, provide a `customAdapter`. This is the only way to add an unsupported framework, and it takes a single form: a synchronous `FrameworkAdapterFn` — `(projectDir: string) => DeployManifest`. The function inspects/builds the project at `projectDir` and returns a `DeployManifest`.
 
-A **`DeployManifest`** is the framework-agnostic contract between an adapter and the hosting construct: a plain JSON object describing what to deploy, so the construct never needs framework-specific knowledge. Every built-in adapter produces one. Its top-level fields:
+A **`DeployManifest`** is the framework-agnostic contract between an adapter and the hosting construct: it describes *what* to deploy, so the construct never needs framework-specific knowledge. It is a **TypeScript type** exported from `@aws-amplify/hosting` — your adapter returns it in-process at synth time. The object is JSON-serializable, but you do not author or validate it as a standalone `.json` file, and there is **no separate published JSON Schema** for it (unlike [`amplify_outputs.json`](/[platform]/reference/amplify_outputs/)); the `DeployManifest` type *is* the schema, enforced by TypeScript. Every built-in adapter produces one. Its top-level fields:
 
-- `version` — manifest schema version (currently `1`).
+- `version` — the manifest **format** version (currently the literal `1`); present so the shape can evolve compatibly, not a pointer to an external schema document.
 - `staticAssets` — the built static output: `{ directory, immutablePaths?, noCachePaths?, spaFallback? }`.
 - `compute` — named SSR compute functions (`Record<string, ComputeResource>`); empty `{}` for a static site.
 - `routes` — rules mapping request paths to a compute function or to static assets.
