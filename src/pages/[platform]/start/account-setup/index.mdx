@@ -282,7 +282,17 @@ sso_region = <your-region>
 sso_registration_scopes = sso:account:access
 ```
 
-### 5. Bootstrap your AWS account
+### 5. Create the amplify project
+
+Now you are ready to create the amplify project locally. 
+
+```bash title="Terminal" showLineNumber={false}
+npm create amplify@latest
+```
+
+This may run several minutes. After this finishes, you are ready to bootstrap your AWS account
+
+### 6. Bootstrap your AWS account
 
 Now you are ready to use this AWS profile with AWS Amplify. Open your Amplify project and start the sandbox. If you have multiple local profiles or named your profile something other than `default`, you can specify a profile with `--profile`.
 
