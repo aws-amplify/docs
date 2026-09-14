@@ -1020,6 +1020,9 @@ export const directory = {
               path: 'src/pages/[platform]/frontend/logging/index.mdx',
               children: [
                 {
+                  path: 'src/pages/[platform]/frontend/logging/cloudwatch/index.mdx'
+                },
+                {
                   path: 'src/pages/[platform]/frontend/logging/send-logs/index.mdx'
                 },
                 {
@@ -1042,9 +1045,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/frontend/logging/sdk/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/frontend/logging/cloudwatch/index.mdx'
                 }
               ]
             },
