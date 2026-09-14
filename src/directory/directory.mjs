@@ -617,6 +617,10 @@ export const directory = {
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/view-logs/index.mdx',
                   section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/cloudwatch/index.mdx',
+                  section: 'backend'
                 }
               ]
             },
@@ -1038,6 +1042,9 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/frontend/logging/sdk/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/logging/cloudwatch/index.mdx'
                 }
               ]
             },
