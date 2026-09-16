@@ -1,0 +1,86 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'CloudWatch Logs',
+  description: 'Set up an Amazon CloudWatch log group and configure IAM permissions for the Amplify CloudWatch client.',
+  platforms: [
+    'android',
+    'swift'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+Use the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/latest/guide/home.html) to create an [Amazon CloudWatch log group](https://aws.amazon.com/cloudwatch/) and grant your app the permissions it needs. For more on adding custom AWS resources to your Amplify backend, see [Custom resources](/[platform]/build-a-backend/add-aws-services/custom-resources/).
+
+## Set up a CloudWatch log group
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from "@aws-amplify/backend";
+import { auth } from "./auth/resource";
+import { data } from "./data/resource";
+import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { LogGroup } from "aws-cdk-lib/aws-logs";
+
+const backend = defineBackend({
+  auth,
+  data,
+});
+
+const loggingStack = backend.createStack("logging-stack");
+
+// Create a CloudWatch log group
+const logGroup = new LogGroup(loggingStack, "LogGroup", {
+  logGroupName: "/app/my-app",
+});
+
+// Grant log write permissions to authenticated users
+const loggingPolicy = new Policy(loggingStack, "LoggingPolicy", {
+  statements: [
+    new PolicyStatement({
+      actions: [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams",
+      ],
+      resources: [logGroup.logGroupArn],
+    }),
+  ],
+});
+
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(loggingPolicy);
+```
+
+If you are not using the CDK, ensure your authenticated IAM role has permission to write to your target log group:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:DescribeLogStreams"
+    ],
+    "Resource": "arn:aws:logs:<region>:<account-id>:log-group:<log-group-name>:*"
+  }]
+}
+```
+
+For more information, see the [Amazon CloudWatch Logs documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
+
+## Next steps
+
+Use the [CloudWatch client](/[platform]/frontend/logging/cloudwatch/) to send logs from your app.
