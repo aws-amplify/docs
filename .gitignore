@@ -74,6 +74,7 @@ src/directory/flatDirectory.json
 public/ai/
 src/references/raw-references.json
 .yarn/*
+.kiro
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
