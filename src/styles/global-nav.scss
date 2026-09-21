@@ -37,6 +37,7 @@
   cursor: pointer;
   gap: var(--amplify-space-xs);
   align-items: center;
+  text-decoration: none;
   &:focus {
     box-shadow: none;
     outline: 2px solid var(--amplify-colors-white);
