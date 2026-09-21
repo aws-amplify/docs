@@ -1,0 +1,310 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up a CI/CD pipeline',
+  description: 'Automate deployments with a self-mutating AWS CodePipeline.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+In this guide, you will learn how to define a CI/CD pipeline that automatically deploys your application on every push, with support for multi-stage deployments, approval gates, and bake times.
+
+## Defining a basic pipeline
+
+Create a pipeline definition alongside your hosting configuration. The `definePipeline()` function provisions an AWS CodePipeline V2 that watches your repository and deploys on every push.
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+    triggerOnPush: true
+  },
+  branches: [
+    {
+      branch: 'main',
+      stages: [
+        { name: 'production' }
+      ]
+    }
+  ]
+});
+```
+
+The `connectionArn` references an AWS CodeConnections connection to your Git provider (GitHub, Bitbucket, or GitLab). Create one in the AWS Console under Developer Tools > Connections.
+
+## Multi-stage deployments
+
+Deploy through multiple stages to catch issues before they reach production:
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+import { Duration } from 'aws-cdk-lib';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+    triggerOnPush: true
+  },
+  branches: [
+    {
+      branch: 'main',
+      stages: [
+        { name: 'staging' },
+        { name: 'production', requireApproval: true, bakeTime: Duration.minutes(30) }
+      ]
+    }
+  ]
+});
+```
+
+The `requireApproval` option pauses the pipeline before deploying to that stage, waiting for manual approval in the AWS CodePipeline console. The `bakeTime` value is a CDK `Duration` that adds a waiting period after deployment to monitor for errors before proceeding.
+
+## Cross-account deployments
+
+Deploy stages to different AWS accounts by specifying `env` on each stage and enabling `crossAccountKeys` for KMS-encrypted artifact sharing:
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+  },
+  crossAccountKeys: true,
+  branches: [{
+    branch: 'main',
+    stages: [
+      { name: 'beta', env: { account: '111111111111', region: 'us-east-1' } },
+      { name: 'prod', env: { account: '222222222222', region: 'us-west-2' } },
+    ],
+  }],
+});
+```
+
+The `crossAccountKeys` option creates a KMS key that can be shared across accounts for encrypting pipeline artifacts. Each target account must have a trust relationship with the pipeline account. Refer to the [AWS CDK Pipelines documentation](https://docs.aws.amazon.com/cdk/v2/guide/cdk_pipeline.html) for bootstrapping details.
+
+## Per-stage configuration
+
+Use `getStageConfig()` in your hosting definition to vary configuration by stage. This lets you use different domains, compute sizes, or feature flags per environment.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+import { getStageConfig } from '@aws-amplify/hosting/pipeline';
+
+// getStageConfig() returns the current stage (name, env, and the user-defined
+// `config`) inside a pipeline, or `undefined` for a plain `ampx deploy`.
+const stage = getStageConfig<{
+  domain: string;
+  memorySize: number;
+}>();
+
+export const hosting = defineHosting({
+  domain: {
+    domainName: stage?.config?.domain ?? 'app.example.com',
+    hostedZone: 'example.com'
+  },
+  compute: {
+    memorySize: stage?.config?.memorySize ?? 512
+  }
+});
+```
+
+The per-stage values you set in `definePipeline()` are available under `stage.config`. Because `getStageConfig()` returns `undefined` outside a pipeline (for example during a local `ampx deploy`), guard the access and provide sensible fallbacks.
+
+Then provide the config values in your pipeline stages:
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+import { Duration } from 'aws-cdk-lib';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+    triggerOnPush: true
+  },
+  branches: [
+    {
+      branch: 'main',
+      stages: [
+        {
+          name: 'staging',
+          config: {
+            domain: 'staging.example.com',
+            memorySize: 512
+          }
+        },
+        {
+          name: 'production',
+          requireApproval: true,
+          bakeTime: Duration.minutes(30),
+          config: {
+            domain: 'app.example.com',
+            memorySize: 1024
+          }
+        }
+      ]
+    }
+  ]
+});
+```
+
+## Filtering trigger paths
+
+Limit which file changes trigger a pipeline run using `triggerFilters`:
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+    triggerOnPush: true,
+    triggerFilters: ['src/**', 'amplify/**', 'package.json']
+  },
+  branches: [
+    {
+      branch: 'main',
+      stages: [{ name: 'production' }]
+    }
+  ]
+});
+```
+
+## Disabling automatic triggers
+
+By default the pipeline runs on every push to the tracked branch. Set `triggerOnPush` to `false` if you want to trigger deployments only through the AWS CodePipeline console or API:
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+    triggerOnPush: false,
+  },
+  branches: [{ branch: 'main', stages: [{ name: 'prod' }] }],
+});
+```
+
+## Custom build configuration
+
+Override the default synth step commands, compute type, or environment variables:
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+import { ComputeType } from 'aws-cdk-lib/aws-codebuild';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+    triggerOnPush: true
+  },
+  synth: {
+    commands: [
+      'npm ci',
+      'npm run build',
+      'npx cdk synth'
+    ],
+    computeType: ComputeType.LARGE,
+    dockerEnabled: true,
+    env: {
+      NODE_OPTIONS: '--max-old-space-size=4096'
+    }
+  },
+  branches: [
+    {
+      branch: 'main',
+      stages: [{ name: 'production' }]
+    }
+  ]
+});
+```
+
+The synth step **synthesizes** the CDK cloud assembly — the pipeline then deploys each stage automatically, so you do not call `ampx deploy` here. The `computeType` option takes a CodeBuild `ComputeType` (`SMALL`, `MEDIUM`, or `LARGE`) and controls the build instance size; the default is `ComputeType.MEDIUM`. Enable `dockerEnabled` if your build process requires Docker (for example, building container images).
+
+## Custom install commands and output directory
+
+Use `installCommands` to run setup steps before the synth commands, and `primaryOutputDirectory` to specify a non-default CDK output location:
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+  },
+  synth: {
+    installCommands: ['npm ci', 'npx playwright install'],
+    commands: ['npm run build', 'npx cdk synth'],
+    primaryOutputDirectory: 'infrastructure/cdk.out',
+  },
+  branches: [{ branch: 'main', stages: [{ name: 'prod' }] }],
+});
+```
+
+The `installCommands` run before `commands` in the synth step. Use them for dependency installation or tool setup that must complete before the build. The `primaryOutputDirectory` tells the pipeline where to find the synthesized cloud assembly if your CDK app outputs to a custom path.
+
+## Deploying the pipeline
+
+Deploy the pipeline itself with the `--pipeline` flag. Pipeline stack and stage names come from `amplify/pipeline.ts`, so `--pipeline` cannot be combined with `--identifier`:
+
+```bash title="Terminal"
+npx ampx deploy --pipeline
+```
+
+Once deployed, the pipeline is self-mutating. Any changes to `amplify/pipeline.ts` are picked up on the next push and the pipeline updates itself.
+
+## Disabling self-mutation
+
+By default the pipeline updates itself when you change `amplify/pipeline.ts`. If you manage pipeline updates through a separate process (for example, a dedicated infrastructure repository), disable self-mutation:
+
+```ts title="amplify/pipeline.ts"
+import { definePipeline } from '@aws-amplify/hosting/pipeline';
+
+export const pipeline = definePipeline({
+  source: {
+    repo: 'my-org/my-app',
+    connectionArn: 'arn:aws:codeconnections:us-east-1:123456789012:connection/abc-123',
+  },
+  selfMutation: false,
+  branches: [{ branch: 'main', stages: [{ name: 'prod' }] }],
+});
+```
+
+With `selfMutation` set to `false`, changes to the pipeline definition require a manual `npx ampx deploy --pipeline` to take effect.
+
+## Next steps
+
+- [Configure hosting](/[platform]/deploy-and-host/self-hosting/define-hosting/) to customize domains, WAF, and compute
+- [Use an external CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/external-pipelines/) if you prefer GitHub Actions or GitLab CI

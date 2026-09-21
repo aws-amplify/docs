@@ -1,5 +1,4 @@
-import { Heading, Text, Flex, Card } from '@aws-amplify/ui-react';
-import ExportedImage from 'next-image-export-optimizer';
+import { Heading, Text, Flex, View, Card } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { MDXCode } from '@/components/MDXComponents/';
 import { IconChevron } from '@/components/Icons';
@@ -9,7 +8,6 @@ import { FeatureList, FeatureItem } from '@/components/FeatureLists';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 import { useCurrentPlatform } from '@/utils/useCurrentPlatform';
 import { InternalLinkButton } from '@/components/InternalLinkButton';
-import { ExternalLinkButton } from '@/components/ExternalLinkButton';
 
 import {
   GetStartedPopover,
@@ -91,8 +89,8 @@ const Gen2Overview = () => {
             <br></br>
             <br></br>
             You can build a fullstack app using Amplify backend building
-            capabilities, or you can deploy your React and Next.js web apps
-            using Amplify Hosting.
+            capabilities and deploy your React and Next.js web apps with managed
+            hosting or to your own AWS account.
           </Text>
         ) : (
           <Text className="home-intro__text">
@@ -101,7 +99,8 @@ const Gen2Overview = () => {
             <br></br>
             <br></br>
             You can build a fullstack app using Amplify backend building
-            capabilities, or you can deploy your web app using Amplify Hosting.
+            capabilities and deploy your web app with managed hosting or to your
+            own AWS account.
           </Text>
         )}
         <Flex className="home-cta">
@@ -125,12 +124,20 @@ const Gen2Overview = () => {
               />
             </InternalLinkButton>
           ) : (
-            <ExternalLinkButton
+            <InternalLinkButton
               size="large"
-              href="https://console.aws.amazon.com/amplify/create/repo-branch"
+              href={{
+                pathname: '/[platform]/deploy-and-host/',
+                query: { platform: currentPlatform }
+              }}
             >
               Deploy your app
-            </ExternalLinkButton>
+              <IconChevron
+                aria-hidden="true"
+                className="icon-rotate-270"
+                fontSize=".875em"
+              />
+            </InternalLinkButton>
           )}
         </Flex>
         {!isMobilePlatform && !isReactNative && (
@@ -277,71 +284,144 @@ const Gen2Overview = () => {
         </Columns>
       </Flex>
 
+      {!isMobilePlatform && !isReactNative && (
+        <Flex className="home-section">
+          <Heading level={2}>Deploy</Heading>
+          <Columns columns={2}>
+            <Flex direction="column" gap="1rem">
+              <Heading level={3}>Amplify Hosting</Heading>
+              <Text>
+                Connect your Git repository. Your app builds and deploys on
+                every push with SSR, SSG, and ISR support.
+              </Text>
+              <img
+                src="/images/gen2/deploy-cycle.svg"
+                alt="Diagram showing sandbox environments connected to a Git repo, with Amplify Hosting deploying branch environments"
+                width="450"
+                height="340"
+                style={{
+                  margin: 'auto',
+                  height: 'auto',
+                  borderRadius: 'var(--amplify-radii-large)',
+                  boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+                }}
+              />
+              <View as="ul" className="category-list-children">
+                <FeatureItem
+                  linkText="Per-developer sandboxes"
+                  href={{
+                    pathname:
+                      '/[platform]/deploy-and-host/sandbox-environments/setup/',
+                    query: { platform: currentPlatform }
+                  }}
+                >
+                  Per-developer cloud sandboxes provide high fidelity and faster
+                  deployment times to make local iteration quick.
+                </FeatureItem>
+                <FeatureItem
+                  linkText="Zero-config fullstack branches"
+                  href={{
+                    pathname:
+                      '/[platform]/deploy-and-host/amplify-hosting/branch-deployments/',
+                    query: { platform: currentPlatform }
+                  }}
+                >
+                  Fullstack deployments from your Git branch. Autodeploy Git
+                  branches to set up staging, development, and production
+                  environments.
+                </FeatureItem>
+                <FeatureItem
+                  linkText="GUI to manage your app"
+                  href={{
+                    pathname: '/[platform]/how-amplify-works/concepts',
+                    hash: 'unified-management-console',
+                    query: { platform: currentPlatform }
+                  }}
+                >
+                  Manage your app data, users and groups, and files in a single
+                  console.
+                </FeatureItem>
+              </View>
+              <Link
+                href={{
+                  pathname: '/[platform]/deploy-and-host/amplify-hosting/',
+                  query: { platform: currentPlatform }
+                }}
+              >
+                Learn more about Amplify Hosting &gt;
+              </Link>
+            </Flex>
+
+            <Flex direction="column" gap="1rem">
+              {/* PREVIEW-LABEL-START */}
+              <Heading level={3}>Self-managed hosting (Preview)</Heading>
+              {/* PREVIEW-LABEL-END */}
+              <Text>
+                Deploy to your AWS account with full AWS CDK control over
+                Amazon CloudFront, Amazon S3, and AWS Lambda.
+              </Text>
+              <img
+                src="/images/gen2/deploy-cycle-self-hosted.svg"
+                alt="Diagram showing sandbox environments connected to a Git repo, with self-managed deployment via ampx deploy or definePipeline to your AWS account"
+                width="450"
+                height="340"
+                style={{
+                  margin: 'auto',
+                  height: 'auto',
+                  borderRadius: 'var(--amplify-radii-large)',
+                  boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
+                }}
+              />
+              <View as="ul" className="category-list-children">
+                <FeatureItem
+                  linkText="Full AWS CDK escape hatches"
+                  href={{
+                    pathname: '/[platform]/deploy-and-host/self-hosting/',
+                    query: { platform: currentPlatform }
+                  }}
+                >
+                  Customize every resource with AWS CDK escape hatches. Go
+                  beyond the defaults and configure any AWS service directly.
+                </FeatureItem>
+                <FeatureItem
+                  linkText="Your own CI/CD or definePipeline"
+                  href={{
+                    pathname: '/[platform]/deploy-and-host/self-hosting/',
+                    query: { platform: currentPlatform }
+                  }}
+                >
+                  Use GitHub Actions, GitLab CI, or any runner you already have.
+                  Or define a self-mutating AWS CodePipeline with multi-stage
+                  deployments and approval gates.
+                </FeatureItem>
+                <FeatureItem
+                  linkText="Custom domains + AWS WAF"
+                  href={{
+                    pathname: '/[platform]/deploy-and-host/self-hosting/',
+                    query: { platform: currentPlatform }
+                  }}
+                >
+                  Attach custom domains and AWS WAF to protect and brand your
+                  applications.
+                </FeatureItem>
+              </View>
+              <Link
+                href={{
+                  pathname: '/[platform]/deploy-and-host/self-hosting/',
+                  query: { platform: currentPlatform }
+                }}
+              >
+                Learn more about self-managed hosting &gt;
+              </Link>
+            </Flex>
+          </Columns>
+        </Flex>
+      )}
+
       <Columns columns={2}>
-        <ExportedImage
-          src="/images/gen2/deploy-cycle.png"
-          alt="Flowchart describing..."
-          width="450"
-          height="412"
-          style={{
-            margin: 'auto',
-            height: 'auto',
-            borderRadius: 'var(--amplify-radii-large)',
-            boxShadow: '0px 0px 20px 5px rgba(0,0,0,0.3)'
-          }}
-        />
-
-        <FeatureList heading="Deploy" level={2}>
-          {!isMobilePlatform && (
-            <FeatureItem
-              linkText="SSR/SSG/ISR hosting support"
-              href={{
-                pathname: '/[platform]/deploy-and-host/hosting/',
-                query: { platform: currentPlatform }
-              }}
-            >
-              Deploy Next.js, Nuxt, React, Vue.js, Angular (and more) apps by
-              simply connecting your Git repository.
-            </FeatureItem>
-          )}
-          <FeatureItem
-            linkText="Faster iterations with per-developer sandboxes"
-            href={{
-              pathname:
-                '/[platform]/deploy-and-host/sandbox-environments/setup/',
-              query: { platform: currentPlatform }
-            }}
-          >
-            Per-developer cloud sandboxes provide high fidelity and faster
-            deployment times to make local iteration quick.
-          </FeatureItem>
-          <FeatureItem
-            linkText="Zero-config fullstack branches"
-            href={{
-              pathname:
-                '/[platform]/deploy-and-host/fullstack-branching/branch-deployments/',
-              query: { platform: currentPlatform }
-            }}
-          >
-            Fullstack deployments from your Git branch. Autodeploy Git branches
-            to set up staging, development, and production environments.
-          </FeatureItem>
-          <FeatureItem
-            linkText="GUI to manage your data"
-            href={{
-              pathname: '/[platform]/how-amplify-works/concepts',
-              hash: 'unified-management-console',
-              query: { platform: currentPlatform }
-            }}
-          >
-            Manage your app data, users and groups, and files in a single
-            console.
-          </FeatureItem>
-        </FeatureList>
-
         <FeatureList heading="Customize" level={2}>
           <FeatureItem
-            linkText="Add any AWS service with CDK"
+            linkText="Add any AWS service with AWS CDK"
             href={{
               pathname: '/[platform]/build-a-backend/add-aws-services/',
               query: { platform: currentPlatform }
@@ -353,7 +433,7 @@ const Gen2Overview = () => {
             linkText="Bring your own pipelines"
             href={{
               pathname:
-                '/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/',
+                '/[platform]/deploy-and-host/amplify-hosting/custom-pipelines/',
               query: { platform: currentPlatform }
             }}
           >
@@ -364,7 +444,7 @@ const Gen2Overview = () => {
             linkText="Monorepo and multi-repo support"
             href={{
               pathname:
-                '/[platform]/deploy-and-host/fullstack-branching/mono-and-multi-repos/',
+                '/[platform]/deploy-and-host/amplify-hosting/mono-and-multi-repos/',
               query: { platform: currentPlatform }
             }}
           >

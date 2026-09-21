@@ -1,0 +1,189 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Use an external CI/CD pipeline',
+  description: 'Deploy with GitHub Actions, GitLab CI, or any CI runner.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+In this guide, you will learn how to deploy your self-hosted application using GitHub Actions, GitLab CI, or any CI runner that can execute shell commands with AWS credentials.
+
+## Understanding deployment flags
+
+The `ampx deploy` command accepts flags that control which stacks are deployed:
+
+| Flag | Description |
+| --- | --- |
+| `--backend` | Deploy only the backend stack (auth, data, functions) |
+| `--frontend` | Deploy only the frontend hosting stack |
+| `--pipeline` | Deploy only the pipeline stack |
+| `--yes` (`-y`) | Skip the confirmation prompt — required in non-interactive CI |
+| (no flag) | Deploy all stacks |
+
+Pass `--yes` in every CI job: `ampx deploy` prompts for confirmation before running, and without it the command blocks waiting for input. `--backend` and `--frontend` are mutually exclusive — deploy the backend first, then the frontend, in separate steps. This ordering ensures `amplify_outputs.json` is generated before the frontend build bundles it.
+
+## Deploying with GitHub Actions
+
+Configure AWS credentials using the `aws-actions/configure-aws-credentials` action with an IAM role that has permissions to deploy AWS CDK stacks.
+
+```yaml title=".github/workflows/deploy.yml"
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/GitHubActionsDeployRole
+          aws-region: us-east-1
+
+      - name: Deploy backend
+        run: npx ampx deploy --identifier production --backend --yes
+
+      - name: Deploy frontend
+        run: npx ampx deploy --identifier production --frontend --yes
+```
+
+<Callout>
+
+The IAM role must have permissions for AWS CloudFormation, Amazon S3, Amazon CloudFront, AWS Lambda, and any other services your stacks use. Use OIDC federation to avoid storing long-lived credentials as secrets.
+
+</Callout>
+
+## Deploying with GitLab CI
+
+Use GitLab's native OIDC support or set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` as CI/CD variables in your project settings.
+
+```yaml title=".gitlab-ci.yml"
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  image: node:20
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  before_script:
+    - npm ci
+  script:
+    - npx ampx deploy --identifier production --backend --yes
+    - npx ampx deploy --identifier production --frontend --yes
+  variables:
+    AWS_REGION: us-east-1
+```
+
+## Deploying with any CI runner
+
+The `ampx deploy` command works in any environment with Node.js and valid AWS credentials. The minimum requirements are:
+
+- Node.js 18 or later
+- AWS credentials available as environment variables or through an IAM role
+- The `@aws-amplify/hosting` package installed in your project
+
+```bash title="Generic CI script"
+npm ci
+npx ampx deploy --identifier production --backend --yes
+npx ampx deploy --identifier production --frontend --yes
+```
+
+## Splitting backend and frontend across jobs
+
+For faster feedback, run backend and frontend deployments in separate parallel jobs (with the frontend waiting for the backend to complete):
+
+```yaml title=".github/workflows/deploy.yml"
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/GitHubActionsDeployRole
+          aws-region: us-east-1
+      - run: npx ampx deploy --identifier production --backend --yes
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    needs: deploy-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/GitHubActionsDeployRole
+          aws-region: us-east-1
+      - run: npx ampx deploy --identifier production --frontend --yes
+```
+
+## Environment-specific deployments
+
+Use branch names or environment variables to deploy to different environments:
+
+```yaml title=".github/workflows/deploy.yml"
+- name: Deploy
+  run: npx ampx deploy --identifier ${{ github.ref_name == 'main' && 'production' || 'staging' }} --yes
+```
+
+## Next steps
+
+- [Configure hosting](/[platform]/deploy-and-host/self-hosting/define-hosting/) to customize domains, AWS WAF, and compute settings
+- [Set up a built-in pipeline](/[platform]/deploy-and-host/self-hosting/define-pipeline/) if you prefer a fully managed AWS CodePipeline

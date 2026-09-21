@@ -1,0 +1,512 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'CloudWatch client',
+  description: 'A standalone client for sending application logs to Amazon CloudWatch Logs with offline support, automatic batching, and configurable flushing.',
+  platforms: [
+    'swift',
+    'android'
+  ],
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+`AmplifyCloudWatchClient` is a standalone client for sending application logs to [Amazon CloudWatch Logs](https://aws.amazon.com/cloudwatch/). It provides:
+
+- Local persistence for offline support
+- Automatic batching and interval-based flushing (default: every 60 seconds)
+- Integration with Amplify logging as a log sink
+- Per-namespace and per-user log level constraints
+- Enable/disable toggle that silently drops new logs while preserving cached ones
+
+<Callout warning>
+
+This is an experimental API. These public APIs are subject to change and are not meant for production code.
+
+<InlineFilter filters={['swift']}>
+
+You must opt in by importing the module with the `AmplifyExperimental` SPI:
+
+```swift
+@_spi(AmplifyExperimental) import AmplifyCloudWatchClient
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+You must opt in by annotating your usage with `@OptIn(ExperimentalAmplifyApi::class)`.
+
+</InlineFilter>
+
+</Callout>
+
+<Callout>
+
+This is a standalone client, separate from the Amplify Logging category plugin. It communicates directly with the CloudWatch Logs API.
+
+</Callout>
+
+<Callout>
+
+Before using this client, ensure your backend is configured with the required log group and IAM permissions. See [Set up CloudWatch Logs](/[platform]/build-a-backend/add-aws-services/logging/cloudwatch/).
+
+</Callout>
+
+## Getting started
+
+### Installation
+
+<InlineFilter filters={['android']}>
+
+Add the dependency to your module's `build.gradle.kts`:
+
+```kotlin
+dependencies {
+    implementation("com.amplifyframework:aws-cloudwatch:ANDROID_VERSION")
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+Add `AmplifyCloudWatchClient` to your project using Swift Package Manager. In Xcode, go to **File > Add Package Dependencies** and enter the repository URL for the [Amplify Swift library](https://github.com/aws-amplify/amplify-swift): `https://github.com/aws-amplify/amplify-swift`.
+
+</InlineFilter>
+
+### Initialize the client
+
+The `logGroupName` is required. It must match a CloudWatch log group your app has permission to write to.
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.cloudwatch.AmplifyCloudWatchClient
+import com.amplifyframework.cloudwatch.AmplifyCloudWatchClientOptions
+
+val cloudWatch = AmplifyCloudWatchClient(
+    context = applicationContext,
+    region = "us-east-1",
+    credentialsProvider = credentialsProvider,
+    options = AmplifyCloudWatchClientOptions {
+        logGroupName = "/app/my-android-app"
+    }
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+@_spi(AmplifyExperimental) import AmplifyCloudWatchClient
+
+let cloudWatch = try AmplifyCloudWatchClient(
+    region: "us-east-1",
+    credentialsProvider: credentialsProvider,
+    options: .init(logGroupName: "/app/my-ios-app")
+)
+```
+
+</InlineFilter>
+
+### Configuration options
+
+You can customize the client behavior through the options object:
+
+<InlineFilter filters={['android']}>
+
+| Option | Default | Description |
+|---|---|---|
+| `logGroupName` | *(required)* | The CloudWatch log group logs are sent to. |
+| `localStoreMaxSizeInMB` | 5 | Maximum size of the local log cache in MB. |
+| `flushStrategy` | `FlushStrategy.Interval()` (60s) | Automatic flush interval. Use `FlushStrategy.None` for manual-only flushing. |
+| `loggingConstraints` | `LoggingConstraints()` | Per-namespace and per-user log level rules. |
+| `configureClient` | `null` | Escape hatch to customize the underlying AWS SDK `CloudWatchLogsClient`. |
+
+```kotlin
+import com.amplifyframework.cloudwatch.AmplifyCloudWatchClientOptions
+import com.amplifyframework.cloudwatch.FlushStrategy
+import com.amplifyframework.cloudwatch.LoggingConstraints
+import com.amplifyframework.logging.LogLevel
+import kotlin.time.Duration.Companion.seconds
+
+val options = AmplifyCloudWatchClientOptions {
+    logGroupName = "/app/my-android-app"
+    localStoreMaxSizeInMB = 10
+    flushStrategy = FlushStrategy.Interval(30.seconds)
+    loggingConstraints = LoggingConstraints(defaultLogLevel = LogLevel.Verbose)
+    configureClient {
+        retryStrategy { maxAttempts = 10 }
+    }
+}
+```
+
+To disable automatic flushing:
+
+```kotlin
+options = AmplifyCloudWatchClientOptions {
+    logGroupName = "/app/my-android-app"
+    flushStrategy = FlushStrategy.None
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+| Option | Default | Description |
+|---|---|---|
+| `logGroupName` | *(required)* | The CloudWatch log group logs are sent to. |
+| `localStoreMaxSizeInMB` | 5 | Maximum size of the local log cache in MB. |
+| `flushStrategy` | `.interval()` (60s) | Automatic flush interval. Use `.none` for manual-only flushing. |
+| `loggingConstraints` | `LoggingConstraints()` | Per-namespace and per-user log level rules. |
+| `configureClient` | `nil` | Closure to customize the underlying `CloudWatchLogsClientConfig`. |
+
+```swift
+let cloudWatch = try AmplifyCloudWatchClient(
+    region: "us-east-1",
+    credentialsProvider: credentialsProvider,
+    options: .init(
+        logGroupName: "/app/my-ios-app",
+        localStoreMaxSizeInMB: 10,
+        flushStrategy: .interval(30),
+        loggingConstraints: LoggingConstraints(defaultLogLevel: .verbose),
+        configureClient: { config in
+            // Customize the underlying CloudWatchLogsClientConfig
+        }
+    )
+)
+```
+
+To disable automatic flushing:
+
+```swift
+options: .init(logGroupName: "/app/my-ios-app", flushStrategy: .none)
+```
+
+</InlineFilter>
+
+## Usage
+
+### Register as a logging sink
+
+<InlineFilter filters={['swift']}>
+
+The client implements AmplifyFoundation's [`LogSinkBehavior`](https://github.com/aws-amplify/amplify-swift/blob/main/AmplifyFoundation/Sources/Logging/LogSinkBehavior.swift) protocol. Register it once to capture every message logged through Amplify logging:
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+The client implements AmplifyFoundation's [`LogSink`](https://github.com/aws-amplify/amplify-android/blob/main/foundation/src/commonMain/kotlin/com/amplifyframework/foundation/logging/LogSink.kt) interface. Register it once to capture every message logged through Amplify logging:
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.logging.AmplifyLogging
+
+AmplifyLogging.addSink(cloudWatch)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+AmplifyLogging.addSink(cloudWatch)
+
+let log = AmplifyLogging.logger(for: "Storage")
+log.info("Upload started")
+```
+
+</InlineFilter>
+
+### Emit a message directly
+
+You can also send a log message to the client without going through Amplify logging:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.logging.LogLevel
+import com.amplifyframework.logging.LogMessage
+
+cloudWatch.emit(LogMessage(LogLevel.Error, "MyNamespace", "Something went wrong", null))
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+cloudWatch.emit(message: LogMessage(logLevel: .error, namespace: "MyNamespace", message: "Something went wrong"))
+```
+
+</InlineFilter>
+
+Messages emitted while the client is disabled are silently dropped.
+
+### Flush logs
+
+The client automatically flushes cached logs at the configured interval (default: 60 seconds). You can also trigger a manual flush:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+when (val result = cloudWatch.flushLogs()) {
+    is Result.Success -> println("Flushed: ${result.data.flushed}")
+    is Result.Failure -> println("Flush error: ${result.error}")
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+try await cloudWatch.flushLogs()
+```
+
+</InlineFilter>
+
+Manual flushes work even when the client is disabled, allowing you to drain cached logs without re-enabling collection.
+
+### Enable and disable
+
+You can toggle log collection and automatic flushing at runtime. When disabled, new logs are silently dropped but already-cached logs remain in storage.
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+cloudWatch.disable()
+// Logs are dropped, auto-flush paused
+
+cloudWatch.enable()
+// Collection and auto-flush resume
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+cloudWatch.disable()
+// Logs are dropped, auto-flush paused
+
+cloudWatch.enable()
+// Collection and auto-flush resume
+```
+
+</InlineFilter>
+
+### Set the user identifier
+
+Associate cached and future logs with a user identifier, for example after sign-in.
+
+<InlineFilter filters={['android']}>
+
+Pass `null` to clear it on sign-out.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+Pass `nil` to clear it on sign-out.
+
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+cloudWatch.setUserIdentifier("user-123")
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+cloudWatch.setUserIdentifier("user-123")
+```
+
+</InlineFilter>
+
+### Set logging constraints
+
+Update the log level rules at runtime, for example after fetching remote configuration:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.cloudwatch.LoggingConstraints
+import com.amplifyframework.logging.LogLevel
+
+cloudWatch.setLoggingConstraints(
+    LoggingConstraints(
+        defaultLogLevel = LogLevel.Warn,
+        namespaceLogLevel = mapOf("Storage" to LogLevel.Debug)
+    )
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+cloudWatch.setLoggingConstraints(
+    LoggingConstraints(
+        defaultLogLevel: .warn,
+        namespaceLogLevel: ["Storage": .debug]
+    )
+)
+```
+
+</InlineFilter>
+
+### Observe events
+
+The client surfaces write and flush failures through an events stream so you can react to persistent problems:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+import com.amplifyframework.cloudwatch.LoggingEvent
+import kotlinx.coroutines.flow.collect
+
+cloudWatch.events.collect { event ->
+    when (event) {
+        is LoggingEvent.WriteLogFailure -> { /* handle write failure */ }
+        is LoggingEvent.FlushLogFailure -> { /* handle flush failure */ }
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+import Combine
+
+let cancellable = cloudWatch.events.sink { event in
+    switch event {
+    case .writeLogFailure(let context, let error):
+        // handle write failure
+        break
+    case .flushLogFailure(let context, let error):
+        // handle flush failure
+        break
+    }
+}
+```
+
+</InlineFilter>
+
+## Advanced
+
+### Escape hatch
+
+Access the underlying AWS SDK `CloudWatchLogsClient` for operations not covered by this client's API:
+
+<InlineFilter filters={['android']}>
+
+```kotlin
+val sdkClient = cloudWatch.getCloudWatchLogsClient()
+// Use sdkClient for direct CloudWatch Logs API calls
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+```swift
+let sdkClient = cloudWatch.getCloudWatchLogsClient()
+// Use sdkClient for direct CloudWatch Logs API calls
+```
+
+</InlineFilter>
+
+### Error handling
+
+Operations surface errors through a sealed error hierarchy:
+
+<InlineFilter filters={['android']}>
+
+| Error type | Description |
+|---|---|
+| `AmplifyCloudWatchStorageException` | Local storage error (file I/O, log rotation). |
+| `AmplifyCloudWatchServiceException` | A CloudWatch Logs API call failed. |
+| `AmplifyCloudWatchConfigurationException` | The client was misconfigured. |
+| `AmplifyCloudWatchUnknownException` | Unexpected or uncategorized error. |
+
+`flushLogs()` returns `Result<FlushData, AmplifyCloudWatchException>`:
+
+```kotlin
+when (val result = cloudWatch.flushLogs()) {
+    is Result.Success -> { /* success */ }
+    is Result.Failure -> when (result.error) {
+        is AmplifyCloudWatchStorageException -> { /* storage error */ }
+        is AmplifyCloudWatchServiceException -> { /* service error */ }
+        is AmplifyCloudWatchConfigurationException -> { /* misconfiguration */ }
+        is AmplifyCloudWatchUnknownException -> { /* unexpected error */ }
+    }
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={['swift']}>
+
+| Error type | Description |
+|---|---|
+| `CloudWatchError.storage` | Local storage error (file I/O, log rotation). |
+| `CloudWatchError.service` | A CloudWatch Logs API call failed. |
+| `CloudWatchError.configuration` | The client was misconfigured. |
+| `CloudWatchError.unknown` | Unexpected or uncategorized error. |
+
+The initializer and `flushLogs()` throw `CloudWatchError`:
+
+```swift
+do {
+    try await cloudWatch.flushLogs()
+} catch let error as CloudWatchError {
+    switch error {
+    case .storage(let desc, _, _):
+        print("Storage error: \(desc)")
+    case .service(let desc, _, _):
+        print("Service error: \(desc)")
+    case .configuration(let desc, _, _):
+        print("Configuration error: \(desc)")
+    case .unknown(let desc, _, _):
+        print("Unknown error: \(desc)")
+    }
+}
+```
+
+</InlineFilter>
+
+### CloudWatch Logs service limits
+
+The client batches logs to stay within the CloudWatch Logs `PutLogEvents` limits:
+
+| Limit | Value |
+|---|---|
+| Max batch size | 1 MB |
+| Max events per batch | 10,000 |
+| Max single event size | 256 KB |

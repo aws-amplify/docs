@@ -1,0 +1,115 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Supported frameworks',
+  description: 'Frameworks supported by self-managed hosting and their feature capabilities.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+When you call `defineHosting()`, the construct auto-detects your framework by inspecting `package.json` dependencies. Each framework maps to a specific build adapter that determines which hosting features are available.
+
+## Detected frameworks
+
+The following frameworks are detected automatically:
+
+**Next.js** — Detected when `next` is present in your dependencies. Uses the `@opennextjs/aws` adapter to deploy server-rendered pages, API routes, middleware, and image optimization as Lambda@Edge or AWS Lambda functions behind Amazon CloudFront.
+
+**Nuxt / Nitro** — Detected from `nuxt` or `nitropack` in dependencies. Uses the Nitro server engine with an AWS Lambda adapter for server routes, middleware, and hybrid rendering.
+
+**Astro** — Detected when `astro` is present in your dependencies. Supports both static output and on-demand server rendering through its SSR adapter.
+
+**SvelteKit** — Detected when `@sveltejs/kit` is present in your dependencies. Uses the SvelteKit adapter for server routes and hybrid rendering.
+
+**Static / React SPA / Vite / CRA** — Fallback when no server framework is detected. Your app is built as static files and served directly from Amazon S3 through Amazon CloudFront with no server compute required.
+
+**Custom frameworks** — If your framework is not auto-detected, provide a `customAdapter`. This is the only way to add an unsupported framework, and it takes a single form: a synchronous `FrameworkAdapterFn` — `(projectDir: string) => DeployManifest`. The function inspects/builds the project at `projectDir` and returns a `DeployManifest`.
+
+A **`DeployManifest`** is the framework-agnostic contract between an adapter and the hosting construct: it describes *what* to deploy, so the construct never needs framework-specific knowledge. It is a **TypeScript type** exported from `@aws-amplify/hosting` — your adapter returns it in-process at synth time. The object is JSON-serializable, but you do not author or validate it as a standalone `.json` file, and there is **no separate published JSON Schema** for it (unlike [`amplify_outputs.json`](/[platform]/reference/amplify_outputs/)); the `DeployManifest` type *is* the schema, enforced by TypeScript. Every built-in adapter produces one. Its top-level fields:
+
+- `version` — the manifest **format** version (currently the literal `1`); present so the shape can evolve compatibly, not a pointer to an external schema document.
+- `staticAssets` — the built static output: `{ directory, immutablePaths?, noCachePaths?, spaFallback? }`.
+- `compute` — named SSR compute functions (`Record<string, ComputeResource>`); empty `{}` for a static site.
+- `routes` — rules mapping request paths to a compute function or to static assets.
+- Optional: `cache` (ISR), `imageOptimization`, `middleware`, `redirects`/`rewrites`/`headers`.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+import type { FrameworkAdapterFn } from '@aws-amplify/hosting';
+
+// A static-only adapter: point the construct at a pre-built output directory,
+// with no server compute. Add entries to `compute` and `routes` to serve SSR.
+const customAdapter: FrameworkAdapterFn = (projectDir) => ({
+  version: 1,
+  staticAssets: {
+    directory: `${projectDir}/dist`,
+    // Long-lived, content-hashed assets that can be cached immutably.
+    immutablePaths: ['assets/*'],
+    // Serve every navigation request from index.html (single-page app).
+    spaFallback: true
+  },
+  compute: {},
+  routes: []
+});
+
+export const hosting = defineHosting({ customAdapter });
+```
+
+The adapter runs at synth time and must return the manifest synchronously (do any building inside the function). For SSR frameworks, populate `compute` with the server handler(s) and `routes` with the request-routing rules; see the built-in adapters (`@opennextjs/aws` for Next.js, Nitro for Nuxt) as references.
+
+## Feature matrix
+
+The table below shows which features each framework supports when deployed with self-managed hosting.
+
+| Feature | Next.js | Nuxt / Nitro | Astro | Static / SPA |
+|---------|---------|--------------|-------|--------------|
+| Static hosting | ✅ | ✅ | ✅ | ✅ |
+| Server-side rendering | ✅ | ✅ | ✅ | — |
+| Streaming SSR | ✅ | ✅ | ✅ | — |
+| Streaming (RSC) | ✅ | — | — | — |
+| Middleware (edge) | ✅ | ✅ | ✅ | — |
+| Image optimization | ✅ | ✅ | ✅ | — |
+| ISR with revalidation | ✅ | — | — | — |
+| SWR (stale-while-revalidate) | ✅ | ✅ | — | — |
+| Atomic deployments | ✅ | ✅ | ✅ | ✅ |
+| Custom domains | ✅ | ✅ | ✅ | ✅ |
+| WAF | ✅ | ✅ | ✅ | ✅ |
+
+**SvelteKit** is also supported (via `@sveltejs/adapter-node` for server-side rendering, plus static and prerendered output). Static hosting, SSR, atomic deployments, custom domains, and WAF apply the same as the other SSR frameworks; per-feature support for the remaining rows is being finalized.
+
+## Feature details
+
+**Streaming SSR** enables your application to send HTML to the browser in chunks as each component resolves, rather than waiting for the full page. This reduces time-to-first-byte and lets users see content sooner.
+
+**Streaming (RSC)** is a Next.js-specific capability that streams React Server Component payloads to the client. Server components render on the server without client-side JavaScript, and their output streams to the browser as it becomes ready.
+
+**ISR with revalidation** allows Next.js pages to be statically generated at build time and then regenerated on-demand after a configured time interval. Subsequent requests receive the updated page without a full redeploy.
+
+**SWR (stale-while-revalidate)** serves cached responses immediately while fetching updated content in the background. The next request after revalidation completes receives the fresh response.
+
+**Middleware (edge)** runs code at Amazon CloudFront edge locations before the request reaches your origin server. Use it for redirects, rewrites, authentication checks, A/B testing, and header manipulation.
+
+**Image optimization** automatically resizes, reformats, and caches images on-demand through an AWS Lambda function. Requests for images are processed at the configured quality and dimensions, then served through the CDN.
+
+**Atomic deployments** ensure that all assets for a deployment become available at the same instant. There is no window where old and new assets are mixed, preventing broken references during rollouts.

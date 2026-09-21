@@ -1,0 +1,193 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Set up notifications',
+  description:
+    'Add push notifications to your Amplify backend with the defineNotifications construct, either by creating a new Amazon Connect instance or by attaching to an existing Customer Profiles domain.',
+  platforms: [
+    'javascript',
+    'react-native',
+    'swift',
+    'android',
+    'flutter',
+    'angular',
+    'nextjs',
+    'react',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+The `defineNotifications` construct adds an Amazon Connect Customer Profiles-backed push notification resource to your Amplify backend.
+
+## Prerequisites
+
+Before you begin, complete the following steps:
+
+1. Add authentication to your backend. The notification APIs are called with [Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) signed requests using Amazon Cognito identity pool credentials, so an `auth` resource is required. Both signed-in and guest users can call the APIs; see [Guest access](/[platform]/build-a-backend/auth/concepts/guest-access/).
+2. Install the notifications package:
+
+```bash title="Terminal" showLineNumbers={false}
+npm add @aws-amplify/backend-notifications
+```
+
+3. Gather the credentials for each push channel you want to enable:
+
+   - **Apple Push Notification service (APNs)**: a token-based signing key (`.p8`), its key ID, your Apple team ID, and your application's bundle ID.
+   - **Firebase Cloud Messaging (FCM)**: the service account JSON for your Firebase project.
+
+4. Store the sensitive credentials as secrets. The signing key and the service account JSON are referenced with `secret()` rather than written into your backend code:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox secret set APNS_SIGNING_KEY
+npx ampx sandbox secret set FCM_SERVICE_ACCOUNT_JSON
+```
+
+To learn more about secrets, see [Environment variables and secrets](/[platform]/build-a-backend/functions/environment-variables-and-secrets/).
+
+## Choose how the Customer Profiles domain is provisioned
+
+`defineNotifications` supports two modes. The mode is determined by whether you pass `domainName`.
+
+<BlockSwitcher>
+<Block name="Create a new Amazon Connect instance">
+
+Omit `domainName` to create everything from scratch. Amplify provisions a new Amazon Connect instance and a new Customer Profiles domain, then registers the `AmplifyProfile` object type into that domain. No pre-existing Amazon Connect setup is required.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { defineNotifications } from '@aws-amplify/backend-notifications';
+import { auth } from './auth/resource';
+
+defineBackend({
+  auth,
+  notifications: defineNotifications()
+});
+```
+
+Two optional properties are available in this mode:
+
+- `instanceAlias`: the alias for the new Amazon Connect instance. Aliases are globally unique within an AWS Region. When you omit this property, Amplify generates a stable name for your Amplify project.
+- `expirationDays`: how long Customer Profiles retains profile data in the new domain.
+
+```ts title="amplify/backend.ts"
+notifications: defineNotifications({
+  instanceAlias: 'my-app-notifications',
+  expirationDays: 90
+});
+```
+
+<Callout info>
+
+The first deployment in this mode takes longer than a typical Amplify deployment because it provisions an Amazon Connect instance and a Customer Profiles domain.
+
+</Callout>
+
+</Block>
+<Block name="Use an existing Customer Profiles domain">
+
+Pass `domainName` to attach to a Customer Profiles domain that already exists. Amplify registers the `AmplifyProfile` object type into that domain additively, and does not create an Amazon Connect instance or a domain.
+
+```ts title="amplify/backend.ts"
+import { defineBackend } from '@aws-amplify/backend';
+import { defineNotifications } from '@aws-amplify/backend-notifications';
+import { auth } from './auth/resource';
+
+defineBackend({
+  auth,
+  notifications: defineNotifications({
+    domainName: 'amazon-connect-my-instance'
+  })
+});
+```
+
+`instanceAlias` and `expirationDays` apply only when Amplify creates the domain, so they cannot be combined with `domainName`.
+
+For the requirements your existing domain must meet, see [Use existing resources](/[platform]/build-a-backend/add-aws-services/notifications/existing-resources/).
+
+</Block>
+</BlockSwitcher>
+
+## Configure push channels
+
+Add `apns`, `fcm`, or both to enable the corresponding channel on the AWS End User Messaging application that Amplify creates. Channels are optional and independent; omit one to leave it unconfigured.
+
+```ts title="amplify/backend.ts"
+import { defineBackend, secret } from '@aws-amplify/backend';
+import { defineNotifications } from '@aws-amplify/backend-notifications';
+import { auth } from './auth/resource';
+
+defineBackend({
+  auth,
+  notifications: defineNotifications({
+    apns: {
+      tokenKey: secret('APNS_SIGNING_KEY'),
+      tokenKeyId: 'A1B2C3D4E5',
+      teamId: 'T9S8R7Q6P5',
+      bundleId: 'com.example.myapp'
+    },
+    fcm: {
+      serviceJson: secret('FCM_SERVICE_ACCOUNT_JSON')
+    }
+  })
+});
+```
+
+The `apns` properties are:
+
+| Property | Required | Description |
+| --- | --- | --- |
+| `tokenKey` | Yes | The contents of your APNs token signing key (`.p8`), supplied with `secret()`. |
+| `tokenKeyId` | Yes | The ID of the signing key. |
+| `teamId` | Yes | Your Apple developer team ID. |
+| `bundleId` | Yes | The bundle ID of your application. |
+| `sandbox` | No | Set to `true` to send through the APNs sandbox environment, which is used for development builds. Defaults to `false`. |
+
+The `fcm` property is:
+
+| Property | Required | Description |
+| --- | --- | --- |
+| `serviceJson` | Yes | The contents of your Firebase service account JSON, supplied with `secret()`. |
+
+<Callout warning>
+
+Pass `tokenKey` and `serviceJson` with `secret()`. Do not paste the key material into `amplify/backend.ts`; it would be committed to your repository.
+
+</Callout>
+
+## Deploy and review the outputs
+
+Deploy the resource to your personal cloud sandbox:
+
+```bash title="Terminal" showLineNumbers={false}
+npx ampx sandbox
+```
+
+When the deployment finishes, the invoke endpoint and region are written to `amplify_outputs.json`:
+
+```json title="amplify_outputs.json"
+{
+  "notifications": {
+    "amazon_connect": {
+      "endpoint": "https://abcdefghij.execute-api.us-east-1.amazonaws.com",
+      "aws_region": "us-east-1"
+    }
+  }
+}
+```
+
+## Next steps
+
+- [Author message templates](/[platform]/build-a-backend/add-aws-services/notifications/author-message-templates/): create the push message content in Amazon Q in Connect.

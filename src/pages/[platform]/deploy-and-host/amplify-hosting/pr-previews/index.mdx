@@ -1,0 +1,130 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Fullstack previews',
+  description:
+    'Set up ephemeral fullstack environments with pull request previews.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+
+}
+
+With fullstack previews, you can set up ephemeral fullstack environments on every pull request. This allows you to test features in isolation from production. Once fullstack previews are enabled, your typical workflow would look like the following diagram:
+
+![Pull request workflow detailing how Amplify handles the deployment of ephemeral environments](/images/gen2/fullstack-branching/previews.png)
+
+1. Your `main` (production branch) and `featureA` branch are deployed on Amplify.
+1. You and your team work on `featureA` until it's ready.
+1. The `featureA` branch is updated to `main` HEAD and then a pull request to `main` is opened.
+1. The pull request preview is deployed on Amplify and available at `pr-1.appid.amplifyapp.com`.
+1. Once the pull request is merged into `main`, the request is closed and the fullstack environment is also automatically torn down.
+
+## Prerequisites
+
+Before you get started, make sure you have the following:
+
+- [A fullstack Amplify app deployed](/[platform]/start/quickstart/)
+- Ensure that your git repository is private. For security purposes, fullstack previews are disabled for public repositories with Amplify backend templates.
+
+
+## Enable fullstack previews
+
+To enable fullstack web previews for your Amplify app, follow these steps:
+
+1. Login to the [Amplify console](https://console.aws.amazon.com/amplify/home) and select your app.
+
+2. Navigate to **Hosting > Previews**. Select the **`main`** branch and click on **Edit settings**. 
+![Amplify console page displaying the list of branches for the previews functionality](/images/gen2/fullstack-branching/previews-1.png)
+
+3. Click on the **Pull request previews** toggle button and choose **Confirm** to enable previews.
+![Amplify console page displaying a toggle button to enable the previews functionality](/images/gen2/fullstack-branching/previews-2.png)
+
+4. Done! You have successfully enabled previews on the production branch.
+![Amplify console page displaying the main branch with previews functionality enabled](/images/gen2/fullstack-branching/previews-3.png)
+
+5. Ship updates to the `dev` branch. Now, when you create a pull request for the `main` branch, Amplify will build and deploy your fullstack PR and provide you with a preview URL.
+![Amplify console page displaying the main, dev, and preview branch](/images/gen2/fullstack-branching/previews-4.png)
+
+For **GitHub repositories only**, you can access your preview URL directly on the pull request from the Amplify Hosting's bot comment:
+
+![GitHub pull request displaying preview URL in a bot comment](/images/gen2/fullstack-branching/previews-5.png)
+
+After the pull request is merged or closed, the preview URL is deleted and any ephemeral fullstack environment is also deleted.
+
+## Share backend resources across Preview branches
+
+Fullstack previews allow teams a way to preview changes from pull requests before merging code to a production branch. Pull requests let you tell others about changes you’ve pushed to a branch in a repository and the changes can be reviewed by accessing the preview URL. When previews are enabled on a git branch, by default every pull request created against the git branch creates an ephemeral fullstack environment.
+
+In some instances, you may not want to deploy new resources for every preview branch. For example, you might want all your preview branches to point to the backend resources deployed by the `dev` branch so you can reuse seed data, users, and groups.
+
+To achieve this, you can update your app build settings to reuse backend resources across your preview branches. In the Amplify console, select your app on the **All apps** page. From the **App overview** page, select **Hosting > Build settings** to view your app's build specification YAML file.
+
+![The build specification YAML file on the Build settings page in Amplify console.](/images/gen2/fullstack-branching/preview-settings.png)
+
+Update the build settings for the `backend` phase to run `npx ampx generate outputs --branch dev app-id $AWS_APP_ID` to generate the `amplify_outputs.json` file for all preview branches. After this update, any new deployed preview branches will not deploy backend resources as part of the build and instead will use the deployed backend resources from the `dev` branch.
+
+```yaml title="amplify.yml"
+version: 1
+backend:
+    phases:
+        build:
+            commands:
+                - 'npm ci --cache .npm --prefer-offline'
+                - 'echo $AWS_BRANCH'
+                - |
+                  // highlight-start
+                  case "${AWS_BRANCH}" in
+                      main)
+                          echo "Deploying main branch..."
+                          npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+                          ;;
+                      dev)
+                          echo "Deploying dev branch..."
+                          npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+                          ;;
+                      pr-*)
+                          echo "Deploying pull request branch..."
+                          npx ampx generate outputs --branch dev --app-id $AWS_APP_ID 
+                          ;;
+                      *)
+                          echo "Deploying to staging branch..."
+                          npx ampx generate outputs --branch staging --app-id $AWS_APP_ID 
+                          ;;
+                  esac
+                  // highlight-end
+frontend:
+    phases:
+        build:
+            commands:
+                - 'npm run build'
+    artifacts:
+        baseDirectory: .amplify-hosting
+        files:
+            - '**/*'
+    cache:
+        paths:
+            - .next/cache/**/*
+            - .npm/**/*
+            - node_modules/**/*
+```

@@ -513,6 +513,24 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/build-a-backend/add-aws-services/notifications/index.mdx',
+              section: 'backend',
+              children: [
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/notifications/set-up-notifications/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/notifications/author-message-templates/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/notifications/existing-resources/index.mdx',
+                  section: 'backend'
+                }
+              ]
+            },
+            {
               path: 'src/pages/[platform]/build-a-backend/add-aws-services/pinpoint-migration/index.mdx',
               section: 'backend'
             },
@@ -598,6 +616,10 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/view-logs/index.mdx',
+                  section: 'backend'
+                },
+                {
+                  path: 'src/pages/[platform]/build-a-backend/add-aws-services/logging/cloudwatch/index.mdx',
                   section: 'backend'
                 }
               ]
@@ -874,6 +896,35 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/identify-user/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/register-device/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/remove-device/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/guest-and-authenticated-users/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/request-permissions/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/manage-device-token/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/interact-with-notifications/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/frontend/push-notifications/customer-profiles/app-badge-count/index.mdx'
+                }
+              ]
+            },
+            {
               path: 'src/pages/[platform]/frontend/geo/index.mdx',
               children: [
                 {
@@ -968,6 +1019,9 @@ export const directory = {
             {
               path: 'src/pages/[platform]/frontend/logging/index.mdx',
               children: [
+                {
+                  path: 'src/pages/[platform]/frontend/logging/cloudwatch/index.mdx'
+                },
                 {
                   path: 'src/pages/[platform]/frontend/logging/send-logs/index.mdx'
                 },
@@ -1192,7 +1246,56 @@ export const directory = {
           section: 'hosting',
           children: [
             {
-              path: 'src/pages/[platform]/deploy-and-host/hosting/index.mdx'
+              path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/branch-deployments/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/pr-previews/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/secrets-and-vars/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/share-resources/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/custom-pipelines/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/cross-account-deployments/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/mono-and-multi-repos/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/amplify-hosting/monorepos/index.mdx'
+                }
+              ]
+            },
+            {
+              path: 'src/pages/[platform]/deploy-and-host/self-hosting/index.mdx',
+              children: [
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/getting-started/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/frameworks/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/define-hosting/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/secrets-and-environment-variables/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/define-pipeline/index.mdx'
+                },
+                {
+                  path: 'src/pages/[platform]/deploy-and-host/self-hosting/external-pipelines/index.mdx'
+                }
+              ]
             },
             {
               path: 'src/pages/[platform]/deploy-and-host/sandbox-environments/index.mdx',
@@ -1205,35 +1308,6 @@ export const directory = {
                 },
                 {
                   path: 'src/pages/[platform]/deploy-and-host/sandbox-environments/seed/index.mdx'
-                }
-              ]
-            },
-            {
-              path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/index.mdx',
-              children: [
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/branch-deployments/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/secrets-and-vars/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/share-resources/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/mono-and-multi-repos/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/monorepos/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/pr-previews/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/index.mdx'
-                },
-                {
-                  path: 'src/pages/[platform]/deploy-and-host/fullstack-branching/cross-account-deployments/index.mdx'
                 }
               ]
             }

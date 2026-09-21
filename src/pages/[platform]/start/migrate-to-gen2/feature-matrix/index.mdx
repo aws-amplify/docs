@@ -217,7 +217,7 @@ In Gen 1, deployment was typically done via `amplify push` (backend) and `amplif
 
 #### Amplify Hosting
 
-The simplest path is to connect your Git branch in the Amplify Console (_App Settings → Branch Settings → Add Branch_). See [branch deployments](https://docs.amplify.aws/react/deploy-and-host/fullstack-branching/branch-deployments/) for details.
+The simplest path is to connect your Git branch in the Amplify Console (_App Settings → Branch Settings → Add Branch_). See [branch deployments](https://docs.amplify.aws/react/deploy-and-host/amplify-hosting/branch-deployments/) for details.
 
 If you use a custom backend pipeline but still want Amplify Hosting for the frontend, update the `amplify.yml` build spec to run `npx ampx generate outputs` instead of `pipeline-deploy`, and use an incoming webhook to trigger the frontend build after your backend pipeline succeeds.
 
@@ -226,6 +226,10 @@ If you use a custom backend pipeline but still want Amplify Hosting for the fron
 If your Gen 1 app uses **manual deployment** (i.e. it is not connected to a Git repository), the Amplify Console does not allow you to add Git-based branch deployments to the same app. In this case, you must create a new Amplify app and connect your Git repository to it.
 
 </Callout>
+
+#### Self-managed hosting
+
+If you need direct access to your infrastructure or want to deploy to your own AWS account, you can use [self-managed hosting](/[platform]/deploy-and-host/self-hosting/). Define your hosting configuration with `defineHosting()` and deploy using `ampx deploy` or a CI/CD pipeline you control.
 
 #### Custom Pipelines
 
@@ -257,7 +261,7 @@ The `--branch` parameter is a logical name, not a Git ref. You can use any strin
 
 </Callout>
 
-See the [custom pipelines guide](/[platform]/deploy-and-host/fullstack-branching/custom-pipelines/) for full details.
+See the [custom pipelines guide](/[platform]/deploy-and-host/amplify-hosting/custom-pipelines/) for full details.
 
 #### Frontend Hosting Without Amplify
 

@@ -127,5 +127,5 @@ export const NEXT_PREVIOUS_SECTIONS = [
   '/[platform]/build-a-backend/add-aws-services/',
   '/[platform]/build-ui/formbuilder/',
   '/[platform]/deploy-and-host/sandbox-environments/',
-  '/[platform]/deploy-and-host/fullstack-branching/'
+  '/[platform]/deploy-and-host/amplify-hosting/'
 ];

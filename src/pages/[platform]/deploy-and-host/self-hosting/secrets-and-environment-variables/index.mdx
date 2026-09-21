@@ -1,0 +1,163 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Secrets and environment variables',
+  description: 'Inject non-sensitive environment variables, and reference secrets and configuration without baking values into your infrastructure.',
+  platforms: [
+    'android',
+    'angular',
+    'flutter',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'swift',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      meta
+    }
+  };
+}
+
+Self-managed hosting distinguishes between three kinds of values you can make available to your server-side compute:
+
+- **Plain environment variables** — non-sensitive literals baked into the CloudFormation template.
+- **Secrets** — sensitive values (API keys, credentials) stored in AWS Secrets Manager.
+- **Configuration** — non-sensitive but rotatable values stored in AWS Systems Manager (SSM) Parameter Store.
+
+Secrets and configuration are referenced *by key* in your infrastructure. Only the store locator is injected into your compute — the value itself never enters the CloudFormation template and can be changed without a redeploy.
+
+## Plain environment variables
+
+Use the `environment` option for non-sensitive literals such as feature flags, region names, or public URLs. These appear in plaintext in the CloudFormation template, so never put a secret here.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  environment: {
+    APP_REGION: 'us-east-1',
+    ENABLE_BETA_FEATURES: 'false'
+  }
+});
+```
+
+Read them at runtime with the standard `process.env`:
+
+```ts
+const region = process.env.APP_REGION;
+```
+
+## Secrets
+
+For a sensitive value, reference it with `secret('KEY')`. This tells the hosting construct to inject a locator for a value stored in AWS Secrets Manager — the value never enters the template.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting, secret } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  environment: {
+    STRIPE_SECRET_KEY: secret('STRIPE_SECRET_KEY')
+  }
+});
+```
+
+Set the value out of band with the `ampx secret` command before (or after) you deploy:
+
+```bash title="Terminal"
+npx ampx secret set STRIPE_SECRET_KEY sk_live_xxx
+```
+
+Then read it at runtime from the CDK-free runtime entry:
+
+```ts title="Server code"
+import { getSecret } from '@aws-amplify/hosting/runtime';
+
+const stripeKey = await getSecret('STRIPE_SECRET_KEY');
+```
+
+<Callout>
+
+Import runtime helpers from `@aws-amplify/hosting/runtime`, not `@aws-amplify/hosting`. The runtime entry is free of AWS CDK dependencies, so it stays out of your server bundle.
+
+</Callout>
+
+## Configuration
+
+Configuration values behave like secrets but are stored in SSM Parameter Store. Use them for values that are not sensitive but should be changeable without a redeploy (for example, a per-environment domain or a feature-flag payload). Reference them with `config('KEY')` and read them with `getConfig('KEY')`.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting, config } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  environment: {
+    FEATURE_FLAGS: config('FEATURE_FLAGS')
+  }
+});
+```
+
+```bash title="Terminal"
+npx ampx config set FEATURE_FLAGS '{"newCheckout":true}'
+```
+
+```ts title="Server code"
+import { getConfig } from '@aws-amplify/hosting/runtime';
+
+const flags = JSON.parse(await getConfig('FEATURE_FLAGS'));
+```
+
+Both command families support `set`, `get`, `list`, and `remove` — for example `npx ampx secret list` or `npx ampx config remove FEATURE_FLAGS`.
+
+## Referencing existing resources
+
+If a secret or parameter already exists (managed by another team, stack, or process), reference it directly instead of having Amplify manage it. Use `byoSecret()` with a Secrets Manager name or ARN, and `byoConfig()` with an SSM parameter name. No CLI `set` step is required — you manage the value externally.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting, byoSecret, byoConfig } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  environment: {
+    DB_PASSWORD: byoSecret('arn:aws:secretsmanager:us-east-1:123456789012:secret:prod/db-AbCdEf'),
+    LAUNCH_DARKLY_ENV: byoConfig('/my-org/launchdarkly/prod')
+  }
+});
+```
+
+Read them the same way — `getSecret('DB_PASSWORD')` and `getConfig('LAUNCH_DARKLY_ENV')`.
+
+## Where values are stored
+
+By default, Amplify namespaces the stores per project so multiple apps in one account do not collide:
+
+- Secrets: `/amplify/hosting/<project>/secrets/<KEY>`
+- Config: `/amplify/hosting/<project>/config/<KEY>`
+
+Override the prefix — or add a per-stage segment — with the `secretStore` and `configStore` options. A `stage` resolves to `<prefix>/<stage>/<KEY>` and falls back to the shared `<prefix>/<KEY>`, which is useful when several pipeline stages share one store.
+
+```ts title="amplify/hosting.ts"
+import { defineHosting, secret } from '@aws-amplify/hosting';
+
+export const hosting = defineHosting({
+  environment: {
+    STRIPE_SECRET_KEY: secret('STRIPE_SECRET_KEY')
+  },
+  secretStore: {
+    prefix: '/my-org/hosting/secrets',
+    stage: 'prod'
+  }
+});
+```
+
+## Next steps
+
+- [Configure hosting](/[platform]/deploy-and-host/self-hosting/define-hosting/) for domains, WAF, and compute
+- [Set up a CI/CD pipeline](/[platform]/deploy-and-host/self-hosting/define-pipeline/) with per-stage configuration
