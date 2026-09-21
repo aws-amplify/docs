@@ -124,6 +124,12 @@ Before starting the migration, carefully review the [Backend Categories](/[platf
 
 ## Prerequisites
 
+<Callout warning>
+
+**Gen 2 requires Amplify JavaScript v6.** Gen 2 backends are not compatible with `aws-amplify` v5. If your frontend is still on v5, you must complete the [v5 to v6 migration](/gen1/[platform]/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/) before proceeding with the Gen 2 migration.
+
+</Callout>
+
 ### DataStore
 
 If your API has conflict resolution enabled (DataStore), you must disable it before proceeding with the Gen 2 migration. See the [Migrate from DataStore](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/) guide for instructions.
