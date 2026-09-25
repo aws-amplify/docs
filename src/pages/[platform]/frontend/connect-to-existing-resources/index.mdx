@@ -3,7 +3,7 @@ import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 export const meta = {
   title: 'Connect to existing AWS resources',
   description:
-    'Use Amplify client libraries with your own AWS infrastructure. Configure Auth, Data, Storage, Analytics, Geo, and Notifications programmatically or via amplify_outputs.json — no Amplify backend required.',
+    'Use Amplify client libraries with your own AWS infrastructure. Configure Auth, Data, Storage, Analytics, Geo, and Notifications programmatically or via amplify_outputs.json, with no Amplify backend required.',
   platforms: [
     'android',
     'angular',
@@ -32,7 +32,7 @@ export function getStaticProps(context) {
 
 Amplify client libraries can be used **independently** without the Amplify backend workflow. If you've provisioned AWS resources with CDK, Terraform, CloudFormation, or the AWS Console, you can connect Amplify libraries directly to those resources.
 
-This means you can adopt Amplify's client libraries for authentication, data, storage, and more — while keeping full control over your infrastructure.
+This means you can adopt Amplify's client libraries for authentication, data, storage, and more, while keeping full control over your infrastructure.
 
 ## When to use this approach
 
@@ -45,28 +45,7 @@ This means you can adopt Amplify's client libraries for authentication, data, st
 
 <InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
 
-There are two ways to configure Amplify client libraries with your own resources:
-
-### Option 1: Manual `amplify_outputs.json`
-
-Create an `amplify_outputs.json` file in your project with the configuration for your resources. See the [full `amplify_outputs.json` specification](/[platform]/reference/amplify_outputs/) for all supported fields.
-
-```json title="amplify_outputs.json"
-{
-  "version": "1",
-  "auth": {
-    "aws_region": "us-east-1",
-    "user_pool_id": "us-east-1_abc123",
-    "user_pool_client_id": "abcdef123456"
-  },
-  "storage": {
-    "aws_region": "us-east-1",
-    "bucket_name": "my-app-bucket"
-  }
-}
-```
-
-Then configure Amplify in your app:
+The default path is a generated `amplify_outputs.json` file that you hand to `Amplify.configure()`:
 
 ```typescript
 import { Amplify } from 'aws-amplify';
@@ -75,9 +54,81 @@ import outputs from './amplify_outputs.json';
 Amplify.configure(outputs);
 ```
 
-### Option 2: Direct `Amplify.configure()` with a `ResourcesConfig` object
+When you own the infrastructure there is no generated file, so you provide the configuration yourself. There are three ways to do that:
 
-Pass the configuration directly without a JSON file:
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
+`createConfigurationBuilder`, exported from `aws-amplify`, assembles a `ResourcesConfig` step by step. Every method returns the builder, and `build()` produces a frozen `ResourcesConfig` that `Amplify.configure()` accepts:
+
+```typescript
+import { Amplify, createAmplifyContext, createConfigurationBuilder } from 'aws-amplify';
+
+const config = createConfigurationBuilder()
+  .auth({
+    Cognito: {
+      userPoolId: 'us-east-1_abc123',
+      userPoolClientId: 'abcdef123456'
+    }
+  })
+  .storage({ S3: { bucket: 'my-app-bucket', region: 'us-east-1' } })
+  .build();
+
+Amplify.configure(config);
+// or
+const ctx = createAmplifyContext(config);
+```
+
+| Method | Description |
+|--------|-------------|
+| `from(seed)` | Merges an existing configuration in. Accepts anything `Amplify.configure()` accepts: a `ResourcesConfig`, a legacy `aws-exports` object, `amplify_outputs.json`, or **another builder**. Can be called repeatedly to accumulate, and is also available as `createConfigurationBuilder({ from })`. |
+| `add(category, value)` | Adds a category, **replacing** it entirely if already present. |
+| `patch(category, partial)` | Deep-merges a partial into a category, keeping nested values you don't mention. Creates the category if it doesn't exist. |
+| `auth()`, `api()`, `storage()`, `analytics()`, `geo()`, `notifications()`, `interactions()`, `predictions()` | Shorthands for `add()` with that category: `.auth(config)` is `.add('Auth', config)`. |
+| `build()` | Returns the finished, frozen `ResourcesConfig`. |
+
+**Configure part of a configuration.** `patch()` deep-merges into a category, so you can change one nested value and leave the rest of it alone. This is the difference between the two write methods: `add('Auth', …)` (and its `auth()` shorthand) discards whatever `Auth` held, while `patch()` keeps it.
+
+```typescript
+const config = createConfigurationBuilder({ from: outputs })
+  // Everything else under Auth.Cognito survives
+  .patch('Auth', { Cognito: { userPoolId: 'us-east-1_dev123' } })
+  // Add or overwrite a category outright, whether or not the outputs file carries it
+  .add('Storage', { S3: { bucket: 'my-platform-bucket', region: 'us-east-1' } })
+  .build();
+```
+
+**Extend a base builder.** A builder is itself a valid seed, so one shared base can produce environment-specific configurations without being mutated:
+
+```typescript
+// Owned by your platform team, never passed to configure() directly
+const base = createConfigurationBuilder({ from: outputs });
+
+const dev = createConfigurationBuilder({ from: base })
+  .patch('Auth', { Cognito: { userPoolId: 'us-east-1_dev123' } })
+  .build();
+
+const prod = createConfigurationBuilder({ from: base })
+  .patch('Auth', { Cognito: { userPoolId: 'us-east-1_prod789' } })
+  .build();
+```
+
+**Write generators.** Because `build()` returns a plain object, a function that closes over the shared base turns a single varying value into a whole configuration:
+
+```typescript
+const withUserPool = (userPoolId: string) =>
+  createConfigurationBuilder({ from: base })
+    .patch('Auth', { Cognito: { userPoolId } })
+    .build();
+
+Amplify.configure(withUserPool('us-east-1_dev123'));
+```
+
+</Block>
+<Block name="Manual configuration">
+
+Pass a `ResourcesConfig` object straight to `Amplify.configure()`. Nothing is merged for you, so every call states the complete configuration:
 
 ```typescript
 import { Amplify } from 'aws-amplify';
@@ -102,6 +153,45 @@ Amplify.configure({
 });
 ```
 
+This is the most direct option when your app has exactly one configuration and it never varies at runtime.
+
+</Block>
+<Block name="Handwritten definition">
+
+Keep the configuration in a file of your own and import it, the way a generated `amplify_outputs.json` is imported. Amplify only cares about the shape, so the file name is yours to choose. See the [full `amplify_outputs.json` specification](/[platform]/reference/amplify_outputs/) for every supported field:
+
+```json title="my_resources.json"
+{
+  "version": "1.5",
+  "auth": {
+    "aws_region": "us-east-1",
+    "user_pool_id": "us-east-1_abc123",
+    "user_pool_client_id": "abcdef123456"
+  },
+  "storage": {
+    "aws_region": "us-east-1",
+    "bucket_name": "my-app-bucket"
+  }
+}
+```
+
+```typescript
+import { Amplify, createAmplifyContext } from 'aws-amplify';
+import resources from './my_resources.json';
+
+Amplify.configure(resources);
+// or
+const ctx = createAmplifyContext(resources);
+```
+
+Because the file is checked in as data, this option keeps the configuration out of your application code while still letting you hold several of them: one file per environment, each imported where it is needed.
+
+</Block>
+
+</BlockSwitcher>
+
+The built `ResourcesConfig` is a plain object either way, so it works anywhere a configuration is accepted: pass it to `Amplify.configure()` to set it globally, or to `createAmplifyContext()` to create an isolated [local context](/[platform]/frontend/local-context/) instead of touching global state.
+
 </InlineFilter>
 
 <InlineFilter filters={['swift']}>
@@ -114,7 +204,7 @@ Create an `amplify_outputs.json` file in your Xcode project. See the [full speci
 
 ```json title="amplify_outputs.json"
 {
-  "version": "1",
+  "version": "1.5",
   "auth": {
     "aws_region": "us-east-1",
     "user_pool_id": "us-east-1_abc123",
@@ -152,9 +242,9 @@ try Amplify.configure(config)
 ```
 
 This approach is ideal for:
-- **Unit testing** — Configure Amplify without bundling JSON files
-- **Environment switching** — Build different configurations for dev/staging/prod
-- **Dynamic configuration** — Fetch configuration from a remote source at runtime
+- **Unit testing:** Configure Amplify without bundling JSON files
+- **Environment switching:** Build different configurations for dev/staging/prod
+- **Dynamic configuration:** Fetch configuration from a remote source at runtime
 
 </InlineFilter>
 
@@ -168,7 +258,7 @@ Create an `amplify_outputs.json` file in your `app/src/main/res/raw/` directory.
 
 ```json title="amplify_outputs.json"
 {
-  "version": "1",
+  "version": "1.5",
   "auth": {
     "aws_region": "us-east-1",
     "user_pool_id": "us-east-1_abc123",
@@ -207,9 +297,9 @@ Amplify.configure(config, applicationContext)
 ```
 
 This approach is ideal for:
-- **Unit testing** — Configure Amplify without bundling JSON files
-- **Environment switching** — Build different configurations for dev/staging/prod
-- **Dynamic configuration** — Fetch configuration from a remote source at runtime
+- **Unit testing:** Configure Amplify without bundling JSON files
+- **Environment switching:** Build different configurations for dev/staging/prod
+- **Dynamic configuration:** Fetch configuration from a remote source at runtime
 
 </InlineFilter>
 
@@ -223,7 +313,7 @@ Create an `amplify_outputs.json` file with your resource configuration. See the 
 
 ```json title="amplify_outputs.json"
 {
-  "version": "1",
+  "version": "1.5",
   "auth": {
     "aws_region": "us-east-1",
     "user_pool_id": "us-east-1_abc123",
@@ -267,9 +357,9 @@ await Amplify.configure(config);
 ```
 
 This approach is ideal for:
-- **Unit testing** — Configure Amplify without bundling files
-- **Environment switching** — Build different configurations for dev/staging/prod
-- **Dynamic configuration** — Fetch configuration from a remote source at runtime
+- **Unit testing:** Configure Amplify without bundling files
+- **Environment switching:** Build different configurations for dev/staging/prod
+- **Dynamic configuration:** Fetch configuration from a remote source at runtime
 
 </InlineFilter>
 
@@ -279,7 +369,49 @@ Connect to an existing Cognito User Pool and Identity Pool.
 
 <InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
 
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
 ```typescript
+import { Amplify, createAmplifyContext, createConfigurationBuilder } from 'aws-amplify';
+
+const config = createConfigurationBuilder()
+  .auth({
+    Cognito: {
+      userPoolId: 'us-east-1_abc123',
+      userPoolClientId: 'abcdef123456',
+      identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555',
+      loginWith: {
+        email: true
+      },
+      signUpVerificationMethod: 'code',
+      userAttributes: {
+        email: { required: true }
+      },
+      allowGuestAccess: true,
+      passwordFormat: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireNumbers: true,
+        requireSpecialCharacters: true
+      }
+    }
+  })
+  .build();
+
+Amplify.configure(config);
+// or
+const ctx = createAmplifyContext(config);
+```
+
+</Block>
+<Block name="Manual configuration">
+
+```typescript
+import { Amplify } from 'aws-amplify';
+
 Amplify.configure({
   Auth: {
     Cognito: {
@@ -305,6 +437,10 @@ Amplify.configure({
   }
 });
 ```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -439,16 +575,35 @@ await Amplify.configure(config);
 
 ### Auth required fields
 
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+Fields of `ResourcesConfig['Auth']`, the object both tabs above build:
+
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | Yes | AWS region (e.g. `us-east-1`) |
-| `userPoolId` | Yes | Cognito User Pool ID |
-| `userPoolClientId` | Yes | Cognito app client ID |
-| `identityPoolId` | No | Cognito Identity Pool ID (needed for guest access and IAM-based auth) |
-| `passwordPolicy` | No | Password requirements (min length, character types) |
-| `oauth` | No | OAuth/Hosted UI configuration (social sign-in) |
-| `mfaConfiguration` | No | MFA mode: `NONE`, `OPTIONAL`, or `REQUIRED` |
-| `mfaMethods` | No | MFA types: `SMS`, `TOTP` |
+| `Cognito.userPoolId` | With a user pool | Cognito User Pool ID |
+| `Cognito.userPoolClientId` | With a user pool | Cognito app client ID |
+| `Cognito.identityPoolId` | With an identity pool | Cognito Identity Pool ID, needed for guest access and for IAM-signed requests |
+
+There is no region field: the region is read from the user pool and identity pool IDs. `Cognito` accepts the user pool fields, the identity pool fields, or both, so an identity-pool-only configuration cannot carry `userPoolId`.
+
+Every other field is optional. See [`AuthConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Auth/types.ts) for the full type.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift', 'android', 'flutter']}>
+
+Fields of the `auth` block in `amplify_outputs.json`:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `aws_region` | Yes | AWS region (e.g. `us-east-1`) |
+| `user_pool_id` | Yes | Cognito User Pool ID |
+| `user_pool_client_id` | Yes | Cognito app client ID |
+
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+
+</InlineFilter>
 
 ## Configure Data (AWS AppSync)
 
@@ -456,25 +611,58 @@ Connect to an existing AppSync GraphQL API.
 
 <InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
 
-```json title="amplify_outputs.json"
-{
-  "version": "1",
-  "data": {
-    "aws_region": "us-east-1",
-    "url": "https://abc123.appsync-api.us-east-1.amazonaws.com/graphql",
-    "api_key": "da2-abcdefghijklmno",
-    "default_authorization_type": "API_KEY",
-    "authorization_types": ["API_KEY"]
-  }
-}
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
+```typescript
+import { Amplify, createAmplifyContext, createConfigurationBuilder } from 'aws-amplify';
+
+const config = createConfigurationBuilder()
+  .api({
+    GraphQL: {
+      endpoint:
+        'https://abc123.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      apiKey: 'da2-abcdefghijklmno',
+      defaultAuthMode: 'apiKey'
+    }
+  })
+  .build();
+
+Amplify.configure(config);
+// or
+const ctx = createAmplifyContext(config);
 ```
+
+</Block>
+<Block name="Manual configuration">
 
 ```typescript
 import { Amplify } from 'aws-amplify';
-import outputs from './amplify_outputs.json';
 
-Amplify.configure(outputs);
+Amplify.configure({
+  API: {
+    GraphQL: {
+      endpoint:
+        'https://abc123.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      apiKey: 'da2-abcdefghijklmno',
+      defaultAuthMode: 'apiKey'
+    }
+  }
+});
 ```
+
+</Block>
+
+</BlockSwitcher>
+
+<Callout info>
+
+In a `ResourcesConfig` object the AppSync API lives under `API.GraphQL`, and `defaultAuthMode` takes the client-side value, one of `apiKey`, `userPool`, `identityPool`, `oidc`, `lambda`, or `none`, rather than the `API_KEY` style used in `amplify_outputs.json`.
+
+</Callout>
 
 </InlineFilter>
 
@@ -540,13 +728,36 @@ await Amplify.configure(config);
 
 ### Data required fields
 
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+Fields of `ResourcesConfig['API']`, the object both tabs above build:
+
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | Yes | AWS region |
+| `GraphQL.endpoint` | Yes | AppSync GraphQL endpoint URL |
+| `GraphQL.defaultAuthMode` | Yes | `apiKey`, `userPool`, `identityPool`, `oidc`, `lambda`, or `none`. `iam` is the deprecated spelling of `identityPool` |
+| `GraphQL.apiKey` | With `apiKey` auth | AppSync API key |
+| `GraphQL.region` | With `identityPool` auth | Region used to sign the request |
+
+Every other field is optional. See [`APIConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/API/types.ts) for the full type.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift', 'android', 'flutter']}>
+
+Fields of the `data` block in `amplify_outputs.json`:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `aws_region` | Yes | AWS region |
 | `url` | Yes | AppSync GraphQL endpoint URL |
-| `defaultAuthorizationType` | Yes | Default auth mode: `API_KEY`, `AMAZON_COGNITO_USER_POOLS`, `AWS_IAM`, or `OPENID_CONNECT` |
-| `authorizationTypes` | Yes | All supported auth modes |
-| `apiKey` | No | Required if using `API_KEY` auth |
+| `default_authorization_type` | Yes | Default auth mode: `AMAZON_COGNITO_USER_POOLS`, `API_KEY`, `AWS_IAM`, `AWS_LAMBDA`, or `OPENID_CONNECT` |
+| `authorization_types` | Yes | Every auth mode the API accepts, from the same list |
+| `api_key` | With `API_KEY` auth | AppSync API key |
+
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+
+</InlineFilter>
 
 ## Configure Storage (Amazon S3)
 
@@ -554,7 +765,35 @@ Connect to an existing S3 bucket.
 
 <InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
 
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
 ```typescript
+import { Amplify, createAmplifyContext, createConfigurationBuilder } from 'aws-amplify';
+
+const config = createConfigurationBuilder()
+  .auth({
+    Cognito: {
+      userPoolId: 'us-east-1_abc123',
+      userPoolClientId: 'abcdef123456',
+      identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555'
+    }
+  })
+  .storage({ S3: { bucket: 'my-app-bucket', region: 'us-east-1' } })
+  .build();
+
+Amplify.configure(config);
+// or
+const ctx = createAmplifyContext(config);
+```
+
+</Block>
+<Block name="Manual configuration">
+
+```typescript
+import { Amplify } from 'aws-amplify';
+
 Amplify.configure({
   Auth: {
     Cognito: {
@@ -571,6 +810,53 @@ Amplify.configure({
   }
 });
 ```
+
+</Block>
+
+</BlockSwitcher>
+
+### Multiple buckets
+
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
+```typescript
+const config = createConfigurationBuilder()
+  .storage({
+    S3: {
+      bucket: 'primary-bucket',
+      region: 'us-east-1',
+      buckets: {
+        media: { bucketName: 'my-media-bucket', region: 'us-east-1' },
+        logs: { bucketName: 'my-logs-bucket', region: 'us-west-2' }
+      }
+    }
+  })
+  .build();
+```
+
+</Block>
+<Block name="Manual configuration">
+
+```typescript
+Amplify.configure({
+  Storage: {
+    S3: {
+      bucket: 'primary-bucket',
+      region: 'us-east-1',
+      buckets: {
+        media: { bucketName: 'my-media-bucket', region: 'us-east-1' },
+        logs: { bucketName: 'my-logs-bucket', region: 'us-west-2' }
+      }
+    }
+  }
+});
+```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -696,7 +982,7 @@ final config = AmplifyOutputs(
 
 </InlineFilter>
 
-<Callout informational>
+<Callout info>
 
 Storage requires Auth (Cognito Identity Pool) for authorization. Always configure Auth alongside Storage.
 
@@ -704,11 +990,33 @@ Storage requires Auth (Cognito Identity Pool) for authorization. Always configur
 
 ### Storage required fields
 
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+Fields of `ResourcesConfig['Storage']`, the object both tabs above build:
+
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | Yes | AWS region |
-| `bucketName` | Yes | Default S3 bucket name |
-| `buckets` | No | Additional named buckets for multi-bucket setups |
+| `S3.bucket` | For the default bucket | Bucket used by calls that do not name one |
+| `S3.region` | For the default bucket | Region of that bucket |
+| `S3.buckets[name].bucketName`, `S3.buckets[name].region` | With additional buckets | Each extra bucket is keyed by the friendly name you pass to the Storage APIs |
+
+Every other field is optional. See [`StorageConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Storage/types.ts) for the full type.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift', 'android', 'flutter']}>
+
+Fields of the `storage` block in `amplify_outputs.json`:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `aws_region` | Yes | AWS region |
+| `bucket_name` | Yes | Default S3 bucket name |
+| `buckets[].name`, `buckets[].bucket_name`, `buckets[].aws_region` | With additional buckets | All three are required on every entry |
+
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+
+</InlineFilter>
 
 ## Configure Analytics (Amazon Pinpoint)
 
@@ -716,17 +1024,46 @@ Connect to an existing Pinpoint application.
 
 <InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
 
-```json title="amplify_outputs.json"
-{
-  "version": "1",
-  "analytics": {
-    "amazon_pinpoint": {
-      "aws_region": "us-east-1",
-      "app_id": "abc123def456"
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
+```typescript
+import { Amplify, createAmplifyContext, createConfigurationBuilder } from 'aws-amplify';
+
+const config = createConfigurationBuilder()
+  .analytics({
+    Pinpoint: {
+      appId: 'abc123def456',
+      region: 'us-east-1'
+    }
+  })
+  .build();
+
+Amplify.configure(config);
+// or
+const ctx = createAmplifyContext(config);
+```
+
+</Block>
+<Block name="Manual configuration">
+
+```typescript
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Analytics: {
+    Pinpoint: {
+      appId: 'abc123def456',
+      region: 'us-east-1'
     }
   }
-}
+});
 ```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -784,34 +1121,102 @@ await Amplify.configure(config);
 
 </InlineFilter>
 
+### Analytics required fields
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+Fields of `ResourcesConfig['Analytics']`, the object both tabs above build:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `Pinpoint.appId` | Yes | Pinpoint application (project) ID |
+| `Pinpoint.region` | Yes | Region of the Pinpoint project |
+
+Every other field is optional. See [`AnalyticsConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Analytics/types.ts) for the full type.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift', 'android', 'flutter']}>
+
+Fields of the `analytics.amazon_pinpoint` block in `amplify_outputs.json`:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `aws_region` | Yes | AWS region of the Pinpoint project |
+| `app_id` | Yes | Pinpoint application (project) ID |
+
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+
+</InlineFilter>
+
 ## Configure Geo (Amazon Location Service)
 
 Connect to existing Location Service resources.
 
 <InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
 
-```json title="amplify_outputs.json"
-{
-  "version": "1",
-  "geo": {
-    "aws_region": "us-east-1",
-    "maps": {
-      "items": {
-        "myMap": { "style": "VectorEsriStreets" }
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
+```typescript
+import { Amplify, createAmplifyContext, createConfigurationBuilder } from 'aws-amplify';
+
+const config = createConfigurationBuilder()
+  .geo({
+    LocationService: {
+      region: 'us-east-1',
+      maps: {
+        items: { myMap: { style: 'VectorEsriStreets' } },
+        default: 'myMap'
       },
-      "default": "myMap"
-    },
-    "search_indices": {
-      "items": ["myPlaceIndex"],
-      "default": "myPlaceIndex"
-    },
-    "geofence_collections": {
-      "items": ["myGeofenceCollection"],
-      "default": "myGeofenceCollection"
+      searchIndices: {
+        items: ['myPlaceIndex'],
+        default: 'myPlaceIndex'
+      },
+      geofenceCollections: {
+        items: ['myGeofenceCollection'],
+        default: 'myGeofenceCollection'
+      }
+    }
+  })
+  .build();
+
+Amplify.configure(config);
+// or
+const ctx = createAmplifyContext(config);
+```
+
+</Block>
+<Block name="Manual configuration">
+
+```typescript
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Geo: {
+    LocationService: {
+      region: 'us-east-1',
+      maps: {
+        items: { myMap: { style: 'VectorEsriStreets' } },
+        default: 'myMap'
+      },
+      searchIndices: {
+        items: ['myPlaceIndex'],
+        default: 'myPlaceIndex'
+      },
+      geofenceCollections: {
+        items: ['myGeofenceCollection'],
+        default: 'myGeofenceCollection'
+      }
     }
   }
-}
+});
 ```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -873,6 +1278,40 @@ Amplify.configure(config, applicationContext)
 
 </InlineFilter>
 
+### Geo required fields
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+Fields of `ResourcesConfig['Geo']`, the object both tabs above build:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `LocationService.region` | Yes | Region of the Location Service resources |
+| `LocationService.maps.items`, `LocationService.maps.default` | With `maps` | Maps keyed by name, plus the default map name |
+| `LocationService.searchIndices.items`, `LocationService.searchIndices.default` | With `searchIndices` | Place index names, plus the default index |
+| `LocationService.geofenceCollections.items`, `LocationService.geofenceCollections.default` | With `geofenceCollections` | Collection names, plus the default collection |
+
+Every other field is optional. See [`GeoConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Geo/types.ts) for the full type.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift', 'android', 'flutter']}>
+
+Fields of the `geo` block in `amplify_outputs.json`:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `aws_region` | Yes | AWS region of the Location Service resources |
+| `maps.items`, `maps.default` | With `maps` | Maps keyed by name, plus the default map name |
+| `search_indices.items`, `search_indices.default` | With `search_indices` | Place index names, plus the default index |
+| `geofence_collections.items`, `geofence_collections.default` | With `geofence_collections` | Collection names, plus the default collection |
+
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+
+</InlineFilter>
+
+Each resource group is optional on its own, but configure the ones your app actually calls: the Geo APIs need a default for the resource type they use.
+
 ## Configure Notifications (Push)
 
 Connect to an existing Pinpoint application for push notifications.
@@ -914,11 +1353,11 @@ Amplify.configure(config, applicationContext)
 
 </InlineFilter>
 
-<InlineFilter filters={['flutter', 'javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+<InlineFilter filters={['flutter']}>
 
 ```json title="amplify_outputs.json"
 {
-  "version": "1",
+  "version": "1.5",
   "notifications": {
     "aws_region": "us-east-1",
     "amazon_pinpoint_app_id": "abc123def456",
@@ -926,6 +1365,94 @@ Amplify.configure(config, applicationContext)
   }
 }
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
+```typescript
+import { Amplify, createAmplifyContext, createConfigurationBuilder } from 'aws-amplify';
+
+const config = createConfigurationBuilder()
+  .notifications({
+    PushNotification: {
+      Pinpoint: { appId: 'abc123def456', region: 'us-east-1' }
+    },
+    InAppMessaging: {
+      Pinpoint: { appId: 'abc123def456', region: 'us-east-1' }
+    }
+  })
+  .build();
+
+Amplify.configure(config);
+// or
+const ctx = createAmplifyContext(config);
+```
+
+</Block>
+<Block name="Manual configuration">
+
+```typescript
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Notifications: {
+    PushNotification: {
+      Pinpoint: { appId: 'abc123def456', region: 'us-east-1' }
+    },
+    InAppMessaging: {
+      Pinpoint: { appId: 'abc123def456', region: 'us-east-1' }
+    }
+  }
+});
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+### Notifications required fields
+
+<InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
+
+Fields of `ResourcesConfig['Notifications']`, the object both tabs above build. At least one of `PushNotification` and `InAppMessaging` must be present:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `PushNotification.Pinpoint.appId`, `PushNotification.Pinpoint.region` | For Pinpoint push | Pinpoint project backing push device registration |
+| `PushNotification.CustomerProfiles.endpoint`, `PushNotification.CustomerProfiles.region` | For Amazon Connect push | Amazon Connect Customer Profiles endpoint backing push device registration |
+| `InAppMessaging.Pinpoint.appId`, `InAppMessaging.Pinpoint.region` | For in-app messaging | Pinpoint project backing in-app messages |
+
+Every other field is optional. See [`NotificationsConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Notifications/types.ts) for the full type.
+
+</InlineFilter>
+
+<InlineFilter filters={['swift', 'android', 'flutter']}>
+
+Fields of the `notifications` block in `amplify_outputs.json`:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `aws_region` | For Pinpoint | AWS region of the Pinpoint project |
+| `amazon_pinpoint_app_id` | For Pinpoint | Pinpoint application ID |
+| `channels` | For Pinpoint | Channels to enable: `APNS`, `FCM`, `IN_APP_MESSAGING`, `EMAIL`, or `SMS`. At least one entry, no duplicates |
+| `amazon_connect.aws_region`, `amazon_connect.endpoint` | With Amazon Connect | Customer Profiles endpoint used for push device registration |
+
+No field is required on its own: a Pinpoint setup needs the region, the app ID, and at least one channel, while an Amazon Connect setup needs only `amazon_connect`.
+
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+
+</InlineFilter>
+
+<InlineFilter filters={['angular', 'javascript', 'nextjs', 'react', 'react-native', 'vue']}>
+
+In a `ResourcesConfig` object there is no `channels` list: which channels are active follows from the providers you configure, `PushNotification` and `InAppMessaging`. `amazon_connect` becomes `Notifications.PushNotification.CustomerProfiles` with `endpoint` and `region`.
 
 </InlineFilter>
 
@@ -1028,7 +1555,45 @@ await Amplify.configure(config);
 
 <InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
 
+<BlockSwitcher>
+
+<Block name="Configuration builder">
+
 ```typescript
+import { Amplify, createAmplifyContext, createConfigurationBuilder } from 'aws-amplify';
+
+const config = createConfigurationBuilder()
+  .auth({
+    Cognito: {
+      userPoolId: 'us-east-1_abc123',
+      userPoolClientId: 'abcdef123456',
+      identityPoolId: 'us-east-1:11111111-2222-3333-4444-555555555555'
+    }
+  })
+  .api({
+    GraphQL: {
+      endpoint:
+        'https://abc123.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
+      defaultAuthMode: 'userPool'
+    }
+  })
+  .storage({ S3: { bucket: 'my-app-bucket', region: 'us-east-1' } })
+  .build();
+
+Amplify.configure(config);
+// or
+const ctx = createAmplifyContext(config);
+```
+
+Chaining also means a category can come from somewhere else entirely: seed the builder with a shared configuration and add only what this app owns.
+
+</Block>
+<Block name="Manual configuration">
+
+```typescript
+import { Amplify } from 'aws-amplify';
+
 Amplify.configure({
   Auth: {
     Cognito: {
@@ -1039,7 +1604,9 @@ Amplify.configure({
   },
   API: {
     GraphQL: {
-      endpoint: 'https://abc123.appsync-api.us-east-1.amazonaws.com/graphql',
+      endpoint:
+        'https://abc123.appsync-api.us-east-1.amazonaws.com/graphql',
+      region: 'us-east-1',
       defaultAuthMode: 'userPool'
     }
   },
@@ -1051,6 +1618,10 @@ Amplify.configure({
   }
 });
 ```
+
+</Block>
+
+</BlockSwitcher>
 
 </InlineFilter>
 
@@ -1182,7 +1753,28 @@ await Amplify.configure(config);
 
 <InlineFilter filters={['javascript', 'angular', 'nextjs', 'react', 'react-native', 'vue']}>
 
-You can maintain separate `amplify_outputs.json` files per environment:
+Keep one configuration per environment and select it at startup. With the builder, derive each one from a shared base so only the differing fields are restated. The generator pattern from [How it works](#how-it-works) applies directly:
+
+```typescript
+import { Amplify, createConfigurationBuilder } from 'aws-amplify';
+import outputs from './amplify_outputs.json';
+
+const base = createConfigurationBuilder({ from: outputs });
+
+const withUserPool = (userPoolId: string) =>
+  createConfigurationBuilder({ from: base })
+    .patch('Auth', { Cognito: { userPoolId } })
+    .build();
+
+const configs = {
+  dev: withUserPool('us-east-1_dev123'),
+  prod: withUserPool('us-east-1_prod789')
+};
+
+Amplify.configure(configs[selectedEnvironment]);
+```
+
+If the environments share nothing, keep a separate outputs file per environment instead:
 
 ```typescript
 import devOutputs from './amplify_outputs.dev.json';
@@ -1191,6 +1783,21 @@ import prodOutputs from './amplify_outputs.prod.json';
 const outputs = process.env.NODE_ENV === 'production' ? prodOutputs : devOutputs;
 Amplify.configure(outputs);
 ```
+
+### Several environments at the same time
+
+`Amplify.configure()` sets one process-wide configuration, so selecting an environment this way means the whole app moves with it. To keep more than one environment live at once, pass each configuration to `createAmplifyContext()` instead of to `configure()`, then hand the resulting context to the category APIs:
+
+```typescript
+import { createAmplifyContext } from 'aws-amplify';
+
+const environments = {
+  dev: createAmplifyContext(withUserPool('us-east-1_dev123')),
+  prod: createAmplifyContext(withUserPool('us-east-1_prod789'))
+};
+```
+
+See [Local context](/[platform]/frontend/local-context/) for what a context isolates, how to use one, and why it is a client-side API.
 
 </InlineFilter>
 
