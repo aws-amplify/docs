@@ -263,7 +263,9 @@ do {
 <InlineFilter filters={["flutter"]}>
 
 ```dart
-final memberWithRemovedTeam = existingMember.copyWith(team: null);
+final memberWithRemovedTeam = existingMember.copyWithModelFieldValues(
+  teamId: ModelFieldValue.value(null),
+);
 final memberRemoveRequest = ModelMutations.update(memberWithRemovedTeam);
 final memberRemoveResponse = await Amplify.API.mutate(request: memberRemoveRequest).response;
 ```
@@ -687,7 +689,9 @@ do {
 <InlineFilter filters={["flutter"]}>
 
 ```dart
-final cartWithRemovedCustomer = existingCart.copyWith(customer: null);
+final cartWithRemovedCustomer = existingCart.copyWithModelFieldValues(
+  customerId: ModelFieldValue.value(null),
+);
 final cartRemoveRequest = ModelMutations.update(cartWithRemovedCustomer);
 final cartRemoveResponse = await Amplify.API.mutate(request: cartRemoveRequest).response;
 ```
