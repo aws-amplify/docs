@@ -78,6 +78,12 @@ You can use the exported `runWithAmplifyServerContext` function to call Amplify 
 **Tip:** You only need to call the `createServerRunner` function once and reuse the `runWithAmplifyServerContext` function throughout.
 </Callout>
 
+<Callout info>
+
+**Note:** If your **client-side** code needs to hold several Amplify configurations at once, for example one per tenant or per environment, see [Local context](/[platform]/frontend/local-context/). For server-side code, use `runWithAmplifyServerContext` with the `/server` exports as described on this page.
+
+</Callout>
+
 </Block>
 <Block name="Configure Amplify for client-side usage">
 

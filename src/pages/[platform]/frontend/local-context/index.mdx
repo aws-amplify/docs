@@ -1,0 +1,202 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: 'Local context',
+  description:
+    'Create an isolated, local AmplifyContext with createAmplifyContext and pass it directly to Amplify category APIs, without relying on global singleton configuration.',
+  platforms: [
+    'angular',
+    'javascript',
+    'nextjs',
+    'react',
+    'react-native',
+    'vue'
+  ]
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+By default, Amplify uses a single, process-wide configuration created by `Amplify.configure()`. Every category API call (for example `signIn`, `fetchAuthSession`, or `getCurrentUser`) reads from this global singleton. That is the right default when your app talks to exactly one backend as one user at a time, but it means there is only ever **one** configuration and **one** auth state in the process.
+
+`aws-amplify` exposes `createAmplifyContext` for everything else. It builds a **local** `AmplifyContext`: an isolated configuration and auth handle that you pass explicitly to category APIs as their **first argument**. Each context carries its own resource configuration and its own per-context auth instance, so contexts never share state with one another or with the global singleton.
+
+This is not a server-side API. For server-side runtimes, keep using the server exports and `runWithAmplifyServerContext`. See [Use a local context or a server context?](#use-a-local-context-or-a-server-context).
+
+## When to use a local context
+
+Reach for `createAmplifyContext` whenever a single global configuration is not enough:
+
+- **Multiple profiles signed in at once:** for example a work profile and a personal profile side by side, each with its own session, without signing one out to use the other.
+- **Tenant switching:** hold a context per tenant/organization so switching does not tear down and re-configure Amplify globally.
+- **Environment switching:** point a build at alpha, beta, pre-prod, or prod backends from the same running app, which is useful for internal tooling, QA harnesses, and dashboards that compare environments side by side.
+
+<Callout>
+
+**Tip:** If your app talks to a single backend as one user at a time, keep using `Amplify.configure()` and call the APIs without a context argument. Nothing changes for you: the context parameter is optional and fully backward compatible.
+
+</Callout>
+
+## Create and use a local context
+
+<BlockSwitcher>
+
+<Block name="Local context">
+
+Import `createAmplifyContext` from `aws-amplify`, pass your backend outputs to create the context, then hand that context to any category API as its **first** positional argument. Unlike `Amplify.configure()`, creating a context does **not** set a global context and does **not** dispatch any Hub events: it simply returns a new, isolated context object, ready to use immediately.
+
+```typescript
+import { createAmplifyContext } from 'aws-amplify';
+import { signIn, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import outputs from './amplify_outputs.json';
+
+// Create the context
+const ctx = createAmplifyContext(outputs);
+
+// Sign in against the configuration carried by `ctx`
+await signIn(ctx, { username, password });
+
+// Read the current user from that same context
+const user = await getCurrentUser(ctx);
+const attributes = await fetchUserAttributes(ctx);
+```
+
+</Block>
+<Block name="Global context (Amplify.configure())">
+
+The context argument is optional. `Amplify.configure()` sets a single process-wide context, and calling an API without a leading context falls back to it, exactly as before local contexts existed. Nothing about this changes when you adopt `createAmplifyContext` elsewhere in your app.
+
+```typescript
+import { Amplify } from 'aws-amplify';
+import { signIn, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import outputs from './amplify_outputs.json';
+
+// Set the global context
+Amplify.configure(outputs);
+
+// Uses the global context, no context argument
+await signIn({ username, password });
+
+const user = await getCurrentUser();
+const attributes = await fetchUserAttributes();
+```
+
+</Block>
+
+</BlockSwitcher>
+
+### Library options are per context
+
+`createAmplifyContext` takes the same optional `libraryOptions` as `Amplify.configure()` as its second argument, and those options belong to that context alone. A custom token provider, credentials provider, or key-value storage passed here is used only by calls that receive this context: it is never shared with another context or with the global singleton.
+
+```typescript
+const ctx = createAmplifyContext(outputs, {
+  Auth: {
+    tokenProvider,
+    credentialsProvider
+  }
+});
+```
+
+If you do not pass any, the context resolves its own per-context Amazon Cognito token and credentials providers backed by `localStorage`. Either way the resulting token store is scoped to the context, which is what lets two contexts hold two signed-in users at the same time.
+
+## Use multiple isolated contexts
+
+Because each context is fully isolated, you can hold several at once and they will not share configuration or auth state. Each keeps its own session, so a user signed in through one context is unaffected by the others.
+
+### Multiple profiles signed in at once
+
+A user can be signed in to a work profile and a personal profile simultaneously, each with its own configuration and its own independent session.
+
+```typescript
+import { createAmplifyContext } from 'aws-amplify';
+import { signIn, getCurrentUser } from 'aws-amplify/auth';
+import workOutputs from './amplify_work_outputs.json';
+import personalOutputs from './amplify_personal_outputs.json';
+
+const workProfile = createAmplifyContext(workOutputs);
+const personalProfile = createAmplifyContext(personalOutputs);
+
+await signIn(workProfile, { username: workEmail, password: workPassword });
+await signIn(personalProfile, { username: personalEmail, password: personalPassword });
+
+// Both sessions are live and independent
+const workUser = await getCurrentUser(workProfile);
+const personalUser = await getCurrentUser(personalProfile);
+```
+
+### Switching environments
+
+Point the same running app at different backends, for example alpha, beta, pre-prod, and prod, without reconfiguring Amplify globally. This is useful for internal tools and QA dashboards that compare environments side by side.
+
+```typescript
+import { createAmplifyContext } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
+import alphaOutputs from './outputs/alpha.json';
+import betaOutputs from './outputs/beta.json';
+import prodOutputs from './outputs/prod.json';
+
+const environments = {
+  alpha: createAmplifyContext(alphaOutputs),
+  beta: createAmplifyContext(betaOutputs),
+  prod: createAmplifyContext(prodOutputs)
+};
+
+// Select the environment at runtime, no global reconfiguration needed
+const ctx = environments[selectedEnvironment];
+const session = await fetchAuthSession(ctx);
+```
+
+<Callout>
+
+**Note:** Before local contexts, switching backends at runtime meant calling `Amplify.configure()` again, which replaced the configuration for the whole app and reset the global auth state. Holding one context per environment avoids that.
+
+</Callout>
+
+## Error handling
+
+Context resolution surfaces two typed errors with stable `name` and `code` values, so you can catch them uniformly:
+
+| Error | When it is thrown |
+| --- | --- |
+| `NoAmplifyContextError` | An API was called without a context AND `Amplify.configure()` has not been called yet (no global context exists), or an explicit `undefined` was passed as the leading context argument. |
+| `InvalidAmplifyContextError` | An `AmplifyContext` was passed in a position other than the first argument. |
+
+```typescript
+import { getCurrentUser } from 'aws-amplify/auth';
+import { NoAmplifyContextError } from 'aws-amplify';
+
+try {
+  const user = await getCurrentUser(ctx);
+} catch (error) {
+  if (error instanceof NoAmplifyContextError) {
+    // No context available: call configure() or create one with createAmplifyContext()
+  }
+  throw error;
+}
+```
+
+## Use a local context or a server context?
+
+Local contexts are for **client-side** code. Server-side runtimes have their own mechanism, and the two are not interchangeable:
+
+- **Client:** use `createAmplifyContext` from `aws-amplify` and pass the context to the standard category APIs, as shown above.
+- **Server:** use `runWithAmplifyServerContext` from `@aws-amplify/adapter-nextjs`, calling the APIs exported from the `aws-amplify/<category>/server` sub-paths inside the `operation` callback. See [Server-Side Rendering](/[platform]/frontend/server-side-rendering/).
+
+The server exports exist to constrain the API surface: only a subset of Amplify APIs is supported server-side, and the `/server` sub-paths are what make that subset explicit. Reaching for a local context on the server would sidestep that boundary and let you call APIs that are not supported in a server runtime. Use the server context instead: it also derives auth state from the incoming request's cookies, which a local context does not do.
+
+<Callout info>
+
+Need more than one Amplify configuration, or more than one signed-in identity, at the same time in your client app? A local `AmplifyContext` is the recommended pattern.
+
+</Callout>

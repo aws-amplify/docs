@@ -844,6 +844,9 @@ export const directory = {
               ]
             },
             {
+              path: 'src/pages/[platform]/frontend/local-context/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/frontend/server-side-rendering/index.mdx',
               children: [
                 {
