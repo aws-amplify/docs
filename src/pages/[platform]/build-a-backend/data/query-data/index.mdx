@@ -244,7 +244,7 @@ type Post = Schema['Post']['type'];
 
 </InlineFilter>
 
-You can combine the `Schema["MODEL_NAME"]["type"]` type with the `SelectionSet` helper type to describe the return type of API requests using the `selectionSet` parameter:
+You can combine the `Schema["MODEL_NAME"]` type with the `SelectionSet` helper type to describe the return type of API requests using the `selectionSet` parameter:
 
 <InlineFilter filters={["react", "javascript", "nextjs", "react-native"]}>
 ```ts
@@ -253,7 +253,7 @@ import type { Schema } from '../amplify/data/resource';
 
 
 const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
-type PostWithComments = SelectionSet<Schema['Post']['type'], typeof selectionSet>;
+type PostWithComments = SelectionSet<Schema['Post'], typeof selectionSet>;
 
 // ...
 const [posts, setPosts] = useState<PostWithComments[]>([]);
@@ -280,7 +280,7 @@ const client = generateClient<Schema>();
 const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
 
 type PostWithComments = SelectionSet<
-  Schema['Post']['type'], 
+  Schema['Post'], 
   typeof selectionSet
 >;
 
@@ -316,7 +316,7 @@ const client = generateClient<Schema>();
 const selectionSet = ['content', 'blog.author.*', 'comments.*'] as const;
 
 type PostWithComments = SelectionSet<
-  Schema['Post']['type'],
+  Schema['Post'],
   typeof selectionSet
 >;
 
