@@ -53,7 +53,7 @@ Reach for `createAmplifyContext` whenever a single global configuration is not e
 
 <Block name="Local context">
 
-Import `createAmplifyContext` from `aws-amplify`, pass your backend outputs to create the context, then hand that context to any category API as its **first** positional argument. Unlike `Amplify.configure()`, creating a context does **not** set a global context and does **not** dispatch any Hub events: it simply returns a new, isolated context object, ready to use immediately.
+Import `createAmplifyContext` from `aws-amplify`, pass your backend outputs to create the context, then hand that context to any category API as its **first** positional argument. Unlike `Amplify.configure()`, creating a context does **not** set a global context and does **not** dispatch any Hub events: it returns a new, isolated context object, ready to use immediately.
 
 ```typescript
 import { createAmplifyContext } from 'aws-amplify';
@@ -165,21 +165,22 @@ const session = await fetchAuthSession(ctx);
 
 ## Error handling
 
-Context resolution surfaces two typed errors with stable `name` and `code` values, so you can catch them uniformly:
+Context resolution surfaces two typed errors with stable `name` values, so you can catch them uniformly:
 
 | Error | When it is thrown |
 | --- | --- |
-| `NoAmplifyContextError` | An API was called without a context AND `Amplify.configure()` has not been called yet (no global context exists), or an explicit `undefined` was passed as the leading context argument. |
-| `InvalidAmplifyContextError` | An `AmplifyContext` was passed in a position other than the first argument. |
+| `NoAmplifyContextError` | An API was called without a context AND `Amplify.configure()` has not been called yet (no global context exists), or `undefined` was passed as the leading context argument followed by other arguments. |
+| `InvalidAmplifyContextError` | A value that is not an `AmplifyContext` was passed as the first argument, or an `AmplifyContext` was passed in a position other than the first argument. |
+
+Catch them by `name`. The error classes are internal, so there is nothing to import, and a stable name keeps working even when two copies of a package end up in the same bundle:
 
 ```typescript
 import { getCurrentUser } from 'aws-amplify/auth';
-import { NoAmplifyContextError } from 'aws-amplify';
 
 try {
   const user = await getCurrentUser(ctx);
 } catch (error) {
-  if (error instanceof NoAmplifyContextError) {
+  if (error instanceof Error && error.name === 'NoAmplifyContextError') {
     // No context available: call configure() or create one with createAmplifyContext()
   }
   throw error;

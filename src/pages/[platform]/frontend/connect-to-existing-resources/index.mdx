@@ -587,7 +587,7 @@ Fields of `ResourcesConfig['Auth']`, the object both tabs above build:
 
 There is no region field: the region is read from the user pool and identity pool IDs. `Cognito` accepts the user pool fields, the identity pool fields, or both, so an identity-pool-only configuration cannot carry `userPoolId`.
 
-Every other field is optional. See [`AuthConfig`](https://github.com/aws-amplify/amplify-js/blob/main/packages/core/src/singleton/Auth/types.ts) for the full type.
+Every other field is optional. See [`AuthConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Auth/types.ts) for the full type.
 
 </InlineFilter>
 
@@ -597,11 +597,11 @@ Fields of the `auth` block in `amplify_outputs.json`:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | Yes | AWS region (e.g. `us-east-1`) |
-| `userPoolId` | Yes | Cognito User Pool ID |
-| `userPoolClientId` | Yes | Cognito app client ID |
+| `aws_region` | Yes | AWS region (e.g. `us-east-1`) |
+| `user_pool_id` | Yes | Cognito User Pool ID |
+| `user_pool_client_id` | Yes | Cognito app client ID |
 
-Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/main/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
 
 </InlineFilter>
 
@@ -658,7 +658,7 @@ Amplify.configure({
 
 </BlockSwitcher>
 
-<Callout informational>
+<Callout info>
 
 In a `ResourcesConfig` object the AppSync API lives under `API.GraphQL`, and `defaultAuthMode` takes the client-side value, one of `apiKey`, `userPool`, `identityPool`, `oidc`, `lambda`, or `none`, rather than the `API_KEY` style used in `amplify_outputs.json`.
 
@@ -739,7 +739,7 @@ Fields of `ResourcesConfig['API']`, the object both tabs above build:
 | `GraphQL.apiKey` | With `apiKey` auth | AppSync API key |
 | `GraphQL.region` | With `identityPool` auth | Region used to sign the request |
 
-Every other field is optional. See [`APIConfig`](https://github.com/aws-amplify/amplify-js/blob/main/packages/core/src/singleton/API/types.ts) for the full type.
+Every other field is optional. See [`APIConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/API/types.ts) for the full type.
 
 </InlineFilter>
 
@@ -749,13 +749,13 @@ Fields of the `data` block in `amplify_outputs.json`:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | Yes | AWS region |
+| `aws_region` | Yes | AWS region |
 | `url` | Yes | AppSync GraphQL endpoint URL |
-| `defaultAuthorizationType` | Yes | Default auth mode: `AMAZON_COGNITO_USER_POOLS`, `API_KEY`, `AWS_IAM`, `AWS_LAMBDA`, or `OPENID_CONNECT` |
-| `authorizationTypes` | Yes | Every auth mode the API accepts, from the same list |
-| `apiKey` | With `API_KEY` auth | AppSync API key |
+| `default_authorization_type` | Yes | Default auth mode: `AMAZON_COGNITO_USER_POOLS`, `API_KEY`, `AWS_IAM`, `AWS_LAMBDA`, or `OPENID_CONNECT` |
+| `authorization_types` | Yes | Every auth mode the API accepts, from the same list |
+| `api_key` | With `API_KEY` auth | AppSync API key |
 
-Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/main/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
 
 </InlineFilter>
 
@@ -982,7 +982,7 @@ final config = AmplifyOutputs(
 
 </InlineFilter>
 
-<Callout informational>
+<Callout info>
 
 Storage requires Auth (Cognito Identity Pool) for authorization. Always configure Auth alongside Storage.
 
@@ -1000,7 +1000,7 @@ Fields of `ResourcesConfig['Storage']`, the object both tabs above build:
 | `S3.region` | For the default bucket | Region of that bucket |
 | `S3.buckets[name].bucketName`, `S3.buckets[name].region` | With additional buckets | Each extra bucket is keyed by the friendly name you pass to the Storage APIs |
 
-Every other field is optional. See [`StorageConfig`](https://github.com/aws-amplify/amplify-js/blob/main/packages/core/src/singleton/Storage/types.ts) for the full type.
+Every other field is optional. See [`StorageConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Storage/types.ts) for the full type.
 
 </InlineFilter>
 
@@ -1010,11 +1010,11 @@ Fields of the `storage` block in `amplify_outputs.json`:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | Yes | AWS region |
-| `bucketName` | Yes | Default S3 bucket name |
-| `buckets[].name`, `buckets[].bucketName`, `buckets[].awsRegion` | With additional buckets | All three are required on every entry |
+| `aws_region` | Yes | AWS region |
+| `bucket_name` | Yes | Default S3 bucket name |
+| `buckets[].name`, `buckets[].bucket_name`, `buckets[].aws_region` | With additional buckets | All three are required on every entry |
 
-Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/main/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
 
 </InlineFilter>
 
@@ -1132,7 +1132,7 @@ Fields of `ResourcesConfig['Analytics']`, the object both tabs above build:
 | `Pinpoint.appId` | Yes | Pinpoint application (project) ID |
 | `Pinpoint.region` | Yes | Region of the Pinpoint project |
 
-Every other field is optional. See [`AnalyticsConfig`](https://github.com/aws-amplify/amplify-js/blob/main/packages/core/src/singleton/Analytics/types.ts) for the full type.
+Every other field is optional. See [`AnalyticsConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Analytics/types.ts) for the full type.
 
 </InlineFilter>
 
@@ -1142,10 +1142,10 @@ Fields of the `analytics.amazon_pinpoint` block in `amplify_outputs.json`:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | Yes | AWS region of the Pinpoint project |
-| `appId` | Yes | Pinpoint application (project) ID |
+| `aws_region` | Yes | AWS region of the Pinpoint project |
+| `app_id` | Yes | Pinpoint application (project) ID |
 
-Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/main/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
 
 </InlineFilter>
 
@@ -1291,7 +1291,7 @@ Fields of `ResourcesConfig['Geo']`, the object both tabs above build:
 | `LocationService.searchIndices.items`, `LocationService.searchIndices.default` | With `searchIndices` | Place index names, plus the default index |
 | `LocationService.geofenceCollections.items`, `LocationService.geofenceCollections.default` | With `geofenceCollections` | Collection names, plus the default collection |
 
-Every other field is optional. See [`GeoConfig`](https://github.com/aws-amplify/amplify-js/blob/main/packages/core/src/singleton/Geo/types.ts) for the full type.
+Every other field is optional. See [`GeoConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Geo/types.ts) for the full type.
 
 </InlineFilter>
 
@@ -1301,12 +1301,12 @@ Fields of the `geo` block in `amplify_outputs.json`:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | Yes | AWS region of the Location Service resources |
+| `aws_region` | Yes | AWS region of the Location Service resources |
 | `maps.items`, `maps.default` | With `maps` | Maps keyed by name, plus the default map name |
-| `searchIndices.items`, `searchIndices.default` | With `searchIndices` | Place index names, plus the default index |
-| `geofenceCollections.items`, `geofenceCollections.default` | With `geofenceCollections` | Collection names, plus the default collection |
+| `search_indices.items`, `search_indices.default` | With `search_indices` | Place index names, plus the default index |
+| `geofence_collections.items`, `geofence_collections.default` | With `geofence_collections` | Collection names, plus the default collection |
 
-Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/main/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
 
 </InlineFilter>
 
@@ -1429,7 +1429,7 @@ Fields of `ResourcesConfig['Notifications']`, the object both tabs above build. 
 | `PushNotification.CustomerProfiles.endpoint`, `PushNotification.CustomerProfiles.region` | For Amazon Connect push | Amazon Connect Customer Profiles endpoint backing push device registration |
 | `InAppMessaging.Pinpoint.appId`, `InAppMessaging.Pinpoint.region` | For in-app messaging | Pinpoint project backing in-app messages |
 
-Every other field is optional. See [`NotificationsConfig`](https://github.com/aws-amplify/amplify-js/blob/main/packages/core/src/singleton/Notifications/types.ts) for the full type.
+Every other field is optional. See [`NotificationsConfig`](https://github.com/aws-amplify/amplify-js/blob/aws-amplify%406.22.0/packages/core/src/singleton/Notifications/types.ts) for the full type.
 
 </InlineFilter>
 
@@ -1439,18 +1439,22 @@ Fields of the `notifications` block in `amplify_outputs.json`:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `awsRegion` | For Pinpoint | AWS region of the Pinpoint project |
-| `amazonPinpointAppId` | For Pinpoint | Pinpoint application ID |
+| `aws_region` | For Pinpoint | AWS region of the Pinpoint project |
+| `amazon_pinpoint_app_id` | For Pinpoint | Pinpoint application ID |
 | `channels` | For Pinpoint | Channels to enable: `APNS`, `FCM`, `IN_APP_MESSAGING`, `EMAIL`, or `SMS`. At least one entry, no duplicates |
-| `amazonConnect.awsRegion`, `amazonConnect.endpoint` | With Amazon Connect | Customer Profiles endpoint used for push device registration |
+| `amazon_connect.aws_region`, `amazon_connect.endpoint` | With Amazon Connect | Customer Profiles endpoint used for push device registration |
 
-No field is required on its own: a Pinpoint setup needs the region, the app ID, and at least one channel, while an Amazon Connect setup needs only `amazonConnect`.
+No field is required on its own: a Pinpoint setup needs the region, the app ID, and at least one channel, while an Amazon Connect setup needs only `amazon_connect`.
 
-Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/main/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+These are the JSON keys. The typed builders above take the same fields in camelCase (`aws_region` is `awsRegion`). Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
 
 </InlineFilter>
 
-In a `ResourcesConfig` object there is no `channels` list: which channels are active follows from the providers you configure, `PushNotification` and `InAppMessaging`. `amazonConnect` becomes `Notifications.PushNotification.CustomerProfiles` with `endpoint` and `region`.
+<InlineFilter filters={['angular', 'javascript', 'nextjs', 'react', 'react-native', 'vue']}>
+
+In a `ResourcesConfig` object there is no `channels` list: which channels are active follows from the providers you configure, `PushNotification` and `InAppMessaging`. `amazon_connect` becomes `Notifications.PushNotification.CustomerProfiles` with `endpoint` and `region`.
+
+</InlineFilter>
 
 ## Multi-category configuration
 
@@ -1782,23 +1786,18 @@ Amplify.configure(outputs);
 
 ### Several environments at the same time
 
-`Amplify.configure()` sets one process-wide configuration, so selecting an environment this way means the whole app moves with it, and calling `configure()` again later resets global auth state. When you need more than one environment live at once, create a [local context](/[platform]/frontend/local-context/) per configuration and pass it to the category APIs instead:
+`Amplify.configure()` sets one process-wide configuration, so selecting an environment this way means the whole app moves with it. To keep more than one environment live at once, pass each configuration to `createAmplifyContext()` instead of to `configure()`, then hand the resulting context to the category APIs:
 
 ```typescript
 import { createAmplifyContext } from 'aws-amplify';
-import { fetchAuthSession } from 'aws-amplify/auth';
 
 const environments = {
   dev: createAmplifyContext(withUserPool('us-east-1_dev123')),
   prod: createAmplifyContext(withUserPool('us-east-1_prod789'))
 };
-
-// Each context keeps its own configuration and its own session
-const devSession = await fetchAuthSession(environments.dev);
-const prodSession = await fetchAuthSession(environments.prod);
 ```
 
-Each context is isolated, so a user signed in through one is unaffected by the others, which is what makes side-by-side environment comparison, tenant switching, and holding two profiles signed in at once possible. [Local contexts](/[platform]/frontend/local-context/) are a client-side API; for server-side runtimes, use `runWithAmplifyServerContext` with the `/server` exports as described under [Server-Side Rendering](/[platform]/frontend/server-side-rendering/).
+See [Local context](/[platform]/frontend/local-context/) for what a context isolates, how to use one, and why it is a client-side API.
 
 </InlineFilter>
 
