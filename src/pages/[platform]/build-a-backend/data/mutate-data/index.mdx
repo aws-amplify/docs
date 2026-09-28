@@ -137,6 +137,12 @@ func createTodo() -> AnyCancellable {
 
 </BlockSwitcher>
 
+<Callout>
+
+**Note:** When your model has a relationship, a mutation can return `.failure(.partial(data, errors))` even though the item was created. This happens when different authorization rules apply to the related model, because AppSync redacts the related object and the mutation reports that as an error. The `data` associated value holds the created item, including the id of the related record, so you can use it and perform a query to read the relational data. Review [Relationships](/[platform]/build-a-backend/data/data-modeling/relationships/) for more details.
+
+</Callout>
+
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
