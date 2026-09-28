@@ -1423,7 +1423,7 @@ Every other field is optional. See [`NotificationsConfig`](https://github.com/aw
 
 </InlineFilter>
 
-<InlineFilter filters={['swift', 'android', 'flutter']}>
+<InlineFilter filters={['swift', 'flutter']}>
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -1437,9 +1437,26 @@ Every other field is optional. See the [`amplify_outputs.json` schema](https://g
 
 </InlineFilter>
 
+<InlineFilter filters={['android']}>
+
+Configure either a Pinpoint project or an Amazon Connect endpoint, or both:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `awsRegion` | For Pinpoint | AWS region of the Pinpoint project |
+| `amazonPinpointAppId` | For Pinpoint | Pinpoint application ID |
+| `channels` | For Pinpoint | Channels to enable: APNS, FCM, in-app messaging, email, or SMS. At least one entry, no duplicates |
+| `amazonConnect.awsRegion`, `amazonConnect.endpoint` | For Amazon Connect | Amazon Connect Customer Profiles endpoint backing push device registration. Both are required on the entry |
+
+A Pinpoint setup needs all three Pinpoint fields: the region, the app ID, and at least one channel.
+
+Every other field is optional. See the [`amplify_outputs.json` schema](https://github.com/aws-amplify/amplify-backend/blob/%40aws-amplify%2Fclient-config%401.11.1/packages/client-config/src/client-config-schema/schema_v1.5.json) for the full shape.
+
+</InlineFilter>
+
 <InlineFilter filters={['angular', 'javascript', 'nextjs', 'react', 'react-native', 'vue']}>
 
-In a `ResourcesConfig` object there is no `channels` list: which channels are active follows from the providers you configure, `PushNotification` and `InAppMessaging`. `amazonConnect` becomes `Notifications.PushNotification.CustomerProfiles` with `endpoint` and `region`.
+In a `ResourcesConfig` object there is no `channels` list: which channels are active follows from the providers you configure, `PushNotification` and `InAppMessaging`. The `amazon_connect` block in `amplify_outputs.json` becomes `Notifications.PushNotification.CustomerProfiles` with `endpoint` and `region`.
 
 </InlineFilter>
 
