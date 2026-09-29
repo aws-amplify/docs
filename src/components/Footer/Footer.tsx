@@ -64,6 +64,7 @@ export const Footer = ({ hasTOC = false }: FooterProps) => {
             <ExternalLink
               href={links.DISCORD}
               className="footer-link footer-link--social"
+              rel={'noopener'}
             >
               <IconDiscord />
               <VisuallyHidden>Discord</VisuallyHidden>
