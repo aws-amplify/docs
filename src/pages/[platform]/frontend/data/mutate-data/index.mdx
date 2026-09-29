@@ -293,6 +293,24 @@ Future<void> updateTodo(Todo originalTodo) async {
 }
 ```
 
+<Callout>
+
+`copyWith` cannot assign `null` to a nullable field: a null argument keeps the current value. Use `copyWithModelFieldValues` instead:
+
+</Callout>
+
+```dart
+Future<void> clearTodoDescription(Todo originalTodo) async {
+  final cleared = originalTodo.copyWithModelFieldValues(
+    description: ModelFieldValue.value(null),
+  );
+
+  final request = ModelMutations.update(cleared);
+  final response = await Amplify.API.mutate(request: request).response;
+  safePrint('Response: $response');
+}
+```
+
 </InlineFilter>
 
 ## Delete an item
