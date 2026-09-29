@@ -118,3 +118,14 @@ export const myDemoFunction = defineFunction({
   resourceGroupName: 'data'
 });
 ```
+## `bundling`
+
+In the AWS Amplify Function configuration, the minify property within the bundling settings defaults to true to optimize performance and reduce the deployment package size. By setting minify: false, you disable this compression, keeping the generated code in a readable format.
+
+```ts title="amplify/functions/my-demo-function/resource.ts"
+export const myDemoFunction = defineFunction({
+  bundling: {
+    minify: false | true
+  },
+});
+```
