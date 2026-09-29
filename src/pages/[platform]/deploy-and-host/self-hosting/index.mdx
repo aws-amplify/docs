@@ -2,7 +2,7 @@ import { getChildPageNodes } from '@/utils/getChildPageNodes';
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'Self-managed hosting (Preview)',
+  title: 'Self-managed hosting',
   description: 'Deploy your frontend to your own AWS account with full AWS CDK control.',
   route: '/[platform]/deploy-and-host/self-hosting',
   platforms: [
@@ -32,13 +32,7 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview.** It is not recommended for production workloads yet, and APIs may change before general availability. Share feedback or report issues on [GitHub](https://github.com/aws-amplify/amplify-backend/issues).
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
+<PreviewBanner />
 
 Self-managed hosting gives you full ownership of your frontend infrastructure. You deploy to your own AWS account using AWS CDK constructs, giving you complete control over Amazon S3 buckets, Amazon CloudFront distributions, Lambda@Edge functions, and every other resource in your stack.
 

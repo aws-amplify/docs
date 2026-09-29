@@ -28,13 +28,7 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview.** It is not recommended for production workloads yet, and APIs may change before general availability. Share feedback or report issues on [GitHub](https://github.com/aws-amplify/amplify-backend/issues).
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
+<PreviewBanner />
 
 In this guide, you will learn how to install the hosting package, configure your first `defineHosting()` definition, and deploy your frontend to your own AWS account.
 
@@ -73,7 +67,7 @@ The framework is auto-detected from your `package.json`, so no framework configu
 Run `ampx deploy` to synthesize and deploy both your backend and hosting stacks:
 
 ```bash title="Terminal"
-npx ampx deploy --identifier production
+npx ampx deploy --identifier my-app
 ```
 
 The `--identifier` flag names your deployment environment. This command deploys everything: backend resources, the frontend build, and the hosting infrastructure (S3 bucket, CloudFront distribution, and compute layer).
@@ -85,7 +79,7 @@ Once complete, the CLI prints your CloudFront distribution URL where your applic
 If your backend is already deployed and you only need to update the frontend:
 
 ```bash title="Terminal"
-npx ampx deploy --identifier production --frontend
+npx ampx deploy --identifier my-app --frontend
 ```
 
 This skips the backend stack and only rebuilds and deploys your frontend assets.

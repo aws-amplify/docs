@@ -28,13 +28,7 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview.** It is not recommended for production workloads yet, and APIs may change before general availability. Share feedback or report issues on [GitHub](https://github.com/aws-amplify/amplify-backend/issues).
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
+<PreviewBanner />
 
 In this guide, you will learn how to define a CI/CD pipeline that automatically deploys your application on every push, with support for multi-stage deployments, approval gates, and bake times.
 

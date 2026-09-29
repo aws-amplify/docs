@@ -28,13 +28,7 @@ export function getStaticProps(context) {
   };
 }
 
-{/* PREVIEW-BANNER-START */}
-<Callout warning>
-
-**This feature is in preview.** It is not recommended for production workloads yet, and APIs may change before general availability. Share feedback or report issues on [GitHub](https://github.com/aws-amplify/amplify-backend/issues).
-
-</Callout>
-{/* PREVIEW-BANNER-END */}
+<PreviewBanner />
 
 When you call `defineHosting()`, the construct auto-detects your framework by inspecting `package.json` dependencies. Each framework maps to a specific build adapter that determines which hosting features are available.
 
