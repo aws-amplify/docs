@@ -372,6 +372,21 @@ tsIntent.putExtra(TransferService.INTENT_KEY_REMOVE_NOTIFICATION, <remove-notifi
 getApplicationContext().startForegroundService(tsIntent);
 ```
 
+## Supporting TransferService on Upside Down Cake and above
+
+Starting in Android Upside Down Cake (API Level 34), foreground services must supply a service type. Starting with version `2.76.1`, if `TransferService` is moved into the foreground it will specify the type `FOREGROUND_SERVICE_TYPE_DATA_SYNC`. The application must declare some additional permissions and details in `AndroidManifest.xml`.
+
+```xml
+<!-- Request permissions for foreground data sync service -->
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+
+<!-- Update the service tag to specify the service type -->
+<service
+    android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+    android:foregroundServiceType="dataSync" />
+```
+
 ## Supporting Unicode characters in key-names
 
 **Upload/download objects**
