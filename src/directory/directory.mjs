@@ -1321,6 +1321,9 @@ export const directory = {
           section: 'reference',
           children: [
             {
+              path: 'src/pages/[platform]/reference/library-releases/index.mdx'
+            },
+            {
               path: 'src/pages/[platform]/reference/project-structure/index.mdx'
             },
             {
