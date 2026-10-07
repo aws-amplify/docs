@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer'); // eslint-disable-line
-const axios = require('axios'); // eslint-disable-line
 
 const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';
 const DOMAIN = 'https://docs.amplify.aws';
@@ -225,29 +224,21 @@ const linkChecker = async (localDomain, links) => {
   console.log('Visiting urls...\n');
 
   for (const href in urlsToVisit) {
-    let request = axios
-      .get(href, {
-        timeout: 5000
-      })
-      .then((response) => {
-        let statusCode = response.status;
-        if (statusCode && statusCode !== 200) {
-          statusCodes[statusCode] = statusCodes[statusCode] || [];
-          statusCodes[statusCode].push(href);
-        }
-      })
-      .catch((e) => {
-        let statusCode = e?.response?.status;
-        if (statusCode) {
-          statusCodes[statusCode] = statusCodes[statusCode] || [];
-          statusCodes[statusCode].push(href);
-        }
-        if (statusCode === 404) {
-          brokenLinks.push({ url: href, pages: urlsToVisit[href] });
-        }
+    try {
+      const response = await fetch(href, {
+        signal: AbortSignal.timeout(5000)
       });
-
-    await request;
+      let statusCode = response.status;
+      if (statusCode && statusCode !== 200) {
+        statusCodes[statusCode] = statusCodes[statusCode] || [];
+        statusCodes[statusCode].push(href);
+      }
+      if (statusCode === 404) {
+        brokenLinks.push({ url: href, pages: urlsToVisit[href] });
+      }
+    } catch (e) {
+      // Network errors or timeouts won't have a status code
+    }
   }
 
   console.log('\n');
