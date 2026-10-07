@@ -35,6 +35,35 @@ Amplify automatically creates Amazon DynamoDB database tables for GraphQL types 
 
 ## Setup database tables
 
+## `@key` directive (GraphQL Transformer v1)
+
+The `@key` directive was used in GraphQL Transformer v1 to define custom
+primary keys and secondary indexes for `@model` types backed by Amazon DynamoDB.
+It enabled efficient query patterns using non-`id` fields and supported
+composite primary keys.
+
+
+> **Note**: The `@key` directive is deprecated in GraphQL Transformer v2 and has
+> been replaced by the `@primaryKey` and `@index` directives.
+
+### When `@key` was used
+- Query data using non-`id` fields
+- Create composite primary keys
+- Define global secondary indexes (GSIs)
+- Support one-to-many access patterns
+
+### Example (Transformer v1)
+
+```graphql
+type Post
+  @model
+  @key(name: "byOwner", fields: ["owner"]) {
+  id: ID!
+  owner: String!
+  title: String!
+}
+
+
 The following GraphQL schema automatically creates a database table for "Todo". `@model` will also automatically add an `id` field as a primary key to the database table. _See [Configure a primary key](#configure-a-primary-key) to learn how to customize the primary key._
 
 ```graphql
