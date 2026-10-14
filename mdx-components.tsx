@@ -15,6 +15,7 @@ import {
   MDXTable
 } from './src/components/MDXComponents';
 import { MigrationAlert } from './src/components/MigrationAlert';
+import { PreviewBanner } from './src/components/PreviewBanner';
 import preToCodeBlock from './src/utils/pre-to-code-block';
 import { Overview } from './src/components/Overview';
 import ExternalLink from './src/components/ExternalLink';
@@ -65,6 +66,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Fragments,
     InlineFilter,
     MigrationAlert,
+    PreviewBanner,
     YoutubeEmbed,
     AIBanner,
     Overview,
