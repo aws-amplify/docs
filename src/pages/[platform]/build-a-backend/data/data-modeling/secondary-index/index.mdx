@@ -48,7 +48,7 @@ export const schema = a.schema({
 });
 ```
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 The example client query below allows you to query for "Customer" records based on their `accountRepresentativeId`:
 
@@ -64,6 +64,65 @@ const { data, errors } =
     accountRepresentativeId: "YOUR_REP_ID",
   });
   // highlight-end
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+The example client query below creates a custom GraphQL request that allows you to query for "Customer" records based on their `accountRepresentativeId`:
+
+```kotlin
+data class CustomerDetails(
+  val id: String,
+  val name: String?,
+  val phoneNumber: String?,
+  val accountRepresentativeId: String
+)
+
+data class CustomerConnection(
+  val items: List<CustomerDetails>,
+  val nextToken: String?
+)
+
+data class ListCustomerByAccountRepresentativeIdResponse(
+  val listCustomerByAccountRepresentativeId: CustomerConnection
+)
+
+val document = """
+  query ListCustomerByAccountRepresentativeId(${'$'}accountRepresentativeId: ID!) {
+    listCustomerByAccountRepresentativeId(
+      accountRepresentativeId: ${'$'}accountRepresentativeId
+    ) {
+      items {
+        id
+        name
+        phoneNumber
+        accountRepresentativeId
+      }
+      nextToken
+    }
+  }
+""".trimIndent()
+
+val request = SimpleGraphQLRequest<String>(
+  document,
+  mapOf("accountRepresentativeId" to "<rep-id>"),
+  String::class.java,
+  GsonVariablesSerializer())
+
+Amplify.API.query(
+  request,
+  {
+    var gson = Gson()
+    val response = gson.fromJson(
+      it.data,
+      ListCustomerByAccountRepresentativeIdResponse::class.java
+    )
+    Log.i("MyAmplifyApp", "${response.listCustomerByAccountRepresentativeId.items}")
+  },
+  { Log.e("MyAmplifyApp", "Query failed", it) }
+)
 ```
 
 </InlineFilter>
@@ -154,7 +213,7 @@ export const schema = a.schema({
 });
 ```
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android",]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 On the client side, you should find a new `listBy...` query that's named after hash key and sort keys. For example, in this case: `listByAccountRepresentativeIdAndName`. You can supply the filter as part of this new list query:
 
@@ -167,6 +226,72 @@ const { data, errors } =
       beginsWith: "Rene",
     },
   });
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+On the client side, you can create a custom GraphQL request based on the new `listBy...` query that's named after hash key and sort keys. You can supply the sort key condition as part of this new list query:
+
+```kotlin
+data class CustomerDetails(
+  val id: String,
+  val name: String?,
+  val phoneNumber: String?,
+  val accountRepresentativeId: String
+)
+
+data class CustomerConnection(
+  val items: List<CustomerDetails>,
+  val nextToken: String?
+)
+
+data class ListCustomerByAccountRepresentativeIdAndNameResponse(
+  val listCustomerByAccountRepresentativeIdAndName: CustomerConnection
+)
+
+val document = """
+  query ListCustomerByAccountRepresentativeIdAndName(
+    ${'$'}accountRepresentativeId: ID!
+    ${'$'}name: ModelStringKeyConditionInput
+  ) {
+    listCustomerByAccountRepresentativeIdAndName(
+      accountRepresentativeId: ${'$'}accountRepresentativeId
+      name: ${'$'}name
+    ) {
+      items {
+        id
+        name
+        phoneNumber
+        accountRepresentativeId
+      }
+      nextToken
+    }
+  }
+""".trimIndent()
+
+val request = SimpleGraphQLRequest<String>(
+  document,
+  mapOf(
+    "accountRepresentativeId" to "<rep-id>",
+    "name" to mapOf("beginsWith" to "Rene")
+  ),
+  String::class.java,
+  GsonVariablesSerializer())
+
+Amplify.API.query(
+  request,
+  {
+    var gson = Gson()
+    val response = gson.fromJson(
+      it.data,
+      ListCustomerByAccountRepresentativeIdAndNameResponse::class.java
+    )
+    Log.i("MyAmplifyApp", "${response.listCustomerByAccountRepresentativeIdAndName.items}")
+  },
+  { Log.e("MyAmplifyApp", "Query failed", it) }
+)
 ```
 
 </InlineFilter>
@@ -228,7 +353,7 @@ final request = ModelQueries.list(
 
 ## Customize the query field for secondary indexes
 
-You can also customize the auto-generated query name under `client.models.<MODEL_NAME>.listBy...` by setting the `queryField()` modifier.
+You can also customize the auto-generated query name by setting the `queryField()` modifier.
 
 ```ts title="amplify/data/resource.ts"
 const schema = a.schema({
@@ -247,7 +372,7 @@ const schema = a.schema({
 });
 ```
 
-<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue", "android"]}>
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
 
 In your client app code, you'll see query updated under the Data client:
 
@@ -259,6 +384,62 @@ const {
 } = await client.models.Customer.listByRep({
   accountRepresentativeId: 'YOUR_REP_ID',
 })
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+In your client app code, you can use the updated query name.
+
+```kotlin
+data class CustomerDetails(
+  val id: String,
+  val name: String?,
+  val phoneNumber: String?,
+  val accountRepresentativeId: String
+)
+
+data class CustomerConnection(
+  val items: List<CustomerDetails>,
+  val nextToken: String?
+)
+
+data class ListByRepResponse(
+  val listByRep: CustomerConnection
+)
+
+val document = """
+  query ListByRep(${'$'}accountRepresentativeId: ID!) {
+    listByRep(
+      accountRepresentativeId: ${'$'}accountRepresentativeId
+    ) {
+      items {
+        id
+        name
+        phoneNumber
+        accountRepresentativeId
+      }
+      nextToken
+    }
+  }
+""".trimIndent()
+
+val request = SimpleGraphQLRequest<String>(
+  document,
+  mapOf("accountRepresentativeId" to "<rep-id>"),
+  String::class.java,
+  GsonVariablesSerializer())
+
+Amplify.API.query(
+  request,
+  {
+    var gson = Gson()
+    val response = gson.fromJson(it.data, ListByRepResponse::class.java)
+    Log.i("MyAmplifyApp", "${response.listByRep.items}")
+  },
+  { Log.e("MyAmplifyApp", "Query failed", it) }
+)
 ```
 
 </InlineFilter>
