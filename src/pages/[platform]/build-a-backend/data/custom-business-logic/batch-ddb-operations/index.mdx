@@ -37,22 +37,18 @@ Batch DynamoDB operations allow you to add multiple items in single mutation.
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
-  // 1. Define your return type as a custom type or model
   Post: a.model({
     id: a.id(),
     content: a.string(),
     likes: a.integer()
-  }),
+  }).authorization(allow => [allow.authenticated()]),
 
-  // 2. Define your mutation with the return type and, optionally, arguments
-  BatchCreatePost: a
+  batchCreatePost: a
     .mutation()
-    // arguments that this query accepts
     .arguments({
-      content: a.string().array()
+      contents: a.string().array()
     })
     .returns(a.ref('Post').array())
-    // only allow signed-in users to call this API
     .authorization(allow => [allow.authenticated()])
 });
 
@@ -79,20 +75,19 @@ const schema = a.schema({
     id: a.id(),
     content: a.string(),
     likes: a.integer()
-  }),
+  }).authorization(allow => [allow.authenticated()]),
 
-  BatchCreatePost: a
+  batchCreatePost: a
     .mutation()
     .arguments({
       contents: a.string().array()
     })
     .returns(a.ref('Post').array())
     .authorization(allow => [allow.authenticated()])
-    // 1. Add the custom handler
     .handler(
       a.handler.custom({
         dataSource: a.ref('Post'),
-        entry: './BatchCreatePostHandler.js',
+        entry: './batchCreatePostHandler.js',
       })
     )
 });
@@ -113,7 +108,7 @@ Amplify will store some values in the resolver context stash that can be accesse
 
 The Amplify generated DynamoDB table names can be constructed from the variables in the context stash. The table name is in the format `<model-name>-<aws-appsync-api-id>-NONE`. For example, the table name for the `Post` model would be `Post-abc123def456-NONE` where `abc123def456` is the AppSync API ID.
 
-```ts title="amplify/data/BatchCreatePostHandler.js"
+```ts title="amplify/data/batchCreatePostHandler.js"
 import { util } from '@aws-appsync/utils';
 
 export function request(ctx) {
@@ -144,10 +139,164 @@ export function response(ctx) {
 
 ## Step 3 - Invoke the custom query or mutation
 
+<InlineFilter filters={["javascript", "angular", "react-native", "react", "nextjs", "vue"]}>
+
 From your generated Data client, you can find all your custom queries and mutations under the `client.queries.` and `client.mutations.` APIs respectively.
 
 ```ts
-const { data, errors } = await client.mutations.BatchCreatePost({
+const { data, errors } = await client.mutations.batchCreatePost({
   contents: ['Post 1', 'Post 2', 'Post 3']
 });
 ```
+
+</InlineFilter>
+
+<InlineFilter filters={["swift"]}>
+
+```swift
+struct BatchCreatePostResponse: Codable {
+  public let batchCreatePost: [Post]
+
+  struct Post: Codable {
+    public let id: String
+    public let content: String?
+    public let likes: Int?
+  }
+}
+
+let document = """
+  mutation BatchCreatePost($contents: [String]) {
+    batchCreatePost(contents: $contents) {
+      id
+      content
+      likes
+    }
+  }
+  """
+
+let result = try await Amplify.API.mutate(request: GraphQLRequest<BatchCreatePostResponse>(
+  document: document,
+  variables: [
+    "contents": ["Post 1", "Post 2", "Post 3"]
+  ],
+  responseType: BatchCreatePostResponse.self
+))
+switch result {
+case .success(let response):
+  print(response.batchCreatePost)
+case .failure(let error):
+  print(error)
+}
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+```kotlin
+data class PostDetails(
+  val id: String,
+  val content: String?,
+  val likes: Int?
+)
+
+data class BatchCreatePostResponse(
+  val batchCreatePost: List<PostDetails>
+)
+
+val document = """
+  mutation BatchCreatePost(${'$'}contents: [String]) {
+    batchCreatePost(contents: ${'$'}contents) {
+      id
+      content
+      likes
+    }
+  }
+""".trimIndent()
+
+val request = SimpleGraphQLRequest<String>(
+  document,
+  mapOf("contents" to listOf("Post 1", "Post 2", "Post 3")),
+  String::class.java,
+  GsonVariablesSerializer())
+
+Amplify.API.mutate(
+  request,
+  {
+    var gson = Gson()
+    val response = gson.fromJson(it.data, BatchCreatePostResponse::class.java)
+    Log.i("MyAmplifyApp", "${response.batchCreatePost}")
+  },
+  { Log.e("MyAmplifyApp", "Mutation failed", it) }
+)
+```
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+First define a class that matches your response shape:
+
+```dart
+class BatchCreatePostResponse {
+  final List<Post> posts;
+
+  BatchCreatePostResponse({required this.posts});
+
+  factory BatchCreatePostResponse.fromJson(Map<String, dynamic> json) {
+    return BatchCreatePostResponse(
+      posts: (json['batchCreatePost'] as List)
+        .map((post) => Post.fromJson(post))
+        .toList(),
+    );
+  }
+}
+
+class Post {
+  final String id;
+  final String? content;
+  final int? likes;
+
+  Post({required this.id, this.content, this.likes});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      id: json['id'],
+      content: json['content'],
+      likes: json['likes'],
+    );
+  }
+}
+```
+
+Next, make the request and map the response to the classes defined above:
+
+```dart
+import 'dart:convert';
+
+const graphQLDocument = '''
+  mutation BatchCreatePost(\$contents: [String]) {
+    batchCreatePost(contents: \$contents) {
+      id
+      content
+      likes
+    }
+  }
+''';
+
+final request = GraphQLRequest<String>(
+  document: graphQLDocument,
+  variables: <String, dynamic>{
+    "contents": ["Post 1", "Post 2", "Post 3"]
+  },
+);
+
+final response = await Amplify.API.mutate(request: request).response;
+
+Map<String, dynamic> jsonMap = json.decode(response.data!);
+BatchCreatePostResponse batchCreatePostResponse =
+    BatchCreatePostResponse.fromJson(jsonMap);
+safePrint(batchCreatePostResponse.posts);
+```
+
+</InlineFilter>
