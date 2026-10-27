@@ -621,9 +621,13 @@ val request = SimpleGraphQLRequest<String>(
 Amplify.API.mutate(
   request,
   {
-    var gson = Gson()
-    val response = gson.fromJson(it.data, AddPostResponse::class.java)
-    Log.i("MyAmplifyApp", "${response.addPost}")
+    if (it.hasErrors()) {
+      Log.e("MyAmplifyApp", "Mutation returned errors: ${it.errors}")
+    } else {
+      var gson = Gson()
+      val response = gson.fromJson(it.data, AddPostResponse::class.java)
+      Log.i("MyAmplifyApp", "${response.addPost}")
+    }
   },
   { Log.e("MyAmplifyApp", "Mutation failed", it) }
 )
@@ -656,9 +660,13 @@ val request = SimpleGraphQLRequest<String>(
 Amplify.API.query(
   request,
   {
-    var gson = Gson()
-    val response = gson.fromJson(it.data, GetPostResponse::class.java)
-    Log.i("MyAmplifyApp", "${response.getPost}")
+    if (it.hasErrors()) {
+      Log.e("MyAmplifyApp", "Query returned errors: ${it.errors}")
+    } else {
+      var gson = Gson()
+      val response = gson.fromJson(it.data, GetPostResponse::class.java)
+      Log.i("MyAmplifyApp", "${response.getPost}")
+    }
   },
   { Log.e("MyAmplifyApp", "Query failed", it) }
 )
@@ -692,9 +700,13 @@ val request = SimpleGraphQLRequest<String>(
 Amplify.API.mutate(
   request,
   {
-    var gson = Gson()
-    val response = gson.fromJson(it.data, UpdatePostResponse::class.java)
-    Log.i("MyAmplifyApp", "${response.updatePost}")
+    if (it.hasErrors()) {
+      Log.e("MyAmplifyApp", "Mutation returned errors: ${it.errors}")
+    } else {
+      var gson = Gson()
+      val response = gson.fromJson(it.data, UpdatePostResponse::class.java)
+      Log.i("MyAmplifyApp", "${response.updatePost}")
+    }
   },
   { Log.e("MyAmplifyApp", "Mutation failed", it) }
 )
@@ -727,9 +739,13 @@ val request = SimpleGraphQLRequest<String>(
 Amplify.API.mutate(
   request,
   {
-    var gson = Gson()
-    val response = gson.fromJson(it.data, DeletePostResponse::class.java)
-    Log.i("MyAmplifyApp", "${response.deletePost}")
+    if (it.hasErrors()) {
+      Log.e("MyAmplifyApp", "Mutation returned errors: ${it.errors}")
+    } else {
+      var gson = Gson()
+      val response = gson.fromJson(it.data, DeletePostResponse::class.java)
+      Log.i("MyAmplifyApp", "${response.deletePost}")
+    }
   },
   { Log.e("MyAmplifyApp", "Mutation failed", it) }
 )
@@ -787,9 +803,13 @@ final request = GraphQLRequest<String>(
 
 final response = await Amplify.API.mutate(request: request).response;
 
-Map<String, dynamic> jsonMap = json.decode(response.data!);
-final post = Post.fromJson(jsonMap['addPost']);
-safePrint(post.author);
+if (response.hasErrors) {
+  safePrint('errors: ${response.errors}');
+} else {
+  Map<String, dynamic> jsonMap = json.decode(response.data!);
+  final post = Post.fromJson(jsonMap['addPost']);
+  safePrint(post.author);
+}
 ```
 </Block>
 <Block name="getPost">
@@ -815,9 +835,13 @@ final request = GraphQLRequest<String>(
 
 final response = await Amplify.API.query(request: request).response;
 
-Map<String, dynamic> jsonMap = json.decode(response.data!);
-final post = Post.fromJson(jsonMap['getPost']);
-safePrint(post.author);
+if (response.hasErrors) {
+  safePrint('errors: ${response.errors}');
+} else {
+  Map<String, dynamic> jsonMap = json.decode(response.data!);
+  final post = Post.fromJson(jsonMap['getPost']);
+  safePrint(post.author);
+}
 ```
 </Block>
 <Block name="updatePost">
@@ -844,9 +868,13 @@ final request = GraphQLRequest<String>(
 
 final response = await Amplify.API.mutate(request: request).response;
 
-Map<String, dynamic> jsonMap = json.decode(response.data!);
-final post = Post.fromJson(jsonMap['updatePost']);
-safePrint(post.author);
+if (response.hasErrors) {
+  safePrint('errors: ${response.errors}');
+} else {
+  Map<String, dynamic> jsonMap = json.decode(response.data!);
+  final post = Post.fromJson(jsonMap['updatePost']);
+  safePrint(post.author);
+}
 ```
 </Block>
 <Block name="deletePost">
@@ -872,9 +900,13 @@ final request = GraphQLRequest<String>(
 
 final response = await Amplify.API.mutate(request: request).response;
 
-Map<String, dynamic> jsonMap = json.decode(response.data!);
-final post = Post.fromJson(jsonMap['deletePost']);
-safePrint(post.author);
+if (response.hasErrors) {
+  safePrint('errors: ${response.errors}');
+} else {
+  Map<String, dynamic> jsonMap = json.decode(response.data!);
+  final post = Post.fromJson(jsonMap['deletePost']);
+  safePrint(post.author);
+}
 ```
 </Block>
 </BlockSwitcher>
