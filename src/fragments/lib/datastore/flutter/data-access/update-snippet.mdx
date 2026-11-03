@@ -19,3 +19,15 @@ Future<void> updatePost() async {
   }
 }
 ```
+
+<Callout>
+
+`copyWith` cannot assign `null` to a nullable field: a null argument keeps the current value. Use `copyWithModelFieldValues` instead:
+
+</Callout>
+
+```dart
+final newPost = oldPost.copyWithModelFieldValues(
+  content: ModelFieldValue.value(null),
+);
+```
