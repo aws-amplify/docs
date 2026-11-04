@@ -1,7 +1,7 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
 
 export const meta = {
-  title: 'With admin actions',
+  title: 'Manage users with admin actions',
   description: 'Learn how to manage users with Admin Actions',
   platforms: [
     'android',
@@ -107,11 +107,11 @@ Lastly, create the function's handler using the exported client schema to type t
 
 ```ts title="amplify/data/add-user-to-group/handler.ts"
 import type { Schema } from "../resource"
-import { env } from "$amplify/env/add-user-to-group"
 import {
   AdminAddUserToGroupCommand,
   CognitoIdentityProviderClient,
 } from "@aws-sdk/client-cognito-identity-provider"
+import { env } from "$amplify/env/add-user-to-group"
 
 type Handler = Schema["addUserToGroup"]["functionHandler"]
 const client = new CognitoIdentityProviderClient()
@@ -164,3 +164,436 @@ await client.mutations.addUserToGroup({
 
 </InlineFilter>
 </InlineFilter>
+
+## Examples
+
+Leveraging the techniques described above, actions can be expanded beyond adding a user to a group to manage users, their attributes, their group membership, and more. Each of the following examples must be assigned access to perform actions against your auth resource:
+
+```ts title="amplify/auth/resource.ts"
+import { defineAuth } from "@aws-amplify/backend"
+import { addUserToGroup } from "../data/add-user-to-group/resource"
+import { removeUserFromGroup } from "../data/remove-user-from-group/resource"
+import { createGroup } from "../data/create-group/resource"
+import { deleteGroup } from "../data/delete-group/resource"
+import { enableUser } from "../data/enable-user/resource"
+import { disableUser } from "../data/disable-user/resource"
+import { listUsersInGroup } from "../data/list-users-in-group/resource"
+import { listGroupsForUser } from "../data/list-groups-for-user/resource"
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+  },
+  groups: ["ADMINS"],
+  access: (allow) => [
+    allow.resource(addUserToGroup).to(["addUserToGroup"]),
+    allow.resource(removeUserFromGroup).to(["removeUserFromGroup"]),
+    allow.resource(createGroup).to(["createGroup"]),
+    allow.resource(deleteGroup).to(["deleteGroup"]),
+    allow.resource(enableUser).to(["enableUser"]),
+    allow.resource(disableUser).to(["disableUser"]),
+    allow.resource(listUsersInGroup).to(["listUsersInGroup"]),
+    allow.resource(listGroupsForUser).to(["listGroupsForUser"]),
+  ],
+})
+```
+
+### Add a user to a group
+
+```ts title="amplify/data/add-user-to-group/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const addUserToGroup = defineFunction({
+  name: "add-user-to-group",
+})
+``` 
+
+```ts title="amplify/data/resource.ts"
+import type { ClientSchema } from "@aws-amplify/backend"
+import { a } from "@aws-amplify/backend"
+import { addUserToGroup } from "./add-user-to-group/resource"
+
+const schema = a.schema({
+  addUserToGroup: a
+    .mutation()
+    .arguments({
+      userId: a.string().required(),
+      groupName: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(addUserToGroup))
+    .returns(a.json()),
+})
+```
+
+```ts title="amplify/data/add-user-to-group/handler.ts"
+import type { Schema } from "../resource"
+import { env } from "$amplify/env/add-user-to-group"
+import {
+  AdminAddUserToGroupCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider"
+
+const client = new CognitoIdentityProviderClient()
+type Handler = Schema["addUserToGroup"]["functionHandler"]
+
+export const handler: Handler = async (event) => {
+  const { userId, groupName } = event.arguments
+  const command = new AdminAddUserToGroupCommand({
+    Username: userId,
+    GroupName: groupName,
+    UserPoolId: env.AMPLIFY_AUTH_USERPOOL_ID,
+  })
+  const response = await client.send(command)
+  return response
+}
+```
+
+### Remove a user from a group
+
+```ts title="amplify/data/remove-user-from-group/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const removeUserFromGroup = defineFunction({
+  name: "remove-user-from-group",
+})
+``` 
+
+```ts title="amplify/data/resource.ts"
+import type { ClientSchema } from "@aws-amplify/backend"
+import { a } from "@aws-amplify/backend"
+import { removeUserFromGroup } from "./remove-user-from-group/resource"
+
+const schema = a.schema({
+  removeUserFromGroup: a
+    .mutation()
+    .arguments({
+      userId: a.string().required(),
+      groupName: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(removeUserFromGroup))
+    .returns(a.json()),
+})
+```
+
+```ts title="amplify/data/remove-user-from-group/handler.ts"
+import type { Schema } from "../resource"
+import { env } from "$amplify/env/remove-user-from-group"
+import {
+  AdminRemoveUserFromGroupCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider"
+
+const client = new CognitoIdentityProviderClient()
+type Handler = Schema["removeUserFromGroup"]["functionHandler"]
+
+export const handler: Handler = async (event) => {
+  const { userId, groupName } = event.arguments
+  const command = new AdminRemoveUserFromGroupCommand({
+    Username: userId,
+    GroupName: groupName,
+    UserPoolId: env.AMPLIFY_AUTH_USERPOOL_ID,
+  })
+  const response = await client.send(command)
+  return response
+}
+```
+
+### Create a group
+
+```ts title="amplify/data/create-group/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const createGroup = defineFunction({
+  name: "create-group",
+})
+``` 
+
+```ts title="amplify/data/resource.ts"
+import type { ClientSchema } from "@aws-amplify/backend"
+import { a } from "@aws-amplify/backend"
+import { createGroup } from "./create-group/resource"
+
+const schema = a.schema({
+  createGroup: a
+    .mutation()
+    .arguments({
+      groupName: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(createGroup))
+    .returns(a.json()),
+})
+```
+
+```ts title="amplify/data/create-group/handler.ts"
+import type { Schema } from "../resource"
+import { env } from "$amplify/env/create-group"
+import {
+  CreateGroupCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider"
+
+const client = new CognitoIdentityProviderClient()
+type Handler = Schema["createGroup"]["functionHandler"]
+
+export const handler: Handler = async (event) => {
+  const { groupName } = event.arguments
+  const command = new CreateGroupCommand({
+    GroupName: groupName,
+    UserPoolId: env.AMPLIFY_AUTH_USERPOOL_ID,
+  })
+  const response = await client.send(command)
+  return response
+}
+```
+
+### Delete a group
+
+```ts title="amplify/data/delete-group/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const deleteGroup = defineFunction({
+  name: "delete-group",
+})
+``` 
+
+```ts title="amplify/data/resource.ts"
+import type { ClientSchema } from "@aws-amplify/backend"
+import { a } from "@aws-amplify/backend"
+import { deleteGroup } from "./delete-group/resource"
+
+const schema = a.schema({
+  deleteGroup: a
+    .mutation()
+    .arguments({
+      groupName: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(deleteGroup))
+    .returns(a.json()),
+})
+```
+
+```ts title="amplify/data/delete-group/handler.ts"
+import type { Schema } from "../resource"
+import { env } from "$amplify/env/delete-group"
+import {
+  DeleteGroupCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider"
+
+const client = new CognitoIdentityProviderClient()
+type Handler = Schema["deleteGroup"]["functionHandler"]
+
+export const handler: Handler = async (event) => {
+  const { groupName } = event.arguments
+  const command = new DeleteGroupCommand({
+    GroupName: groupName,
+    UserPoolId: env.AMPLIFY_AUTH_USERPOOL_ID,
+  })
+  const response = await client.send(command)
+  return response
+}
+```
+
+### Enable a user
+
+```ts title="amplify/data/enable-user/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const enableUser = defineFunction({
+  name: "enable-user",
+})
+``` 
+
+```ts title="amplify/data/resource.ts"
+import type { ClientSchema } from "@aws-amplify/backend"
+import { a } from "@aws-amplify/backend"
+import { enableUser } from "./enable-user/resource"
+
+const schema = a.schema({
+  enableUser: a
+    .mutation()
+    .arguments({
+      userId: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(enableUser))
+    .returns(a.json()),
+})
+```
+
+```ts title="amplify/data/enable-user/handler.ts"
+import type { Schema } from "../resource"
+import { env } from "$amplify/env/enable-user"
+import {
+  AdminEnableUserCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider"
+
+const client = new CognitoIdentityProviderClient()
+type Handler = Schema["enableUser"]["functionHandler"]
+
+export const handler: Handler = async (event) => {
+  const { userId } = event.arguments
+  const command = new AdminEnableUserCommand({
+    Username: userId,
+    UserPoolId: env.AMPLIFY_AUTH_USERPOOL_ID,
+  })
+  const response = await client.send(command)
+  return response
+}
+```
+
+### Disable a user
+
+```ts title="amplify/data/disable-user/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const disableUser = defineFunction({
+  name: "disable-user",
+})
+``` 
+
+```ts title="amplify/data/resource.ts"
+import type { ClientSchema } from "@aws-amplify/backend"
+import { a } from "@aws-amplify/backend"
+import { disableUser } from "./disable-user/resource"
+
+const schema = a.schema({
+  disableUser: a
+    .mutation()
+    .arguments({
+      userId: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(disableUser))
+    .returns(a.json()),
+})
+```
+
+```ts title="amplify/data/disable-user/handler.ts"
+import type { Schema } from "../resource"
+import { env } from "$amplify/env/disable-user"
+import {
+  AdminDisableUserCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider"
+
+const client = new CognitoIdentityProviderClient()
+type Handler = Schema["disableUser"]["functionHandler"]
+
+export const handler: Handler = async (event) => {
+  const { userId } = event.arguments
+  const command = new AdminDisableUserCommand({
+    Username: userId,
+    UserPoolId: env.AMPLIFY_AUTH_USERPOOL_ID,
+  })
+  const response = await client.send(command)
+  return response
+}
+```
+
+### List groups for a user
+
+```ts title="amplify/data/list-groups-for-user/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const listGroupsForUser = defineFunction({
+  name: "list-groups-for-user",
+})
+``` 
+
+```ts title="amplify/data/resource.ts"
+import type { ClientSchema } from "@aws-amplify/backend"
+import { a } from "@aws-amplify/backend"
+import { listGroupsForUser } from "./list-groups-for-user/resource"
+
+const schema = a.schema({
+  listGroupsForUser: a
+    .query()
+    .arguments({
+      userId: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(listGroupsForUser))
+    .returns(a.json()),
+})
+```
+
+```ts title="amplify/data/list-groups-for-user/handler.ts"
+import type { Schema } from "../resource"
+import { env } from "$amplify/env/list-groups-for-user"
+import {
+  AdminListGroupsForUserCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider"
+
+const client = new CognitoIdentityProviderClient()
+type Handler = Schema["listGroupsForUser"]["functionHandler"]
+
+export const handler: Handler = async (event) => {
+  const { userId } = event.arguments
+  const command = new AdminListGroupsForUserCommand({
+    Username: userId,
+    UserPoolId: env.AMPLIFY_AUTH_USERPOOL_ID,
+  })
+  const response = await client.send(command)
+  return response
+}
+```
+
+### List users in a group
+
+```ts title="amplify/data/list-users-in-group/resource.ts"
+import { defineFunction } from "@aws-amplify/backend"
+
+export const listUsersInGroup = defineFunction({
+  name: "list-users-in-group",
+})
+``` 
+
+```ts title="amplify/data/resource.ts"
+import type { ClientSchema } from "@aws-amplify/backend"
+import { a } from "@aws-amplify/backend"
+import { listUsersInGroup } from "./list-users-in-group/resource"
+
+const schema = a.schema({
+  listUsersInGroup: a
+    .query()
+    .arguments({
+      groupName: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(listUsersInGroup))
+    .returns(a.json()),
+})
+```
+
+```ts title="amplify/data/list-users-in-group/handler.ts"
+import type { Schema } from "../resource"
+import { env } from "$amplify/env/list-users-in-group"
+import {
+  ListUsersInGroupCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider"
+
+const client = new CognitoIdentityProviderClient()
+type Handler = Schema["listUsersInGroup"]["functionHandler"]
+
+export const handler: Handler = async (event) => {
+  const { groupName } = event.arguments
+  const command = new ListUsersInGroupCommand({
+    GroupName: groupName,
+    UserPoolId: env.AMPLIFY_AUTH_USERPOOL_ID,
+  })
+  const response = await client.send(command)
+  return response
+}
+```
