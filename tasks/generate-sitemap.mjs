@@ -8,7 +8,11 @@ import { DOMAIN, ROOT_PATH } from './build-constants.mjs';
 const SITEMAP_DOMAIN = DOMAIN;
 
 const formatDate = (date) => date.toISOString();
-const getPriority = () => 0.5;
+const getPriority = (urlPath) => {
+  // significance to search engine crawlers, potentially improving SEO ranking
+  //More prirority for gen2 urls to show more importance to the crawlers.
+  return urlPath.includes("gen1") ? 0.5 : 1.0;
+};
 
 const PLATFORMS = [
   'android',
