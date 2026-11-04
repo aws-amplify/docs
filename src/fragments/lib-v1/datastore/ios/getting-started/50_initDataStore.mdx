@@ -103,3 +103,13 @@ Upon building and running this application you should see the following in your 
 ```console
 Amplify configured with DataStore plugin
 ```
+
+<Callout info>
+
+You might encounter a log message similar to the following:
+
+`[StorageEngine] Unable to locate a suitable API plugin for the syncEngine. The syncEngine will remain inactive.`
+
+This occurs because the DataStore plugin operates in local mode by default, storing data only on the device. Once the API plugin is configured, the `SyncEngine` will be created, initiating synchronization with the remote API storage.
+
+</Callout>
