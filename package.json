@@ -21,7 +21,7 @@
     "parse-imports": "^1.1.0",
     "prism-react-renderer": "^2.1.0",
     "prismjs": "^1.30.0",
-    "react": "^18.3.1",
+    "react": "^19.2.4",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.3.1",
     "react-icons": "^5.5.0"
@@ -40,7 +40,7 @@
     "@types/fs-extra": "^9.0.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.0.0",
-    "@types/react": "^18.0.0",
+    "@types/react": "^19.2.14",
     "@types/url-parse": "^1.4.3",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
