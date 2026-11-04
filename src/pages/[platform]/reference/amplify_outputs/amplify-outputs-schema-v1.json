@@ -78,7 +78,14 @@
             "require_symbols": {
               "type": "boolean"
             }
-          }
+          },
+          "required": [
+            "min_length",
+            "require_numbers",
+            "require_lowercase",
+            "require_uppercase",
+            "require_symbols"
+          ]
         },
         "oauth": {
           "type": "object",
