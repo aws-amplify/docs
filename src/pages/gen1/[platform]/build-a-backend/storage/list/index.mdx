@@ -208,8 +208,10 @@ const loadNextPage = async () => {
   let response = await list({
     path: 'public/photos/',
     // Alternatively, path: ({identityId}) => `protected/${identityId}/photos/`
-    pageSize: PAGE_SIZE,
-    nextToken: nextToken
+    options: {
+      pageSize: PAGE_SIZE,
+      nextToken: nextToken
+    }
     }
   });
   if (response.nextToken) {
