@@ -137,11 +137,16 @@ Amplify.configure(amplifyconfig);
 export class AppModule {}
 ```
 
-Next, import the default theme inside __styles.css__:
+Next, import the default theme inside __angular.json__:
 
-```css
-@import '~@aws-amplify/ui-angular/theme.css';
-````
+```json title="angular.json"
+...
+    "styles": [
+      "node_modules/@aws-amplify/ui-angular/theme.css",
+      "src/styles.css"
+    ],
+...
+```
 
 Next, open __app.component.html__ and add the `amplify-authenticator` component.
 
