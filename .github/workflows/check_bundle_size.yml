@@ -6,13 +6,13 @@ jobs:
   checkBundleSizeChange:
     permissions:
       pull-requests: read
-    name: Check whether PR increases bundle size more than 5%
+    name: Check whether PR increases bundle size
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main branch
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
-          ref: main
+          ref: ${{ github.base_ref }}
       - name: Setup Node.js 20
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
@@ -21,6 +21,8 @@ jobs:
         uses: ./.github/actions/set_yarn_berry
       - name: Install dependencies
         run: yarn
+      - name: Run prebuild
+        run: yarn prebuild
       - name: Run build and analyze base bundle sizes
         env:
           CURRENT_BRANCH: ${{ github.base_ref }}
@@ -47,6 +49,8 @@ jobs:
         uses: ./.github/actions/set_yarn_berry
       - name: Install dependencies
         run: yarn
+      - name: Run prebuild
+        run: yarn prebuild
       - name: Run build and analyze head bundle sizes
         env:
           CURRENT_BRANCH: ${{ github.head_ref }}
@@ -71,6 +75,6 @@ jobs:
             const baseBundles = ${{ steps.base-bundle-sizes.outputs.result }}
             const headBundles = ${{ steps.head-bundle-sizes.outputs.result }}
             return await compareBundles(baseBundles, headBundles)
-      - name: Fail if bundle size growth exceeds 5% on any of the selected pages
+      - name: Fail if bundle size increases
         if: ${{ steps.compare-bundles.outputs.result > 0 }}
         run: exit 1
