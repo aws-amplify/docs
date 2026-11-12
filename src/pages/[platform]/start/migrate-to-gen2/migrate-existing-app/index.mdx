@@ -128,6 +128,16 @@ Before starting the migration, carefully review the [Backend Categories](/[platf
 
 If your API has conflict resolution enabled (DataStore), you must disable it before proceeding with the Gen 2 migration. See the [Migrate from DataStore](/gen1/[platform]/build-a-backend/more-features/datastore/migrate-from-datastore/) guide for instructions.
 
+### GraphQL Transformer v1
+
+The migration tool does not support GraphQL Transformer v1 schemas. If your project still uses Transformer v1, you must migrate to v2 before proceeding. See the [Transformer migration guide](https://docs.amplify.aws/gen1/react/tools/cli/migration/transformer-migration/) for instructions.
+
+<Callout info>
+
+If you choose to skip this prerequisite, the `generate` step will prompt you to acknowledge the gap. Doing so will skip the data resource entirely — no Gen 2 data definition will be generated. You will need to manually write the Gen 2 data resource definition to restore your GraphQL API functionality.
+
+</Callout>
+
 ### GraphQL types protected by the `iam` auth provider
 
 If you have models protected by IAM:
