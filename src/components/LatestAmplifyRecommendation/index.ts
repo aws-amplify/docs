@@ -1,0 +1,1 @@
+export { LatestAmplifyRecommendation } from './LatestAmplifyRecommendation';

@@ -37,6 +37,8 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { LatestAmplifyBanner } from '@/components/LatestAmplifyBanner';
+import { LatestAmplifyRecommendation } from '@/components/LatestAmplifyRecommendation';
 import { JsV5MaintenanceBanner } from '@/components/JsV5MaintenanceBanner';
 import { isJsV5Page } from '@/utils/isJsV5Page';
 import { Gen2MaintenanceBanner } from '@/components/Gen2MaintenanceBanner';
@@ -381,7 +383,8 @@ export const Layout = ({
                         platform={currentPlatform}
                       />
                     ) : null}
-                    {isGen1 && <Gen1Banner currentPlatform={currentPlatform} />}
+                    <LatestAmplifyBanner />
+                    {isGen1 && <Gen1Banner />}
                     {isJsV5 && (
                       <JsV5MaintenanceBanner
                         currentPlatform={currentPlatform}
@@ -404,6 +407,9 @@ export const Layout = ({
                         />
                       </Flex>
                     )}
+                    <LatestAmplifyRecommendation
+                      generation={isGen1 ? 'Gen 1' : 'Gen 2'}
+                    />
                     {((asPathWithNoHash.includes('/push-notifications/') &&
                       !asPathWithNoHash.includes(
                         '/push-notifications/customer-profiles/'

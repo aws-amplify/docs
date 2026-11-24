@@ -48,6 +48,42 @@ describe('Layout', () => {
     expect(layout).toBeInTheDocument();
   });
 
+  it.each([
+    '/gen1/react/build-a-backend/',
+    '/react/build-a-backend/'
+  ])('always shows announcements on %s', (path) => {
+    routerState.asPath = path;
+    routerState.pathname = path;
+    localStorage.setItem('gen2-maintenance-banner-dismissed', '1');
+
+    try {
+      render(layoutComponent);
+
+      expect(
+        screen.getByRole('link', { name: 'Explore the documentation' })
+      ).toHaveAttribute(
+        'href',
+        'https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html'
+      );
+      expect(
+        screen.getByRole('link', {
+          name: 'Get started with the latest AWS Amplify'
+        })
+      ).toHaveAttribute(
+        'href',
+        'https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html'
+      );
+      expect(
+        screen.getByText(/Amplify Gen 1 has entered/, { exact: false })
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'Dismiss maintenance banner' })
+      ).not.toBeInTheDocument();
+    } finally {
+      localStorage.removeItem('gen2-maintenance-banner-dismissed');
+    }
+  });
+
   it('should show Layout with system color mode', async () => {
     render(layoutComponent);
 

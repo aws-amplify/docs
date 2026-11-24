@@ -5,6 +5,14 @@ const AI_PATH = './public/ai';
 const PAGES_PATH = `${AI_PATH}/pages`;
 const DOMAIN = 'https://docs.amplify.aws';
 const PROJECT_ROOT = path.resolve('.');
+const LATEST_AMPLIFY_CALLOUT =
+  [
+    '> **Note:** These docs cover Amplify Gen 2. The pages in this export document Gen 2 APIs and workflows. For new web apps, we recommend the latest AWS Amplify. Use the linked documentation for the latest version rather than the Gen 2 pages below.',
+    '>',
+    "> **About the latest AWS Amplify:** The latest AWS Amplify provides managed hosting and backends for modern web applications on AWS. Deploy your app with a CLI command or a Git push, including from an AI coding agent. Add a managed backend with a PostgreSQL database, built-in end-user authentication, and a PostgREST-compatible data API. Configure sign-in methods and use row-level security policies to control access to your app's data. Develop locally and deploy your website and backend changes together. Connect storage, AI models, and other AWS services through native integrations. Amplify manages the infrastructure, IAM roles, and AWS credentials for these integrations.",
+    '>',
+    '> [Get started with the latest AWS Amplify](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html).'
+  ].join('\n');
 
 /**
  * Recursively walk directory.json and collect Gen2 page nodes
@@ -247,6 +255,8 @@ export function generateLlmsIndex(pageNodes) {
     '',
     '> AWS Amplify documentation for building fullstack apps with TypeScript.',
     '',
+    LATEST_AMPLIFY_CALLOUT,
+    '',
     `Docs: ${DOMAIN}`,
     ''
   ];
@@ -289,6 +299,8 @@ export function generateLlmsFull(pageNodes, contentsMap) {
     '',
     '> Complete documentation export for AI coding assistants.',
     `> Generated: ${new Date().toISOString().split('T')[0]}`,
+    '',
+    LATEST_AMPLIFY_CALLOUT,
     '',
     '## Table of Contents',
     ''

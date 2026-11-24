@@ -1,0 +1,1 @@
+export { LatestAmplifyBanner } from './LatestAmplifyBanner';
