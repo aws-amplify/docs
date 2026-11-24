@@ -236,10 +236,16 @@ For clarity, the instructions below follow these conventions:
 - Your Gen 1 environment is called `main`.
 - Deployment instructions refer to Amplify Hosting (branch deployments), but this is not required. You can use any deployment method described in the [Hosting](/[platform]/start/migrate-to-gen2/feature-matrix/#hosting) section.
 
-First, install an Amplify CLI version that includes the migration tool and pull a fresh copy of your Gen 1 environment:
+First, install Amplify CLI 14.6.0 or later and pull a fresh copy of your Gen 1 environment:
+
+<Callout info>
+
+Amplify CLI versions 14.4.0 through 14.5.1 are deprecated. Use the latest version of the Amplify CLI to pick up the latest migration fixes. If you ran `generate` with one of these versions, upgrade and run it again before your next deploy.
+
+</Callout>
 
 ```bash
-npm install -g @aws-amplify/cli@^14.4.0
+npm install -g @aws-amplify/cli@^14.6.0
 amplify pull --appId <app-id> --envName main
 ```
 
