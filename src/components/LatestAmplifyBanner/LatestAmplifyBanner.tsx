@@ -5,7 +5,8 @@ export const LatestAmplifyBanner = () => {
     <div className="latest-amplify-banner">
       <span className="latest-amplify-banner__badge">New</span>
       <span className="latest-amplify-banner__text">
-        Deploy web apps with Git or your AI coding agent using the latest AWS Amplify. Add managed databases and authentication as you grow. {" "}
+        Deploy web apps with Git or your AI coding agent using the latest AWS
+        Amplify. Add managed databases and authentication as you grow.{' '}
         <a
           href={LATEST_AMPLIFY_DOCS_URL}
           className="latest-amplify-banner__link"

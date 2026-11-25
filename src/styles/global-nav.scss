@@ -414,6 +414,10 @@
   @extend %page-banner__text;
 }
 
+.gen1-page-banner__link {
+  @extend %page-banner__link;
+}
+
 // Amplify JavaScript v5 maintenance-mode banner.
 // Deliberately a lighter, left-accented variant rather than the filled amber
 // treatment: on v5 pages it renders directly beneath the Gen1 banner, so it

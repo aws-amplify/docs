@@ -89,6 +89,9 @@ export const Layout = ({
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isHome = pageType === 'home';
+  const showLatestAmplifyRecommendation =
+    !useCustomTitle &&
+    (pathname.startsWith('/[platform]/') || pathname.startsWith('/gen1/'));
 
   // Section-based navigation state.
   // Determine section from directory tree (page's actual section tag),
@@ -384,7 +387,7 @@ export const Layout = ({
                       />
                     ) : null}
                     <LatestAmplifyBanner />
-                    {isGen1 && <Gen1Banner />}
+                    {isGen1 && <Gen1Banner currentPlatform={currentPlatform} />}
                     {isJsV5 && (
                       <JsV5MaintenanceBanner
                         currentPlatform={currentPlatform}
@@ -407,9 +410,11 @@ export const Layout = ({
                         />
                       </Flex>
                     )}
-                    <LatestAmplifyRecommendation
-                      generation={isGen1 ? 'Gen 1' : 'Gen 2'}
-                    />
+                    {showLatestAmplifyRecommendation && (
+                      <LatestAmplifyRecommendation
+                        generation={isGen1 ? 'Gen 1' : 'Gen 2'}
+                      />
+                    )}
                     {((asPathWithNoHash.includes('/push-notifications/') &&
                       !asPathWithNoHash.includes(
                         '/push-notifications/customer-profiles/'

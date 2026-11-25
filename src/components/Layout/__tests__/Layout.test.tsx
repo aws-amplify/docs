@@ -48,12 +48,12 @@ describe('Layout', () => {
     expect(layout).toBeInTheDocument();
   });
 
-  it.each([
-    '/gen1/react/build-a-backend/',
-    '/react/build-a-backend/'
-  ])('always shows announcements on %s', (path) => {
-    routerState.asPath = path;
-    routerState.pathname = path;
+  it.each<[string, string]>([
+    ['/gen1/react/build-a-backend/', '/gen1/[platform]/build-a-backend'],
+    ['/react/build-a-backend/', '/[platform]/build-a-backend']
+  ])('always shows announcements on %s', (asPath, pathname) => {
+    routerState.asPath = asPath;
+    routerState.pathname = pathname;
     localStorage.setItem('gen2-maintenance-banner-dismissed', '1');
 
     try {
@@ -82,6 +82,94 @@ describe('Layout', () => {
     } finally {
       localStorage.removeItem('gen2-maintenance-banner-dismissed');
     }
+  });
+
+  it('links Gen 1 pages to the maintenance policy and the migration guide', () => {
+    routerState.asPath = '/gen1/react/build-a-backend/';
+    routerState.pathname = '/gen1/[platform]/build-a-backend';
+    render(layoutComponent);
+
+    // next/link drops trailing slashes in jsdom; the built site keeps them.
+    expect(
+      screen.getByRole('link', { name: 'maintenance mode' })
+    ).toHaveAttribute(
+      'href',
+      expect.stringMatching(
+        /^\/reference\/maintenance-policy\/?\?platform=react$/
+      )
+    );
+    expect(
+      screen.getByRole('link', { name: 'migration guide and tooling' })
+    ).toHaveAttribute(
+      'href',
+      expect.stringMatching(/^\/react\/start\/migrate-to-gen2\/?$/)
+    );
+  });
+
+  describe('LatestAmplifyRecommendation', () => {
+    const renderPage = (
+      asPath: string,
+      pathname: string,
+      useCustomTitle: boolean
+    ) => {
+      routerState.asPath = asPath;
+      routerState.pathname = pathname;
+      render(
+        <Layout
+          pageTitle="Title"
+          pageDescription="Description"
+          pageType="inner"
+          platform="react"
+          hasTOC={true}
+          useCustomTitle={useCustomTitle}
+          showBreadcrumbs={false}
+          showLastUpdatedDate={true}
+        >
+          <></>
+        </Layout>
+      );
+    };
+
+    it.each<[string, string, string]>([
+      [
+        '/gen1/react/build-a-backend/',
+        '/gen1/[platform]/build-a-backend',
+        'Gen 1'
+      ],
+      ['/react/build-a-backend/', '/[platform]/build-a-backend', 'Gen 2']
+    ])(
+      'renders below the H1 on %s with the %s label',
+      (asPath, pathname, generation) => {
+        renderPage(asPath, pathname, false);
+
+        const heading = screen.getByRole('heading', {
+          level: 1,
+          name: 'Title'
+        });
+        const recommendation = screen.getByText(
+          new RegExp(`These docs cover Amplify ${generation}\\.`)
+        );
+        expect(
+          heading.compareDocumentPosition(recommendation) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        ).toBeTruthy();
+      }
+    );
+
+    it.each<[string, string, boolean]>([
+      ['/', '/', true],
+      ['/react/', '/[platform]', true],
+      ['/gen1/react/', '/gen1/[platform]', true],
+      ['/contribute/', '/contribute', true],
+      ['/contribute/getting-started/', '/contribute/getting-started', false],
+      ['/reference/maintenance-policy/', '/reference/maintenance-policy', false]
+    ])('is not rendered on %s', (asPath, pathname, useCustomTitle) => {
+      renderPage(asPath, pathname, useCustomTitle);
+
+      expect(
+        screen.queryByText(/These docs cover Amplify/)
+      ).not.toBeInTheDocument();
+    });
   });
 
   it('should show Layout with system color mode', async () => {
