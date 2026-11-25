@@ -37,6 +37,8 @@ import {
 } from '@/components/NextPrevious';
 import { Modal } from '@/components/Modal';
 import { Gen1Banner } from '@/components/Gen1Banner';
+import { LatestAmplifyBanner } from '@/components/LatestAmplifyBanner';
+import { LatestAmplifyRecommendation } from '@/components/LatestAmplifyRecommendation';
 import { JsV5MaintenanceBanner } from '@/components/JsV5MaintenanceBanner';
 import { isJsV5Page } from '@/utils/isJsV5Page';
 import { Gen2MaintenanceBanner } from '@/components/Gen2MaintenanceBanner';
@@ -87,6 +89,9 @@ export const Layout = ({
   const isContributor = asPathWithNoHash.split('/')[1] === 'contribute';
   const currentGlobalNavMenuItem = isContributor ? 'Contribute' : 'Docs';
   const isHome = pageType === 'home';
+  const showLatestAmplifyRecommendation =
+    !useCustomTitle &&
+    (pathname.startsWith('/[platform]/') || pathname.startsWith('/gen1/'));
 
   // Section-based navigation state.
   // Determine section from directory tree (page's actual section tag),
@@ -381,6 +386,7 @@ export const Layout = ({
                         platform={currentPlatform}
                       />
                     ) : null}
+                    <LatestAmplifyBanner />
                     {isGen1 && <Gen1Banner currentPlatform={currentPlatform} />}
                     {isJsV5 && (
                       <JsV5MaintenanceBanner
@@ -403,6 +409,11 @@ export const Layout = ({
                           isOverview={isOverview}
                         />
                       </Flex>
+                    )}
+                    {showLatestAmplifyRecommendation && (
+                      <LatestAmplifyRecommendation
+                        generation={isGen1 ? 'Gen 1' : 'Gen 2'}
+                      />
                     )}
                     {((asPathWithNoHash.includes('/push-notifications/') &&
                       !asPathWithNoHash.includes(

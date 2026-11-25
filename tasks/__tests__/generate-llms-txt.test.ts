@@ -2,10 +2,36 @@ import {
   collectGen2Pages,
   transformMdxToMarkdown,
   generateFrontmatter,
-  generateLlmsIndex
+  generateLlmsIndex,
+  generateLlmsFull
 } from '../generate-llms-txt.mjs';
 
 describe('generate-llms-txt', () => {
+  it.each([
+    ['index', () => generateLlmsIndex([]), 'Docs:'],
+    ['full export', () => generateLlmsFull([], new Map()), '## Table of Contents']
+  ])('includes the latest Amplify recommendation in the %s abstract', (_, generate, nextSection) => {
+    const result = generate();
+    const callout = result.indexOf('> **Note:** These docs cover Amplify Gen 2.');
+
+    expect(callout).toBeGreaterThan(-1);
+    expect(result).toContain('For new web apps, we recommend the latest AWS Amplify');
+    expect(result).toContain(
+      '> **About the latest AWS Amplify:** The latest AWS Amplify provides managed hosting and backends for modern web applications on AWS.'
+    );
+    expect(result).toContain('The pages in this export document Gen 2 APIs and workflows.');
+    expect(result).toContain(
+      'Use the linked documentation for the latest version rather than the Gen 2 pages below.'
+    );
+    expect(result).toContain('PostgreSQL database');
+    expect(result).toContain('PostgREST-compatible data API');
+    expect(result).toContain('row-level security policies');
+    expect(result).toContain(
+      '[Get started with the latest AWS Amplify](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html)'
+    );
+    expect(callout).toBeLessThan(result.indexOf(nextSection));
+  });
+
   describe('collectGen2Pages', () => {
     it('should return only Gen2 pages', () => {
       const mockDirectory = {

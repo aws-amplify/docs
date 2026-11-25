@@ -370,6 +370,34 @@
   }
 }
 
+// New Amplify announcement
+.latest-amplify-banner {
+  @extend %page-banner;
+  background-color: var(--amplify-colors-primary-10);
+  border: 1px solid var(--amplify-colors-primary-40);
+
+  @include darkMode {
+    background-color: rgba(167, 139, 250, 0.1);
+    border-color: rgba(167, 139, 250, 0.4);
+  }
+}
+
+.latest-amplify-banner__badge {
+  @extend %page-banner__badge;
+  background-color: var(--amplify-colors-primary-80);
+  color: var(--amplify-colors-background-primary);
+}
+
+.latest-amplify-banner__text {
+  @extend %page-banner__text;
+  flex: 1;
+}
+
+.latest-amplify-banner__link {
+  @extend %page-banner__link;
+  white-space: nowrap;
+}
+
 // Gen1 page-level legacy banner
 .gen1-page-banner {
   @extend %page-banner;
@@ -425,7 +453,7 @@
   @extend %page-banner__link;
 }
 
-// Gen2 maintenance-mode banner (dismissable)
+// Gen1 maintenance notice shown in Gen2 docs
 .gen2-maintenance-banner {
   @extend %page-banner;
   @extend %page-banner--amber;
@@ -440,35 +468,6 @@
 .gen2-maintenance-banner__text {
   @extend %page-banner__text;
   flex: 1;
-}
-
-.gen2-maintenance-banner__link {
-  @extend %page-banner__link;
-}
-
-.gen2-maintenance-banner__close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  padding: 4px;
-  border-radius: var(--amplify-radii-small);
-  color: var(--amplify-colors-font-secondary);
-  flex-shrink: 0;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: var(--amplify-colors-font-primary);
-  }
-
-  @include darkMode {
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-  }
 }
 
 // Legacy docs link in sidebar — styled like a menu category item
